@@ -4,7 +4,7 @@
 
 Internal **Clinical Research Operations** platform for Vilo Research Group. Event-driven operations for clinical research sites: visit-centric workflows, eSource, compliance, and financial intelligence (modules added incrementally).
 
-Built with Next.js, Supabase, Tailwind, and shadcn/ui. Portfolio decisions and Verdent guardrails live in the separate [Verdent OS](https://github.com/viloc2b-a11y/Vilo-Research-OS) documentation workspace.
+Built with Next.js, Supabase, Tailwind, and shadcn/ui. Portfolio decisions and Verdent guardrails live in the local Verdent OS workspace (`Clinical Research Operations OS eClinPro`).
 
 ## Repositories
 
