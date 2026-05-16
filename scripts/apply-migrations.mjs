@@ -31,6 +31,12 @@ const MIGRATION_FILES = [
   '0017_procedure_source_bindings.sql',
   '0018_procedure_execution_source_version_fk.sql',
   '0019_phase4a_validation_helpers.sql',
+  '0020_source_response_sets.sql',
+  '0021_source_responses.sql',
+  '0022_source_response_corrections.sql',
+  '0023_source_response_addenda.sql',
+  '0024_source_response_validation_findings.sql',
+  '0025_phase4b_validation_helpers.sql',
 ]
 
 /** Ordered candidates: direct first (DDL-friendly), then pooled. Dedupes identical URLs. */

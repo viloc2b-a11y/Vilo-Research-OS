@@ -141,21 +141,38 @@ One row per **draft or published revision** of a **`source_definitions`** instru
 
 ### B.3 `source_fields`
 
-Normalized **machine items** for a **given `source_definition_version_id`**. Enables **Completeness**, validation rules, ordering.
+Normalized **machine items** for a **given `source_definition_version_id`**. Enables **Completeness**, **typed validation**, ordering, and version-scoped coded lists.
+
+**Shipped in 4A DDL (`0016`):** `field_key`, `label`, `instructions`, `sort_order`, `is_required`, `validation_rules`, interim `widget_hint`, optional `options` jsonb.
+
+**Planned 4A.1 / pre-4B authoring extension** (see **`PHASE4B-VERSIONED-ESOURCE-RUNTIME-SCHEMA.md` §B.0** — no change to published rows; additive columns + child tables):
 
 | Column | Type | Notes |
 |--------|------|-------|
 | `id` | uuid PK | |
-| `source_definition_version_id` | uuid NOT NULL FK | |
-| **`field_key`** | text NOT NULL | Stable machine key (**unique per version row**). |
+| `source_definition_version_id` | uuid NOT NULL FK | Version owns **all** semantics below |
+| **`field_key`** | text NOT NULL | Stable machine key (**unique per version**). |
 | `label` | text NOT NULL | Human label (**Legible**). |
-| **`instructions`** | text NULL | Supplemental human text. |
-| `sort_order` | int NOT NULL | |
-| **`is_required`** | boolean NOT NULL | **ALCOA+ Complete**. |
-| `validation_rules` | jsonb NOT NULL DEFAULT `{}` | e.g. min/max length, enumerated codes — **server-evaluated**. |
-| `widget_hint` | text | `number`, `date`, `select`, … (**UI-agnostic**, runtime interprets Phase **4B**). |
+| **`instructions`** | text NOT NULL | Supplemental human text. |
+| `sort_order` | int NOT NULL | Display order |
+| **`is_required`** | boolean NOT NULL | **ALCOA+ Complete** |
+| **`field_type`** | text NOT NULL | Storage/validation primitive — see 4B enum |
+| **`ui_control_type`** | text NOT NULL | Presentation control — may differ from `field_type` (e.g. `field_type=coded_single`, `ui_control_type=radio`) |
+| **`cardinality`** | text NOT NULL | `zero_or_one` \| `exactly_one` \| `one_or_more` \| `zero_or_more` (tables: row cardinality separate) |
+| **`validation_rules`** | jsonb NOT NULL | **Version-frozen** with parent row; server-evaluated at submit |
+| **`clinical_use_category`** | text NOT NULL | `protocol_item` \| `comment` \| `deviation` \| `observation` \| `unexpected_finding` — gates free-text allowance |
+| `terminology_binding_id` | uuid NULL FK | Optional controlled terminology / value-set binding |
+| `option_set_id` | uuid NULL FK | → **`source_field_option_sets`** for dropdown/checkbox/radio |
+| `table_definition_id` | uuid NULL FK | → **`source_table_definitions`** when `field_type = table` |
+| `allows_free_text` | boolean NOT NULL DEFAULT false | **false** unless `clinical_use_category` permits (comments, deviations, …) |
+| `widget_hint` | text | **Deprecated** after migration — superseded by `ui_control_type` |
 
-Authoring **may edit** rows only while parent version **`draft`/`in_review`**. **Published** freezes field rows (**no UPDATE**/DELETE policies for app roles; corrections = **new version**).
+**Child tables (version-scoped, normalized — not clinical JSON blobs):**
+
+- **`source_field_option_sets`** + **`source_field_options`** — version-aware select/radio/checkbox codes.
+- **`source_table_definitions`** + **`source_table_columns`** — structured repeating grids.
+
+Authoring **may edit** only while parent version **`draft`/`in_review`**. **Published** freezes field + option + table definition rows.
 
 ---
 
