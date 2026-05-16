@@ -367,8 +367,26 @@ Policy: **`audit_events.action`** stays separate — use stable audit codes (`RE
 
 ---
 
+## 11. Version-scoped exports and visit PDF packets (Phase 4 — planning only)
+
+Exported eSource and tabular extracts must be **version-scoped**: one **clean rectangular table per `source_definition` version**, no mixing versions in CSV or Excel primary sheets/files (**`docs/ARCHITECTURE-VERSIONED-EXPORTS.md`**). **`procedure_executions`** must **bind `source_definition_version_id` at first capture**, with protocol changes expressed as **new study/source versions**, not mutations of historic rows.
+
+**Visit-level PDF packets** — **`docs/ARCHITECTURE-VISIT-PDF-PACKET.md`** — implement **FDA §H** (human-readable visit reconstruction).
+
+**ALCOA+** (**Attributable, Legible, Contemporaneous, Original, Accurate, Complete, Consistent, Enduring, Available**) is a **first-class** contract in **`docs/FDA-ESOURCE-PART11-READINESS.md`** (*ALCOA+ Data Integrity Architecture*). Exports (**`ARCHITECTURE-VERSIONED-EXPORTS`**), PDF (**`ARCHITECTURE-VISIT-PDF-PACKET`**), and Phase **4B+** schema execute those pillars alongside **Sections A–M**.
+
+Full FDA/eSource posture: **`docs/FDA-ESOURCE-PART11-READINESS.md`** (**Sections A–M** — principles, audit model **§B**, server UTC **§C**, signatures **§D**, durable source **§E**, corrections **§F**, reconstruction **§G**, transfer **§J**, classification **§K**, retention **§L**, training/delegation **§M**, **Phase 4G**).
+
+Operational corrections remain **append-only** via **`operational_events`** and future **`source_response_corrections`** (**FDA §F**).
+
+Roadmap **4A–4G**, **ALCOA+**, and detailed **Phase 4A instrument schema**: **`FDA-ESOURCE-PART11-READINESS`**, **`PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA`**, **`ARCHITECTURE-VERSIONED-EXPORTS`**, **`ARCHITECTURE-VISIT-PDF-PACKET`**.
+
+---
+
 ## References
 
 - Verdent portfolio: `Clinical Research Operations OS eClinPro/projects/vilo-os/10_DECISIONS/` (`organization_id.md`, `append-only-event-architecture.md`, `audit-strategy.md`, `rbac-model.md`, `phi-boundaries.md`)  
+- `docs/FDA-ESOURCE-PART11-READINESS.md` — FDA / Part 11 posture (**§§A–M**), **ALCOA+** architecture, guardrails, **§C** server UTC  
+- `docs/PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA.md` — **Phase 4A** versioned protocol/source builder (**planning**)  
 - Existing scaffold: `supabase/migrations/0001_*`, `0002_*`  
 - Phase 1b: `docs/PHASE1B-RUNBOOK.md`

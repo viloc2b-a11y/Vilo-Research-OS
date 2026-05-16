@@ -21,13 +21,17 @@ create index if not exists study_versions_study_id_idx on public.study_versions 
 alter table public.study_versions enable row level security;
 
 -- Org membership read; tightened to study membership in 0005.
+-- Drop tightened policy names too so migrator reruns stay a single SELECT/INSERT pair.
+drop policy if exists study_versions_select_study_scope on public.study_versions;
+drop policy if exists study_versions_insert_study_scope on public.study_versions;
 drop policy if exists study_versions_select_org on public.study_versions;
+drop policy if exists study_versions_insert_org_admin on public.study_versions;
+
 create policy study_versions_select_org on public.study_versions
 for select using (
   organization_id in (select public.user_organization_ids())
 );
 
-drop policy if exists study_versions_insert_org_admin on public.study_versions;
 create policy study_versions_insert_org_admin on public.study_versions
 for insert with check (
   public.user_is_org_admin(organization_id)

@@ -17,6 +17,7 @@ Canonical app root: **`VILO CTMS/vilo-os`**. Workspace overlay **`Clinical Resea
 | UI | `components/clinical/visit-lifecycle-actions.tsx`, `app/(ops)/visits/[visitId]/page.tsx` |
 | Tooling | `package.json`, `README.md` |
 | Validation output | **`docs/PHASE3C-VALIDATION-RESULTS.md`** (generator) |
+| Regulatory architecture cross-ref | **`docs/FDA-ESOURCE-PART11-READINESS.md`** (**§§A–M** — Phase **3C** RPCs unchanged; see results §**I**) |
 
 ---
 
@@ -78,3 +79,11 @@ From **`VILO CTMS/vilo-os`** (2026-05-15):
 Phase 3C is **GREEN** when migration **`0013`** is applied to the Supabase Postgres instance wired in **`.env.local`**, **`npm run lint`** and **`npm run build`** pass, **`npm run db:validate-phase3c`** exits **0**, and **`docs/PHASE3C-VALIDATION-RESULTS.md`** has no FAIL/BLOCKED rows.
 
 **Current state:** app **lint/build green** after wiring **`VisitLifecycleActions`** on the visit detail page. **`db:validate-phase3c` was RED** on the latest run (**Supabase client error:** “Could not find the function **`public.complete_visit(p_visit_id)`** in the schema cache”) until **`npm run db:migrate`** succeeds — use a valid **`DATABASE_URL_DIRECT`** (session/direct host) when the pooled URL returns “Tenant or user not found”; then re-run **`npm run db:validate-phase3c`** so **`PHASE3C-VALIDATION-RESULTS.md`** regenerates as GREEN.
+
+---
+
+## I. FDA eSource / Part 11 readiness (architecture only)
+
+Visit **completion** then **lock** supports an **immutable historical runtime** stance: **`lock_visit`** sets **`verified`** executions and blocks further **`complete_procedure_execution`** on terminal visits (**`VISIT_LOCKED`**). This aligns with **`docs/FDA-ESOURCE-PART11-READINESS.md`** **§E** (durable locked snapshot posture), **§B** (*lock* / *export* trails; **no clinical deletes**), **§C** (regulated event times **server-side UTC**), and **ALCOA+** **Enduring** / **Consistent** immutability after lock (mutations only via documented append corrections).
+
+This documentation **does not alter** GREEN Phase **3C** RPC SQL or Next.js wiring. **`electronic_signatures`**, **`source_response_*`**, transfer (**§J**), and training/delegation (**§M**, **Phase 4G**) follow **Phase 4+**.

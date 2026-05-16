@@ -159,8 +159,10 @@ for delete using (
 
 -- Tighten studies + study_versions: org + (study member OR org admin reader)
 drop policy if exists studies_select_org on public.studies;
+drop policy if exists studies_select_study_scope on public.studies;
 drop policy if exists studies_insert_org_admin on public.studies;
 drop policy if exists studies_update_org_admin on public.studies;
+drop policy if exists studies_update_study_scope on public.studies;
 drop policy if exists studies_delete_org_admin on public.studies;
 
 create policy studies_select_study_scope on public.studies
@@ -199,6 +201,8 @@ for delete using (
 
 drop policy if exists study_versions_select_org on public.study_versions;
 drop policy if exists study_versions_insert_org_admin on public.study_versions;
+drop policy if exists study_versions_select_study_scope on public.study_versions;
+drop policy if exists study_versions_insert_study_scope on public.study_versions;
 
 create policy study_versions_select_study_scope on public.study_versions
 for select using (

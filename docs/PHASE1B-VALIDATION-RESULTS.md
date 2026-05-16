@@ -1,6 +1,6 @@
 # Phase 1b — Infrastructure validation results
 
-**Run at:** 2026-05-16T00:45:46.350Z
+**Run at:** 2026-05-16T03:05:21.896Z
 
 ## Summary
 
@@ -24,7 +24,7 @@
 | cross_org_membership_isolation | PASS | rows=0 |
 | audit_insert_service_role | PASS | inserted |
 | audit_insert_blocked_for_anon | PASS | new row violates row-level security policy for table "audit_events" |
-| user_a_admin_can_read_audit | PASS | rows=2 |
+| user_a_admin_can_read_audit | PASS | rows=4 |
 | user_b_cannot_read_org_a_audit | PASS | rows=0 |
 | middleware_public_paths | PASS | Documented: /login, /auth/callback only (see middleware.ts) |
 

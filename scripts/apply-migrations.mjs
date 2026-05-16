@@ -25,6 +25,12 @@ const MIGRATION_FILES = [
   '0010_operational_events.sql',
   '0011_attachments.sql',
   '0013_visit_completion_and_locking_rpc.sql',
+  '0014_source_definitions.sql',
+  '0015_source_definition_versions.sql',
+  '0016_source_fields.sql',
+  '0017_procedure_source_bindings.sql',
+  '0018_procedure_execution_source_version_fk.sql',
+  '0019_phase4a_validation_helpers.sql',
 ]
 
 /** Ordered candidates: direct first (DDL-friendly), then pooled. Dedupes identical URLs. */

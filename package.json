@@ -13,6 +13,7 @@
     "db:validate-phase2": "node scripts/validate-phase2.mjs",
     "db:validate-phase3b": "node scripts/validate-phase3b.mjs",
     "db:validate-phase3c": "node scripts/validate-phase3c.mjs",
+    "db:validate-phase4a": "node scripts/validate-phase4a.mjs",
     "phase1b": "npm run db:migrate && npm run db:provision && npm run db:validate"
   },
   "dependencies": {

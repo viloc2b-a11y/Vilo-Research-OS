@@ -37,6 +37,18 @@ See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 - Supabase SSR auth + `organization_id` tenancy
 - Migrations: `0001_auth_foundation`, `0002_audit_foundation` (prepared under `supabase/migrations/`)
 
+## Architecture (planning docs)
+
+| Document | Topic |
+|---------|--------|
+| [docs/PHASE2-CLINICAL-DOMAIN-SCHEMA.md](./docs/PHASE2-CLINICAL-DOMAIN-SCHEMA.md) | Studies, visits, procedures, operational events |
+| [docs/ARCHITECTURE-VERSIONED-EXPORTS.md](./docs/ARCHITECTURE-VERSIONED-EXPORTS.md) | Version-scoped tabular exports — CSV/Excel (**Phase 4D**, **no engine yet**) |
+| [docs/ARCHITECTURE-VISIT-PDF-PACKET.md](./docs/ARCHITECTURE-VISIT-PDF-PACKET.md) | Visit PDF packet (**Phase 4C**, **no PDF generator yet**) |
+| [docs/FDA-ESOURCE-PART11-READINESS.md](./docs/FDA-ESOURCE-PART11-READINESS.md) | FDA / Part 11 (**§§A–M**), **ALCOA+ data integrity**, guardrails |
+| [docs/PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA.md](./docs/PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA.md) | **Phase 4A** versioned Protocol Builder (**schema planning only**) |
+
+Portfolio roadmap + decisions: **`Clinical Research Operations OS eClinPro/projects/vilo-os`** (`status.md`, `10_DECISIONS/`).
+
 ## Setup
 
 ```bash

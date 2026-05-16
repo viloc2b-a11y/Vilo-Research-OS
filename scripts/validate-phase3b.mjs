@@ -2,7 +2,7 @@
  * Phase 3B validation: transactional `complete_procedure_execution` RPC.
  *
  * Prerequisites:
- * - Migrations through 0012 applied (`npm run db:migrate`).
+ * - Migrations through 0013 applied (`npm run db:migrate`) — visit lock semantics.
  * - Phase 1b provision + Phase 2 seed (same fixtures as scripts/validate-phase2.mjs).
  *
  * Usage: npm run db:validate-phase3b
@@ -255,6 +255,15 @@ async function main() {
         performed_by_user_id: null,
       })
       .eq('id', execId)
+    // Phase 3C lock_visit may leave the synthetic visit locked after validate-phase3c; RPC refuses completion on locked visits.
+    await admin
+      .from('visits')
+      .update({
+        visit_status: 'in_progress',
+        locked_at: null,
+        locked_by_user_id: null,
+      })
+      .eq('id', visitRow.id)
     record('fixture_reset_procedure_pending', 'PASS', execId)
   }
 

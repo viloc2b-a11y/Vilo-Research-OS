@@ -1,15 +1,15 @@
 # Phase 2 — Schema validation results
 
-**Run at:** 2026-05-16T00:56:41.765Z
+**Run at:** 2026-05-16T03:08:26.524Z
 
 ## Summary
 
 | Result | Count |
 |--------|-------|
-| PASS | 18 |
+| PASS | 45 |
 | FAIL | 0 |
 | BLOCKED | 0 |
-| SKIP | 1 |
+| SKIP | 0 |
 
 **Phase 2 status:** GREEN — all required checks executed (skipped rows optional).
 
@@ -17,7 +17,33 @@
 
 | Check | Status | Detail |
 |-------|--------|--------|
-| catalog_postgres_connection | SKIP | No DATABASE_URL_DIRECT or DATABASE_URL — skipped catalog/policy introspection (Supabase MCP or SQL Editor can still confirm). |
+| table_exists:studies | PASS | present |
+| table_exists:study_versions | PASS | present |
+| table_exists:study_members | PASS | present |
+| table_exists:visit_definitions | PASS | present |
+| table_exists:procedure_definitions | PASS | present |
+| table_exists:visit_def_procedure_map | PASS | present |
+| table_exists:study_subjects | PASS | present |
+| table_exists:visits | PASS | present |
+| table_exists:procedure_executions | PASS | present |
+| table_exists:operational_events | PASS | present |
+| table_exists:attachments | PASS | present |
+| rls_enabled:attachments | PASS | ON |
+| rls_enabled:operational_events | PASS | ON |
+| rls_enabled:procedure_definitions | PASS | ON |
+| rls_enabled:procedure_executions | PASS | ON |
+| rls_enabled:studies | PASS | ON |
+| rls_enabled:study_members | PASS | ON |
+| rls_enabled:study_subjects | PASS | ON |
+| rls_enabled:study_versions | PASS | ON |
+| rls_enabled:visit_def_procedure_map | PASS | ON |
+| rls_enabled:visit_definitions | PASS | ON |
+| rls_enabled:visits | PASS | ON |
+| organization_id_on_all_phase2_tables | PASS | tables_with_column=11 expected=11 |
+| no_org_id_column_anywhere_public | PASS | none |
+| operational_events_no_update_delete_policies_listed | PASS | SELECT/INSERT only (or none — see note) |
+| study_members_policies_use_helpers_not_raw_self_ref | PASS | no direct FROM/JOIN study_members in policy USING/WITH CHECK (heuristic) |
+| attachments_policies_reference_org_membership | PASS | attachments policies gate on user_organization_ids (+ study helpers) |
 | seed_study_member | PASS | coordinator for synthetic.staff.a |
 | seed_visit_def_procedure_map | PASS | reused |
 | seed_operational_event | PASS | reused VISIT_SCHEDULED |
@@ -25,7 +51,7 @@
 | provision_user_c_study_members_cleared | PASS | study_id=6bae715a-8536-4000-8d24-22b6a3dbb8c9 |
 | seed_attachment_service_role | PASS | reused id=7e121a09-384b-4708-926e-6941484fbca7 |
 | isolation_user_a_reads_own_study | PASS | rows=1 |
-| isolation_user_a_reads_operational_events | PASS | rows=1 |
+| isolation_user_a_reads_operational_events | PASS | rows=3 |
 | attachments_user_a_reads_visit_linked_row | PASS | {"id":"7e121a09-384b-4708-926e-6941484fbca7","file_name":"demo-visit-attachment.txt"} |
 | append_only_operational_events_update_blocked | PASS | (rows_returned=0) JWT update must touch 0 rows |
 | append_only_operational_events_delete_blocked | PASS | (rows_returned=0) JWT delete must touch 0 rows |
@@ -40,7 +66,52 @@
 ## Catalog excerpt (tables + RLS)
 
 ```json
-[]
+[
+  {
+    "table_name": "attachments",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "operational_events",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "procedure_definitions",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "procedure_executions",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "studies",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "study_members",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "study_subjects",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "study_versions",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "visit_def_procedure_map",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "visit_definitions",
+    "rls_enabled": true
+  },
+  {
+    "table_name": "visits",
+    "rls_enabled": true
+  }
+]
 ```
 
 ## Synthetic seed (service role)
@@ -93,7 +164,7 @@ See checks: `same_org_user_c_reads_own_organization`, `same_org_user_c_cannot_*`
 
 ### C. Validation summary
 
-Latest counts: PASS 18, FAIL 0, BLOCKED 0, SKIP 1.
+Latest counts: PASS 45, FAIL 0, BLOCKED 0, SKIP 0.
 
 ### D. Remaining risks
 

@@ -365,16 +365,18 @@ async function main() {
     )
 
     const attPol = await sqlConnLocal`
-      select policyname, cmd
+      select policyname, cmd, qual, with_check
       from pg_policies
       where schemaname = 'public' and tablename = 'attachments'
     `
-    const attText = JSON.stringify([...attPol])
+    const attText = [...attPol].map((p) => `${p.qual ?? ''} ${p.with_check ?? ''}`).join(' | ')
     const hasOrgGate = attText.includes('user_organization_ids')
     record(
       'attachments_policies_reference_org_membership',
       hasOrgGate ? 'PASS' : 'FAIL',
-      attText.slice(0, 2000),
+      hasOrgGate
+        ? 'attachments policies gate on user_organization_ids (+ study helpers)'
+        : attText.slice(0, 2000) || JSON.stringify([...attPol]).slice(0, 2000),
     )
   }
 
