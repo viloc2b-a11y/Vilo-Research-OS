@@ -66,6 +66,17 @@ function grepSecurity() {
   }
 }
 
+function isCredentialOrTransportError(message) {
+  if (!message) return false
+  const m = message.toLowerCase()
+  return (
+    m.includes('invalid api key') ||
+    m.includes('jwt') ||
+    m.includes('fetch failed') ||
+    m.includes('enotfound')
+  )
+}
+
 async function main() {
   try {
     requireEnv([
@@ -104,6 +115,17 @@ async function main() {
   const { data: anonOrgs, error: anonOrgErr } = await anonClient
     .from('organizations')
     .select('id')
+
+  if (anonOrgErr && isCredentialOrTransportError(anonOrgErr.message)) {
+    record(
+      'supabase_anon_credentials',
+      'BLOCKED',
+      `${anonOrgErr.message} — fix NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY and restart terminal`,
+    )
+    writeReport()
+    process.exit(2)
+  }
+
   record(
     'anon_cannot_read_organizations',
     !anonOrgErr && (anonOrgs?.length ?? 0) === 0 ? 'PASS' : 'FAIL',
@@ -114,7 +136,13 @@ async function main() {
   const signInB = await anonClient.auth.signInWithPassword(SYNTHETIC.userB)
 
   if (signInA.error || !signInA.data.session) {
-    record('sign_in_user_a', 'BLOCKED', signInA.error?.message ?? 'no session')
+    const msg = signInA.error?.message ?? 'no session'
+    if (isCredentialOrTransportError(msg)) {
+      record('sign_in_user_a', 'BLOCKED', msg)
+      writeReport()
+      process.exit(2)
+    }
+    record('sign_in_user_a', 'BLOCKED', msg)
     writeReport()
     process.exit(2)
   }
@@ -130,18 +158,22 @@ async function main() {
   const clientA = clientAsUser(url, anon, signInA.data.session.access_token)
   const clientB = clientAsUser(url, anon, signInB.data.session.access_token)
 
-  const { data: orgsA } = await clientA.from('organizations').select('id, name')
-  const { data: orgsB } = await clientB.from('organizations').select('id, name')
+  const { data: orgsA, error: errOrgsA } = await clientA.from('organizations').select('id, name')
+  const { data: orgsB, error: errOrgsB } = await clientB.from('organizations').select('id, name')
 
   record(
     'user_a_sees_only_own_orgs',
-    orgsA?.length === 1 ? 'PASS' : 'FAIL',
-    `count=${orgsA?.length ?? 0} names=${orgsA?.map((o) => o.name).join(';')}`,
+    !errOrgsA && orgsA?.length === 1 ? 'PASS' : 'FAIL',
+    errOrgsA
+      ? errOrgsA.message
+      : `count=${orgsA?.length ?? 0} names=${orgsA?.map((o) => o.name).join(';') ?? 'n/a'}`,
   )
   record(
     'user_b_sees_only_own_orgs',
-    orgsB?.length === 1 ? 'PASS' : 'FAIL',
-    `count=${orgsB?.length ?? 0} names=${orgsB?.map((o) => o.name).join(';')}`,
+    !errOrgsB && orgsB?.length === 1 ? 'PASS' : 'FAIL',
+    errOrgsB
+      ? errOrgsB.message
+      : `count=${orgsB?.length ?? 0} names=${orgsB?.map((o) => o.name).join(';') ?? 'n/a'}`,
   )
 
   const orgAId = orgsA?.[0]?.id
@@ -197,11 +229,16 @@ async function main() {
     auditAnonErr?.message ?? 'anon insert unexpectedly succeeded',
   )
 
-  const { data: auditA } = await clientA.from('audit_events').select('id').limit(5)
+  const { data: auditA, error: errAuditA } = await clientA
+    .from('audit_events')
+    .select('id')
+    .limit(5)
   record(
     'user_a_admin_can_read_audit',
-    (auditA?.length ?? 0) >= 1 ? 'PASS' : 'FAIL',
-    `rows=${auditA?.length ?? 0}`,
+    !errAuditA && (auditA?.length ?? 0) >= 1 ? 'PASS' : 'FAIL',
+    errAuditA
+      ? errAuditA.message
+      : `rows=${auditA?.length ?? 0}`,
   )
 
   const { data: auditB } = await clientB.from('audit_events').select('id').eq('organization_id', orgAId)

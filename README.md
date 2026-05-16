@@ -58,6 +58,9 @@ npm run dev
 | `npm run db:migrate` | Apply auth + audit migrations |
 | `npm run db:provision` | Seed synthetic staging users/orgs |
 | `npm run db:validate` | RLS + cross-org validation |
+| `npm run db:validate-phase2` | Phase 2 schema + JWT isolation |
+| `npm run db:validate-phase3b` | Phase 3B procedure-completion RPC |
+| `npm run db:validate-phase3c` | Phase 3C visit complete + lock RPCs |
 | `npm run phase1b` | migrate + provision + validate |
 
 ## Out of scope (MVP scaffold)

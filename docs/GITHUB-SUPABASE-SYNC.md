@@ -44,8 +44,12 @@ This folder uses its **own** `.git` repository (not the parent `ANTIGRAVITY FOLD
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
-DATABASE_URL=postgresql://postgres.[ref]:[password]@...
+# Migrations: prefer direct host (DDL) or correct pooler user postgres.<ref>
+DATABASE_URL_DIRECT=postgresql://postgres:[PASSWORD]@db.[ref].supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
 ```
+
+If you see **Tenant or user not found** on migrate, use `DATABASE_URL_DIRECT` or fix the pooler username. See `docs/PHASE1B-RUNBOOK.md`.
 
 ### Auth redirect URLs
 

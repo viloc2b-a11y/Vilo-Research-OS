@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-const navItems = [{ href: '/', label: 'Dashboard' }]
+const navItems = [
+  { href: '/', label: 'Dashboard' },
+  { href: '/studies', label: 'Studies' },
+]
 
 type SidebarProps = {
   organizationName?: string | null

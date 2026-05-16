@@ -21,7 +21,25 @@ Fill (staging only; synthetic users — no PHI):
 | `NEXT_PUBLIC_SUPABASE_URL` | API settings |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | API settings |
 | `SUPABASE_SERVICE_ROLE_KEY` | API settings (server only) |
-| `DATABASE_URL` | Database connection URI (for migrations) |
+| `DATABASE_URL` or `DATABASE_URL_DIRECT` | Postgres URI for `npm run db:migrate` |
+
+### Migration connection errors (`Tenant or user not found`)
+
+This comes from Supabase **Supavisor/pooler auth**, not from SQL DDL.
+
+1. **Prefer `DATABASE_URL_DIRECT`** for migrations:
+   `postgresql://postgres:[PASSWORD]@db.[PROJECT_REF].supabase.co:5432/postgres`
+   (Dashboard → **Database** → Connection string → use **direct** / session host `db.*`, port **5432**.)
+
+2. If you use the **transaction pooler** (port **6543**, `*.pooler.supabase.com`):
+   - Username must be **`postgres.[PROJECT_REF]`** (project ref = subdomain before `.supabase.co`).
+   - URL-encode special characters in the password.
+
+3. The migrate script sets **`prepare: false`** on the `postgres` client — required for transaction pooler + `postgres.js`.
+
+4. **`npm run db:migrate` does not require Auth users.** Foundation SQL only references `auth.users` as a FK target; provisioning is `npm run db:provision`.
+
+5. Migrations are **idempotent** (`IF NOT EXISTS` tables, `DROP POLICY IF EXISTS` before policies).
 
 ## 3. Apply migrations + seed + validate
 

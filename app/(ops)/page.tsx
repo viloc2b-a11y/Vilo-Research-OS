@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -19,10 +20,17 @@ export default function OpsDashboardPage() {
         <CardHeader>
           <CardTitle>Scaffold ready</CardTitle>
           <CardDescription>
-            Auth shell is active. Study, subject, and visit modules are not implemented yet.
+            Auth shell is active. Use Studies for read-only hierarchy and marking procedure executions
+            complete.
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
+        <CardContent className="space-y-3 text-sm text-muted-foreground">
+          <p>
+            <Link href="/studies" className="font-medium text-primary hover:underline">
+              Open studies
+            </Link>{' '}
+            — first operational vertical slice (subjects, visits, procedure completion).
+          </p>
           <ul className="list-inside list-disc space-y-1">
             <li>Apply Supabase migrations when approved (see supabase/migrations/).</li>
             <li>Provision staff users in Supabase Auth — no public signup.</li>

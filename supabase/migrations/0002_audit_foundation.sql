@@ -1,5 +1,6 @@
 -- Vilo OS: audit foundation (Verdent modules/audit-log)
--- Requires 0001_auth_foundation.sql. Prepared only — apply when approved.
+-- Requires organizations + organization_members + user_is_org_admin() from 0001.
+-- Idempotent: safe to re-run.
 
 create table if not exists public.audit_events (
   id uuid primary key default gen_random_uuid(),
@@ -16,15 +17,11 @@ create index if not exists audit_events_org_created_idx on public.audit_events (
 
 alter table public.audit_events enable row level security;
 
+drop policy if exists audit_events_select_admin on public.audit_events;
 create policy audit_events_select_admin on public.audit_events
 for select using (
   organization_id is not null
-  and exists (
-    select 1 from public.organization_members m
-    where m.organization_id = audit_events.organization_id
-      and m.user_id = auth.uid()
-      and m.role in ('owner', 'admin')
-  )
+  and public.user_is_org_admin(organization_id)
 );
 
 -- Inserts via service role or SECURITY DEFINER RPC only (see lib/audit/log.ts)
