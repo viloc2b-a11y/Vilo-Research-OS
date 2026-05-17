@@ -99,6 +99,25 @@ async function provisionUserC(admin, organizationIdAlpha, excludeStudyId) {
   return userC
 }
 
+function finishAndExit(exitCode) {
+  writeReportMd()
+  const { passed, failed, blocked } = results.summary
+  const statusLabel =
+    failed > 0 ? 'RED' : blocked > 0 ? 'AMBER (blocked)' : 'GREEN'
+  console.log(
+    `\nPhase 3C validation: ${passed} pass, ${failed} fail, ${blocked} blocked — ${statusLabel}`,
+  )
+  const problems = results.checks.filter((c) => c.status !== 'PASS')
+  if (problems.length) {
+    console.log('Non-pass checks:')
+    for (const c of problems) {
+      console.log(`  [${c.status}] ${c.name}: ${c.detail}`)
+    }
+  }
+  console.log('Report: docs/PHASE3C-VALIDATION-RESULTS.md')
+  process.exit(exitCode)
+}
+
 function writeReportMd() {
   const out = resolve(projectRoot, 'docs/PHASE3C-VALIDATION-RESULTS.md')
   const lines = [
@@ -171,8 +190,7 @@ async function main() {
 
   if (orgErr || !orgA) {
     record('fixture_org_alpha', 'BLOCKED', orgErr?.message ?? 'missing')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const { data: study, error: stErr } = await admin
@@ -184,8 +202,7 @@ async function main() {
 
   if (stErr || !study?.id) {
     record('fixture_study', 'BLOCKED', stErr?.message ?? `missing ${studySlug}`)
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const subjectExternalId = 'SUBJ-P2VAL-001'
@@ -198,8 +215,7 @@ async function main() {
 
   if (subErr || !subjectRow) {
     record('fixture_subject', 'BLOCKED', subErr?.message ?? 'missing subject')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const { data: visitDefMeta, error: vdErr } = await admin
@@ -211,21 +227,30 @@ async function main() {
 
   if (vdErr || !visitDefMeta?.id) {
     record('fixture_visit_definition', 'BLOCKED', vdErr?.message ?? 'missing V_SCREENING')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
-  const { data: visitRow, error: viErr } = await admin
+  const { data: visitCandidates, error: viErr } = await admin
     .from('visits')
-    .select('id')
+    .select('id, visit_status, created_at')
     .eq('study_subject_id', subjectRow.id)
     .eq('visit_definition_id', visitDefMeta.id)
-    .maybeSingle()
+    .order('created_at', { ascending: true })
+
+  const visitCount = visitCandidates?.length ?? 0
+  const visitRow = visitCandidates?.[0] ?? null
 
   if (viErr || !visitRow?.id) {
     record('fixture_visit', 'BLOCKED', viErr?.message ?? 'missing visit')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
+  }
+
+  if (visitCount > 1) {
+    record(
+      'fixture_visit_resolve',
+      'PASS',
+      `${visitCount} V_SCREENING visits for subject; using canonical oldest id=${visitRow.id}`,
+    )
   }
 
   const visitId = visitRow.id
@@ -239,8 +264,7 @@ async function main() {
 
   if (pdErr || !procDef?.id) {
     record('fixture_procedure_definition', 'BLOCKED', pdErr?.message ?? 'missing PROC_CBC')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const { data: execRow, error: peErr } = await admin
@@ -252,8 +276,7 @@ async function main() {
 
   if (peErr || !execRow?.id) {
     record('fixture_procedure_execution', 'BLOCKED', peErr?.message ?? 'missing PE')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const execId = execRow.id
@@ -303,8 +326,7 @@ async function main() {
   })
   if (signInA.error || !signInA.data.session) {
     record('jwt_user_a', 'BLOCKED', signInA.error?.message ?? 'no jwt')
-    writeReportMd()
-    process.exit(2)
+    finishAndExit(2)
   }
 
   const clientA = clientAsUser(url, anon, signInA.data.session.access_token)
@@ -527,18 +549,13 @@ async function main() {
     `PROCEDURE_COMPLETED=${peFinal.n} VISIT_COMPLETED=${vcFinal.n} VISIT_LOCKED=${vlFinal.n}`,
   )
 
-  writeReportMd()
   const exitCode = results.summary.failed > 0 ? 1 : results.summary.blocked > 0 ? 2 : 0
-  console.log(
-    `\nPhase 3C validation: ${results.summary.passed} pass, ${results.summary.failed} fail, ${results.summary.blocked} blocked`,
-  )
-  console.log('Report: docs/PHASE3C-VALIDATION-RESULTS.md')
-  process.exit(exitCode)
+  finishAndExit(exitCode)
 }
 
 main().catch((err) => {
   record('runtime', 'FAIL', String(err.message || err))
-  writeReportMd()
-  console.error(err)
-  process.exit(1)
+  console.error('Phase 3C validation runtime error:', err.message || err)
+  if (err.stack) console.error(err.stack)
+  finishAndExit(1)
 })

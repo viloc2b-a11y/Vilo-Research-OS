@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Conditional_Rules/1.0.0",
+  "title": "Conditional Rule Row",
+  "description": "Auditable rule logic; no hidden conditional code.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "rule_id": {
+      "$ref": "../common/common.schema.json#/$defs/RuleID"
+    },
+    "rule_type": {
+      "$ref": "../common/common.schema.json#/$defs/RuleType"
+    },
+    "expression": {
+      "$ref": "../common/common.schema.json#/$defs/ConditionalExpression"
+    },
+    "trigger_entity": {
+      "$ref": "../common/common.schema.json#/$defs/TriggerEntity"
+    },
+    "trigger_visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "trigger_procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "action": {
+      "$ref": "../common/common.schema.json#/$defs/RuleAction"
+    },
+    "target_procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "workflow_hook": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "rule_id",
+    "rule_type",
+    "expression",
+    "trigger_entity",
+    "action"
+  ]
+}

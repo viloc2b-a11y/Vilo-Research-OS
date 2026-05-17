@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Field_Definitions/1.0.0",
+  "title": "Field Definition Row",
+  "description": "Primary generator dictionary — eSource field specifications.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "field_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/FieldRowID"
+    },
+    "field_key": {
+      "$ref": "../common/common.schema.json#/$defs/FieldName"
+    },
+    "section_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "display_label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "data_type": {
+      "$ref": "../common/common.schema.json#/$defs/DataType"
+    },
+    "is_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "min_value": {
+      "type": "number"
+    },
+    "max_value": {
+      "type": "number"
+    },
+    "max_length": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "option_list_code": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledListName"
+    },
+    "default_value": {
+      "type": "string",
+      "maxLength": 512
+    },
+    "validation_expression": {
+      "$ref": "../common/common.schema.json#/$defs/ValidationExpression"
+    },
+    "conditional_visibility_rule_id": {
+      "$ref": "../common/common.schema.json#/$defs/RuleID"
+    },
+    "read_only": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "repeatable": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "export_name": {
+      "$ref": "../common/common.schema.json#/$defs/ExportName"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "unit": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "source_origin_mode": {
+      "$ref": "../common/common.schema.json#/$defs/SourceOriginMode"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "field_row_id",
+    "field_key",
+    "section_code",
+    "display_label",
+    "data_type",
+    "is_required",
+    "procedure_id"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "data_type": {
+            "enum": [
+              "coded",
+              "dropdown",
+              "dropdown_multi",
+              "checkbox"
+            ]
+          }
+        },
+        "required": [
+          "data_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "option_list_code"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Biospecimen_Collection_Module/1.0.0",
+  "title": "Biospecimen Collection Module Row",
+  "description": "Biospecimen collection, processing, storage, shipment, and chain-of-custody requirements for specimen-only studies.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "biospecimen_module_id": {
+      "type": "string",
+      "pattern": "^BSM-[0-9]{3}$"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-biospecimen_collection"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "collection_event_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "specimen_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "collection_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "consent_verification_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "collection_datetime_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "collected_by_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "container_type": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "volume_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "processing_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "processing_time_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "aliquot_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "storage_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "storage_temperature_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "storage_location_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "shipment_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "courier_tracking_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "destination_lab_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "chain_of_custody_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "quality_check_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "deviation_capture_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "reviewer_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "specimen_subtype": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "unit_of_measure": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "minimum_volume": {
+      "type": "number",
+      "minimum": 0
+    },
+    "expected_volume": {
+      "type": "number",
+      "minimum": 0
+    },
+    "fasting_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "collection_window": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "centrifugation_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "freeze_time_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "ambient_time_limit": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hemolysis_check_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "label_verification_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "barcode_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "accession_id_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "notes": {
+      "$ref": "../common/common.schema.json#/$defs/Notes"
+    },
+    "biospecimen_minimal_mode": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag",
+      "description": "When true, only biospecimen_minimal_mode_fields (see canonical template) are required at compile time."
+    },
+    "source_document_mode": {
+      "type": "string",
+      "enum": ["full", "minimal"],
+      "default": "full",
+      "description": "full = canonical Source_Template; minimal = reduced field subset."
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "biospecimen_module_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "visit_id",
+    "procedure_id",
+    "collection_event_name",
+    "container_type",
+    "specimen_type",
+    "collection_required",
+    "consent_verification_required",
+    "collection_datetime_required",
+    "collected_by_required",
+    "volume_required",
+    "processing_required",
+    "processing_time_required",
+    "aliquot_required",
+    "storage_required",
+    "storage_temperature_required",
+    "storage_location_required",
+    "shipment_required",
+    "courier_tracking_required",
+    "destination_lab_required",
+    "chain_of_custody_required",
+    "quality_check_required",
+    "deviation_capture_required",
+    "reviewer_required",
+    "active_flag"
+  ]
+}

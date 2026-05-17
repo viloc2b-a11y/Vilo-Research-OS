@@ -24,6 +24,7 @@ export default async function VisitDetailPage({ params }: VisitDetailPageProps) 
     .select(
       `
       id,
+      organization_id,
       scheduled_date,
       visit_status,
       study_id,
@@ -78,6 +79,19 @@ export default async function VisitDetailPage({ params }: VisitDetailPageProps) 
     )
     .eq('visit_id', visitId)
     .order('created_at', { ascending: true })
+
+  const peIds = (procedures ?? []).map((p) => p.id)
+  const { data: responseSets } =
+    peIds.length > 0
+      ? await supabase
+          .from('source_response_sets')
+          .select('id, procedure_execution_id, status')
+          .in('procedure_execution_id', peIds)
+      : { data: [] as { id: string; procedure_execution_id: string; status: string }[] }
+
+  const responseSetByPe = new Map(
+    (responseSets ?? []).map((rs) => [rs.procedure_execution_id, rs]),
+  )
 
   return (
     <div className="space-y-6">
@@ -151,6 +165,14 @@ export default async function VisitDetailPage({ params }: VisitDetailPageProps) 
                 const canComplete =
                   visitAllowsProcedureEdits
                   && (proc.execution_status === 'pending' || proc.execution_status === 'in_progress')
+                const rs = responseSetByPe.get(proc.id)
+                const orgQs = visit.organization_id
+                  ? `?organization_id=${visit.organization_id}`
+                  : ''
+                const captureHref = `/source/capture/${proc.id}${orgQs}`
+                const sourceReviewHref = rs
+                  ? `/source/response-set/${rs.id}${orgQs}`
+                  : null
                 return (
                   <li
                     key={proc.id}
@@ -167,6 +189,19 @@ export default async function VisitDetailPage({ params }: VisitDetailPageProps) 
                             · Performed{' '}
                             <span className="text-foreground">{proc.performed_at}</span>
                           </>
+                        ) : null}
+                      </p>
+                      <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                        <Link href={captureHref} className="text-xs font-medium hover:underline">
+                          Source capture
+                        </Link>
+                        {sourceReviewHref ? (
+                          <Link
+                            href={sourceReviewHref}
+                            className="text-xs font-medium text-muted-foreground hover:underline"
+                          >
+                            Review · {rs?.status ?? 'set'}
+                          </Link>
                         ) : null}
                       </p>
                     </div>

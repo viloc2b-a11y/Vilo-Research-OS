@@ -1,0 +1,107 @@
+{
+  "catalog_version": "1.0.0",
+  "catalog_id": "vilo-medication-conmed-lookup",
+  "description": "Coordinator lookup library for concomitant medications — not prescribing or eligibility logic.",
+  "medications": [
+    {
+      "external_seed_id": 1,
+      "medication_name": "Metformin",
+      "brand_name": "Glucophage",
+      "drug_class": "Biguanide antidiabetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 2,
+      "medication_name": "Ibuprofen",
+      "brand_name": "Advil",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 3,
+      "medication_name": "Acetaminophen",
+      "brand_name": "Tylenol",
+      "drug_class": "Analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 4,
+      "medication_name": "Lisinopril",
+      "brand_name": "Prinivil",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 5,
+      "medication_name": "Omeprazole",
+      "brand_name": "Prilosec",
+      "drug_class": "Proton pump inhibitor",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 6,
+      "medication_name": "Atorvastatin",
+      "brand_name": "Lipitor",
+      "drug_class": "HMG-CoA reductase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 7,
+      "medication_name": "Albuterol",
+      "brand_name": "ProAir",
+      "drug_class": "Short-acting beta agonist",
+      "route": "inhalation",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 8,
+      "medication_name": "Sertraline",
+      "brand_name": "Zoloft",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 9,
+      "medication_name": "Amoxicillin",
+      "brand_name": "Amoxil",
+      "drug_class": "Penicillin antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10,
+      "medication_name": "Aspirin",
+      "brand_name": "Bayer Aspirin",
+      "drug_class": "Antiplatelet / analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    }
+  ],
+  "suggested_links": [
+    { "pathology_external_seed_id": 3, "medication_external_seed_id": 1, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 7, "medication_external_seed_id": 2, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 7, "medication_external_seed_id": 3, "relation_rank": 2, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 1, "medication_external_seed_id": 4, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 4, "medication_external_seed_id": 5, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 2, "medication_external_seed_id": 7, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 6, "medication_external_seed_id": 8, "relation_rank": 1, "relation_type": "common_concomitant" },
+    { "pathology_external_seed_id": 1, "medication_external_seed_id": 6, "relation_rank": 2, "relation_type": "common_concomitant" }
+  ]
+}

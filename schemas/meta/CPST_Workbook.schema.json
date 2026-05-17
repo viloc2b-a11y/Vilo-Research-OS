@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/CPST_Workbook/1.0.0",
+  "title": "CPST Workbook Bundle",
+  "description": "Validated CPST dictionary bundle (JSON interchange).",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "workbook_id": {
+      "type": "string",
+      "pattern": "^WB-[0-9]{4}$"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "study_setup": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Study_Setup.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "visit_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Visit_Groups.schema.json"
+      }
+    },
+    "visit_templates": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Visit_Templates.schema.json"
+      }
+    },
+    "procedure_library": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Procedure_Library.schema.json"
+      }
+    },
+    "visit_procedure_matrix": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Visit_Procedure_Matrix.schema.json"
+      }
+    },
+    "conditional_rules": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Conditional_Rules.schema.json"
+      }
+    },
+    "schedule_windows": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Schedule_Windows.schema.json"
+      }
+    },
+    "external_source_map": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/External_Source_Map.schema.json"
+      }
+    },
+    "substudy_map": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Substudy_Map.schema.json"
+      }
+    },
+    "roles_signoff": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Roles_Signoff.schema.json"
+      }
+    },
+    "value_lists": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Value_Lists.schema.json"
+      }
+    },
+    "field_definitions": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Field_Definitions.schema.json"
+      }
+    },
+    "audit_and_versioning": {
+      "type": "array",
+      "items": {
+        "$ref": "../core/Audit_and_Versioning.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "domain_modules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "oncology_module": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Oncology_Module.schema.json"
+          }
+        },
+        "dose_escalation": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Dose_Escalation.schema.json"
+          }
+        },
+        "crossover_design": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Crossover_Design.schema.json"
+          }
+        },
+        "adaptive_design_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Adaptive_Design_Rules.schema.json"
+          }
+        },
+        "decentralized_workflows": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Decentralized_Workflows.schema.json"
+          }
+        },
+        "imaging_matrix": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Imaging_Matrix.schema.json"
+          }
+        },
+        "device_trial_controls": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Device_Trial_Controls.schema.json"
+          }
+        },
+        "edc_reconciliation": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/EDC_Reconciliation.schema.json"
+          }
+        },
+        "epro_workflows": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/ePRO_Workflows.schema.json"
+          }
+        },
+        "pediatric_consent_assent": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Pediatric_Consent_Assent.schema.json"
+          }
+        },
+        "biospecimen_collection_module": {
+          "type": "array",
+          "items": {
+            "$ref": "../domain/Biospecimen_Collection_Module.schema.json"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "workbook_id",
+    "study_template_id",
+    "study_setup",
+    "visit_groups",
+    "visit_templates",
+    "procedure_library",
+    "visit_procedure_matrix",
+    "conditional_rules",
+    "schedule_windows",
+    "external_source_map",
+    "substudy_map",
+    "roles_signoff",
+    "value_lists",
+    "field_definitions",
+    "audit_and_versioning"
+  ]
+}

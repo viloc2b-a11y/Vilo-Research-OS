@@ -1,0 +1,576 @@
+{
+  "catalog_version": "1.1.0",
+  "link_count": 57,
+  "links": [
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Lisinopril",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Amlodipine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Hydrochlorothiazide",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Losartan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 4,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Atrial fibrillation",
+      "pathology_icd10": "I48.91",
+      "medication_name": "Apixaban",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Atrial fibrillation",
+      "pathology_icd10": "I48.91",
+      "medication_name": "Metoprolol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Metformin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Insulin glargine",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Semaglutide",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Diabetes",
+      "pathology_icd10": "E11.8",
+      "medication_name": "Metformin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Omeprazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Pantoprazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Famotidine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Albuterol",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Fluticasone",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Montelukast",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "COPD",
+      "pathology_icd10": "J44.9",
+      "medication_name": "Albuterol",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "COPD",
+      "pathology_icd10": "J44.9",
+      "medication_name": "Tiotropium",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Depression",
+      "pathology_icd10": "F32.9",
+      "medication_name": "Sertraline",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Depression",
+      "pathology_icd10": "F32.9",
+      "medication_name": "Escitalopram",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Anxiety",
+      "pathology_icd10": "F41.9",
+      "medication_name": "Sertraline",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Anxiety",
+      "pathology_icd10": "F41.9",
+      "medication_name": "Buspirone",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Headache",
+      "pathology_icd10": "R51.9",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Headache",
+      "pathology_icd10": "R51.9",
+      "medication_name": "Acetaminophen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Migraine",
+      "pathology_icd10": "G43.909",
+      "medication_name": "Sumatriptan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Migraine",
+      "pathology_icd10": "G43.909",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoarthritis",
+      "pathology_icd10": "M19.90",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoarthritis",
+      "pathology_icd10": "M19.90",
+      "medication_name": "Acetaminophen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Rheumatoid arthritis",
+      "pathology_icd10": "M06.9",
+      "medication_name": "Methotrexate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Rheumatoid arthritis",
+      "pathology_icd10": "M06.9",
+      "medication_name": "Adalimumab",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hyperlipidemia",
+      "pathology_icd10": "E78.5",
+      "medication_name": "Atorvastatin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hyperlipidemia",
+      "pathology_icd10": "E78.5",
+      "medication_name": "Rosuvastatin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypothyroidism",
+      "pathology_icd10": "E03.9",
+      "medication_name": "Levothyroxine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "CKD",
+      "pathology_icd10": "N18.9",
+      "medication_name": "Lisinopril",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "UTI",
+      "pathology_icd10": "N39.0",
+      "medication_name": "Trimethoprim-sulfamethoxazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "UTI",
+      "pathology_icd10": "N39.0",
+      "medication_name": "Ciprofloxacin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Glaucoma",
+      "pathology_icd10": "H40.9",
+      "medication_name": "Latanoprost",
+      "medication_route": "ophthalmic",
+      "medication_dosage_form": "drops",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Dry eye",
+      "pathology_icd10": "H04.129",
+      "medication_name": "Artificial tears",
+      "medication_route": "ophthalmic",
+      "medication_dosage_form": "drops",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hepatitis C",
+      "pathology_icd10": "B18.2",
+      "medication_name": "Ledipasvir-sofosbuvir",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Insomnia",
+      "pathology_icd10": "G47.00",
+      "medication_name": "Zolpidem",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Insomnia",
+      "pathology_icd10": "G47.00",
+      "medication_name": "Melatonin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Allergic rhinitis",
+      "pathology_icd10": "J30.9",
+      "medication_name": "Cetirizine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Allergic rhinitis",
+      "pathology_icd10": "J30.9",
+      "medication_name": "Fluticasone nasal spray",
+      "medication_route": "intranasal",
+      "medication_dosage_form": "spray",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Furosemide",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Carvedilol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Sacubitril-valsartan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Gout",
+      "pathology_icd10": "M10.9",
+      "medication_name": "Allopurinol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Gout",
+      "pathology_icd10": "M10.9",
+      "medication_name": "Colchicine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Psoriasis",
+      "pathology_icd10": "L40.9",
+      "medication_name": "Triamcinolone cream",
+      "medication_route": "topical",
+      "medication_dosage_form": "cream",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Eczema",
+      "pathology_icd10": "L20.9",
+      "medication_name": "Triamcinolone cream",
+      "medication_route": "topical",
+      "medication_dosage_form": "cream",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Neuropathy",
+      "pathology_icd10": "G62.9",
+      "medication_name": "Gabapentin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Neuropathy",
+      "pathology_icd10": "G62.9",
+      "medication_name": "Pregabalin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "ADHD",
+      "pathology_icd10": "F90.9",
+      "medication_name": "Methylphenidate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "ADHD",
+      "pathology_icd10": "F90.9",
+      "medication_name": "Atomoxetine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Benign prostatic hyperplasia",
+      "pathology_icd10": "N40.0",
+      "medication_name": "Tamsulosin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoporosis",
+      "pathology_icd10": "M81.0",
+      "medication_name": "Alendronate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoporosis",
+      "pathology_icd10": "M81.0",
+      "medication_name": "Vitamin D",
+      "medication_route": "oral",
+      "medication_dosage_form": "capsule",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    }
+  ]
+}

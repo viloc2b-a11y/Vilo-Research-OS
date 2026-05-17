@@ -1,0 +1,744 @@
+{
+  "import_id": "golden-basic-fixture-001",
+  "imported_at": "2026-05-16T17:00:00.000Z",
+  "source_workbook": "fixtures/cpst/golden-basic/cpst-golden-basic.import.json",
+  "manifest_path": "templates/cpst-workbook-v3.manifest.json",
+  "schema_version": "1.0.0",
+  "status": "valid",
+  "counts": {
+    "sheets_processed": 0,
+    "rows_imported": 0,
+    "errors": 0,
+    "warnings": 0
+  },
+  "data": {
+    "study_setup": [
+      {
+        "study_template_id": "ST-001",
+        "protocol_number": "GOLDEN-PROTO-001",
+        "protocol_version": "v1.0",
+        "amendment_id": "AMEND-INITIAL",
+        "study_phase": "PHASE2",
+        "population_summary": "Adults with stable chronic condition; ambulatory clinic schedule.",
+        "sponsor_organization": "Golden Sponsor Inc.",
+        "cro_organization": "Golden CRO LLC",
+        "effective_date": "2026-01-15",
+        "cpst_version": "v1.0.0"
+      }
+    ],
+    "visit_groups": [
+      {
+        "study_template_id": "ST-001",
+        "visit_group_code": "VG-001",
+        "visit_group_label": "Screening",
+        "sort_order": 10,
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_group_code": "VG-002",
+        "visit_group_label": "Treatment / Baseline",
+        "sort_order": 20,
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_group_code": "VG-003",
+        "visit_group_label": "Follow-up",
+        "sort_order": 30,
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_group_code": "VG-004",
+        "visit_group_label": "Closeout",
+        "sort_order": 40,
+        "active_flag": true
+      }
+    ],
+    "visit_templates": [
+      {
+        "study_template_id": "ST-001",
+        "visit_id": "V-001",
+        "visit_code": "SCR",
+        "visit_label": "Screening Visit",
+        "visit_group_code": "VG-001",
+        "sequence": 10,
+        "planned_day": -14,
+        "delivery_mode": "onsite",
+        "visit_type": "scheduled",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_id": "V-002",
+        "visit_code": "D1",
+        "visit_label": "Day 1 / Baseline",
+        "visit_group_code": "VG-002",
+        "sequence": 20,
+        "planned_day": 1,
+        "delivery_mode": "onsite",
+        "visit_type": "scheduled",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_id": "V-003",
+        "visit_code": "FU",
+        "visit_label": "Follow-up Visit",
+        "visit_group_code": "VG-003",
+        "sequence": 30,
+        "planned_day": 7,
+        "delivery_mode": "hybrid",
+        "visit_type": "scheduled",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_id": "V-004",
+        "visit_code": "EOS",
+        "visit_label": "End of Study",
+        "visit_group_code": "VG-004",
+        "sequence": 40,
+        "planned_day": 30,
+        "delivery_mode": "onsite",
+        "visit_type": "eos",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "visit_id": "V-005",
+        "visit_code": "ET",
+        "visit_label": "Early Termination",
+        "visit_group_code": "VG-004",
+        "sequence": 50,
+        "delivery_mode": "phone",
+        "visit_type": "et",
+        "repeatable_flag": false,
+        "active_flag": true
+      }
+    ],
+    "procedure_library": [
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-001",
+        "procedure_code": "ICF",
+        "procedure_label": "Informed Consent",
+        "category": "ADMIN",
+        "source_type": "operational_confirmation",
+        "signature_required": true,
+        "owner_role": "coordinator",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-002",
+        "procedure_code": "ELIG",
+        "procedure_label": "Eligibility Review",
+        "category": "ADMIN",
+        "source_type": "internal",
+        "owner_role": "investigator",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-003",
+        "procedure_code": "VITALS",
+        "procedure_label": "Vital Signs",
+        "category": "ASSESSMENT",
+        "source_type": "internal",
+        "units": "mmHg/bpm/C",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-004",
+        "procedure_code": "CONMED",
+        "procedure_label": "Concomitant Medications",
+        "category": "ASSESSMENT",
+        "source_type": "internal",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-005",
+        "procedure_code": "AE",
+        "procedure_label": "AE Assessment",
+        "category": "SAFETY",
+        "source_type": "internal",
+        "signature_required": true,
+        "owner_role": "investigator",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-006",
+        "procedure_code": "LABS",
+        "procedure_label": "Safety Labs",
+        "category": "LAB",
+        "source_type": "external",
+        "external_reference_required": true,
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-007",
+        "procedure_code": "IP",
+        "procedure_label": "IP Administration",
+        "category": "IP",
+        "source_type": "operational_confirmation",
+        "signature_required": true,
+        "owner_role": "investigator",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-008",
+        "procedure_code": "EPRO",
+        "procedure_label": "eDiary / ePRO Review",
+        "category": "EPRO",
+        "source_type": "external",
+        "external_reference_required": true,
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-009",
+        "procedure_code": "EOSDISP",
+        "procedure_label": "EOS Disposition",
+        "category": "CLOSEOUT",
+        "source_type": "internal",
+        "signature_required": true,
+        "owner_role": "investigator",
+        "active_flag": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "procedure_id": "P-010",
+        "procedure_code": "ETREAS",
+        "procedure_label": "Early Termination Reason",
+        "category": "CLOSEOUT",
+        "source_type": "internal",
+        "active_flag": true
+      }
+    ],
+    "visit_procedure_matrix": [
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0001", "visit_id": "V-001", "procedure_id": "P-001", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0002", "visit_id": "V-001", "procedure_id": "P-002", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0003", "visit_id": "V-001", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0004", "visit_id": "V-001", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0005", "visit_id": "V-001", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0006", "visit_id": "V-002", "procedure_id": "P-002", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0007", "visit_id": "V-002", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0008", "visit_id": "V-002", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0009", "visit_id": "V-002", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0010", "visit_id": "V-002", "procedure_id": "P-007", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0011", "visit_id": "V-002", "procedure_id": "P-008", "matrix_marker": "required", "execution_order": 60 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0012", "visit_id": "V-003", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0013", "visit_id": "V-003", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0014", "visit_id": "V-003", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0015", "visit_id": "V-003", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0016", "visit_id": "V-003", "procedure_id": "P-008", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0017", "visit_id": "V-004", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0018", "visit_id": "V-004", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0019", "visit_id": "V-004", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0020", "visit_id": "V-004", "procedure_id": "P-009", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0021", "visit_id": "V-005", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0022", "visit_id": "V-005", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0023", "visit_id": "V-005", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0024", "visit_id": "V-005", "procedure_id": "P-010", "matrix_marker": "required", "execution_order": 40, "conditional_flag": true, "condition_rule_id": "R-002" },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0025", "visit_id": "V-005", "procedure_id": "P-009", "matrix_marker": "conditional", "execution_order": 50, "condition_rule_id": "R-002" }
+    ],
+    "conditional_rules": [
+      {
+        "study_template_id": "ST-001",
+        "rule_id": "R-001",
+        "rule_type": "safety",
+        "expression": "ae_assessment.seriousness == 'SAE'",
+        "trigger_entity": "field",
+        "trigger_procedure_id": "P-005",
+        "action": "require",
+        "workflow_hook": "INVESTIGATOR_REVIEW"
+      },
+      {
+        "study_template_id": "ST-001",
+        "rule_id": "R-002",
+        "rule_type": "workflow",
+        "expression": "visit.visit_type == 'et'",
+        "trigger_entity": "visit",
+        "trigger_visit_id": "V-005",
+        "action": "require",
+        "target_procedure_id": "P-010"
+      },
+      {
+        "study_template_id": "ST-001",
+        "rule_id": "R-003",
+        "rule_type": "lab",
+        "expression": "safety_labs.lab_result_status == 'ABNORMAL'",
+        "trigger_entity": "procedure",
+        "trigger_procedure_id": "P-006",
+        "action": "require",
+        "workflow_hook": "INVESTIGATOR_REVIEW"
+      }
+    ],
+    "schedule_windows": [
+      {
+        "study_template_id": "ST-001",
+        "window_id": "W-001",
+        "visit_id": "V-001",
+        "anchor_event": "ENROLL",
+        "offset_value": -14,
+        "window_min": -30,
+        "window_max": -1,
+        "window_unit": "day",
+        "grace_days": 0,
+        "phone_offsite_allowed": false
+      },
+      {
+        "study_template_id": "ST-001",
+        "window_id": "W-002",
+        "visit_id": "V-002",
+        "anchor_event": "IP_FIRST_DOSE",
+        "offset_value": 0,
+        "window_min": 1,
+        "window_max": 1,
+        "window_unit": "day"
+      },
+      {
+        "study_template_id": "ST-001",
+        "window_id": "W-003",
+        "visit_id": "V-003",
+        "anchor_event": "IP_FIRST_DOSE",
+        "offset_value": 7,
+        "window_min": 5,
+        "window_max": 9,
+        "window_unit": "day",
+        "grace_days": 1
+      },
+      {
+        "study_template_id": "ST-001",
+        "window_id": "W-004",
+        "visit_id": "V-004",
+        "anchor_event": "IP_FIRST_DOSE",
+        "offset_value": 30,
+        "window_min": 23,
+        "window_max": 37,
+        "window_unit": "day",
+        "grace_days": 2
+      },
+      {
+        "study_template_id": "ST-001",
+        "window_id": "W-005",
+        "visit_id": "V-005",
+        "window_unit": "day",
+        "holiday_weekend_policy": "ALLOW",
+        "phone_offsite_allowed": true
+      }
+    ],
+    "external_source_map": [
+      {
+        "study_template_id": "ST-001",
+        "external_source_id": "X-001",
+        "procedure_id": "P-006",
+        "system_name": "Central Safety Lab",
+        "reference_required": true,
+        "status_required": true,
+        "sync_required": true
+      },
+      {
+        "study_template_id": "ST-001",
+        "external_source_id": "X-002",
+        "procedure_id": "P-008",
+        "system_name": "eDiary Vendor Cloud",
+        "reference_required": true,
+        "status_required": true,
+        "attachment_allowed": false
+      }
+    ],
+    "substudy_map": [],
+    "roles_signoff": [
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-001",
+        "scope_type": "study_template",
+        "scope_id": "ST-001",
+        "role_code": "coordinator",
+        "can_execute": true,
+        "can_review": true,
+        "can_sign": false
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-002",
+        "scope_type": "procedure",
+        "scope_id": "P-001",
+        "role_code": "investigator",
+        "can_review": true,
+        "can_sign": true,
+        "signature_meaning_code": "REVIEWED"
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-003",
+        "scope_type": "procedure",
+        "scope_id": "P-005",
+        "role_code": "investigator",
+        "can_review": true,
+        "can_sign": true,
+        "signature_meaning_code": "REVIEWED"
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-004",
+        "scope_type": "procedure",
+        "scope_id": "P-007",
+        "role_code": "investigator",
+        "can_review": true,
+        "can_sign": true,
+        "signature_meaning_code": "REVIEWED"
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-005",
+        "scope_type": "procedure",
+        "scope_id": "P-009",
+        "role_code": "investigator",
+        "can_review": true,
+        "can_sign": true,
+        "signature_meaning_code": "REVIEWED"
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-006",
+        "scope_type": "study_template",
+        "scope_id": "ST-001",
+        "role_code": "monitor",
+        "can_review": true,
+        "can_sign": false
+      },
+      {
+        "study_template_id": "ST-001",
+        "role_row_id": "ROL-007",
+        "scope_type": "study_template",
+        "scope_id": "ST-001",
+        "role_code": "study_admin",
+        "can_execute": true,
+        "can_review": true,
+        "can_reopen": true
+      }
+    ],
+    "value_lists": [
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "SCHEDULED", "item_label": "Scheduled", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "EOS", "item_label": "End of Study", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "ET", "item_label": "Early Termination", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "ONSITE", "item_label": "On-site", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "PHONE", "item_label": "Phone", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "HYBRID", "item_label": "Hybrid", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "INTERNAL", "item_label": "Internal", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "EXTERNAL", "item_label": "External", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "OPERATIONAL", "item_label": "Operational Confirmation", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REQUIREMENT_STATUS", "item_code": "REQUIRED", "item_label": "Required", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REQUIREMENT_STATUS", "item_code": "CONDITIONAL", "item_label": "Conditional", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "TEXT", "item_label": "Text", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "NUMBER", "item_label": "Number", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "BOOLEAN", "item_label": "Boolean", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "CODED", "item_label": "Coded", "sort_order": 4, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "DATETIME", "item_label": "Date/Time", "sort_order": 5, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "ROLE_NAME", "item_code": "COORDINATOR", "item_label": "Coordinator", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "ROLE_NAME", "item_code": "INVESTIGATOR", "item_label": "Investigator", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "RULE_ACTION", "item_code": "REQUIRE", "item_label": "Require", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REVIEWER_STATUS", "item_code": "PENDING", "item_label": "Pending", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "MODULE_CATEGORY", "item_code": "INTEGRATION", "item_label": "Integration", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_CAPTURE", "item_code": "HYBRID", "item_label": "Hybrid", "sort_order": 1, "active_flag": true }
+    ],
+    "field_definitions": [
+      { "study_template_id": "ST-001", "field_row_id": "F-001", "field_key": "systolic_bp", "section_code": "vitals", "display_label": "Systolic BP", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "mmHg", "export_name": "SBP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-002", "field_key": "diastolic_bp", "section_code": "vitals", "display_label": "Diastolic BP", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "mmHg", "export_name": "DBP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-003", "field_key": "heart_rate", "section_code": "vitals", "display_label": "Heart Rate", "data_type": "integer", "is_required": true, "procedure_id": "P-003", "unit": "bpm", "export_name": "HR" },
+      { "study_template_id": "ST-001", "field_row_id": "F-004", "field_key": "temperature", "section_code": "vitals", "display_label": "Temperature", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "C", "export_name": "TEMP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-005", "field_key": "ae_present", "section_code": "ae", "display_label": "AE Present", "data_type": "boolean", "is_required": true, "procedure_id": "P-005", "export_name": "AE_PRESENT" },
+      { "study_template_id": "ST-001", "field_row_id": "F-006", "field_key": "ae_term", "section_code": "ae", "display_label": "AE Term", "data_type": "text", "is_required": false, "procedure_id": "P-005", "conditional_visibility_rule_id": "R-001", "export_name": "AE_TERM" },
+      { "study_template_id": "ST-001", "field_row_id": "F-007", "field_key": "severity", "section_code": "ae", "display_label": "Severity", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_SEVERITY", "export_name": "AE_SEV" },
+      { "study_template_id": "ST-001", "field_row_id": "F-008", "field_key": "seriousness", "section_code": "ae", "display_label": "Seriousness", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_SERIOUSNESS", "export_name": "AE_SER" },
+      { "study_template_id": "ST-001", "field_row_id": "F-009", "field_key": "relatedness", "section_code": "ae", "display_label": "Relatedness", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_REL", "export_name": "AE_REL" },
+      { "study_template_id": "ST-001", "field_row_id": "F-010", "field_key": "action_taken", "section_code": "ae", "display_label": "Action Taken", "data_type": "text", "is_required": false, "procedure_id": "P-005", "export_name": "AE_ACTION" },
+      { "study_template_id": "ST-001", "field_row_id": "F-011", "field_key": "lab_panel_collected", "section_code": "labs", "display_label": "Lab Panel Collected", "data_type": "boolean", "is_required": true, "procedure_id": "P-006", "export_name": "LAB_COLL" },
+      { "study_template_id": "ST-001", "field_row_id": "F-012", "field_key": "lab_result_status", "section_code": "labs", "display_label": "Lab Result Status", "data_type": "coded", "is_required": true, "procedure_id": "P-006", "option_list_code": "LAB_STATUS", "export_name": "LAB_STATUS" },
+      { "study_template_id": "ST-001", "field_row_id": "F-013", "field_key": "external_lab_accession", "section_code": "labs", "display_label": "External Lab Accession", "data_type": "text", "is_required": true, "procedure_id": "P-006", "export_name": "LAB_ACC" },
+      { "study_template_id": "ST-001", "field_row_id": "F-014", "field_key": "ip_administered", "section_code": "ip", "display_label": "IP Administered", "data_type": "boolean", "is_required": true, "procedure_id": "P-007", "export_name": "IP_ADMIN" },
+      { "study_template_id": "ST-001", "field_row_id": "F-015", "field_key": "dose", "section_code": "ip", "display_label": "Dose", "data_type": "number", "is_required": false, "procedure_id": "P-007", "export_name": "IP_DOSE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-016", "field_key": "route", "section_code": "ip", "display_label": "Route", "data_type": "coded", "is_required": false, "procedure_id": "P-007", "option_list_code": "IP_ROUTE", "export_name": "IP_ROUTE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-017", "field_key": "administration_datetime", "section_code": "ip", "display_label": "Administration Date/Time", "data_type": "datetime", "is_required": false, "procedure_id": "P-007", "export_name": "IP_DT" },
+      { "study_template_id": "ST-001", "field_row_id": "F-018", "field_key": "epro_completed", "section_code": "epro", "display_label": "ePRO Completed", "data_type": "boolean", "is_required": true, "procedure_id": "P-008", "export_name": "EPRO_DONE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-019", "field_key": "external_epro_id", "section_code": "epro", "display_label": "External ePRO ID", "data_type": "text", "is_required": true, "procedure_id": "P-008", "export_name": "EPRO_EXT_ID" },
+      { "study_template_id": "ST-001", "field_row_id": "F-020", "field_key": "completion_status", "section_code": "epro", "display_label": "Completion Status", "data_type": "coded", "is_required": true, "procedure_id": "P-008", "option_list_code": "EPRO_STATUS", "export_name": "EPRO_STATUS" },
+      { "study_template_id": "ST-001", "field_row_id": "F-021", "field_key": "disposition_status", "section_code": "closeout", "display_label": "Disposition Status", "data_type": "coded", "is_required": true, "procedure_id": "P-009", "option_list_code": "DISP_STATUS", "export_name": "DISP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-022", "field_key": "early_termination_reason", "section_code": "closeout", "display_label": "Early Termination Reason", "data_type": "text", "is_required": true, "procedure_id": "P-010", "export_name": "ET_REASON" }
+    ],
+    "audit_and_versioning": [
+      {
+        "study_template_id": "ST-001",
+        "version_row_id": "VER-001",
+        "cpst_version": "v1.0.0",
+        "schema_version": "1.0.0",
+        "approval_state": "needs_review",
+        "deprecated_flag": false,
+        "migration_required_flag": false
+      }
+    ],
+    "domain_modules": {
+      "oncology_module": [],
+      "dose_escalation": [],
+      "crossover_design": [],
+      "adaptive_design_rules": [],
+      "decentralized_workflows": [],
+      "imaging_matrix": [],
+      "device_trial_controls": [],
+      "edc_reconciliation": [
+        {
+          "module_row_id": "MR-0002",
+          "study_template_id": "ST-001",
+          "module_id": "MOD-edc_reconciliation",
+          "compatible_core_schema_version": "^1.0.0",
+          "module_schema_version": "1.0.0",
+          "procedure_id": "P-006",
+          "active_flag": true,
+          "reconciliation_id": "EDC-001",
+          "source_record_id": "lab_result_status",
+          "ecrf_field": "LB_RESSTAT",
+          "mapping_status": "MAPPED"
+        }
+      ],
+      "epro_workflows": [
+        {
+          "module_row_id": "MR-0001",
+          "study_template_id": "ST-001",
+          "module_id": "MOD-epro_workflows",
+          "compatible_core_schema_version": "^1.0.0",
+          "module_schema_version": "1.0.0",
+          "procedure_id": "P-008",
+          "active_flag": true,
+          "epro_id": "EPR-001",
+          "instrument_name": "Daily Symptom eDiary",
+          "schedule_cadence": "daily",
+          "device_app": "eDiary Vendor App",
+          "reminder_flag": true,
+          "missing_response_flag": true,
+          "compliance_threshold": 80,
+          "rescue_workflow_required": true
+        }
+      ],
+      "pediatric_consent_assent": []
+    },
+    "runtime_support": {
+      "visit_execution_log": []
+    }
+  },
+  "provenance_map": {},
+  "cpst_bundle": {
+    "schema_version": "1.0.0",
+    "workbook_id": "WB-0001",
+    "study_template_id": "ST-001",
+    "study_setup": [
+      {
+        "study_template_id": "ST-001",
+        "protocol_number": "GOLDEN-PROTO-001",
+        "protocol_version": "v1.0",
+        "amendment_id": "AMEND-INITIAL",
+        "study_phase": "PHASE2",
+        "population_summary": "Adults with stable chronic condition; ambulatory clinic schedule.",
+        "sponsor_organization": "Golden Sponsor Inc.",
+        "cro_organization": "Golden CRO LLC",
+        "effective_date": "2026-01-15",
+        "cpst_version": "v1.0.0"
+      }
+    ],
+    "visit_groups": [
+      { "study_template_id": "ST-001", "visit_group_code": "VG-001", "visit_group_label": "Screening", "sort_order": 10, "active_flag": true },
+      { "study_template_id": "ST-001", "visit_group_code": "VG-002", "visit_group_label": "Treatment / Baseline", "sort_order": 20, "active_flag": true },
+      { "study_template_id": "ST-001", "visit_group_code": "VG-003", "visit_group_label": "Follow-up", "sort_order": 30, "active_flag": true },
+      { "study_template_id": "ST-001", "visit_group_code": "VG-004", "visit_group_label": "Closeout", "sort_order": 40, "active_flag": true }
+    ],
+    "visit_templates": [
+      { "study_template_id": "ST-001", "visit_id": "V-001", "visit_code": "SCR", "visit_label": "Screening Visit", "visit_group_code": "VG-001", "sequence": 10, "planned_day": -14, "delivery_mode": "onsite", "visit_type": "scheduled", "active_flag": true },
+      { "study_template_id": "ST-001", "visit_id": "V-002", "visit_code": "D1", "visit_label": "Day 1 / Baseline", "visit_group_code": "VG-002", "sequence": 20, "planned_day": 1, "delivery_mode": "onsite", "visit_type": "scheduled", "active_flag": true },
+      { "study_template_id": "ST-001", "visit_id": "V-003", "visit_code": "FU", "visit_label": "Follow-up Visit", "visit_group_code": "VG-003", "sequence": 30, "planned_day": 7, "delivery_mode": "hybrid", "visit_type": "scheduled", "active_flag": true },
+      { "study_template_id": "ST-001", "visit_id": "V-004", "visit_code": "EOS", "visit_label": "End of Study", "visit_group_code": "VG-004", "sequence": 40, "planned_day": 30, "delivery_mode": "onsite", "visit_type": "eos", "active_flag": true },
+      { "study_template_id": "ST-001", "visit_id": "V-005", "visit_code": "ET", "visit_label": "Early Termination", "visit_group_code": "VG-004", "sequence": 50, "delivery_mode": "phone", "visit_type": "et", "active_flag": true }
+    ],
+    "procedure_library": [
+      { "study_template_id": "ST-001", "procedure_id": "P-001", "procedure_code": "ICF", "procedure_label": "Informed Consent", "category": "ADMIN", "source_type": "operational_confirmation", "signature_required": true, "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-002", "procedure_code": "ELIG", "procedure_label": "Eligibility Review", "category": "ADMIN", "source_type": "internal", "owner_role": "investigator", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-003", "procedure_code": "VITALS", "procedure_label": "Vital Signs", "category": "ASSESSMENT", "source_type": "internal", "units": "mmHg/bpm/C", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-004", "procedure_code": "CONMED", "procedure_label": "Concomitant Medications", "category": "ASSESSMENT", "source_type": "internal", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-005", "procedure_code": "AE", "procedure_label": "AE Assessment", "category": "SAFETY", "source_type": "internal", "signature_required": true, "owner_role": "investigator", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-006", "procedure_code": "LABS", "procedure_label": "Safety Labs", "category": "LAB", "source_type": "external", "external_reference_required": true, "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-007", "procedure_code": "IP", "procedure_label": "IP Administration", "category": "IP", "source_type": "operational_confirmation", "signature_required": true, "owner_role": "investigator", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-008", "procedure_code": "EPRO", "procedure_label": "eDiary / ePRO Review", "category": "EPRO", "source_type": "external", "external_reference_required": true, "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-009", "procedure_code": "EOSDISP", "procedure_label": "EOS Disposition", "category": "CLOSEOUT", "source_type": "internal", "signature_required": true, "owner_role": "investigator", "active_flag": true },
+      { "study_template_id": "ST-001", "procedure_id": "P-010", "procedure_code": "ETREAS", "procedure_label": "Early Termination Reason", "category": "CLOSEOUT", "source_type": "internal", "active_flag": true }
+    ],
+    "visit_procedure_matrix": [
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0001", "visit_id": "V-001", "procedure_id": "P-001", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0002", "visit_id": "V-001", "procedure_id": "P-002", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0003", "visit_id": "V-001", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0004", "visit_id": "V-001", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0005", "visit_id": "V-001", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0006", "visit_id": "V-002", "procedure_id": "P-002", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0007", "visit_id": "V-002", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0008", "visit_id": "V-002", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0009", "visit_id": "V-002", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0010", "visit_id": "V-002", "procedure_id": "P-007", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0011", "visit_id": "V-002", "procedure_id": "P-008", "matrix_marker": "required", "execution_order": 60 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0012", "visit_id": "V-003", "procedure_id": "P-003", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0013", "visit_id": "V-003", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0014", "visit_id": "V-003", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0015", "visit_id": "V-003", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0016", "visit_id": "V-003", "procedure_id": "P-008", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0017", "visit_id": "V-004", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0018", "visit_id": "V-004", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0019", "visit_id": "V-004", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0020", "visit_id": "V-004", "procedure_id": "P-009", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0021", "visit_id": "V-005", "procedure_id": "P-004", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0022", "visit_id": "V-005", "procedure_id": "P-005", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0023", "visit_id": "V-005", "procedure_id": "P-006", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0024", "visit_id": "V-005", "procedure_id": "P-010", "matrix_marker": "required", "execution_order": 40, "conditional_flag": true, "condition_rule_id": "R-002" },
+      { "study_template_id": "ST-001", "matrix_row_id": "M-0025", "visit_id": "V-005", "procedure_id": "P-009", "matrix_marker": "conditional", "execution_order": 50, "condition_rule_id": "R-002" }
+    ],
+    "conditional_rules": [
+      { "study_template_id": "ST-001", "rule_id": "R-001", "rule_type": "safety", "expression": "ae_assessment.seriousness == 'SAE'", "trigger_entity": "field", "trigger_procedure_id": "P-005", "action": "require", "workflow_hook": "INVESTIGATOR_REVIEW" },
+      { "study_template_id": "ST-001", "rule_id": "R-002", "rule_type": "workflow", "expression": "visit.visit_type == 'et'", "trigger_entity": "visit", "trigger_visit_id": "V-005", "action": "require", "target_procedure_id": "P-010" },
+      { "study_template_id": "ST-001", "rule_id": "R-003", "rule_type": "lab", "expression": "safety_labs.lab_result_status == 'ABNORMAL'", "trigger_entity": "procedure", "trigger_procedure_id": "P-006", "action": "require", "workflow_hook": "INVESTIGATOR_REVIEW" }
+    ],
+    "schedule_windows": [
+      { "study_template_id": "ST-001", "window_id": "W-001", "visit_id": "V-001", "anchor_event": "ENROLL", "offset_value": -14, "window_min": -30, "window_max": -1, "window_unit": "day", "grace_days": 0, "phone_offsite_allowed": false },
+      { "study_template_id": "ST-001", "window_id": "W-002", "visit_id": "V-002", "anchor_event": "IP_FIRST_DOSE", "offset_value": 0, "window_min": 1, "window_max": 1, "window_unit": "day" },
+      { "study_template_id": "ST-001", "window_id": "W-003", "visit_id": "V-003", "anchor_event": "IP_FIRST_DOSE", "offset_value": 7, "window_min": 5, "window_max": 9, "window_unit": "day", "grace_days": 1 },
+      { "study_template_id": "ST-001", "window_id": "W-004", "visit_id": "V-004", "anchor_event": "IP_FIRST_DOSE", "offset_value": 30, "window_min": 23, "window_max": 37, "window_unit": "day", "grace_days": 2 },
+      { "study_template_id": "ST-001", "window_id": "W-005", "visit_id": "V-005", "window_unit": "day", "holiday_weekend_policy": "ALLOW", "phone_offsite_allowed": true }
+    ],
+    "external_source_map": [
+      { "study_template_id": "ST-001", "external_source_id": "X-001", "procedure_id": "P-006", "system_name": "Central Safety Lab", "reference_required": true, "status_required": true, "sync_required": true },
+      { "study_template_id": "ST-001", "external_source_id": "X-002", "procedure_id": "P-008", "system_name": "eDiary Vendor Cloud", "reference_required": true, "status_required": true, "attachment_allowed": false }
+    ],
+    "substudy_map": [],
+    "roles_signoff": [
+      { "study_template_id": "ST-001", "role_row_id": "ROL-001", "scope_type": "study_template", "scope_id": "ST-001", "role_code": "coordinator", "can_execute": true, "can_review": true, "can_sign": false },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-002", "scope_type": "procedure", "scope_id": "P-001", "role_code": "investigator", "can_review": true, "can_sign": true, "signature_meaning_code": "REVIEWED" },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-003", "scope_type": "procedure", "scope_id": "P-005", "role_code": "investigator", "can_review": true, "can_sign": true, "signature_meaning_code": "REVIEWED" },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-004", "scope_type": "procedure", "scope_id": "P-007", "role_code": "investigator", "can_review": true, "can_sign": true, "signature_meaning_code": "REVIEWED" },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-005", "scope_type": "procedure", "scope_id": "P-009", "role_code": "investigator", "can_review": true, "can_sign": true, "signature_meaning_code": "REVIEWED" },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-006", "scope_type": "study_template", "scope_id": "ST-001", "role_code": "monitor", "can_review": true, "can_sign": false },
+      { "study_template_id": "ST-001", "role_row_id": "ROL-007", "scope_type": "study_template", "scope_id": "ST-001", "role_code": "study_admin", "can_execute": true, "can_review": true, "can_reopen": true }
+    ],
+    "value_lists": [
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "SCHEDULED", "item_label": "Scheduled", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "EOS", "item_label": "End of Study", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_TYPE", "item_code": "ET", "item_label": "Early Termination", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "ONSITE", "item_label": "On-site", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "PHONE", "item_label": "Phone", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "VISIT_MODE", "item_code": "HYBRID", "item_label": "Hybrid", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "INTERNAL", "item_label": "Internal", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "EXTERNAL", "item_label": "External", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_TYPE", "item_code": "OPERATIONAL", "item_label": "Operational Confirmation", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REQUIREMENT_STATUS", "item_code": "REQUIRED", "item_label": "Required", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REQUIREMENT_STATUS", "item_code": "CONDITIONAL", "item_label": "Conditional", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "TEXT", "item_label": "Text", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "NUMBER", "item_label": "Number", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "BOOLEAN", "item_label": "Boolean", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "CODED", "item_label": "Coded", "sort_order": 4, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "DATA_TYPE", "item_code": "DATETIME", "item_label": "Date/Time", "sort_order": 5, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "ROLE_NAME", "item_code": "COORDINATOR", "item_label": "Coordinator", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "ROLE_NAME", "item_code": "INVESTIGATOR", "item_label": "Investigator", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "RULE_ACTION", "item_code": "REQUIRE", "item_label": "Require", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "REVIEWER_STATUS", "item_code": "PENDING", "item_label": "Pending", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "MODULE_CATEGORY", "item_code": "INTEGRATION", "item_label": "Integration", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-001", "list_code": "SOURCE_CAPTURE", "item_code": "HYBRID", "item_label": "Hybrid", "sort_order": 1, "active_flag": true }
+    ],
+    "field_definitions": [
+      { "study_template_id": "ST-001", "field_row_id": "F-001", "field_key": "systolic_bp", "section_code": "vitals", "display_label": "Systolic BP", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "mmHg", "export_name": "SBP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-002", "field_key": "diastolic_bp", "section_code": "vitals", "display_label": "Diastolic BP", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "mmHg", "export_name": "DBP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-003", "field_key": "heart_rate", "section_code": "vitals", "display_label": "Heart Rate", "data_type": "integer", "is_required": true, "procedure_id": "P-003", "unit": "bpm", "export_name": "HR" },
+      { "study_template_id": "ST-001", "field_row_id": "F-004", "field_key": "temperature", "section_code": "vitals", "display_label": "Temperature", "data_type": "number", "is_required": true, "procedure_id": "P-003", "unit": "C", "export_name": "TEMP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-005", "field_key": "ae_present", "section_code": "ae", "display_label": "AE Present", "data_type": "boolean", "is_required": true, "procedure_id": "P-005", "export_name": "AE_PRESENT" },
+      { "study_template_id": "ST-001", "field_row_id": "F-006", "field_key": "ae_term", "section_code": "ae", "display_label": "AE Term", "data_type": "text", "is_required": false, "procedure_id": "P-005", "conditional_visibility_rule_id": "R-001", "export_name": "AE_TERM" },
+      { "study_template_id": "ST-001", "field_row_id": "F-007", "field_key": "severity", "section_code": "ae", "display_label": "Severity", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_SEVERITY", "export_name": "AE_SEV" },
+      { "study_template_id": "ST-001", "field_row_id": "F-008", "field_key": "seriousness", "section_code": "ae", "display_label": "Seriousness", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_SERIOUSNESS", "export_name": "AE_SER" },
+      { "study_template_id": "ST-001", "field_row_id": "F-009", "field_key": "relatedness", "section_code": "ae", "display_label": "Relatedness", "data_type": "coded", "is_required": false, "procedure_id": "P-005", "option_list_code": "AE_REL", "export_name": "AE_REL" },
+      { "study_template_id": "ST-001", "field_row_id": "F-010", "field_key": "action_taken", "section_code": "ae", "display_label": "Action Taken", "data_type": "text", "is_required": false, "procedure_id": "P-005", "export_name": "AE_ACTION" },
+      { "study_template_id": "ST-001", "field_row_id": "F-011", "field_key": "lab_panel_collected", "section_code": "labs", "display_label": "Lab Panel Collected", "data_type": "boolean", "is_required": true, "procedure_id": "P-006", "export_name": "LAB_COLL" },
+      { "study_template_id": "ST-001", "field_row_id": "F-012", "field_key": "lab_result_status", "section_code": "labs", "display_label": "Lab Result Status", "data_type": "coded", "is_required": true, "procedure_id": "P-006", "option_list_code": "LAB_STATUS", "export_name": "LAB_STATUS" },
+      { "study_template_id": "ST-001", "field_row_id": "F-013", "field_key": "external_lab_accession", "section_code": "labs", "display_label": "External Lab Accession", "data_type": "text", "is_required": true, "procedure_id": "P-006", "export_name": "LAB_ACC" },
+      { "study_template_id": "ST-001", "field_row_id": "F-014", "field_key": "ip_administered", "section_code": "ip", "display_label": "IP Administered", "data_type": "boolean", "is_required": true, "procedure_id": "P-007", "export_name": "IP_ADMIN" },
+      { "study_template_id": "ST-001", "field_row_id": "F-015", "field_key": "dose", "section_code": "ip", "display_label": "Dose", "data_type": "number", "is_required": false, "procedure_id": "P-007", "export_name": "IP_DOSE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-016", "field_key": "route", "section_code": "ip", "display_label": "Route", "data_type": "coded", "is_required": false, "procedure_id": "P-007", "option_list_code": "IP_ROUTE", "export_name": "IP_ROUTE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-017", "field_key": "administration_datetime", "section_code": "ip", "display_label": "Administration Date/Time", "data_type": "datetime", "is_required": false, "procedure_id": "P-007", "export_name": "IP_DT" },
+      { "study_template_id": "ST-001", "field_row_id": "F-018", "field_key": "epro_completed", "section_code": "epro", "display_label": "ePRO Completed", "data_type": "boolean", "is_required": true, "procedure_id": "P-008", "export_name": "EPRO_DONE" },
+      { "study_template_id": "ST-001", "field_row_id": "F-019", "field_key": "external_epro_id", "section_code": "epro", "display_label": "External ePRO ID", "data_type": "text", "is_required": true, "procedure_id": "P-008", "export_name": "EPRO_EXT_ID" },
+      { "study_template_id": "ST-001", "field_row_id": "F-020", "field_key": "completion_status", "section_code": "epro", "display_label": "Completion Status", "data_type": "coded", "is_required": true, "procedure_id": "P-008", "option_list_code": "EPRO_STATUS", "export_name": "EPRO_STATUS" },
+      { "study_template_id": "ST-001", "field_row_id": "F-021", "field_key": "disposition_status", "section_code": "closeout", "display_label": "Disposition Status", "data_type": "coded", "is_required": true, "procedure_id": "P-009", "option_list_code": "DISP_STATUS", "export_name": "DISP" },
+      { "study_template_id": "ST-001", "field_row_id": "F-022", "field_key": "early_termination_reason", "section_code": "closeout", "display_label": "Early Termination Reason", "data_type": "text", "is_required": true, "procedure_id": "P-010", "export_name": "ET_REASON" }
+    ],
+    "audit_and_versioning": [
+      {
+        "study_template_id": "ST-001",
+        "version_row_id": "VER-001",
+        "cpst_version": "v1.0.0",
+        "schema_version": "1.0.0",
+        "approval_state": "needs_review",
+        "deprecated_flag": false,
+        "migration_required_flag": false
+      }
+    ],
+    "domain_modules": {
+      "oncology_module": [],
+      "dose_escalation": [],
+      "crossover_design": [],
+      "adaptive_design_rules": [],
+      "decentralized_workflows": [],
+      "imaging_matrix": [],
+      "device_trial_controls": [],
+      "edc_reconciliation": [
+        {
+          "module_row_id": "MR-0002",
+          "study_template_id": "ST-001",
+          "module_id": "MOD-edc_reconciliation",
+          "compatible_core_schema_version": "^1.0.0",
+          "module_schema_version": "1.0.0",
+          "procedure_id": "P-006",
+          "active_flag": true,
+          "reconciliation_id": "EDC-001",
+          "source_record_id": "lab_result_status",
+          "ecrf_field": "LB_RESSTAT",
+          "mapping_status": "MAPPED"
+        }
+      ],
+      "epro_workflows": [
+        {
+          "module_row_id": "MR-0001",
+          "study_template_id": "ST-001",
+          "module_id": "MOD-epro_workflows",
+          "compatible_core_schema_version": "^1.0.0",
+          "module_schema_version": "1.0.0",
+          "procedure_id": "P-008",
+          "active_flag": true,
+          "epro_id": "EPR-001",
+          "instrument_name": "Daily Symptom eDiary",
+          "schedule_cadence": "daily",
+          "device_app": "eDiary Vendor App",
+          "reminder_flag": true,
+          "missing_response_flag": true,
+          "compliance_threshold": 80,
+          "rescue_workflow_required": true
+        }
+      ],
+      "pediatric_consent_assent": []
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "validation": {
+    "structural": true,
+    "ajv": false
+  }
+}

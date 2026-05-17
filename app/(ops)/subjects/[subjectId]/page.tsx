@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { ConmedSection } from '@/components/subject/conmed-section'
+import { MedicalHistorySection } from '@/components/subject/medical-history-section'
 import {
   Card,
   CardContent,
@@ -7,6 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  listSubjectConmedsAction,
+  listSubjectMedicalHistoryAction,
+} from '@/lib/subject/patient-profile/actions'
 import { createServerClient } from '@/lib/supabase/server'
 
 type SubjectDetailPageProps = {
@@ -24,6 +30,7 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
       id,
       subject_identifier,
       enrollment_status,
+      organization_id,
       study_id,
       studies(id, name, slug)
     `,
@@ -35,19 +42,30 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
     notFound()
   }
 
+  const organizationId = subject.organization_id as string
   const nestedStudy = Array.isArray(subject.studies) ? subject.studies[0] : subject.studies
   const study = nestedStudy as { id: string; name: string; slug: string | null } | null
 
-  const { data: visits, error: visErr } = await supabase
-    .from('visits')
-    .select(`
+  const [historyResult, conmedResult, visitsResult] = await Promise.all([
+    listSubjectMedicalHistoryAction(subjectId, organizationId),
+    listSubjectConmedsAction(subjectId, organizationId),
+    supabase
+      .from('visits')
+      .select(
+        `
       id,
       scheduled_date,
       visit_status,
       visit_definitions(code,label)
-    `)
-    .eq('study_subject_id', subjectId)
-    .order('scheduled_date', { ascending: false })
+    `,
+      )
+      .eq('study_subject_id', subjectId)
+      .order('scheduled_date', { ascending: false }),
+  ])
+
+  const medicalHistory = historyResult.ok ? historyResult.data : []
+  const conmeds = conmedResult.ok ? conmedResult.data : []
+  const { data: visits, error: visErr } = visitsResult
 
   return (
     <div className="space-y-6">
@@ -76,7 +94,24 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
           Enrollment{' '}
           <span className="font-medium text-foreground">{subject.enrollment_status}</span>
         </p>
+        <p className="text-xs text-muted-foreground">
+          Coordinator documentation support only — catalog search does not create patient records
+          until saved below.
+        </p>
       </div>
+
+      <MedicalHistorySection
+        studySubjectId={subjectId}
+        organizationId={organizationId}
+        initialRows={medicalHistory}
+      />
+
+      <ConmedSection
+        studySubjectId={subjectId}
+        organizationId={organizationId}
+        initialRows={conmeds}
+        medicalHistory={medicalHistory}
+      />
 
       <Card>
         <CardHeader>
@@ -96,10 +131,15 @@ export default async function SubjectDetailPage({ params }: SubjectDetailPagePro
                   : v.visit_definitions
                 const def = vd as { code?: string; label?: string } | null
                 return (
-                  <li key={v.id} className="flex flex-wrap items-center justify-between gap-3 px-3 py-2 text-sm">
-                    <Link href={`/visits/${v.id}`} className="font-medium text-primary hover:underline">
-                      {def?.label ?? def?.code ?? 'Visit'} ·{' '}
-                      {v.scheduled_date ?? 'pending date'}
+                  <li
+                    key={v.id}
+                    className="flex flex-wrap items-center justify-between gap-3 px-3 py-2 text-sm"
+                  >
+                    <Link
+                      href={`/visits/${v.id}`}
+                      className="font-medium text-primary hover:underline"
+                    >
+                      {def?.label ?? def?.code ?? 'Visit'} · {v.scheduled_date ?? 'pending date'}
                     </Link>
                     <span className="text-muted-foreground">{v.visit_status}</span>
                   </li>

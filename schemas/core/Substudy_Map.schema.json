@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Substudy_Map/1.0.0",
+  "title": "Substudy Map Row",
+  "description": "Substudy membership and restrictions (e.g. PK cohort).",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "substudy_map_id": {
+      "$ref": "../common/common.schema.json#/$defs/SubstudyMapID"
+    },
+    "substudy_code": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "cohort_criteria": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "sex_restriction": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "age_min": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 150
+    },
+    "age_max": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 150
+    },
+    "region_code": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "substudy_map_id",
+    "substudy_code"
+  ]
+}

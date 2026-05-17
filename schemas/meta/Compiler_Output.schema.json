@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/Compiler_Output/1.0.0",
+  "title": "Compiler Output",
+  "description": "Source definition compiler artifact prior to Phase 4A persistence.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "compiler_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "cpst_version": {
+      "$ref": "../common/common.schema.json#/$defs/CpstVersion"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "crg_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "source_definition_versions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "instrument_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "version_label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "effective_date": {
+            "$ref": "../common/common.schema.json#/$defs/ISODate"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "approved",
+              "published"
+            ]
+          }
+        },
+        "required": [
+          "instrument_code",
+          "version_label",
+          "status"
+        ]
+      }
+    },
+    "source_sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "section_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "sort_order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "procedure_id": {
+            "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+          }
+        },
+        "required": [
+          "section_code",
+          "label",
+          "sort_order",
+          "procedure_id"
+        ]
+      }
+    },
+    "source_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field_key": {
+            "$ref": "../common/common.schema.json#/$defs/FieldName"
+          },
+          "procedure_id": {
+            "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+          },
+          "section_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "input_type": {
+            "$ref": "../common/common.schema.json#/$defs/DataType"
+          },
+          "is_required": {
+            "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+          },
+          "validation_rules": {
+            "type": "object",
+            "additionalProperties": false
+          },
+          "options_manifest_key": {
+            "$ref": "../common/common.schema.json#/$defs/ControlledListName"
+          },
+          "export_name": {
+            "$ref": "../common/common.schema.json#/$defs/ExportName"
+          },
+          "provenance": {
+            "$ref": "../common/common.schema.json#/$defs/ProvenanceReference"
+          }
+        },
+        "required": [
+          "field_key",
+          "procedure_id",
+          "section_code",
+          "label",
+          "input_type",
+          "is_required",
+          "provenance"
+        ]
+      }
+    },
+    "validation_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "conditional_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "workflow_requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "signature_requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "runtime_expectations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "external_source_requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false
+      }
+    },
+    "provenance_map": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "../common/common.schema.json#/$defs/ProvenanceReference"
+      }
+    },
+    "validation_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "passed": {
+          "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ]
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ]
+          }
+        }
+      },
+      "required": [
+        "passed",
+        "errors",
+        "warnings"
+      ]
+    }
+  },
+  "required": [
+    "compiler_version",
+    "schema_version",
+    "cpst_version",
+    "study_template_id",
+    "input_hash",
+    "crg_hash",
+    "source_definition_versions",
+    "source_sections",
+    "source_fields",
+    "validation_rules",
+    "conditional_rules",
+    "workflow_requirements",
+    "signature_requirements",
+    "runtime_expectations",
+    "external_source_requirements",
+    "provenance_map",
+    "validation_report"
+  ]
+}

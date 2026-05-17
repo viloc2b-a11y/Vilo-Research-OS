@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Audit_and_Versioning/1.0.0",
+  "title": "Audit and Versioning Row",
+  "description": "Template/version governance and publish gate.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "version_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/VersionID"
+    },
+    "cpst_version": {
+      "$ref": "../common/common.schema.json#/$defs/CpstVersion"
+    },
+    "schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "approval_state": {
+      "$ref": "../common/common.schema.json#/$defs/ApprovalState"
+    },
+    "approved_by": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "approved_at": {
+      "$ref": "../common/common.schema.json#/$defs/ISODateTime"
+    },
+    "published_at": {
+      "$ref": "../common/common.schema.json#/$defs/ISODateTime"
+    },
+    "publisher_user_id": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "supersedes_cpst_version": {
+      "$ref": "../common/common.schema.json#/$defs/CpstVersion"
+    },
+    "ingestion_job_id": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "crg_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "deprecated_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "migration_required_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "version_row_id",
+    "cpst_version",
+    "schema_version",
+    "approval_state"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "approval_state": {
+            "const": "approved"
+          }
+        },
+        "required": [
+          "approval_state"
+        ]
+      },
+      "then": {
+        "required": [
+          "approved_by",
+          "approved_at"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "approval_state": {
+            "const": "published"
+          }
+        },
+        "required": [
+          "approval_state"
+        ]
+      },
+      "then": {
+        "required": [
+          "published_at",
+          "publisher_user_id",
+          "input_hash",
+          "crg_hash"
+        ]
+      }
+    }
+  ]
+}

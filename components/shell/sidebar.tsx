@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 const navItems = [
   { href: '/', label: 'Dashboard' },
   { href: '/studies', label: 'Studies' },
+  { href: '/source-builder', label: 'Source builder' },
 ]
 
 type SidebarProps = {

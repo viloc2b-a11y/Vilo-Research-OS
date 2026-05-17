@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Procedure_Library/1.0.0",
+  "title": "Procedure Library Row",
+  "description": "Reusable procedure capabilities (operational unit).",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "procedure_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "procedure_label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "category": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "source_type": {
+      "$ref": "../common/common.schema.json#/$defs/SourceType"
+    },
+    "default_instrument_code": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "detail_level": {
+      "$ref": "../common/common.schema.json#/$defs/DetailLevel"
+    },
+    "external_reference_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "signature_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "owner_role": {
+      "$ref": "../common/common.schema.json#/$defs/RoleName"
+    },
+    "repeatable": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "units": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "procedure_id",
+    "procedure_label",
+    "category",
+    "source_type",
+    "active_flag"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Study_Setup/1.0.0",
+  "title": "Study Setup Row",
+  "description": "Study-level protocol metadata and compiler scope root.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "protocol_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "protocol_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "amendment_id": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "study_phase": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "population_summary": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "sponsor_organization": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "cro_organization": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "effective_date": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "cpst_version": {
+      "$ref": "../common/common.schema.json#/$defs/CpstVersion"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "protocol_number",
+    "protocol_version",
+    "study_phase",
+    "effective_date",
+    "cpst_version"
+  ]
+}

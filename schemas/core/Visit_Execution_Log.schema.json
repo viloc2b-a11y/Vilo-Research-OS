@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Visit_Execution_Log/1.0.0",
+  "title": "Visit Execution Log Row",
+  "description": "Runtime support only; not canonical compiler design input. Maps to visits, procedure_executions, source_response_sets. Must not reverse-feed CPST without amendment workflow.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "visit_instance_id": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "scheduled_date": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "actual_date": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "performed_status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "performed",
+        "not_done",
+        "waived"
+      ]
+    },
+    "reviewed_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewed",
+        "query_open"
+      ]
+    },
+    "signed_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "signed",
+        "not_required"
+      ]
+    },
+    "source_complete_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "deviation_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "external_capture_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "notes": {
+      "$ref": "../common/common.schema.json#/$defs/Notes"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "visit_instance_id",
+    "visit_id"
+  ]
+}

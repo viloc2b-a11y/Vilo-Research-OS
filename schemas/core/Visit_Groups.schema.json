@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Visit_Groups/1.0.0",
+  "title": "Visit Group Row",
+  "description": "Groups visits into study phases or stages.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "visit_group_code": {
+      "$ref": "../common/common.schema.json#/$defs/VisitGroupID"
+    },
+    "visit_group_label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "sort_order": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9999
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "visit_group_code",
+    "visit_group_label",
+    "sort_order",
+    "active_flag"
+  ]
+}

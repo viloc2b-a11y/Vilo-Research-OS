@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Oncology_Module/1.0.0",
+  "title": "Oncology Module Row",
+  "description": "Oncology complexity: cycles, RECIST, toxicity, progression.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-oncology_complexity"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "oncology_module_id": {
+      "type": "string",
+      "pattern": "^ONC-[0-9]{3}$"
+    },
+    "regimen_line": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "cycle_number": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 999
+    },
+    "cycle_day": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 28
+    },
+    "tumor_response": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "recist_status": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "ae_grade": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "hematologic_toxicity": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "nonhematologic_toxicity": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "disease_progression_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "survival_followup_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "notes": {
+      "$ref": "../common/common.schema.json#/$defs/Notes"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "oncology_module_id",
+    "regimen_line",
+    "cycle_number",
+    "cycle_day"
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "import_id": "golden-biospecimen-fixture-002",
+  "imported_at": "2026-05-16T21:00:00.000Z",
+  "source_workbook": "fixtures/cpst/golden-biospecimen/cpst-golden-biospecimen.import.json",
+  "manifest_path": "templates/cpst-workbook-v3.manifest.json",
+  "schema_version": "1.0.0",
+  "status": "valid",
+  "counts": { "sheets_processed": 0, "rows_imported": 0, "errors": 0, "warnings": 0 },
+  "data": {
+    "study_setup": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "protocol_number": "BIO-101",
+        "protocol_version": "v1.0",
+        "amendment_id": "AMEND-INITIAL",
+        "study_phase": "PHASE1",
+        "population_summary": "Biospecimen collection-only source study; canonical template alignment.",
+        "sponsor_organization": "Golden Biospecimen Sponsor",
+        "effective_date": "2026-02-01",
+        "cpst_version": "v1.0.0"
+      }
+    ],
+    "visit_groups": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "visit_group_code": "VG-BIO-001",
+        "visit_group_label": "Collection",
+        "sort_order": 10,
+        "active_flag": true
+      }
+    ],
+    "visit_templates": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "visit_id": "V-BIO-001",
+        "visit_code": "COLL",
+        "visit_label": "Screening / Collection Event",
+        "visit_group_code": "VG-BIO-001",
+        "sequence": 10,
+        "planned_day": 1,
+        "delivery_mode": "onsite",
+        "visit_type": "scheduled",
+        "active_flag": true
+      }
+    ],
+    "procedure_library": [
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-001", "procedure_code": "BIO_HEADER", "procedure_label": "Header", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-002", "procedure_code": "BIO_CONSENT", "procedure_label": "Consent", "category": "BIOSPECIMEN", "source_type": "operational_confirmation", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-003", "procedure_code": "BIO_SPECIMEN", "procedure_label": "Specimen", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-004", "procedure_code": "BIO_PROCESS", "procedure_label": "Processing", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-005", "procedure_code": "BIO_STORAGE", "procedure_label": "Storage", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-006", "procedure_code": "BIO_SHIPPING", "procedure_label": "Shipping", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "coordinator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-007", "procedure_code": "BIO_QUALITY", "procedure_label": "Quality", "category": "BIOSPECIMEN", "source_type": "internal", "owner_role": "investigator", "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "procedure_id": "P-BIO-008", "procedure_code": "BIO_CLOSEOUT", "procedure_label": "Closeout", "category": "BIOSPECIMEN", "source_type": "internal", "signature_required": true, "owner_role": "investigator", "active_flag": true }
+    ],
+    "visit_procedure_matrix": [
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-001", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-001", "matrix_marker": "required", "execution_order": 10 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-002", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-002", "matrix_marker": "required", "execution_order": 20 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-003", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-003", "matrix_marker": "required", "execution_order": 30 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-004", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-004", "matrix_marker": "required", "execution_order": 40 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-005", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-005", "matrix_marker": "required", "execution_order": 50 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-006", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-006", "matrix_marker": "required", "execution_order": 60 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-007", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-007", "matrix_marker": "required", "execution_order": 70 },
+      { "study_template_id": "ST-BIO-001", "matrix_row_id": "M-BIO-008", "visit_id": "V-BIO-001", "procedure_id": "P-BIO-008", "matrix_marker": "required", "execution_order": 80 }
+    ],
+    "conditional_rules": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "rule_id": "R-BIO-001",
+        "rule_type": "workflow",
+        "expression": "consent_obtained != true",
+        "trigger_entity": "field",
+        "trigger_procedure_id": "P-BIO-002",
+        "action": "block",
+        "target_procedure_id": "P-BIO-003",
+        "workflow_hook": "BIOSPECIMEN_CONSENT_GATE"
+      },
+      {
+        "study_template_id": "ST-BIO-001",
+        "rule_id": "R-BIO-002",
+        "rule_type": "quality",
+        "expression": "sample_rejected == true",
+        "trigger_entity": "field",
+        "trigger_procedure_id": "P-BIO-007",
+        "action": "require",
+        "target_procedure_id": "P-BIO-007"
+      },
+      {
+        "study_template_id": "ST-BIO-001",
+        "rule_id": "R-BIO-003",
+        "rule_type": "quality",
+        "expression": "deviation_flag == true",
+        "trigger_entity": "field",
+        "trigger_procedure_id": "P-BIO-007",
+        "action": "require",
+        "target_procedure_id": "P-BIO-007"
+      },
+      {
+        "study_template_id": "ST-BIO-001",
+        "rule_id": "R-BIO-004",
+        "rule_type": "workflow",
+        "expression": "source_complete == true",
+        "trigger_entity": "field",
+        "trigger_procedure_id": "P-BIO-008",
+        "action": "require",
+        "workflow_hook": "BIOSPECIMEN_CLOSEOUT_REVIEW"
+      }
+    ],
+    "schedule_windows": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "window_id": "W-BIO-001",
+        "visit_id": "V-BIO-001",
+        "anchor_event": "ENROLL",
+        "offset_value": 1,
+        "window_min": 0,
+        "window_max": 3,
+        "window_unit": "day"
+      }
+    ],
+    "external_source_map": [],
+    "substudy_map": [],
+    "roles_signoff": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "role_row_id": "ROL-BIO-001",
+        "scope_type": "study_template",
+        "scope_id": "ST-BIO-001",
+        "role_code": "coordinator",
+        "can_execute": true,
+        "can_review": true
+      },
+      {
+        "study_template_id": "ST-BIO-001",
+        "role_row_id": "ROL-BIO-002",
+        "scope_type": "procedure",
+        "scope_id": "P-BIO-008",
+        "role_code": "investigator",
+        "can_review": true,
+        "can_sign": true,
+        "signature_meaning_code": "REVIEWED"
+      }
+    ],
+    "value_lists": [
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "WHOLE_BLOOD", "item_label": "Whole Blood", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "PLASMA", "item_label": "Plasma", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "SERUM", "item_label": "Serum", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "SALIVA", "item_label": "Saliva", "sort_order": 4, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "URINE", "item_label": "Urine", "sort_order": 5, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SPECIMEN_TYPE", "item_code": "TISSUE", "item_label": "Tissue", "sort_order": 6, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "QUANTITY_UNIT", "item_code": "ML", "item_label": "mL", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "QUANTITY_UNIT", "item_code": "UG", "item_label": "ug", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "QUANTITY_UNIT", "item_code": "PIECES", "item_label": "Pieces", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "COLLECTION_CONDITION", "item_code": "NORMAL", "item_label": "Normal", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "COLLECTION_CONDITION", "item_code": "HEMOLYZED", "item_label": "Hemolyzed", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "COLLECTION_CONDITION", "item_code": "INSUFFICIENT", "item_label": "Insufficient", "sort_order": 3, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "COLLECTION_CONDITION", "item_code": "CONTAMINATED", "item_label": "Contaminated", "sort_order": 4, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SHIP_CONDITION", "item_code": "FROZEN", "item_label": "Frozen", "sort_order": 1, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SHIP_CONDITION", "item_code": "REFRIGERATED", "item_label": "Refrigerated", "sort_order": 2, "active_flag": true },
+      { "study_template_id": "ST-BIO-001", "list_code": "SHIP_CONDITION", "item_code": "AMBIENT", "item_label": "Ambient", "sort_order": 3, "active_flag": true }
+    ],
+    "field_definitions": [
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-001", "field_key": "study_protocol", "section_code": "header", "display_label": "Study Protocol", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "STUDY_PROTOCOL" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-002", "field_key": "protocol_version", "section_code": "header", "display_label": "Protocol Version", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "PROTOCOL_VERSION" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-003", "field_key": "site_name", "section_code": "header", "display_label": "Site Name", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "SITE_NAME" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-004", "field_key": "subject_id", "section_code": "header", "display_label": "Subject ID", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "SUBJECT_ID" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-005", "field_key": "collection_event", "section_code": "header", "display_label": "Collection Event", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "COLLECTION_EVENT" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-006", "field_key": "collection_date", "section_code": "header", "display_label": "Collection Date", "data_type": "date", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "COLLECTION_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-007", "field_key": "collection_time", "section_code": "header", "display_label": "Collection Time", "data_type": "time", "is_required": true, "procedure_id": "P-BIO-001", "export_name": "COLLECTION_TIME" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-008", "field_key": "consent_obtained", "section_code": "consent", "display_label": "Consent Obtained", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-002", "export_name": "CONSENT_OBTAINED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-009", "field_key": "consent_version", "section_code": "consent", "display_label": "Consent Version", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-002", "export_name": "CONSENT_VERSION" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-010", "field_key": "consent_date", "section_code": "consent", "display_label": "Consent Date", "data_type": "date", "is_required": true, "procedure_id": "P-BIO-002", "export_name": "CONSENT_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-011", "field_key": "consent_verified_by", "section_code": "consent", "display_label": "Consent Verified By", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-002", "export_name": "CONSENT_VERIFIED_BY" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-012", "field_key": "reconsent_required", "section_code": "consent", "display_label": "Reconsent Required", "data_type": "boolean", "is_required": false, "procedure_id": "P-BIO-002", "export_name": "RECONSENT_REQUIRED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-013", "field_key": "specimen_type", "section_code": "specimen", "display_label": "Specimen Type", "data_type": "dropdown", "is_required": true, "procedure_id": "P-BIO-003", "option_list_code": "SPECIMEN_TYPE", "export_name": "SPECIMEN_TYPE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-014", "field_key": "specimen_subtype", "section_code": "specimen", "display_label": "Specimen Subtype", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-003", "export_name": "SPECIMEN_SUBTYPE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-015", "field_key": "container_type", "section_code": "specimen", "display_label": "Container Type", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-003", "export_name": "CONTAINER_TYPE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-016", "field_key": "label_id", "section_code": "specimen", "display_label": "Label ID", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-003", "export_name": "LABEL_ID" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-017", "field_key": "quantity_collected", "section_code": "specimen", "display_label": "Quantity Collected", "data_type": "number", "is_required": true, "procedure_id": "P-BIO-003", "min_value": 0, "export_name": "QTY_COLLECTED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-018", "field_key": "quantity_unit", "section_code": "specimen", "display_label": "Quantity Unit", "data_type": "dropdown", "is_required": true, "procedure_id": "P-BIO-003", "option_list_code": "QUANTITY_UNIT", "export_name": "QTY_UNIT" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-019", "field_key": "collection_method", "section_code": "specimen", "display_label": "Collection Method", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-003", "export_name": "COLLECTION_METHOD" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-020", "field_key": "collection_performed_by", "section_code": "specimen", "display_label": "Collection Performed By", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-003", "export_name": "COLLECTION_BY" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-021", "field_key": "collection_condition", "section_code": "specimen", "display_label": "Collection Condition", "data_type": "dropdown", "is_required": false, "procedure_id": "P-BIO-003", "option_list_code": "COLLECTION_CONDITION", "export_name": "COLLECTION_CONDITION" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-022", "field_key": "processed", "section_code": "processing", "display_label": "Processed", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-004", "export_name": "PROCESSED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-023", "field_key": "processing_date", "section_code": "processing", "display_label": "Processing Date", "data_type": "date", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "PROCESSING_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-024", "field_key": "processing_time", "section_code": "processing", "display_label": "Processing Time", "data_type": "time", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "PROCESSING_TIME" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-025", "field_key": "processed_by", "section_code": "processing", "display_label": "Processed By", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "PROCESSED_BY" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-026", "field_key": "processing_method", "section_code": "processing", "display_label": "Processing Method", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "PROCESSING_METHOD" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-027", "field_key": "aliquoted", "section_code": "processing", "display_label": "Aliquoted", "data_type": "boolean", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "ALIQUOTED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-028", "field_key": "aliquot_count", "section_code": "processing", "display_label": "Aliquot Count", "data_type": "integer", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "ALIQUOT_COUNT" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-029", "field_key": "storage_temperature", "section_code": "processing", "display_label": "Storage Temperature", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-004", "export_name": "STORAGE_TEMP" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-030", "field_key": "storage_location", "section_code": "storage", "display_label": "Storage Location", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-005", "export_name": "STORAGE_LOCATION" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-031", "field_key": "rack_box_position", "section_code": "storage", "display_label": "Rack/Box Position", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-005", "export_name": "RACK_BOX_POS" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-032", "field_key": "stored_by", "section_code": "storage", "display_label": "Stored By", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-005", "export_name": "STORED_BY" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-033", "field_key": "storage_date", "section_code": "storage", "display_label": "Storage Date", "data_type": "date", "is_required": true, "procedure_id": "P-BIO-005", "export_name": "STORAGE_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-034", "field_key": "ship_required", "section_code": "shipping", "display_label": "Ship Required", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-006", "export_name": "SHIP_REQUIRED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-035", "field_key": "destination_lab", "section_code": "shipping", "display_label": "Destination Lab", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-006", "export_name": "DESTINATION_LAB" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-036", "field_key": "ship_date", "section_code": "shipping", "display_label": "Ship Date", "data_type": "date", "is_required": false, "procedure_id": "P-BIO-006", "export_name": "SHIP_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-037", "field_key": "courier_name", "section_code": "shipping", "display_label": "Courier Name", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-006", "export_name": "COURIER_NAME" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-038", "field_key": "tracking_number", "section_code": "shipping", "display_label": "Tracking Number", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-006", "export_name": "TRACKING_NUMBER" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-039", "field_key": "ship_condition", "section_code": "shipping", "display_label": "Ship Condition", "data_type": "dropdown", "is_required": false, "procedure_id": "P-BIO-006", "option_list_code": "SHIP_CONDITION", "export_name": "SHIP_CONDITION" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-040", "field_key": "sample_acceptable", "section_code": "quality", "display_label": "Sample Acceptable", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-007", "export_name": "SAMPLE_ACCEPTABLE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-041", "field_key": "deviation_flag", "section_code": "quality", "display_label": "Deviation Flag", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-007", "export_name": "DEVIATION_FLAG" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-042", "field_key": "deviation_description", "section_code": "quality", "display_label": "Deviation Description", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-007", "export_name": "DEVIATION_DESC" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-043", "field_key": "sample_rejected", "section_code": "quality", "display_label": "Sample Rejected", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-007", "export_name": "SAMPLE_REJECTED" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-044", "field_key": "rejection_reason", "section_code": "quality", "display_label": "Rejection Reason", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-007", "export_name": "REJECTION_REASON" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-045", "field_key": "source_complete", "section_code": "closeout", "display_label": "Source Complete", "data_type": "boolean", "is_required": true, "procedure_id": "P-BIO-008", "export_name": "SOURCE_COMPLETE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-046", "field_key": "reviewed_by", "section_code": "closeout", "display_label": "Reviewed By", "data_type": "text", "is_required": true, "procedure_id": "P-BIO-008", "export_name": "REVIEWED_BY" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-047", "field_key": "reviewed_date", "section_code": "closeout", "display_label": "Reviewed Date", "data_type": "date", "is_required": true, "procedure_id": "P-BIO-008", "export_name": "REVIEWED_DATE" },
+      { "study_template_id": "ST-BIO-001", "field_row_id": "F-BIO-048", "field_key": "comments", "section_code": "closeout", "display_label": "Comments", "data_type": "text", "is_required": false, "procedure_id": "P-BIO-008", "export_name": "COMMENTS" }
+    ],
+    "audit_and_versioning": [
+      {
+        "study_template_id": "ST-BIO-001",
+        "version_row_id": "VER-BIO-001",
+        "cpst_version": "v1.0.0",
+        "schema_version": "1.0.0",
+        "approval_state": "needs_review",
+        "deprecated_flag": false,
+        "migration_required_flag": false
+      }
+    ],
+    "domain_modules": {
+      "oncology_module": [],
+      "dose_escalation": [],
+      "crossover_design": [],
+      "adaptive_design_rules": [],
+      "decentralized_workflows": [],
+      "imaging_matrix": [],
+      "device_trial_controls": [],
+      "edc_reconciliation": [],
+      "epro_workflows": [],
+      "pediatric_consent_assent": [],
+      "biospecimen_collection_module": [
+        {
+          "module_row_id": "MR-BIO-001",
+          "biospecimen_module_id": "BSM-001",
+          "study_template_id": "ST-BIO-001",
+          "module_id": "MOD-biospecimen_collection",
+          "compatible_core_schema_version": "^1.0.0",
+          "module_schema_version": "1.0.0",
+          "visit_id": "V-BIO-001",
+          "procedure_id": "P-BIO-003",
+          "collection_event_name": "Baseline",
+          "specimen_type": "WHOLE_BLOOD",
+          "container_type": "EDTA Tube",
+          "collection_required": true,
+          "consent_verification_required": true,
+          "collection_datetime_required": true,
+          "collected_by_required": true,
+          "volume_required": true,
+          "processing_required": true,
+          "processing_time_required": true,
+          "aliquot_required": true,
+          "storage_required": true,
+          "storage_temperature_required": true,
+          "storage_location_required": true,
+          "shipment_required": true,
+          "courier_tracking_required": true,
+          "destination_lab_required": true,
+          "chain_of_custody_required": true,
+          "quality_check_required": true,
+          "deviation_capture_required": true,
+          "reviewer_required": true,
+          "active_flag": true,
+          "biospecimen_minimal_mode": false,
+          "source_document_mode": "full",
+          "notes": "Canonical biospecimen source document; fields in Field_Definitions."
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "validation": { "structural": true, "ajv": false }
+}

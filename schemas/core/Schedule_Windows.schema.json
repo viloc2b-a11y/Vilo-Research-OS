@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Schedule_Windows/1.0.0",
+  "title": "Schedule Window Row",
+  "description": "Temporal constraints per visit.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "window_id": {
+      "$ref": "../common/common.schema.json#/$defs/WindowID"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "anchor_event": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "offset_value": {
+      "type": "integer",
+      "minimum": -3650,
+      "maximum": 3650
+    },
+    "window_min": {
+      "type": "integer"
+    },
+    "window_max": {
+      "type": "integer"
+    },
+    "window_unit": {
+      "$ref": "../common/common.schema.json#/$defs/WindowUnit"
+    },
+    "grace_days": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 365
+    },
+    "holiday_weekend_policy": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "phone_offsite_allowed": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "window_id",
+    "visit_id",
+    "window_unit"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "required": [
+          "window_min",
+          "window_max"
+        ]
+      },
+      "then": {
+        "properties": {
+          "window_max": {
+            "type": "integer"
+          },
+          "window_min": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  ]
+}

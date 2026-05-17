@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Dose_Escalation/1.0.0",
+  "title": "Dose Escalation Row",
+  "description": "Dose escalation cohorts, DLT windows, escalation decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-dose_escalation"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "dose_escalation_id": {
+      "type": "string",
+      "pattern": "^DE-[0-9]{3}$"
+    },
+    "cohort": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "dose_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999
+    },
+    "sentinel_subject_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "dlt_window_start": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "dlt_window_end": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "escalation_decision": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "safety_review_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "stop_and_hold_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "replacement_subject_allowed": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "dose_escalation_id",
+    "cohort",
+    "dose_level",
+    "dlt_window_start",
+    "dlt_window_end"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "dlt_window_start",
+          "dlt_window_end"
+        ]
+      },
+      "then": {
+        "properties": {
+          "dlt_window_end": {
+            "type": "string",
+            "format": "date"
+          },
+          "dlt_window_start": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "library_version": "1.0.0",
+  "library_id": "vilo-procedure-documentation-profiles",
+  "description": "Reusable coordinator-first procedure documentation profiles derived from a complex interventional SoE reference. Not protocol-specific.",
+  "source_reference": "complex_schedule_of_events_operational_extract",
+  "profile_count": 68,
+  "categories": [
+    { "code": "CAT_REGULATORY_ENROLLMENT", "label": "Regulatory / Enrollment" },
+    { "code": "CAT_QUESTIONNAIRE_COA", "label": "Questionnaires / COA / ePRO" },
+    { "code": "CAT_CLINICAL_REVIEW", "label": "Medical / Clinical Review" },
+    { "code": "CAT_VITALS_BODY", "label": "Vitals / Body Measurements" },
+    { "code": "CAT_CARDIAC", "label": "Cardiac" },
+    { "code": "CAT_LAB_SAMPLE", "label": "Laboratory Sample Collection" },
+    { "code": "CAT_LAB_PANEL", "label": "Laboratory Panel / Assay" },
+    { "code": "CAT_IMAGING", "label": "Imaging" },
+    { "code": "CAT_OPHTHALMOLOGY", "label": "Ophthalmology" },
+    { "code": "CAT_TREATMENT_IP", "label": "Treatment / IP" },
+    { "code": "CAT_FOLLOWUP", "label": "Follow-up / Visit Closure" }
+  ],
+  "documentation_styles": [
+    { "code": "STYLE_REGULATORY_ATTEST", "label": "Regulatory attestation", "field_template": "TMPL_REGULATORY_ATTEST" },
+    { "code": "STYLE_ELIGIBILITY_CHECK", "label": "Eligibility checklist", "field_template": "TMPL_ELIGIBILITY_CHECK" },
+    { "code": "STYLE_TRAINING_ATTEST", "label": "Training attestation", "field_template": "TMPL_TRAINING_ATTEST" },
+    { "code": "STYLE_QUESTIONNAIRE", "label": "Questionnaire / COA completion", "field_template": "TMPL_QUESTIONNAIRE" },
+    { "code": "STYLE_CLINICAL_REVIEW", "label": "Clinical review log", "field_template": "TMPL_CLINICAL_REVIEW" },
+    { "code": "STYLE_VITALS", "label": "Vitals capture", "field_template": "TMPL_VITALS" },
+    { "code": "STYLE_BODY_MEASURE", "label": "Single body measurement", "field_template": "TMPL_BODY_MEASURE" },
+    { "code": "STYLE_ECG", "label": "ECG result summary", "field_template": "TMPL_ECG" },
+    { "code": "STYLE_LAB_SAMPLE", "label": "Specimen collection", "field_template": "TMPL_LAB_SAMPLE" },
+    { "code": "STYLE_LAB_PANEL", "label": "Lab panel result", "field_template": "TMPL_LAB_PANEL" },
+    { "code": "STYLE_URINALYSIS", "label": "Urinalysis dipstick", "field_template": "TMPL_URINALYSIS" },
+    { "code": "STYLE_PREGNANCY_TEST", "label": "Pregnancy test", "field_template": "TMPL_PREGNANCY_TEST" },
+    { "code": "STYLE_IMAGING", "label": "Imaging procedure", "field_template": "TMPL_IMAGING" },
+    { "code": "STYLE_OPHTHAL_EXAM", "label": "Ophthalmology examination", "field_template": "TMPL_OPHTHAL_EXAM" },
+    { "code": "STYLE_IP_ADMIN", "label": "IP administration", "field_template": "TMPL_IP_ADMIN" },
+    { "code": "STYLE_INJECTION_SITE", "label": "Injection site assessment", "field_template": "TMPL_INJECTION_SITE" },
+    { "code": "STYLE_POST_DOSE_OBS", "label": "Post-dose observation", "field_template": "TMPL_POST_DOSE_OBS" },
+    { "code": "STYLE_SAFETY_REVIEW", "label": "Safety review (AE/CM)", "field_template": "TMPL_SAFETY_REVIEW" },
+    { "code": "STYLE_REMOTE_CONTACT", "label": "Remote / phone follow-up", "field_template": "TMPL_REMOTE_CONTACT" },
+    { "code": "STYLE_VISIT_CLOSURE", "label": "EOS / ET closure", "field_template": "TMPL_VISIT_CLOSURE" }
+  ],
+  "field_templates": {
+    "TMPL_REGULATORY_ATTEST": {
+      "minimal": ["performed_datetime", "document_version", "action_completed", "copy_provided"],
+      "optional": ["witness_present", "comments"],
+      "evidence_strategy": "optional_external_ref"
+    },
+    "TMPL_ELIGIBILITY_CHECK": {
+      "minimal": ["reviewed_datetime", "criteria_met", "deviations_noted"],
+      "optional": ["reviewer_role", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_TRAINING_ATTEST": {
+      "minimal": ["training_datetime", "training_completed", "trainer_role"],
+      "optional": ["material_version", "comments"],
+      "evidence_strategy": "optional_external_ref"
+    },
+    "TMPL_QUESTIONNAIRE": {
+      "minimal": ["completed", "completion_datetime"],
+      "optional": ["missing_items", "score_summary", "comments"],
+      "evidence_strategy": "ediary_system_ref"
+    },
+    "TMPL_CLINICAL_REVIEW": {
+      "minimal": ["reviewed_datetime", "review_completed", "clinically_significant"],
+      "optional": ["findings_summary", "action_required", "comments"],
+      "evidence_strategy": "optional_note"
+    },
+    "TMPL_VITALS": {
+      "minimal": ["performed_datetime", "systolic_bp", "diastolic_bp", "heart_rate", "clinically_significant"],
+      "optional": ["temperature", "respiratory_rate", "position", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_BODY_MEASURE": {
+      "minimal": ["performed_datetime", "measurement_value", "unit"],
+      "optional": ["clinically_significant", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_ECG": {
+      "minimal": ["performed_datetime", "result_summary", "clinically_significant"],
+      "optional": ["repeat_required", "report_reference", "comments"],
+      "evidence_strategy": "external_report_ref"
+    },
+    "TMPL_LAB_SAMPLE": {
+      "minimal": ["collection_datetime", "sample_collected", "within_window"],
+      "optional": ["processing_datetime", "relative_to_dose_time", "abnormal_flag", "action_taken", "lab_requisition_ref", "comments"],
+      "evidence_strategy": "lab_requisition_ref"
+    },
+    "TMPL_LAB_PANEL": {
+      "minimal": ["result_datetime", "result_summary", "abnormal_flag"],
+      "optional": ["action_taken", "lab_report_ref", "comments"],
+      "evidence_strategy": "lab_report_ref"
+    },
+    "TMPL_URINALYSIS": {
+      "minimal": ["performed_datetime", "result_summary", "abnormal_flag"],
+      "optional": ["action_taken", "comments"],
+      "evidence_strategy": "optional_note"
+    },
+    "TMPL_PREGNANCY_TEST": {
+      "minimal": ["performed_datetime", "result", "within_retest_window"],
+      "optional": ["specimen_type", "comments"],
+      "evidence_strategy": "optional_note"
+    },
+    "TMPL_IMAGING": {
+      "minimal": ["performed_date", "procedure_completed", "result_summary", "clinically_significant"],
+      "optional": ["report_reference", "repeat_required", "comments"],
+      "evidence_strategy": "imaging_report_ref"
+    },
+    "TMPL_OPHTHAL_EXAM": {
+      "minimal": ["performed_datetime", "exam_completed", "result_summary", "clinically_significant"],
+      "optional": ["report_reference", "both_eyes_assessed", "comments"],
+      "evidence_strategy": "imaging_report_ref"
+    },
+    "TMPL_IP_ADMIN": {
+      "minimal": ["administration_datetime", "route", "dose", "administration_completed"],
+      "optional": ["lot_reference", "post_dose_observation_completed", "issues", "comments"],
+      "evidence_strategy": "pharmacy_record_ref"
+    },
+    "TMPL_INJECTION_SITE": {
+      "minimal": ["assessment_datetime", "site_location", "reaction_present"],
+      "optional": ["reaction_grade", "action_taken", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_POST_DOSE_OBS": {
+      "minimal": ["observation_start_datetime", "observation_end_datetime", "observation_completed"],
+      "optional": ["events_noted", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_SAFETY_REVIEW": {
+      "minimal": ["reviewed_datetime", "event_present", "log_updated"],
+      "optional": ["changes_since_last_visit", "action_required", "comments"],
+      "evidence_strategy": "none"
+    },
+    "TMPL_REMOTE_CONTACT": {
+      "minimal": ["contact_datetime", "contact_method", "subject_reached"],
+      "optional": ["ae_review_completed", "conmed_review_completed", "followup_required", "comments"],
+      "evidence_strategy": "optional_note"
+    },
+    "TMPL_VISIT_CLOSURE": {
+      "minimal": ["assessment_datetime", "closure_type", "assessment_completed"],
+      "optional": ["reason_summary", "next_step", "comments"],
+      "evidence_strategy": "optional_note"
+    }
+  },
+  "profiles": [
+    {"procedure_profile_code":"PROC_INFORMED_CONSENT","display_name":"Informed Consent","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_REGULATORY_ATTEST","operational_purpose":"Document consent obtained before study procedures","evidence_reference_strategy":"optional_external_ref","field_template":"TMPL_REGULATORY_ATTEST","field_overrides":{"document_version":"consent_version","action_completed":"consent_obtained","copy_provided":"copy_provided"},"conditional_logic_examples":["Required before any protocol procedure except screening labs if IRB permits"]},
+    {"procedure_profile_code":"PROC_RECONSENT","display_name":"Reconsent","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_REGULATORY_ATTEST","operational_purpose":"Document reconsent after amendment or new information","evidence_reference_strategy":"optional_external_ref","field_template":"TMPL_REGULATORY_ATTEST","field_overrides":{"document_version":"consent_version"},"conditional_logic_examples":["When protocol amendment requires reconsent"]},
+    {"procedure_profile_code":"PROC_ELIGIBILITY_REVIEW","display_name":"Eligibility Review","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_ELIGIBILITY_CHECK","operational_purpose":"Confirm subject meets all entry requirements","evidence_reference_strategy":"none","field_template":"TMPL_ELIGIBILITY_CHECK","conditional_logic_examples":["Prior to randomization"]},
+    {"procedure_profile_code":"PROC_INCLUSION_CRITERIA","display_name":"Inclusion Criteria Review","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_ELIGIBILITY_CHECK","operational_purpose":"Attest inclusion criteria satisfied","evidence_reference_strategy":"none","field_template":"TMPL_ELIGIBILITY_CHECK","conditional_logic_examples":["May be combined with eligibility review row"]},
+    {"procedure_profile_code":"PROC_EXCLUSION_CRITERIA","display_name":"Exclusion Criteria Review","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_ELIGIBILITY_CHECK","operational_purpose":"Attest no exclusion criteria apply","evidence_reference_strategy":"none","field_template":"TMPL_ELIGIBILITY_CHECK","conditional_logic_examples":["Prior to enrollment"]},
+    {"procedure_profile_code":"PROC_RANDOMIZATION","display_name":"Randomization","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_REGULATORY_ATTEST","operational_purpose":"Record treatment assignment","evidence_reference_strategy":"optional_external_ref","field_template":"TMPL_REGULATORY_ATTEST","field_overrides":{"document_version":"randomization_id","action_completed":"randomized"},"conditional_logic_examples":["After eligibility confirmed"]},
+    {"procedure_profile_code":"PROC_SUBJECT_TRAINING","display_name":"Subject Training","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_TRAINING_ATTEST","operational_purpose":"Document subject trained on study requirements","evidence_reference_strategy":"optional_external_ref","field_template":"TMPL_TRAINING_ATTEST","conditional_logic_examples":["Before self-administration or diary use"]},
+    {"procedure_profile_code":"PROC_EDIARY_TRAINING","display_name":"eDiary Training","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_TRAINING_ATTEST","operational_purpose":"Document eDiary training completed","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_TRAINING_ATTEST","conditional_logic_examples":["Before eDiary procedures active"]},
+    {"procedure_profile_code":"PROC_COUNSELING_EDUCATION","display_name":"Counseling / Education","category":"CAT_REGULATORY_ENROLLMENT","documentation_style":"STYLE_TRAINING_ATTEST","operational_purpose":"Document counseling or education session","evidence_reference_strategy":"optional_note","field_template":"TMPL_TRAINING_ATTEST","conditional_logic_examples":["As scheduled per visit"]},
+
+    {"procedure_profile_code":"PROC_DAILY_PAIN_REVIEW","display_name":"Daily Pain Score Review","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Reconcile daily pain scores from diary","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["When eDiary active"]},
+    {"procedure_profile_code":"PROC_WOMAC","display_name":"WOMAC Questionnaire","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Capture WOMAC completion status","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["Scheduled visit windows"]},
+    {"procedure_profile_code":"PROC_EQ5D5L","display_name":"EQ-5D-5L","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Capture EQ-5D-5L completion","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["Baseline and follow-up visits"]},
+    {"procedure_profile_code":"PROC_PGIC","display_name":"PGIC","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Capture PGIC completion","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["Follow-up visits"]},
+    {"procedure_profile_code":"PROC_WPAI","display_name":"WPAI","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Capture WPAI completion","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["Selected visits only"]},
+    {"procedure_profile_code":"PROC_EDIARY_RECONCILIATION","display_name":"eDiary Reconciliation","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Site reconciliation of eDiary entries","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","field_overrides":{"missing_items":"discrepancies_noted"},"conditional_logic_examples":["Each visit while eDiary in use"]},
+    {"procedure_profile_code":"PROC_COA_REVIEW","display_name":"COA Review","category":"CAT_QUESTIONNAIRE_COA","documentation_style":"STYLE_QUESTIONNAIRE","operational_purpose":"Review COA instrument completion quality","evidence_reference_strategy":"ediary_system_ref","field_template":"TMPL_QUESTIONNAIRE","conditional_logic_examples":["After questionnaire administration"]},
+
+    {"procedure_profile_code":"PROC_MEDICAL_HISTORY","display_name":"Medical History","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_CLINICAL_REVIEW","operational_purpose":"Capture medical history review","evidence_reference_strategy":"optional_note","field_template":"TMPL_CLINICAL_REVIEW","conditional_logic_examples":["Screening / baseline"]},
+    {"procedure_profile_code":"PROC_OPHTHAL_HISTORY","display_name":"Ophthalmologic History","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_CLINICAL_REVIEW","operational_purpose":"Capture ophthalmologic history review","evidence_reference_strategy":"optional_note","field_template":"TMPL_CLINICAL_REVIEW","conditional_logic_examples":["Ophthalmology-enriched studies"]},
+    {"procedure_profile_code":"PROC_PHYSICAL_EXAM","display_name":"Physical Examination","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_CLINICAL_REVIEW","operational_purpose":"Document full physical exam performed","evidence_reference_strategy":"optional_note","field_template":"TMPL_CLINICAL_REVIEW","conditional_logic_examples":["Scheduled visits"]},
+    {"procedure_profile_code":"PROC_TARGETED_PHYSICAL_EXAM","display_name":"Targeted Physical Examination","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_CLINICAL_REVIEW","operational_purpose":"Document targeted exam","evidence_reference_strategy":"optional_note","field_template":"TMPL_CLINICAL_REVIEW","field_overrides":{"findings_summary":"systems_examined"},"conditional_logic_examples":["When full PE not required"]},
+    {"procedure_profile_code":"PROC_AE_REVIEW","display_name":"Adverse Event Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_SAFETY_REVIEW","operational_purpose":"Review adverse events since last contact","evidence_reference_strategy":"none","field_template":"TMPL_SAFETY_REVIEW","field_overrides":{"event_present":"ae_present","log_updated":"ae_log_updated"},"conditional_logic_examples":["Every visit"]},
+    {"procedure_profile_code":"PROC_SAE_REVIEW","display_name":"Serious Adverse Event Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_SAFETY_REVIEW","operational_purpose":"Focused SAE review","evidence_reference_strategy":"none","field_template":"TMPL_SAFETY_REVIEW","field_overrides":{"event_present":"sae_present","log_updated":"sae_log_updated"},"conditional_logic_examples":["When SAE workflow active"]},
+    {"procedure_profile_code":"PROC_CONMED_REVIEW","display_name":"Concomitant Medication Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_SAFETY_REVIEW","operational_purpose":"Review concomitant medications","evidence_reference_strategy":"none","field_template":"TMPL_SAFETY_REVIEW","field_overrides":{"event_present":"changes_since_last_visit","log_updated":"conmed_log_updated","reviewed_datetime":"reviewed_datetime"},"conditional_logic_examples":["Every visit"]},
+    {"procedure_profile_code":"PROC_RESCUE_MED_REVIEW","display_name":"Rescue Medication Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_SAFETY_REVIEW","operational_purpose":"Review rescue medication use","evidence_reference_strategy":"none","field_template":"TMPL_SAFETY_REVIEW","field_overrides":{"event_present":"rescue_med_used","log_updated":"rescue_med_log_updated"},"conditional_logic_examples":["When rescue therapy permitted"]},
+    {"procedure_profile_code":"PROC_NONPHARM_THERAPY_REVIEW","display_name":"Non-Pharmacologic Therapy Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_SAFETY_REVIEW","operational_purpose":"Review non-drug therapies","evidence_reference_strategy":"none","field_template":"TMPL_SAFETY_REVIEW","field_overrides":{"event_present":"therapy_changes_noted"},"conditional_logic_examples":["As applicable per protocol schedule"]},
+    {"procedure_profile_code":"PROC_ADRENAL_SYMPTOM_REVIEW","display_name":"Adrenal Insufficiency Symptom Review","category":"CAT_CLINICAL_REVIEW","documentation_style":"STYLE_CLINICAL_REVIEW","operational_purpose":"Review adrenal insufficiency symptoms","evidence_reference_strategy":"optional_note","field_template":"TMPL_CLINICAL_REVIEW","conditional_logic_examples":["Endocrine safety monitoring visits"]},
+
+    {"procedure_profile_code":"PROC_VITAL_SIGNS","display_name":"Vital Signs","category":"CAT_VITALS_BODY","documentation_style":"STYLE_VITALS","operational_purpose":"Capture vital signs","evidence_reference_strategy":"none","field_template":"TMPL_VITALS","conditional_logic_examples":["Most onsite visits"]},
+    {"procedure_profile_code":"PROC_HEIGHT","display_name":"Height","category":"CAT_VITALS_BODY","documentation_style":"STYLE_BODY_MEASURE","operational_purpose":"Capture height","evidence_reference_strategy":"none","field_template":"TMPL_BODY_MEASURE","field_overrides":{"measurement_value":"height_value","unit":"height_unit"},"conditional_logic_examples":["Screening / baseline"]},
+    {"procedure_profile_code":"PROC_WEIGHT","display_name":"Weight","category":"CAT_VITALS_BODY","documentation_style":"STYLE_BODY_MEASURE","operational_purpose":"Capture weight","evidence_reference_strategy":"none","field_template":"TMPL_BODY_MEASURE","field_overrides":{"measurement_value":"weight_value","unit":"weight_unit"},"conditional_logic_examples":["Repeated visits"]},
+
+    {"procedure_profile_code":"PROC_ECG_12LEAD","display_name":"12-lead ECG","category":"CAT_CARDIAC","documentation_style":"STYLE_ECG","operational_purpose":"Document 12-lead ECG","evidence_reference_strategy":"external_report_ref","field_template":"TMPL_ECG","conditional_logic_examples":["Safety monitoring windows"]},
+    {"procedure_profile_code":"PROC_ECG_PK","display_name":"PK ECG Collection","category":"CAT_CARDIAC","documentation_style":"STYLE_ECG","operational_purpose":"ECG timed with PK sampling","evidence_reference_strategy":"external_report_ref","field_template":"TMPL_ECG","field_overrides":{"relative_to_dose_time":"relative_to_dose_time"},"conditional_logic_examples":["PK visit windows relative to dose"]},
+
+    {"procedure_profile_code":"PROC_BLOOD_COLLECTION","display_name":"Blood Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Generic blood draw documentation","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["When specific panel not named"]},
+    {"procedure_profile_code":"PROC_URINALYSIS_DIPSTICK","display_name":"Urinalysis Dipstick","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_URINALYSIS","operational_purpose":"Point-of-care urinalysis","evidence_reference_strategy":"optional_note","field_template":"TMPL_URINALYSIS","conditional_logic_examples":["Screening"]},
+    {"procedure_profile_code":"PROC_PREGNANCY_TEST","display_name":"Pregnancy Test","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_PREGNANCY_TEST","operational_purpose":"Pregnancy test result","evidence_reference_strategy":"optional_note","field_template":"TMPL_PREGNANCY_TEST","conditional_logic_examples":["WOCBP at screening and ongoing intervals"]},
+    {"procedure_profile_code":"PROC_HEMATOLOGY","display_name":"Hematology","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Hematology panel result summary","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Central lab processing"]},
+    {"procedure_profile_code":"PROC_COAGULATION","display_name":"Coagulation","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Coagulation panel summary","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Safety labs"]},
+    {"procedure_profile_code":"PROC_CLINICAL_CHEMISTRY","display_name":"Clinical Chemistry","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Clinical chemistry summary","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Scheduled lab visits"]},
+    {"procedure_profile_code":"PROC_BIOLOGIC_SAMPLE_COLLECTION","display_name":"Biologic Sample Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Biologic material collection per lab manual","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Biologic sampling visits","May require dedicated processing window"]},
+    {"procedure_profile_code":"PROC_BIOMARKER_COLLECTION","display_name":"Biomarker Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Research biomarker sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Optional sub-study"]},
+    {"procedure_profile_code":"PROC_SERUM_BIOMARKER","display_name":"Serum Biomarker Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Serum biomarker draw","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Specific visit windows"]},
+    {"procedure_profile_code":"PROC_PK_PLASMA","display_name":"PK Plasma Sample","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"PK plasma collection with timing","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Pre-dose and post-dose windows","Relative to IP administration"]},
+    {"procedure_profile_code":"PROC_MORNING_CORTISOL","display_name":"Morning Cortisol Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Timed morning cortisol sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Morning window only"]},
+    {"procedure_profile_code":"PROC_ACTH_COLLECTION","display_name":"ACTH Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"ACTH sample collection","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Endocrine panel visits"]},
+    {"procedure_profile_code":"PROC_ALDOSTERONE_COLLECTION","display_name":"Aldosterone Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Aldosterone sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Endocrine monitoring"]},
+    {"procedure_profile_code":"PROC_PRC_PRA_COLLECTION","display_name":"PRC/PRA Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"PRC/PRA sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Specialty endocrine schedule"]},
+    {"procedure_profile_code":"PROC_DHEAS_COLLECTION","display_name":"DHEA-S Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"DHEA-S sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Endocrine panel"]},
+    {"procedure_profile_code":"PROC_CBG_COLLECTION","display_name":"Cortisol-binding Globulin Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"CBG sample","evidence_reference_strategy":"lab_requisition_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Endocrine panel"]},
+    {"procedure_profile_code":"PROC_SYNTHETIC_STEROID_PANEL","display_name":"Synthetic Steroid Panel","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Synthetic steroid panel results","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Specialty safety monitoring"]},
+    {"procedure_profile_code":"PROC_GLUCOCORTICOID_SCREEN","display_name":"Glucocorticoid Screen","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Glucocorticoid screen results","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Endocrine safety"]},
+    {"procedure_profile_code":"PROC_ACTH_STIM_TEST","display_name":"ACTH Stimulation Test","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"ACTH stimulation test summary","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Conditional on adrenal monitoring plan"]},
+    {"procedure_profile_code":"PROC_ANTI_PF4","display_name":"Anti-PF4 Testing","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"Anti-PF4 test result","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["If thrombocytopenia concern"]},
+    {"procedure_profile_code":"PROC_SEROTONIN_RELEASE_ASSAY","display_name":"Serotonin Release Assay","category":"CAT_LAB_PANEL","documentation_style":"STYLE_LAB_PANEL","operational_purpose":"SRA result summary","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_PANEL","conditional_logic_examples":["Conditional allergy workup"]},
+    {"procedure_profile_code":"PROC_DDIMER_COLLECTION","display_name":"D-dimer Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"D-dimer sample/result","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Safety concern visits"]},
+    {"procedure_profile_code":"PROC_FIBRINOGEN_COLLECTION","display_name":"Fibrinogen Collection","category":"CAT_LAB_SAMPLE","documentation_style":"STYLE_LAB_SAMPLE","operational_purpose":"Fibrinogen sample/result","evidence_reference_strategy":"lab_report_ref","field_template":"TMPL_LAB_SAMPLE","conditional_logic_examples":["Coagulation monitoring"]},
+
+    {"procedure_profile_code":"PROC_XRAY","display_name":"X-Ray","category":"CAT_IMAGING","documentation_style":"STYLE_IMAGING","operational_purpose":"X-ray completion and summary","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_IMAGING","conditional_logic_examples":["Baseline / safety"]},
+    {"procedure_profile_code":"PROC_MRI","display_name":"MRI","category":"CAT_IMAGING","documentation_style":"STYLE_IMAGING","operational_purpose":"MRI completion and summary","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_IMAGING","conditional_logic_examples":["Selected timepoints"]},
+    {"procedure_profile_code":"PROC_OPHTHAL_EXAM","display_name":"Ophthalmology Examination","category":"CAT_OPHTHALMOLOGY","documentation_style":"STYLE_OPHTHAL_EXAM","operational_purpose":"Comprehensive ophthalmology exam","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_OPHTHAL_EXAM","conditional_logic_examples":["Ophthalmology schedule"]},
+    {"procedure_profile_code":"PROC_OCT_REVIEW","display_name":"OCT Review","category":"CAT_OPHTHALMOLOGY","documentation_style":"STYLE_OPHTHAL_EXAM","operational_purpose":"OCT imaging review","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_OPHTHAL_EXAM","field_overrides":{"exam_completed":"oct_completed"},"conditional_logic_examples":["Ophthalmology visits"]},
+    {"procedure_profile_code":"PROC_RETINAL_EXAM","display_name":"Retinal Examination","category":"CAT_OPHTHALMOLOGY","documentation_style":"STYLE_OPHTHAL_EXAM","operational_purpose":"Retinal examination","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_OPHTHAL_EXAM","conditional_logic_examples":["Ophthalmology visits"]},
+    {"procedure_profile_code":"PROC_CFP_IMAGING","display_name":"CFP Imaging","category":"CAT_OPHTHALMOLOGY","documentation_style":"STYLE_OPHTHAL_EXAM","operational_purpose":"Color fundus photography","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_OPHTHAL_EXAM","conditional_logic_examples":["Ophthalmology imaging windows"]},
+    {"procedure_profile_code":"PROC_FAF_IMAGING","display_name":"FAF Imaging","category":"CAT_OPHTHALMOLOGY","documentation_style":"STYLE_OPHTHAL_EXAM","operational_purpose":"Fundus autofluorescence imaging","evidence_reference_strategy":"imaging_report_ref","field_template":"TMPL_OPHTHAL_EXAM","conditional_logic_examples":["Ophthalmology imaging windows"]},
+
+    {"procedure_profile_code":"PROC_IP_ADMINISTRATION","display_name":"IP Administration","category":"CAT_TREATMENT_IP","documentation_style":"STYLE_IP_ADMIN","operational_purpose":"Investigational product administration","evidence_reference_strategy":"pharmacy_record_ref","field_template":"TMPL_IP_ADMIN","conditional_logic_examples":["Treatment visits","Relative to PK draws"]},
+    {"procedure_profile_code":"PROC_INJECTION_SITE_ASSESS","display_name":"Injection Site Assessment","category":"CAT_TREATMENT_IP","documentation_style":"STYLE_INJECTION_SITE","operational_purpose":"Assess injection site post-dose","evidence_reference_strategy":"none","field_template":"TMPL_INJECTION_SITE","conditional_logic_examples":["After injection"]},
+    {"procedure_profile_code":"PROC_POST_DOSE_OBSERVATION","display_name":"Post-dose Observation","category":"CAT_TREATMENT_IP","documentation_style":"STYLE_POST_DOSE_OBS","operational_purpose":"Observed monitoring after dose","evidence_reference_strategy":"none","field_template":"TMPL_POST_DOSE_OBS","conditional_logic_examples":["Required observation period after IP"]},
+
+    {"procedure_profile_code":"PROC_TELEPHONE_FOLLOWUP","display_name":"Telephone Follow-up","category":"CAT_FOLLOWUP","documentation_style":"STYLE_REMOTE_CONTACT","operational_purpose":"Phone contact between visits","evidence_reference_strategy":"optional_note","field_template":"TMPL_REMOTE_CONTACT","field_overrides":{"contact_method":"phone"},"conditional_logic_examples":["Interim follow-up windows"]},
+    {"procedure_profile_code":"PROC_REMOTE_FOLLOWUP","display_name":"Remote Follow-up","category":"CAT_FOLLOWUP","documentation_style":"STYLE_REMOTE_CONTACT","operational_purpose":"Remote visit contact","evidence_reference_strategy":"optional_note","field_template":"TMPL_REMOTE_CONTACT","conditional_logic_examples":["Hybrid schedule"]},
+    {"procedure_profile_code":"PROC_EOS_ASSESSMENT","display_name":"EOS Assessment","category":"CAT_FOLLOWUP","documentation_style":"STYLE_VISIT_CLOSURE","operational_purpose":"End of study closure","evidence_reference_strategy":"optional_note","field_template":"TMPL_VISIT_CLOSURE","field_overrides":{"closure_type":"eos"},"conditional_logic_examples":["Final visit"]},
+    {"procedure_profile_code":"PROC_ET_ASSESSMENT","display_name":"Early Termination Assessment","category":"CAT_FOLLOWUP","documentation_style":"STYLE_VISIT_CLOSURE","operational_purpose":"Early termination documentation","evidence_reference_strategy":"optional_note","field_template":"TMPL_VISIT_CLOSURE","field_overrides":{"closure_type":"early_termination"},"conditional_logic_examples":["When subject discontinues"]}
+  ]
+}

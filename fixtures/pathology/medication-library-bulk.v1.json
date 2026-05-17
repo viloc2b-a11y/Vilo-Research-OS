@@ -1,0 +1,1858 @@
+{
+  "catalog_version": "1.1.0",
+  "catalog_id": "vilo-medication-conmed-lookup-bulk",
+  "description": "Bulk coordinator quick-pick medication catalog (Phase 6B.1B).",
+  "medication_count": 142,
+  "medications": [
+    {
+      "external_seed_id": 10001,
+      "medication_name": "Metformin",
+      "brand_name": "Glucophage",
+      "drug_class": "Biguanide antidiabetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10002,
+      "medication_name": "Lisinopril",
+      "brand_name": "Prinivil",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10003,
+      "medication_name": "Amlodipine",
+      "brand_name": "Norvasc",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10004,
+      "medication_name": "Losartan",
+      "brand_name": "Cozaar",
+      "drug_class": "Angiotensin II receptor blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10005,
+      "medication_name": "Hydrochlorothiazide",
+      "brand_name": "Microzide",
+      "drug_class": "Thiazide diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10006,
+      "medication_name": "Atorvastatin",
+      "brand_name": "Lipitor",
+      "drug_class": "HMG-CoA reductase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10007,
+      "medication_name": "Simvastatin",
+      "brand_name": "Zocor",
+      "drug_class": "HMG-CoA reductase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10008,
+      "medication_name": "Levothyroxine",
+      "brand_name": "Synthroid",
+      "drug_class": "Thyroid hormone",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10009,
+      "medication_name": "Albuterol",
+      "brand_name": "ProAir",
+      "drug_class": "Short-acting beta agonist",
+      "route": "inhalation",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10010,
+      "medication_name": "Budesonide",
+      "brand_name": "Pulmicort",
+      "drug_class": "Inhaled corticosteroid",
+      "route": "inhalation",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10011,
+      "medication_name": "Fluticasone",
+      "brand_name": "Flovent",
+      "drug_class": "Inhaled corticosteroid",
+      "route": "inhalation",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10012,
+      "medication_name": "Sertraline",
+      "brand_name": "Zoloft",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10013,
+      "medication_name": "Fluoxetine",
+      "brand_name": "Prozac",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10014,
+      "medication_name": "Escitalopram",
+      "brand_name": "Lexapro",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10015,
+      "medication_name": "Omeprazole",
+      "brand_name": "Prilosec",
+      "drug_class": "Proton pump inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10016,
+      "medication_name": "Pantoprazole",
+      "brand_name": "Protonix",
+      "drug_class": "Proton pump inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10017,
+      "medication_name": "Ibuprofen",
+      "brand_name": "Advil",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10018,
+      "medication_name": "Acetaminophen",
+      "brand_name": "Tylenol",
+      "drug_class": "Analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10019,
+      "medication_name": "Prednisone",
+      "brand_name": "Deltasone",
+      "drug_class": "Corticosteroid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10020,
+      "medication_name": "Amoxicillin",
+      "brand_name": "Amoxil",
+      "drug_class": "Penicillin antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10021,
+      "medication_name": "Aspirin",
+      "brand_name": "Bayer Aspirin",
+      "drug_class": "Antiplatelet / analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10022,
+      "medication_name": "Clopidogrel",
+      "brand_name": "Plavix",
+      "drug_class": "Antiplatelet",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10023,
+      "medication_name": "Warfarin",
+      "brand_name": "Coumadin",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10024,
+      "medication_name": "Apixaban",
+      "brand_name": "Eliquis",
+      "drug_class": "Direct oral anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10025,
+      "medication_name": "Rivaroxaban",
+      "brand_name": "Xarelto",
+      "drug_class": "Direct oral anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10026,
+      "medication_name": "Carvedilol",
+      "brand_name": "Coreg",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10027,
+      "medication_name": "Metoprolol",
+      "brand_name": "Lopressor",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10028,
+      "medication_name": "Furosemide",
+      "brand_name": "Lasix",
+      "drug_class": "Loop diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10029,
+      "medication_name": "Spironolactone",
+      "brand_name": "Aldactone",
+      "drug_class": "Potassium-sparing diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10030,
+      "medication_name": "Nitroglycerin",
+      "brand_name": "Nitrostat",
+      "drug_class": "Antianginal",
+      "route": "sublingual",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10031,
+      "medication_name": "Insulin glargine",
+      "brand_name": "Lantus",
+      "drug_class": "Long-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10032,
+      "medication_name": "Insulin lispro",
+      "brand_name": "Humalog",
+      "drug_class": "Rapid-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10033,
+      "medication_name": "Semaglutide",
+      "brand_name": "Ozempic",
+      "drug_class": "GLP-1 receptor agonist",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10034,
+      "medication_name": "Sitagliptin",
+      "brand_name": "Januvia",
+      "drug_class": "DPP-4 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10035,
+      "medication_name": "Gabapentin",
+      "brand_name": "Neurontin",
+      "drug_class": "Anticonvulsant / neuropathic pain",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10036,
+      "medication_name": "Pregabalin",
+      "brand_name": "Lyrica",
+      "drug_class": "Anticonvulsant / neuropathic pain",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10037,
+      "medication_name": "Tramadol",
+      "brand_name": "Ultram",
+      "drug_class": "Opioid analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10038,
+      "medication_name": "Oxycodone",
+      "brand_name": "OxyContin",
+      "drug_class": "Opioid analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10039,
+      "medication_name": "Hydrocodone-acetaminophen",
+      "brand_name": "Vicodin",
+      "drug_class": "Opioid combination",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10040,
+      "medication_name": "Cyclobenzaprine",
+      "brand_name": "Flexeril",
+      "drug_class": "Muscle relaxant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10041,
+      "medication_name": "Methotrexate",
+      "brand_name": "Trexall",
+      "drug_class": "DMARD",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10042,
+      "medication_name": "Hydroxychloroquine",
+      "brand_name": "Plaquenil",
+      "drug_class": "DMARD",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10043,
+      "medication_name": "Adalimumab",
+      "brand_name": "Humira",
+      "drug_class": "TNF inhibitor",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10044,
+      "medication_name": "Montelukast",
+      "brand_name": "Singulair",
+      "drug_class": "Leukotriene receptor antagonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10045,
+      "medication_name": "Tiotropium",
+      "brand_name": "Spiriva",
+      "drug_class": "Long-acting anticholinergic",
+      "route": "inhalation",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10046,
+      "medication_name": "Ledipasvir-sofosbuvir",
+      "brand_name": "Harvoni",
+      "drug_class": "Direct-acting antiviral",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10047,
+      "medication_name": "Cetirizine",
+      "brand_name": "Zyrtec",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10048,
+      "medication_name": "Loratadine",
+      "brand_name": "Claritin",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10049,
+      "medication_name": "Diphenhydramine",
+      "brand_name": "Benadryl",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10050,
+      "medication_name": "Fluticasone nasal spray",
+      "brand_name": "Flonase",
+      "drug_class": "Intranasal corticosteroid",
+      "route": "intranasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10051,
+      "medication_name": "Alendronate",
+      "brand_name": "Fosamax",
+      "drug_class": "Bisphosphonate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10052,
+      "medication_name": "Calcium carbonate",
+      "brand_name": "Caltrate",
+      "drug_class": "Mineral supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10053,
+      "medication_name": "Vitamin D",
+      "brand_name": "D3",
+      "drug_class": "Vitamin supplement",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10054,
+      "medication_name": "Ferrous sulfate",
+      "brand_name": "Feosol",
+      "drug_class": "Iron supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10055,
+      "medication_name": "Potassium chloride",
+      "brand_name": "Klor-Con",
+      "drug_class": "Electrolyte supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10056,
+      "medication_name": "Multivitamin",
+      "brand_name": "Centrum",
+      "drug_class": "Vitamin supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10057,
+      "medication_name": "Melatonin",
+      "brand_name": null,
+      "drug_class": "Dietary supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10058,
+      "medication_name": "Tamsulosin",
+      "brand_name": "Flomax",
+      "drug_class": "Alpha blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10059,
+      "medication_name": "Finasteride",
+      "brand_name": "Proscar",
+      "drug_class": "5-alpha reductase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10060,
+      "medication_name": "Oxybutynin",
+      "brand_name": "Ditropan",
+      "drug_class": "Anticholinergic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10061,
+      "medication_name": "Estradiol",
+      "brand_name": "Estrace",
+      "drug_class": "Estrogen",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10062,
+      "medication_name": "Medroxyprogesterone",
+      "brand_name": "Provera",
+      "drug_class": "Progestin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10063,
+      "medication_name": "Combined oral contraceptive",
+      "brand_name": "Ortho Tri-Cyclen",
+      "drug_class": "Hormonal contraceptive",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10064,
+      "medication_name": "Methimazole",
+      "brand_name": "Tapazole",
+      "drug_class": "Antithyroid agent",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10065,
+      "medication_name": "Allopurinol",
+      "brand_name": "Zyloprim",
+      "drug_class": "Xanthine oxidase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10066,
+      "medication_name": "Colchicine",
+      "brand_name": "Colcrys",
+      "drug_class": "Antigout agent",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10067,
+      "medication_name": "Duloxetine",
+      "brand_name": "Cymbalta",
+      "drug_class": "SNRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10068,
+      "medication_name": "Bupropion",
+      "brand_name": "Wellbutrin",
+      "drug_class": "Atypical antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10069,
+      "medication_name": "Quetiapine",
+      "brand_name": "Seroquel",
+      "drug_class": "Antipsychotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10070,
+      "medication_name": "Lorazepam",
+      "brand_name": "Ativan",
+      "drug_class": "Benzodiazepine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10071,
+      "medication_name": "Zolpidem",
+      "brand_name": "Ambien",
+      "drug_class": "Sedative-hypnotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10072,
+      "medication_name": "Donepezil",
+      "brand_name": "Aricept",
+      "drug_class": "Cholinesterase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10073,
+      "medication_name": "Memantine",
+      "brand_name": "Namenda",
+      "drug_class": "NMDA antagonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10074,
+      "medication_name": "Timolol eye drops",
+      "brand_name": "Timoptic",
+      "drug_class": "Ophthalmic beta blocker",
+      "route": "ophthalmic",
+      "dosage_form": "drops",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10075,
+      "medication_name": "Latanoprost",
+      "brand_name": "Xalatan",
+      "drug_class": "Prostaglandin analogue",
+      "route": "ophthalmic",
+      "dosage_form": "drops",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10076,
+      "medication_name": "Artificial tears",
+      "brand_name": "Refresh",
+      "drug_class": "Ophthalmic lubricant",
+      "route": "ophthalmic",
+      "dosage_form": "drops",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10077,
+      "medication_name": "Azithromycin",
+      "brand_name": "Zithromax",
+      "drug_class": "Macrolide antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10078,
+      "medication_name": "Ciprofloxacin",
+      "brand_name": "Cipro",
+      "drug_class": "Fluoroquinolone antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10079,
+      "medication_name": "Doxycycline",
+      "brand_name": "Vibramycin",
+      "drug_class": "Tetracycline antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10080,
+      "medication_name": "Clindamycin",
+      "brand_name": "Cleocin",
+      "drug_class": "Lincosamide antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10081,
+      "medication_name": "Trimethoprim-sulfamethoxazole",
+      "brand_name": "Bactrim",
+      "drug_class": "Sulfonamide antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10082,
+      "medication_name": "Acyclovir",
+      "brand_name": "Zovirax",
+      "drug_class": "Antiviral",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10083,
+      "medication_name": "Oseltamivir",
+      "brand_name": "Tamiflu",
+      "drug_class": "Antiviral",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10084,
+      "medication_name": "Empagliflozin",
+      "brand_name": "Jardiance",
+      "drug_class": "SGLT2 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10085,
+      "medication_name": "Glipizide",
+      "brand_name": "Glucotrol",
+      "drug_class": "Sulfonylurea",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10086,
+      "medication_name": "Pioglitazone",
+      "brand_name": "Actos",
+      "drug_class": "Thiazolidinedione",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10087,
+      "medication_name": "Rosuvastatin",
+      "brand_name": "Crestor",
+      "drug_class": "HMG-CoA reductase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10088,
+      "medication_name": "Ezetimibe",
+      "brand_name": "Zetia",
+      "drug_class": "Cholesterol absorption inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10089,
+      "medication_name": "Sacubitril-valsartan",
+      "brand_name": "Entresto",
+      "drug_class": "ARNI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10090,
+      "medication_name": "Diltiazem",
+      "brand_name": "Cardizem",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10091,
+      "medication_name": "Verapamil",
+      "brand_name": "Calan",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10092,
+      "medication_name": "Isosorbide mononitrate",
+      "brand_name": "Imdur",
+      "drug_class": "Nitrate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10093,
+      "medication_name": "Digoxin",
+      "brand_name": "Lanoxin",
+      "drug_class": "Cardiac glycoside",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10094,
+      "medication_name": "Heparin",
+      "brand_name": null,
+      "drug_class": "Anticoagulant",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10095,
+      "medication_name": "Enoxaparin",
+      "brand_name": "Lovenox",
+      "drug_class": "Low molecular weight heparin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10096,
+      "medication_name": "Mesalamine",
+      "brand_name": "Asacol",
+      "drug_class": "Aminosalicylate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10097,
+      "medication_name": "Ondansetron",
+      "brand_name": "Zofran",
+      "drug_class": "Antiemetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10098,
+      "medication_name": "Promethazine",
+      "brand_name": "Phenergan",
+      "drug_class": "Antiemetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10099,
+      "medication_name": "Loperamide",
+      "brand_name": "Imodium",
+      "drug_class": "Antidiarrheal",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10100,
+      "medication_name": "Docusate",
+      "brand_name": "Colace",
+      "drug_class": "Stool softener",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10101,
+      "medication_name": "Polyethylene glycol",
+      "brand_name": "Miralax",
+      "drug_class": "Osmotic laxative",
+      "route": "oral",
+      "dosage_form": "powder",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10102,
+      "medication_name": "Lactulose",
+      "brand_name": "Enulose",
+      "drug_class": "Osmotic laxative",
+      "route": "oral",
+      "dosage_form": "solution",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10103,
+      "medication_name": "Famotidine",
+      "brand_name": "Pepcid",
+      "drug_class": "H2 blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10104,
+      "medication_name": "Sucralfate",
+      "brand_name": "Carafate",
+      "drug_class": "GI protectant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10105,
+      "medication_name": "Ursodiol",
+      "brand_name": "Actigall",
+      "drug_class": "Bile acid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10106,
+      "medication_name": "Tizanidine",
+      "brand_name": "Zanaflex",
+      "drug_class": "Muscle relaxant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10107,
+      "medication_name": "Naproxen",
+      "brand_name": "Aleve",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10108,
+      "medication_name": "Celecoxib",
+      "brand_name": "Celebrex",
+      "drug_class": "COX-2 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10109,
+      "medication_name": "Diclofenac gel",
+      "brand_name": "Voltaren",
+      "drug_class": "Topical NSAID",
+      "route": "topical",
+      "dosage_form": "gel",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10110,
+      "medication_name": "Lidocaine patch",
+      "brand_name": "Lidoderm",
+      "drug_class": "Topical anesthetic",
+      "route": "topical",
+      "dosage_form": "patch",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10111,
+      "medication_name": "Mupirocin",
+      "brand_name": "Bactroban",
+      "drug_class": "Topical antibiotic",
+      "route": "topical",
+      "dosage_form": "ointment",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10112,
+      "medication_name": "Triamcinolone cream",
+      "brand_name": "Kenalog",
+      "drug_class": "Topical corticosteroid",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10113,
+      "medication_name": "Ketoconazole shampoo",
+      "brand_name": "Nizoral",
+      "drug_class": "Antifungal",
+      "route": "topical",
+      "dosage_form": "shampoo",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10114,
+      "medication_name": "Fluconazole",
+      "brand_name": "Diflucan",
+      "drug_class": "Antifungal",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10115,
+      "medication_name": "Nystatin",
+      "brand_name": "Mycostatin",
+      "drug_class": "Antifungal",
+      "route": "oral",
+      "dosage_form": "suspension",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10116,
+      "medication_name": "Levetiracetam",
+      "brand_name": "Keppra",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10117,
+      "medication_name": "Lamotrigine",
+      "brand_name": "Lamictal",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10118,
+      "medication_name": "Topiramate",
+      "brand_name": "Topamax",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10119,
+      "medication_name": "Carbamazepine",
+      "brand_name": "Tegretol",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10120,
+      "medication_name": "Sumatriptan",
+      "brand_name": "Imitrex",
+      "drug_class": "Antimigraine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10121,
+      "medication_name": "Rizatriptan",
+      "brand_name": "Maxalt",
+      "drug_class": "Antimigraine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10122,
+      "medication_name": "Propranolol",
+      "brand_name": "Inderal",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10123,
+      "medication_name": "Amitriptyline",
+      "brand_name": "Elavil",
+      "drug_class": "Tricyclic antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10124,
+      "medication_name": "Nortriptyline",
+      "brand_name": "Pamelor",
+      "drug_class": "Tricyclic antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10125,
+      "medication_name": "Venlafaxine",
+      "brand_name": "Effexor",
+      "drug_class": "SNRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10126,
+      "medication_name": "Mirtazapine",
+      "brand_name": "Remeron",
+      "drug_class": "Atypical antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10127,
+      "medication_name": "Trazodone",
+      "brand_name": "Desyrel",
+      "drug_class": "Sedating antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10128,
+      "medication_name": "Buspirone",
+      "brand_name": "Buspar",
+      "drug_class": "Anxiolytic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10129,
+      "medication_name": "Clonazepam",
+      "brand_name": "Klonopin",
+      "drug_class": "Benzodiazepine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10130,
+      "medication_name": "Methylphenidate",
+      "brand_name": "Ritalin",
+      "drug_class": "Stimulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10131,
+      "medication_name": "Amphetamine-dextroamphetamine",
+      "brand_name": "Adderall",
+      "drug_class": "Stimulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10132,
+      "medication_name": "Atomoxetine",
+      "brand_name": "Strattera",
+      "drug_class": "Non-stimulant ADHD agent",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10133,
+      "medication_name": "Risperidone",
+      "brand_name": "Risperdal",
+      "drug_class": "Antipsychotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10134,
+      "medication_name": "Aripiprazole",
+      "brand_name": "Abilify",
+      "drug_class": "Antipsychotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10135,
+      "medication_name": "Olanzapine",
+      "brand_name": "Zyprexa",
+      "drug_class": "Antipsychotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10136,
+      "medication_name": "Lithium carbonate",
+      "brand_name": "Lithobid",
+      "drug_class": "Mood stabilizer",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10137,
+      "medication_name": "Valproic acid",
+      "brand_name": "Depakote",
+      "drug_class": "Anticonvulsant / mood stabilizer",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10138,
+      "medication_name": "Naloxone",
+      "brand_name": "Narcan",
+      "drug_class": "Opioid antagonist",
+      "route": "intranasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10139,
+      "medication_name": "Nicotine patch",
+      "brand_name": "Nicoderm",
+      "drug_class": "Smoking cessation",
+      "route": "transdermal",
+      "dosage_form": "patch",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10140,
+      "medication_name": "Varenicline",
+      "brand_name": "Chantix",
+      "drug_class": "Smoking cessation",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10141,
+      "medication_name": "Denosumab",
+      "brand_name": "Prolia",
+      "drug_class": "RANK ligand inhibitor",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10142,
+      "medication_name": "Teriparatide",
+      "brand_name": "Forteo",
+      "drug_class": "Anabolic agent",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    }
+  ],
+  "suggested_links": [
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Lisinopril",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Amlodipine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Hydrochlorothiazide",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypertension",
+      "pathology_icd10": "I10",
+      "medication_name": "Losartan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 4,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Atrial fibrillation",
+      "pathology_icd10": "I48.91",
+      "medication_name": "Apixaban",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Atrial fibrillation",
+      "pathology_icd10": "I48.91",
+      "medication_name": "Metoprolol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Metformin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Insulin glargine",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Type 2 diabetes",
+      "pathology_icd10": "E11.9",
+      "medication_name": "Semaglutide",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Diabetes",
+      "pathology_icd10": "E11.8",
+      "medication_name": "Metformin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Omeprazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Pantoprazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "GERD",
+      "pathology_icd10": "K21.9",
+      "medication_name": "Famotidine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Albuterol",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Fluticasone",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Asthma",
+      "pathology_icd10": "J45.909",
+      "medication_name": "Montelukast",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "COPD",
+      "pathology_icd10": "J44.9",
+      "medication_name": "Albuterol",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "COPD",
+      "pathology_icd10": "J44.9",
+      "medication_name": "Tiotropium",
+      "medication_route": "inhalation",
+      "medication_dosage_form": "inhaler",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Depression",
+      "pathology_icd10": "F32.9",
+      "medication_name": "Sertraline",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Depression",
+      "pathology_icd10": "F32.9",
+      "medication_name": "Escitalopram",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Anxiety",
+      "pathology_icd10": "F41.9",
+      "medication_name": "Sertraline",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Anxiety",
+      "pathology_icd10": "F41.9",
+      "medication_name": "Buspirone",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Headache",
+      "pathology_icd10": "R51.9",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Headache",
+      "pathology_icd10": "R51.9",
+      "medication_name": "Acetaminophen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Migraine",
+      "pathology_icd10": "G43.909",
+      "medication_name": "Sumatriptan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Migraine",
+      "pathology_icd10": "G43.909",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoarthritis",
+      "pathology_icd10": "M19.90",
+      "medication_name": "Ibuprofen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoarthritis",
+      "pathology_icd10": "M19.90",
+      "medication_name": "Acetaminophen",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Rheumatoid arthritis",
+      "pathology_icd10": "M06.9",
+      "medication_name": "Methotrexate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Rheumatoid arthritis",
+      "pathology_icd10": "M06.9",
+      "medication_name": "Adalimumab",
+      "medication_route": "subcutaneous",
+      "medication_dosage_form": "injection",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hyperlipidemia",
+      "pathology_icd10": "E78.5",
+      "medication_name": "Atorvastatin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hyperlipidemia",
+      "pathology_icd10": "E78.5",
+      "medication_name": "Rosuvastatin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hypothyroidism",
+      "pathology_icd10": "E03.9",
+      "medication_name": "Levothyroxine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "CKD",
+      "pathology_icd10": "N18.9",
+      "medication_name": "Lisinopril",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "UTI",
+      "pathology_icd10": "N39.0",
+      "medication_name": "Trimethoprim-sulfamethoxazole",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "UTI",
+      "pathology_icd10": "N39.0",
+      "medication_name": "Ciprofloxacin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Glaucoma",
+      "pathology_icd10": "H40.9",
+      "medication_name": "Latanoprost",
+      "medication_route": "ophthalmic",
+      "medication_dosage_form": "drops",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Dry eye",
+      "pathology_icd10": "H04.129",
+      "medication_name": "Artificial tears",
+      "medication_route": "ophthalmic",
+      "medication_dosage_form": "drops",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Hepatitis C",
+      "pathology_icd10": "B18.2",
+      "medication_name": "Ledipasvir-sofosbuvir",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Insomnia",
+      "pathology_icd10": "G47.00",
+      "medication_name": "Zolpidem",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Insomnia",
+      "pathology_icd10": "G47.00",
+      "medication_name": "Melatonin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Allergic rhinitis",
+      "pathology_icd10": "J30.9",
+      "medication_name": "Cetirizine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Allergic rhinitis",
+      "pathology_icd10": "J30.9",
+      "medication_name": "Fluticasone nasal spray",
+      "medication_route": "intranasal",
+      "medication_dosage_form": "spray",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Furosemide",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Carvedilol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Heart failure",
+      "pathology_icd10": "I50.9",
+      "medication_name": "Sacubitril-valsartan",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 3,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Gout",
+      "pathology_icd10": "M10.9",
+      "medication_name": "Allopurinol",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Gout",
+      "pathology_icd10": "M10.9",
+      "medication_name": "Colchicine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Psoriasis",
+      "pathology_icd10": "L40.9",
+      "medication_name": "Triamcinolone cream",
+      "medication_route": "topical",
+      "medication_dosage_form": "cream",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Eczema",
+      "pathology_icd10": "L20.9",
+      "medication_name": "Triamcinolone cream",
+      "medication_route": "topical",
+      "medication_dosage_form": "cream",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Neuropathy",
+      "pathology_icd10": "G62.9",
+      "medication_name": "Gabapentin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Neuropathy",
+      "pathology_icd10": "G62.9",
+      "medication_name": "Pregabalin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "ADHD",
+      "pathology_icd10": "F90.9",
+      "medication_name": "Methylphenidate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "ADHD",
+      "pathology_icd10": "F90.9",
+      "medication_name": "Atomoxetine",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Benign prostatic hyperplasia",
+      "pathology_icd10": "N40.0",
+      "medication_name": "Tamsulosin",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoporosis",
+      "pathology_icd10": "M81.0",
+      "medication_name": "Alendronate",
+      "medication_route": "oral",
+      "medication_dosage_form": "tablet",
+      "relation_rank": 1,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    },
+    {
+      "pathology_common_name": "Osteoporosis",
+      "pathology_icd10": "M81.0",
+      "medication_name": "Vitamin D",
+      "medication_route": "oral",
+      "medication_dosage_form": "capsule",
+      "relation_rank": 2,
+      "relation_type": "common_concomitant",
+      "notes": "Coordinator suggestion only — not a clinical recommendation."
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Imaging_Matrix/1.0.0",
+  "title": "Imaging Matrix Row",
+  "description": "Imaging modalities, reads, QC, and transfer.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-imaging_matrix"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "imaging_id": {
+      "type": "string",
+      "pattern": "^IMG-[0-9]{3}$"
+    },
+    "modality": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "body_region": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "acquisition_window": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "local_read_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "central_read_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "qc_status": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "transfer_method": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "repeat_allowed": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "image_reviewer": {
+      "$ref": "../common/common.schema.json#/$defs/RoleName"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "imaging_id",
+    "visit_id",
+    "modality",
+    "body_region"
+  ]
+}

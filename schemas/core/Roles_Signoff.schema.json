@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Roles_Signoff/1.0.0",
+  "title": "Roles and Signoff Row",
+  "description": "Role permissions and signoff capabilities.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "role_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/RoleID"
+    },
+    "scope_type": {
+      "$ref": "../common/common.schema.json#/$defs/ScopeType"
+    },
+    "scope_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "role_code": {
+      "$ref": "../common/common.schema.json#/$defs/RoleName"
+    },
+    "can_execute": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "can_review": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "can_sign": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "can_reopen": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "signature_meaning_code": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "role_row_id",
+    "scope_type",
+    "scope_id",
+    "role_code"
+  ]
+}

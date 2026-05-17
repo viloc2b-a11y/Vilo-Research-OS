@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Visit_Templates/1.0.0",
+  "title": "Visit Template Row",
+  "description": "Defines visit nodes in the schedule.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "visit_code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "visit_label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "visit_group_code": {
+      "$ref": "../common/common.schema.json#/$defs/VisitGroupID"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9999
+    },
+    "planned_day": {
+      "type": "integer",
+      "minimum": -3650,
+      "maximum": 3650
+    },
+    "planned_week": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 520
+    },
+    "relative_anchor": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "delivery_mode": {
+      "$ref": "../common/common.schema.json#/$defs/VisitMode"
+    },
+    "visit_type": {
+      "$ref": "../common/common.schema.json#/$defs/VisitType"
+    },
+    "repeatable_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "visit_id",
+    "visit_label",
+    "visit_group_code",
+    "sequence",
+    "delivery_mode",
+    "active_flag"
+  ]
+}

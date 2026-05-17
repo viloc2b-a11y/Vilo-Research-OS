@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/EDC_Reconciliation/1.0.0",
+  "title": "EDC Reconciliation Row",
+  "description": "EDC field mapping and query reconciliation expectations.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-edc_reconciliation"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "reconciliation_id": {
+      "type": "string",
+      "pattern": "^EDC-[0-9]{3}$"
+    },
+    "source_record_id": {
+      "$ref": "../common/common.schema.json#/$defs/FieldName"
+    },
+    "ecrf_field": {
+      "$ref": "../common/common.schema.json#/$defs/ExportName"
+    },
+    "mapping_status": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "discrepancy_type": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "query_status": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "resolution_owner": {
+      "$ref": "../common/common.schema.json#/$defs/RoleName"
+    },
+    "locked_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "reconciliation_date": {
+      "$ref": "../common/common.schema.json#/$defs/ISODate"
+    },
+    "closeout_status": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "reconciliation_id",
+    "source_record_id",
+    "ecrf_field",
+    "mapping_status"
+  ]
+}

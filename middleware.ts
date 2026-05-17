@@ -9,6 +9,11 @@ function isPublicPath(pathname: string): boolean {
   )
 }
 
+/** Source API routes enforce auth in handlers and return JSON envelopes (not login redirects). */
+function isSourceApiPath(pathname: string): boolean {
+  return pathname === '/api/source' || pathname.startsWith('/api/source/')
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -37,7 +42,7 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  if (!user && !isPublicPath(pathname)) {
+  if (!user && !isPublicPath(pathname) && !isSourceApiPath(pathname)) {
     const loginUrl = request.nextUrl.clone()
     loginUrl.pathname = '/login'
     loginUrl.searchParams.set('redirectedFrom', pathname)

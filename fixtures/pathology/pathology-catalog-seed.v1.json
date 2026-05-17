@@ -1,0 +1,134 @@
+{
+  "catalog_version": "1.0.0",
+  "catalog_id": "vilo-pathology-medical-history-lookup",
+  "description": "Coordinator lookup library for medical history — not a billing/coding engine.",
+  "thematic_blocks": [
+    "Infectious and parasitic diseases",
+    "Neoplasms",
+    "Blood and immune disorders",
+    "Endocrine and metabolic disorders",
+    "Mental and behavioral disorders",
+    "Nervous system",
+    "Eye",
+    "Ear / ENT",
+    "Circulatory system",
+    "Respiratory system",
+    "Digestive system",
+    "Skin",
+    "Musculoskeletal system",
+    "Genitourinary system",
+    "Pregnancy and perinatal conditions",
+    "Congenital conditions",
+    "Symptoms and signs",
+    "Medical history / risk factors"
+  ],
+  "value_lists": {
+    "chronic_acute": ["Chronic", "Acute", "Both"],
+    "sex_specific": ["Female", "Male", "Both", "Children"]
+  },
+  "workbook_sheets": ["Catalog_Master", "Value_Lists", "Instructions", "Mappings", "Audit_Log"],
+  "catalog_master_columns": [
+    "System",
+    "Common_Name",
+    "Medical_Name",
+    "ICD10_Code",
+    "Synonyms",
+    "Chronic_Acute",
+    "Sex_Specific",
+    "Pediatric_Use",
+    "Active_Flag"
+  ],
+  "import_metadata_fields": [
+    "source_file_name",
+    "imported_by",
+    "imported_at",
+    "row_hash",
+    "import_batch_id"
+  ],
+  "terms": [
+    {
+      "system": "Cardiovascular",
+      "common_name": "High blood pressure",
+      "medical_name": "Essential hypertension",
+      "icd10_code": "I10",
+      "synonyms": ["HTN", "hypertension"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 9
+    },
+    {
+      "system": "Respiratory",
+      "common_name": "Asthma",
+      "medical_name": "Asthma, unspecified",
+      "icd10_code": "J45.909",
+      "synonyms": ["Bronchial asthma"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 10
+    },
+    {
+      "system": "Endocrine",
+      "common_name": "Diabetes",
+      "medical_name": "Type 2 diabetes mellitus without complications",
+      "icd10_code": "E11.9",
+      "synonyms": ["T2DM"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 4
+    },
+    {
+      "system": "Digestive",
+      "common_name": "GERD",
+      "medical_name": "Gastro-esophageal reflux disease without esophagitis",
+      "icd10_code": "K21.9",
+      "synonyms": ["Acid reflux"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 11
+    },
+    {
+      "system": "Musculoskeletal",
+      "common_name": "Osteoarthritis",
+      "medical_name": "Osteoarthritis, unspecified site",
+      "icd10_code": "M19.90",
+      "synonyms": ["Arthritis"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 13
+    },
+    {
+      "system": "Mental",
+      "common_name": "Depression",
+      "medical_name": "Major depressive disorder, single episode, unspecified",
+      "icd10_code": "F32.9",
+      "synonyms": ["Depression"],
+      "chronic_acute": "Chronic",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 5
+    },
+    {
+      "system": "Nervous system",
+      "common_name": "Headache",
+      "medical_name": "Headache, unspecified",
+      "icd10_code": "R51.9",
+      "synonyms": ["Head pain", "cephalalgia", "migraine"],
+      "chronic_acute": "Both",
+      "sex_specific": "Both",
+      "pediatric_use": true,
+      "active_flag": true,
+      "thematic_block": 6
+    }
+  ]
+}

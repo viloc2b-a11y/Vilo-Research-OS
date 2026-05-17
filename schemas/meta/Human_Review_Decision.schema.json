@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/Human_Review_Decision/1.0.0",
+  "title": "Human Review Decision",
+  "description": "Human decision on a parser extraction result.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "review_id": {
+      "type": "string",
+      "pattern": "^REV-[0-9]{4}$"
+    },
+    "extraction_result_id": {
+      "type": "string",
+      "pattern": "^EXT-[0-9]{4}$"
+    },
+    "reviewer_user_id": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "edit",
+        "reject"
+      ]
+    },
+    "corrected_value": {
+      "type": [
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "null"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "reviewed_at": {
+      "$ref": "../common/common.schema.json#/$defs/ISODateTime"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "review_id",
+    "extraction_result_id",
+    "reviewer_user_id",
+    "decision",
+    "reviewed_at"
+  ]
+}

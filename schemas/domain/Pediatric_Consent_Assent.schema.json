@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Pediatric_Consent_Assent/1.0.0",
+  "title": "Pediatric Consent Assent Row",
+  "description": "Pediatric consent, assent, LAR, and signature order.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-pediatric_consent_assent"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "pediatric_id": {
+      "type": "string",
+      "pattern": "^PED-[0-9]{3}$"
+    },
+    "age_range": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "parent_consent_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "child_assent_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "reassent_trigger": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "lar_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "consent_version": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "assent_version": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "signature_order": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/RoleName"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "notes": {
+      "$ref": "../common/common.schema.json#/$defs/Notes"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "pediatric_id",
+    "age_range",
+    "parent_consent_required",
+    "child_assent_required",
+    "signature_order"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/External_Source_Map/1.0.0",
+  "title": "External Source Map Row",
+  "description": "External systems of record; not Vilo SoR for clinical facts.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "external_source_id": {
+      "$ref": "../common/common.schema.json#/$defs/ExternalMapID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "system_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "reference_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "status_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "attachment_allowed": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "sync_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "external_source_id",
+    "procedure_id",
+    "system_name",
+    "reference_required"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/Parser_Extraction_Result/1.0.0",
+  "title": "Parser Extraction Result",
+  "description": "AI/OCR/Excel extraction proposal bound to target schema fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "extraction_id": {
+      "type": "string",
+      "pattern": "^EXT-[0-9]{4}$"
+    },
+    "parser_mapping_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "ingestion_job_id": {
+      "$ref": "../common/common.schema.json#/$defs/Uuid"
+    },
+    "proposed_row_id": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "extracted_value": {
+      "type": [
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "null"
+      ]
+    },
+    "normalized_value": {
+      "type": [
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "null"
+      ]
+    },
+    "target_schema": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 128
+    },
+    "target_field": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 64
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "source_page": {
+      "type": [
+        "string",
+        "integer"
+      ]
+    },
+    "source_table": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "source_text_evidence": {
+      "type": "string",
+      "maxLength": 8000
+    },
+    "extraction_method": {
+      "type": "string",
+      "enum": [
+        "excel",
+        "pdf_text",
+        "ocr",
+        "paste",
+        "manual"
+      ]
+    },
+    "reviewer_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "accepted",
+        "edited",
+        "rejected"
+      ]
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "extraction_id",
+    "parser_mapping_schema_version",
+    "extracted_value",
+    "normalized_value",
+    "target_schema",
+    "target_field",
+    "confidence_score",
+    "source_page",
+    "source_table",
+    "source_text_evidence",
+    "extraction_method",
+    "reviewer_status"
+  ]
+}

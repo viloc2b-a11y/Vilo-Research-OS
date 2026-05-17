@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Crossover_Design/1.0.0",
+  "title": "Crossover Design Row",
+  "description": "Crossover periods, washout, carryover checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-crossover_design"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "crossover_id": {
+      "type": "string",
+      "pattern": "^CO-[0-9]{3}$"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 99
+    },
+    "period_number": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 99
+    },
+    "treatment_arm": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "washout_period": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 365
+    },
+    "carryover_check": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "period_eligibility": {
+      "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+    },
+    "period_specific_visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "crossover_id",
+    "sequence",
+    "period_number",
+    "treatment_arm"
+  ]
+}

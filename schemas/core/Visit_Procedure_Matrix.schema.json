@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/core/Visit_Procedure_Matrix/1.0.0",
+  "title": "Visit Procedure Matrix Row",
+  "description": "Binds procedures to visits (schedule of events matrix).",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "matrix_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/MatrixRowID"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "matrix_marker": {
+      "$ref": "../common/common.schema.json#/$defs/RequirementStatus"
+    },
+    "execution_order": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9999
+    },
+    "conditional_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "condition_rule_id": {
+      "$ref": "../common/common.schema.json#/$defs/RuleID"
+    },
+    "source_type_override": {
+      "$ref": "../common/common.schema.json#/$defs/SourceType"
+    },
+    "owner_role_override": {
+      "$ref": "../common/common.schema.json#/$defs/RoleName"
+    },
+    "signature_override": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "study_template_id",
+    "matrix_row_id",
+    "visit_id",
+    "procedure_id",
+    "matrix_marker"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "matrix_marker": {
+            "const": "conditional"
+          }
+        },
+        "required": [
+          "matrix_marker"
+        ]
+      },
+      "then": {
+        "required": [
+          "condition_rule_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "conditional_flag": {
+            "const": true
+          }
+        },
+        "required": [
+          "conditional_flag"
+        ]
+      },
+      "then": {
+        "required": [
+          "condition_rule_id"
+        ]
+      }
+    }
+  ]
+}

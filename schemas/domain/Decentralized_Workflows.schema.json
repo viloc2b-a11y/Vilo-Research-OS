@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/Decentralized_Workflows/1.0.0",
+  "title": "Decentralized Workflow Row",
+  "description": "Decentralized visit modalities and remote capture.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-decentralized_workflows"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "decentralized_workflow_id": {
+      "type": "string",
+      "pattern": "^DC-[0-9]{3}$"
+    },
+    "visit_mode": {
+      "$ref": "../common/common.schema.json#/$defs/VisitMode"
+    },
+    "home_health_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "telehealth_allowed": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "ip_direct_ship_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "remote_id_verification": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "courier_collection_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "remote_source_type": {
+      "$ref": "../common/common.schema.json#/$defs/SourceType"
+    },
+    "vendor_managed_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "decentralized_workflow_id",
+    "visit_id",
+    "visit_mode"
+  ]
+}

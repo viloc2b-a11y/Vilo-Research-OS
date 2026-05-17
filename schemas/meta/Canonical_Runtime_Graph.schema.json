@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/Canonical_Runtime_Graph/1.0.0",
+  "title": "Canonical Runtime Graph",
+  "description": "Compiled design graph from approved dictionaries.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "graph_id": {
+      "type": "string",
+      "pattern": "^CRG-[0-9]{4}$"
+    },
+    "schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "cpst_version": {
+      "$ref": "../common/common.schema.json#/$defs/CpstVersion"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "generated_from_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "crg_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "node_type": {
+            "type": "string",
+            "enum": [
+              "StudyTemplateNode",
+              "VersionNode",
+              "VisitGroupNode",
+              "VisitNode",
+              "ProcedureNode",
+              "FieldNode",
+              "RuleNode",
+              "WindowNode",
+              "ExternalSourceNode",
+              "SubstudyNode",
+              "RoleNode",
+              "DomainModuleNode",
+              "SignatureRequirementNode",
+              "ValidationRuleNode",
+              "RuntimeExpectationNode"
+            ]
+          },
+          "natural_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": false
+          },
+          "source_dictionary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "source_row_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "source_field_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "../common/common.schema.json#/$defs/FieldName"
+            },
+            "uniqueItems": true
+          },
+          "provenance": {
+            "$ref": "../common/common.schema.json#/$defs/ProvenanceReference"
+          },
+          "validation_status": {
+            "type": "string",
+            "enum": [
+              "valid",
+              "warning",
+              "error"
+            ]
+          }
+        },
+        "required": [
+          "node_id",
+          "node_type",
+          "natural_key",
+          "properties",
+          "source_dictionary",
+          "source_row_id",
+          "provenance",
+          "validation_status"
+        ]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "edge_type": {
+            "type": "string",
+            "enum": [
+              "belongs_to",
+              "contains",
+              "assigned_to_visit",
+              "requires",
+              "optional_for",
+              "conditional_on",
+              "triggers",
+              "blocks",
+              "occurs_within",
+              "relative_to",
+              "sourced_from",
+              "reviewed_by",
+              "signed_by",
+              "applies_to_cohort",
+              "applies_to_region",
+              "applies_to_age",
+              "supersedes",
+              "generates_source",
+              "generates_workflow",
+              "exports_as"
+            ]
+          },
+          "from_node_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "to_node_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": false
+          },
+          "provenance": {
+            "$ref": "../common/common.schema.json#/$defs/ProvenanceReference"
+          }
+        },
+        "required": [
+          "edge_id",
+          "edge_type",
+          "from_node_id",
+          "to_node_id",
+          "provenance"
+        ]
+      }
+    },
+    "provenance_map": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "../common/common.schema.json#/$defs/ProvenanceReference"
+      }
+    }
+  },
+  "required": [
+    "graph_id",
+    "schema_version",
+    "cpst_version",
+    "study_template_id",
+    "generated_from_schema_version",
+    "input_hash",
+    "validation_status",
+    "nodes",
+    "edges",
+    "provenance_map"
+  ]
+}

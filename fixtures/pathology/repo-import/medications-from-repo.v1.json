@@ -1,0 +1,1802 @@
+{
+  "medications": [
+    {
+      "external_seed_id": 1,
+      "medication_name": "Metformin",
+      "brand_name": "Glucophage",
+      "drug_class": "Biguanide",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 2,
+      "medication_name": "Lisinopril",
+      "brand_name": "Prinivil",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 3,
+      "medication_name": "Amlodipine",
+      "brand_name": "Norvasc",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 4,
+      "medication_name": "Losartan",
+      "brand_name": "Cozaar",
+      "drug_class": "ARB",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 5,
+      "medication_name": "Hydrochlorothiazide",
+      "brand_name": "Microzide",
+      "drug_class": "Thiazide diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 6,
+      "medication_name": "Atorvastatin",
+      "brand_name": "Lipitor",
+      "drug_class": "Statin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 7,
+      "medication_name": "Simvastatin",
+      "brand_name": "Zocor",
+      "drug_class": "Statin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 8,
+      "medication_name": "Levothyroxine",
+      "brand_name": "Synthroid",
+      "drug_class": "Thyroid hormone",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 9,
+      "medication_name": "Albuterol",
+      "brand_name": "Ventolin",
+      "drug_class": "Bronchodilator",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 10,
+      "medication_name": "Budesonide",
+      "brand_name": "Pulmicort",
+      "drug_class": "Corticosteroid",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 11,
+      "medication_name": "Fluticasone",
+      "brand_name": "Flovent",
+      "drug_class": "Corticosteroid",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 12,
+      "medication_name": "Sertraline",
+      "brand_name": "Zoloft",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 13,
+      "medication_name": "Fluoxetine",
+      "brand_name": "Prozac",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 14,
+      "medication_name": "Escitalopram",
+      "brand_name": "Lexapro",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 15,
+      "medication_name": "Omeprazole",
+      "brand_name": "Prilosec",
+      "drug_class": "PPI",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 16,
+      "medication_name": "Pantoprazole",
+      "brand_name": "Protonix",
+      "drug_class": "PPI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 17,
+      "medication_name": "Ibuprofen",
+      "brand_name": "Advil",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 18,
+      "medication_name": "Acetaminophen",
+      "brand_name": "Tylenol",
+      "drug_class": "Analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 19,
+      "medication_name": "Prednisone",
+      "brand_name": "Deltasone",
+      "drug_class": "Corticosteroid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 20,
+      "medication_name": "Amoxicillin",
+      "brand_name": "Amoxil",
+      "drug_class": "Penicillin antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 21,
+      "medication_name": "Azithromycin",
+      "brand_name": "Zithromax",
+      "drug_class": "Macrolide antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 22,
+      "medication_name": "Ciprofloxacin",
+      "brand_name": "Cipro",
+      "drug_class": "Fluoroquinolone antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 23,
+      "medication_name": "Doxycycline",
+      "brand_name": "Vibramycin",
+      "drug_class": "Tetracycline antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 24,
+      "medication_name": "Cephalexin",
+      "brand_name": "Keflex",
+      "drug_class": "Cephalosporin antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 25,
+      "medication_name": "Nitrofurantoin",
+      "brand_name": "Macrobid",
+      "drug_class": "Antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 26,
+      "medication_name": "Trimethoprim-sulfamethoxazole",
+      "brand_name": "Bactrim",
+      "drug_class": "Antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 27,
+      "medication_name": "Clindamycin",
+      "brand_name": "Cleocin",
+      "drug_class": "Antibiotic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 28,
+      "medication_name": "Metronidazole",
+      "brand_name": "Flagyl",
+      "drug_class": "Antibiotic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 29,
+      "medication_name": "Fluconazole",
+      "brand_name": "Diflucan",
+      "drug_class": "Antifungal",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 30,
+      "medication_name": "Terbinafine",
+      "brand_name": "Lamisil",
+      "drug_class": "Antifungal",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 31,
+      "medication_name": "Miconazole",
+      "brand_name": "Monistat",
+      "drug_class": "Antifungal",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 32,
+      "medication_name": "Nystatin",
+      "brand_name": "Mycostatin",
+      "drug_class": "Antifungal",
+      "route": "oral",
+      "dosage_form": "suspension",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 33,
+      "medication_name": "Valacyclovir",
+      "brand_name": "Valtrex",
+      "drug_class": "Antiviral",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 34,
+      "medication_name": "Acyclovir",
+      "brand_name": "Zovirax",
+      "drug_class": "Antiviral",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 35,
+      "medication_name": "Hydroxyzine",
+      "brand_name": "Vistaril",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 36,
+      "medication_name": "Cetirizine",
+      "brand_name": "Zyrtec",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 37,
+      "medication_name": "Loratadine",
+      "brand_name": "Claritin",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 38,
+      "medication_name": "Fexofenadine",
+      "brand_name": "Allegra",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 39,
+      "medication_name": "Montelukast",
+      "brand_name": "Singulair",
+      "drug_class": "Leukotriene receptor antagonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 40,
+      "medication_name": "Fluticasone nasal",
+      "brand_name": "Flonase",
+      "drug_class": "Nasal corticosteroid",
+      "route": "intranasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 41,
+      "medication_name": "Ipratropium",
+      "brand_name": "Atrovent",
+      "drug_class": "Anticholinergic",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 42,
+      "medication_name": "Tiotropium",
+      "brand_name": "Spiriva",
+      "drug_class": "LAMA",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 43,
+      "medication_name": "Salmeterol",
+      "brand_name": "Serevent",
+      "drug_class": "LABA",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 44,
+      "medication_name": "Formoterol",
+      "brand_name": "Foradil",
+      "drug_class": "LABA",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 45,
+      "medication_name": "Mometasone",
+      "brand_name": "Nasonex",
+      "drug_class": "Corticosteroid",
+      "route": "intranasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 46,
+      "medication_name": "Ranitidine",
+      "brand_name": "Zantac",
+      "drug_class": "H2 blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 47,
+      "medication_name": "Famotidine",
+      "brand_name": "Pepcid",
+      "drug_class": "H2 blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 48,
+      "medication_name": "Sucralfate",
+      "brand_name": "Carafate",
+      "drug_class": "Gastroprotective",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 49,
+      "medication_name": "Ondansetron",
+      "brand_name": "Zofran",
+      "drug_class": "Antiemetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 50,
+      "medication_name": "Promethazine",
+      "brand_name": "Phenergan",
+      "drug_class": "Antiemetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 51,
+      "medication_name": "Loperamide",
+      "brand_name": "Imodium",
+      "drug_class": "Antidiarrheal",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 52,
+      "medication_name": "Polyethylene glycol",
+      "brand_name": "MiraLAX",
+      "drug_class": "Osmotic laxative",
+      "route": "oral",
+      "dosage_form": "powder",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 53,
+      "medication_name": "Senna",
+      "brand_name": "Senokot",
+      "drug_class": "Stimulant laxative",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 54,
+      "medication_name": "Docusate",
+      "brand_name": "Colace",
+      "drug_class": "Stool softener",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 55,
+      "medication_name": "Bisacodyl",
+      "brand_name": "Dulcolax",
+      "drug_class": "Laxative",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 56,
+      "medication_name": "Insulin glargine",
+      "brand_name": "Lantus",
+      "drug_class": "Long-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 57,
+      "medication_name": "Insulin lispro",
+      "brand_name": "Humalog",
+      "drug_class": "Rapid-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 58,
+      "medication_name": "Insulin aspart",
+      "brand_name": "NovoLog",
+      "drug_class": "Rapid-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 59,
+      "medication_name": "Insulin NPH",
+      "brand_name": "Humulin N",
+      "drug_class": "Intermediate insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 60,
+      "medication_name": "Glipizide",
+      "brand_name": "Glucotrol",
+      "drug_class": "Sulfonylurea",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 61,
+      "medication_name": "Glyburide",
+      "brand_name": "Diabeta",
+      "drug_class": "Sulfonylurea",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 62,
+      "medication_name": "Sitagliptin",
+      "brand_name": "Januvia",
+      "drug_class": "DPP-4 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 63,
+      "medication_name": "Empagliflozin",
+      "brand_name": "Jardiance",
+      "drug_class": "SGLT2 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 64,
+      "medication_name": "Dapagliflozin",
+      "brand_name": "Farxiga",
+      "drug_class": "SGLT2 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 65,
+      "medication_name": "Semaglutide",
+      "brand_name": "Ozempic",
+      "drug_class": "GLP-1 agonist",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 66,
+      "medication_name": "Liraglutide",
+      "brand_name": "Victoza",
+      "drug_class": "GLP-1 agonist",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 67,
+      "medication_name": "Trazodone",
+      "brand_name": "Desyrel",
+      "drug_class": "Antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 68,
+      "medication_name": "Bupropion",
+      "brand_name": "Wellbutrin",
+      "drug_class": "Antidepressant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 69,
+      "medication_name": "Venlafaxine",
+      "brand_name": "Effexor",
+      "drug_class": "SNRI",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 70,
+      "medication_name": "Duloxetine",
+      "brand_name": "Cymbalta",
+      "drug_class": "SNRI",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 71,
+      "medication_name": "Citalopram",
+      "brand_name": "Celexa",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 72,
+      "medication_name": "Paroxetine",
+      "brand_name": "Paxil",
+      "drug_class": "SSRI",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 73,
+      "medication_name": "Clonazepam",
+      "brand_name": "Klonopin",
+      "drug_class": "Benzodiazepine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 74,
+      "medication_name": "Lorazepam",
+      "brand_name": "Ativan",
+      "drug_class": "Benzodiazepine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 75,
+      "medication_name": "Diazepam",
+      "brand_name": "Valium",
+      "drug_class": "Benzodiazepine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 76,
+      "medication_name": "Buspirone",
+      "brand_name": "Buspar",
+      "drug_class": "Anxiolytic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 77,
+      "medication_name": "Propranolol",
+      "brand_name": "Inderal",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 78,
+      "medication_name": "Metoprolol",
+      "brand_name": "Lopressor",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 79,
+      "medication_name": "Carvedilol",
+      "brand_name": "Coreg",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 80,
+      "medication_name": "Furosemide",
+      "brand_name": "Lasix",
+      "drug_class": "Loop diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 81,
+      "medication_name": "Spironolactone",
+      "brand_name": "Aldactone",
+      "drug_class": "Aldosterone antagonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 82,
+      "medication_name": "Warfarin",
+      "brand_name": "Coumadin",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 83,
+      "medication_name": "Apixaban",
+      "brand_name": "Eliquis",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 84,
+      "medication_name": "Rivaroxaban",
+      "brand_name": "Xarelto",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 85,
+      "medication_name": "Clopidogrel",
+      "brand_name": "Plavix",
+      "drug_class": "Antiplatelet",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 86,
+      "medication_name": "Aspirin",
+      "brand_name": "Bayer",
+      "drug_class": "Antiplatelet",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 87,
+      "medication_name": "Nitroglycerin",
+      "brand_name": "Nitrostat",
+      "drug_class": "Nitrate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 88,
+      "medication_name": "Isosorbide mononitrate",
+      "brand_name": "Imdur",
+      "drug_class": "Nitrate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 89,
+      "medication_name": "Ropinirole",
+      "brand_name": "Requip",
+      "drug_class": "Dopamine agonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 90,
+      "medication_name": "Carbidopa-levodopa",
+      "brand_name": "Sinemet",
+      "drug_class": "Antiparkinsonian",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 91,
+      "medication_name": "Gabapentin",
+      "brand_name": "Neurontin",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 92,
+      "medication_name": "Pregabalin",
+      "brand_name": "Lyrica",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 93,
+      "medication_name": "Topiramate",
+      "brand_name": "Topamax",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 94,
+      "medication_name": "Levetiracetam",
+      "brand_name": "Keppra",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 95,
+      "medication_name": "Phenytoin",
+      "brand_name": "Dilantin",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 96,
+      "medication_name": "Valproate",
+      "brand_name": "Depakote",
+      "drug_class": "Anticonvulsant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 97,
+      "medication_name": "Hydrocortisone",
+      "brand_name": "Cortef",
+      "drug_class": "Corticosteroid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 98,
+      "medication_name": "Methylprednisolone",
+      "brand_name": "Medrol",
+      "drug_class": "Corticosteroid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 99,
+      "medication_name": "Triamcinolone",
+      "brand_name": "Kenalog",
+      "drug_class": "Corticosteroid",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 100,
+      "medication_name": "Betamethasone",
+      "brand_name": "Celestone",
+      "drug_class": "Corticosteroid",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 101,
+      "medication_name": "Clobetasol",
+      "brand_name": "Temovate",
+      "drug_class": "Topical corticosteroid",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 102,
+      "medication_name": "Mupirocin",
+      "brand_name": "Bactroban",
+      "drug_class": "Topical antibiotic",
+      "route": "topical",
+      "dosage_form": "ointment",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 103,
+      "medication_name": "Hydrocortisone cream",
+      "brand_name": "Cortizone",
+      "drug_class": "Topical corticosteroid",
+      "route": "topical",
+      "dosage_form": "cream",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 104,
+      "medication_name": "Tacrolimus",
+      "brand_name": "Prograf",
+      "drug_class": "Immunosuppressant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 105,
+      "medication_name": "Cyclosporine",
+      "brand_name": "Neoral",
+      "drug_class": "Immunosuppressant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 106,
+      "medication_name": "Methotrexate",
+      "brand_name": "Trexall",
+      "drug_class": "DMARD",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 107,
+      "medication_name": "Hydroxychloroquine",
+      "brand_name": "Plaquenil",
+      "drug_class": "DMARD",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 108,
+      "medication_name": "Adalimumab",
+      "brand_name": "Humira",
+      "drug_class": "Biologic",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 109,
+      "medication_name": "Etanercept",
+      "brand_name": "Enbrel",
+      "drug_class": "Biologic",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 110,
+      "medication_name": "Infliximab",
+      "brand_name": "Remicade",
+      "drug_class": "Biologic",
+      "route": "iv",
+      "dosage_form": "infusion",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 111,
+      "medication_name": "Tramadol",
+      "brand_name": "Ultram",
+      "drug_class": "Analgesic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 112,
+      "medication_name": "Morphine",
+      "brand_name": "MS Contin",
+      "drug_class": "Opioid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 113,
+      "medication_name": "Oxycodone",
+      "brand_name": "OxyContin",
+      "drug_class": "Opioid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 114,
+      "medication_name": "Hydrocodone-acetaminophen",
+      "brand_name": "Norco",
+      "drug_class": "Opioid combination",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 115,
+      "medication_name": "Lidocaine",
+      "brand_name": "Xylocaine",
+      "drug_class": "Local anesthetic",
+      "route": "topical",
+      "dosage_form": "patch",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 116,
+      "medication_name": "Diclofenac",
+      "brand_name": "Voltaren",
+      "drug_class": "NSAID",
+      "route": "topical",
+      "dosage_form": "gel",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 117,
+      "medication_name": "Naproxen",
+      "brand_name": "Aleve",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 118,
+      "medication_name": "Meloxicam",
+      "brand_name": "Mobic",
+      "drug_class": "NSAID",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 119,
+      "medication_name": "Celecoxib",
+      "brand_name": "Celebrex",
+      "drug_class": "COX-2 inhibitor",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 120,
+      "medication_name": "Allopurinol",
+      "brand_name": "Zyloprim",
+      "drug_class": "Antigout",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 121,
+      "medication_name": "Colchicine",
+      "brand_name": "Colcrys",
+      "drug_class": "Antigout",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 122,
+      "medication_name": "Alendronate",
+      "brand_name": "Fosamax",
+      "drug_class": "Bisphosphonate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 123,
+      "medication_name": "Calcium carbonate",
+      "brand_name": "Tums",
+      "drug_class": "Supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 124,
+      "medication_name": "Cholecalciferol",
+      "brand_name": "Vitamin D3",
+      "drug_class": "Supplement",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 125,
+      "medication_name": "Ferrous sulfate",
+      "brand_name": "Feosol",
+      "drug_class": "Iron supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 126,
+      "medication_name": "Vitamin B12",
+      "brand_name": "Cyanocobalamin",
+      "drug_class": "Vitamin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 127,
+      "medication_name": "Folic acid",
+      "brand_name": "Folvite",
+      "drug_class": "Vitamin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 128,
+      "medication_name": "Magnesium oxide",
+      "brand_name": "Mag-Ox",
+      "drug_class": "Supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 129,
+      "medication_name": "Potassium chloride",
+      "brand_name": "Klor-Con",
+      "drug_class": "Electrolyte supplement",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 130,
+      "medication_name": "Sodium bicarbonate",
+      "brand_name": "Baking soda",
+      "drug_class": "Alkalinizing agent",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 131,
+      "medication_name": "Dextromethorphan",
+      "brand_name": "Robitussin DM",
+      "drug_class": "Antitussive",
+      "route": "oral",
+      "dosage_form": "syrup",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 132,
+      "medication_name": "Guaifenesin",
+      "brand_name": "Mucinex",
+      "drug_class": "Expectorant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 133,
+      "medication_name": "Pseudoephedrine",
+      "brand_name": "Sudafed",
+      "drug_class": "Decongestant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 134,
+      "medication_name": "Oxymetazoline",
+      "brand_name": "Afrin",
+      "drug_class": "Nasal decongestant",
+      "route": "intranasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 135,
+      "medication_name": "Benzonatate",
+      "brand_name": "Tessalon",
+      "drug_class": "Antitussive",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 136,
+      "medication_name": "Meclizine",
+      "brand_name": "Antivert",
+      "drug_class": "Antivertigo",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 137,
+      "medication_name": "Scopolamine",
+      "brand_name": "Transderm Scop",
+      "drug_class": "Antiemetic",
+      "route": "transdermal",
+      "dosage_form": "patch",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 138,
+      "medication_name": "Dimenhydrinate",
+      "brand_name": "Dramamine",
+      "drug_class": "Antihistamine/Antiemetic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 139,
+      "medication_name": "Chlorpheniramine",
+      "brand_name": "Chlor-Trimeton",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 140,
+      "medication_name": "Diphenhydramine",
+      "brand_name": "Benadryl",
+      "drug_class": "Antihistamine",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 141,
+      "medication_name": "Epinephrine",
+      "brand_name": "EpiPen",
+      "drug_class": "Anaphylaxis agent",
+      "route": "injection",
+      "dosage_form": "auto-injector",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 142,
+      "medication_name": "Naloxone",
+      "brand_name": "Narcan",
+      "drug_class": "Opioid antagonist",
+      "route": "nasal",
+      "dosage_form": "spray",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 143,
+      "medication_name": "Methadone",
+      "brand_name": "Dolophine",
+      "drug_class": "Opioid",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 144,
+      "medication_name": "Buprenorphine",
+      "brand_name": "Suboxone",
+      "drug_class": "Opioid partial agonist",
+      "route": "sublingual",
+      "dosage_form": "film",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 145,
+      "medication_name": "Varenicline",
+      "brand_name": "Chantix",
+      "drug_class": "Smoking cessation",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 146,
+      "medication_name": "Nicotine patch",
+      "brand_name": "Nicoderm",
+      "drug_class": "Nicotine replacement",
+      "route": "transdermal",
+      "dosage_form": "patch",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 147,
+      "medication_name": "Raloxifene",
+      "brand_name": "Evista",
+      "drug_class": "SERM",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 148,
+      "medication_name": "Denosumab",
+      "brand_name": "Prolia",
+      "drug_class": "Biologic",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 149,
+      "medication_name": "Teriparatide",
+      "brand_name": "Forteo",
+      "drug_class": "Parathyroid hormone analog",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 150,
+      "medication_name": "Rosuvastatin",
+      "brand_name": "Crestor",
+      "drug_class": "Statin",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 151,
+      "medication_name": "Verapamil",
+      "brand_name": "Calan",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 152,
+      "medication_name": "Diltiazem",
+      "brand_name": "Cardizem",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 153,
+      "medication_name": "Clonidine",
+      "brand_name": "Catapres",
+      "drug_class": "Alpha-2 agonist",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 154,
+      "medication_name": "Hydralazine",
+      "brand_name": "Apresoline",
+      "drug_class": "Vasodilator",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 155,
+      "medication_name": "Minoxidil",
+      "brand_name": "Loniten",
+      "drug_class": "Vasodilator",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 156,
+      "medication_name": "Digoxin",
+      "brand_name": "Lanoxin",
+      "drug_class": "Cardiac glycoside",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 157,
+      "medication_name": "Amiodarone",
+      "brand_name": "Cordarone",
+      "drug_class": "Antiarrhythmic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 158,
+      "medication_name": "Sotalol",
+      "brand_name": "Betapace",
+      "drug_class": "Antiarrhythmic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 159,
+      "medication_name": "Dofetilide",
+      "brand_name": "Tikosyn",
+      "drug_class": "Antiarrhythmic",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 160,
+      "medication_name": "Propafenone",
+      "brand_name": "Rythmol",
+      "drug_class": "Antiarrhythmic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 161,
+      "medication_name": "Heparin",
+      "brand_name": "Heparin",
+      "drug_class": "Anticoagulant",
+      "route": "injection",
+      "dosage_form": "vial",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 162,
+      "medication_name": "Enoxaparin",
+      "brand_name": "Lovenox",
+      "drug_class": "Anticoagulant",
+      "route": "injection",
+      "dosage_form": "syringe",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 163,
+      "medication_name": "Dabigatran",
+      "brand_name": "Pradaxa",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 164,
+      "medication_name": "Edoxaban",
+      "brand_name": "Savaysa",
+      "drug_class": "Anticoagulant",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 165,
+      "medication_name": "Prasugrel",
+      "brand_name": "Effient",
+      "drug_class": "Antiplatelet",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 166,
+      "medication_name": "Ticagrelor",
+      "brand_name": "Brilinta",
+      "drug_class": "Antiplatelet",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 167,
+      "medication_name": "Cilostazol",
+      "brand_name": "Pletal",
+      "drug_class": "Antiplatelet/Vasodilator",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 168,
+      "medication_name": "Ranolazine",
+      "brand_name": "Ranexa",
+      "drug_class": "Antianginal",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 169,
+      "medication_name": "Isosorbide dinitrate",
+      "brand_name": "Isordil",
+      "drug_class": "Nitrate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 170,
+      "medication_name": "Atenolol",
+      "brand_name": "Tenormin",
+      "drug_class": "Beta blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 171,
+      "medication_name": "Nifedipine",
+      "brand_name": "Procardia",
+      "drug_class": "Calcium channel blocker",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 172,
+      "medication_name": "Valsartan",
+      "brand_name": "Diovan",
+      "drug_class": "ARB",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 173,
+      "medication_name": "Telmisartan",
+      "brand_name": "Micardis",
+      "drug_class": "ARB",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 174,
+      "medication_name": "Olmesartan",
+      "brand_name": "Benicar",
+      "drug_class": "ARB",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 175,
+      "medication_name": "Enalapril",
+      "brand_name": "Vasotec",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 176,
+      "medication_name": "Ramipril",
+      "brand_name": "Altace",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 177,
+      "medication_name": "Benazepril",
+      "brand_name": "Lotensin",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 178,
+      "medication_name": "Perindopril",
+      "brand_name": "Aceon",
+      "drug_class": "ACE inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 179,
+      "medication_name": "Chlorthalidone",
+      "brand_name": "Hygroton",
+      "drug_class": "Thiazide-like diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 180,
+      "medication_name": "Torsemide",
+      "brand_name": "Demadex",
+      "drug_class": "Loop diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 181,
+      "medication_name": "Bumetanide",
+      "brand_name": "Bumex",
+      "drug_class": "Loop diuretic",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 182,
+      "medication_name": "Ezetimibe",
+      "brand_name": "Zetia",
+      "drug_class": "Cholesterol absorption inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 183,
+      "medication_name": "Fenofibrate",
+      "brand_name": "Tricor",
+      "drug_class": "Fibrate",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 184,
+      "medication_name": "Omega-3 fatty acids",
+      "brand_name": "Lovaza",
+      "drug_class": "Lipid-lowering agent",
+      "route": "oral",
+      "dosage_form": "capsule",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 185,
+      "medication_name": "Insulin degludec",
+      "brand_name": "Tresiba",
+      "drug_class": "Long-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 186,
+      "medication_name": "Insulin detemir",
+      "brand_name": "Levemir",
+      "drug_class": "Long-acting insulin",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 187,
+      "medication_name": "Exenatide",
+      "brand_name": "Byetta",
+      "drug_class": "GLP-1 agonist",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 188,
+      "medication_name": "Dulaglutide",
+      "brand_name": "Trulicity",
+      "drug_class": "GLP-1 agonist",
+      "route": "subcutaneous",
+      "dosage_form": "injection",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 189,
+      "medication_name": "Canagliflozin",
+      "brand_name": "Invokana",
+      "drug_class": "SGLT2 inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 190,
+      "medication_name": "Pioglitazone",
+      "brand_name": "Actos",
+      "drug_class": "Thiazolidinedione",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 191,
+      "medication_name": "Acarbose",
+      "brand_name": "Precose",
+      "drug_class": "Alpha-glucosidase inhibitor",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 192,
+      "medication_name": "Repaglinide",
+      "brand_name": "Prandin",
+      "drug_class": "Meglitinide",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 193,
+      "medication_name": "Glimepiride",
+      "brand_name": "Amaryl",
+      "drug_class": "Sulfonylurea",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 194,
+      "medication_name": "Levalbuterol",
+      "brand_name": "Xopenex",
+      "drug_class": "Bronchodilator",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 195,
+      "medication_name": "Ciclesonide",
+      "brand_name": "Alvesco",
+      "drug_class": "Corticosteroid",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 196,
+      "medication_name": "Trelegy Ellipta",
+      "brand_name": "Trelegy",
+      "drug_class": "Combination inhaler",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 197,
+      "medication_name": "Umeclidinium",
+      "brand_name": "Incruse Ellipta",
+      "drug_class": "LAMA",
+      "route": "inhaled",
+      "dosage_form": "inhaler",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 198,
+      "medication_name": "Arformoterol",
+      "brand_name": "Brovana",
+      "drug_class": "LABA",
+      "route": "inhaled",
+      "dosage_form": "nebulizer solution",
+      "active_flag": true
+    },
+    {
+      "external_seed_id": 200,
+      "medication_name": "Rizatriptan",
+      "brand_name": "Maxalt",
+      "drug_class": "Triptan",
+      "route": "oral",
+      "dosage_form": "tablet",
+      "active_flag": true
+    }
+  ],
+  "meta": {
+    "source_file": "C:\\Users\\jmend\\OneDrive\\Documents\\ANTIGRAVITY FOLDER\\VILO CTMS\\vilo-os\\Medicamentos.docx",
+    "paragraph_lines": 260,
+    "medication_rows": 199,
+    "duplicate_or_empty_skipped": 1,
+    "link_rows_ignored": 58
+  }
+}

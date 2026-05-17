@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/meta/Domain_Module_Registry/1.0.0",
+  "title": "Domain Module Registry Row",
+  "description": "Registry of active domain modules per study template.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,48}$"
+    },
+    "module_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "module_category": {
+      "type": "string",
+      "enum": [
+        "clinical",
+        "operational",
+        "integration",
+        "regulatory"
+      ]
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "applies_to_study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "applies_to_visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "applies_to_procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "runtime_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "window_eval",
+          "query_open",
+          "block_proc",
+          "sign_gate",
+          "export_section",
+          "specimen_collection",
+          "processing_tracking",
+          "storage_tracking",
+          "shipment_tracking",
+          "chain_of_custody",
+          "quality_deviation_capture"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "validation_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/RuleID"
+      },
+      "uniqueItems": true
+    },
+    "workflow_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+      },
+      "uniqueItems": true
+    },
+    "temporal_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+      },
+      "uniqueItems": true
+    },
+    "signature_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+      },
+      "uniqueItems": true
+    },
+    "export_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+      },
+      "uniqueItems": true
+    },
+    "reconciliation_hooks": {
+      "type": "array",
+      "items": {
+        "$ref": "../common/common.schema.json#/$defs/ControlledValueCode"
+      },
+      "uniqueItems": true
+    },
+    "source_capture_strategy": {
+      "$ref": "../common/common.schema.json#/$defs/SourceType"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_key",
+    "module_name",
+    "module_category",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "applies_to_study_template_id",
+    "source_capture_strategy",
+    "active_flag"
+  ]
+}

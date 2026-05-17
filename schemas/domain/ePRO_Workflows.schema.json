@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vilo.os/schemas/domain/ePRO_Workflows/1.0.0",
+  "title": "ePRO Workflow Row",
+  "description": "ePRO instruments, windows, compliance, rescue workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-vilo-schema-version": "1.0.0",
+  "properties": {
+    "module_row_id": {
+      "$ref": "../common/common.schema.json#/$defs/ModuleRowID"
+    },
+    "study_template_id": {
+      "$ref": "../common/common.schema.json#/$defs/StudyTemplateID"
+    },
+    "module_id": {
+      "type": "string",
+      "const": "MOD-epro_workflows"
+    },
+    "compatible_core_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverRange"
+    },
+    "module_schema_version": {
+      "$ref": "../common/common.schema.json#/$defs/SemverVersion"
+    },
+    "visit_id": {
+      "$ref": "../common/common.schema.json#/$defs/VisitID"
+    },
+    "procedure_id": {
+      "$ref": "../common/common.schema.json#/$defs/ProcedureID"
+    },
+    "active_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "epro_id": {
+      "type": "string",
+      "pattern": "^EPR-[0-9]{3}$"
+    },
+    "instrument_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "schedule_cadence": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "device_app": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "completion_window_start": {
+      "$ref": "../common/common.schema.json#/$defs/ISODateTime"
+    },
+    "completion_window_end": {
+      "$ref": "../common/common.schema.json#/$defs/ISODateTime"
+    },
+    "reminder_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "missing_response_flag": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "compliance_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "rescue_workflow_required": {
+      "$ref": "../common/common.schema.json#/$defs/BooleanFlag"
+    },
+    "x_vilo_provenance": {
+      "$ref": "../common/common.schema.json#/$defs/ProvenanceReference",
+      "description": "Optional provenance when row is AI- or parser-filled."
+    }
+  },
+  "required": [
+    "module_row_id",
+    "study_template_id",
+    "module_id",
+    "compatible_core_schema_version",
+    "module_schema_version",
+    "active_flag",
+    "epro_id",
+    "instrument_name",
+    "schedule_cadence"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "completion_window_start",
+          "completion_window_end"
+        ]
+      },
+      "then": {
+        "properties": {
+          "completion_window_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completion_window_end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  ]
+}
