@@ -4,8 +4,6 @@
    Preserves all existing shadcn/tailwind tokens.
    ========================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap');
-
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -15,9 +13,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--vilo-font-sans);
+  --font-mono: var(--vilo-font-mono);
+  --font-heading: var(--vilo-font-heading);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -110,6 +108,9 @@
   --vilo-text-muted: #98a5ad;
   --vilo-border: #e5e5e5;
   --vilo-border-light: #f0eeec;
+  --vilo-font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --vilo-font-heading: Georgia, "Times New Roman", serif;
+  --vilo-font-mono: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
 
   /* Clinical Status Colors */
   --vilo-healthy: #34a090;
@@ -173,12 +174,12 @@
     @apply antialiased;
     background-color: var(--vilo-cream);
     color: var(--vilo-text);
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--vilo-font-sans);
     font-weight: 400;
     letter-spacing: -0.01em;
   }
   h1, h2, h3 {
-    font-family: 'DM Serif Display', Georgia, serif;
+    font-family: var(--vilo-font-heading);
     color: var(--vilo-navy);
     letter-spacing: -0.02em;
   }
@@ -186,7 +187,7 @@
     color: var(--vilo-text);
   }
   html {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--vilo-font-sans);
   }
 }
 
@@ -228,16 +229,18 @@
 
   /* --- Vilo Cards --- */
   .vilo-card {
-    background-color: var(--vilo-white);
+    background-color: var(--card);
+    color: var(--card-foreground);
     border-radius: 12px;
-    border: 1px solid var(--vilo-border-light);
+    border: 1px solid var(--border);
     box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
     transition: all 0.2s ease;
   }
   .vilo-card-interactive {
-    background-color: var(--vilo-white);
+    background-color: var(--card);
+    color: var(--card-foreground);
     border-radius: 12px;
-    border: 1px solid var(--vilo-border-light);
+    border: 1px solid var(--border);
     box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
     transition: all 0.2s ease;
     cursor: pointer;
@@ -250,16 +253,18 @@
 
   /* Legacy aliases — inline CSS to avoid @apply on custom classes */
   .op-card {
-    background-color: var(--vilo-white);
+    background-color: var(--card);
+    color: var(--card-foreground);
     border-radius: 12px;
-    border: 1px solid var(--vilo-border-light);
+    border: 1px solid var(--border);
     box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
     transition: all 0.2s ease;
   }
   .op-card-interactive {
-    background-color: var(--vilo-white);
+    background-color: var(--card);
+    color: var(--card-foreground);
     border-radius: 12px;
-    border: 1px solid var(--vilo-border-light);
+    border: 1px solid var(--border);
     box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
     transition: all 0.2s ease;
     cursor: pointer;
@@ -281,7 +286,7 @@
 
   /* --- Monospace IDs --- */
   .mono-id {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--vilo-font-mono);
     @apply text-xs tracking-tight;
     color: var(--vilo-text-muted);
   }
@@ -322,8 +327,8 @@
   .vilo-btn-secondary:hover { background-color: var(--vilo-navy-light); }
   .vilo-btn-outline {
     border: 1px solid var(--vilo-border);
-    background-color: var(--vilo-white);
-    color: var(--vilo-text);
+    background-color: var(--card);
+    color: var(--foreground);
     font-weight: 500;
     border-radius: 8px;
     padding: 0 12px;
@@ -336,7 +341,7 @@
     transition: all 0.15s ease;
   }
   .vilo-btn-outline:hover {
-    background-color: var(--vilo-cream);
+    background-color: var(--accent);
     border-color: var(--vilo-teal);
   }
 
@@ -361,7 +366,7 @@
 
   /* --- Heading serif --- */
   .heading-serif {
-    font-family: 'DM Serif Display', Georgia, serif;
+    font-family: var(--vilo-font-heading);
     color: var(--vilo-navy);
     letter-spacing: -0.02em;
   }

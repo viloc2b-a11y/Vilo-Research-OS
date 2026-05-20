@@ -21,19 +21,19 @@ function enrollmentStatusClass(status: string) {
     case 'active':     return 'status-badge-healthy'
     case 'enrolled':   return 'status-badge-healthy'
     case 'screening':  return 'status-badge-watch'
-    case 'completed':  return 'bg-[#f0eeec] text-[#98a5ad]'
+    case 'completed':  return 'bg-muted text-muted-foreground'
     case 'withdrawn':  return 'status-badge-risk'
-    default:           return 'bg-[#f0eeec] text-[#98a5ad]'
+    default:           return 'bg-muted text-muted-foreground'
   }
 }
 
 function healthToRisk(health: SubjectOperationalHealth | null | undefined): string {
-  if (!health) return 'bg-[#f0eeec] text-[#98a5ad]'
+  if (!health) return 'bg-muted text-muted-foreground'
   return {
     healthy:   'status-badge-healthy',
     attention: 'status-badge-watch',
     critical:  'status-badge-critical',
-  }[health] ?? 'bg-[#f0eeec] text-[#98a5ad]'
+  }[health] ?? 'bg-muted text-muted-foreground'
 }
 
 export function SubjectChartHeader({
@@ -46,12 +46,12 @@ export function SubjectChartHeader({
 
   return (
     <div
-      className="bg-white border-b"
-      style={{ borderColor: '#e5e5e5' }}
+      className="bg-card border-b"
+      style={{ borderColor: 'var(--border)' }}
     >
       {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 px-6 pt-3 pb-0 text-xs" style={{ color: '#98a5ad' }}>
-        <Link href={studiesIndexPath()} className="hover:text-[#34a090] transition-colors">
+      <div className="flex items-center gap-1.5 px-6 pt-3 pb-0 text-xs" style={{ color: 'var(--muted-foreground)' }}>
+        <Link href={studiesIndexPath()} className="hover:text-primary transition-colors">
           Studies
         </Link>
         {header.studyName && (
@@ -59,14 +59,14 @@ export function SubjectChartHeader({
             <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link
               href={studyDetailPath(header.studyId)}
-              className="hover:text-[#34a090] transition-colors truncate max-w-[180px]"
+              className="hover:text-primary transition-colors truncate max-w-[180px]"
             >
               {header.studyName}
             </Link>
           </>
         )}
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
-        <span className="font-semibold" style={{ color: '#10253e' }}>
+        <span className="font-semibold" style={{ color: 'var(--foreground)' }}>
           Subject {header.subjectIdentifier}
         </span>
       </div>
@@ -76,7 +76,7 @@ export function SubjectChartHeader({
         {/* Avatar */}
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-          style={{ backgroundColor: '#34a090' }}
+          style={{ backgroundColor: 'var(--primary)' }}
         >
           {initials}
         </div>
@@ -84,7 +84,7 @@ export function SubjectChartHeader({
         {/* Subject info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-base font-semibold" style={{ color: '#10253e' }}>
+            <span className="text-base font-semibold" style={{ color: 'var(--foreground)' }}>
               Subject {header.subjectIdentifier}
             </span>
             {/* Enrollment status */}
@@ -98,7 +98,7 @@ export function SubjectChartHeader({
               </span>
             )}
           </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#98a5ad' }}>
+          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--muted-foreground)' }}>
             {header.studyName && (
               <span>{header.studyName}</span>
             )}

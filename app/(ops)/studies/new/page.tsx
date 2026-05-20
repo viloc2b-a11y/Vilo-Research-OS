@@ -17,12 +17,12 @@ export default async function NewStudyPage() {
   if (organizations.length === 0) {
     return (
       <div className="p-6 max-w-lg">
-        <h1 className="heading-serif text-xl text-[#10253e]">New Study</h1>
-        <p className="text-sm text-[#98a5ad] mt-2">
+        <h1 className="heading-serif text-xl text-foreground">New Study</h1>
+        <p className="text-sm text-muted-foreground mt-2">
           Only organization owners or admins can create studies. Ask your workspace admin to grant
           admin access, or use an account with owner/admin role.
         </p>
-        <Link href="/studies" className="inline-block mt-4 text-sm font-medium text-[#34a090] hover:underline">
+        <Link href="/studies" className="inline-block mt-4 text-sm font-medium text-primary hover:underline">
           Back to Studies
         </Link>
       </div>
@@ -35,7 +35,7 @@ export default async function NewStudyPage() {
     null
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 scrollbar-thin" style={{ backgroundColor: '#f9f8f7' }}>
+    <div className="flex-1 overflow-y-auto bg-accent p-6 scrollbar-thin">
       <CreateStudyForm organizations={organizations} defaultOrganizationId={defaultOrg} />
     </div>
   )

@@ -17,19 +17,26 @@ function ListCard({
   icon: Icon,
   items,
   empty,
+  actionHref,
+  actionLabel,
 }: {
   title: string
   icon: React.ElementType
   items: WorkspaceItem[]
   empty: string
+  actionHref: string
+  actionLabel: string
 }) {
   return (
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <Icon className="size-4 text-[#34a090]" />
+          <Icon className="size-4 text-primary" />
           {title}
           <Badge variant="secondary">{items.length}</Badge>
+          <Link href={actionHref} className="ml-auto text-xs font-medium text-primary hover:underline">
+            {actionLabel}
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -67,7 +74,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
     <div className="space-y-6 p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-[#10253e]">
+          <h1 className="text-2xl font-semibold text-foreground">
             Subject {model.subject.subjectIdentifier}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -76,7 +83,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
         </div>
         <Link
           href={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`}
-          className="text-sm font-medium text-[#34a090] hover:underline"
+          className="text-sm font-medium text-primary hover:underline"
         >
           Open subject chart
         </Link>
@@ -94,7 +101,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
         {stats.map(({ label, value, Icon }) => (
           <Card key={label}>
             <CardContent className="flex items-center gap-3 pt-6">
-              <Icon className="size-5 text-[#34a090]" />
+              <Icon className="size-5 text-primary" />
               <div>
                 <p className="text-2xl font-semibold">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
@@ -105,13 +112,13 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <ListCard title="Subject Timeline" icon={Activity} items={model.timeline} empty="No timeline items found." />
-        <ListCard title="Visits" icon={Calendar} items={model.visits} empty="No visits found." />
-        <ListCard title="Procedures" icon={Activity} items={model.procedures} empty="No procedures found." />
-        <ListCard title="Source Status" icon={FileText} items={model.sourceStatus} empty="No source sets found." />
-        <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." />
-        <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." />
-        <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." />
+        <ListCard title="Subject Timeline" icon={Activity} items={model.timeline} empty="No timeline items found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`} actionLabel="Open chart" />
+        <ListCard title="Visits" icon={Calendar} items={model.visits} empty="No visits found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
+        <ListCard title="Procedures" icon={Activity} items={model.procedures} empty="No procedures found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
+        <ListCard title="Source Status" icon={FileText} items={model.sourceStatus} empty="No source sets found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`} actionLabel="Open chart" />
+        <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}?tab=clinical-profile`} actionLabel="Open profile" />
+        <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}?tab=workflow`} actionLabel="Open workflow" />
+        <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
       </div>
     </div>
   )

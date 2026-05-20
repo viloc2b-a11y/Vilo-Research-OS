@@ -32,6 +32,7 @@ import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectSafetySignals } from '@/lib/subject/safety-signals'
 import { loadSubjectRegulatorySignals } from '@/lib/subject/regulatory-signals'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { createServerClient } from '@/lib/supabase/server'
 
 type SubjectDetailPageProps = {
@@ -144,6 +145,13 @@ export default async function SubjectDetailPage({
   const chartStudyId = routeStudyId ?? study?.id ?? null
   const organizationId = subject.organization_id as string
 
+  const user = await getSessionUser()
+  if (!user) notFound()
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  if (!canAccessOrganization) notFound()
+
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
   }
@@ -238,7 +246,7 @@ export default async function SubjectDetailPage({
     : null
 
   return (
-    <div className="flex flex-col h-full" style={{ backgroundColor: '#f9f8f7' }}>
+    <div className="flex flex-col h-full bg-accent">
 
       {/* ===== Subject Header (sticky) ===== */}
       {chartHeader ? (
@@ -248,19 +256,19 @@ export default async function SubjectDetailPage({
         />
       ) : (
         /* Fallback header when no study context */
-        <div className="bg-white border-b px-6 py-4" style={{ borderColor: '#e5e5e5' }}>
+        <div className="bg-card border-b px-6 py-4" >
           <div className="flex items-center gap-3">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-              style={{ backgroundColor: '#34a090' }}
+              className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-sm font-bold text-primary-foreground flex-shrink-0"
+              
             >
               {generalSubject.subjectNumber?.slice(0, 2).toUpperCase() ?? '—'}
             </div>
             <div>
-              <h1 className="text-base font-semibold" style={{ color: '#10253e' }}>
+              <h1 className="text-base font-semibold" >
                 Subject {generalSubject.subjectNumber}
               </h1>
-              <p className="text-xs" style={{ color: '#98a5ad' }}>
+              <p className="text-xs" >
                 {generalSubject.status}
                 {generalSubject.studyArm ? ` · Arm ${generalSubject.studyArm}` : ''}
               </p>
@@ -273,7 +281,7 @@ export default async function SubjectDetailPage({
       <SubjectChartNav studyId={chartStudyId} subjectId={subjectId} activeTab={activeTab} />
 
       {/* ===== Tab Content ===== */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
         <div className="p-6 max-w-[1100px] space-y-5">
 
           {/* Error banners */}
@@ -312,8 +320,8 @@ export default async function SubjectDetailPage({
           {activeTab === 'clinical-profile' ? (
             <div className="space-y-4">
               <div>
-                <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>Clinical Profile</h2>
-                <p className="text-sm" style={{ color: '#98a5ad' }}>
+                <h2 className="text-lg font-semibold" >Clinical Profile</h2>
+                <p className="text-sm" >
                   Longitudinal clinical backbone — independent from visits. All entries are audit-logged (ALCOA+).
                 </p>
               </div>

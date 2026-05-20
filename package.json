@@ -11,6 +11,7 @@
     "db:migrate:from": "node scripts/apply-migrations.mjs --from",
     "db:migrate:phase7b": "node scripts/apply-migration.mjs 0053_phase7b_vpi_sql_aggregation.sql",
     "db:provision": "node scripts/provision-synthetic.mjs",
+    "db:bootstrap-org-owner": "node scripts/bootstrap-org-owner.mjs",
     "db:validate": "node scripts/validate-infrastructure.mjs",
     "db:validate-phase2": "node scripts/validate-phase2.mjs",
     "db:validate-phase3b": "node scripts/validate-phase3b.mjs",

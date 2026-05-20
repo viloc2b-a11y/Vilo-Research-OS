@@ -90,12 +90,12 @@ function EscalationRow({
       id={item.workflowActionId ? `workflow-${item.workflowActionId}` : undefined}
       className={cn(
         'rounded-md border p-3 text-sm',
-        item.isOverdue ? 'border-rose-300 bg-rose-50/80' : 'border-[#e5e5e5] bg-white',
+        item.isOverdue ? 'border-rose-300 bg-rose-50/80' : 'border-border bg-card',
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="font-medium" style={{ color: '#10253e' }}>
+          <p className="font-medium" style={{ color: 'var(--foreground)' }}>
             {item.title}
           </p>
           {item.description ? (
@@ -106,10 +106,10 @@ function EscalationRow({
         </div>
         <div className="flex flex-wrap gap-1 text-[10px]">
           {item.sourceLabel ? (
-            <span className="rounded border px-1.5 py-0.5 bg-white/80">{item.sourceLabel}</span>
+            <span className="rounded border px-1.5 py-0.5 bg-card/80">{item.sourceLabel}</span>
           ) : null}
           {item.priority ? (
-            <span className="rounded border px-1.5 py-0.5 bg-white/80 uppercase">
+            <span className="rounded border px-1.5 py-0.5 bg-card/80 uppercase">
               {item.priority}
             </span>
           ) : null}
@@ -118,11 +118,11 @@ function EscalationRow({
               Overdue
             </span>
           ) : null}
-          <span className="rounded border px-1.5 py-0.5 bg-white/80">{item.statusLabel}</span>
+          <span className="rounded border px-1.5 py-0.5 bg-card/80">{item.statusLabel}</span>
         </div>
       </div>
 
-      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ color: '#98a5ad' }}>
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ color: 'var(--muted-foreground)' }}>
         {item.dueDate ? <span>Due {item.dueDate}</span> : null}
         {item.visitName ? <span>Visit: {item.visitName}</span> : null}
         {item.assignedLabel ? <span>{item.assignedLabel}</span> : null}
@@ -135,7 +135,7 @@ function EscalationRow({
       {item.href ? (
         <Link
           href={item.href}
-          className="mt-2 inline-block text-xs font-medium text-[#34a090] hover:underline"
+          className="mt-2 inline-block text-xs font-medium text-primary hover:underline"
         >
           Open evidence →
         </Link>
@@ -163,10 +163,10 @@ export function SubjectWorkflowEscalationList({
   if (sections.length === 0) {
     return (
       <section
-        className="rounded-lg border bg-white p-4"
-        style={{ borderColor: '#e5e5e5' }}
+        className="rounded-lg border bg-card p-4"
+        style={{ borderColor: 'var(--border)' }}
       >
-        <p className="text-sm" style={{ color: '#98a5ad' }}>
+        <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
           No open escalation items. Create a workflow action below or check the General tab for
           visit-level status.
         </p>
@@ -181,7 +181,7 @@ export function SubjectWorkflowEscalationList({
           key={section.group}
           className={cn('rounded-lg border p-4', groupTone(section.group))}
         >
-          <h3 className="text-sm font-semibold mb-3" style={{ color: '#10253e' }}>
+          <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--foreground)' }}>
             {section.title}
             <span className="ml-2 font-normal text-muted-foreground">({section.items.length})</span>
           </h3>

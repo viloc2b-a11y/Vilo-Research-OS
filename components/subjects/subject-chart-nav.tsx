@@ -20,7 +20,7 @@ export function SubjectChartNav({ studyId, subjectId, activeTab }: SubjectChartN
   return (
     <div
       className="flex gap-0.5 overflow-x-auto scrollbar-thin border-b"
-      style={{ borderColor: '#e5e5e5', backgroundColor: '#ffffff' }}
+      style={{ borderColor: 'var(--border)', backgroundColor: '#ffffff' }}
     >
       {subjectChartTabs.map((item) => {
         const href = subjectChartTabHref(studyId, subjectId, item.key)
@@ -33,8 +33,8 @@ export function SubjectChartNav({ studyId, subjectId, activeTab }: SubjectChartN
             className={`
               flex-shrink-0 px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors
               ${isActive
-                ? 'border-[#34a090] text-[#34a090]'
-                : 'border-transparent text-[#98a5ad] hover:text-[#10253e]'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
               }
             `}
           >

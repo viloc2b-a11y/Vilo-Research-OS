@@ -9,7 +9,7 @@ type OpsShellProps = {
 
 export function OpsShell({ children, userEmail, organizationName }: OpsShellProps) {
   return (
-    <div className="flex h-screen overflow-hidden bg-vilo-cream">
+    <div className="flex h-screen overflow-hidden bg-accent">
       <Sidebar organizationName={organizationName} />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar userEmail={userEmail} />

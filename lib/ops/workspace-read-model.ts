@@ -11,6 +11,7 @@ import { loadSubjectClinicalProfile } from '@/lib/subject/clinical-profile/read'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { createServerClient } from '@/lib/supabase/server'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 
 export type WorkspaceItem = {
@@ -89,18 +90,26 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
   if (studyError || !study) notFound()
 
   const organizationId = study.organization_id as string
+  const user = await getSessionUser()
+  if (!user) notFound()
 
-  const [subjects, visits, sourceSets, findings, workflow, events] = await Promise.all([
+  const memberships = await getOrganizationMemberships(user.id)
+  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  if (!canAccessOrganization) notFound()
+
+  const [subjects, visits, sourceSets, workflow, events] = await Promise.all([
     supabase
       .from('study_subjects')
       .select('id, subject_identifier, enrollment_status')
       .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
       .order('created_at', { ascending: false })
       .limit(12),
     supabase
       .from('visits')
       .select('id, study_subject_id, scheduled_date, window_status, visit_status, visit_definitions(label, code), study_subjects(subject_identifier)')
       .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
       .gte('scheduled_date', today)
       .order('scheduled_date', { ascending: true })
       .limit(12),
@@ -108,20 +117,15 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
       .from('source_response_sets')
       .select('id, organization_id, study_subject_id, visit_id, procedure_execution_id, status')
       .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
       .in('status', ['draft', 'opened', 'in_progress', 'pending_review'])
       .order('opened_at', { ascending: false })
-      .limit(12),
-    supabase
-      .from('source_response_validation_findings')
-      .select('id, response_set_id, severity, message, status, created_at')
-      .in('status', ['open', 'acknowledged'])
-      .in('severity', ['error', 'critical'])
-      .order('created_at', { ascending: false })
       .limit(12),
     supabase
       .from('subject_workflow_actions')
       .select('id, study_subject_id, visit_id, procedure_execution_id, source_response_set_id, action_type, title, status, priority, due_date')
       .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
       .in('status', ['open', 'in_progress'])
       .order('due_date', { ascending: true, nullsFirst: false })
       .limit(12),
@@ -131,7 +135,6 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
   if (subjects.error) unavailable.push(`Subjects unavailable: ${subjects.error.message}`)
   if (visits.error) unavailable.push(`Upcoming visits unavailable: ${visits.error.message}`)
   if (sourceSets.error) unavailable.push(`Source status unavailable: ${sourceSets.error.message}`)
-  if (findings.error) unavailable.push(`Blockers unavailable: ${findings.error.message}`)
   if (workflow.error) unavailable.push(`Workflow unavailable: ${workflow.error.message}`)
 
   const activeSubjects = (subjects.data ?? []).map((subject) => ({
@@ -164,6 +167,21 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
     status: set.status as string | null,
     tone: toneForStatus(set.status as string | null),
   }))
+
+  const sourceSetIds = (sourceSets.data ?? []).map((set) => set.id as string)
+  const findings =
+    sourceSetIds.length > 0
+      ? await supabase
+          .from('source_response_validation_findings')
+          .select('id, response_set_id, severity, message, status, created_at')
+          .in('response_set_id', sourceSetIds)
+          .in('status', ['open', 'acknowledged'])
+          .in('severity', ['error', 'critical'])
+          .order('created_at', { ascending: false })
+          .limit(12)
+      : { data: [], error: null }
+
+  if (findings.error) unavailable.push(`Blockers unavailable: ${findings.error.message}`)
 
   const blockers = (findings.data ?? []).map((finding) => ({
     id: finding.id as string,
@@ -211,7 +229,7 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
       id: event.id,
       title: event.eventType,
       detail: event.occurredAt,
-      href: event.visitId ? visitDetailPath(event.visitId) : subjectChartPath(studyId, ''),
+      href: event.visitId ? visitDetailPath(event.visitId) : `/studies/${studyId}`,
       status: event.eventType,
       tone: 'neutral' as const,
     })),
@@ -234,22 +252,31 @@ export async function loadSubjectWorkspaceModel(subjectId: string): Promise<Subj
   const study = one(subject.studies) as { name?: string | null } | null
   const studyId = subject.study_id as string
   const organizationId = subject.organization_id as string
+  const user = await getSessionUser()
+  if (!user) notFound()
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  if (!canAccessOrganization) notFound()
 
   const [visits, procedures, sourceSets, workflow, operational, profile] = await Promise.all([
     supabase
       .from('visits')
       .select('id, scheduled_date, actual_date, completed_at, visit_status, window_status, visit_review_status, visit_definitions(label, code)')
       .eq('study_subject_id', subjectId)
+      .eq('organization_id', organizationId)
       .order('scheduled_date', { ascending: true, nullsFirst: false }),
     supabase
       .from('procedure_executions')
       .select('id, visit_id, execution_status, validation_status, is_signed, is_locked, procedure_definitions(label, code)')
       .eq('study_subject_id', subjectId)
+      .eq('organization_id', organizationId)
       .order('created_at', { ascending: true }),
     supabase
       .from('source_response_sets')
       .select('id, organization_id, visit_id, procedure_execution_id, status, submitted_at, signed_at, locked_at')
       .eq('study_subject_id', subjectId)
+      .eq('organization_id', organizationId)
       .order('opened_at', { ascending: false }),
     loadSubjectWorkflowActions(subjectId, organizationId),
     loadSubjectOperationalIntelligence({ subjectId, studyId, organizationId }),

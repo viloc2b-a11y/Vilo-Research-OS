@@ -10,10 +10,10 @@ export function SubjectRegulatorySurface({ model }: SubjectRegulatorySurfaceProp
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
           Regulatory / Deviation Signals
         </h2>
-        <p className="text-sm" style={{ color: '#98a5ad' }}>
+        <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
           Protocol execution and source-compliance risks derived from operational data. These are
           not final adjudicated protocol deviations unless a formal deviation record exists in the
           system.

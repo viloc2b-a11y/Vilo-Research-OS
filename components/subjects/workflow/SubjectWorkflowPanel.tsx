@@ -36,10 +36,10 @@ export function SubjectWorkflowPanel({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
           Workflow & escalation
         </h2>
-        <p className="text-sm" style={{ color: '#98a5ad' }}>
+        <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
           Coordinator queue for overdue tasks, signatures, and source follow-up. For protocol
           compliance risk indicators, use the Deviations tab.
         </p>

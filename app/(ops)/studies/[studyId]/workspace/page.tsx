@@ -31,10 +31,10 @@ function ListCard({
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <Icon className="size-4 text-[#34a090]" />
+          <Icon className="size-4 text-primary" />
           {title}
           <Badge variant="secondary">{items.length}</Badge>
-          <Link href={actionHref} className="ml-auto text-xs font-medium text-[#34a090] hover:underline">
+          <Link href={actionHref} className="ml-auto text-xs font-medium text-primary hover:underline">
             {actionLabel}
           </Link>
         </CardTitle>
@@ -74,10 +74,10 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
     <div className="space-y-6 p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-[#10253e]">{model.study.name}</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{model.study.name}</h1>
           <p className="text-sm text-muted-foreground">Study workspace · {model.study.status ?? 'status unavailable'}</p>
         </div>
-        <Link href={`/studies/${studyId}`} className="text-sm font-medium text-[#34a090] hover:underline">
+        <Link href={`/studies/${studyId}`} className="text-sm font-medium text-primary hover:underline">
           Open study detail
         </Link>
       </div>
@@ -94,7 +94,7 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
         {stats.map(({ label, value, Icon }) => (
           <Card key={label}>
             <CardContent className="flex items-center gap-3 pt-6">
-              <Icon className="size-5 text-[#34a090]" />
+              <Icon className="size-5 text-primary" />
               <div>
                 <p className="text-2xl font-semibold">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>

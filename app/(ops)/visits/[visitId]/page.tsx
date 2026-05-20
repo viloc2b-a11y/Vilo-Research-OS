@@ -31,6 +31,7 @@ import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflow
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
 import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load'
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -60,8 +61,8 @@ function visitStatusBadgeClass(status: string | null) {
   switch (status) {
     case 'checked_in':
     case 'in_progress':   return 'bg-amber-50 text-amber-700 border border-amber-200'
-    case 'completed':     return 'bg-[#e8f5f3] text-[#2a8577] border border-[#c5e8e4]'
-    case 'locked':        return 'bg-[#e8f5f3] text-[#2a8577] border border-[#c5e8e4]'
+    case 'completed':     return 'bg-accent/40 text-primary border border-primary/30'
+    case 'locked':        return 'bg-accent/40 text-primary border border-primary/30'
     case 'missed':        return 'bg-red-50 text-red-700 border border-red-100'
     default:              return 'bg-blue-50 text-blue-700 border border-blue-200'
   }
@@ -83,7 +84,7 @@ const PROGRESS_STEPS = [
 function ProgressStrip({ pct }: { pct: number }) {
   const currentStep = Math.min(Math.floor((pct / 100) * PROGRESS_STEPS.length), PROGRESS_STEPS.length - 1)
   return (
-    <div className="flex items-center gap-1 px-6 py-3 bg-white border-b border-[#e5e5e5] overflow-x-auto scrollbar-thin">
+    <div className="flex items-center gap-1 px-6 py-3 bg-card border-b border-border overflow-x-auto scrollbar-thin">
       {PROGRESS_STEPS.map((step, i) => {
         const done    = i < currentStep
         const current = i === currentStep
@@ -91,20 +92,20 @@ function ProgressStrip({ pct }: { pct: number }) {
           <div key={step} className="flex items-center">
             <div className="flex flex-col items-center gap-1">
               <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0 ${
-                done    ? 'bg-[#34a090] text-white' :
+                done    ? 'bg-primary text-white' :
                 current ? 'bg-blue-500 text-white'  :
-                          'bg-[#f0eeec] text-[#98a5ad]'
+                          'bg-muted text-muted-foreground'
               }`}>
                 {done ? <Check className="w-3 h-3" /> : i + 1}
               </div>
               <span className={`text-[10px] whitespace-nowrap ${
-                done    ? 'text-[#34a090]' :
+                done    ? 'text-primary' :
                 current ? 'text-blue-600'  :
-                          'text-[#98a5ad]'
+                          'text-muted-foreground'
               }`}>{step}</span>
             </div>
             {i < PROGRESS_STEPS.length - 1 && (
-              <div className={`w-10 h-0.5 mx-1 mb-4 flex-shrink-0 ${done ? 'bg-[#34a090]' : 'bg-[#e5e5e5]'}`} />
+              <div className={`w-10 h-0.5 mx-1 mb-4 flex-shrink-0 ${done ? 'bg-primary' : 'bg-border'}`} />
             )}
           </div>
         )
@@ -162,33 +163,33 @@ function ProcedureRow({
 
   return (
     <div className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
-      done            ? 'bg-[#e8f5f3] border-[#c5e8e4]' :
+      done            ? 'bg-accent/40 border-primary/30' :
       status === 'in_progress' ? 'bg-amber-50 border-amber-200' :
-                        'bg-white border-[#f0eeec]'
+                        'bg-card border-border/60'
     }`}>
       {/* Icon */}
       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-        done ? 'bg-[#34a090]' : status === 'in_progress' ? 'bg-amber-400' : 'bg-[#f0eeec]'
+        done ? 'bg-primary' : status === 'in_progress' ? 'bg-amber-400' : 'bg-muted'
       }`}>
         {done
           ? <Check className="w-4 h-4 text-white" />
-          : <Icon className={`w-4 h-4 ${status === 'in_progress' ? 'text-white' : 'text-[#98a5ad]'}`} />
+          : <Icon className={`w-4 h-4 ${status === 'in_progress' ? 'text-white' : 'text-muted-foreground'}`} />
         }
       </div>
 
       {/* Info */}
       <div className="flex-1 min-w-0">
-        <p className={`text-sm font-medium ${done ? 'text-[#2a8577]' : 'text-[#10253e]'}`}>{label}</p>
+        <p className={`text-sm font-medium ${done ? 'text-primary' : 'text-foreground'}`}>{label}</p>
         <div className="flex items-center gap-3 mt-0.5">
-          <span className="text-[10px] text-[#98a5ad] capitalize">{status.replace('_', ' ')}</span>
-          <span className="text-[10px] text-[#98a5ad]">
+          <span className="text-[10px] text-muted-foreground capitalize">{status.replace('_', ' ')}</span>
+          <span className="text-[10px] text-muted-foreground">
             Source: {responseSet?.status ?? 'not opened'}
           </span>
-          <span className="text-[10px] text-[#98a5ad]">
+          <span className="text-[10px] text-muted-foreground">
             {proc.is_locked ? 'locked' : proc.is_signed ? 'signed' : 'unsigned'}
           </span>
           {proc.performed_at && (
-            <span className="text-[10px] text-[#98a5ad]">
+            <span className="text-[10px] text-muted-foreground">
               Performed: {new Date(proc.performed_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           )}
@@ -213,11 +214,11 @@ function ProcedureRow({
           </div>
         )}
         <div className="flex items-center gap-3 mt-1">
-          <Link href={captureHref} className="text-[10px] font-medium text-[#34a090] hover:underline">
+          <Link href={captureHref} className="text-[10px] font-medium text-primary hover:underline">
             Source capture →
           </Link>
           {reviewHref && (
-            <Link href={reviewHref} className="text-[10px] text-[#98a5ad] hover:underline">
+            <Link href={reviewHref} className="text-[10px] text-muted-foreground hover:underline">
               Review · {responseSet?.status}
             </Link>
           )}
@@ -261,11 +262,20 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
   if (vErr || !visit) notFound()
 
+  const organizationId = visit.organization_id as string
+  const user = await getSessionUser()
+  if (!user) notFound()
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  if (!canAccessOrganization) notFound()
+
   // Study name for breadcrumb
   const { data: studyBanner } = await supabase
     .from('studies')
     .select('name')
     .eq('id', visit.study_id)
+    .eq('organization_id', organizationId)
     .maybeSingle()
 
   // Resolve embedded records
@@ -276,9 +286,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
   // Paths
   const studyPath      = `/studies/${visit.study_id}`
-  const subjectPath    = `/subjects/${visit.study_subject_id}`
+  const subjectPath    = `/studies/${visit.study_id}/subjects/${visit.study_subject_id}`
   const visitPath      = `/visits/${visit.id}`
-  const orgQs          = visit.organization_id ? `?organization_id=${visit.organization_id}` : ''
+  const orgQs          = `?organization_id=${organizationId}`
 
   const visitAllowsProcedureEdits =
     visit.visit_status === 'scheduled' ||
@@ -292,6 +302,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     .from('procedure_executions')
     .select(`id, execution_status, validation_status, performed_at, is_signed, is_locked, procedure_definitions(code,label)`)
     .eq('visit_id', visitId)
+    .eq('organization_id', organizationId)
     .order('created_at', { ascending: true })
 
   const peIds = (procedures ?? []).map(p => p.id)
@@ -300,6 +311,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         .from('source_response_sets')
         .select('id, procedure_execution_id, status')
         .in('procedure_execution_id', peIds)
+        .eq('organization_id', organizationId)
     : { data: [] as { id: string; procedure_execution_id: string; status: string }[] }
 
   const responseSetByPe = new Map(
@@ -326,7 +338,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
   // Load workflow + closeout
   const closeoutBundle   = await loadVisitCloseoutBundle(visitId)
-  const workflowResult   = await loadVisitWorkflowActions(visitId, visit.organization_id as string)
+  const workflowResult   = await loadVisitWorkflowActions(visitId, organizationId)
   const workflowActions  = workflowResult.ok ? workflowResult.actions : []
   const workflowByProcedure = new Map<string, number>()
   for (const action of workflowActions) {
@@ -337,7 +349,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     )
   }
   const recentEvents = await loadOperationalChronology({
-    organizationId: visit.organization_id as string,
+    organizationId,
     studyId: visit.study_id as string,
     visitId: visit.id as string,
     limit: 8,
@@ -373,35 +385,35 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   ].filter((group) => group.rows.length > 0)
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-accent">
 
       {/* === HEADER === */}
-      <header className="flex-shrink-0 px-6 py-3 border-b border-[#e5e5e5] bg-[#f9f8f7]">
+      <header className="flex-shrink-0 px-6 py-3 border-b border-border bg-accent">
         <div className="flex items-center gap-4">
           {/* Back */}
           <Link
             href={subjectPath}
-            className="p-1.5 rounded-lg hover:bg-[#e5e5e5] transition-colors text-[#98a5ad] hover:text-[#10253e]"
+            className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="w-4 h-4" />
           </Link>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
 
           {/* Breadcrumb */}
-          <div className="flex items-center gap-1.5 text-xs text-[#98a5ad]">
-            <Link href={studyPath} className="hover:text-[#34a090] transition-colors truncate max-w-[120px]">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Link href={studyPath} className="hover:text-primary transition-colors truncate max-w-[120px]">
               {studyBanner?.name ?? 'Study'}
             </Link>
             <ChevronRight className="w-3 h-3 flex-shrink-0" />
-            <Link href={subjectPath} className="hover:text-[#34a090] transition-colors">
+            <Link href={subjectPath} className="hover:text-primary transition-colors">
               {subjectLabel}
             </Link>
             <ChevronRight className="w-3 h-3 flex-shrink-0" />
-            <span className="font-semibold text-[#10253e]">{visitLabel}</span>
+            <span className="font-semibold text-foreground">{visitLabel}</span>
           </div>
 
           {/* Meta */}
-          <div className="flex items-center gap-3 text-xs text-[#98a5ad]">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
             {visit.scheduled_date && (
               <span className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
@@ -414,7 +426,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {/* Second row: visit identity + status bar */}
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-3">
-            <h1 className="text-base font-semibold text-[#10253e]">{visitLabel}</h1>
+            <h1 className="text-base font-semibold text-foreground">{visitLabel}</h1>
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${visitStatusBadgeClass(visit.visit_status)}`}>
               {visit.visit_status?.replace('_', ' ') ?? 'Scheduled'}
             </span>
@@ -423,26 +435,26 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
           {/* Completion indicators */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-4 px-4 py-2 bg-white rounded-lg border border-[#e5e5e5]">
+            <div className="flex items-center gap-4 px-4 py-2 bg-card rounded-lg border border-border">
               <div className="text-center">
-                <p className="text-sm font-bold text-[#10253e]">{completedProcs}/{totalProcs}</p>
-                <p className="text-[10px] text-[#98a5ad]">Procedures</p>
+                <p className="text-sm font-bold text-foreground">{completedProcs}/{totalProcs}</p>
+                <p className="text-[10px] text-muted-foreground">Procedures</p>
               </div>
-              <div className="w-px h-6 bg-[#e5e5e5]" />
+              <div className="w-px h-6 bg-border" />
               <div className="flex items-center gap-1.5">
                 {submittedSets.length > 0
-                  ? <Check className="w-4 h-4 text-[#34a090]" />
+                  ? <Check className="w-4 h-4 text-primary" />
                   : <Clock className="w-4 h-4 text-amber-500" />
                 }
-                <span className="text-xs text-[#98a5ad]">Source</span>
+                <span className="text-xs text-muted-foreground">Source</span>
               </div>
-              <div className="w-px h-6 bg-[#e5e5e5]" />
+              <div className="w-px h-6 bg-border" />
               <div className="flex items-center gap-1.5">
                 {isLocked
-                  ? <Lock className="w-4 h-4 text-[#34a090]" />
-                  : <Unlock className="w-4 h-4 text-[#98a5ad]" />
+                  ? <Lock className="w-4 h-4 text-primary" />
+                  : <Unlock className="w-4 h-4 text-muted-foreground" />
                 }
-                <span className="text-xs text-[#98a5ad]">Lock</span>
+                <span className="text-xs text-muted-foreground">Lock</span>
               </div>
             </div>
 
@@ -462,7 +474,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       <ProgressStrip pct={pct} />
 
       {/* Tab nav */}
-      <div className="flex-shrink-0 px-6 border-b border-[#e5e5e5] bg-white">
+      <div className="flex-shrink-0 px-6 border-b border-border bg-card">
         <div className="flex gap-0.5 overflow-x-auto scrollbar-thin">
           {TABS.map(tab => {
             const isActive = tab.id === activeTab
@@ -472,8 +484,8 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                 href={`/visits/${visitId}?tab=${tab.id}`}
                 className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
                   isActive
-                    ? 'border-[#34a090] text-[#34a090]'
-                    : 'border-transparent text-[#98a5ad] hover:text-[#10253e]'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {tab.label}
@@ -484,35 +496,35 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       </div>
 
       {/* === CONTENT === */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin" style={{ backgroundColor: '#f9f8f7' }}>
+      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
 
         {/* PROCEDURES */}
         {activeTab === 'procedures' && (
           <div className="p-6 max-w-[900px]">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[#10253e] flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-[#34a090]" />
+              <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <ClipboardList className="w-4 h-4 text-primary" />
                 Procedures & Source Forms
               </h2>
-              <span className="text-xs text-[#98a5ad]">{completedProcs} of {totalProcs} complete</span>
+              <span className="text-xs text-muted-foreground">{completedProcs} of {totalProcs} complete</span>
             </div>
 
             {pErr ? (
               <p className="text-sm text-destructive">{pErr.message}</p>
             ) : !procedures?.length ? (
               <div className="vilo-card p-8 text-center">
-                <ClipboardList className="w-7 h-7 text-[#98a5ad] mx-auto mb-3" />
-                <p className="text-sm text-[#98a5ad]">No procedures on this visit.</p>
+                <ClipboardList className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">No procedures on this visit.</p>
               </div>
             ) : (
               <div className="space-y-5">
                 {procedureGroups.map((group) => (
                   <section key={group.id} className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-xs font-semibold uppercase tracking-wide text-[#98a5ad]">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                         {group.label}
                       </h3>
-                      <span className="text-[10px] text-[#98a5ad]">{group.rows.length}</span>
+                      <span className="text-[10px] text-muted-foreground">{group.rows.length}</span>
                     </div>
                     <div className="space-y-3">
                       {group.rows.map(proc => {
@@ -544,16 +556,16 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <div className="vilo-card p-4">
-                <h3 className="mb-3 text-sm font-semibold text-[#10253e]">Open task links</h3>
+                <h3 className="mb-3 text-sm font-semibold text-foreground">Open task links</h3>
                 {workflowActions.length === 0 ? (
-                  <p className="text-xs text-[#98a5ad]">No open workflow tasks for this visit.</p>
+                  <p className="text-xs text-muted-foreground">No open workflow tasks for this visit.</p>
                 ) : (
                   <ul className="space-y-2">
                     {workflowActions.slice(0, 6).map((action) => (
                       <li key={action.id}>
-                        <Link href={action.deepLink} className="block rounded-md border border-[#f0eeec] px-3 py-2 text-xs hover:bg-white">
-                          <span className="font-medium text-[#10253e]">{action.title}</span>
-                          <span className="block text-[10px] text-[#98a5ad]">{action.actionType} · {action.priority}</span>
+                        <Link href={action.deepLink} className="block rounded-md border border-border/60 px-3 py-2 text-xs hover:bg-card">
+                          <span className="font-medium text-foreground">{action.title}</span>
+                          <span className="block text-[10px] text-muted-foreground">{action.actionType} · {action.priority}</span>
                         </Link>
                       </li>
                     ))}
@@ -561,15 +573,15 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                 )}
               </div>
               <div className="vilo-card p-4">
-                <h3 className="mb-3 text-sm font-semibold text-[#10253e]">Recent event trail</h3>
+                <h3 className="mb-3 text-sm font-semibold text-foreground">Recent event trail</h3>
                 {recentEvents.length === 0 ? (
-                  <p className="text-xs text-[#98a5ad]">No operational events recorded for this visit.</p>
+                  <p className="text-xs text-muted-foreground">No operational events recorded for this visit.</p>
                 ) : (
                   <ul className="space-y-2">
                     {recentEvents.map((event) => (
-                      <li key={event.id} className="rounded-md border border-[#f0eeec] px-3 py-2 text-xs">
-                        <span className="font-medium text-[#10253e]">{event.eventType}</span>
-                        <span className="block text-[10px] text-[#98a5ad]">{event.occurredAt}</span>
+                      <li key={event.id} className="rounded-md border border-border/60 px-3 py-2 text-xs">
+                        <span className="font-medium text-foreground">{event.eventType}</span>
+                        <span className="block text-[10px] text-muted-foreground">{event.occurredAt}</span>
                       </li>
                     ))}
                   </ul>
@@ -582,15 +594,15 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {/* SOURCE CAPTURE */}
         {activeTab === 'source' && (
           <div className="p-6 max-w-[900px]">
-            <h2 className="text-sm font-semibold text-[#10253e] mb-4 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-[#34a090]" />
+            <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-primary" />
               Submitted Source Sets
             </h2>
             {submittedSets.length === 0 ? (
               <div className="vilo-card p-8 text-center">
-                <FileText className="w-7 h-7 text-[#98a5ad] mx-auto mb-3" />
-                <p className="text-sm text-[#98a5ad]">No submitted source sets yet.</p>
-                <p className="text-xs text-[#98a5ad] mt-1">Use source capture on each procedure above when ready.</p>
+                <FileText className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">No submitted source sets yet.</p>
+                <p className="text-xs text-muted-foreground mt-1">Use source capture on each procedure above when ready.</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -600,17 +612,17 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                     href={`/source/response-set/${rs.id}${orgQs}`}
                     className="flex items-center gap-3 p-4 vilo-card-interactive"
                   >
-                    <FileText className="w-4 h-4 text-[#34a090]" />
-                    <span className="text-sm font-medium text-[#10253e]">Source Set</span>
-                    <span className="text-xs text-[#98a5ad] capitalize ml-auto">{rs.status}</span>
-                    <ChevronRight className="w-4 h-4 text-[#98a5ad]" />
+                    <FileText className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">Source Set</span>
+                    <span className="text-xs text-muted-foreground capitalize ml-auto">{rs.status}</span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
                   </Link>
                 ))}
               </div>
             )}
             {sourceBlockers && sourceBlockers.length > 0 ? (
               <div className="mt-6 vilo-card p-4">
-                <h3 className="mb-3 text-sm font-semibold text-[#10253e]">Source Engine blockers</h3>
+                <h3 className="mb-3 text-sm font-semibold text-foreground">Source Engine blockers</h3>
                 <ul className="space-y-2">
                   {sourceBlockers.map((blocker) => (
                     <li key={blocker.id as string} className="rounded-md border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-800">
@@ -631,7 +643,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               <p className="text-sm text-destructive">Could not load visit workflow: {workflowResult.error}</p>
             ) : (
               <VisitWorkflowPanel
-                organizationId={visit.organization_id as string}
+                organizationId={organizationId}
                 studyId={visit.study_id as string}
                 subjectId={visit.study_subject_id as string}
                 visitId={visit.id as string}
@@ -647,15 +659,15 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
           <div className="p-6 max-w-[900px]">
             <div className="vilo-card p-5">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-sm font-semibold text-[#10253e]">Visit Documents</h2>
+                <h2 className="text-sm font-semibold text-foreground">Visit Documents</h2>
                 <Link
                   href={`/studies/${visit.study_id}/subjects/${visit.study_subject_id}/visits/${visit.id}/documents`}
-                  className="text-xs text-[#34a090] hover:underline"
+                  className="text-xs text-primary hover:underline"
                 >
                   Open full documents view →
                 </Link>
               </div>
-              <p className="text-xs text-[#98a5ad]">
+              <p className="text-xs text-muted-foreground">
                 ICFs, lab reports, imaging reports, ECGs, external records, and scanned source support.
               </p>
             </div>
@@ -666,9 +678,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {activeTab === 'labs' && (
           <div className="p-6 max-w-[900px]">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <FlaskConical className="w-10 h-10 text-[#98a5ad] mb-3" />
-              <p className="text-sm font-semibold text-[#10253e]">Lab Reconciliation</p>
-              <p className="text-xs text-[#98a5ad] mt-1">Coming soon — lab result review and reconciliation.</p>
+              <FlaskConical className="w-10 h-10 text-muted-foreground mb-3" />
+              <p className="text-sm font-semibold text-foreground">Lab Reconciliation</p>
+              <p className="text-xs text-muted-foreground mt-1">Coming soon — lab result review and reconciliation.</p>
             </div>
           </div>
         )}
@@ -677,9 +689,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {activeTab === 'safety' && (
           <div className="p-6 max-w-[900px]">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <AlertTriangle className="w-10 h-10 text-[#98a5ad] mb-3" />
-              <p className="text-sm font-semibold text-[#10253e]">AE / Safety Review</p>
-              <p className="text-xs text-[#98a5ad] mt-1">Adverse event documentation coming soon.</p>
+              <AlertTriangle className="w-10 h-10 text-muted-foreground mb-3" />
+              <p className="text-sm font-semibold text-foreground">AE / Safety Review</p>
+              <p className="text-xs text-muted-foreground mt-1">Adverse event documentation coming soon.</p>
             </div>
           </div>
         )}
@@ -688,9 +700,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {activeTab === 'conmeds' && (
           <div className="p-6 max-w-[900px]">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Pill className="w-10 h-10 text-[#98a5ad] mb-3" />
-              <p className="text-sm font-semibold text-[#10253e]">Concomitant Medications</p>
-              <p className="text-xs text-[#98a5ad] mt-1">ConMed review at visit level coming soon.</p>
+              <Pill className="w-10 h-10 text-muted-foreground mb-3" />
+              <p className="text-sm font-semibold text-foreground">Concomitant Medications</p>
+              <p className="text-xs text-muted-foreground mt-1">ConMed review at visit level coming soon.</p>
             </div>
           </div>
         )}
@@ -699,9 +711,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {activeTab === 'notes' && (
           <div className="p-6 max-w-[900px]">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <PenTool className="w-10 h-10 text-[#98a5ad] mb-3" />
-              <p className="text-sm font-semibold text-[#10253e]">Visit Notes</p>
-              <p className="text-xs text-[#98a5ad] mt-1">Coordinator notes and deviation documentation coming soon.</p>
+              <PenTool className="w-10 h-10 text-muted-foreground mb-3" />
+              <p className="text-sm font-semibold text-foreground">Visit Notes</p>
+              <p className="text-xs text-muted-foreground mt-1">Coordinator notes and deviation documentation coming soon.</p>
             </div>
           </div>
         )}

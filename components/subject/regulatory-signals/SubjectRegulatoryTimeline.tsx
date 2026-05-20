@@ -34,7 +34,7 @@ function severityTone(severity: RegulatorySignalSeverity): string {
 
 function TimelineLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="text-xs font-medium text-[#34a090] hover:underline">
+    <Link href={href} className="text-xs font-medium text-primary hover:underline">
       {children}
     </Link>
   )
@@ -65,13 +65,13 @@ export function SubjectRegulatoryTimeline({
   if (items.length === 0) {
     return (
       <section
-        className="rounded-lg border bg-white p-4"
-        style={{ borderColor: '#e5e5e5' }}
+        className="rounded-lg border bg-card p-4"
+        style={{ borderColor: 'var(--border)' }}
       >
-        <h2 className="text-sm font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
           Regulatory signal chronology
         </h2>
-        <p className="mt-2 text-sm" style={{ color: '#98a5ad' }}>
+        <p className="mt-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
           No open regulatory signals detected from visits, source validation, workflow, or
           signatures. Formal protocol deviation records are not available in this release.
         </p>
@@ -81,19 +81,19 @@ export function SubjectRegulatoryTimeline({
 
   return (
     <section
-      className="rounded-lg border bg-white p-4"
-      style={{ borderColor: '#e5e5e5' }}
+      className="rounded-lg border bg-card p-4"
+      style={{ borderColor: 'var(--border)' }}
     >
       <div className="mb-3">
-        <h2 className="text-sm font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
           Regulatory signal chronology
         </h2>
-        <p className="text-xs" style={{ color: '#98a5ad' }}>
+        <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
           Source-backed execution risks sorted by severity — not final deviation adjudication.
         </p>
       </div>
 
-      <ol className="relative space-y-0 border-l pl-6" style={{ borderColor: '#e5e5e5' }}>
+      <ol className="relative space-y-0 border-l pl-6" style={{ borderColor: 'var(--border)' }}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
@@ -102,7 +102,7 @@ export function SubjectRegulatoryTimeline({
                 className="absolute -left-[1.4rem] top-1 h-3 w-3 rounded-full border-2 border-white"
                 style={{
                   backgroundColor:
-                    item.severity === 'critical' ? '#dc2626' : '#d97706',
+                    item.severity === 'critical' ? 'var(--destructive)' : '#d97706',
                 }}
                 aria-hidden
               />
@@ -111,23 +111,23 @@ export function SubjectRegulatoryTimeline({
               >
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="font-medium" style={{ color: '#10253e' }}>
+                    <p className="font-medium" style={{ color: 'var(--foreground)' }}>
                       {item.title}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: '#98a5ad' }}>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
                       {formatWhen(item.occurredAt)}
                       {item.visitName ? ` · ${item.visitName}` : ''}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1 text-[10px]">
-                    <span className="rounded border px-1.5 py-0.5 bg-white/80">
+                    <span className="rounded border px-1.5 py-0.5 bg-card/80">
                       {SIGNAL_TYPE_LABELS[item.signalType]}
                     </span>
-                    <span className="rounded border px-1.5 py-0.5 bg-white/80 uppercase">
+                    <span className="rounded border px-1.5 py-0.5 bg-card/80 uppercase">
                       {item.severity}
                     </span>
                     {item.priority ? (
-                      <span className="rounded border px-1.5 py-0.5 bg-white/80">
+                      <span className="rounded border px-1.5 py-0.5 bg-card/80">
                         {item.priority}
                       </span>
                     ) : null}
@@ -136,7 +136,7 @@ export function SubjectRegulatoryTimeline({
                         'rounded border px-1.5 py-0.5',
                         item.isUnresolved
                           ? 'border-amber-300 bg-amber-50 text-amber-900'
-                          : 'bg-white/80',
+                          : 'bg-card/80',
                       )}
                     >
                       {item.status}
@@ -153,7 +153,7 @@ export function SubjectRegulatoryTimeline({
                 <p className="mt-2 text-xs font-medium" style={{ color: '#2a8577' }}>
                   Recommended: {item.recommendedAction}
                 </p>
-                <p className="mt-1 text-[10px]" style={{ color: '#98a5ad' }}>
+                <p className="mt-1 text-[10px]" style={{ color: 'var(--muted-foreground)' }}>
                   Source: {item.sourceLabel}
                 </p>
 

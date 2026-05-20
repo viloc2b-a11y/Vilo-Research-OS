@@ -29,10 +29,10 @@ export function SubjectConMedsSurface({
     <div className="space-y-4">
       {variant === 'dedicated' ? (
         <div>
-          <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
             Concomitant medications
           </h2>
-          <p className="text-sm" style={{ color: '#98a5ad' }}>
+          <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
             Subject-level medication list — same data as Clinical Profile, optimized for coordinator
             review.
           </p>
@@ -42,8 +42,8 @@ export function SubjectConMedsSurface({
       <SubjectConMedsSummary rows={profile.conmeds} />
 
       <div
-        className="rounded-lg border bg-white p-4"
-        style={{ borderColor: '#e5e5e5' }}
+        className="rounded-lg border bg-card p-4"
+        style={{ borderColor: 'var(--border)' }}
       >
         <ConMedsSection
           studySubjectId={studySubjectId}
@@ -54,11 +54,11 @@ export function SubjectConMedsSurface({
         />
       </div>
 
-      <p className="text-xs" style={{ color: '#98a5ad' }}>
+      <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
         {variant === 'dedicated' ? (
           <>
             Medical history, allergies, and lifestyle are in{' '}
-            <Link href={clinicalProfileHref} className="font-medium text-[#34a090] hover:underline">
+            <Link href={clinicalProfileHref} className="font-medium text-primary hover:underline">
               Clinical Profile
             </Link>
             .
@@ -66,7 +66,7 @@ export function SubjectConMedsSurface({
         ) : (
           <>
             Dedicated view:{' '}
-            <Link href={conmedsTabHref} className="font-medium text-[#34a090] hover:underline">
+            <Link href={conmedsTabHref} className="font-medium text-primary hover:underline">
               ConMeds tab
             </Link>
             .

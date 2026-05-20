@@ -8,7 +8,7 @@ const libraryPath = path.join(
   repoRoot,
   'fixtures',
   'source-builder',
-  'vir-operational-source-library.v1.json',
+  'generic-operational-source-library.v1.json',
 )
 
 const library = JSON.parse(fs.readFileSync(libraryPath, 'utf8'))
@@ -95,7 +95,7 @@ function buildSourceCaptureRuleCatalog() {
   }))
 }
 
-assert(library.library_id === 'vir-operational-source-engine-library', 'Unexpected library id')
+assert(library.library_id === 'generic-operational-source-engine-library', 'Unexpected library id')
 assert(library.operational_profiles.length >= 7, 'Operational profiles are incomplete')
 assert(library.essential_document_requirements.length >= 10, 'Essential document checklist is incomplete')
 assert(library.facility_requirements.length >= 8, 'Facility readiness checklist is incomplete')

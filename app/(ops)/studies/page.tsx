@@ -39,12 +39,12 @@ interface StudyRow {
 function StudyStatusBadge({ status }: { status: string | null }) {
   const s = status ?? 'unknown'
   const cfg: Record<string, { bg: string; text: string }> = {
-    active:    { bg: 'bg-[#e8f5f3]',   text: 'text-[#2a8577]' },
+    active:    { bg: 'bg-accent/40',   text: 'text-primary' },
     enrolling: { bg: 'bg-blue-50',     text: 'text-blue-700' },
     startup:   { bg: 'bg-purple-50',   text: 'text-purple-700' },
     'follow-up':{ bg: 'bg-amber-50',   text: 'text-amber-700' },
-    closeout:  { bg: 'bg-[#f0eeec]',   text: 'text-[#98a5ad]' },
-    unknown:   { bg: 'bg-[#f0eeec]',   text: 'text-[#98a5ad]' },
+    closeout:  { bg: 'bg-muted',   text: 'text-muted-foreground' },
+    unknown:   { bg: 'bg-muted',   text: 'text-muted-foreground' },
   }
   const c = cfg[s] ?? cfg.unknown
   return (
@@ -60,7 +60,7 @@ function StudyStatusBadge({ status }: { status: string | null }) {
 
 function StudyCard({ study }: { study: StudyRow }) {
   // Generate a deterministic study color from name (until DB has color field)
-  const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', '#34a090']
+  const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', 'var(--primary)']
   const colorIdx = study.name.charCodeAt(0) % COLORS.length
   const studyColor = COLORS[colorIdx]
 
@@ -76,20 +76,20 @@ function StudyCard({ study }: { study: StudyRow }) {
             )}
             <StudyStatusBadge status={study.status} />
           </div>
-          <h3 className="font-semibold text-[#10253e] text-sm leading-snug">{study.name}</h3>
+          <h3 className="font-semibold text-foreground text-sm leading-snug">{study.name}</h3>
           {/* STUB: Phase · Therapeutic Area · Sponsor */}
-          <p className="text-xs text-[#98a5ad] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Clinical Trial
           </p>
         </div>
       </div>
 
       {/* Operational summary — STUB until real columns exist */}
-      <div className="p-3 rounded-lg mb-4" style={{ backgroundColor: '#f9f8f7' }}>
+      <div className="p-3 rounded-lg mb-4" >
         <p className="section-label mb-2">Pending Actions</p>
-        <div className="grid grid-cols-2 gap-2 text-xs text-[#98a5ad]">
+        <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <CalendarDays className="w-3.5 h-3.5 text-[#34a090]" />
+            <CalendarDays className="w-3.5 h-3.5 text-primary" />
             <span>Visits →</span>
           </div>
           <div className="flex items-center gap-2">
@@ -101,15 +101,15 @@ function StudyCard({ study }: { study: StudyRow }) {
             <span>Signatures →</span>
           </div>
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-3.5 h-3.5 text-[#98a5ad]" />
+            <AlertCircle className="w-3.5 h-3.5 text-muted-foreground" />
             <span>Findings →</span>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center gap-2 pt-3 border-t border-[#f0eeec]">
-        <span className="text-xs text-[#98a5ad] transition-colors flex items-center gap-1 group-hover:text-[#34a090]">
+      <div className="flex items-center gap-2 pt-3 border-t border-border/60">
+        <span className="text-xs text-muted-foreground transition-colors flex items-center gap-1 group-hover:text-primary">
           Open Study Workspace <ChevronRight className="w-3 h-3" />
         </span>
         <div className="flex-1" />
@@ -141,13 +141,13 @@ export default async function StudiesPortfolioPage() {
   const totalStudies  = studies?.length ?? 0
 
   return (
-    <div className="flex flex-col h-full" style={{ backgroundColor: '#f9f8f7' }}>
+    <div className="flex flex-col h-full bg-accent">
       {/* Header */}
-      <div className="px-6 py-5 bg-white border-b border-[#e5e5e5]">
+      <div className="px-6 py-5 bg-card border-b border-border">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h1 className="heading-serif text-xl text-[#10253e]">Studies</h1>
-            <p className="text-sm text-[#98a5ad]">Clinical Trial Portfolio</p>
+            <h1 className="heading-serif text-xl text-foreground">Studies</h1>
+            <p className="text-sm text-muted-foreground">Clinical Trial Portfolio</p>
           </div>
           {canCreateStudy ? (
             <Link href="/studies/new" className="vilo-btn-primary">
@@ -169,34 +169,34 @@ export default async function StudiesPortfolioPage() {
 
         {/* Summary stats */}
         <div className="grid grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-white border border-[#e5e5e5]">
+          <div className="p-4 rounded-xl bg-card border border-border">
             <div className="flex items-center gap-2 mb-2">
-              <FolderKanban className="w-4 h-4 text-[#34a090]" />
-              <span className="text-xs text-[#98a5ad]">Total Studies</span>
+              <FolderKanban className="w-4 h-4 text-primary" />
+              <span className="text-xs text-muted-foreground">Total Studies</span>
             </div>
-            <p className="text-2xl font-bold text-[#10253e]">{totalStudies}</p>
+            <p className="text-2xl font-bold text-foreground">{totalStudies}</p>
           </div>
-          <div className="p-4 rounded-xl bg-white border border-[#e5e5e5]">
+          <div className="p-4 rounded-xl bg-card border border-border">
             <div className="flex items-center gap-2 mb-2">
-              <Activity className="w-4 h-4 text-[#34a090]" />
-              <span className="text-xs text-[#98a5ad]">Active / Enrolling</span>
+              <Activity className="w-4 h-4 text-primary" />
+              <span className="text-xs text-muted-foreground">Active / Enrolling</span>
             </div>
-            <p className="text-2xl font-bold text-[#34a090]">{activeCount}</p>
+            <p className="text-2xl font-bold text-primary">{activeCount}</p>
           </div>
-          <div className="p-4 rounded-xl bg-white border border-[#e5e5e5]">
+          <div className="p-4 rounded-xl bg-card border border-border">
             <div className="flex items-center gap-2 mb-2">
-              <Users className="w-4 h-4 text-[#98a5ad]" />
-              <span className="text-xs text-[#98a5ad]">Total Subjects</span>
+              <Users className="w-4 h-4 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Total Subjects</span>
             </div>
-            <p className="text-2xl font-bold text-[#98a5ad]">—</p>
+            <p className="text-2xl font-bold text-muted-foreground">—</p>
             {/* STUB: count from study_subjects */}
           </div>
-          <div className={`p-4 rounded-xl border ${atRiskCount > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#e5e5e5]'}`}>
+          <div className={`p-4 rounded-xl border ${atRiskCount > 0 ? 'bg-red-50 border-red-200' : 'bg-card border-border'}`}>
             <div className="flex items-center gap-2 mb-2">
-              <AlertCircle className={`w-4 h-4 ${atRiskCount > 0 ? 'text-red-500' : 'text-[#98a5ad]'}`} />
-              <span className="text-xs text-[#98a5ad]">At Risk</span>
+              <AlertCircle className={`w-4 h-4 ${atRiskCount > 0 ? 'text-red-500' : 'text-muted-foreground'}`} />
+              <span className="text-xs text-muted-foreground">At Risk</span>
             </div>
-            <p className={`text-2xl font-bold ${atRiskCount > 0 ? 'text-red-600' : 'text-[#98a5ad]'}`}>
+            <p className={`text-2xl font-bold ${atRiskCount > 0 ? 'text-red-600' : 'text-muted-foreground'}`}>
               {atRiskCount > 0 ? atRiskCount : '—'}
             </p>
           </div>
@@ -204,21 +204,21 @@ export default async function StudiesPortfolioPage() {
       </div>
 
       {/* Filter bar */}
-      <div className="flex items-center gap-3 px-6 py-3 bg-white border-b border-[#e5e5e5]">
+      <div className="flex items-center gap-3 px-6 py-3 bg-card border-b border-border">
         <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#98a5ad]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search studies…"
-            className="w-full h-9 pl-9 pr-3 rounded-lg border border-[#e5e5e5] text-sm bg-[#f9f8f7] focus:outline-none focus:ring-2 focus:ring-[#34a090] focus:border-transparent"
+            className="w-full h-9 pl-9 pr-3 rounded-lg border border-border text-sm bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
-        <div className="flex rounded-lg p-0.5" style={{ backgroundColor: '#f0eeec' }}>
+        <div className="flex rounded-lg bg-muted p-0.5" >
           {['All', 'Active', 'Enrolling', 'Follow-up', 'Closeout'].map(f => (
             <button
               key={f}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                f === 'All' ? 'bg-white shadow-sm text-[#10253e]' : 'text-[#98a5ad] hover:bg-white/50'
+                f === 'All' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:bg-card/50'
               }`}
             >
               {f}
@@ -234,9 +234,9 @@ export default async function StudiesPortfolioPage() {
         )}
         {!studies?.length && !error && (
           <div className="vilo-card p-8 text-center max-w-md mx-auto mt-8">
-            <FolderKanban className="w-8 h-8 text-[#98a5ad] mx-auto mb-3" />
-            <p className="text-sm font-medium text-[#10253e]">No studies visible</p>
-            <p className="text-xs text-[#98a5ad] mt-1">
+            <FolderKanban className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+            <p className="text-sm font-medium text-foreground">No studies visible</p>
+            <p className="text-xs text-muted-foreground mt-1">
               You may not belong to any study roster yet, or no studies exist in your organization.
             </p>
           </div>

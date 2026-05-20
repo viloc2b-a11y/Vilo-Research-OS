@@ -42,18 +42,18 @@ export default async function SubjectVisitsPage({ params }: SubjectVisitsPagePro
     : buildVisitHealthTimeline(visits, [])
 
   return (
-    <div className="flex flex-col h-full" style={{ backgroundColor: '#f9f8f7' }}>
+    <div className="flex flex-col h-full bg-accent">
       <SubjectChartHeader header={header} operationalHealth={operationalHealth} />
 
       <SubjectChartNav studyId={studyId} subjectId={subjectId} activeTab="visits" />
 
-      <div className="flex-1 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
         <div className="p-6 max-w-[1100px] space-y-5">
           <div>
-            <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>
+            <h2 className="text-lg font-semibold" >
               Visits
             </h2>
-            <p className="text-sm" style={{ color: '#98a5ad' }}>
+            <p className="text-sm" >
               Longitudinal visit chronology and operational grid for coordinator execution.
             </p>
           </div>
@@ -79,14 +79,14 @@ export default async function SubjectVisitsPage({ params }: SubjectVisitsPagePro
           ) : null}
 
           <div>
-            <h3 className="text-sm font-semibold mb-2" style={{ color: '#10253e' }}>
+            <h3 className="text-sm font-semibold mb-2" >
               Schedule calendar
             </h3>
             <SubjectVisitCalendar visits={visits} studyId={studyId} subjectId={subjectId} />
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold mb-2" style={{ color: '#10253e' }}>
+            <h3 className="text-sm font-semibold mb-2" >
               Operational grid
             </h3>
             <VisitsTable visits={visits} />

@@ -14,10 +14,10 @@ function SummaryChip({
   tone: 'neutral' | 'watch' | 'risk' | 'muted'
 }) {
   const toneClass = {
-    neutral: 'bg-white border-[#e5e5e5] text-[#10253e]',
+    neutral: 'bg-card border-border text-foreground',
     watch: 'status-badge-watch border',
     risk: 'status-badge-risk border',
-    muted: 'bg-[#f0eeec] border-[#e5e5e5] text-[#98a5ad]',
+    muted: 'bg-muted border-border text-muted-foreground',
   }[tone]
 
   return (
@@ -33,13 +33,13 @@ export function SubjectWorkflowEscalationSummary({
 }: SubjectWorkflowEscalationSummaryProps) {
   return (
     <section
-      className="rounded-lg border bg-white p-4"
-      style={{ borderColor: '#e5e5e5' }}
+      className="rounded-lg border bg-card p-4"
+      style={{ borderColor: 'var(--border)' }}
     >
-      <h2 className="text-sm font-semibold mb-1" style={{ color: '#10253e' }}>
+      <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--foreground)' }}>
         Escalation snapshot
       </h2>
-      <p className="text-xs mb-3" style={{ color: '#98a5ad' }}>
+      <p className="text-xs mb-3" style={{ color: 'var(--muted-foreground)' }}>
         Who needs to do what next — operational tasks, not regulatory deviation adjudication.
       </p>
       <div className="flex flex-wrap gap-2">

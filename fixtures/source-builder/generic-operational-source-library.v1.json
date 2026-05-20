@@ -1,26 +1,26 @@
 {
   "library_version": "1.0.0",
-  "library_id": "vir-operational-source-engine-library",
-  "description": "Reusable Vilo OS Source Engine seed library derived from VIR site startup, facilities, essential documents, training log, and eCRF completion references. Sponsor and site-specific values are intentionally generalized.",
+  "library_id": "generic-operational-source-engine-library",
+  "description": "Reusable Vilo OS Source Engine seed library derived from generalized site startup, facilities, essential documents, training log, and source completion references. Sponsor and site-specific values are intentionally excluded.",
   "source_documents": [
     {
-      "file": "VIR 7831-5001_Site Contact Sheet_v3_14sep2020.xlsx",
+      "file": "site-contact-sheet-reference.xlsx",
       "use": "Role/contact roster model, system access fields, site address metadata"
     },
     {
-      "file": "VIR-7831-5001 _Expansion Phase Site_Facilities_and_Equipment_Checklist 3601B5 (1).docx",
+      "file": "site-facilities-and-equipment-checklist-reference.docx",
       "use": "Facilities, equipment, calibration, maintenance, storage, and return-to-vendor requirements"
     },
     {
-      "file": "VIR-7831-5001 Essential Documents.docx",
+      "file": "essential-documents-reference.docx",
       "use": "Regulatory document requirements by role/facility"
     },
     {
-      "file": "Site staff training log.pdf",
+      "file": "site-staff-training-log-reference.pdf",
       "use": "Training log template concept; PDF was image-only in local extraction"
     },
     {
-      "file": "VBVIR78315008_eCRF_Completion_Guidelines_Final.pdf",
+      "file": "source-completion-guidelines-reference.pdf",
       "use": "eCRF data-entry behavior, field types, log forms, queries, signatures, missing data and procedure guidance"
     }
   ],

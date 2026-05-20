@@ -37,9 +37,9 @@ function AlertStrip({ alerts }: { alerts: OpsAlert[] }) {
   const watch    = alerts.filter(a => a.severity === 'watch')
 
   return (
-    <div className="flex bg-white border-b" style={{ borderColor: '#e5e5e5' }}>
+    <div className="flex bg-card border-b" >
       {/* Critical */}
-      <div className="flex-1 px-6 py-3 border-r" style={{ borderColor: '#e5e5e5' }}>
+      <div className="flex-1 px-6 py-3 border-r" >
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           <span className="section-label text-red-600">Critical</span>
@@ -49,8 +49,8 @@ function AlertStrip({ alerts }: { alerts: OpsAlert[] }) {
         </div>
         <div className="flex gap-2 flex-wrap">
           {critical.length === 0 ? (
-            <span className="flex items-center gap-1 text-xs text-[#98a5ad]">
-              <CheckCircle2 className="w-3 h-3 text-[#34a090]" /> All clear
+            <span className="flex items-center gap-1 text-xs text-muted-foreground">
+              <CheckCircle2 className="w-3 h-3 text-primary" /> All clear
             </span>
           ) : (
             critical.map(a => (
@@ -74,7 +74,7 @@ function AlertStrip({ alerts }: { alerts: OpsAlert[] }) {
         </div>
         <div className="flex gap-2 flex-wrap">
           {watch.length === 0 ? (
-            <span className="text-xs text-[#98a5ad]">No watch items</span>
+            <span className="text-xs text-muted-foreground">No watch items</span>
           ) : (
             watch.map(a => (
               <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-100">
@@ -98,8 +98,8 @@ function visitStatusStyle(status: string) {
   switch (status) {
     case 'in_progress':
     case 'checked_in':  return { border: 'border-l-amber-400',  badge: 'bg-amber-50 text-amber-700 border-amber-100',     label: 'In Progress' }
-    case 'completed':   return { border: 'border-l-[#34a090]', badge: 'bg-[#e8f5f3] text-[#2a8577] border-[#c5e8e4]',    label: 'Complete' }
-    case 'locked':      return { border: 'border-l-[#34a090]', badge: 'bg-[#e8f5f3] text-[#2a8577] border-[#c5e8e4]',    label: 'Locked' }
+    case 'completed':   return { border: 'border-l-primary', badge: 'bg-accent/40 text-primary border-primary/30',    label: 'Complete' }
+    case 'locked':      return { border: 'border-l-primary', badge: 'bg-accent/40 text-primary border-primary/30',    label: 'Locked' }
     case 'missed':      return { border: 'border-l-red-500',   badge: 'bg-red-50 text-red-700 border-red-100',            label: 'Missed' }
     default:            return { border: 'border-l-blue-400',  badge: 'bg-blue-50 text-blue-700 border-blue-100',          label: 'Scheduled' }
   }
@@ -115,12 +115,12 @@ function TodayVisitCard({ visit }: {
   const style = visitStatusStyle(visit.visitStatus)
   return (
     <Link href={visit.hrefVisit}
-      className={`block p-4 bg-white rounded-xl border border-[#f0eeec] border-l-4 ${style.border} hover:shadow-md hover:-translate-y-0.5 transition-all`}
+      className={`block p-4 bg-card rounded-xl border border-border/60 border-l-4 ${style.border} hover:shadow-md hover:-translate-y-0.5 transition-all`}
     >
       <div className="flex items-start justify-between mb-1.5">
         <div>
-          <p className="text-sm font-semibold text-[#10253e]">{visit.subjectIdentifier}</p>
-          <p className="text-xs text-[#98a5ad]">{visit.visitName}</p>
+          <p className="text-sm font-semibold text-foreground">{visit.subjectIdentifier}</p>
+          <p className="text-xs text-muted-foreground">{visit.visitName}</p>
         </div>
         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${style.badge}`}>
           {style.label}
@@ -135,16 +135,16 @@ function TodayVisitCard({ visit }: {
         </div>
       ) : visit.visitStatus === 'completed' || visit.visitStatus === 'locked' ? (
         <div className="flex items-center gap-1 mt-2">
-          <Check className="w-3 h-3 text-[#34a090]" />
-          <span className="text-[10px] text-[#34a090]">All procedures done</span>
+          <Check className="w-3 h-3 text-primary" />
+          <span className="text-[10px] text-primary">All procedures done</span>
         </div>
       ) : null}
 
-      <div className="flex items-center justify-between mt-3 pt-2 border-t border-[#f0eeec]">
-        <Link href={visit.hrefSubject} className="text-[10px] text-[#98a5ad] hover:text-[#34a090] transition-colors" onClick={e => e.stopPropagation()}>
+      <div className="flex items-center justify-between mt-3 pt-2 border-t border-border/60">
+        <Link href={visit.hrefSubject} className="text-[10px] text-muted-foreground hover:text-primary transition-colors" onClick={e => e.stopPropagation()}>
           Subject chart →
         </Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#98a5ad]" />
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
       </div>
     </Link>
   )
@@ -192,41 +192,41 @@ export default async function OperationsCommandCenterPage() {
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-accent">
       {/* Alert Strip */}
       <AlertStrip alerts={[...criticalAlerts, ...watchAlerts]} />
 
       {/* Command Header */}
-      <div className="px-6 py-4 bg-white border-b flex items-center justify-between" style={{ borderColor: '#e5e5e5' }}>
+      <div className="px-6 py-4 bg-card border-b flex items-center justify-between" >
         <div>
-          <h1 className="heading-serif text-xl text-[#10253e]">Operations</h1>
-          <p className="text-xs text-[#98a5ad] mt-0.5">{today}</p>
+          <h1 className="heading-serif text-xl text-foreground">Operations</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">{today}</p>
         </div>
-        <div className="flex items-center gap-4 px-4 py-2 rounded-xl bg-white border" style={{ borderColor: '#e5e5e5' }}>
+        <div className="flex items-center gap-4 px-4 py-2 rounded-xl bg-card border" >
           <div className="text-center">
-            <p className="text-lg font-bold text-[#10253e]">{todayVisits.length}</p>
-            <p className="text-[10px] text-[#98a5ad]">Today&apos;s Visits</p>
+            <p className="text-lg font-bold text-foreground">{todayVisits.length}</p>
+            <p className="text-[10px] text-muted-foreground">Today&apos;s Visits</p>
           </div>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
-            <p className="text-lg font-bold text-[#34a090]">{completedToday}</p>
-            <p className="text-[10px] text-[#98a5ad]">Complete</p>
+            <p className="text-lg font-bold text-primary">{completedToday}</p>
+            <p className="text-[10px] text-muted-foreground">Complete</p>
           </div>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-amber-500">{inProgressToday}</p>
-            <p className="text-[10px] text-[#98a5ad]">In Progress</p>
+            <p className="text-[10px] text-muted-foreground">In Progress</p>
           </div>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-red-500">{rawAlerts.filter(a => a.alertType === 'missed' || a.alertType === 'out_of_window').length}</p>
-            <p className="text-[10px] text-[#98a5ad]">Alerts</p>
+            <p className="text-[10px] text-muted-foreground">Alerts</p>
           </div>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 overflow-y-auto p-6 scrollbar-thin" style={{ backgroundColor: '#f9f8f7' }}>
+      <div className="flex-1 overflow-y-auto bg-accent p-6 scrollbar-thin">
         <div className="grid grid-cols-3 gap-6 max-w-[1400px]">
 
           {/* LEFT — Today's Visit Queue (2/3) */}
@@ -236,24 +236,24 @@ export default async function OperationsCommandCenterPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#34a090]" />
-                  <h2 className="text-sm font-semibold text-[#10253e]">Today&apos;s Visit Queue</h2>
+                  <Calendar className="w-4 h-4 text-primary" />
+                  <h2 className="text-sm font-semibold text-foreground">Today&apos;s Visit Queue</h2>
                   {todayVisits.length > 0 && (
                     <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
                       {todayVisits.length}
                     </span>
                   )}
                 </div>
-                <Link href="/studies" className="text-xs text-[#34a090] hover:underline flex items-center gap-1">
+                <Link href="/studies" className="text-xs text-primary hover:underline flex items-center gap-1">
                   View studies <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
 
               {todayVisits.length === 0 ? (
                 <div className="vilo-card p-8 text-center">
-                  <Calendar className="w-8 h-8 text-[#98a5ad] mx-auto mb-3" />
-                  <p className="text-sm font-medium text-[#10253e] mb-1">No visits scheduled for today</p>
-                  <p className="text-xs text-[#98a5ad]">
+                  <Calendar className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-sm font-medium text-foreground mb-1">No visits scheduled for today</p>
+                  <p className="text-xs text-muted-foreground">
                     All visits with a scheduled date of today will appear here automatically.
                   </p>
                 </div>
@@ -269,7 +269,7 @@ export default async function OperationsCommandCenterPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <AlertCircle className="w-4 h-4 text-amber-500" />
-                  <h2 className="text-sm font-semibold text-[#10253e]">Visit Alerts</h2>
+                  <h2 className="text-sm font-semibold text-foreground">Visit Alerts</h2>
                   <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
                     {rawAlerts.length}
                   </span>
@@ -290,24 +290,24 @@ export default async function OperationsCommandCenterPage() {
                         <Clock className="w-4 h-4 text-amber-500 flex-shrink-0" />
                       )}
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-[#10253e] truncate">
+                        <p className="text-xs font-medium text-foreground truncate">
                           {alert.subjectIdentifier} — {alert.visitLabel}
                         </p>
-                        <p className="text-[10px] text-[#98a5ad] capitalize">
+                        <p className="text-[10px] text-muted-foreground capitalize">
                           {alert.alertType.replace(/_/g, ' ')}
                           {alert.scheduledDate ? ` · ${alert.scheduledDate}` : ''}
                         </p>
                       </div>
                       <Link
                         href={alert.href}
-                        className="text-[10px] text-[#34a090] hover:underline flex-shrink-0"
+                        className="text-[10px] text-primary hover:underline flex-shrink-0"
                       >
                         View →
                       </Link>
                     </div>
                   ))}
                   {rawAlerts.length > 8 && (
-                    <p className="text-xs text-[#98a5ad] text-center pt-1">
+                    <p className="text-xs text-muted-foreground text-center pt-1">
                       +{rawAlerts.length - 8} more alerts — review in Studies
                     </p>
                   )}
@@ -318,20 +318,20 @@ export default async function OperationsCommandCenterPage() {
             {/* Pending source / signatures — STUB */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <FileText className="w-4 h-4 text-[#98a5ad]" />
-                <h2 className="text-sm font-semibold text-[#10253e]">Pending Source & Signatures</h2>
+                <FileText className="w-4 h-4 text-muted-foreground" />
+                <h2 className="text-sm font-semibold text-foreground">Pending Source & Signatures</h2>
               </div>
               <div className="vilo-card p-5">
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { icon: FileText, label: 'Incomplete Source', color: 'text-amber-500' },
                     { icon: PenTool,  label: 'Pending PI Sign',   color: 'text-orange-500' },
-                    { icon: FlaskConical, label: 'Lab Reconciliation', color: 'text-[#98a5ad]' },
+                    { icon: FlaskConical, label: 'Lab Reconciliation', color: 'text-muted-foreground' },
                   ].map(({ icon: Icon, label, color }) => (
-                    <div key={label} className="text-center p-4 rounded-lg" style={{ backgroundColor: '#f0eeec' }}>
+                    <div key={label} className="text-center p-4 rounded-lg bg-muted" >
                       <Icon className={`w-5 h-5 ${color} mx-auto mb-2`} />
-                      <p className="text-xl font-bold text-[#98a5ad]">—</p>
-                      <p className="text-xs text-[#98a5ad]">{label}</p>
+                      <p className="text-xl font-bold text-muted-foreground">—</p>
+                      <p className="text-xs text-muted-foreground">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -346,17 +346,17 @@ export default async function OperationsCommandCenterPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#34a090]" />
-                  <h2 className="text-sm font-semibold text-[#10253e]">Active Studies</h2>
+                  <Activity className="w-4 h-4 text-primary" />
+                  <h2 className="text-sm font-semibold text-foreground">Active Studies</h2>
                 </div>
-                <Link href="/studies" className="text-xs text-[#34a090] hover:underline flex items-center gap-1">
+                <Link href="/studies" className="text-xs text-primary hover:underline flex items-center gap-1">
                   All <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
               <div className="space-y-2">
                 {!studies.length ? (
                   <div className="vilo-card p-4 text-center">
-                    <p className="text-xs text-[#98a5ad]">No studies visible</p>
+                    <p className="text-xs text-muted-foreground">No studies visible</p>
                   </div>
                 ) : (
                   studies.map(study => (
@@ -365,12 +365,12 @@ export default async function OperationsCommandCenterPage() {
                       href={`/studies/${study.id}`}
                       className="flex items-center gap-3 p-3 vilo-card-interactive"
                     >
-                      <div className="w-2 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: '#34a090' }} />
+                      <div className="w-2 h-8 rounded-full bg-primary flex-shrink-0"  />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-[#10253e] truncate">{study.name}</p>
-                        <p className="text-[10px] text-[#98a5ad] capitalize">{study.status ?? '—'}</p>
+                        <p className="text-xs font-semibold text-foreground truncate">{study.name}</p>
+                        <p className="text-[10px] text-muted-foreground capitalize">{study.status ?? '—'}</p>
                       </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#98a5ad] flex-shrink-0" />
+                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                     </Link>
                   ))
                 )}
@@ -380,11 +380,11 @@ export default async function OperationsCommandCenterPage() {
             {/* Coordinator Queue STUB */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <Users className="w-4 h-4 text-[#98a5ad]" />
-                <h2 className="text-sm font-semibold text-[#10253e]">Coordinator Queue</h2>
+                <Users className="w-4 h-4 text-muted-foreground" />
+                <h2 className="text-sm font-semibold text-foreground">Coordinator Queue</h2>
               </div>
               <div className="vilo-card p-4">
-                <p className="text-xs text-[#98a5ad] text-center py-4 italic">
+                <p className="text-xs text-muted-foreground text-center py-4 italic">
                   Coordinator workload view coming soon.
                 </p>
               </div>
@@ -393,8 +393,8 @@ export default async function OperationsCommandCenterPage() {
             {/* Upcoming windows STUB */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <Timer className="w-4 h-4 text-[#98a5ad]" />
-                <h2 className="text-sm font-semibold text-[#10253e]">Upcoming Windows</h2>
+                <Timer className="w-4 h-4 text-muted-foreground" />
+                <h2 className="text-sm font-semibold text-foreground">Upcoming Windows</h2>
               </div>
               <div className="vilo-card p-4">
                 {rawAlerts.filter(a => a.alertType === 'overdue_scheduling').length > 0 ? (
@@ -403,18 +403,18 @@ export default async function OperationsCommandCenterPage() {
                       <Link
                         key={a.id}
                         href={a.href}
-                        className="flex items-center gap-2 p-2 rounded-lg hover:bg-[#f0eeec] transition-colors"
+                        className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted transition-colors"
                       >
                         <Timer className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-medium text-[#10253e] truncate">{a.subjectIdentifier} · {a.visitLabel}</p>
-                          <p className="text-[10px] text-[#98a5ad]">Window closes {a.windowEndDate ?? '—'}</p>
+                          <p className="text-[10px] font-medium text-foreground truncate">{a.subjectIdentifier} · {a.visitLabel}</p>
+                          <p className="text-[10px] text-muted-foreground">Window closes {a.windowEndDate ?? '—'}</p>
                         </div>
                       </Link>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-[#98a5ad] text-center py-3 italic">
+                  <p className="text-xs text-muted-foreground text-center py-3 italic">
                     No urgent scheduling needs.
                   </p>
                 )}
@@ -424,13 +424,13 @@ export default async function OperationsCommandCenterPage() {
             {/* Unresolved Findings STUB */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <AlertCircle className="w-4 h-4 text-[#98a5ad]" />
-                <h2 className="text-sm font-semibold text-[#10253e]">Unresolved Findings</h2>
+                <AlertCircle className="w-4 h-4 text-muted-foreground" />
+                <h2 className="text-sm font-semibold text-foreground">Unresolved Findings</h2>
               </div>
               <div className="vilo-card p-4">
                 <div className="flex items-center gap-2 justify-center py-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#34a090]" />
-                  <p className="text-xs text-[#98a5ad]">Findings tracker coming soon.</p>
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <p className="text-xs text-muted-foreground">Findings tracker coming soon.</p>
                 </div>
               </div>
             </div>

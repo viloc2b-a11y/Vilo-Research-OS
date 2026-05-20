@@ -14,15 +14,15 @@ export function SignalListOverflow({
   if (hiddenCount <= 0) return null
 
   return (
-    <p className="mt-3 text-xs" style={{ color: '#98a5ad' }}>
-      <span className="font-medium" style={{ color: '#10253e' }}>
+    <p className="mt-3 text-xs" style={{ color: 'var(--muted-foreground)' }}>
+      <span className="font-medium" style={{ color: 'var(--foreground)' }}>
         +{hiddenCount} more
       </span>
       {moreHref ? (
         <>
           {' '}
           —{' '}
-          <Link href={moreHref} className="text-[#34a090] hover:underline">
+          <Link href={moreHref} className="text-primary hover:underline">
             {label}
           </Link>
         </>

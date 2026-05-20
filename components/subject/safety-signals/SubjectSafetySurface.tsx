@@ -10,10 +10,10 @@ export function SubjectSafetySurface({ model }: SubjectSafetySurfaceProps) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-lg font-semibold" style={{ color: 'var(--foreground)' }}>
           AE / Safety
         </h2>
-        <p className="text-sm" style={{ color: '#98a5ad' }}>
+        <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
           Safety / AE signals — longitudinal view of source-backed operational items. No structured
           AE case registry is available in this release.
         </p>

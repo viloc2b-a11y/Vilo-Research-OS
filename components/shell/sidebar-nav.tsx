@@ -25,19 +25,21 @@ type NavItem = {
   href: string
   icon: React.ElementType
   soon?: boolean
+  availability?: string
 }
 
 const navItems: NavItem[] = [
   { id: 'operations', label: 'Operations',  href: '/command-center', icon: Calendar },
+  { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar },
   { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban },
-  { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true },
-  { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true },
-  { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true },
-  { id: 'financial',  label: 'Financial',   href: '/financial',  icon: DollarSign, soon: true },
+  { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true, availability: 'Planned for the next operational workflow release.' },
+  { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true, availability: 'Planned after coordinator cockpit stabilization.' },
+  { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true, availability: 'Regulatory workspace is planned for an upcoming release.' },
+  { id: 'financial',  label: 'Financial',   href: '/financial',  icon: DollarSign, soon: true, availability: 'ClinIQ financial workspace is planned for a later internal release.' },
   { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity },
-  { id: 'academy',    label: 'Academy',     href: '/academy',    icon: GraduationCap, soon: true },
-  { id: 'reports',    label: 'Reports',     href: '/reports',    icon: BarChart3, soon: true },
-  { id: 'admin',      label: 'Admin',       href: '/admin',      icon: Settings, soon: true },
+  { id: 'academy',    label: 'Academy',     href: '/academy',    icon: GraduationCap, soon: true, availability: 'Training content is not enabled in this internal deployment.' },
+  { id: 'reports',    label: 'Reports',     href: '/reports',    icon: BarChart3, soon: true, availability: 'Reports will follow the operational read-model hardening phase.' },
+  { id: 'admin',      label: 'Admin',       href: '/admin',      icon: Settings, soon: true, availability: 'Admin tools are reserved for a future controlled-access release.' },
 ]
 
 /** Phase 7E sub-nav for the Command Center. Rendered when on /performance/*. */
@@ -117,7 +119,7 @@ export function SidebarNav({ organizationName }: SidebarNavProps) {
           const isVpi = item.id === 'vpi'
 
           return (
-            <div key={item.id}>
+            <div key={item.id} title={item.soon ? item.availability : undefined}>
               <Link
                 href={item.soon ? '#' : item.href}
                 className={cn(

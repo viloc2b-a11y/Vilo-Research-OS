@@ -53,6 +53,10 @@ function eventDetail(payload: unknown): string {
   return parts.length ? parts.join(' · ') : 'Operational event recorded.'
 }
 
+function unavailableSection(section: string): string {
+  return `${section} is temporarily unavailable. Retry the page; if it persists, ask the technical team to review server logs.`
+}
+
 export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
@@ -71,7 +75,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       openWorkflowTasks: [],
       recentEvents: [],
       highRisk: [],
-      unavailable: ['No organization membership available for this user.'],
+      unavailable: ['Workspace access is unavailable because this user is not assigned to an organization.'],
     }
   }
 
@@ -83,7 +87,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     visitAlerts,
     sourceSets,
     pendingProcedures,
-    findings,
+    blockerSets,
     workflowActions,
     events,
     performanceResult,
@@ -106,12 +110,11 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .order('updated_at', { ascending: false })
       .limit(12),
     supabase
-      .from('source_response_validation_findings')
-      .select('id, response_set_id, severity, message, status, field_key, created_at')
-      .in('status', ['open', 'acknowledged'])
-      .in('severity', ['error', 'critical'])
-      .order('created_at', { ascending: false })
-      .limit(12),
+      .from('source_response_sets')
+      .select('id, organization_id')
+      .in('organization_id', organizationIds)
+      .order('opened_at', { ascending: false })
+      .limit(200),
     supabase
       .from('subject_workflow_actions')
       .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, source_response_set_id, action_type, status, priority, title, due_date')
@@ -126,17 +129,20 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .in('organization_id', organizationIds)
       .order('occurred_at', { ascending: false })
       .limit(12),
-    loadPerformancePageModel(undefined).catch((error: unknown) => {
-      unavailable.push(`VPI read model unavailable: ${error instanceof Error ? error.message : 'unknown error'}`)
+    loadPerformancePageModel(undefined).catch(() => {
+      unavailable.push(unavailableSection('VPI high-risk queue'))
       return null
     }),
   ])
 
-  if (sourceSets.error) unavailable.push(`Incomplete source unavailable: ${sourceSets.error.message}`)
-  if (pendingProcedures.error) unavailable.push(`Pending signatures unavailable: ${pendingProcedures.error.message}`)
-  if (findings.error) unavailable.push(`Source Engine blockers unavailable: ${findings.error.message}`)
-  if (workflowActions.error) unavailable.push(`Workflow tasks unavailable: ${workflowActions.error.message}`)
-  if (events.error) unavailable.push(`Operational events unavailable: ${events.error.message}`)
+  if (sourceSets.error) unavailable.push(unavailableSection('Incomplete source'))
+  if (pendingProcedures.error) unavailable.push(unavailableSection('Pending signatures'))
+  if (blockerSets.error) unavailable.push(unavailableSection('Source Engine Blockers'))
+  if (workflowActions.error) unavailable.push(unavailableSection('Open workflow tasks'))
+  if (events.error) unavailable.push(unavailableSection('Recent operational events'))
+  if (performanceResult?.model.errors.length) {
+    unavailable.push('VPI read model returned partial data; high-risk queue may be incomplete.')
+  }
 
   const outOfWindowVisits = visitAlerts
     .filter((alert) => alert.alertType === 'missed' || alert.alertType === 'out_of_window')
@@ -172,11 +178,32 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     }
   })
 
+  const scopedResponseSetIds = (blockerSets.data ?? []).map((set) => set.id as string)
+  const findings =
+    scopedResponseSetIds.length > 0
+      ? await supabase
+        .from('source_response_validation_findings')
+          .select('id, response_set_id, severity, message, status, created_at')
+          .in('response_set_id', scopedResponseSetIds)
+          .in('status', ['open', 'acknowledged'])
+          .in('severity', ['error', 'critical'])
+          .order('created_at', { ascending: false })
+          .limit(12)
+      : { data: [], error: null }
+
+  if (findings.error) unavailable.push(unavailableSection('Source Engine Blockers'))
+
+  const scopedSetOrgById = new Map(
+    (blockerSets.data ?? []).map((set) => [set.id as string, set.organization_id as string]),
+  )
+
   const sourceEngineBlockers = (findings.data ?? []).map((finding) => ({
     id: finding.id as string,
     title: String(finding.message ?? 'Source Engine blocker'),
     detail: `${String(finding.severity ?? 'error')} · ${String(finding.status ?? 'open')}`,
-    href: sourceResponseSetPath(finding.response_set_id as string),
+    href: sourceResponseSetPath(finding.response_set_id as string, {
+      organization_id: scopedSetOrgById.get(finding.response_set_id as string),
+    }),
     status: finding.status as string | null,
     tone: 'critical' as const,
   }))
@@ -193,13 +220,15 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
           ? visitDetailPath(visitId)
           : `/studies/${action.study_id as string}/subjects/${action.study_subject_id as string}?tab=workflow`
 
+    const dueDate = action.due_date as string | null
+    const isOverdue = Boolean(dueDate && dueDate < today)
     return {
       id: action.id as string,
       title: action.title as string,
-      detail: `${String(action.action_type ?? 'task')} · ${String(action.priority ?? 'normal')}${action.due_date ? ` · due ${action.due_date}` : ''}`,
+      detail: `${String(action.action_type ?? 'task')} · ${String(action.priority ?? 'normal')}${dueDate ? ` · ${isOverdue ? 'overdue' : 'due'} ${dueDate}` : ''}`,
       href,
       status: action.status as string | null,
-      tone: action.priority === 'urgent' ? 'critical' as const : 'neutral' as const,
+      tone: isOverdue || action.priority === 'urgent' || action.priority === 'high' ? 'critical' as const : 'neutral' as const,
     }
   })
 
@@ -215,7 +244,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     performanceResult?.model.riskQueue.slice(0, 8).map((item) => ({
       id: item.subjectId,
       title: item.subjectIdentifier,
-      detail: `${item.reasonLabel} · ${item.detail}`,
+      detail: `${item.reasonLabel} · ${item.detail} · State: ${item.operationalState ?? item.severity ?? 'risk'} · Owner: not assigned in current read model`,
       href: item.contextHref,
       status: item.operationalState ?? item.severity,
       tone:
@@ -225,7 +254,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     })) ?? []
 
   return {
-    generatedAt: today,
+    generatedAt: new Date().toISOString(),
     organizationIds,
     todayVisits,
     outOfWindowVisits,

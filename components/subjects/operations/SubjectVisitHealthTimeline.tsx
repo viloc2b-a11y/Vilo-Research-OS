@@ -38,7 +38,7 @@ function timelineTone(item: VisitHealthTimelineItem): string {
 
 function ChronologyActionLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="text-xs font-medium text-[#34a090] hover:underline">
+    <Link href={href} className="text-xs font-medium text-primary hover:underline">
       {children}
     </Link>
   )
@@ -54,13 +54,13 @@ export function SubjectVisitHealthTimeline({
   if (items.length === 0) {
     return (
       <section
-        className="rounded-lg border bg-white p-4"
-        style={{ borderColor: '#e5e5e5' }}
+        className="rounded-lg border bg-card p-4"
+        style={{ borderColor: 'var(--border)' }}
       >
-        <h2 className="text-sm font-semibold" style={{ color: '#10253e' }}>
+        <h2 className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
           {title}
         </h2>
-        <p className="mt-2 text-sm" style={{ color: '#98a5ad' }}>
+        <p className="mt-2 text-sm" style={{ color: 'var(--muted-foreground)' }}>
           No visits on record for this subject.
         </p>
       </section>
@@ -69,36 +69,36 @@ export function SubjectVisitHealthTimeline({
 
   return (
     <section
-      className="rounded-lg border bg-white p-4"
-      style={{ borderColor: '#e5e5e5' }}
+      className="rounded-lg border bg-card p-4"
+      style={{ borderColor: 'var(--border)' }}
     >
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div>
-          <h2 className="text-sm font-semibold" style={{ color: '#10253e' }}>
+          <h2 className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
             {title}
           </h2>
-          <p className="text-xs" style={{ color: '#98a5ad' }}>
+          <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
             Protocol order — completion, visit windows, source status, signatures, and open issues.
           </p>
         </div>
         {showGridLink ? (
           <Link
             href={subjectVisitsPath(studyId, subjectId)}
-            className="text-xs font-medium text-[#34a090] hover:underline"
+            className="text-xs font-medium text-primary hover:underline"
           >
             Visits grid
           </Link>
         ) : null}
       </div>
 
-      <ol className="relative space-y-0 border-l pl-6" style={{ borderColor: '#e5e5e5' }}>
+      <ol className="relative space-y-0 border-l pl-6" style={{ borderColor: 'var(--border)' }}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
             <li key={item.visitId} className={cn('relative pb-5', isLast && 'pb-0')}>
               <span
                 className="absolute -left-[1.4rem] top-1 h-3 w-3 rounded-full border-2 border-white"
-                style={{ backgroundColor: '#34a090' }}
+                style={{ backgroundColor: 'var(--primary)' }}
                 aria-hidden
               />
               <article className={cn('rounded-md border p-3 text-sm', timelineTone(item))}>
@@ -107,11 +107,11 @@ export function SubjectVisitHealthTimeline({
                     <Link
                       href={item.visitDetailHref}
                       className="font-medium hover:underline"
-                      style={{ color: '#10253e' }}
+                      style={{ color: 'var(--foreground)' }}
                     >
                       {item.visitName}
                     </Link>
-                    <p className="text-xs" style={{ color: '#98a5ad' }}>
+                    <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
                       {item.visitDay != null ? `Day ${item.visitDay}` : 'Visit'}
                     </p>
                   </div>
@@ -146,15 +146,15 @@ export function SubjectVisitHealthTimeline({
 
                 <dl className="mt-2 grid gap-1 text-xs sm:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <dt style={{ color: '#98a5ad' }}>Scheduled</dt>
+                    <dt style={{ color: 'var(--muted-foreground)' }}>Scheduled</dt>
                     <dd className="font-medium">{item.scheduledDate ?? '—'}</dd>
                   </div>
                   <div>
-                    <dt style={{ color: '#98a5ad' }}>Actual / done</dt>
+                    <dt style={{ color: 'var(--muted-foreground)' }}>Actual / done</dt>
                     <dd className="font-medium">{item.actualDate ?? '—'}</dd>
                   </div>
                   <div>
-                    <dt style={{ color: '#98a5ad' }}>Signatures</dt>
+                    <dt style={{ color: 'var(--muted-foreground)' }}>Signatures</dt>
                     <dd className="font-medium">
                       {item.signaturesPending.length > 0
                         ? item.signaturesPending.join(', ')
@@ -162,7 +162,7 @@ export function SubjectVisitHealthTimeline({
                     </dd>
                   </div>
                   <div>
-                    <dt style={{ color: '#98a5ad' }}>Unresolved issues</dt>
+                    <dt style={{ color: 'var(--muted-foreground)' }}>Unresolved issues</dt>
                     <dd className="font-medium">
                       {item.unresolvedIssues > 0 ? item.unresolvedIssues : '—'}
                     </dd>

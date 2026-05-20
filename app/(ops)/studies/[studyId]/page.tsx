@@ -60,28 +60,28 @@ function SubjectRow({ subject, studyId }: {
     active:    'status-badge-healthy',
     screening: 'status-badge-watch',
     enrolled:  'status-badge-healthy',
-    completed: 'bg-[#f0eeec] text-[#98a5ad]',
+    completed: 'bg-muted text-muted-foreground',
     withdrawn: 'status-badge-risk',
-    unknown:   'bg-[#f0eeec] text-[#98a5ad]',
+    unknown:   'bg-muted text-muted-foreground',
   }
 
   return (
     <Link
       href={`/studies/${studyId}/subjects/${subject.id}`}
-      className="flex items-center gap-4 px-4 py-3 hover:bg-[#f9f8f7] transition-colors border-b border-[#f0eeec] last:border-0 group"
+      className="flex items-center gap-4 px-4 py-3 hover:bg-accent transition-colors border-b border-border/60 last:border-0 group"
     >
-      <div className="w-8 h-8 rounded-lg bg-[#e8f5f3] flex items-center justify-center text-[#34a090] text-xs font-bold flex-shrink-0">
+      <div className="w-8 h-8 rounded-lg bg-accent/40 flex items-center justify-center text-primary text-xs font-bold flex-shrink-0">
         {subject.subject_identifier?.slice(0, 2).toUpperCase() ?? '—'}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[#10253e]">
+        <p className="text-sm font-medium text-foreground">
           Subject {subject.subject_identifier}
         </p>
       </div>
-      <span className={`status-badge ${statusColor[status] ?? 'bg-[#f0eeec] text-[#98a5ad]'}`}>
+      <span className={`status-badge ${statusColor[status] ?? 'bg-muted text-muted-foreground'}`}>
         {status}
       </span>
-      <ChevronRight className="w-3.5 h-3.5 text-[#98a5ad] opacity-0 group-hover:opacity-100 transition-opacity" />
+      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
     </Link>
   )
 }
@@ -94,8 +94,8 @@ function visitStatusStyle(status: string) {
   switch (status) {
     case 'in_progress':
     case 'checked_in':  return { dot: 'bg-amber-400',    badge: 'bg-amber-50 text-amber-700 border-amber-100',   label: 'In Progress' }
-    case 'completed':   return { dot: 'bg-[#34a090]',   badge: 'bg-[#e8f5f3] text-[#2a8577] border-[#c5e8e4]',   label: 'Completed' }
-    case 'locked':      return { dot: 'bg-[#34a090]',   badge: 'bg-[#e8f5f3] text-[#2a8577] border-[#c5e8e4]',   label: 'Locked' }
+    case 'completed':   return { dot: 'bg-primary',   badge: 'bg-accent/40 text-primary border-primary/30',   label: 'Completed' }
+    case 'locked':      return { dot: 'bg-primary',   badge: 'bg-accent/40 text-primary border-primary/30',   label: 'Locked' }
     case 'missed':      return { dot: 'bg-red-500',     badge: 'bg-red-50 text-red-700 border-red-100',            label: 'Missed' }
     case 'out_of_window': return { dot: 'bg-red-400',  badge: 'bg-red-50 text-red-600 border-red-100',            label: 'Out of Window' }
     default:            return { dot: 'bg-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-100',         label: 'Scheduled' }
@@ -108,21 +108,21 @@ function VisitRow({ visit }: { visit: StudyVisitRow }) {
   const allDone  = hasProcs && visit.completedProcedures === visit.totalProcedures
 
   return (
-    <div className="flex items-center gap-4 px-4 py-3 border-b border-[#f0eeec] last:border-0 hover:bg-[#f9f8f7] transition-colors group">
+    <div className="flex items-center gap-4 px-4 py-3 border-b border-border/60 last:border-0 hover:bg-accent transition-colors group">
       {/* Status dot */}
       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${style.dot}`} />
 
       {/* Subject + visit */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
-          <span className="text-sm font-medium text-[#10253e]">{visit.subjectIdentifier}</span>
-          <span className="text-xs text-[#98a5ad]">·</span>
-          <span className="text-sm text-[#10253e]">{visit.visitName}</span>
+          <span className="text-sm font-medium text-foreground">{visit.subjectIdentifier}</span>
+          <span className="text-xs text-muted-foreground">·</span>
+          <span className="text-sm text-foreground">{visit.visitName}</span>
           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${style.badge}`}>
             {style.label}
           </span>
         </div>
-        <div className="flex items-center gap-3 text-[10px] text-[#98a5ad]">
+        <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
           {visit.scheduledDate && (
             <span className="flex items-center gap-1">
               <CalendarDays className="w-3 h-3" />
@@ -133,7 +133,7 @@ function VisitRow({ visit }: { visit: StudyVisitRow }) {
             <span>Window: {visit.windowStart} – {visit.windowEnd}</span>
           )}
           {hasProcs && (
-            <span className={`flex items-center gap-1 ${allDone ? 'text-[#34a090]' : 'text-amber-600'}`}>
+            <span className={`flex items-center gap-1 ${allDone ? 'text-primary' : 'text-amber-600'}`}>
               {allDone ? <Check className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
               {visit.completedProcedures}/{visit.totalProcedures} procedures
             </span>
@@ -145,11 +145,11 @@ function VisitRow({ visit }: { visit: StudyVisitRow }) {
       <Link
         href={visit.hrefVisit}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-all"
-        style={{ backgroundColor: '#34a090' }}
+        
       >
         Enter Visit <ChevronRight className="w-3 h-3" />
       </Link>
-      <Link href={visit.hrefSubject} className="text-[10px] text-[#98a5ad] hover:text-[#34a090] transition-colors opacity-0 group-hover:opacity-100">
+      <Link href={visit.hrefSubject} className="text-[10px] text-muted-foreground hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
         Subject →
       </Link>
     </div>
@@ -167,13 +167,13 @@ function VisitGroup({ title, visits, icon, emptyMsg }: {
   if (visits.length === 0 && !emptyMsg) return null
   return (
     <div className="vilo-card overflow-hidden mb-4">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#f0eeec] bg-[#f9f8f7]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-border/60 bg-accent">
         {icon}
-        <span className="text-xs font-semibold text-[#10253e]">{title}</span>
-        <span className="text-[10px] text-[#98a5ad]">({visits.length})</span>
+        <span className="text-xs font-semibold text-foreground">{title}</span>
+        <span className="text-[10px] text-muted-foreground">({visits.length})</span>
       </div>
       {visits.length === 0 ? (
-        <div className="px-4 py-4 text-xs text-[#98a5ad]">{emptyMsg}</div>
+        <div className="px-4 py-4 text-xs text-muted-foreground">{emptyMsg}</div>
       ) : (
         visits.map(v => <VisitRow key={v.visitId} visit={v} />)
       )}
@@ -185,7 +185,7 @@ function VisitsTab({ studyVisits }: { studyVisits: VisitsTabResult }) {
   if (!studyVisits) {
     return (
       <div className="p-6 text-center">
-        <p className="text-sm text-[#98a5ad]">Unable to load visits.</p>
+        <p className="text-sm text-muted-foreground">Unable to load visits.</p>
       </div>
     )
   }
@@ -204,47 +204,47 @@ function VisitsTab({ studyVisits }: { studyVisits: VisitsTabResult }) {
       {/* Summary bar */}
       <div className="flex items-center gap-6 mb-5 p-4 vilo-card">
         <div className="text-center">
-          <p className="text-lg font-bold text-[#10253e]">{total}</p>
-          <p className="text-[10px] text-[#98a5ad]">Total Visits</p>
+          <p className="text-lg font-bold text-foreground">{total}</p>
+          <p className="text-[10px] text-muted-foreground">Total Visits</p>
         </div>
         {studyVisits.inProgress.length > 0 && <>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-amber-500">{studyVisits.inProgress.length}</p>
-            <p className="text-[10px] text-[#98a5ad]">In Progress</p>
+            <p className="text-[10px] text-muted-foreground">In Progress</p>
           </div>
         </>}
         {studyVisits.today.length > 0 && <>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-blue-500">{studyVisits.today.length}</p>
-            <p className="text-[10px] text-[#98a5ad]">Today</p>
+            <p className="text-[10px] text-muted-foreground">Today</p>
           </div>
         </>}
         {studyVisits.overdue.length > 0 && <>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-red-500">{studyVisits.overdue.length}</p>
-            <p className="text-[10px] text-[#98a5ad]">Overdue / At Risk</p>
+            <p className="text-[10px] text-muted-foreground">Overdue / At Risk</p>
           </div>
         </>}
-        <div className="w-px h-8 bg-[#e5e5e5]" />
+        <div className="w-px h-8 bg-border" />
         <div className="text-center">
-          <p className="text-lg font-bold text-[#34a090]">{studyVisits.completed.length}</p>
-          <p className="text-[10px] text-[#98a5ad]">Completed</p>
+          <p className="text-lg font-bold text-primary">{studyVisits.completed.length}</p>
+          <p className="text-[10px] text-muted-foreground">Completed</p>
         </div>
-        <div className="w-px h-8 bg-[#e5e5e5]" />
+        <div className="w-px h-8 bg-border" />
         <div className="text-center">
-          <p className="text-lg font-bold text-[#98a5ad]">{studyVisits.upcoming.length}</p>
-          <p className="text-[10px] text-[#98a5ad]">Upcoming</p>
+          <p className="text-lg font-bold text-muted-foreground">{studyVisits.upcoming.length}</p>
+          <p className="text-[10px] text-muted-foreground">Upcoming</p>
         </div>
       </div>
 
       {total === 0 ? (
         <div className="vilo-card p-12 text-center">
-          <CalendarDays className="w-8 h-8 text-[#98a5ad] mx-auto mb-3" />
-          <p className="text-sm font-medium text-[#10253e] mb-1">No visits found</p>
-          <p className="text-xs text-[#98a5ad]">Visit schedules will appear here once generated.</p>
+          <CalendarDays className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+          <p className="text-sm font-medium text-foreground mb-1">No visits found</p>
+          <p className="text-xs text-muted-foreground">Visit schedules will appear here once generated.</p>
         </div>
       ) : (
         <>
@@ -266,13 +266,13 @@ function VisitsTab({ studyVisits }: { studyVisits: VisitsTabResult }) {
           <VisitGroup
             title="Upcoming"
             visits={studyVisits.upcoming}
-            icon={<Clock className="w-3.5 h-3.5 text-[#98a5ad]" />}
+            icon={<Clock className="w-3.5 h-3.5 text-muted-foreground" />}
             emptyMsg="No upcoming visits scheduled."
           />
           <VisitGroup
             title="Completed"
             visits={studyVisits.completed}
-            icon={<Check className="w-3.5 h-3.5 text-[#34a090]" />}
+            icon={<Check className="w-3.5 h-3.5 text-primary" />}
           />
         </>
       )}
@@ -287,11 +287,11 @@ function VisitsTab({ studyVisits }: { studyVisits: VisitsTabResult }) {
 function ComingSoonTab({ label }: { label: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-12 h-12 rounded-full bg-[#e8f5f3] flex items-center justify-center mb-4">
-        <Activity className="w-5 h-5 text-[#34a090]" />
+      <div className="w-12 h-12 rounded-full bg-accent/40 flex items-center justify-center mb-4">
+        <Activity className="w-5 h-5 text-primary" />
       </div>
-      <p className="text-sm font-semibold text-[#10253e] mb-1">{label}</p>
-      <p className="text-xs text-[#98a5ad]">This workspace section is being built.</p>
+      <p className="text-sm font-semibold text-foreground mb-1">{label}</p>
+      <p className="text-xs text-muted-foreground">This workspace section is being built.</p>
     </div>
   )
 }
@@ -341,23 +341,23 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
     : null
 
   // Generate study color
-  const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', '#34a090']
+  const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', 'var(--primary)']
   const studyColor = COLORS[study.name.charCodeAt(0) % COLORS.length]
 
   return (
-    <div className="flex flex-col h-full" style={{ backgroundColor: '#f9f8f7' }}>
+    <div className="flex flex-col h-full bg-accent">
 
       {/* === Workspace Header === */}
-      <header className="bg-white border-b border-[#e5e5e5]">
+      <header className="bg-card border-b border-border">
         {/* Breadcrumb + identity */}
         <div className="flex items-center gap-4 px-6 py-4">
           <Link
             href="/studies"
-            className="p-2 rounded-lg hover:bg-[#f0eeec] transition-colors text-[#98a5ad] hover:text-[#10253e]"
+            className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
           >
             <ChevronLeft className="w-4 h-4" />
           </Link>
-          <div className="w-px h-8 bg-[#e5e5e5]" />
+          <div className="w-px h-8 bg-border" />
           <div className="w-1.5 h-12 rounded-full flex-shrink-0" style={{ backgroundColor: studyColor }} />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
@@ -365,29 +365,29 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
               <span className={`status-badge ${
                 study.status === 'active' || study.status === 'enrolling'
                   ? 'status-badge-healthy'
-                  : 'bg-[#f0eeec] text-[#98a5ad]'
+                  : 'bg-muted text-muted-foreground'
               }`}>
                 {study.status ?? 'unknown'}
               </span>
             </div>
-            <h1 className="text-base font-semibold text-[#10253e] truncate">{study.name}</h1>
+            <h1 className="text-base font-semibold text-foreground truncate">{study.name}</h1>
           </div>
 
           {/* Quick stats */}
-          <div className="flex items-center gap-4 px-5 py-2.5 rounded-xl bg-[#f9f8f7] border border-[#e5e5e5]">
+          <div className="flex items-center gap-4 px-5 py-2.5 rounded-xl bg-accent border border-border">
             <div className="text-center">
-              <p className="text-lg font-bold text-[#10253e]">{totalSubjects}</p>
-              <p className="text-[10px] text-[#98a5ad]">Subjects</p>
+              <p className="text-lg font-bold text-foreground">{totalSubjects}</p>
+              <p className="text-[10px] text-muted-foreground">Subjects</p>
             </div>
-            <div className="w-px h-8 bg-[#e5e5e5]" />
+            <div className="w-px h-8 bg-border" />
             <div className="text-center">
-              <p className="text-lg font-bold text-[#34a090]">{activeSubjects}</p>
-              <p className="text-[10px] text-[#98a5ad]">Active</p>
+              <p className="text-lg font-bold text-primary">{activeSubjects}</p>
+              <p className="text-[10px] text-muted-foreground">Active</p>
             </div>
-            <div className="w-px h-8 bg-[#e5e5e5]" />
+            <div className="w-px h-8 bg-border" />
             <div className="text-center">
               <p className="text-lg font-bold text-blue-500">{screeningSubjects}</p>
-              <p className="text-[10px] text-[#98a5ad]">Screening</p>
+              <p className="text-[10px] text-muted-foreground">Screening</p>
             </div>
           </div>
         </div>
@@ -403,8 +403,8 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                   href={`/studies/${studyId}?tab=${tab.id}`}
                   className={`flex items-center gap-1.5 px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
                     isActive
-                      ? 'border-[#34a090] text-[#34a090]'
-                      : 'border-transparent text-[#98a5ad] hover:text-[#10253e]'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <tab.icon className="w-3.5 h-3.5" />
@@ -417,7 +417,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
       </header>
 
       {/* === Tab Content === */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin">
+      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
 
         {/* OVERVIEW */}
         {activeTab === 'overview' && (
@@ -426,30 +426,30 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
 
               {/* Today's operations STUB */}
               <div className="vilo-card p-5">
-                <h3 className="text-sm font-semibold text-[#10253e] mb-4 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#34a090]" />
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-primary" />
                   Today&apos;s Operations
                 </h3>
                 <div className="grid grid-cols-4 gap-4">
                   <div className="text-center p-4 rounded-lg bg-blue-50">
                     <CalendarDays className="w-5 h-5 text-blue-500 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-blue-600">—</p>
-                    <p className="text-xs text-[#98a5ad]">Visits Today</p>
+                    <p className="text-xs text-muted-foreground">Visits Today</p>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-amber-50">
                     <FileText className="w-5 h-5 text-amber-500 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-amber-600">—</p>
-                    <p className="text-xs text-[#98a5ad]">Incomplete Source</p>
+                    <p className="text-xs text-muted-foreground">Incomplete Source</p>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-orange-50">
                     <PenTool className="w-5 h-5 text-orange-500 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-orange-600">—</p>
-                    <p className="text-xs text-[#98a5ad]">Pending Signatures</p>
+                    <p className="text-xs text-muted-foreground">Pending Signatures</p>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-[#f0eeec]">
-                    <FlaskConical className="w-5 h-5 text-[#98a5ad] mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-[#98a5ad]">—</p>
-                    <p className="text-xs text-[#98a5ad]">Lab Reconciliation</p>
+                  <div className="text-center p-4 rounded-lg bg-muted">
+                    <FlaskConical className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-muted-foreground">—</p>
+                    <p className="text-xs text-muted-foreground">Lab Reconciliation</p>
                   </div>
                 </div>
               </div>
@@ -457,13 +457,13 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
               {/* Subject summary */}
               <div className="vilo-card p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold text-[#10253e] flex items-center gap-2">
-                    <Users className="w-4 h-4 text-[#34a090]" />
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <Users className="w-4 h-4 text-primary" />
                     Subjects
                   </h3>
                   <Link
                     href={`/studies/${studyId}?tab=subjects`}
-                    className="text-xs text-[#34a090] hover:underline"
+                    className="text-xs text-primary hover:underline"
                   >
                     View all →
                   </Link>
@@ -471,16 +471,16 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                 {subErr ? (
                   <p className="text-xs text-destructive">{subErr.message}</p>
                 ) : !subjects?.length ? (
-                  <p className="text-xs text-[#98a5ad]">No subjects in this study yet.</p>
+                  <p className="text-xs text-muted-foreground">No subjects in this study yet.</p>
                 ) : (
-                  <div className="rounded-xl overflow-hidden border border-[#f0eeec]">
+                  <div className="rounded-xl overflow-hidden border border-border/60">
                     {subjects.slice(0, 5).map(s => (
                       <SubjectRow key={s.id} subject={s} studyId={studyId} />
                     ))}
                     {subjects.length > 5 && (
                       <Link
                         href={`/studies/${studyId}?tab=subjects`}
-                        className="block text-center py-2 text-xs text-[#34a090] hover:bg-[#f9f8f7] transition-colors"
+                        className="block text-center py-2 text-xs text-primary hover:bg-accent transition-colors"
                       >
                         +{subjects.length - 5} more subjects →
                       </Link>
@@ -494,52 +494,52 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
             <div className="space-y-5">
               {/* Study details */}
               <div className="vilo-card p-5">
-                <h3 className="text-sm font-semibold text-[#10253e] mb-4">Study Details</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">Study Details</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-[#98a5ad]">Status</span>
+                    <span className="text-muted-foreground">Status</span>
                     <span className="font-medium capitalize">{study.status ?? '—'}</span>
                   </div>
                   {study.slug && (
                     <div className="flex justify-between">
-                      <span className="text-[#98a5ad]">Slug / ID</span>
+                      <span className="text-muted-foreground">Slug / ID</span>
                       <span className="mono-id">{study.slug}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="text-[#98a5ad]">Total Subjects</span>
+                    <span className="text-muted-foreground">Total Subjects</span>
                     <span className="font-medium">{totalSubjects}</span>
                   </div>
                   {/* STUB: Phase, PI, Sponsor — add when DB columns exist */}
                   <div className="flex justify-between">
-                    <span className="text-[#98a5ad]">Phase</span>
-                    <span className="text-[#98a5ad]">—</span>
+                    <span className="text-muted-foreground">Phase</span>
+                    <span className="text-muted-foreground">—</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#98a5ad]">Principal Investigator</span>
-                    <span className="text-[#98a5ad]">—</span>
+                    <span className="text-muted-foreground">Principal Investigator</span>
+                    <span className="text-muted-foreground">—</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#98a5ad]">Sponsor</span>
-                    <span className="text-[#98a5ad]">—</span>
+                    <span className="text-muted-foreground">Sponsor</span>
+                    <span className="text-muted-foreground">—</span>
                   </div>
                 </div>
               </div>
 
               {/* Compliance STUB */}
               <div className="vilo-card p-5">
-                <h3 className="text-sm font-semibold text-[#10253e] mb-4 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-[#34a090]" />
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-primary" />
                   Compliance
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="text-center p-3 rounded-lg bg-[#f0eeec]">
-                    <p className="text-xl font-bold text-[#98a5ad]">—</p>
-                    <p className="text-[10px] text-[#98a5ad]">Open Findings</p>
+                  <div className="text-center p-3 rounded-lg bg-muted">
+                    <p className="text-xl font-bold text-muted-foreground">—</p>
+                    <p className="text-[10px] text-muted-foreground">Open Findings</p>
                   </div>
-                  <div className="text-center p-3 rounded-lg bg-[#f0eeec]">
-                    <p className="text-xl font-bold text-[#98a5ad]">—</p>
-                    <p className="text-[10px] text-[#98a5ad]">Pending CAPAs</p>
+                  <div className="text-center p-3 rounded-lg bg-muted">
+                    <p className="text-xl font-bold text-muted-foreground">—</p>
+                    <p className="text-[10px] text-muted-foreground">Pending CAPAs</p>
                   </div>
                 </div>
               </div>
@@ -551,19 +551,19 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
         {activeTab === 'subjects' && (
           <div className="p-6">
             <div className="vilo-card overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#f0eeec]">
-                <h2 className="text-sm font-semibold text-[#10253e] flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#34a090]" />
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
+                <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Users className="w-4 h-4 text-primary" />
                   All Subjects
-                  <span className="text-[10px] font-normal text-[#98a5ad] ml-1">{totalSubjects} total</span>
+                  <span className="text-[10px] font-normal text-muted-foreground ml-1">{totalSubjects} total</span>
                 </h2>
               </div>
               {subErr ? (
                 <div className="p-6 text-sm text-destructive">{subErr.message}</div>
               ) : !subjects?.length ? (
                 <div className="p-10 text-center">
-                  <Users className="w-8 h-8 text-[#98a5ad] mx-auto mb-3" />
-                  <p className="text-sm text-[#98a5ad]">No subjects in this study yet.</p>
+                  <Users className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">No subjects in this study yet.</p>
                 </div>
               ) : (
                 subjects.map(s => (

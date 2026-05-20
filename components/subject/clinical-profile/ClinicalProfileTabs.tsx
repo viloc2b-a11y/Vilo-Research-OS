@@ -72,7 +72,7 @@ export function ClinicalProfileTabs({
                 isActive
                   ? 'border-b-2 border-primary text-foreground'
                   : 'text-muted-foreground hover:text-foreground',
-                tab.emphasize && !isActive ? 'text-[#2a8577]' : '',
+                tab.emphasize && !isActive ? 'text-primary' : '',
               ].join(' ')}
             >
               {tab.label}

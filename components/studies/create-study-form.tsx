@@ -24,7 +24,7 @@ type CreateStudyFormProps = {
 }
 
 const fieldClass =
-  'w-full h-9 px-3 rounded-lg border border-[#e5e5e5] text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#34a090] focus:border-transparent'
+  'w-full h-9 px-3 rounded-lg border border-border text-sm bg-card focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent'
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
@@ -44,15 +44,15 @@ export function CreateStudyForm({ organizations, defaultOrganizationId }: Create
     <div className="max-w-xl">
       <Link
         href="/studies"
-        className="inline-flex items-center gap-1 text-sm text-[#98a5ad] hover:text-[#34a090] mb-6"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-6"
       >
         <ChevronLeft className="w-4 h-4" />
         Back to Studies
       </Link>
 
       <div className="mb-6">
-        <h1 className="heading-serif text-xl text-[#10253e]">New Study</h1>
-        <p className="text-sm text-[#98a5ad] mt-1">
+        <h1 className="heading-serif text-xl text-foreground">New Study</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           Create a protocol shell for operational testing. Sponsor, phase, and enrollment are stored
           on the initial study version metadata.
         </p>
@@ -104,7 +104,7 @@ export function CreateStudyForm({ organizations, defaultOrganizationId }: Create
             required
             maxLength={64}
           />
-          <p className="text-xs text-[#98a5ad] mt-1">Unique per organization; used as the study slug.</p>
+          <p className="text-xs text-muted-foreground mt-1">Unique per organization; used as the study slug.</p>
           <FieldError message={state.fieldErrors?.study_code} />
         </div>
 
@@ -179,7 +179,7 @@ export function CreateStudyForm({ organizations, defaultOrganizationId }: Create
           <Button type="submit" disabled={pending} className="vilo-btn-primary border-0">
             {pending ? 'Creating…' : 'Create Study'}
           </Button>
-          <Link href="/studies" className="text-sm text-[#98a5ad] hover:text-[#10253e]">
+          <Link href="/studies" className="text-sm text-muted-foreground hover:text-foreground">
             Cancel
           </Link>
         </div>
