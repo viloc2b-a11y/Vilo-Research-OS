@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "db:migrate": "node scripts/apply-migrations.mjs",
     "db:migrate:from": "node scripts/apply-migrations.mjs --from",
     "db:migrate:phase7b": "node scripts/apply-migration.mjs 0053_phase7b_vpi_sql_aggregation.sql",
@@ -74,7 +74,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
-    "next": "15.3.2",
+    "next": "^16.2.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.76.0",
@@ -91,10 +91,11 @@
     "@types/react-dom": "^19",
     "dotenv": "^16.4.7",
     "eslint": "^9",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "^16.2.6",
     "exceljs": "^4.4.0",
     "postgres": "^3.4.5",
     "tailwindcss": "^4",
+    "tsx": "^4.22.3",
     "typescript": "^5"
   }
 }
