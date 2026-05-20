@@ -17,11 +17,15 @@ function ListCard({
   icon: Icon,
   items,
   empty,
+  actionHref,
+  actionLabel,
 }: {
   title: string
   icon: React.ElementType
   items: WorkspaceItem[]
   empty: string
+  actionHref: string
+  actionLabel: string
 }) {
   return (
     <Card>
@@ -30,6 +34,9 @@ function ListCard({
           <Icon className="size-4 text-[#34a090]" />
           {title}
           <Badge variant="secondary">{items.length}</Badge>
+          <Link href={actionHref} className="ml-auto text-xs font-medium text-[#34a090] hover:underline">
+            {actionLabel}
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -98,11 +105,11 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <ListCard title="Active Subjects" icon={Users} items={model.activeSubjects} empty="No active subjects found." />
-        <ListCard title="Upcoming Visits" icon={Calendar} items={model.upcomingVisits} empty="No upcoming visits found." />
-        <ListCard title="Source Completion Status" icon={FileText} items={model.sourceCompletion} empty="No incomplete source found." />
-        <ListCard title="Open Blockers / Tasks" icon={Workflow} items={model.openBlockersTasks} empty="No open blockers or tasks found." />
-        <ListCard title="Recent Study Events" icon={Activity} items={model.recentEvents} empty="No recent operational events found." />
+        <ListCard title="Active Subjects" icon={Users} items={model.activeSubjects} empty="No active subjects found." actionHref={`/studies/${studyId}?tab=subjects`} actionLabel="Open subjects" />
+        <ListCard title="Upcoming Visits" icon={Calendar} items={model.upcomingVisits} empty="No upcoming visits found." actionHref={`/studies/${studyId}`} actionLabel="Open study" />
+        <ListCard title="Source Completion Status" icon={FileText} items={model.sourceCompletion} empty="No incomplete source found." actionHref={`/studies/${studyId}`} actionLabel="Review study" />
+        <ListCard title="Open Blockers / Tasks" icon={Workflow} items={model.openBlockersTasks} empty="No open blockers or tasks found." actionHref={`/studies/${studyId}`} actionLabel="Open study" />
+        <ListCard title="Recent Study Events" icon={Activity} items={model.recentEvents} empty="No recent operational events found." actionHref={`/studies/${studyId}`} actionLabel="Open study" />
       </div>
     </div>
   )

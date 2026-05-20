@@ -24,6 +24,7 @@ import {
   Timer,
 } from 'lucide-react'
 import { createServerClient } from '@/lib/supabase/server'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
 
@@ -309,31 +310,31 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
   // Load study
   const { data: study, error: studyErr } = await supabase
     .from('studies')
-    .select('id, name, slug, status')
+    .select('id, organization_id, name, slug, status')
     .eq('id', studyId)
     .maybeSingle()
 
   if (studyErr || !study) notFound()
+
+  const organizationId = study.organization_id as string
+  const user = await getSessionUser()
+  if (!user) notFound()
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  if (!canAccessOrganization) notFound()
 
   // Load subjects (for Subjects tab + quick stats)
   const { data: subjects, error: subErr } = await supabase
     .from('study_subjects')
     .select('id, subject_identifier, enrollment_status')
     .eq('study_id', studyId)
+    .eq('organization_id', organizationId)
     .order('subject_identifier', { ascending: true })
 
   const activeSubjects    = subjects?.filter(s => s.enrollment_status === 'active').length   ?? 0
   const screeningSubjects = subjects?.filter(s => s.enrollment_status === 'screening').length ?? 0
   const totalSubjects     = subjects?.length ?? 0
-
-  // Load visits only when tab is active (avoids unnecessary DB work on other tabs)
-  // Resolve org for visits query
-  const { data: studyOrg } = await supabase
-    .from('studies')
-    .select('organization_id')
-    .eq('id', studyId)
-    .maybeSingle()
-  const organizationId = (studyOrg?.organization_id as string | null) ?? ''
 
   const studyVisits = activeTab === 'visits' && organizationId
     ? await loadStudyVisits(studyId, organizationId)

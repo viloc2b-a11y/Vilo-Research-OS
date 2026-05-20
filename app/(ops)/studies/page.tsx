@@ -3,6 +3,8 @@
 // Entry point for the study hierarchy. Real data from DB.
 
 import Link from 'next/link'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { orgAdminOrganizations } from '@/lib/studies/permissions'
 import {
   FolderKanban,
   Users,
@@ -124,6 +126,10 @@ function StudyCard({ study }: { study: StudyRow }) {
 // ============================================================================
 
 export default async function StudiesPortfolioPage() {
+  const user = await getSessionUser()
+  const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const canCreateStudy = orgAdminOrganizations(memberships).length > 0
+
   const supabase = await createServerClient()
   const { data: studies, error } = await supabase
     .from('studies')
@@ -143,10 +149,22 @@ export default async function StudiesPortfolioPage() {
             <h1 className="heading-serif text-xl text-[#10253e]">Studies</h1>
             <p className="text-sm text-[#98a5ad]">Clinical Trial Portfolio</p>
           </div>
-          <button className="vilo-btn-primary opacity-50 cursor-not-allowed" disabled>
-            <Plus className="w-4 h-4" />
-            New Study
-          </button>
+          {canCreateStudy ? (
+            <Link href="/studies/new" className="vilo-btn-primary">
+              <Plus className="w-4 h-4" />
+              New Study
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="vilo-btn-primary opacity-50 cursor-not-allowed"
+              disabled
+              title="Organization owner or admin role required"
+            >
+              <Plus className="w-4 h-4" />
+              New Study
+            </button>
+          )}
         </div>
 
         {/* Summary stats */}
