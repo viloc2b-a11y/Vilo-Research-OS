@@ -3,7 +3,7 @@
  *
  * Usage: npm run db:validate-phase6b1-patient-libraries
  */
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import postgres from 'postgres'
 import { loadEnvFiles, projectRoot } from './lib/env.mjs'
@@ -113,6 +113,41 @@ function reportLines(title) {
   ]
 }
 
+function bulkSeedReportSection() {
+  const reportPath = resolve(projectRoot, 'tmp/imports/phase6b1b-repo-seed-report.json')
+  if (!existsSync(reportPath)) {
+    return [
+      '## Bulk seed (last run)',
+      '',
+      '_No seed report found. Run `npm run db:seed-phase6b1b-from-repo-files` first._',
+      '',
+    ]
+  }
+  const r = JSON.parse(readFileSync(reportPath, 'utf8'))
+  const pMeta = r.sources?.meta?.pathology ?? {}
+  const mMeta = r.sources?.meta?.medications ?? {}
+  return [
+    '## Bulk seed (last run)',
+    '',
+    `**Run at:** ${r.runAt ?? '—'}`,
+    '',
+    '| Source | Path | Format |',
+    '|--------|------|--------|',
+    `| Patology catalog | \`${r.sources?.pathology_file ?? 'patology catalog.docx'}\` | ${r.sources?.format ?? 'docx'} |`,
+    `| Medicamentos | \`${r.sources?.medications_file ?? 'Medicamentos.docx'}\` | ${r.sources?.format ?? 'docx'} |`,
+    '',
+    '| Metric | Pathology | Medication |',
+    '|--------|-----------|------------|',
+    `| Inserted | ${r.pathology?.inserted ?? 0} | ${r.medication?.inserted ?? 0} |`,
+    `| Updated | ${r.pathology?.updated ?? 0} | ${r.medication?.updated ?? 0} |`,
+    `| DB skipped | ${r.pathology?.skipped ?? 0} | ${r.medication?.skipped ?? 0} |`,
+    `| Active in DB | ${r.counts?.pathology ?? '—'} | ${r.counts?.medication ?? '—'} |`,
+    `| In-file duplicates skipped | ${pMeta.duplicate_rows_skipped ?? '—'} | ${mMeta.duplicate_or_empty_skipped ?? '—'} |`,
+    `| Parse failures / links ignored | ${pMeta.parse_failures ?? 0} failures | ${mMeta.link_rows_ignored ?? 0} LINK rows ignored |`,
+    '',
+  ]
+}
+
 function writeReportMd() {
   writeFileSync(
     resolve(projectRoot, 'docs/PHASE6B1-PATIENT-LIBRARIES-VALIDATION.md'),
@@ -123,6 +158,7 @@ function writeReportMd() {
     resolve(projectRoot, 'docs/PHASE6B1B-BULK-SEED-VALIDATION.md'),
     [
       ...reportLines('Phase 6B.1B — Bulk seed validation (repo DOCX sources)'),
+      ...bulkSeedReportSection(),
       '## Seed command',
       '',
       '```bash',

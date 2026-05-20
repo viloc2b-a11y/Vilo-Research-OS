@@ -15,12 +15,17 @@ export function parseCaptureFormToResponses(
   const responses: DraftResponseItem[] = []
 
   for (const field of fields) {
+    if (field.runtimeState?.visible === false || field.runtimeState?.disabled === true) {
+      continue
+    }
+
     const key = `field_${field.fieldId}`
     const raw = formData.get(key)
+    const required = field.runtimeState?.required ?? field.isRequired
 
     if (field.kind === 'boolean') {
       const checked = raw === 'on' || raw === 'true' || raw === '1'
-      if (field.isRequired && !checked && raw === null) {
+      if (required && !checked && raw === null) {
         messages.push(`${field.fieldKey}: required`)
       }
       responses.push({ source_field_id: field.fieldId, value_boolean: checked })
@@ -28,7 +33,7 @@ export function parseCaptureFormToResponses(
     }
 
     const text = typeof raw === 'string' ? raw.trim() : ''
-    if (field.isRequired && !text) {
+    if (required && !text) {
       messages.push(`${field.fieldKey}: required`)
       continue
     }

@@ -1,10 +1,14 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CaptureForm } from '@/components/source/capture-form'
 import { ManifestSummaryPanel } from '@/components/source/manifest-summary-panel'
 import { ReadPanelErrorCard } from '@/components/source/read-panel-error'
+import { VisitRuntimeShell } from '@/components/subjects/visits/VisitRuntimeShell'
+import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflowPanel'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
+import { loadVisitRuntimeToolbar } from '@/lib/subject/visit-runtime/data'
+import { loadContextWorkflowActions } from '@/lib/subject/workflow/data'
+import { loadSubjectVisitSchedule } from '@/lib/visits/loadSubjectVisitSchedule'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -45,10 +49,24 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
 
   const model = loaded.model
   const { context } = model
+  const toolbar = await loadVisitRuntimeToolbar(model)
+  const schedule = await loadSubjectVisitSchedule({
+    studySubjectId: context.studySubjectId,
+    studyId: context.studyId,
+    currentVisitId: context.visitId,
+    organizationId: context.organizationId,
+  })
+  const workflowResult = await loadContextWorkflowActions({
+    organizationId: context.organizationId,
+    visitId: context.visitId,
+    procedureExecutionId: context.procedureExecutionId,
+    sourceResponseSetId: model.responseSetId,
+  })
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
+    <div className="p-6">
+      <div className="space-y-6 max-w-5xl mx-auto">
+        <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
           <Link href="/studies" className="hover:underline">
             Studies
@@ -107,7 +125,22 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
 
       {model.manifest ? <ManifestSummaryPanel model={model.manifest} /> : null}
 
-      <CaptureForm model={model} />
+      <VisitRuntimeShell model={model} toolbar={toolbar} scheduleVisits={schedule.visits} />
+      {workflowResult.ok ? (
+        <VisitWorkflowPanel
+          organizationId={context.organizationId}
+          studyId={context.studyId}
+          subjectId={context.studySubjectId}
+          visitId={context.visitId}
+          procedureExecutionId={context.procedureExecutionId}
+          sourceResponseSetId={model.responseSetId}
+          sourceSectionKey="source-form"
+          actions={workflowResult.actions}
+        />
+      ) : (
+        <p className="text-sm text-destructive">Could not load procedure workflow: {workflowResult.error}</p>
+      )}
+      </div>
     </div>
   )
 }

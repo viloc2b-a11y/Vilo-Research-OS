@@ -1,0 +1,118 @@
+import Link from 'next/link'
+import { Activity, Calendar, FileText, PenTool, UserRound, Workflow } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  loadSubjectWorkspaceModel,
+  type WorkspaceItem,
+} from '@/lib/ops/workspace-read-model'
+
+type SubjectWorkspacePageProps = {
+  params: Promise<{ subjectId: string }>
+}
+
+function ListCard({
+  title,
+  icon: Icon,
+  items,
+  empty,
+}: {
+  title: string
+  icon: React.ElementType
+  items: WorkspaceItem[]
+  empty: string
+}) {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Icon className="size-4 text-[#34a090]" />
+          {title}
+          <Badge variant="secondary">{items.length}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {items.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{empty}</p>
+        ) : (
+          <ul className="space-y-2">
+            {items.map((item) => (
+              <li key={item.id}>
+                <Link href={item.href} className="block rounded-md border px-3 py-2 text-sm hover:bg-muted">
+                  <span className="font-medium">{item.title}</span>
+                  <span className="mt-1 block text-xs text-muted-foreground">{item.detail}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
+
+export default async function SubjectWorkspacePage({ params }: SubjectWorkspacePageProps) {
+  const { subjectId } = await params
+  const model = await loadSubjectWorkspaceModel(subjectId)
+  const stats: Array<{ label: string; value: number; Icon: LucideIcon }> = [
+    { label: 'Visits', value: model.visits.length, Icon: Calendar },
+    { label: 'Procedures', value: model.procedures.length, Icon: Activity },
+    { label: 'Source sets', value: model.sourceStatus.length, Icon: FileText },
+    { label: 'Open tasks', value: model.openTasksBlockers.length, Icon: Workflow },
+    { label: 'Pending signatures', value: model.signaturesPending.length, Icon: PenTool },
+  ]
+
+  return (
+    <div className="space-y-6 p-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-[#10253e]">
+            Subject {model.subject.subjectIdentifier}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {model.subject.studyName} · {model.subject.enrollmentStatus ?? 'status unavailable'}
+          </p>
+        </div>
+        <Link
+          href={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`}
+          className="text-sm font-medium text-[#34a090] hover:underline"
+        >
+          Open subject chart
+        </Link>
+      </div>
+
+      {model.unavailable.length > 0 ? (
+        <Card className="border-amber-200 bg-amber-50">
+          <CardContent className="pt-6 text-sm text-amber-900">
+            {model.unavailable.join(' · ')}
+          </CardContent>
+        </Card>
+      ) : null}
+
+      <div className="grid gap-3 md:grid-cols-5">
+        {stats.map(({ label, value, Icon }) => (
+          <Card key={label}>
+            <CardContent className="flex items-center gap-3 pt-6">
+              <Icon className="size-5 text-[#34a090]" />
+              <div>
+                <p className="text-2xl font-semibold">{value}</p>
+                <p className="text-xs text-muted-foreground">{label}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <ListCard title="Subject Timeline" icon={Activity} items={model.timeline} empty="No timeline items found." />
+        <ListCard title="Visits" icon={Calendar} items={model.visits} empty="No visits found." />
+        <ListCard title="Procedures" icon={Activity} items={model.procedures} empty="No procedures found." />
+        <ListCard title="Source Status" icon={FileText} items={model.sourceStatus} empty="No source sets found." />
+        <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." />
+        <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." />
+        <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." />
+      </div>
+    </div>
+  )
+}

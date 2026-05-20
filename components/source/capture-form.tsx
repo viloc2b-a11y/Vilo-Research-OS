@@ -16,9 +16,10 @@ import type { CaptureShellViewModel } from '@/lib/source/capture/types'
 
 type CaptureFormProps = {
   model: CaptureShellViewModel
+  disabledOverride?: boolean
 }
 
-export function CaptureForm({ model }: CaptureFormProps) {
+export function CaptureForm({ model, disabledOverride = false }: CaptureFormProps) {
   const router = useRouter()
   const [saveState, saveAction, savePending] = useActionState(
     saveCaptureDraftAction,
@@ -31,6 +32,7 @@ export function CaptureForm({ model }: CaptureFormProps) {
 
   const feedback = submitState.message ?? saveState.message
   const pending = savePending || submitPending
+  const visibleFields = model.fields.filter((field) => field.runtimeState?.visible !== false)
 
   useEffect(() => {
     if (feedback?.kind === 'success') {
@@ -38,7 +40,7 @@ export function CaptureForm({ model }: CaptureFormProps) {
     }
   }, [feedback, router])
 
-  const disabled = !model.canEdit || pending
+  const disabled = !model.canEdit || disabledOverride || pending
 
   return (
     <div className="space-y-6">
@@ -55,14 +57,17 @@ export function CaptureForm({ model }: CaptureFormProps) {
         <input type="hidden" name="fields_json" value={JSON.stringify(model.fields)} />
 
         <ul className="divide-y divide-border rounded-md border">
-          {model.fields.map((field) => (
+          {visibleFields.map((field) => (
             <li key={field.fieldId} className="px-3 py-4">
-              <CaptureField field={field} disabled={disabled} />
+              <CaptureField
+                field={field}
+                disabled={disabled || field.runtimeState?.disabled === true}
+              />
             </li>
           ))}
         </ul>
 
-        {model.canEdit ? (
+        {model.canEdit && !disabledOverride ? (
           <div className="space-y-4 rounded-md border bg-muted/20 p-4">
             <div className="space-y-2">
               <Label htmlFor="submit_reason">Submit reason</Label>
@@ -90,7 +95,7 @@ export function CaptureForm({ model }: CaptureFormProps) {
           </div>
         ) : (
           <p className="text-sm text-muted-foreground">
-            This response set is read-only ({model.statusLabel}). Use{' '}
+            This response set is read-only ({disabledOverride ? 'operationally disabled' : model.statusLabel}). Use{' '}
             <a href={model.reviewHref} className="font-medium underline">
               source review
             </a>{' '}

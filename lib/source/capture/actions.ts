@@ -3,13 +3,44 @@
 import { revalidatePath } from 'next/cache'
 import { postSaveDraft, postSubmitResponseSet } from '@/lib/api/source/write-client'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
+import { createServerClient } from '@/lib/supabase/server'
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
 import { parseCaptureFormToResponses, readCaptureIds } from '@/lib/source/capture/parse-form'
 import type { CaptureActionState, CaptureFieldViewModel } from '@/lib/source/capture/types'
 import { INITIAL_CAPTURE_ACTION_STATE } from '@/lib/source/capture/types'
+import { materializeEngineTasksAfterSubmit } from '@/lib/source/capture/materialize-engine-tasks'
+import {
+  bridgeFromProcedureCaptureContext,
+  resolveProcedureSourceRuntime,
+  resolveSourceEngineRuntimeConfig,
+  validateProcedureSourceForSubmit,
+} from '@/lib/source-engine/adapters/index'
 
 function capturePath(procedureExecutionId: string) {
   return `/source/capture/${procedureExecutionId}`
+}
+
+async function assertProcedureEditable(procedureExecutionId: string, organizationId: string) {
+  const supabase = await createServerClient()
+  const { data, error } = await supabase
+    .from('procedure_executions')
+    .select('is_signed, is_locked, fields_disabled_at, section_disabled_at')
+    .eq('id', procedureExecutionId)
+    .eq('organization_id', organizationId)
+    .maybeSingle()
+
+  if (error) return { ok: false as const, message: error.message }
+  if (!data) return { ok: false as const, message: 'Procedure not found.' }
+  if (data.is_signed || data.is_locked) {
+    return { ok: false as const, message: 'Procedure is signed/locked and cannot be edited.' }
+  }
+  if (data.section_disabled_at) {
+    return { ok: false as const, message: 'Procedure section is disabled and cannot be edited.' }
+  }
+  if (data.fields_disabled_at) {
+    return { ok: false as const, message: 'Pending fields are disabled and cannot be edited.' }
+  }
+  return { ok: true as const }
 }
 
 function envelopeToMessage(
@@ -65,6 +96,17 @@ export async function saveCaptureDraftAction(
         kind: 'error',
         title: 'Save draft',
         messages: ['Response set is not editable in its current status.'],
+      },
+    }
+  }
+
+  const editable = await assertProcedureEditable(ids.procedureExecutionId, ids.organizationId)
+  if (!editable.ok) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Save draft',
+        messages: [editable.message],
       },
     }
   }
@@ -146,6 +188,17 @@ export async function submitCaptureAction(
     }
   }
 
+  const editable = await assertProcedureEditable(ids.procedureExecutionId, ids.organizationId)
+  if (!editable.ok) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: [editable.message],
+      },
+    }
+  }
+
   const fieldsJson = formData.get('fields_json')
   let fields: CaptureFieldViewModel[] = shell.model.fields
   if (typeof fieldsJson === 'string' && fieldsJson.trim()) {
@@ -183,6 +236,23 @@ export async function submitCaptureAction(
     return envelopeToMessage(saveEnvelope, 'Submit', 'Could not save draft before submit.')
   }
 
+  let engineAdvisory: string[] = []
+  try {
+    const engineCheck = validateProcedureSourceForSubmit(
+      bridgeFromProcedureCaptureContext(shell.model.context, {
+        canEdit: shell.model.canEdit,
+        isSubmitted: false,
+        responseSetStatus: 'draft',
+      }),
+      fields,
+    )
+    engineAdvisory = engineCheck.errors
+      .filter((e) => !e.blocksSubmission && (e.severity === 'warning' || e.severity === 'info'))
+      .map((e) => `[Engine] ${e.message}`)
+  } catch {
+    engineAdvisory = []
+  }
+
   const submitEnvelope = await postSubmitResponseSet({
     organization_id: ids.organizationId,
     source_response_set_id: ids.responseSetId,
@@ -194,11 +264,54 @@ export async function submitCaptureAction(
     return envelopeToMessage(submitEnvelope, 'Submit', 'Submit failed.')
   }
 
-  return envelopeToMessage(
+  const base = envelopeToMessage(
     submitEnvelope,
     'Submitted',
     'Response set submitted. Capture is now read-only until correction workflows are added.',
   )
+
+  try {
+    const runtimeConfig = await resolveSourceEngineRuntimeConfig({
+      procedureExecutionId: ids.procedureExecutionId,
+      sourceDefinitionVersionId: shell.model.context.sourceDefinitionVersionId,
+      organizationId: ids.organizationId,
+      studyId: shell.model.context.studyId,
+    })
+    if (!runtimeConfig.resolution.fallback) {
+      const snapshot = resolveProcedureSourceRuntime(
+        bridgeFromProcedureCaptureContext(shell.model.context, {
+          canEdit: false,
+          isSubmitted: true,
+          responseSetStatus: 'submitted',
+        }),
+        fields,
+        { runtimeConfig },
+      )
+      const taskResult = await materializeEngineTasksAfterSubmit({
+        procedureExecutionId: ids.procedureExecutionId,
+        organizationId: ids.organizationId,
+        responseSetId: ids.responseSetId,
+        actorUserId: null,
+        snapshot,
+      })
+      if (taskResult.created > 0 && base.message) {
+        base.message.messages.push(
+          `Source Engine created ${taskResult.created} coordinator workflow task(s).`,
+        )
+      }
+    }
+  } catch {
+    // Submit must not fail when task materialization is unavailable.
+  }
+
+  if (engineAdvisory.length > 0 && base.message) {
+    base.message.warnings = [...(base.message.warnings ?? []), ...engineAdvisory]
+    base.message.messages = [
+      ...base.message.messages,
+      ...engineAdvisory.map((w) => `Advisory: ${w}`),
+    ]
+  }
+  return base
 }
 
 export { INITIAL_CAPTURE_ACTION_STATE }

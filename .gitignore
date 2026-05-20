@@ -23,6 +23,9 @@
 # misc
 .DS_Store
 *.pem
+/tmp/
+/vilo-os UX/
+/New Microsoft Word Document.docx
 
 # debug
 npm-debug.log*

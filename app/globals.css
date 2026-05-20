@@ -1,3 +1,11 @@
+/* =========================================================================
+   Vilo OS — Global Styles
+   Phase 7A: Brand design system transplanted from approved UX foundation.
+   Preserves all existing shadcn/tailwind tokens.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -48,31 +56,35 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* =========================================================================
+   Vilo Research Group Brand Tokens
+   Exact values from approved UX foundation (vilo-os UX/src/app/globals.css)
+   ========================================================================= */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Shadcn base tokens (preserved) */
+  --background: oklch(0.99 0.003 90);
+  --foreground: oklch(0.18 0.03 210);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.18 0.03 210);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  /* Vilo placeholder tokens — replace when official brand file is available */
-  --primary: oklch(0.42 0.1 200);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.18 0.03 210);
+  --primary: oklch(0.55 0.1 168);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0.005 90);
+  --secondary-foreground: oklch(0.18 0.03 210);
+  --muted: oklch(0.97 0.005 90);
+  --muted-foreground: oklch(0.6 0.015 200);
+  --accent: oklch(0.95 0.02 168);
+  --accent-foreground: oklch(0.4 0.08 168);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.55 0.1 168);
+  --chart-1: oklch(0.55 0.1 168);
+  --chart-2: oklch(0.18 0.05 210);
+  --chart-3: oklch(0.75 0.15 85);
+  --chart-4: oklch(0.7 0.16 55);
+  --chart-5: oklch(0.577 0.245 27.325);
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -82,27 +94,49 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Vilo Brand Colors */
+  --vilo-navy: #10253e;
+  --vilo-navy-rgb: 16, 37, 62;
+  --vilo-navy-light: #1a3452;
+  --vilo-teal: #34a090;
+  --vilo-teal-rgb: 52, 160, 144;
+  --vilo-teal-dark: #2a8577;
+  --vilo-teal-light: #e8f5f3;
+  --vilo-cream: #f9f8f7;
+  --vilo-cream-dark: #f0eeec;
+  --vilo-white: #ffffff;
+  --vilo-text: #10253e;
+  --vilo-text-muted: #98a5ad;
+  --vilo-border: #e5e5e5;
+  --vilo-border-light: #f0eeec;
+
+  /* Clinical Status Colors */
+  --vilo-healthy: #34a090;
+  --vilo-watch: #f59e0b;
+  --vilo-risk: #f97316;
+  --vilo-critical: #ef4444;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  --background: oklch(0.12 0.02 210);
+  --foreground: oklch(0.97 0.005 90);
+  --card: oklch(0.16 0.025 210);
+  --card-foreground: oklch(0.97 0.005 90);
+  --popover: oklch(0.16 0.025 210);
+  --popover-foreground: oklch(0.97 0.005 90);
+  --primary: oklch(0.6 0.12 168);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.22 0.025 210);
+  --secondary-foreground: oklch(0.97 0.005 90);
+  --muted: oklch(0.22 0.025 210);
+  --muted-foreground: oklch(0.65 0.02 200);
+  --accent: oklch(0.25 0.04 168);
+  --accent-foreground: oklch(0.7 0.12 168);
+  --destructive: oklch(0.6 0.18 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.6 0.12 168);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -116,6 +150,19 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Vilo Dark Brand Colors */
+  --vilo-navy: #0a1929;
+  --vilo-navy-light: #10253e;
+  --vilo-teal: #3db3a2;
+  --vilo-teal-light: rgba(52, 160, 144, 0.15);
+  --vilo-cream: #0f1a24;
+  --vilo-cream-dark: #0a1219;
+  --vilo-white: #142332;
+  --vilo-text: #f9f8f7;
+  --vilo-text-muted: #7a8a94;
+  --vilo-border: #1e3347;
+  --vilo-border-light: #142332;
 }
 
 @layer base {
@@ -123,9 +170,251 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply antialiased;
+    background-color: var(--vilo-cream);
+    color: var(--vilo-text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  h1, h2, h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    color: var(--vilo-navy);
+    letter-spacing: -0.02em;
+  }
+  .dark h1, .dark h2, .dark h3 {
+    color: var(--vilo-text);
   }
   html {
-    @apply font-sans;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
+}
+
+/* =========================================================================
+   Vilo Component Utilities (usable with className="...")
+   ========================================================================= */
+@layer components {
+
+  /* --- Status dots --- */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  .status-dot-healthy { background-color: var(--vilo-healthy); }
+  .status-dot-watch   { background-color: var(--vilo-watch); }
+  .status-dot-risk    { background-color: var(--vilo-risk); }
+  .status-dot-critical {
+    background-color: var(--vilo-critical);
+    @apply animate-pulse;
+  }
+
+  /* --- Status badges --- */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded-full;
+  }
+  .status-badge-healthy {
+    background-color: var(--vilo-teal-light);
+    color: var(--vilo-teal-dark);
+  }
+  .status-badge-watch   { @apply bg-amber-50 text-amber-700; }
+  .status-badge-risk    { @apply bg-orange-50 text-orange-700; }
+  .status-badge-critical { @apply bg-red-50 text-red-700; }
+  .dark .status-badge-healthy {
+    background-color: rgba(52, 160, 144, 0.15);
+    color: #3db3a2;
+  }
+  .dark .status-badge-watch    { @apply bg-amber-500/15 text-amber-400; }
+  .dark .status-badge-risk     { @apply bg-orange-500/15 text-orange-400; }
+  .dark .status-badge-critical { @apply bg-red-500/15 text-red-400; }
+
+  /* --- Vilo Cards --- */
+  .vilo-card {
+    background-color: var(--vilo-white);
+    border-radius: 12px;
+    border: 1px solid var(--vilo-border-light);
+    box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
+    transition: all 0.2s ease;
+  }
+  .vilo-card-interactive {
+    background-color: var(--vilo-white);
+    border-radius: 12px;
+    border: 1px solid var(--vilo-border-light);
+    box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .vilo-card-interactive:hover {
+    box-shadow: 0 8px 24px rgba(16, 37, 62, 0.08), 0 2px 8px rgba(16, 37, 62, 0.04);
+    border-color: rgba(52, 160, 144, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Legacy aliases — inline CSS to avoid @apply on custom classes */
+  .op-card {
+    background-color: var(--vilo-white);
+    border-radius: 12px;
+    border: 1px solid var(--vilo-border-light);
+    box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
+    transition: all 0.2s ease;
+  }
+  .op-card-interactive {
+    background-color: var(--vilo-white);
+    border-radius: 12px;
+    border: 1px solid var(--vilo-border-light);
+    box-shadow: 0 1px 3px rgba(16, 37, 62, 0.04), 0 1px 2px rgba(16, 37, 62, 0.02);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .op-card-interactive:hover {
+    box-shadow: 0 8px 24px rgba(16, 37, 62, 0.08), 0 2px 8px rgba(16, 37, 62, 0.04);
+    border-color: rgba(52, 160, 144, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* --- Section labels (teal uppercase) --- */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--vilo-teal);
+  }
+
+  /* --- Monospace IDs --- */
+  .mono-id {
+    font-family: 'JetBrains Mono', monospace;
+    @apply text-xs tracking-tight;
+    color: var(--vilo-text-muted);
+  }
+
+  /* --- Vilo Buttons --- */
+  .vilo-btn-primary {
+    background-color: var(--vilo-teal);
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0 16px;
+    height: 36px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.15s ease;
+  }
+  .vilo-btn-primary:hover {
+    background-color: var(--vilo-teal-dark);
+    box-shadow: 0 4px 12px rgba(52, 160, 144, 0.3);
+  }
+  .vilo-btn-secondary {
+    background-color: var(--vilo-navy);
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0 16px;
+    height: 36px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.15s ease;
+  }
+  .vilo-btn-secondary:hover { background-color: var(--vilo-navy-light); }
+  .vilo-btn-outline {
+    border: 1px solid var(--vilo-border);
+    background-color: var(--vilo-white);
+    color: var(--vilo-text);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 36px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.15s ease;
+  }
+  .vilo-btn-outline:hover {
+    background-color: var(--vilo-cream);
+    border-color: var(--vilo-teal);
+  }
+
+  /* --- Icon containers --- */
+  .vilo-icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .vilo-icon-teal {
+    background-color: var(--vilo-teal-light);
+    color: var(--vilo-teal);
+  }
+  .vilo-icon-navy {
+    background-color: rgba(16, 37, 62, 0.08);
+    color: var(--vilo-navy);
+  }
+
+  /* --- Heading serif --- */
+  .heading-serif {
+    font-family: 'DM Serif Display', Georgia, serif;
+    color: var(--vilo-navy);
+    letter-spacing: -0.02em;
+  }
+  .dark .heading-serif { color: var(--vilo-text); }
+}
+
+@layer utilities {
+  /* Scrollbar */
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--vilo-border);
+    border-radius: 9999px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: var(--vilo-text-muted); }
+
+  /* Vilo background/text utilities */
+  .bg-vilo-navy   { background-color: var(--vilo-navy); }
+  .bg-vilo-cream  { background-color: var(--vilo-cream); }
+  .bg-vilo-teal   { background-color: var(--vilo-teal); }
+  .bg-vilo-white  { background-color: var(--vilo-white); }
+  .text-vilo-navy { color: var(--vilo-navy); }
+  .text-vilo-teal { color: var(--vilo-teal); }
+  .text-vilo-muted { color: var(--vilo-text-muted); }
+  .border-vilo    { border-color: var(--vilo-border); }
+  .border-vilo-light { border-color: var(--vilo-border-light); }
+  .gradient-vilo-hero {
+    background: linear-gradient(135deg, var(--vilo-navy) 0%, var(--vilo-navy-light) 100%);
+  }
+}
+
+/* =========================================================================
+   Animations
+   ========================================================================= */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+.animate-slideUp   { animation: slideUp 0.3s ease-out forwards; }
+.animate-fadeIn    { animation: fadeIn 0.2s ease-out forwards; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--vilo-teal);
+  outline-offset: 2px;
 }

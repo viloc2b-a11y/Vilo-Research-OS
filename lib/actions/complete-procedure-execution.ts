@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
+import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type {
   CompleteProcedureResult,
   CompleteProcedureRpcPayload,
@@ -33,6 +34,35 @@ export async function completeProcedureExecution(input: {
   } = await supabase.auth.getUser()
   if (userErr || !user?.id) {
     return { ok: false, message: 'Authentication required.' }
+  }
+
+  const { data: proc, error: procErr } = await supabase
+    .from('procedure_executions')
+    .select('id, organization_id, section_disabled_at')
+    .eq('id', procedureExecutionId)
+    .maybeSingle()
+
+  if (procErr) return { ok: false, message: procErr.message }
+  if (!proc) return { ok: false, message: 'Procedure execution not found.' }
+  if (proc.section_disabled_at) {
+    return { ok: false, message: 'Procedure section is disabled and cannot be completed.' }
+  }
+
+  const validation = await validateProcedure({
+    supabase,
+    procedureExecutionId,
+    organizationId: proc.organization_id as string,
+  })
+  await supabase
+    .from('procedure_executions')
+    .update({ validation_status: validation.status })
+    .eq('id', procedureExecutionId)
+
+  if (validation.status === 'blocked' || validation.status === 'incomplete') {
+    return {
+      ok: false,
+      message: `Procedure completion blocked: ${validation.alerts.map((alert) => alert.message).join('; ')}`,
+    }
   }
 
   const { data: rawRpc, error: rpcErr } = await supabase.rpc('complete_procedure_execution', {

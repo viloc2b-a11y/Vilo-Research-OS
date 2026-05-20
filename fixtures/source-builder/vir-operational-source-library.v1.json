@@ -1,0 +1,253 @@
+{
+  "library_version": "1.0.0",
+  "library_id": "vir-operational-source-engine-library",
+  "description": "Reusable Vilo OS Source Engine seed library derived from VIR site startup, facilities, essential documents, training log, and eCRF completion references. Sponsor and site-specific values are intentionally generalized.",
+  "source_documents": [
+    {
+      "file": "VIR 7831-5001_Site Contact Sheet_v3_14sep2020.xlsx",
+      "use": "Role/contact roster model, system access fields, site address metadata"
+    },
+    {
+      "file": "VIR-7831-5001 _Expansion Phase Site_Facilities_and_Equipment_Checklist 3601B5 (1).docx",
+      "use": "Facilities, equipment, calibration, maintenance, storage, and return-to-vendor requirements"
+    },
+    {
+      "file": "VIR-7831-5001 Essential Documents.docx",
+      "use": "Regulatory document requirements by role/facility"
+    },
+    {
+      "file": "Site staff training log.pdf",
+      "use": "Training log template concept; PDF was image-only in local extraction"
+    },
+    {
+      "file": "VBVIR78315008_eCRF_Completion_Guidelines_Final.pdf",
+      "use": "eCRF data-entry behavior, field types, log forms, queries, signatures, missing data and procedure guidance"
+    }
+  ],
+  "controlled_lists": {
+    "yes_no": ["Yes", "No"],
+    "yes_no_na": ["Yes", "No", "N/A"],
+    "missing_reason_code": ["ND", "UNK", "NA", "not_available"],
+    "query_status": ["open", "answered", "resolved", "closed"],
+    "document_status": ["not_received", "received", "reviewed", "expired", "waived"],
+    "training_status": ["not_started", "completed", "expired", "waived"],
+    "facility_status": ["available", "not_available", "not_applicable"],
+    "equipment_status": ["available", "calibrated", "maintenance_due", "not_applicable"],
+    "source_origin": ["vilo_esource", "external_edc", "central_lab", "local_lab", "epro_vendor", "pharmacy_record", "site_file"]
+  },
+  "field_templates": {
+    "TMPL_SITE_CONTACT": {
+      "minimal": ["role", "first_name", "last_name", "email", "phone", "system_access_required"],
+      "optional": ["degree", "mobile_phone", "fax", "access_role", "start_date", "end_date", "comments"],
+      "evidence_strategy": "site_contact_sheet"
+    },
+    "TMPL_STAFF_TRAINING": {
+      "minimal": ["staff_role", "training_name", "training_completed", "completion_date"],
+      "optional": ["training_version", "expiration_date", "trainer_name", "signature_present", "comments"],
+      "evidence_strategy": "training_log"
+    },
+    "TMPL_ESSENTIAL_DOCUMENT": {
+      "minimal": ["document_type", "required_for", "document_status"],
+      "optional": ["document_version", "effective_date", "expiration_date", "reviewed_by", "reviewed_date", "waiver_reason", "comments"],
+      "evidence_strategy": "regulatory_binder_ref"
+    },
+    "TMPL_FACILITY_READINESS": {
+      "minimal": ["facility_area", "facility_available", "location"],
+      "optional": ["facility_requirement", "video_tour_required", "comments", "monitor_notified_of_change"],
+      "evidence_strategy": "site_readiness_checklist"
+    },
+    "TMPL_EQUIPMENT_READINESS": {
+      "minimal": ["equipment_name", "equipment_available", "location"],
+      "optional": ["make_model", "calibration_date", "inspection_date", "maintenance_required", "temperature_range", "return_to_vendor_required", "comments"],
+      "evidence_strategy": "equipment_log_ref"
+    },
+    "TMPL_SOURCE_CAPTURE_RULE": {
+      "minimal": ["rule_name", "rule_type", "applies_to"],
+      "optional": ["allowed_values", "missing_policy", "query_behavior", "change_reason_required", "signature_required", "comments"],
+      "evidence_strategy": "source_definition_metadata"
+    },
+    "TMPL_EXTERNAL_SOURCE_RECONCILIATION": {
+      "minimal": ["external_system", "record_present", "reference_id"],
+      "optional": ["vendor_name", "transfer_status", "reviewed_datetime", "discrepancy_present", "action_taken", "comments"],
+      "evidence_strategy": "external_system_ref"
+    }
+  },
+  "operational_profiles": [
+    {
+      "profile_code": "OPS_SITE_CONTACT_ROSTER",
+      "display_name": "Site Contact Roster",
+      "category": "CAT_STARTUP_CONTACTS",
+      "documentation_style": "STYLE_SITE_CONTACT",
+      "operational_purpose": "Capture study staff contact information and system access needs without storing sponsor-specific roster text as source defaults.",
+      "field_template": "TMPL_SITE_CONTACT",
+      "repeatable": true,
+      "source_reference": "site_contact_sheet"
+    },
+    {
+      "profile_code": "OPS_STAFF_TRAINING_LOG",
+      "display_name": "Site Staff Training Log",
+      "category": "CAT_TRAINING_DELEGATION",
+      "documentation_style": "STYLE_TRAINING_ATTEST",
+      "operational_purpose": "Track protocol, GCP, system, lab, pharmacy, safety and source-capture training by role.",
+      "field_template": "TMPL_STAFF_TRAINING",
+      "repeatable": true,
+      "source_reference": "training_log"
+    },
+    {
+      "profile_code": "OPS_ESSENTIAL_DOCUMENT_REQUIREMENT",
+      "display_name": "Essential Document Requirement",
+      "category": "CAT_REGULATORY_STARTUP",
+      "documentation_style": "STYLE_REGULATORY_DOCUMENT",
+      "operational_purpose": "Represent required startup documents by staff role or facility, including CV, GCP, license, IATA, lab certificates, reference ranges and SOPs.",
+      "field_template": "TMPL_ESSENTIAL_DOCUMENT",
+      "repeatable": true,
+      "source_reference": "essential_documents"
+    },
+    {
+      "profile_code": "OPS_FACILITY_READINESS_CHECK",
+      "display_name": "Facility Readiness Check",
+      "category": "CAT_SITE_READINESS",
+      "documentation_style": "STYLE_SITE_READINESS",
+      "operational_purpose": "Document whether required facility areas are available and maintained through SIV and study conduct.",
+      "field_template": "TMPL_FACILITY_READINESS",
+      "repeatable": true,
+      "source_reference": "facilities_equipment"
+    },
+    {
+      "profile_code": "OPS_EQUIPMENT_READINESS_CHECK",
+      "display_name": "Equipment Readiness Check",
+      "category": "CAT_SITE_READINESS",
+      "documentation_style": "STYLE_EQUIPMENT_READINESS",
+      "operational_purpose": "Track required equipment, calibration, inspection, storage, maintenance and end-of-study return obligations.",
+      "field_template": "TMPL_EQUIPMENT_READINESS",
+      "repeatable": true,
+      "source_reference": "facilities_equipment"
+    },
+    {
+      "profile_code": "OPS_SOURCE_CAPTURE_RULES",
+      "display_name": "Source Capture Rules",
+      "category": "CAT_SOURCE_GOVERNANCE",
+      "documentation_style": "STYLE_SOURCE_RULE",
+      "operational_purpose": "Seed reusable eCRF/source behavior: date formats, time formats, missing values, comments, log forms, query handling and electronic signatures.",
+      "field_template": "TMPL_SOURCE_CAPTURE_RULE",
+      "repeatable": true,
+      "source_reference": "ecrf_guidelines"
+    },
+    {
+      "profile_code": "OPS_EXTERNAL_SOURCE_RECONCILIATION",
+      "display_name": "External Source Reconciliation",
+      "category": "CAT_EXTERNAL_SOURCE",
+      "documentation_style": "STYLE_EXTERNAL_SOURCE",
+      "operational_purpose": "Track external evidence references for ePRO, central lab, local lab, pharmacy/IP and EDC-originated records without duplicating external source systems.",
+      "field_template": "TMPL_EXTERNAL_SOURCE_RECONCILIATION",
+      "repeatable": true,
+      "source_reference": "ecrf_guidelines"
+    }
+  ],
+  "essential_document_requirements": [
+    { "document_code": "DOC_CV", "display_name": "Curriculum Vitae or qualification evidence", "required_for_roles": ["principal_investigator", "primary_study_coordinator", "unblinded_pharmacist", "backup_unblinded_pharmacist", "sub_investigator", "local_lab_manager"] },
+    { "document_code": "DOC_GCP_TRAINING", "display_name": "ICH E6 R2 GCP training certificate", "required_for_roles": ["principal_investigator", "primary_study_coordinator", "unblinded_pharmacist", "backup_unblinded_pharmacist", "sub_investigator"] },
+    { "document_code": "DOC_MEDICAL_LICENSE", "display_name": "Medical license or applicable professional license", "required_for_roles": ["principal_investigator", "sub_investigator", "licensed_site_staff", "local_lab_manager"] },
+    { "document_code": "DOC_IATA", "display_name": "IATA certification", "required_for_roles": ["shipping_responsible_staff"] },
+    { "document_code": "DOC_LAB_REFERENCE_RANGES", "display_name": "Local laboratory reference ranges", "required_for_facilities": ["local_laboratory"] },
+    { "document_code": "DOC_CAP_CERTIFICATE", "display_name": "CAP certificate", "required_for_facilities": ["local_laboratory"] },
+    { "document_code": "DOC_CLIA_CERTIFICATE", "display_name": "CLIA certificate", "required_for_facilities": ["local_laboratory"] },
+    { "document_code": "DOC_SOP_AE_ASSESSMENT", "display_name": "SOP for PI adverse event assessment and documentation", "required_for_facilities": ["site"] },
+    { "document_code": "DOC_SOP_DELEGATION", "display_name": "SOP for delegation of study activities", "required_for_facilities": ["site"] },
+    { "document_code": "DOC_SOP_INFORMED_CONSENT", "display_name": "SOP for informed consent process", "required_for_facilities": ["site"] },
+    { "document_code": "DOC_SOP_IP_HANDLING", "display_name": "SOP for investigational product shipment, handling, preparation, dispensation and destruction", "required_for_facilities": ["pharmacy"] },
+    { "document_code": "DOC_SOP_EMERGENCY_RESPONSE", "display_name": "SOP for onsite emergencies", "required_for_facilities": ["site"] },
+    { "document_code": "DOC_SOP_TEMPERATURE_EXCURSION", "display_name": "SOP for IP transportation, storage and temperature excursion reporting", "required_for_facilities": ["pharmacy"] }
+  ],
+  "facility_requirements": [
+    { "facility_code": "FAC_MAIN_SITE", "display_name": "Main site", "category": "site" },
+    { "facility_code": "FAC_INPATIENT_SETTING", "display_name": "Inpatient or extended observation setting", "category": "clinical_area" },
+    { "facility_code": "FAC_CONSENT_AREA", "display_name": "Private informed consent room or area", "category": "clinical_area" },
+    { "facility_code": "FAC_EXAM_ROOM", "display_name": "Private examination room", "category": "clinical_area" },
+    { "facility_code": "FAC_EMERGENCY_ROOM", "display_name": "Emergency or resuscitation room", "category": "safety" },
+    { "facility_code": "FAC_SAMPLE_PREP", "display_name": "Lab sample preparation facilities", "category": "laboratory" },
+    { "facility_code": "FAC_LOCAL_LAB", "display_name": "Local laboratory", "category": "laboratory" },
+    { "facility_code": "FAC_POINT_OF_CARE_TESTING", "display_name": "Point-of-care diagnostic testing", "category": "laboratory" },
+    { "facility_code": "FAC_SWAB_COLLECTION", "display_name": "Nasopharyngeal or nasal swab collection area", "category": "laboratory" }
+  ],
+  "equipment_requirements": [
+    { "equipment_code": "EQ_CRASH_CART", "display_name": "Emergency equipment or crash cart", "category": "safety" },
+    { "equipment_code": "EQ_ECG", "display_name": "ECG device", "category": "cardiac" },
+    { "equipment_code": "EQ_IP_REFRIGERATOR_2_8C", "display_name": "2-8C refrigerator for IP storage", "category": "pharmacy_storage" },
+    { "equipment_code": "EQ_IP_STORAGE_LOCKS", "display_name": "Locks for IP storage", "category": "pharmacy_storage" },
+    { "equipment_code": "EQ_FREEZER_MINUS_20C", "display_name": "-20C freezer for sample storage", "category": "lab_storage" },
+    { "equipment_code": "EQ_FREEZER_MINUS_70C", "display_name": "-70C freezer for sample storage", "category": "lab_storage" },
+    { "equipment_code": "EQ_MIN_MAX_THERMOMETER", "display_name": "Min/max thermometer for IP storage", "category": "temperature_monitoring" },
+    { "equipment_code": "EQ_SAMPLE_SHIPPING_SUPPLIES", "display_name": "Sample shipping supplies", "category": "lab_shipping" },
+    { "equipment_code": "EQ_EPRO_DEVICE", "display_name": "ePRO or patient diary device", "category": "external_source" }
+  ],
+  "source_capture_rules": [
+    {
+      "rule_code": "RULE_DATE_COMPLETE",
+      "rule_name": "Complete date required unless partial date is explicitly allowed",
+      "rule_type": "date_validation",
+      "applies_to": ["date", "datetime"],
+      "implementation_hint": "Set field validation_rules.allow_partial_date=false by default; allow partial dates only for historical fields."
+    },
+    {
+      "rule_code": "RULE_TIME_24H",
+      "rule_name": "Time uses 24-hour HH:MM format",
+      "rule_type": "time_validation",
+      "applies_to": ["time", "datetime"],
+      "implementation_hint": "Reject ambiguous AM/PM text; do not use 00:00 to mean unknown."
+    },
+    {
+      "rule_code": "RULE_MISSING_CODE_REASON",
+      "rule_name": "Missing data requires controlled code and reason when field is required",
+      "rule_type": "missing_data",
+      "applies_to": ["required_fields"],
+      "implementation_hint": "Allow ND/UNK/NA only when source field permits missing code; capture missing_reason and actor."
+    },
+    {
+      "rule_code": "RULE_QUERY_FIELD_SCOPE",
+      "rule_name": "Queries are field-scoped and roll up to form/response-set counts",
+      "rule_type": "query_management",
+      "applies_to": ["source_response_validation_findings"],
+      "implementation_hint": "Expose open/answered/resolved counts in capture and read-contract surfaces."
+    },
+    {
+      "rule_code": "RULE_LOG_FORMS_REPEATABLE",
+      "rule_name": "Log forms support repeatable records",
+      "rule_type": "repeatable_section",
+      "applies_to": ["adverse_events", "concomitant_medications", "medical_history", "procedures", "healthcare_visits"],
+      "implementation_hint": "Represent as repeatable source sections or repeatable procedure records."
+    },
+    {
+      "rule_code": "RULE_CHANGE_REASON",
+      "rule_name": "Submitted source changes require reason for change",
+      "rule_type": "audit_correction",
+      "applies_to": ["source_response_corrections"],
+      "implementation_hint": "Use append-only correction chain with reason, actor, timestamp and prior value reference."
+    },
+    {
+      "rule_code": "RULE_ELECTRONIC_SIGNATURE",
+      "rule_name": "PI electronic signature attests reviewed eCRF/source data",
+      "rule_type": "signature",
+      "applies_to": ["visit", "procedure_execution", "source_response_set"],
+      "implementation_hint": "Bind signature to versioned payload and meaning_of_signature; never only a boolean."
+    },
+    {
+      "rule_code": "RULE_EXTERNAL_SOURCE_REFERENCE",
+      "rule_name": "External systems are referenced, not duplicated",
+      "rule_type": "external_source",
+      "applies_to": ["central_lab", "local_lab", "epro_vendor", "pharmacy_record", "external_edc"],
+      "implementation_hint": "Capture reference id, status, discrepancy flag and reviewed datetime."
+    }
+  ],
+  "recommended_source_profiles": [
+    { "procedure_profile_code": "PROC_INFORMED_CONSENT", "add_fields": ["consent_version", "copy_provided", "consent_withdrawn"] },
+    { "procedure_profile_code": "PROC_RANDOMIZATION", "add_fields": ["randomization_date", "treatment_group", "not_dosed_reason"] },
+    { "procedure_profile_code": "PROC_VITAL_SIGNS", "add_fields": ["oxygen_saturation", "oxygen_therapy", "measurement_relative_to_dose"] },
+    { "procedure_profile_code": "PROC_CENTRAL_LAB_ASSESSMENT", "create_if_missing": true, "base_template": "TMPL_LAB_PANEL" },
+    { "procedure_profile_code": "PROC_LOCAL_TOLERABILITY_ASSESSMENT", "create_if_missing": true, "base_template": "TMPL_CLINICAL_REVIEW" },
+    { "procedure_profile_code": "PROC_PK_SAMPLE", "alias_of": "PROC_PK_PLASMA", "add_fields": ["pre_dose_flag", "collection_relative_to_dose"] },
+    { "procedure_profile_code": "PROC_OXYGEN_SUPPORT", "create_if_missing": true, "base_template": "TMPL_CLINICAL_REVIEW" },
+    { "procedure_profile_code": "PROC_DISEASE_PROGRESSION_ASSESSMENT", "create_if_missing": true, "base_template": "TMPL_CLINICAL_REVIEW" },
+    { "procedure_profile_code": "PROC_HEALTHCARE_UTILIZATION", "create_if_missing": true, "base_template": "TMPL_CLINICAL_REVIEW" }
+  ]
+}

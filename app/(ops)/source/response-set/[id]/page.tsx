@@ -76,8 +76,9 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
     bundle.findings.status === 'error'
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
+    <div className="p-6">
+      <div className="space-y-6 max-w-5xl mx-auto">
+        <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
           <Link href="/studies" className="hover:underline">
             Studies
@@ -141,6 +142,7 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
               responseSetId={responseSetId}
             />
           ) : null}
+        </div>
         </div>
       </div>
     </div>

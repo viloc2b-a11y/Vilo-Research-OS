@@ -22,6 +22,15 @@ export type CaptureFieldViewModel = {
   isRequired: boolean
   options: string[]
   value: CaptureFieldValue
+  runtimeState?: {
+    visible: boolean
+    required: boolean
+    disabled: boolean
+    locked: boolean
+    calculatedValue?: unknown
+    flags: string[]
+    messages: string[]
+  }
 }
 
 export type CaptureProcedureContext = {
@@ -52,6 +61,11 @@ export type CaptureShellViewModel = {
   manifest: ManifestViewModel | null
   fields: CaptureFieldViewModel[]
   reviewHref: string
+  /**
+   * Optional Phase 2 source-engine snapshot (rules, derived values, validation).
+   * Rendered by SourceEngineAdvisoryPanel when present (advisory only).
+   */
+  engineSnapshot?: import('@/lib/source-engine/adapters/index').ProcedureSourceEngineSnapshot | null
 }
 
 export type CaptureActionMessage = {

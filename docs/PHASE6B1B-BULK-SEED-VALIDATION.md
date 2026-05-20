@@ -1,6 +1,6 @@
 # Phase 6B.1B — Bulk seed validation (repo DOCX sources)
 
-**Run at:** 2026-05-17T01:57:09.757Z
+**Run at:** 2026-05-17T02:12:56.555Z
 
 ## Summary
 
@@ -68,6 +68,24 @@
 | search_synonym_head | PASS | Migraine, Headache, Concussion, Jaw swelling |
 | search_synonym_afib | PASS | Atrial fibrillation |
 | search_synonym_acid_reflux | PASS | GERD, GERDGastro-esophageal reflux disease without esophagitis, GERD with esophagitis |
+
+## Bulk seed (last run)
+
+**Run at:** 2026-05-17T02:07:14.847Z
+
+| Source | Path | Format |
+|--------|------|--------|
+| Patology catalog | `C:\Users\jmend\OneDrive\Documents\ANTIGRAVITY FOLDER\VILO CTMS\vilo-os\patology catalog.docx` | docx (paragraph CSV / concatenated catalog rows) |
+| Medicamentos | `C:\Users\jmend\OneDrive\Documents\ANTIGRAVITY FOLDER\VILO CTMS\vilo-os\Medicamentos.docx` | docx (paragraph CSV / concatenated catalog rows) |
+
+| Metric | Pathology | Medication |
+|--------|-----------|------------|
+| Inserted | 0 | 0 |
+| Updated | 438 | 199 |
+| DB skipped | 0 | 0 |
+| Active in DB | 493 | 260 |
+| In-file duplicates skipped | 184 | 1 |
+| Parse failures / links ignored | 4 failures | 58 LINK rows ignored |
 
 ## Seed command
 

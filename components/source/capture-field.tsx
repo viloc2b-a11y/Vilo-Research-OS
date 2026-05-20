@@ -18,14 +18,22 @@ function fieldDefaultValue(field: CaptureFieldViewModel): string {
 export function CaptureField({ field, disabled }: CaptureFieldProps) {
   const name = `field_${field.fieldId}`
   const inputId = `capture-${field.fieldId}`
+  const required = field.runtimeState?.required ?? field.isRequired
 
   return (
     <div className="space-y-2">
       <Label htmlFor={inputId} className="text-sm font-medium">
         {field.label}
-        {field.isRequired ? <span className="text-destructive"> *</span> : null}
+        {required ? <span className="text-destructive"> *</span> : null}
         <span className="ml-2 font-normal text-muted-foreground">({field.kind})</span>
       </Label>
+      {field.runtimeState?.messages.length ? (
+        <ul className="space-y-1 text-xs text-muted-foreground">
+          {field.runtimeState.messages.map((message) => (
+            <li key={message}>{message}</li>
+          ))}
+        </ul>
+      ) : null}
 
       {field.kind === 'boolean' ? (
         <label className="flex items-center gap-2 text-sm">

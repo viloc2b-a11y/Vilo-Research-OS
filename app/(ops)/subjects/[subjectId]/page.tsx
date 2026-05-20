@@ -1,7 +1,4 @@
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { ConmedSection } from '@/components/subject/conmed-section'
-import { MedicalHistorySection } from '@/components/subject/medical-history-section'
+import { notFound, redirect } from 'next/navigation'
 import {
   Card,
   CardContent,
@@ -9,146 +6,369 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { SubjectOperationalCommandCenter } from '@/components/subjects/operations/SubjectOperationalCommandCenter'
+import { SubjectChartHeader } from '@/components/subjects/subject-chart-header'
+import { SubjectChartNav } from '@/components/subjects/subject-chart-nav'
+import { subjectChartTabs } from '@/lib/subject/chart-tabs'
+import { SubjectWorkflowPanel } from '@/components/subjects/workflow/SubjectWorkflowPanel'
+import { ClinicalProfileConMedsPromo } from '@/components/subject/clinical-profile/ClinicalProfileConMedsPromo'
+import { ClinicalProfileTabs } from '@/components/subject/clinical-profile/ClinicalProfileTabs'
+import { SubjectConMedsSurface } from '@/components/subject/clinical-profile/SubjectConMedsSurface'
+import { SubjectSafetySurface } from '@/components/subject/safety-signals/SubjectSafetySurface'
+import { SubjectRegulatorySurface } from '@/components/subject/regulatory-signals/SubjectRegulatorySurface'
+import { ClinicalRiskPanel } from '@/components/subject/clinical-intelligence/ClinicalRiskPanel'
 import {
-  listSubjectConmedsAction,
-  listSubjectMedicalHistoryAction,
-} from '@/lib/subject/patient-profile/actions'
+  SubjectGeneralForm,
+  type SubjectGeneralModel,
+} from '@/components/subject/subject-general-form'
+import { subjectVisitsPath } from '@/lib/subject/chart-paths'
+import { resolveSubjectChartPermissions } from '@/lib/subject/permissions'
+import { loadSubjectClinicalProfile } from '@/lib/subject/clinical-profile/read'
+import { buildLongitudinalProfile } from '@/lib/subject/clinical-intelligence'
+import type { SubjectClinicalProfile } from '@/lib/subject/clinical-profile/types'
+import type { LongitudinalClinicalProfile } from '@/lib/subject/clinical-intelligence/types'
+import type { SubjectChartHeaderModel } from '@/lib/subject/visits/types'
+import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
+import { loadSubjectSafetySignals } from '@/lib/subject/safety-signals'
+import { loadSubjectRegulatorySignals } from '@/lib/subject/regulatory-signals'
+import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { createServerClient } from '@/lib/supabase/server'
 
 type SubjectDetailPageProps = {
-  params: Promise<{ subjectId: string }>
+  params: Promise<{ subjectId: string; studyId?: string }>
+  searchParams: Promise<{ tab?: string }>
 }
 
-export default async function SubjectDetailPage({ params }: SubjectDetailPageProps) {
-  const { subjectId } = await params
+// Tabs that are rendered inline (not visits/clinical-profile which redirect/forward)
+const PLACEHOLDER_LABELS = new Map<string, string>(
+  subjectChartTabs
+    .filter(
+      (tab) =>
+        ![
+          'general',
+          'visits',
+          'workflow',
+          'clinical-profile',
+          'conmeds',
+          'ae',
+          'deviations',
+        ].includes(tab.key),
+    )
+    .map((tab) => [tab.key, tab.label]),
+)
+
+function one<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+function normalizeTab(tab: string | undefined) {
+  return subjectChartTabs.some((item) => item.key === tab) ? tab! : 'general'
+}
+
+function ComingSoon({ title }: { title: string }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardDescription>
+          Coming soon. This chart section is reserved for coordinator documentation and will stay
+          separate from sponsor monitoring workflows.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          No data entry is wired for this section yet.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
+function GeneralPanel({ subject }: { subject: SubjectGeneralModel }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">General</CardTitle>
+        <CardDescription>
+          Site-maintained subject profile fields. Basic validation only.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <SubjectGeneralForm subject={subject} />
+      </CardContent>
+    </Card>
+  )
+}
+
+export default async function SubjectDetailPage({
+  params,
+  searchParams,
+}: SubjectDetailPageProps) {
+  const { subjectId, studyId: routeStudyId } = await params
+  const { tab } = await searchParams
+  const activeTab = normalizeTab(tab)
   const supabase = await createServerClient()
 
+  // Core subject fetch — RLS enforces org membership
   const { data: subject, error: subErr } = await supabase
     .from('study_subjects')
     .select(
       `
       id,
-      subject_identifier,
-      enrollment_status,
       organization_id,
+      subject_identifier,
+      randomization_number,
+      randomization_arm,
+      enrollment_status,
+      first_name,
+      middle_initial,
+      last_name,
+      initials,
+      gender,
+      date_of_birth,
       study_id,
       studies(id, name, slug)
     `,
     )
     .eq('id', subjectId)
+    .match(routeStudyId ? { study_id: routeStudyId } : {})
     .maybeSingle()
 
   if (subErr || !subject) {
     notFound()
   }
 
-  const organizationId = subject.organization_id as string
-  const nestedStudy = Array.isArray(subject.studies) ? subject.studies[0] : subject.studies
+  const nestedStudy = one(subject.studies)
   const study = nestedStudy as { id: string; name: string; slug: string | null } | null
+  const chartStudyId = routeStudyId ?? study?.id ?? null
+  const organizationId = subject.organization_id as string
 
-  const [historyResult, conmedResult, visitsResult] = await Promise.all([
-    listSubjectMedicalHistoryAction(subjectId, organizationId),
-    listSubjectConmedsAction(subjectId, organizationId),
-    supabase
-      .from('visits')
-      .select(
-        `
-      id,
-      scheduled_date,
-      visit_status,
-      visit_definitions(code,label)
-    `,
-      )
-      .eq('study_subject_id', subjectId)
-      .order('scheduled_date', { ascending: false }),
+  if (activeTab === 'visits' && chartStudyId) {
+    redirect(subjectVisitsPath(chartStudyId, subjectId))
+  }
+
+  // Load workflow + permissions in parallel. Clinical profile is only loaded
+  // when the tab is active to avoid unnecessary DB work.
+  const [workflowResult, permissions] = await Promise.all([
+    loadSubjectWorkflowActions(subjectId, organizationId),
+    resolveSubjectChartPermissions(supabase, {
+      organizationId,
+      studyId: chartStudyId,
+    }),
   ])
 
-  const medicalHistory = historyResult.ok ? historyResult.data : []
-  const conmeds = conmedResult.ok ? conmedResult.data : []
-  const { data: visits, error: visErr } = visitsResult
+  const { canVerify, actorRole } = permissions
+
+  // Operational intelligence (used by SubjectChartHeader)
+  const workflowActions = workflowResult.ok ? workflowResult.actions : []
+  const operationalResult =
+    chartStudyId && workflowResult.ok
+      ? await loadSubjectOperationalIntelligence({
+          subjectId,
+          studyId: chartStudyId,
+          organizationId,
+          workflowActions: workflowResult.actions,
+        })
+      : { ok: false as const, error: 'No study context.' }
+  const operationalIntelligence = operationalResult.ok ? operationalResult.data : null
+
+  // Clinical profile — load only when the tab is active
+  let clinicalProfile: SubjectClinicalProfile = {
+    study_subject_id: subjectId,
+    medical_history: [],
+    conmeds: [],
+    allergies: [],
+    surgical_history: [],
+    lifestyle: null,
+  }
+  let longitudinal: LongitudinalClinicalProfile | null = null
+  if (activeTab === 'clinical-profile' || activeTab === 'conmeds') {
+    clinicalProfile = await loadSubjectClinicalProfile(subjectId)
+    if (activeTab === 'clinical-profile') {
+      longitudinal = buildLongitudinalProfile(clinicalProfile)
+    }
+  }
+
+  const safetySignals =
+    activeTab === 'ae' && chartStudyId
+      ? await loadSubjectSafetySignals({
+          subjectId,
+          studyId: chartStudyId,
+          organizationId,
+        })
+      : null
+
+  const regulatorySignals =
+    activeTab === 'deviations' && chartStudyId
+      ? await loadSubjectRegulatorySignals({
+          subjectId,
+          studyId: chartStudyId,
+          organizationId,
+        })
+      : null
+
+  const generalSubject: SubjectGeneralModel = {
+    id: subject.id as string,
+    organizationId,
+    subjectNumber: subject.subject_identifier as string,
+    randomizationNumber: (subject.randomization_number as string | null) ?? null,
+    studyArm: (subject.randomization_arm as string | null) ?? null,
+    status: subject.enrollment_status as string,
+    firstName: (subject.first_name as string | null) ?? null,
+    middleInitial: (subject.middle_initial as string | null) ?? null,
+    lastName: (subject.last_name as string | null) ?? null,
+    initials: (subject.initials as string | null) ?? null,
+    gender: (subject.gender as string | null) ?? null,
+    dateOfBirth: (subject.date_of_birth as string | null) ?? null,
+  }
+
+  const chartHeader: SubjectChartHeaderModel | null = chartStudyId
+    ? {
+        subjectId,
+        studyId: chartStudyId,
+        organizationId,
+        subjectIdentifier: generalSubject.subjectNumber,
+        initials: generalSubject.initials,
+        studyName: study?.name ?? 'Study',
+        enrollmentStatus: generalSubject.status,
+        randomizationNumber: generalSubject.randomizationNumber,
+        randomizationArm: generalSubject.studyArm,
+      }
+    : null
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <p className="text-sm text-muted-foreground">
-          {study ? (
-            <>
-              <Link href="/studies" className="hover:underline">
-                Studies
-              </Link>
-              <span aria-hidden className="px-2">
-                /
-              </span>
-              <Link href={`/studies/${study.id}`} className="hover:underline">
-                {study.name}
-              </Link>
-              <span aria-hidden className="px-2">
-                /
-              </span>
-            </>
+    <div className="flex flex-col h-full" style={{ backgroundColor: '#f9f8f7' }}>
+
+      {/* ===== Subject Header (sticky) ===== */}
+      {chartHeader ? (
+        <SubjectChartHeader
+          header={chartHeader}
+          operationalHealth={operationalIntelligence?.health ?? null}
+        />
+      ) : (
+        /* Fallback header when no study context */
+        <div className="bg-white border-b px-6 py-4" style={{ borderColor: '#e5e5e5' }}>
+          <div className="flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+              style={{ backgroundColor: '#34a090' }}
+            >
+              {generalSubject.subjectNumber?.slice(0, 2).toUpperCase() ?? '—'}
+            </div>
+            <div>
+              <h1 className="text-base font-semibold" style={{ color: '#10253e' }}>
+                Subject {generalSubject.subjectNumber}
+              </h1>
+              <p className="text-xs" style={{ color: '#98a5ad' }}>
+                {generalSubject.status}
+                {generalSubject.studyArm ? ` · Arm ${generalSubject.studyArm}` : ''}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== Horizontal Tab Nav ===== */}
+      <SubjectChartNav studyId={chartStudyId} subjectId={subjectId} activeTab={activeTab} />
+
+      {/* ===== Tab Content ===== */}
+      <div className="flex-1 overflow-y-auto scrollbar-thin">
+        <div className="p-6 max-w-[1100px] space-y-5">
+
+          {/* Error banners */}
+          {!workflowResult.ok && activeTab === 'workflow' ? (
+            <p className="text-sm text-destructive">{workflowResult.error}</p>
           ) : null}
-          <span className="text-foreground">{subject.subject_identifier}</span>
-        </p>
-        <h1 className="text-2xl font-semibold tracking-tight">{subject.subject_identifier}</h1>
-        <p className="text-sm text-muted-foreground">
-          Enrollment{' '}
-          <span className="font-medium text-foreground">{subject.enrollment_status}</span>
-        </p>
-        <p className="text-xs text-muted-foreground">
-          Coordinator documentation support only — catalog search does not create patient records
-          until saved below.
-        </p>
+          {!operationalResult.ok && activeTab === 'general' && chartStudyId ? (
+            <p className="text-sm text-destructive">{operationalResult.error}</p>
+          ) : null}
+
+          {/* General */}
+          {activeTab === 'general' && operationalIntelligence && chartStudyId ? (
+            <SubjectOperationalCommandCenter
+              intelligence={operationalIntelligence}
+              studyId={chartStudyId}
+              subjectId={subjectId}
+            />
+          ) : null}
+          {activeTab === 'general' ? <GeneralPanel subject={generalSubject} /> : null}
+
+          {/* Visits — redirect handled above */}
+          {activeTab === 'visits' ? <ComingSoon title="Visits" /> : null}
+
+          {/* Workflow */}
+          {activeTab === 'workflow' && chartStudyId ? (
+            <SubjectWorkflowPanel
+              organizationId={organizationId}
+              studyId={chartStudyId}
+              subjectId={subjectId}
+              actions={workflowActions}
+              operationalIntelligence={operationalIntelligence}
+            />
+          ) : null}
+
+          {/* Clinical Profile */}
+          {activeTab === 'clinical-profile' ? (
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold" style={{ color: '#10253e' }}>Clinical Profile</h2>
+                <p className="text-sm" style={{ color: '#98a5ad' }}>
+                  Longitudinal clinical backbone — independent from visits. All entries are audit-logged (ALCOA+).
+                </p>
+              </div>
+              {longitudinal ? (
+                <ClinicalRiskPanel longitudinal={longitudinal} />
+              ) : null}
+              <ClinicalProfileConMedsPromo
+                rows={clinicalProfile.conmeds}
+                studyId={chartStudyId}
+                studySubjectId={subjectId}
+              />
+              <ClinicalProfileTabs
+                profile={clinicalProfile}
+                studySubjectId={subjectId}
+                canVerify={canVerify}
+                actorRole={actorRole}
+              />
+            </div>
+          ) : null}
+
+          {activeTab === 'conmeds' ? (
+            <SubjectConMedsSurface
+              profile={clinicalProfile}
+              studySubjectId={subjectId}
+              studyId={chartStudyId}
+              canVerify={canVerify}
+              actorRole={actorRole}
+              variant="dedicated"
+            />
+          ) : null}
+
+          {activeTab === 'ae' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load safety signals for this subject.
+            </p>
+          ) : null}
+          {activeTab === 'ae' && safetySignals ? (
+            <SubjectSafetySurface model={safetySignals} />
+          ) : null}
+
+          {activeTab === 'deviations' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load regulatory signals for this subject.
+            </p>
+          ) : null}
+          {activeTab === 'deviations' && regulatorySignals ? (
+            <SubjectRegulatorySurface model={regulatorySignals} />
+          ) : null}
+
+          {/* Placeholder tabs */}
+          {PLACEHOLDER_LABELS.has(activeTab) ? (
+            <ComingSoon title={PLACEHOLDER_LABELS.get(activeTab)!} />
+          ) : null}
+        </div>
       </div>
-
-      <MedicalHistorySection
-        studySubjectId={subjectId}
-        organizationId={organizationId}
-        initialRows={medicalHistory}
-      />
-
-      <ConmedSection
-        studySubjectId={subjectId}
-        organizationId={organizationId}
-        initialRows={conmeds}
-        medicalHistory={medicalHistory}
-      />
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Visits</CardTitle>
-          <CardDescription>Scheduled or performed encounters for this subject.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {visErr ? (
-            <p className="text-sm text-destructive">{visErr.message}</p>
-          ) : !visits?.length ? (
-            <p className="text-sm text-muted-foreground">No visits scheduled.</p>
-          ) : (
-            <ul className="divide-y divide-border rounded-md border">
-              {visits.map((v) => {
-                const vd = Array.isArray(v.visit_definitions)
-                  ? v.visit_definitions[0]
-                  : v.visit_definitions
-                const def = vd as { code?: string; label?: string } | null
-                return (
-                  <li
-                    key={v.id}
-                    className="flex flex-wrap items-center justify-between gap-3 px-3 py-2 text-sm"
-                  >
-                    <Link
-                      href={`/visits/${v.id}`}
-                      className="font-medium text-primary hover:underline"
-                    >
-                      {def?.label ?? def?.code ?? 'Visit'} · {v.scheduled_date ?? 'pending date'}
-                    </Link>
-                    <span className="text-muted-foreground">{v.visit_status}</span>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
     </div>
   )
 }

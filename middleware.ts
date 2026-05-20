@@ -14,6 +14,11 @@ function isSourceApiPath(pathname: string): boolean {
   return pathname === '/api/source' || pathname.startsWith('/api/source/')
 }
 
+/** Dev-only internal API routes — agent tooling, migration runner, etc. */
+function isDevApiPath(pathname: string): boolean {
+  return pathname.startsWith('/api/dev/')
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -42,7 +47,7 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  if (!user && !isPublicPath(pathname) && !isSourceApiPath(pathname)) {
+  if (!user && !isPublicPath(pathname) && !isSourceApiPath(pathname) && !isDevApiPath(pathname)) {
     const loginUrl = request.nextUrl.clone()
     loginUrl.pathname = '/login'
     loginUrl.searchParams.set('redirectedFrom', pathname)

@@ -582,7 +582,7 @@ create policy subject_concomitant_medications_delete on public.subject_concomita
 );
 
 -- ---------------------------------------------------------------------------
--- Seed: pathology (fixture + Headache)
+-- Seed: pathology (fixture + Headache) — only when table is empty (idempotent)
 -- ---------------------------------------------------------------------------
 insert into
   public.pathology_library (
@@ -597,10 +597,23 @@ insert into
     pediatric_use,
     active_flag
   )
-values
+select
+  v.external_seed_id,
+  v.system,
+  v.common_name,
+  v.medical_name,
+  v.icd10_code,
+  v.synonyms,
+  v.chronic_acute,
+  v.sex_specific,
+  v.pediatric_use,
+  v.active_flag
+from
   (
-    1,
-    'Cardiovascular',
+    values
+      (
+        1,
+        'Cardiovascular',
     'High blood pressure',
     'Essential hypertension',
     'I10',
@@ -679,26 +692,26 @@ values
     'Head pain, cephalalgia, migraine',
     'Both',
     'Both',
-    true,
-    true
+        true,
+        true
+      )
+  ) as v (
+    external_seed_id,
+    system,
+    common_name,
+    medical_name,
+    icd10_code,
+    synonyms,
+    chronic_acute,
+    sex_specific,
+    pediatric_use,
+    active_flag
   )
-on conflict (external_seed_id)
 where
-  external_seed_id is not null do
-update
-set
-  system = excluded.system,
-  common_name = excluded.common_name,
-  medical_name = excluded.medical_name,
-  icd10_code = excluded.icd10_code,
-  synonyms = excluded.synonyms,
-  chronic_acute = excluded.chronic_acute,
-  sex_specific = excluded.sex_specific,
-  pediatric_use = excluded.pediatric_use,
-  active_flag = excluded.active_flag;
+  not exists (select 1 from public.pathology_library limit 1);
 
 -- ---------------------------------------------------------------------------
--- Seed: medications (includes Metformin)
+-- Seed: medications (includes Metformin) — only when table is empty
 -- ---------------------------------------------------------------------------
 insert into
   public.medication_library (
@@ -710,8 +723,18 @@ insert into
     dosage_form,
     active_flag
   )
-values
-  (1, 'Metformin', 'Glucophage', 'Biguanide antidiabetic', 'oral', 'tablet', true),
+select
+  v.external_seed_id,
+  v.medication_name,
+  v.brand_name,
+  v.drug_class,
+  v.route,
+  v.dosage_form,
+  v.active_flag
+from
+  (
+    values
+      (1, 'Metformin', 'Glucophage', 'Biguanide antidiabetic', 'oral', 'tablet', true),
   (2, 'Ibuprofen', 'Advil', 'NSAID', 'oral', 'tablet', true),
   (3, 'Acetaminophen', 'Tylenol', 'Analgesic', 'oral', 'tablet', true),
   (4, 'Lisinopril', 'Prinivil', 'ACE inhibitor', 'oral', 'tablet', true),
@@ -720,21 +743,21 @@ values
   (7, 'Albuterol', 'ProAir', 'Short-acting beta agonist', 'inhalation', 'inhaler', true),
   (8, 'Sertraline', 'Zoloft', 'SSRI', 'oral', 'tablet', true),
   (9, 'Amoxicillin', 'Amoxil', 'Penicillin antibiotic', 'oral', 'capsule', true),
-  (10, 'Aspirin', 'Bayer Aspirin', 'Antiplatelet / analgesic', 'oral', 'tablet', true)
-on conflict (external_seed_id)
+      (10, 'Aspirin', 'Bayer Aspirin', 'Antiplatelet / analgesic', 'oral', 'tablet', true)
+  ) as v (
+    external_seed_id,
+    medication_name,
+    brand_name,
+    drug_class,
+    route,
+    dosage_form,
+    active_flag
+  )
 where
-  external_seed_id is not null do
-update
-set
-  medication_name = excluded.medication_name,
-  brand_name = excluded.brand_name,
-  drug_class = excluded.drug_class,
-  route = excluded.route,
-  dosage_form = excluded.dosage_form,
-  active_flag = excluded.active_flag;
+  not exists (select 1 from public.medication_library limit 1);
 
 -- ---------------------------------------------------------------------------
--- Seed: suggested pathology ↔ medication links
+-- Seed: suggested pathology ↔ medication links (skip when links already exist)
 -- ---------------------------------------------------------------------------
 insert into
   public.pathology_medication_links (
@@ -766,6 +789,8 @@ from
   ) as v (pathology_seed_id, medication_seed_id, relation_rank, relation_type)
   join public.pathology_library p on p.external_seed_id = v.pathology_seed_id
   join public.medication_library m on m.external_seed_id = v.medication_seed_id
+where
+  not exists (select 1 from public.pathology_medication_links limit 1)
 on conflict (pathology_id, medication_id) do
 update
 set

@@ -23,7 +23,7 @@
 
 **Human-in-the-loop is mandatory:** The system **proposes**; the coordinator **reviews, edits, and approves** before anything reaches `publish_source_package` or live capture.
 
-**Success metric (operational):** Time from “new study version” to first published source definition for a representative visit matrix — measured with fixture **PARA_OA_012 Schedule of Events** (6A.7), not with production PHI.
+**Success metric (operational):** Time from “new study version” to first published source definition for a representative visit matrix — measured with fixture **GENERIC_PHASE3_OA Schedule of Events** (6A.7), not with production PHI.
 
 **Customization principle:** The global procedure profile library ([`PHASE6A.3-PROCEDURE-PROFILE-LIBRARY.md`](./PHASE6A.3-PROCEDURE-PROFILE-LIBRARY.md)) is the **starting point**, not a rigid cage. Coordinators adapt fields and procedures per study **without engineering**.
 
@@ -499,9 +499,9 @@ Builder UI must bind draft to a **selected study version** before publish.
 
 ### 6A.7 E2E fixture note
 
-**PARA_OA_012** is the target golden SoE PDF for regression (visit windows, conditional procedures, categories). It is **not** checked into the repo at planning time. For 6A.7:
+**GENERIC_PHASE3_OA** is the target golden SoE PDF for regression (visit windows, conditional procedures, categories). It is **not** checked into the repo at planning time. For 6A.7:
 
-1. Add redacted or synthetic copy under `fixtures/source-builder/para-oa-012/` (license permitting).  
+1. Add redacted or synthetic copy under `fixtures/source-builder/generic-phase3-oa/` (license permitting).  
 2. Harness: upload → draft approve → `npm run` compile chain → `publish_source_package` → `open_source_response_set` on one matrix cell.  
 3. Report: `tmp/runtime-e2e/phase6a-source-builder-e2e-report.json` (planned).
 
@@ -542,7 +542,7 @@ Appendices A–E
 | PHI in uploaded SoE PDFs | Compliance | Org-scoped storage, access RLS, no analytics on PDF text |
 | Treating approve as publish | Unreviewed live source | Separate buttons + statuses |
 | Over-scoping AI | Medical liability | Propose table cells only; no adjudication |
-| PARA_OA_012 not in repo | Blocked 6A.7 | Add fixture or synthetic SoE with same shape |
+| GENERIC_PHASE3_OA not in repo | Blocked 6A.7 | Add fixture or synthetic SoE with same shape |
 | Coordinator time saved ≠ zero validation | False confidence | Keep preview MD + publish approval evidence |
 
 ---
