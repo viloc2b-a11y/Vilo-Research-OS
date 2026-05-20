@@ -1,11 +1,11 @@
 'use client'
 
-import { useActionState, useMemo, useState } from 'react'
+import { useActionState, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
-  AlertTriangle,
   Ban,
+  CalendarClock,
   CalendarDays,
   CheckCircle2,
   ChevronLeft,
@@ -20,10 +20,15 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
+  cancelAvailabilityBlock,
   cancelManualCalendarEvent,
+  cancelProtocolVisitReschedule,
   completeManualCalendarEvent,
+  createAvailabilityBlock,
   createManualCalendarEvent,
   type CreateManualCalendarEventState,
+  rescheduleProtocolVisit,
+  updateAvailabilityBlock,
   updateManualCalendarEvent,
 } from '@/app/(ops)/operational-calendar/actions'
 import type {
@@ -31,6 +36,25 @@ import type {
   OperationalCalendarModel,
   OperationalCalendarStatus,
 } from '@/lib/calendar/operational-calendar-read-model'
+import {
+  CalendarCoordinatorSelect,
+  CalendarStudySelect,
+  CalendarSubjectSelect,
+  CalendarVisitSelect,
+  CalendarBlockScopeFields,
+  useCalendarLinkFields,
+} from '@/components/calendar/operational-calendar-link-fields'
+import {
+  addCalendarDaysIso,
+  allDayInclusiveEndDate,
+  allDayStartDate,
+  buildMonthGridDates,
+  calendarDateInTimeZone,
+  formatTimeHmInSiteZone,
+  formatZonedTimeRange,
+  monthStartIso,
+  sameCalendarMonth,
+} from '@/lib/calendar/site-calendar-dates'
 
 type CalendarView = 'year' | 'month' | 'day'
 type DrawerState =
@@ -39,12 +63,19 @@ type DrawerState =
   | { mode: 'edit-manual'; event: OperationalCalendarEvent }
   | { mode: 'complete-manual'; event: OperationalCalendarEvent }
   | { mode: 'cancel-manual'; event: OperationalCalendarEvent }
+  | { mode: 'block'; date?: string }
+  | { mode: 'edit-block'; event: OperationalCalendarEvent }
+  | { mode: 'cancel-block'; event: OperationalCalendarEvent }
+  | { mode: 'reschedule-protocol'; event: OperationalCalendarEvent }
+  | { mode: 'cancel-reschedule-protocol'; event: OperationalCalendarEvent }
   | null
 
 type ManualCalendarAction = (
   prevState: CreateManualCalendarEventState,
   formData: FormData,
 ) => Promise<CreateManualCalendarEventState>
+
+type AvailabilityBlockAction = ManualCalendarAction
 
 const MONTH_LABELS = [
   'January',
@@ -63,40 +94,12 @@ const MONTH_LABELS = [
 
 const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-function isoDate(date: Date): string {
-  return date.toISOString().slice(0, 10)
-}
-
-function dateFromIso(iso: string): Date {
-  return new Date(`${iso}T12:00:00Z`)
-}
-
-function addDays(iso: string, offset: number): string {
-  const date = dateFromIso(iso)
-  date.setUTCDate(date.getUTCDate() + offset)
-  return isoDate(date)
-}
-
-function monthStart(year: number, monthIndex: number): string {
-  return isoDate(new Date(Date.UTC(year, monthIndex, 1, 12)))
-}
-
-function monthEnd(year: number, monthIndex: number): string {
-  return isoDate(new Date(Date.UTC(year, monthIndex + 1, 0, 12)))
-}
-
-function sameMonth(iso: string, year: number, monthIndex: number): boolean {
-  return iso.startsWith(`${year}-${String(monthIndex + 1).padStart(2, '0')}`)
-}
-
 function statusClass(status: OperationalCalendarStatus): string {
   switch (status) {
     case 'completed':
       return 'bg-primary'
     case 'today':
       return 'bg-blue-500'
-    case 'overdue':
-      return 'bg-destructive'
     default:
       return 'bg-yellow-500'
   }
@@ -108,11 +111,22 @@ function eventChipClass(status: OperationalCalendarStatus): string {
       return 'border-primary/40 bg-accent/30 text-foreground hover:bg-accent/40'
     case 'today':
       return 'border-blue-400/40 bg-blue-50 text-blue-900 hover:bg-blue-100 dark:bg-blue-950/30 dark:text-blue-100'
-    case 'overdue':
-      return 'border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/15'
     default:
       return 'border-yellow-400/50 bg-yellow-50 text-yellow-900 hover:bg-yellow-100 dark:bg-yellow-950/30 dark:text-yellow-100'
   }
+}
+
+function displayEventStatus(event: OperationalCalendarEvent): string {
+  if (event.kind === 'availability_block') return 'blocked'
+  if (event.kind === 'manual_event') {
+    return event.status === 'completed' ? 'completed' : 'pending'
+  }
+  return event.status === 'upcoming' ? 'scheduled' : event.status
+}
+
+function formatTimeRange(event: OperationalCalendarEvent, siteTimeZone: string): string {
+  if (!event.startDatetime || !event.endDatetime) return 'Time not set'
+  return formatZonedTimeRange(event.startDatetime, event.endDatetime, siteTimeZone, event.allDay === true)
 }
 
 function ModalityGlyph({
@@ -128,50 +142,40 @@ function ModalityGlyph({
   return <MapPin className={className} />
 }
 
-function displayDaysRemaining(days: number | null): string {
-  if (days === null) return 'Not calculated'
-  if (days === 0) return 'Today'
-  if (days > 0) return `${days} day${days === 1 ? '' : 's'} remaining`
-  return `${Math.abs(days)} day${days === -1 ? '' : 's'} overdue`
-}
-
-function buildMonthCells(year: number, monthIndex: number) {
-  const start = dateFromIso(monthStart(year, monthIndex))
-  const end = dateFromIso(monthEnd(year, monthIndex))
-  const firstGridDate = new Date(start)
-  firstGridDate.setUTCDate(start.getUTCDate() - start.getUTCDay())
-  const lastGridDate = new Date(end)
-  lastGridDate.setUTCDate(end.getUTCDate() + (6 - end.getUTCDay()))
-
-  const cells: string[] = []
-  const cursor = new Date(firstGridDate)
-  while (cursor <= lastGridDate) {
-    cells.push(isoDate(cursor))
-    cursor.setUTCDate(cursor.getUTCDate() + 1)
-  }
-  return cells
-}
-
 function ManualEventForm({
   model,
   defaultDate,
   event,
   mode = 'create',
   onClose,
+  onSuccess,
 }: {
   model: OperationalCalendarModel
   defaultDate?: string
   event?: OperationalCalendarEvent
   mode?: 'create' | 'edit'
   onClose: () => void
+  onSuccess?: () => void
 }) {
   const initialState: CreateManualCalendarEventState = { ok: false, message: null }
   const action: ManualCalendarAction = mode === 'edit' ? updateManualCalendarEvent : createManualCalendarEvent
   const [state, formAction, pending] = useActionState(action, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
   const title = mode === 'edit' ? 'Edit manual event' : 'Manual operational event'
   const description = mode === 'edit'
     ? 'Creates a new audit event with the revised details. The original manual event remains unchanged.'
     : 'Adds supplemental planning context without overwriting protocol schedule or windows.'
+
+  const link = useCalendarLinkFields(model, {
+    studyId: event?.linkedStudyId ?? '',
+    subjectId: event?.linkedSubjectId ?? '',
+    visitId: event?.linkedVisitId ?? '',
+    assignedUserId: event?.assignedUserId ?? '',
+  })
 
   return (
     <form action={formAction} className="space-y-4">
@@ -213,54 +217,34 @@ function ManualEventForm({
         </label>
       </div>
 
-      <label className="grid gap-1 text-sm">
-        <span className="font-medium">Study</span>
-        <select name="study_id" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.linkedStudyId ?? ''}>
-          <option value="">No study link</option>
-          {model.studies.map((study) => (
-            <option key={study.id} value={study.id}>
-              {study.name}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="grid gap-1 text-sm">
-        <span className="font-medium">Subject link</span>
-        <select name="subject_id" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.linkedSubjectId ?? ''}>
-          <option value="">No subject link</option>
-          {model.subjects.map((subject) => (
-            <option key={subject.id} value={subject.id}>
-              {subject.subjectIdentifier}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="grid gap-1 text-sm">
-        <span className="font-medium">Visit link</span>
-        <select name="visit_id" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.linkedVisitId ?? ''}>
-          <option value="">No visit link</option>
-          {model.visits.map((visit) => (
-            <option key={visit.id} value={visit.id}>
-              {visit.label}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="grid gap-1 text-sm">
-        <span className="font-medium">Assigned coordinator</span>
-        <input name="assigned_user_id" className="h-9 rounded-md border bg-background px-2" placeholder="Optional user id" defaultValue={event?.assignedUserId ?? ''} />
-      </label>
+      <CalendarStudySelect studies={model.studies} value={link.studyId} onChange={link.onStudyChange} />
+      <CalendarSubjectSelect
+        subjects={link.filteredSubjects}
+        value={link.subjectId}
+        onChange={link.onSubjectChange}
+        studyId={link.studyId}
+      />
+      <CalendarVisitSelect
+        visits={link.filteredVisits}
+        subjects={model.subjects}
+        value={link.visitId}
+        onChange={link.onVisitChange}
+        studyId={link.studyId}
+        subjectId={link.subjectId}
+      />
+      <CalendarCoordinatorSelect
+        coordinators={model.coordinators}
+        value={link.assignedUserId}
+        onChange={link.setAssignedUserId}
+      />
 
       <label className="grid gap-1 text-sm">
         <span className="font-medium">Priority</span>
         <select name="priority" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.priority ?? 'normal'}>
-          <option value="low">low</option>
-          <option value="normal">normal</option>
-          <option value="high">high</option>
-          <option value="urgent">urgent</option>
+          <option value="low">Low</option>
+          <option value="normal">Normal</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
         </select>
       </label>
 
@@ -290,12 +274,19 @@ function ManualEventForm({
 function CompleteManualEventForm({
   event,
   onClose,
+  onSuccess,
 }: {
   event: OperationalCalendarEvent
   onClose: () => void
+  onSuccess?: () => void
 }) {
   const initialState: CreateManualCalendarEventState = { ok: false, message: null }
   const [state, formAction, pending] = useActionState(completeManualCalendarEvent, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
 
   return (
     <form action={formAction} className="space-y-4">
@@ -334,12 +325,19 @@ function CompleteManualEventForm({
 function CancelManualEventForm({
   event,
   onClose,
+  onSuccess,
 }: {
   event: OperationalCalendarEvent
   onClose: () => void
+  onSuccess?: () => void
 }) {
   const initialState: CreateManualCalendarEventState = { ok: false, message: null }
   const [state, formAction, pending] = useActionState(cancelManualCalendarEvent, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
 
   return (
     <form action={formAction} className="space-y-4">
@@ -375,16 +373,356 @@ function CancelManualEventForm({
   )
 }
 
+function AvailabilityBlockForm({
+  model,
+  defaultDate,
+  event,
+  mode = 'create',
+  onClose,
+  onSuccess,
+}: {
+  model: OperationalCalendarModel
+  defaultDate?: string
+  event?: OperationalCalendarEvent
+  mode?: 'create' | 'edit'
+  onClose: () => void
+  onSuccess?: () => void
+}) {
+  const initialState: CreateManualCalendarEventState = { ok: false, message: null }
+  const action: AvailabilityBlockAction = mode === 'edit' ? updateAvailabilityBlock : createAvailabilityBlock
+  const [state, formAction, pending] = useActionState(action, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
+
+  const siteTimeZone = model.siteTimeZone
+  const [scope, setScope] = useState<string>(event?.blockScope ?? 'user')
+  const [blockStudyId, setBlockStudyId] = useState(event?.linkedStudyId ?? '')
+  const [affectedUserId, setAffectedUserId] = useState(event?.affectedUserId ?? '')
+
+  const startDate = event?.startDatetime
+    ? (event.allDay
+      ? allDayStartDate(event.startDatetime, siteTimeZone)
+      : calendarDateInTimeZone(new Date(event.startDatetime), siteTimeZone))
+    : defaultDate
+  const endDate = event?.endDatetime
+    ? (event.allDay
+      ? allDayInclusiveEndDate(event.endDatetime, siteTimeZone)
+      : calendarDateInTimeZone(new Date(event.endDatetime), siteTimeZone))
+    : defaultDate
+
+  return (
+    <form action={formAction} className="space-y-4">
+      {mode === 'edit' ? <input type="hidden" name="original_block_id" value={event?.originalEventId ?? event?.scheduledVisitId ?? ''} /> : null}
+      <div>
+        <h2 className="text-lg font-semibold">{mode === 'edit' ? 'Edit blocked time' : 'Block time'}</h2>
+        <p className="text-sm text-muted-foreground">
+          Protects staff or site availability without changing protocol schedules.
+        </p>
+      </div>
+
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Block title</span>
+        <input name="title" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.visitName ?? ''} required />
+      </label>
+
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Block type</span>
+        <select name="block_type" className="h-9 rounded-md border bg-background px-2" defaultValue={event?.blockType ?? 'unavailable'}>
+          <option value="pto">pto</option>
+          <option value="meeting">meeting</option>
+          <option value="training">training</option>
+          <option value="clinic_closure">clinic_closure</option>
+          <option value="site_holiday">site_holiday</option>
+          <option value="unavailable">unavailable</option>
+          <option value="other">other</option>
+        </select>
+      </label>
+
+      <CalendarBlockScopeFields
+        model={model}
+        scope={scope}
+        onScopeChange={setScope}
+        studyId={blockStudyId}
+        onStudyChange={setBlockStudyId}
+        affectedUserId={affectedUserId}
+        onAffectedUserChange={setAffectedUserId}
+        initialResourceName={event?.resourceName ?? ''}
+      />
+
+      <div className="grid grid-cols-2 gap-3">
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">Start date</span>
+          <input name="start_date" type="date" className="h-9 rounded-md border bg-background px-2" defaultValue={startDate} required />
+        </label>
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">Start time</span>
+          <input
+            name="start_time"
+            type="time"
+            className="h-9 rounded-md border bg-background px-2"
+            defaultValue={event?.allDay || !event?.startDatetime ? '' : formatTimeHmInSiteZone(event.startDatetime, siteTimeZone)}
+          />
+        </label>
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">End date</span>
+          <input name="end_date" type="date" className="h-9 rounded-md border bg-background px-2" defaultValue={endDate} required />
+        </label>
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">End time</span>
+          <input
+            name="end_time"
+            type="time"
+            className="h-9 rounded-md border bg-background px-2"
+            defaultValue={event?.allDay || !event?.endDatetime ? '' : formatTimeHmInSiteZone(event.endDatetime, siteTimeZone)}
+          />
+        </label>
+      </div>
+
+      <label className="flex items-center gap-2 text-sm">
+        <input name="all_day" type="checkbox" defaultChecked={event?.allDay ?? false} />
+        <span className="font-medium">All day</span>
+      </label>
+
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Notes</span>
+        <textarea name="notes" className="min-h-20 rounded-md border bg-background px-2 py-2" placeholder="Optional" defaultValue={event?.operationalNotes ?? ''} />
+      </label>
+
+      {state.message ? (
+        <p className={`rounded-md border px-3 py-2 text-sm ${state.ok ? 'border-primary/40 bg-accent/30' : 'border-destructive/40 bg-destructive/10 text-destructive'}`}>
+          {state.message}
+        </p>
+      ) : null}
+
+      <div className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? 'Saving...' : mode === 'edit' ? 'Save Block' : 'Block Time'}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function ProtocolVisitRescheduleForm({
+  model,
+  event,
+  onClose,
+  onSuccess,
+}: {
+  model: OperationalCalendarModel
+  event: OperationalCalendarEvent
+  onClose: () => void
+  onSuccess?: () => void
+}) {
+  const initialState: CreateManualCalendarEventState = { ok: false, message: null }
+  const [state, formAction, pending] = useActionState(rescheduleProtocolVisit, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
+
+  const [assignedUserId, setAssignedUserId] = useState(event.assignedUserId ?? '')
+
+  return (
+    <form action={formAction} className="space-y-4">
+      <input type="hidden" name="scheduled_visit_id" value={event.scheduledVisitId} />
+      <div>
+        <h2 className="text-lg font-semibold">Reschedule protocol visit</h2>
+        <p className="text-sm text-muted-foreground">
+          Moves this item on the operational calendar only. Protocol target date and visit definition are unchanged.
+        </p>
+      </div>
+
+      <div className="rounded-md border bg-accent/20 p-3 text-sm">
+        <p className="font-medium">{event.visitName}</p>
+        <p className="text-muted-foreground">
+          Protocol target: {event.originalTargetDate ?? event.idealDate}
+          {event.isRescheduled ? ` · Currently ${event.displayDate ?? event.date}` : ''}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">New date</span>
+          <input
+            name="rescheduled_date"
+            type="date"
+            className="h-9 rounded-md border bg-background px-2"
+            defaultValue={event.rescheduledDate ?? event.displayDate ?? event.date}
+            required
+          />
+        </label>
+        <label className="grid gap-1 text-sm">
+          <span className="font-medium">Time</span>
+          <input
+            name="rescheduled_time"
+            type="time"
+            className="h-9 rounded-md border bg-background px-2"
+            defaultValue={event.rescheduledTime ?? event.displayTime ?? ''}
+          />
+        </label>
+      </div>
+
+      <CalendarCoordinatorSelect
+        coordinators={model.coordinators}
+        value={assignedUserId}
+        onChange={setAssignedUserId}
+        label="Assigned coordinator"
+      />
+
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Reason</span>
+        <input name="reason" className="h-9 rounded-md border bg-background px-2" placeholder="Optional" />
+      </label>
+
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Notes</span>
+        <textarea name="notes" className="min-h-20 rounded-md border bg-background px-2 py-2" placeholder="Optional" />
+      </label>
+
+      {state.message ? (
+        <p className={`rounded-md border px-3 py-2 text-sm ${state.ok ? 'border-primary/40 bg-accent/30' : 'border-destructive/40 bg-destructive/10 text-destructive'}`}>
+          {state.message}
+        </p>
+      ) : null}
+
+      <div className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? 'Saving...' : 'Save Reschedule'}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function CancelProtocolRescheduleForm({
+  event,
+  onClose,
+  onSuccess,
+}: {
+  event: OperationalCalendarEvent
+  onClose: () => void
+  onSuccess?: () => void
+}) {
+  const initialState: CreateManualCalendarEventState = { ok: false, message: null }
+  const [state, formAction, pending] = useActionState(cancelProtocolVisitReschedule, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
+
+  return (
+    <form action={formAction} className="space-y-4">
+      <input type="hidden" name="scheduled_visit_id" value={event.scheduledVisitId} />
+      <div>
+        <h2 className="text-lg font-semibold">Cancel reschedule</h2>
+        <p className="text-sm text-muted-foreground">
+          Returns this visit to its protocol target date on the calendar. The underlying schedule row is not modified.
+        </p>
+      </div>
+      <div className="rounded-md border bg-accent/20 p-3 text-sm">
+        <p className="font-medium">{event.visitName}</p>
+        <p className="text-muted-foreground">
+          Display date: {event.displayDate ?? event.date} → returns to {event.originalTargetDate ?? event.idealDate}
+        </p>
+      </div>
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Cancel reason</span>
+        <textarea name="cancel_reason" className="min-h-24 rounded-md border bg-background px-2 py-2" placeholder="Optional" />
+      </label>
+      {state.message ? (
+        <p className={`rounded-md border px-3 py-2 text-sm ${state.ok ? 'border-primary/40 bg-accent/30' : 'border-destructive/40 bg-destructive/10 text-destructive'}`}>
+          {state.message}
+        </p>
+      ) : null}
+      <div className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={onClose}>
+          Back
+        </Button>
+        <Button type="submit" variant="destructive" disabled={pending}>
+          {pending ? 'Cancelling...' : 'Cancel Reschedule'}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function CancelAvailabilityBlockForm({
+  event,
+  siteTimeZone,
+  onClose,
+  onSuccess,
+}: {
+  event: OperationalCalendarEvent
+  siteTimeZone: string
+  onClose: () => void
+  onSuccess?: () => void
+}) {
+  const initialState: CreateManualCalendarEventState = { ok: false, message: null }
+  const [state, formAction, pending] = useActionState(cancelAvailabilityBlock, initialState)
+
+  useEffect(() => {
+    if (!state.ok) return
+    onSuccess?.()
+  }, [state.ok, onSuccess])
+
+  return (
+    <form action={formAction} className="space-y-4">
+      <input type="hidden" name="original_block_id" value={event.originalEventId ?? event.scheduledVisitId} />
+      <div>
+        <h2 className="text-lg font-semibold">Cancel blocked time</h2>
+        <p className="text-sm text-muted-foreground">
+          Cancelling the block stops it from preventing future assignments. Historical events remain intact.
+        </p>
+      </div>
+      <div className="rounded-md border bg-accent/20 p-3 text-sm">
+        <p className="font-medium">{event.visitName}</p>
+        <p className="text-muted-foreground">{formatTimeRange(event, siteTimeZone)}</p>
+      </div>
+      <label className="grid gap-1 text-sm">
+        <span className="font-medium">Cancel reason</span>
+        <textarea name="cancel_reason" className="min-h-24 rounded-md border bg-background px-2 py-2" placeholder="Optional" />
+      </label>
+      {state.message ? (
+        <p className={`rounded-md border px-3 py-2 text-sm ${state.ok ? 'border-primary/40 bg-accent/30' : 'border-destructive/40 bg-destructive/10 text-destructive'}`}>
+          {state.message}
+        </p>
+      ) : null}
+      <div className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={onClose}>
+          Back
+        </Button>
+        <Button type="submit" variant="destructive" disabled={pending}>
+          {pending ? 'Cancelling...' : 'Cancel Block'}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
 function EventDrawer({
   state,
   model,
   onClose,
   onNavigate,
+  onMutationSuccess,
 }: {
   state: DrawerState
   model: OperationalCalendarModel
   onClose: () => void
   onNavigate: (nextState: DrawerState) => void
+  onMutationSuccess: () => void
 }) {
   if (!state) return null
   const drawerEvent = 'event' in state ? state.event : null
@@ -395,7 +733,11 @@ function EventDrawer({
       <aside className="h-full w-full max-w-md overflow-y-auto border-l bg-card p-5 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
           <Badge variant="outline">
-            {state.mode === 'manual' || drawerEvent?.kind === 'manual_event' ? 'Manual event' : 'Protocol visit'}
+            {state.mode === 'block' || drawerEvent?.kind === 'availability_block'
+              ? 'Availability block'
+              : state.mode === 'manual' || drawerEvent?.kind === 'manual_event'
+                ? 'Manual event'
+                : 'Protocol visit'}
           </Badge>
           <button type="button" className="rounded-md p-1 text-muted-foreground hover:bg-accent/20" onClick={onClose} aria-label="Close drawer">
             <X className="size-4" />
@@ -403,21 +745,119 @@ function EventDrawer({
         </div>
 
         {state.mode === 'manual' ? (
-          <ManualEventForm model={model} defaultDate={state.date} onClose={onClose} />
+          <ManualEventForm model={model} defaultDate={state.date} onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.mode === 'block' ? (
+          <AvailabilityBlockForm model={model} defaultDate={state.date} onClose={onClose} onSuccess={onMutationSuccess} />
         ) : state.mode === 'edit-manual' ? (
-          <ManualEventForm model={model} event={state.event} mode="edit" onClose={onClose} />
+          <ManualEventForm model={model} event={state.event} mode="edit" onClose={onClose} onSuccess={onMutationSuccess} />
         ) : state.mode === 'complete-manual' ? (
-          <CompleteManualEventForm event={state.event} onClose={onClose} />
+          <CompleteManualEventForm event={state.event} onClose={onClose} onSuccess={onMutationSuccess} />
         ) : state.mode === 'cancel-manual' ? (
-          <CancelManualEventForm event={state.event} onClose={onClose} />
+          <CancelManualEventForm event={state.event} onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.mode === 'edit-block' ? (
+          <AvailabilityBlockForm model={model} event={state.event} mode="edit" onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.mode === 'cancel-block' ? (
+          <CancelAvailabilityBlockForm event={state.event} siteTimeZone={model.siteTimeZone} onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.mode === 'reschedule-protocol' ? (
+          <ProtocolVisitRescheduleForm model={model} event={state.event} onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.mode === 'cancel-reschedule-protocol' ? (
+          <CancelProtocolRescheduleForm event={state.event} onClose={onClose} onSuccess={onMutationSuccess} />
+        ) : state.event.kind === 'protocol_visit' ? (
+          <div className="space-y-5">
+            <div>
+              <h2 className="text-xl font-semibold">{state.event.visitName}</h2>
+              <p className="text-sm text-muted-foreground">
+                {state.event.studyName}
+                {state.event.isRescheduled ? (
+                  <Badge variant="outline" className="ml-2">Rescheduled</Badge>
+                ) : null}
+              </p>
+            </div>
+
+            <div className="grid gap-3 text-sm">
+              <div className="rounded-md border bg-accent/20 p-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Subject</p>
+                <p className="font-medium">{state.event.subjectIdentifier}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-md border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Protocol day</p>
+                  <p className="font-medium">{state.event.protocolDay ? `Day ${state.event.protocolDay}` : '—'}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Calendar date</p>
+                  <p className="font-medium">{state.event.displayDate ?? state.event.date}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-md border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Protocol target</p>
+                  <p className="font-medium">{state.event.originalTargetDate ?? state.event.idealDate}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time</p>
+                  <p className="font-medium">{state.event.displayTime ?? state.event.rescheduledTime ?? 'Not set'}</p>
+                </div>
+              </div>
+              {state.event.isRescheduled ? (
+                <div className="rounded-md border border-dashed p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Operational reschedule</p>
+                  <p className="mt-1 font-medium">
+                    {state.event.rescheduledDate ?? state.event.displayDate}
+                    {state.event.rescheduledTime ? ` at ${state.event.rescheduledTime}` : ''}
+                  </p>
+                  {state.event.rescheduleReason ? (
+                    <p className="mt-1 text-muted-foreground">Reason: {state.event.rescheduleReason}</p>
+                  ) : null}
+                  {state.event.rescheduleNotes ? (
+                    <p className="mt-1 text-muted-foreground">{state.event.rescheduleNotes}</p>
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-md border p-3 capitalize">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Modality</p>
+                  <p className="font-medium">{state.event.modality.replace('_', ' ')}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Coordinator</p>
+                  <p className="font-medium">{state.event.assignedCoordinator}</p>
+                </div>
+              </div>
+            </div>
+
+            <section className="space-y-2">
+              <h3 className="text-sm font-semibold">Actions</h3>
+              <div className="grid gap-2">
+                {state.event.href ? (
+                  <Link
+                    href={state.event.href}
+                    className="inline-flex h-8 w-full items-center justify-center gap-2 rounded-lg bg-primary px-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80"
+                  >
+                    Open Visit Workspace
+                  </Link>
+                ) : null}
+                <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'reschedule-protocol', event: state.event })}>
+                  <CalendarClock className="size-4" />
+                  Reschedule
+                </Button>
+                {state.event.isRescheduled ? (
+                  <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'cancel-reschedule-protocol', event: state.event })}>
+                    <Ban className="size-4" />
+                    Cancel Reschedule
+                  </Button>
+                ) : null}
+              </div>
+            </section>
+          </div>
         ) : (
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-semibold">{state.event.visitName}</h2>
               <p className="text-sm text-muted-foreground">
-                {state.event.kind === 'manual_event'
-                  ? `${state.event.manualEventType ?? 'manual event'} · ${state.event.priority ?? 'normal'} priority`
-                  : state.event.studyName}
+                {state.event.kind === 'availability_block'
+                  ? `${state.event.blockType ?? 'unavailable'} · ${state.event.blockScope ?? 'site'}`
+                  : `${state.event.manualEventType ?? 'manual event'} · ${displayEventStatus(state.event)}`}
               </p>
             </div>
 
@@ -429,170 +869,106 @@ function EventDrawer({
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-md border p-3">
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    {state.event.kind === 'manual_event' ? 'Type' : 'Protocol day'}
+                    {state.event.kind === 'availability_block' ? 'Scope' : 'Type'}
                   </p>
                   <p className="font-medium">
-                    {state.event.kind === 'manual_event'
-                      ? state.event.manualEventType ?? 'other'
-                      : state.event.protocolDay ? `Day ${state.event.protocolDay}` : 'Manual'}
+                    {state.event.kind === 'availability_block'
+                      ? state.event.blockScope ?? 'site'
+                      : state.event.manualEventType ?? 'other'}
                   </p>
                 </div>
                 <div className="rounded-md border p-3">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    {state.event.kind === 'manual_event' ? 'Event date' : 'Ideal date'}
-                  </p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Date</p>
                   <p className="font-medium">{state.event.idealDate}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-md border p-3">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Window open</p>
-                  <p className="font-medium">{state.event.windowOpenDate ?? 'N/A'}</p>
+              {state.event.kind === 'availability_block' ? (
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-md border p-3">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time range</p>
+                    <p className="font-medium">{formatTimeRange(state.event, model.siteTimeZone)}</p>
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Affected</p>
+                    <p className="font-medium">{state.event.assignedCoordinator}</p>
+                  </div>
                 </div>
-                <div className="rounded-md border p-3">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Window close</p>
-                  <p className="font-medium">{state.event.windowCloseDate ?? 'N/A'}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-md border p-3 capitalize">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Modality</p>
-                  <p className="font-medium">{state.event.modality.replace('_', ' ')}</p>
-                </div>
-                <div className="rounded-md border p-3">
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Coordinator</p>
-                  <p className="font-medium">{state.event.assignedCoordinator}</p>
-                </div>
-              </div>
-              {state.event.kind === 'manual_event' ? (
+              ) : (
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-md border p-3">
                     <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time</p>
                     <p className="font-medium">{state.event.eventTime ?? 'Not set'}</p>
                   </div>
                   <div className="rounded-md border p-3">
-                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Created at</p>
-                    <p className="font-medium">{state.event.createdAt ?? 'Unknown'}</p>
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Coordinator</p>
+                    <p className="font-medium">{state.event.assignedCoordinator}</p>
                   </div>
                 </div>
-              ) : null}
-            </div>
-
-            <section className="space-y-2">
-              <h3 className="text-sm font-semibold">Required procedures</h3>
-              {state.event.requiredProcedures.length ? (
-                <ul className="space-y-1 text-sm">
-                  {state.event.requiredProcedures.map((procedure) => (
-                    <li key={procedure.id} className="flex items-center justify-between rounded-md border px-3 py-2">
-                      <span>{procedure.label}</span>
-                      <span className="text-xs text-muted-foreground">{procedure.status ?? 'pending'}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-sm text-muted-foreground">No procedure payload is attached to this event.</p>
               )}
-            </section>
-
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-md border p-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Labs due</p>
-                <p className="text-lg font-semibold">{state.event.labDueCount}</p>
-              </div>
-              <div className="rounded-md border p-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Imaging due</p>
-                <p className="text-lg font-semibold">{state.event.imagingDueCount}</p>
-              </div>
             </div>
-
-            <section className="space-y-2">
-              <h3 className="text-sm font-semibold">Alerts</h3>
-              {state.event.alerts.length ? (
-                <ul className="space-y-1">
-                  {state.event.alerts.map((alert) => (
-                    <li key={alert} className="flex items-center gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                      <AlertTriangle className="size-3" />
-                      {alert}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-sm text-muted-foreground">No active alerts.</p>
-              )}
-            </section>
-
-            <section className="space-y-2">
-              <h3 className="text-sm font-semibold">Operational notes</h3>
-              <p className="rounded-md border bg-accent/20 px-3 py-2 text-sm text-muted-foreground">
-                {state.event.operationalNotes ?? 'No operational notes recorded.'}
-              </p>
-            </section>
 
             {state.event.kind === 'manual_event' ? (
-              <section className="space-y-2">
-                <h3 className="text-sm font-semibold">Linked records</h3>
-                <dl className="grid gap-2 rounded-md border p-3 text-sm">
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground">Study</dt>
-                    <dd className="text-right">{state.event.linkedStudyId ?? 'None'}</dd>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground">Subject</dt>
-                    <dd className="text-right">{state.event.linkedSubjectId ?? 'None'}</dd>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground">Visit</dt>
-                    <dd className="text-right">{state.event.linkedVisitId ?? 'None'}</dd>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground">Created by</dt>
-                    <dd className="text-right">{state.event.createdBy ?? 'Unknown'}</dd>
-                  </div>
-                  {state.event.completedAt ? (
-                    <div className="flex justify-between gap-3">
-                      <dt className="text-muted-foreground">Completed at</dt>
-                      <dd className="text-right">{state.event.completedAt}</dd>
-                    </div>
-                  ) : null}
-                </dl>
-                {state.event.completionNotes ? (
+              <>
+                <section className="space-y-2">
+                  <h3 className="text-sm font-semibold">Operational notes</h3>
                   <p className="rounded-md border bg-accent/20 px-3 py-2 text-sm text-muted-foreground">
-                    {state.event.completionNotes}
+                    {state.event.operationalNotes ?? 'No operational notes recorded.'}
                   </p>
-                ) : null}
-              </section>
-            ) : null}
-
-            {state.event.kind === 'manual_event' ? (
+                </section>
+                <section className="space-y-2">
+                  <h3 className="text-sm font-semibold">Linked records</h3>
+                  <dl className="grid gap-2 rounded-md border p-3 text-sm">
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-muted-foreground">Study</dt>
+                      <dd className="text-right">{state.event.linkedStudyId ? state.event.studyName : 'None'}</dd>
+                    </div>
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-muted-foreground">Subject</dt>
+                      <dd className="text-right">
+                        {state.event.linkedSubjectId ? state.event.subjectIdentifier : 'None'}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-muted-foreground">Visit</dt>
+                      <dd className="text-right">{state.event.linkedVisitLabel ?? 'None'}</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section className="space-y-2">
+                  <h3 className="text-sm font-semibold">Manual event actions</h3>
+                  <div className="grid gap-2">
+                    <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'edit-manual', event: state.event })}>
+                      <Pencil className="size-4" />
+                      Edit
+                    </Button>
+                    {state.event.status !== 'completed' ? (
+                      <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'complete-manual', event: state.event })}>
+                        <CheckCircle2 className="size-4" />
+                        Mark Complete
+                      </Button>
+                    ) : null}
+                    <Button type="button" variant="destructive" onClick={() => onNavigate({ mode: 'cancel-manual', event: state.event })}>
+                      <Ban className="size-4" />
+                      Cancel Event
+                    </Button>
+                  </div>
+                </section>
+              </>
+            ) : (
               <section className="space-y-2">
-                <h3 className="text-sm font-semibold">Manual event actions</h3>
+                <h3 className="text-sm font-semibold">Blocked time actions</h3>
                 <div className="grid gap-2">
-                  <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'edit-manual', event: state.event })}>
+                  <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'edit-block', event: state.event })}>
                     <Pencil className="size-4" />
                     Edit
                   </Button>
-                  {state.event.status !== 'completed' ? (
-                    <Button type="button" variant="outline" onClick={() => onNavigate({ mode: 'complete-manual', event: state.event })}>
-                      <CheckCircle2 className="size-4" />
-                      Mark Complete
-                    </Button>
-                  ) : null}
-                  <Button type="button" variant="destructive" onClick={() => onNavigate({ mode: 'cancel-manual', event: state.event })}>
+                  <Button type="button" variant="destructive" onClick={() => onNavigate({ mode: 'cancel-block', event: state.event })}>
                     <Ban className="size-4" />
-                    Cancel Event
+                    Cancel Block
                   </Button>
                 </div>
               </section>
-            ) : null}
-
-            {state.event.href ? (
-              <Link
-                href={state.event.href}
-                className="inline-flex h-8 w-full items-center justify-center rounded-lg bg-primary px-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80"
-              >
-                Open Visit Workspace
-              </Link>
-            ) : null}
+            )}
           </div>
         )}
       </aside>
@@ -602,40 +978,46 @@ function EventDrawer({
 
 function MonthEventButton({
   event,
+  siteTimeZone,
   onOpen,
 }: {
   event: OperationalCalendarEvent
+  siteTimeZone: string
   onOpen: (event: OperationalCalendarEvent) => void
 }) {
   const isManual = event.kind === 'manual_event'
-  const priorityClass =
-    event.priority === 'urgent'
-      ? 'bg-destructive'
-      : event.priority === 'high'
-        ? 'bg-yellow-500'
-        : event.priority === 'low'
-          ? 'bg-muted-foreground'
-          : 'bg-primary'
+  const isBlock = event.kind === 'availability_block'
 
   return (
     <button
       type="button"
       onClick={() => onOpen(event)}
-      className={`group relative w-full rounded-md border px-2 py-1 text-left text-xs transition-colors ${eventChipClass(event.status)}`}
+      className={`group relative w-full rounded-md border px-2 py-1 text-left text-xs transition-colors ${
+        isBlock
+          ? 'border-muted-foreground/30 bg-muted/50 text-muted-foreground hover:bg-muted'
+          : eventChipClass(event.status)
+      }`}
     >
       <div className="flex items-center gap-1.5">
-        <span className={`size-1.5 rounded-full ${isManual ? priorityClass : statusClass(event.status)}`} />
-        <span className="truncate font-medium">{isManual ? event.visitName : event.subjectIdentifier}</span>
+        <span className={`size-1.5 rounded-full ${isBlock ? 'bg-muted-foreground' : statusClass(event.status)}`} />
+        <span className="truncate font-medium">{isBlock ? 'Blocked' : isManual ? event.visitName : event.subjectIdentifier}</span>
       </div>
       <p className="truncate text-[11px] opacity-80">
-        {isManual ? `${event.manualEventType ?? 'manual'} · ${event.priority ?? 'normal'}` : event.visitName}
+        {isBlock ? `${event.blockScope ?? 'site'} · ${event.blockType ?? 'unavailable'}` : isManual ? `${event.manualEventType ?? 'manual'} · ${displayEventStatus(event)}` : event.visitName}
       </p>
       <div className="pointer-events-none absolute left-0 top-full z-20 mt-1 hidden w-64 rounded-md border bg-popover p-3 text-xs text-popover-foreground shadow-lg group-hover:block">
-        {isManual ? (
+        {isBlock ? (
+          <>
+            <p className="font-medium">{event.visitName}</p>
+            <p>Scope: {event.blockScope ?? 'site'}</p>
+            <p>Time: {formatTimeRange(event, siteTimeZone)}</p>
+            <p>Affected: {event.affectedUserId ?? event.resourceName ?? event.blockScope ?? 'Site'}</p>
+          </>
+        ) : isManual ? (
           <>
             <p className="font-medium">{event.manualEventType ?? 'manual event'}</p>
             <p>Time: {event.eventTime ?? 'Not set'}</p>
-            <p>Priority: {event.priority ?? 'normal'}</p>
+            <p>Status: {displayEventStatus(event)}</p>
             <p>Assigned: {event.assignedCoordinator}</p>
           </>
         ) : (
@@ -644,9 +1026,10 @@ function MonthEventButton({
               <ModalityGlyph modality={event.modality} className="size-3" />
               {event.modality.replace('_', ' ')}
             </div>
-            <p>Window: {event.windowOpenDate ?? 'N/A'} - {event.windowCloseDate ?? 'N/A'}</p>
-            <p>{displayDaysRemaining(event.daysRemaining)}</p>
-            <p>Required procedures: {event.requiredProcedureCount}</p>
+            <p>Calendar date: {event.displayDate ?? event.date}</p>
+            <p>Protocol target: {event.originalTargetDate ?? event.idealDate}</p>
+            {event.isRescheduled ? <p>Rescheduled from protocol target</p> : null}
+            <p>Coordinator: {event.assignedCoordinator}</p>
           </>
         )}
       </div>
@@ -661,9 +1044,8 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
   const [activeDate, setActiveDate] = useState(initialActiveDate)
   const [drawer, setDrawer] = useState<DrawerState>(null)
 
-  const active = dateFromIso(activeDate)
-  const activeYear = active.getUTCFullYear()
-  const activeMonth = active.getUTCMonth()
+  const activeYear = Number(activeDate.slice(0, 4))
+  const activeMonth = Number(activeDate.slice(5, 7)) - 1
 
   const eventsByDate = useMemo(() => {
     const map = new Map<string, OperationalCalendarEvent[]>()
@@ -676,14 +1058,19 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
   }, [model.events])
 
   const monthEvents = useMemo(
-    () => model.events.filter((event) => sameMonth(event.date, activeYear, activeMonth)),
+    () => model.events.filter((event) => sameCalendarMonth(event.date, activeYear, activeMonth)),
     [activeMonth, activeYear, model.events],
   )
 
   const dayEvents = eventsByDate.get(activeDate) ?? []
 
+  function handleMutationSuccess() {
+    router.refresh()
+    setDrawer(null)
+  }
+
   function setCalendarDate(nextDate: string) {
-    const nextYear = dateFromIso(nextDate).getUTCFullYear()
+    const nextYear = Number(nextDate.slice(0, 4))
     if (nextYear !== model.year) {
       router.push(`/operational-calendar?year=${nextYear}`)
       return
@@ -692,11 +1079,11 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
   }
 
   function shiftMonth(offset: number) {
-    setCalendarDate(monthStart(activeYear, activeMonth + offset))
+    setCalendarDate(monthStartIso(activeYear, activeMonth + offset))
   }
 
   function shiftDay(offset: number) {
-    setCalendarDate(addDays(activeDate, offset))
+    setCalendarDate(addCalendarDaysIso(activeDate, offset))
   }
 
   function shiftCurrentView(offset: number) {
@@ -720,6 +1107,11 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             <p className="text-sm text-muted-foreground">
               Protocol visit timing, coordinator workload, phone visits, labs, and operational follow-ups.
             </p>
+            {model.canViewUnblinded ? (
+              <Badge variant="outline" className="mt-2 border-yellow-400/50 bg-yellow-50 text-yellow-900 dark:bg-yellow-950/30 dark:text-yellow-100">
+                Unblinded Access — Restricted
+              </Badge>
+            ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="rounded-lg border bg-card p-1">
@@ -737,6 +1129,10 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             <Button variant="outline" onClick={() => setDrawer({ mode: 'manual' })}>
               <FilePlus2 className="size-4" />
               Add Manual Event
+            </Button>
+            <Button variant="outline" onClick={() => setDrawer({ mode: 'block' })}>
+              <Ban className="size-4" />
+              Block Time
             </Button>
           </div>
         </div>
@@ -768,7 +1164,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
-            {(['upcoming', 'today', 'completed', 'overdue'] as OperationalCalendarStatus[]).map((status) => (
+            {(['upcoming', 'today', 'completed'] as OperationalCalendarStatus[]).map((status) => (
               <span key={status} className="inline-flex items-center gap-1 rounded-full border bg-card px-2 py-1 capitalize">
                 <span className={`size-2 rounded-full ${statusClass(status)}`} />
                 {status}
@@ -780,32 +1176,30 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         {view === 'year' ? (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {MONTH_LABELS.map((month, monthIndex) => {
-              const events = model.events.filter((event) => sameMonth(event.date, activeYear, monthIndex))
-              const overdue = events.filter((event) => event.status === 'overdue').length
+              const events = model.events.filter((event) => sameCalendarMonth(event.date, activeYear, monthIndex))
               const studies = new Set(events.map((event) => event.studyId)).size
-              const highWorkload = events.length >= 10
+              const blockedDays = new Set(events.filter((event) => event.kind === 'availability_block').map((event) => event.date)).size
               return (
                 <button
                   key={month}
                   type="button"
                   onClick={() => {
-                    setActiveDate(monthStart(activeYear, monthIndex))
+                    setActiveDate(monthStartIso(activeYear, monthIndex))
                     setView('month')
                   }}
-                  className={`rounded-lg border bg-card p-4 text-left transition-colors hover:bg-accent/30 ${highWorkload ? 'border-yellow-400/50' : 'border-border'}`}
+                  className="rounded-lg border border-border bg-card p-4 text-left transition-colors hover:bg-accent/30"
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-semibold">{month}</p>
-                    {highWorkload ? <Badge variant="secondary">High workload</Badge> : null}
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
                     <div className="rounded-md bg-accent/30 p-2">
                       <p className="text-lg font-semibold">{events.length}</p>
-                      <p className="text-muted-foreground">Visits</p>
+                      <p className="text-muted-foreground">Items</p>
                     </div>
-                    <div className="rounded-md bg-destructive/10 p-2 text-destructive">
-                      <p className="text-lg font-semibold">{overdue}</p>
-                      <p>Overdue</p>
+                    <div className="rounded-md bg-muted p-2">
+                      <p className="text-lg font-semibold">{blockedDays}</p>
+                      <p className="text-muted-foreground">Blocked</p>
                     </div>
                     <div className="rounded-md bg-muted p-2">
                       <p className="text-lg font-semibold">{studies}</p>
@@ -828,9 +1222,9 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
               ))}
             </div>
             <div className="grid grid-cols-7">
-              {buildMonthCells(activeYear, activeMonth).map((date) => {
+              {buildMonthGridDates(activeYear, activeMonth, model.siteTimeZone).map((date) => {
                 const events = eventsByDate.get(date) ?? []
-                const isCurrentMonth = sameMonth(date, activeYear, activeMonth)
+                const isCurrentMonth = sameCalendarMonth(date, activeYear, activeMonth)
                 const visibleEvents = events.slice(0, 3)
                 return (
                   <div key={date} className={`min-h-32 border-b border-r p-2 ${isCurrentMonth ? 'bg-card' : 'bg-muted/30 text-muted-foreground'}`}>
@@ -851,9 +1245,21 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                     >
                       + Add event
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setDrawer({ mode: 'block', date })}
+                      className="float-right mr-1 rounded px-1 text-[10px] font-medium text-muted-foreground hover:bg-accent/30 hover:text-primary"
+                    >
+                      Block
+                    </button>
                     <div className="space-y-1">
                       {visibleEvents.map((event) => (
-                        <MonthEventButton key={event.id} event={event} onOpen={(item) => setDrawer({ mode: 'event', event: item })} />
+                        <MonthEventButton
+                          key={event.id}
+                          event={event}
+                          siteTimeZone={model.siteTimeZone}
+                          onOpen={(item) => setDrawer({ mode: 'event', event: item })}
+                        />
                       ))}
                       {events.length > visibleEvents.length ? (
                         <button
@@ -893,31 +1299,40 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             ) : (
               <ol className="divide-y">
                 {dayEvents.map((event) => {
+                  const isBlock = event.kind === 'availability_block'
                   return (
                     <li key={event.id} className="flex flex-wrap items-center gap-4 px-4 py-3">
-                      <div className="flex size-10 items-center justify-center rounded-lg bg-accent/30">
+                      <div className={`flex size-10 items-center justify-center rounded-lg ${isBlock ? 'bg-muted' : 'bg-accent/30'}`}>
                         <CalendarDays className="size-4 text-primary" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-medium">{event.subjectIdentifier}</p>
-                          <span className={`size-2 rounded-full ${statusClass(event.status)}`} />
-                          <Badge variant="outline" className="capitalize">{event.status}</Badge>
+                          <p className="font-medium">{isBlock ? event.visitName : event.subjectIdentifier}</p>
+                          <span className={`size-2 rounded-full ${isBlock ? 'bg-muted-foreground' : statusClass(event.status)}`} />
+                          <Badge variant="outline" className="capitalize">{displayEventStatus(event)}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">{event.visitName}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {isBlock
+                            ? `${formatTimeRange(event, model.siteTimeZone)} · ${event.affectedUserId ?? event.resourceName ?? event.blockScope ?? 'site'}`
+                            : event.visitName}
+                        </p>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <ModalityGlyph modality={event.modality} className="size-4" />
-                        <span className="capitalize">{event.modality.replace('_', ' ')}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <UserRound className="size-4" />
-                        <span>{event.assignedCoordinator}</span>
-                      </div>
+                      {!isBlock ? (
+                        <>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <ModalityGlyph modality={event.modality} className="size-4" />
+                            <span className="capitalize">{event.modality.replace('_', ' ')}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <UserRound className="size-4" />
+                            <span>{event.assignedCoordinator}</span>
+                          </div>
+                        </>
+                      ) : null}
                       <Button variant="outline" size="sm" onClick={() => setDrawer({ mode: 'event', event })}>
                         Details
                       </Button>
-                      {event.href ? (
+                      {!isBlock && event.href ? (
                         <Link
                           href={event.href}
                           className="inline-flex h-7 items-center justify-center rounded-lg bg-primary px-2.5 text-[0.8rem] font-medium text-primary-foreground transition-colors hover:bg-primary/80"
@@ -934,7 +1349,13 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         ) : null}
       </div>
 
-      <EventDrawer state={drawer} model={model} onClose={() => setDrawer(null)} onNavigate={setDrawer} />
+      <EventDrawer
+        state={drawer}
+        model={model}
+        onClose={() => setDrawer(null)}
+        onNavigate={setDrawer}
+        onMutationSuccess={handleMutationSuccess}
+      />
     </div>
   )
 }

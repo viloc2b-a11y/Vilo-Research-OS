@@ -1,3 +1,4 @@
+import { visitOperationalDisplayDate } from '@/lib/calendar/get-active-visit-reschedule'
 import { sourceCapturePath, visitDetailPath } from '@/lib/ops/paths'
 import { addCalendarDays, todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { isApproachingVisit } from '@/lib/visits/loadSubjectVisitSchedule'
@@ -13,6 +14,7 @@ function isRelevantUpcoming(v: SubjectVisitGridRow, ref: string, inSeven: string
     v.visitStatus === 'missed' ||
     (v.scheduledDate != null && v.scheduledDate >= ref) ||
     (v.targetDate != null && v.targetDate >= ref) ||
+    (v.calendarReschedule?.displayDate != null && v.calendarReschedule.displayDate >= ref) ||
     v.windowStatus === 'warning' ||
     v.windowStatus === 'outside_window'
   )
@@ -39,6 +41,12 @@ export function getUpcomingVisits(
     const reminderPending =
       isApproachingVisit(v.scheduledDate, ref) && v.visitStatus !== 'completed'
 
+    const displayDate = visitOperationalDisplayDate({
+      targetDate: v.targetDate,
+      scheduledDate: v.scheduledDate,
+      calendarReschedule: v.calendarReschedule,
+    })
+
     items.push({
       visitId: v.id,
       visitName: v.visitName,
@@ -51,7 +59,8 @@ export function getUpcomingVisits(
       reminderStatus: reminderPending ? 'pending' : 'none',
       isOverdueScheduling: Boolean(needsSchedule),
       href,
-      sortKey: v.scheduledDate ?? v.targetDate ?? '9999-12-31',
+      calendarReschedule: v.calendarReschedule,
+      sortKey: displayDate ?? '9999-12-31',
     })
   }
 

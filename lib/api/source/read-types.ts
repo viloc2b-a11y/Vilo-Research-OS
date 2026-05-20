@@ -66,6 +66,7 @@ export type FieldHistoryEntry = {
 export type ResponseSetFieldRow = {
   source_field_id: string
   field_key: string
+  blinding_scope?: 'blinded' | 'unblinded' | 'public_to_site' | string | null
   widget_hint: string | null
   is_required: boolean
   current_effective: FieldCurrentEffective | null

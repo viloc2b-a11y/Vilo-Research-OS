@@ -1,4 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { filterUnblindedRows } from '@/lib/rbac/blinding'
 
 export type OperationalChronologyRow = {
   id: string
@@ -37,8 +39,22 @@ export async function loadOperationalChronology(input: {
 
   const { data, error } = await query
   if (error) return []
+  const user = await getSessionUser()
+  const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const scopedMemberships = memberships.filter((membership) => membership.organization_id === input.organizationId)
 
-  return (data ?? []).map((row) => ({
+  return filterUnblindedRows(
+    ((data ?? []) as Array<{
+      id: string
+      event_type: string
+      payload: Record<string, unknown> | null
+      actor_user_id: string | null
+      occurred_at: string
+      visit_id: string | null
+      procedure_execution_id: string | null
+    }>),
+    scopedMemberships,
+  ).map((row) => ({
     id: row.id as string,
     eventType: row.event_type as string,
     payload: (row.payload as Record<string, unknown> | null) ?? {},

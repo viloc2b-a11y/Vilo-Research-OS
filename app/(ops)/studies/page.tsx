@@ -129,12 +129,17 @@ export default async function StudiesPortfolioPage() {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
   const canCreateStudy = orgAdminOrganizations(memberships).length > 0
+  const organizationIds = memberships.map((membership) => membership.organization_id)
 
   const supabase = await createServerClient()
-  const { data: studies, error } = await supabase
+  const studiesQuery = supabase
     .from('studies')
     .select('id, name, slug, status')
     .order('name', { ascending: true })
+
+  const { data: studies, error } = organizationIds.length > 0
+    ? await studiesQuery.in('organization_id', organizationIds)
+    : await studiesQuery.limit(0)
 
   const activeCount   = studies?.filter(s => s.status === 'active' || s.status === 'enrolling').length ?? 0
   const atRiskCount   = 0 // STUB: until operational_status column exists

@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
+import { visitOperationalDisplayDate } from '@/lib/calendar/get-active-visit-reschedule'
 import { VisitActionsMenu } from '@/components/subjects/visits/VisitActionsMenu'
 import {
   EdcStatusBadge,
@@ -25,6 +27,11 @@ type VisitRowProps = {
 export function VisitRow({ row }: VisitRowProps) {
   const visitLabel = row.visitDay != null ? `Day ${row.visitDay}` : row.visitCode
   const hasWorkflow = row.workflow.openActions > 0 || row.workflow.overdueActions > 0
+  const displayDate = visitOperationalDisplayDate({
+    targetDate: row.targetDate,
+    scheduledDate: row.scheduledDate,
+    calendarReschedule: row.calendarReschedule,
+  })
 
   return (
     <tr className={hasWorkflow ? 'border-b bg-amber-50/30 last:border-0 hover:bg-amber-50/50' : 'border-b last:border-0 hover:bg-muted/30'}>
@@ -42,8 +49,18 @@ export function VisitRow({ row }: VisitRowProps) {
       </td>
       <td className="px-3 py-2.5 align-top text-sm">{row.arm ?? '—'}</td>
       <td className="whitespace-nowrap px-3 py-2.5 align-top text-sm">
-        <p>{formatDate(row.scheduledDate)}</p>
-        {row.targetDate && row.targetDate !== row.scheduledDate ? (
+        <p>{formatDate(displayDate)}</p>
+        {row.calendarReschedule?.isActive ? (
+          <>
+            <p className="text-xs text-muted-foreground">
+              Protocol target {row.calendarReschedule.protocolTargetDate}
+            </p>
+            <VisitCalendarRescheduleMeta
+              reschedule={row.calendarReschedule}
+              showTargetWhenRescheduled={false}
+            />
+          </>
+        ) : row.targetDate && row.targetDate !== row.scheduledDate ? (
           <p className="text-xs text-muted-foreground">Target {row.targetDate}</p>
         ) : null}
         {row.windowStart && row.windowEnd ? (

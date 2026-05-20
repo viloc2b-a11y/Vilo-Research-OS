@@ -14,6 +14,7 @@ import {
   GraduationCap,
   BarChart3,
   Settings,
+  FileStack,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -26,21 +27,36 @@ type NavItem = {
   icon: React.ElementType
   soon?: boolean
   availability?: string
+  /** Shown to all authenticated org members (e.g. Studies). */
+  allMembers?: boolean
+  /** Coordinator / data-coordinator workspace items. */
+  coordinatorWorkspace?: boolean
+  /** Source builder and eSource draft workflows. */
+  sourceWorkflow?: boolean
+  /** VPI command center — hidden from data_coordinator and read-only personas. */
+  vpi?: boolean
 }
 
 const navItems: NavItem[] = [
-  { id: 'operations', label: 'Operations',  href: '/command-center', icon: Calendar },
-  { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar },
-  { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban },
+  { id: 'operations', label: 'Operations',  href: '/command-center', icon: Calendar, coordinatorWorkspace: true },
+  { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar, coordinatorWorkspace: true },
+  { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban, allMembers: true },
+  { id: 'source-builder', label: 'Source', href: '/source-builder', icon: FileStack, sourceWorkflow: true },
   { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true, availability: 'Planned for the next operational workflow release.' },
   { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true, availability: 'Planned after coordinator cockpit stabilization.' },
   { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true, availability: 'Regulatory workspace is planned for an upcoming release.' },
   { id: 'financial',  label: 'Financial',   href: '/financial',  icon: DollarSign, soon: true, availability: 'ClinIQ financial workspace is planned for a later internal release.' },
-  { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity },
+  { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
   { id: 'academy',    label: 'Academy',     href: '/academy',    icon: GraduationCap, soon: true, availability: 'Training content is not enabled in this internal deployment.' },
   { id: 'reports',    label: 'Reports',     href: '/reports',    icon: BarChart3, soon: true, availability: 'Reports will follow the operational read-model hardening phase.' },
-  { id: 'admin',      label: 'Admin',       href: '/admin',      icon: Settings, soon: true, availability: 'Admin tools are reserved for a future controlled-access release.' },
 ]
+
+const adminNavItem: NavItem = {
+  id: 'admin',
+  label: 'Admin',
+  href: '/admin',
+  icon: Settings,
+}
 
 /** Phase 7E sub-nav for the Command Center. Rendered when on /performance/*. */
 const commandSubNav: { href: string; label: string }[] = [
@@ -51,9 +67,21 @@ const commandSubNav: { href: string; label: string }[] = [
 
 type SidebarNavProps = {
   organizationName?: string | null
+  canAccessAdmin?: boolean
+  canViewFinancial?: boolean
+  canAccessCoordinatorWorkspace?: boolean
+  canAccessSourceWorkflow?: boolean
+  canViewVpi?: boolean
 }
 
-export function SidebarNav({ organizationName }: SidebarNavProps) {
+export function SidebarNav({
+  organizationName,
+  canAccessAdmin = false,
+  canViewFinancial = false,
+  canAccessCoordinatorWorkspace = false,
+  canAccessSourceWorkflow = false,
+  canViewVpi = false,
+}: SidebarNavProps) {
   const [collapsed, setCollapsed] = useState(false)
   const pathname = usePathname()
 
@@ -64,6 +92,18 @@ export function SidebarNav({ organizationName }: SidebarNavProps) {
 
   const inCommandCenter =
     pathname === '/performance' || pathname.startsWith('/performance/')
+
+  const roleVisibleNavItems = navItems.filter((item) => {
+    if (item.id === 'financial') return canViewFinancial
+    if (item.allMembers) return true
+    if (item.coordinatorWorkspace && !canAccessCoordinatorWorkspace) return false
+    if (item.sourceWorkflow && !canAccessSourceWorkflow) return false
+    if (item.vpi && !canViewVpi) return false
+    return true
+  })
+  const visibleNavItems = canAccessAdmin
+    ? [...roleVisibleNavItems, adminNavItem]
+    : roleVisibleNavItems
 
   return (
     <aside
@@ -113,7 +153,7 @@ export function SidebarNav({ organizationName }: SidebarNavProps) {
 
       {/* Nav items */}
       <nav className="flex-1 py-3 px-2.5 space-y-0.5 overflow-y-auto scrollbar-thin">
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const Icon = item.icon
           const active = isActive(item)
           const isVpi = item.id === 'vpi'

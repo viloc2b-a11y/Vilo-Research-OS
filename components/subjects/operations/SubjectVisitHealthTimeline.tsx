@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
 import type { ReactNode } from 'react'
 import { VisitStatusBadge, SourceStatusBadge } from '@/components/subjects/visits/VisitStatusBadge'
 import { VisitWindowStatusBadge } from '@/components/subjects/visits/VisitWindowStatusBadge'
@@ -113,6 +114,10 @@ export function SubjectVisitHealthTimeline({
                     </Link>
                     <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
                       {item.visitDay != null ? `Day ${item.visitDay}` : 'Visit'}
+                      {item.displayDate ? ` · ${item.displayDate}` : null}
+                      {item.calendarReschedule?.isActive && item.targetDate
+                        ? ` · protocol target ${item.targetDate}`
+                        : null}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1">
@@ -144,11 +149,22 @@ export function SubjectVisitHealthTimeline({
                   ) : null}
                 </div>
 
+                {item.calendarReschedule?.isActive ? (
+                  <VisitCalendarRescheduleMeta reschedule={item.calendarReschedule} className="mt-2" />
+                ) : null}
                 <dl className="mt-2 grid gap-1 text-xs sm:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <dt style={{ color: 'var(--muted-foreground)' }}>Scheduled</dt>
-                    <dd className="font-medium">{item.scheduledDate ?? '—'}</dd>
+                    <dt style={{ color: 'var(--muted-foreground)' }}>
+                      {item.calendarReschedule?.isActive ? 'Operational' : 'Scheduled'}
+                    </dt>
+                    <dd className="font-medium">{item.displayDate ?? item.scheduledDate ?? '—'}</dd>
                   </div>
+                  {item.targetDate ? (
+                    <div>
+                      <dt style={{ color: 'var(--muted-foreground)' }}>Protocol target</dt>
+                      <dd className="font-medium">{item.targetDate}</dd>
+                    </div>
+                  ) : null}
                   <div>
                     <dt style={{ color: 'var(--muted-foreground)' }}>Actual / done</dt>
                     <dd className="font-medium">{item.actualDate ?? '—'}</dd>

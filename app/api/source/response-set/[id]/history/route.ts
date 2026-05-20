@@ -3,6 +3,13 @@ import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/so
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
 import { jsonEnvelope } from '@/lib/api/source/respond'
 import { parseHistoryQuery } from '@/lib/api/source/validate'
+import { getOrganizationMemberships } from '@/lib/auth/session'
+import {
+  attachFieldBlindingToDetail,
+  filterHistoryForBlinding,
+} from '@/lib/source/blinding'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
+import type { HistoryData, ResponseSetDetailData } from '@/lib/api/source/read-types'
 
 type RouteContext = { params: Promise<{ id: string }> }
 
@@ -30,6 +37,23 @@ export async function GET(request: Request, context: RouteContext) {
       p_organization_id: query.organization_id,
       p_source_response_set_id: query.source_response_set_id,
     }, ctx.requestId)
+
+    if (envelope.ok && envelope.data) {
+      const detailEnvelope = await callSourceRpc(ctx.supabase, 'get_source_response_set', {
+        p_organization_id: query.organization_id,
+        p_source_response_set_id: query.source_response_set_id,
+      }, ctx.requestId)
+      const memberships = await getOrganizationMemberships(ctx.user.id)
+      const canViewUnblinded = canViewUnblindedData(memberships, query.organization_id)
+      const detail = detailEnvelope.ok && detailEnvelope.data
+        ? await attachFieldBlindingToDetail(ctx.supabase, detailEnvelope.data as ResponseSetDetailData)
+        : null
+      envelope.data = filterHistoryForBlinding(
+        envelope.data as HistoryData,
+        detail,
+        canViewUnblinded,
+      )
+    }
 
     if (query.limit !== null || query.cursor !== null) {
       envelope.meta = {

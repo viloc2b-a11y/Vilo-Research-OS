@@ -7,6 +7,11 @@ import { ReadPanelErrorCard } from '@/components/source/read-panel-error'
 import { ResponseSetDetail } from '@/components/source/response-set-detail'
 import { loadResponseSetReviewBundle } from '@/lib/source/read-contract/load-bundle'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import {
+  canEditClinicalSource,
+  canManageSourceDocuments,
+  canViewUnblindedData,
+} from '@/lib/rbac/permissions'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -38,8 +43,9 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
   }
 
   let organizationId = sp.organization_id?.trim() ?? ''
+  const memberships = await getOrganizationMemberships(user.id)
+
   if (!UUID_RE.test(organizationId)) {
-    const memberships = await getOrganizationMemberships(user.id)
     organizationId = memberships[0]?.organization_id ?? ''
   }
 
@@ -66,8 +72,12 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
   const allowPostSubmitWrites =
     bundle.manifest.status === 'success' && bundle.manifest.data.isSubmitted
 
-  const allowCorrections = allowPostSubmitWrites
-  const allowAddenda = allowPostSubmitWrites
+  const canMutateSource =
+    canManageSourceDocuments(memberships, organizationId) ||
+    canEditClinicalSource(memberships, organizationId)
+  const canViewUnblinded = canViewUnblindedData(memberships, organizationId)
+  const allowCorrections = allowPostSubmitWrites && canMutateSource
+  const allowAddenda = allowPostSubmitWrites && canMutateSource
 
   const anyError =
     bundle.detail.status === 'error' ||
@@ -96,6 +106,11 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
           Normalized read contracts — post-submit corrections, addenda, and finding lifecycle
           actions via API (no client-side lineage reconstruction).
         </p>
+        {canViewUnblinded ? (
+          <p className="inline-flex rounded border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-medium text-amber-900 dark:border-amber-700 dark:bg-amber-950/40 dark:text-amber-100">
+            Unblinded Access — Restricted
+          </p>
+        ) : null}
       </div>
 
       {anyError ? (

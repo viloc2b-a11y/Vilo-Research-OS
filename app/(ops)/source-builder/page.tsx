@@ -14,11 +14,30 @@ import {
   getPrimaryOrganizationId,
   getSessionUser,
 } from '@/lib/auth/session'
+import {
+  canManageSourceDocuments,
+  canPrepareSourceDrafts,
+} from '@/lib/rbac/permissions'
 
 export default async function SourceBuilderPage() {
   const user = await getSessionUser()
   const organizationId = user ? await getPrimaryOrganizationId(user.id) : null
   const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const canAccessBuilder =
+    canPrepareSourceDrafts(memberships, organizationId ?? undefined)
+    || canManageSourceDocuments(memberships, organizationId ?? undefined)
+
+  if (!canAccessBuilder) {
+    return (
+      <div className="space-y-4 p-6">
+        <h1 className="text-2xl font-semibold tracking-tight">Source document builder</h1>
+        <p className="text-sm text-muted-foreground">
+          Your site role does not include access to source draft preparation. Contact a site
+          administrator if you need data coordinator or coordinator access.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">

@@ -157,7 +157,7 @@ function TodayVisitCard({ visit }: {
 export default async function OperationsCommandCenterPage() {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
-  const orgIds = memberships.map(m => m.organization_id)
+  const orgIds = Array.from(new Set(memberships.map(m => m.organization_id)))
 
   // Load real data in parallel
   const [rawAlerts, todayVisits, studiesResult] = await Promise.all([
@@ -165,7 +165,15 @@ export default async function OperationsCommandCenterPage() {
     loadTodayVisits(orgIds),
     (async () => {
       const supabase = await createServerClient()
-      return supabase.from('studies').select('id, name, status').order('name').limit(6)
+      if (orgIds.length === 0) {
+        return { data: [], error: null }
+      }
+      return supabase
+        .from('studies')
+        .select('id, name, status')
+        .in('organization_id', orgIds)
+        .order('name')
+        .limit(6)
     })(),
   ])
 

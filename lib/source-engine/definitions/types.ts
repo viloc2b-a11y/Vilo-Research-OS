@@ -31,6 +31,8 @@ export const FIELD_TYPES = [
 
 export type FieldType = (typeof FIELD_TYPES)[number]
 
+export type SourceBlindingScope = 'blinded' | 'unblinded' | 'public_to_site'
+
 export type SelectOption = {
   value: string
   label: string
@@ -66,6 +68,9 @@ export type FieldDefinition = {
   validation?: FieldValidationDefinition
   /** Reference to DerivedMetricDefinition.id when type === 'calculated' */
   derivedMetricId?: string
+  /** Source capture blinding gate. Unset defaults to blinded. */
+  blindingScope?: SourceBlindingScope
+  blinding_scope?: SourceBlindingScope
   defaultValue?: unknown
   metadata?: Record<string, unknown>
 }
@@ -82,6 +87,9 @@ export type SectionDefinition = {
   instructions?: string
   signatureRequirements?: SignatureRequirement[]
   enabledByDefault?: boolean
+  /** Source capture blinding gate. Unset defaults to blinded. */
+  blindingScope?: SourceBlindingScope
+  blinding_scope?: SourceBlindingScope
   metadata?: Record<string, unknown>
 }
 
@@ -101,6 +109,9 @@ export type RepeatableSectionDefinition = {
   /** Rule ids scoped to this repeatable entity */
   sectionRuleIds?: string[]
   signatureRequirements?: SignatureRequirement[]
+  /** Source capture blinding gate. Unset defaults to blinded. */
+  blindingScope?: SourceBlindingScope
+  blinding_scope?: SourceBlindingScope
   metadata?: Record<string, unknown>
 }
 

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { formatRescheduledLabel } from '@/lib/calendar/get-active-visit-reschedule'
 import type { ReactNode } from 'react'
 import {
   Card,
@@ -87,6 +88,11 @@ export function SubjectOperationalCommandCenter({
                     Target {v.targetDate ?? '—'} · Sched {v.scheduledDate ?? 'not set'}
                     {v.windowStart && v.windowEnd ? ` · Window ${v.windowStart}–${v.windowEnd}` : ''}
                   </p>
+                  {v.calendarReschedule?.isActive ? (
+                    <p className="text-xs font-medium text-foreground">
+                      {formatRescheduledLabel(v.calendarReschedule)}
+                    </p>
+                  ) : null}
                   {v.isOverdueScheduling ? (
                     <p className="text-xs font-medium text-rose-700 dark:text-rose-300">
                       Overdue scheduling — assign date before window closes

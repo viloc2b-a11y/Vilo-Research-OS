@@ -14,6 +14,8 @@ type SubjectChartHeaderProps = {
   header: SubjectChartHeaderModel
   subtitle?: string
   operationalHealth?: SubjectOperationalHealth | null
+  /** Server-gated: show treatment/randomization identifiers. */
+  showUnblindedFields?: boolean
 }
 
 function enrollmentStatusClass(status: string) {
@@ -40,6 +42,7 @@ export function SubjectChartHeader({
   header,
   subtitle,
   operationalHealth,
+  showUnblindedFields = false,
 }: SubjectChartHeaderProps) {
   void subtitle
   const initials = header.initials ?? header.subjectIdentifier?.slice(0, 2).toUpperCase() ?? '—'
@@ -102,18 +105,18 @@ export function SubjectChartHeader({
             {header.studyName && (
               <span>{header.studyName}</span>
             )}
-            {header.randomizationNumber && (
+            {showUnblindedFields && header.randomizationNumber ? (
               <>
                 <span>·</span>
                 <span className="mono-id">Rand #{header.randomizationNumber}</span>
               </>
-            )}
-            {header.randomizationArm && (
+            ) : null}
+            {showUnblindedFields && header.randomizationArm ? (
               <>
                 <span>·</span>
                 <span>Arm {header.randomizationArm}</span>
               </>
-            )}
+            ) : null}
             {header.initials && (
               <>
                 <span>·</span>

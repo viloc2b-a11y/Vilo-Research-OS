@@ -1,7 +1,14 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { postSaveDraft, postSubmitResponseSet } from '@/lib/api/source/write-client'
+import {
+  canEditClinicalSource,
+  canManageUnblindedData,
+  canManageSourceDocuments,
+} from '@/lib/rbac/permissions'
+import { loadSourceFieldBlindingMap } from '@/lib/source/blinding'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
 import { createServerClient } from '@/lib/supabase/server'
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
@@ -18,6 +25,46 @@ import {
 
 function capturePath(procedureExecutionId: string) {
   return `/source/capture/${procedureExecutionId}`
+}
+
+async function assertCanMutateSourceCapture(organizationId: string): Promise<string | null> {
+  const user = await getSessionUser()
+  if (!user) return 'Sign in required.'
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const belongsToOrganization = memberships.some(
+    (membership) => membership.organization_id === organizationId,
+  )
+  if (!belongsToOrganization) return 'You do not have access to this organization.'
+
+  const canMutate =
+    canManageSourceDocuments(memberships, organizationId)
+    || canEditClinicalSource(memberships, organizationId)
+
+  return canMutate ? null : 'Your role cannot edit source documents for this site.'
+}
+
+async function assertCanWriteParsedResponses(input: {
+  organizationId: string
+  responses: { source_field_id: string }[]
+}): Promise<string | null> {
+  const user = await getSessionUser()
+  if (!user) return 'Sign in required.'
+  const memberships = await getOrganizationMemberships(user.id)
+  const canManageUnblinded = canManageUnblindedData(memberships, input.organizationId)
+  if (canManageUnblinded) return null
+
+  const supabase = await createServerClient()
+  const blindingByFieldId = await loadSourceFieldBlindingMap(
+    supabase,
+    input.responses.map((response) => response.source_field_id),
+  )
+  const blocked = input.responses.find((response) =>
+    blindingByFieldId.get(response.source_field_id)?.blindingScope === 'unblinded',
+  )
+  return blocked
+    ? 'Your role cannot save or submit unblinded source fields.'
+    : null
 }
 
 async function assertProcedureEditable(procedureExecutionId: string, organizationId: string) {
@@ -86,6 +133,17 @@ export async function saveCaptureDraftAction(
     }
   }
 
+  const permissionMessage = await assertCanMutateSourceCapture(ids.organizationId)
+  if (permissionMessage) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Save draft',
+        messages: [permissionMessage],
+      },
+    }
+  }
+
   const shell = await loadCaptureShell(ids.procedureExecutionId, ids.organizationId)
   if (shell.status === 'error') {
     return { message: { kind: 'error', title: shell.error.title, messages: shell.error.messages } }
@@ -111,21 +169,7 @@ export async function saveCaptureDraftAction(
     }
   }
 
-  const fieldsJson = formData.get('fields_json')
-  let fields: CaptureFieldViewModel[] = shell.model.fields
-  if (typeof fieldsJson === 'string' && fieldsJson.trim()) {
-    try {
-      fields = JSON.parse(fieldsJson) as CaptureFieldViewModel[]
-    } catch {
-      return {
-        message: {
-          kind: 'error',
-          title: 'Save draft',
-          messages: ['Field metadata corrupted; refresh and try again.'],
-        },
-      }
-    }
-  }
+  const fields: CaptureFieldViewModel[] = shell.model.fields
 
   const parsed = parseCaptureFormToResponses(formData, fields)
   if (!parsed.ok) {
@@ -134,6 +178,19 @@ export async function saveCaptureDraftAction(
         kind: 'error',
         title: 'Save draft',
         messages: parsed.messages,
+      },
+    }
+  }
+  const blindingMessage = await assertCanWriteParsedResponses({
+    organizationId: ids.organizationId,
+    responses: parsed.responses,
+  })
+  if (blindingMessage) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Save draft',
+        messages: [blindingMessage],
       },
     }
   }
@@ -174,6 +231,17 @@ export async function submitCaptureAction(
     }
   }
 
+  const permissionMessage = await assertCanMutateSourceCapture(ids.organizationId)
+  if (permissionMessage) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: [permissionMessage],
+      },
+    }
+  }
+
   const shell = await loadCaptureShell(ids.procedureExecutionId, ids.organizationId)
   if (shell.status === 'error') {
     return { message: { kind: 'error', title: shell.error.title, messages: shell.error.messages } }
@@ -199,21 +267,7 @@ export async function submitCaptureAction(
     }
   }
 
-  const fieldsJson = formData.get('fields_json')
-  let fields: CaptureFieldViewModel[] = shell.model.fields
-  if (typeof fieldsJson === 'string' && fieldsJson.trim()) {
-    try {
-      fields = JSON.parse(fieldsJson) as CaptureFieldViewModel[]
-    } catch {
-      return {
-        message: {
-          kind: 'error',
-          title: 'Submit',
-          messages: ['Field metadata corrupted; refresh and try again.'],
-        },
-      }
-    }
-  }
+  const fields: CaptureFieldViewModel[] = shell.model.fields
 
   const parsed = parseCaptureFormToResponses(formData, fields)
   if (!parsed.ok) {
@@ -222,6 +276,19 @@ export async function submitCaptureAction(
         kind: 'error',
         title: 'Submit',
         messages: parsed.messages,
+      },
+    }
+  }
+  const blindingMessage = await assertCanWriteParsedResponses({
+    organizationId: ids.organizationId,
+    responses: parsed.responses,
+  })
+  if (blindingMessage) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: [blindingMessage],
       },
     }
   }

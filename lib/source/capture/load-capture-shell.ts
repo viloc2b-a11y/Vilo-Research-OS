@@ -2,7 +2,15 @@
  * Phase 5.2D — Open/load response set and build capture shell view-model.
  */
 
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { fetchResponseSetDetail } from '@/lib/api/source/read-client'
+import { hasOrganizationMembership } from '@/lib/rbac/org-scope'
+import {
+  canAccessSourceCapture,
+  canEditClinicalSource,
+  canManageSourceDocuments,
+  canViewUnblindedData,
+} from '@/lib/rbac/permissions'
 import { postOpenResponseSet } from '@/lib/api/source/write-client'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
 import { loadResponseSetReviewBundle } from '@/lib/source/read-contract/load-bundle'
@@ -13,6 +21,10 @@ import {
   loadProcedureCaptureContext,
   resolveStudyVersionIdForOpen,
 } from '@/lib/source/capture/context'
+import {
+  filterResponseSetDetailForBlinding,
+  loadSourceFieldBlindingMap,
+} from '@/lib/source/blinding'
 import { normalizeCaptureFields } from '@/lib/source/capture/normalize-capture-fields'
 import type { CaptureShellLoadResult } from '@/lib/source/capture/types'
 import {
@@ -52,10 +64,73 @@ export async function loadCaptureShell(
 
   const organizationId = organizationIdOverride?.trim() || ctx.organizationId
 
+  const user = await getSessionUser()
+  if (!user) {
+    return {
+      status: 'error',
+      error: {
+        code: 'UNAUTHORIZED',
+        title: 'Source capture',
+        messages: ['Sign in required.'],
+        requestId: null,
+        isAuthError: true,
+        isForbidden: false,
+      },
+    }
+  }
+
+  const memberships = await getOrganizationMemberships(user.id)
+  if (!hasOrganizationMembership(memberships, organizationId)) {
+    return {
+      status: 'error',
+      error: {
+        code: 'FORBIDDEN',
+        title: 'Source capture',
+        messages: ['You do not have access to this organization.'],
+        requestId: null,
+        isAuthError: false,
+        isForbidden: true,
+      },
+    }
+  }
+
+  if (!canAccessSourceCapture(memberships, organizationId)) {
+    return {
+      status: 'error',
+      error: {
+        code: 'FORBIDDEN',
+        title: 'Source capture',
+        messages: ['Your role cannot access source capture for this site.'],
+        requestId: null,
+        isAuthError: false,
+        isForbidden: true,
+      },
+    }
+  }
+
+  const mayViewUnblinded = canViewUnblindedData(memberships, organizationId)
+  const mayEditSource =
+    canManageSourceDocuments(memberships, organizationId)
+    || canEditClinicalSource(memberships, organizationId)
+
   let responseSetId = await findResponseSetIdForProcedure(
     procedureExecutionId,
     ctx.sourceDefinitionVersionId,
   )
+
+  if (!responseSetId && !mayEditSource) {
+    return {
+      status: 'error',
+      error: {
+        code: 'FORBIDDEN',
+        title: 'Open response set',
+        messages: ['Your role can review existing source but cannot create a new response set.'],
+        requestId: null,
+        isAuthError: false,
+        isForbidden: true,
+      },
+    }
+  }
 
   if (!responseSetId) {
     const studyVersionId = await resolveStudyVersionIdForOpen(ctx.studyId, ctx.studyVersionId)
@@ -108,15 +183,20 @@ export async function loadCaptureShell(
     }
   }
 
-  const fieldIds = detailEnvelope.data.fields.map((f) => f.source_field_id)
-  const optionsByFieldId = await loadFieldOptionsByFieldId(fieldIds)
-  let fields = normalizeCaptureFields(detailEnvelope.data, optionsByFieldId)
+  const visibleDetail = filterResponseSetDetailForBlinding(detailEnvelope.data, mayViewUnblinded)
+  const fieldIds = visibleDetail.fields.map((f) => f.source_field_id)
+  const [optionsByFieldId, blindingByFieldId] = await Promise.all([
+    loadFieldOptionsByFieldId(fieldIds),
+    loadSourceFieldBlindingMap(await createServerClient(), fieldIds),
+  ])
+  let fields = normalizeCaptureFields(visibleDetail, optionsByFieldId, blindingByFieldId)
 
   const rs = detailEnvelope.data.response_set
   const manifest =
     bundle.manifest.status === 'success' ? bundle.manifest.data : null
   const isSubmitted = manifest?.isSubmitted ?? rs.status === 'submitted'
-  const canEdit = !isSubmitted && rs.status !== 'locked' && rs.status !== 'archived'
+  const statusAllowsEdit = !isSubmitted && rs.status !== 'locked' && rs.status !== 'archived'
+  const canEdit = statusAllowsEdit && mayEditSource
 
   const openedRow = bundle.detail.data.metadataRows.find((r) => r.label === 'Opened')
   const submittedRow = bundle.detail.data.metadataRows.find((r) => r.label === 'Submitted')
@@ -243,6 +323,7 @@ export async function loadCaptureShell(
         submittedRow && submittedRow.value !== '—' ? submittedRow.value : null,
       manifest,
       fields,
+      canViewUnblindedSource: mayViewUnblinded,
       reviewHref: `/source/response-set/${responseSetId}?organization_id=${organizationId}`,
       engineSnapshot,
     },

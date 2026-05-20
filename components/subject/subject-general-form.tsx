@@ -33,7 +33,13 @@ const statuses = [
   ['withdrawn', 'Withdrawn'],
 ]
 
-export function SubjectGeneralForm({ subject }: { subject: SubjectGeneralModel }) {
+export function SubjectGeneralForm({
+  subject,
+  showUnblindedFields = false,
+}: {
+  subject: SubjectGeneralModel
+  showUnblindedFields?: boolean
+}) {
   const [state, action, pending] = useActionState(
     updateSubjectGeneralAction,
     INITIAL_SUBJECT_GENERAL_STATE,
@@ -49,18 +55,22 @@ export function SubjectGeneralForm({ subject }: { subject: SubjectGeneralModel }
           <Label htmlFor="subject_number">Subject number</Label>
           <Input id="subject_number" name="subject_number" defaultValue={subject.subjectNumber} />
         </div>
-        <div className="space-y-1">
-          <Label htmlFor="randomization_number">Randomization number</Label>
-          <Input
-            id="randomization_number"
-            name="randomization_number"
-            defaultValue={subject.randomizationNumber ?? ''}
-          />
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor="study_arm">Study arm</Label>
-          <Input id="study_arm" name="study_arm" defaultValue={subject.studyArm ?? ''} />
-        </div>
+        {showUnblindedFields ? (
+          <div className="space-y-1">
+            <Label htmlFor="randomization_number">Randomization number</Label>
+            <Input
+              id="randomization_number"
+              name="randomization_number"
+              defaultValue={subject.randomizationNumber ?? ''}
+            />
+          </div>
+        ) : null}
+        {showUnblindedFields ? (
+          <div className="space-y-1">
+            <Label htmlFor="study_arm">Study arm</Label>
+            <Input id="study_arm" name="study_arm" defaultValue={subject.studyArm ?? ''} />
+          </div>
+        ) : null}
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">

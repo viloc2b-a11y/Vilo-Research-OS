@@ -1,4 +1,10 @@
 import {
+  buildVisitCalendarReschedule,
+  loadActiveProtocolVisitReschedules,
+  loadScheduledVisitIdByVisitId,
+  lookupActiveVisitReschedule,
+} from '@/lib/calendar/get-active-visit-reschedule'
+import {
   deriveEdcStatus,
   deriveQcStatus,
   deriveReviewStatus,
@@ -19,6 +25,10 @@ import type {
   SubjectVisitGridRow,
 } from '@/lib/subject/visits/types'
 import { loadWorkflowCountsByVisit } from '@/lib/subject/workflow/data'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { hasOrganizationMembership } from '@/lib/rbac/org-scope'
+import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 
 function one<T>(value: T | T[] | null | undefined): T | null {
@@ -61,22 +71,34 @@ export async function loadSubjectVisitsPage(
 
   if (subErr || !subject) return null
 
+  const user = await getSessionUser()
+  const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const organizationId = subject.organization_id as string
+  if (!hasOrganizationMembership(memberships, organizationId)) {
+    return null
+  }
+
+  const canViewUnblinded = canViewUnblindedData(memberships, organizationId)
+
   const study = one(subject.studies) as { id: string; name: string } | null
   const version = one(subject.study_versions) as { protocol_identifier?: string | null } | null
   const protocolLabel =
     version?.protocol_identifier?.trim() || study?.name || 'Protocol'
 
-  const header: SubjectChartHeaderModel = {
-    subjectId: subject.id as string,
-    studyId: subject.study_id as string,
-    organizationId: subject.organization_id as string,
-    subjectIdentifier: subject.subject_identifier as string,
-    initials: (subject.initials as string | null) ?? null,
-    studyName: study?.name ?? 'Study',
-    enrollmentStatus: subject.enrollment_status as string,
-    randomizationNumber: (subject.randomization_number as string | null) ?? null,
-    randomizationArm: (subject.randomization_arm as string | null) ?? null,
-  }
+  const header: SubjectChartHeaderModel = redactSubjectUnblindedFields(
+    {
+      subjectId: subject.id as string,
+      studyId: subject.study_id as string,
+      organizationId,
+      subjectIdentifier: subject.subject_identifier as string,
+      initials: (subject.initials as string | null) ?? null,
+      studyName: study?.name ?? 'Study',
+      enrollmentStatus: subject.enrollment_status as string,
+      randomizationNumber: (subject.randomization_number as string | null) ?? null,
+      randomizationArm: (subject.randomization_arm as string | null) ?? null,
+    },
+    canViewUnblinded,
+  )
 
   const { data: visitsData, error: visErr } = await supabase
     .from('visits')
@@ -113,6 +135,10 @@ export async function loadSubjectVisitsPage(
   }
 
   const visitIds = (visitsData ?? []).map((v) => v.id as string)
+  const [scheduledVisitIdByVisitId, rescheduleMap] = await Promise.all([
+    loadScheduledVisitIdByVisitId(supabase, visitIds),
+    loadActiveProtocolVisitReschedules(supabase, [subject.organization_id as string]),
+  ])
   const workflowCountsByVisit = await loadWorkflowCountsByVisit(
     visitIds,
     subject.organization_id as string,
@@ -198,6 +224,14 @@ export async function loadSubjectVisitsPage(
           ? String(visit.actual_date)
           : null
 
+    const protocolTargetDate = (visit.target_date as string | null) ?? null
+    const scheduledVisitId = scheduledVisitIdByVisitId.get(visit.id as string) ?? null
+    const resolvedReschedule = lookupActiveVisitReschedule(rescheduleMap, {
+      visitId: visit.id as string,
+      scheduledVisitId,
+    })
+    const calendarReschedule = buildVisitCalendarReschedule(protocolTargetDate, resolvedReschedule)
+
     return {
       id: visit.id as string,
       organizationId: visit.organization_id as string,
@@ -208,8 +242,8 @@ export async function loadSubjectVisitsPage(
         def?.target_day ??
         (typeof def?.sort_order === 'number' ? def.sort_order : null),
       protocolLabel,
-      arm: header.randomizationArm,
-      targetDate: (visit.target_date as string | null) ?? null,
+      arm: canViewUnblinded ? header.randomizationArm : null,
+      targetDate: protocolTargetDate,
       scheduledDate: (visit.scheduled_date as string | null) ?? null,
       completedDate,
       windowStart: (visit.window_start as string | null) ?? null,
@@ -245,6 +279,7 @@ export async function loadSubjectVisitsPage(
         overdueActions: 0,
         openActions: 0,
       },
+      calendarReschedule,
     }
   })
 

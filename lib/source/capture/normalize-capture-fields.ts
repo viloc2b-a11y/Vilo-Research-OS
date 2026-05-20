@@ -3,6 +3,7 @@
  */
 
 import type { ResponseSetDetailData, SourceValuePayload } from '@/lib/api/source/read-types'
+import { inferSourceFieldBlindingScope, type SourceFieldBlindingInfo } from '@/lib/source/blinding'
 import type { CaptureFieldKind, CaptureFieldValue, CaptureFieldViewModel } from '@/lib/source/capture/types'
 
 function parseFieldOptions(options: unknown): string[] {
@@ -57,14 +58,20 @@ export function resolveCaptureFieldKind(
 export function normalizeCaptureFields(
   detail: ResponseSetDetailData,
   optionsByFieldId: Record<string, unknown>,
+  blindingByFieldId: Map<string, SourceFieldBlindingInfo> = new Map(),
 ): CaptureFieldViewModel[] {
   return detail.fields.map((field) => {
     const options = parseFieldOptions(optionsByFieldId[field.source_field_id])
     const kind = resolveCaptureFieldKind(field.widget_hint, options)
+    const blindingInfo = blindingByFieldId.get(field.source_field_id)
     return {
       fieldId: field.source_field_id,
       fieldKey: field.field_key,
       label: field.field_key,
+      blindingScope: blindingInfo?.blindingScope ?? inferSourceFieldBlindingScope({
+        fieldKey: field.field_key,
+        blindingScope: field.blinding_scope,
+      }),
       kind,
       isRequired: field.is_required,
       options,

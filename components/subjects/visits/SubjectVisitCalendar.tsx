@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
+import { visitOperationalDisplayDate } from '@/lib/calendar/get-active-visit-reschedule'
 import { VisitWindowStatusBadge } from '@/components/subjects/visits/VisitWindowStatusBadge'
 import { VisitStatusBadge } from '@/components/subjects/visits/VisitStatusBadge'
 import { cn } from '@/lib/utils'
@@ -28,6 +30,22 @@ export function SubjectVisitCalendar({ visits, studyId, subjectId }: SubjectVisi
     return null
   }
 
+  const timelineVisits = [...visits].sort((a, b) => {
+    const da =
+      visitOperationalDisplayDate({
+        targetDate: a.targetDate,
+        scheduledDate: a.scheduledDate,
+        calendarReschedule: a.calendarReschedule,
+      }) ?? ''
+    const db =
+      visitOperationalDisplayDate({
+        targetDate: b.targetDate,
+        scheduledDate: b.scheduledDate,
+        calendarReschedule: b.calendarReschedule,
+      }) ?? ''
+    return da.localeCompare(db)
+  })
+
   return (
     <section className="space-y-3 rounded-lg border bg-card p-4">
       <div>
@@ -37,12 +55,17 @@ export function SubjectVisitCalendar({ visits, studyId, subjectId }: SubjectVisi
         </p>
       </div>
       <ol className="relative space-y-0 border-l border-muted pl-6">
-        {visits.map((row, index) => {
+        {timelineVisits.map((row, index) => {
+          const displayDate = visitOperationalDisplayDate({
+            targetDate: row.targetDate,
+            scheduledDate: row.scheduledDate,
+            calendarReschedule: row.calendarReschedule,
+          })
           const orgQs = `?organization_id=${row.organizationId}`
           const href = row.primaryProcedureId
             ? `/source/capture/${row.primaryProcedureId}${orgQs}`
             : `/visits/${row.id}`
-          const isLast = index === visits.length - 1
+          const isLast = index === timelineVisits.length - 1
 
           return (
             <li key={row.id} className={cn('relative pb-6', isLast && 'pb-0')}>
@@ -63,7 +86,12 @@ export function SubjectVisitCalendar({ visits, studyId, subjectId }: SubjectVisi
                     </Link>
                     <p className="text-xs text-muted-foreground">
                       {row.visitDay != null ? `Day ${row.visitDay}` : row.visitCode}
-                      {row.targetDate ? ` · target ${row.targetDate}` : null}
+                      {displayDate ? ` · ${displayDate}` : null}
+                      {row.calendarReschedule?.isActive && row.targetDate
+                        ? ` · protocol target ${row.targetDate}`
+                        : row.targetDate && !row.calendarReschedule?.isActive
+                          ? ` · target ${row.targetDate}`
+                          : null}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -71,10 +99,18 @@ export function SubjectVisitCalendar({ visits, studyId, subjectId }: SubjectVisi
                     <VisitStatusBadge status={row.visitStatus as VisitGridStatus} />
                   </div>
                 </div>
+                {row.calendarReschedule?.isActive ? (
+                  <VisitCalendarRescheduleMeta
+                    reschedule={row.calendarReschedule}
+                    className="mt-2"
+                  />
+                ) : null}
                 <dl className="mt-2 grid gap-1 text-xs sm:grid-cols-3">
                   <div>
-                    <dt className="text-muted-foreground">Scheduled</dt>
-                    <dd className="font-medium">{row.scheduledDate ?? 'Not set'}</dd>
+                    <dt className="text-muted-foreground">
+                      {row.calendarReschedule?.isActive ? 'Operational date' : 'Scheduled'}
+                    </dt>
+                    <dd className="font-medium">{displayDate ?? 'Not set'}</dd>
                   </div>
                   <div>
                     <dt className="text-muted-foreground">Window</dt>

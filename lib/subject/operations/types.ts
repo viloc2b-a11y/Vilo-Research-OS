@@ -1,3 +1,4 @@
+import type { VisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import type { SourceStatus, VisitGridStatus, VisitWindowStatus } from '@/lib/subject/visits/types'
 import type { SubjectWorkflowAction } from '@/lib/subject/workflow/types'
@@ -16,6 +17,7 @@ export type UpcomingVisitItem = {
   reminderStatus: 'none' | 'pending' | 'sent'
   isOverdueScheduling: boolean
   href: string
+  calendarReschedule: VisitCalendarReschedule | null
 }
 
 export type PendingActionItem = {
@@ -49,7 +51,10 @@ export type VisitHealthTimelineItem = {
   visitId: string
   visitName: string
   visitDay: number | null
+  targetDate: string | null
   scheduledDate: string | null
+  displayDate: string | null
+  calendarReschedule: VisitCalendarReschedule | null
   actualDate: string | null
   windowStatus: VisitWindowStatus
   visitStatus: VisitGridStatus

@@ -1,4 +1,6 @@
 import { fetchResponseSetDetail } from '@/lib/api/source/read-client'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { filterUnblindedRows, redactUnblindedPayload } from '@/lib/rbac/blinding'
 import { formatValuePayload } from '@/lib/source/read-contract/format'
 import type { VisitRuntimeAuditEntry } from '@/lib/subject/visit-runtime/types'
 import type { createServerClient } from '@/lib/supabase/server'
@@ -38,10 +40,25 @@ export async function getAuditTrail(params: {
     .from('operational_events')
     .select('id, payload, actor_user_id, occurred_at, event_type')
     .eq('procedure_execution_id', params.procedureExecutionId)
+    .eq('organization_id', params.organizationId)
     .order('occurred_at', { ascending: false })
 
-  for (const row of operational ?? []) {
-    const payload = (row.payload as Record<string, unknown> | null) ?? {}
+  const user = await getSessionUser()
+  const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const scopedMemberships = memberships.filter((membership) => membership.organization_id === params.organizationId)
+  const filteredOperational = filterUnblindedRows(
+    ((operational ?? []) as Array<{
+      id: string
+      payload: Record<string, unknown> | null
+      actor_user_id: string | null
+      occurred_at: string
+      event_type: string
+    }>),
+    scopedMemberships,
+  )
+
+  for (const row of filteredOperational) {
+    const payload = redactUnblindedPayload(row.payload, scopedMemberships) ?? {}
     const eventType = row.event_type as string
     const label =
       (payload.field_label as string | null) ??

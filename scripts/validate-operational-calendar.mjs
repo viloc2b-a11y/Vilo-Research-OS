@@ -1,6 +1,7 @@
 /**
  * Operational Calendar QA — logic + staging data probes (no browser).
  */
+import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -14,18 +15,44 @@ function assert(name, condition, detail = '') {
   console.log(`PASS  ${name}`)
 }
 
+function sortByCreatedAt(rows) {
+  return [...rows].sort(
+    (a, b) =>
+      new Date(a.created_at ?? a.occurred_at).getTime()
+      - new Date(b.created_at ?? b.occurred_at).getTime(),
+  )
+}
+
 function isManualCreation(row) {
-  return row.event_type === 'OPERATIONAL_CALENDAR_MANUAL_EVENT' && row.payload?.calendar_event_type === 'manual'
+  const payload = row.payload ?? {}
+  return (
+    payload.calendar_event_type === 'manual'
+    && (
+      row.event_type === 'OPERATIONAL_CALENDAR_MANUAL_EVENT'
+      || row.event_type === 'manual_calendar_event_created'
+      || payload.manual_event_action === 'created'
+    )
+  )
+}
+
+function isManualMutation(row) {
+  return (
+    row.event_type === 'manual_calendar_event_updated'
+    || row.event_type === 'manual_calendar_event_completed'
+    || row.event_type === 'manual_calendar_event_cancelled'
+  )
 }
 
 function resolveManualEvents(rows) {
   const resolved = new Map()
-  for (const row of rows) {
+
+  for (const row of rows.filter(isManualCreation)) {
     const payload = row.payload ?? {}
-    if (isManualCreation(row)) {
-      resolved.set(row.id, { row, payload, status: 'upcoming', cancelled: false, completedAt: null })
-      continue
-    }
+    resolved.set(row.id, { row, payload, status: 'upcoming', cancelled: false, completedAt: null })
+  }
+
+  for (const row of sortByCreatedAt(rows.filter(isManualMutation))) {
+    const payload = row.payload ?? {}
     const originalEventId = typeof payload.original_event_id === 'string' ? payload.original_event_id : null
     if (!originalEventId) continue
     const current = resolved.get(originalEventId)
@@ -46,6 +73,7 @@ function resolveManualEvents(rows) {
       resolved.set(originalEventId, { ...current, cancelled: true })
     }
   }
+
   return [...resolved.values()]
 }
 
@@ -92,6 +120,57 @@ function runLogicTests() {
   assert('reschedule updates event_date', withoutCancel[0].payload.event_date === '2026-05-20')
   assert('only one chip after update', withoutCancel.length === 1)
 
+  const futureId = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
+  const futureRows = [
+    {
+      id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+      event_type: 'manual_calendar_event_completed',
+      occurred_at: '2026-05-20T12:00:00Z',
+      created_at: '2026-05-20T12:00:00Z',
+      payload: {
+        calendar_event_type: 'manual',
+        manual_event_action: 'completed',
+        original_event_id: futureId,
+        completed_at: '2026-05-20T12:00:00Z',
+      },
+    },
+    {
+      id: futureId,
+      event_type: 'OPERATIONAL_CALENDAR_MANUAL_EVENT',
+      occurred_at: '2026-06-15T14:00:00Z',
+      created_at: '2026-05-19T10:00:00Z',
+      payload: {
+        calendar_event_type: 'manual',
+        title: 'Future QA',
+        event_date: '2026-06-15',
+        event_time: '14:00',
+      },
+    },
+    {
+      id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc',
+      event_type: 'manual_calendar_event_updated',
+      occurred_at: '2026-05-20T08:00:00Z',
+      created_at: '2026-05-20T08:00:00Z',
+      payload: {
+        calendar_event_type: 'manual',
+        manual_event_action: 'updated',
+        original_event_id: futureId,
+        event_date: '2026-06-16',
+        event_time: '15:00',
+      },
+    },
+  ]
+  const futureResolved = resolveManualEvents(futureRows)
+  assert('future manual resolves one event', futureResolved.length === 1)
+  assert(
+    'future manual applies update after early mutation rows',
+    futureResolved[0].payload.event_date === '2026-06-16',
+  )
+  assert(
+    'future manual applies complete after update',
+    futureResolved[0].status === 'completed',
+  )
+
   assert('utc noon date stable', isoDateUtcNoon(2026, 4, 15) === '2026-05-15')
 
   const clientSource = readFileSync(resolve(root, 'components/calendar/operational-calendar-client.tsx'), 'utf8')
@@ -108,6 +187,13 @@ function runLogicTests() {
 
   const sidebar = readFileSync(resolve(root, 'components/shell/sidebar-nav.tsx'), 'utf8')
   assert('sidebar calendar link', sidebar.includes("href: '/operational-calendar'"))
+
+  const readModel = readFileSync(resolve(root, 'lib/calendar/operational-calendar-read-model.ts'), 'utf8')
+  assert('read model uses site today', readModel.includes('todayCalendarDate(siteTimeZone)'))
+  assert('read model exposes siteTimeZone', readModel.includes('siteTimeZone: string'))
+
+  const siteDates = readFileSync(resolve(root, 'lib/calendar/site-calendar-dates.ts'), 'utf8')
+  assert('default site timezone', siteDates.includes("DEFAULT_SITE_TIMEZONE = 'America/Chicago'"))
 }
 
 async function runStagingProbes() {
@@ -156,10 +242,32 @@ async function runStagingProbes() {
     .limit(5)
 
   console.log(`INFO  owner memberships sample: ${ownerMembership?.length ?? 0}`)
+
+  const qaStudyId = process.env.CALENDAR_QA_STUDY_ID ?? '6bae715a-8536-4000-8d24-22b6a3dbb8c9'
+  const { data: qaStudy, error: qaStudyErr } = await admin
+    .from('studies')
+    .select('organization_id')
+    .eq('id', qaStudyId)
+    .maybeSingle()
+
+  if (!qaStudyErr && qaStudy?.organization_id) {
+    const { data: coordinators, error: coordErr } = await admin
+      .from('organization_members')
+      .select('user_id, role')
+      .eq('organization_id', qaStudy.organization_id)
+
+    assert(
+      'calendar QA org has assignable coordinators',
+      !coordErr && (coordinators?.length ?? 0) > 0,
+      coordErr?.message ?? 'no organization_members',
+    )
+    console.log(`INFO  calendar QA coordinators in org: ${coordinators?.length ?? 0}`)
+  }
 }
 
 async function main() {
   runLogicTests()
+  execSync('npx tsx scripts/validate-site-calendar-dates.ts', { cwd: root, stdio: 'inherit' })
   try {
     await runStagingProbes()
   } catch (err) {

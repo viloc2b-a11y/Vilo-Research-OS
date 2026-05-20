@@ -118,11 +118,13 @@ export async function apiFetch(baseUrl, path, options = {}) {
     headers['Content-Type'] = 'application/json'
   }
 
+  const timeoutMs = options.timeoutMs ?? 60_000
   const res = await fetch(url, {
     method: options.method ?? 'GET',
     headers,
     body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
     redirect: 'manual',
+    signal: AbortSignal.timeout(timeoutMs),
   })
 
   const text = await res.text()

@@ -14,7 +14,7 @@ import { SubjectWorkflowPanel } from '@/components/subjects/workflow/SubjectWork
 import { ClinicalProfileConMedsPromo } from '@/components/subject/clinical-profile/ClinicalProfileConMedsPromo'
 import { ClinicalProfileTabs } from '@/components/subject/clinical-profile/ClinicalProfileTabs'
 import { SubjectConMedsSurface } from '@/components/subject/clinical-profile/SubjectConMedsSurface'
-import { SubjectSafetySurface } from '@/components/subject/safety-signals/SubjectSafetySurface'
+import { SubjectAdverseEventsSurface } from '@/components/subject/adverse-events/SubjectAdverseEventsSurface'
 import { SubjectRegulatorySurface } from '@/components/subject/regulatory-signals/SubjectRegulatorySurface'
 import { ClinicalRiskPanel } from '@/components/subject/clinical-intelligence/ClinicalRiskPanel'
 import {
@@ -29,10 +29,12 @@ import type { SubjectClinicalProfile } from '@/lib/subject/clinical-profile/type
 import type { LongitudinalClinicalProfile } from '@/lib/subject/clinical-intelligence/types'
 import type { SubjectChartHeaderModel } from '@/lib/subject/visits/types'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
-import { loadSubjectSafetySignals } from '@/lib/subject/safety-signals'
+import { loadSubjectAdverseEventsTimeline } from '@/lib/subject/adverse-events'
 import { loadSubjectRegulatorySignals } from '@/lib/subject/regulatory-signals'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 
 type SubjectDetailPageProps = {
@@ -51,7 +53,7 @@ const PLACEHOLDER_LABELS = new Map<string, string>(
           'workflow',
           'clinical-profile',
           'conmeds',
-          'ae',
+          'adverse-events',
           'deviations',
         ].includes(tab.key),
     )
@@ -64,7 +66,8 @@ function one<T>(value: T | T[] | null | undefined): T | null {
 }
 
 function normalizeTab(tab: string | undefined) {
-  return subjectChartTabs.some((item) => item.key === tab) ? tab! : 'general'
+  const normalized = tab === 'ae' ? 'adverse-events' : tab
+  return subjectChartTabs.some((item) => item.key === normalized) ? normalized! : 'general'
 }
 
 function ComingSoon({ title }: { title: string }) {
@@ -86,7 +89,13 @@ function ComingSoon({ title }: { title: string }) {
   )
 }
 
-function GeneralPanel({ subject }: { subject: SubjectGeneralModel }) {
+function GeneralPanel({
+  subject,
+  showUnblindedFields,
+}: {
+  subject: SubjectGeneralModel
+  showUnblindedFields: boolean
+}) {
   return (
     <Card>
       <CardHeader>
@@ -96,7 +105,7 @@ function GeneralPanel({ subject }: { subject: SubjectGeneralModel }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <SubjectGeneralForm subject={subject} />
+        <SubjectGeneralForm subject={subject} showUnblindedFields={showUnblindedFields} />
       </CardContent>
     </Card>
   )
@@ -152,6 +161,8 @@ export default async function SubjectDetailPage({
   const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
   if (!canAccessOrganization) notFound()
 
+  const canViewUnblinded = canViewUnblindedData(memberships, organizationId)
+
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
   }
@@ -198,12 +209,13 @@ export default async function SubjectDetailPage({
     }
   }
 
-  const safetySignals =
-    activeTab === 'ae' && chartStudyId
-      ? await loadSubjectSafetySignals({
+  const adverseEventsTimeline =
+    activeTab === 'adverse-events' && chartStudyId
+      ? await loadSubjectAdverseEventsTimeline({
           subjectId,
           studyId: chartStudyId,
           organizationId,
+          memberships,
         })
       : null
 
@@ -216,33 +228,39 @@ export default async function SubjectDetailPage({
         })
       : null
 
-  const generalSubject: SubjectGeneralModel = {
-    id: subject.id as string,
-    organizationId,
-    subjectNumber: subject.subject_identifier as string,
-    randomizationNumber: (subject.randomization_number as string | null) ?? null,
-    studyArm: (subject.randomization_arm as string | null) ?? null,
-    status: subject.enrollment_status as string,
-    firstName: (subject.first_name as string | null) ?? null,
-    middleInitial: (subject.middle_initial as string | null) ?? null,
-    lastName: (subject.last_name as string | null) ?? null,
-    initials: (subject.initials as string | null) ?? null,
-    gender: (subject.gender as string | null) ?? null,
-    dateOfBirth: (subject.date_of_birth as string | null) ?? null,
-  }
+  const generalSubject: SubjectGeneralModel = redactSubjectUnblindedFields(
+    {
+      id: subject.id as string,
+      organizationId,
+      subjectNumber: subject.subject_identifier as string,
+      randomizationNumber: (subject.randomization_number as string | null) ?? null,
+      studyArm: (subject.randomization_arm as string | null) ?? null,
+      status: subject.enrollment_status as string,
+      firstName: (subject.first_name as string | null) ?? null,
+      middleInitial: (subject.middle_initial as string | null) ?? null,
+      lastName: (subject.last_name as string | null) ?? null,
+      initials: (subject.initials as string | null) ?? null,
+      gender: (subject.gender as string | null) ?? null,
+      dateOfBirth: (subject.date_of_birth as string | null) ?? null,
+    },
+    canViewUnblinded,
+  )
 
   const chartHeader: SubjectChartHeaderModel | null = chartStudyId
-    ? {
-        subjectId,
-        studyId: chartStudyId,
-        organizationId,
-        subjectIdentifier: generalSubject.subjectNumber,
-        initials: generalSubject.initials,
-        studyName: study?.name ?? 'Study',
-        enrollmentStatus: generalSubject.status,
-        randomizationNumber: generalSubject.randomizationNumber,
-        randomizationArm: generalSubject.studyArm,
-      }
+    ? redactSubjectUnblindedFields(
+        {
+          subjectId,
+          studyId: chartStudyId,
+          organizationId,
+          subjectIdentifier: generalSubject.subjectNumber,
+          initials: generalSubject.initials,
+          studyName: study?.name ?? 'Study',
+          enrollmentStatus: generalSubject.status,
+          randomizationNumber: (subject.randomization_number as string | null) ?? null,
+          randomizationArm: (subject.randomization_arm as string | null) ?? null,
+        },
+        canViewUnblinded,
+      )
     : null
 
   return (
@@ -253,6 +271,7 @@ export default async function SubjectDetailPage({
         <SubjectChartHeader
           header={chartHeader}
           operationalHealth={operationalIntelligence?.health ?? null}
+          showUnblindedFields={canViewUnblinded}
         />
       ) : (
         /* Fallback header when no study context */
@@ -270,7 +289,7 @@ export default async function SubjectDetailPage({
               </h1>
               <p className="text-xs" >
                 {generalSubject.status}
-                {generalSubject.studyArm ? ` · Arm ${generalSubject.studyArm}` : ''}
+                {canViewUnblinded && generalSubject.studyArm ? ` · Arm ${generalSubject.studyArm}` : ''}
               </p>
             </div>
           </div>
@@ -300,7 +319,9 @@ export default async function SubjectDetailPage({
               subjectId={subjectId}
             />
           ) : null}
-          {activeTab === 'general' ? <GeneralPanel subject={generalSubject} /> : null}
+          {activeTab === 'general' ? (
+            <GeneralPanel subject={generalSubject} showUnblindedFields={canViewUnblinded} />
+          ) : null}
 
           {/* Visits — redirect handled above */}
           {activeTab === 'visits' ? <ComingSoon title="Visits" /> : null}
@@ -353,13 +374,13 @@ export default async function SubjectDetailPage({
             />
           ) : null}
 
-          {activeTab === 'ae' && !chartStudyId ? (
+          {activeTab === 'adverse-events' && !chartStudyId ? (
             <p className="text-sm text-muted-foreground">
-              Study context is required to load safety signals for this subject.
+              Study context is required to load the AE / safety timeline for this subject.
             </p>
           ) : null}
-          {activeTab === 'ae' && safetySignals ? (
-            <SubjectSafetySurface model={safetySignals} />
+          {activeTab === 'adverse-events' && adverseEventsTimeline ? (
+            <SubjectAdverseEventsSurface model={adverseEventsTimeline} />
           ) : null}
 
           {activeTab === 'deviations' && !chartStudyId ? (

@@ -3,6 +3,13 @@ import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/so
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
 import { jsonEnvelope } from '@/lib/api/source/respond'
 import { parseResponseSetReadQuery } from '@/lib/api/source/validate'
+import { getOrganizationMemberships } from '@/lib/auth/session'
+import {
+  attachFieldBlindingToDetail,
+  filterResponseSetDetailForBlinding,
+} from '@/lib/source/blinding'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
+import type { ResponseSetDetailData } from '@/lib/api/source/read-types'
 
 type RouteContext = { params: Promise<{ id: string }> }
 
@@ -30,6 +37,15 @@ export async function GET(request: Request, context: RouteContext) {
       p_organization_id: query.organization_id,
       p_source_response_set_id: query.source_response_set_id,
     }, ctx.requestId)
+    if (envelope.ok && envelope.data) {
+      const memberships = await getOrganizationMemberships(ctx.user.id)
+      const canViewUnblinded = canViewUnblindedData(memberships, query.organization_id)
+      const enriched = await attachFieldBlindingToDetail(
+        ctx.supabase,
+        envelope.data as ResponseSetDetailData,
+      )
+      envelope.data = filterResponseSetDetailForBlinding(enriched, canViewUnblinded)
+    }
     return jsonEnvelope(envelope)
   } catch (err) {
     return jsonEnvelope(

@@ -69,6 +69,8 @@ export type SelectOption = {
   label: string
 }
 
+export type SourceBlindingScope = 'blinded' | 'unblinded' | 'public_to_site'
+
 /** Zod-compatible validation metadata (consumers map to Zod schemas). */
 export type FieldValidationRule =
   | { kind: 'required'; message: string }
@@ -136,6 +138,9 @@ export type FieldDefinition = {
   requiredWhen?: FieldCondition
   disabledWhen?: FieldCondition
   derivedFrom?: DerivedCalculation
+  /** Source capture blinding gate. Unset defaults to blinded. */
+  blindingScope?: SourceBlindingScope
+  blinding_scope?: SourceBlindingScope
   /** Hint for downstream Zod builder: z.string(), z.number(), etc. */
   zodSchemaHint?: string
   defaultValue?: unknown
@@ -181,6 +186,9 @@ export type SourceSectionDefinition = {
   maxInstances?: number
   enabledByDefault?: boolean
   visibleWhen?: FieldCondition
+  /** Source capture blinding gate. Unset defaults to blinded. */
+  blindingScope?: SourceBlindingScope
+  blinding_scope?: SourceBlindingScope
   signatures?: SignatureRequirement[]
   lockAfterSignature?: boolean
 }

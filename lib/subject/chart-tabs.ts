@@ -4,7 +4,7 @@ export const subjectChartTabs = [
   { key: 'clinical-profile', label: 'Clinical Profile' },
   { key: 'conmeds', label: 'ConMeds' },
   { key: 'workflow', label: 'Workflow' },
-  { key: 'ae', label: 'AE' },
+  { key: 'adverse-events', label: 'AE' },
   { key: 'deviations', label: 'Deviations' },
   { key: 'notes', label: 'Notes' },
   { key: 'documents', label: 'Documents' },

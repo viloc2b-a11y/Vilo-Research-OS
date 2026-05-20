@@ -9,6 +9,9 @@ import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEvent'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { VisitRuntimeActionState } from '@/lib/subject/visit-runtime/types'
+import { getOrganizationMemberships } from '@/lib/auth/session'
+import { canSignClinicalSource, canViewUnblindedData } from '@/lib/rbac/permissions'
+import { responseSetHasUnblindedSourceFields } from '@/lib/source/blinding'
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''
@@ -24,6 +27,22 @@ export async function signProcedureAction(
     clean(formData.get('organization_id')),
   )
   if (!ctx.ok) return { ok: false, message: ctx.error }
+
+  const memberships = await getOrganizationMemberships(ctx.user.id)
+  if (!canSignClinicalSource(memberships, ctx.procedure.organization_id)) {
+    return { ok: false, message: 'You do not have permission to sign clinical source.' }
+  }
+
+  const hasUnblindedSource = await responseSetHasUnblindedSourceFields(ctx.supabase, {
+    organizationId: ctx.procedure.organization_id,
+    procedureExecutionId: ctx.procedure.id,
+  })
+  if (hasUnblindedSource && !canViewUnblindedData(memberships, ctx.procedure.organization_id)) {
+    return {
+      ok: false,
+      message: 'This source includes restricted unblinded fields and requires unblinded signing access.',
+    }
+  }
 
   const result = await signProcedure({
     supabase: ctx.supabase,

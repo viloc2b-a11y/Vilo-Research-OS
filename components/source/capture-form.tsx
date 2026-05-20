@@ -54,7 +54,12 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
           name="procedure_execution_id"
           value={model.context.procedureExecutionId}
         />
-        <input type="hidden" name="fields_json" value={JSON.stringify(model.fields)} />
+
+        {model.canViewUnblindedSource ? (
+          <div className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800">
+            Unblinded Access — Restricted
+          </div>
+        ) : null}
 
         <ul className="divide-y divide-border rounded-md border">
           {visibleFields.map((field) => (

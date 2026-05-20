@@ -1,5 +1,8 @@
+import type { VisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import type { SubjectWorkflowVisitCounts } from '@/lib/subject/workflow/types'
+
+export type { VisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
 
 export type VisitWindowStatus = 'inside_window' | 'warning' | 'outside_window'
 
@@ -44,6 +47,8 @@ export type SubjectVisitGridRow = {
   primaryProcedureId: string | null
   primaryResponseSetId: string | null
   workflow: SubjectWorkflowVisitCounts
+  /** Active operational-calendar reschedule layer (does not change visits.target_date). */
+  calendarReschedule: VisitCalendarReschedule | null
 }
 
 export type SubjectChartHeaderModel = {

@@ -2,6 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import {
+  canManageUnblindedData,
+  canMutateOrganizationData,
+} from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 
 const STATUS_VALUES = new Set([
@@ -64,6 +68,11 @@ export async function updateSubjectGeneralAction(
   if (!memberships.some((m) => m.organization_id === organizationId)) {
     return { ok: false, message: 'You are not a member of this organization.' }
   }
+  if (!canMutateOrganizationData(memberships, organizationId)) {
+    return { ok: false, message: 'Your role is read-only for this organization.' }
+  }
+
+  const canManageUnblinded = canManageUnblindedData(memberships, organizationId)
 
   const supabase = await createServerClient()
   const { data: subject, error: subjectError } = await supabase
@@ -80,8 +89,12 @@ export async function updateSubjectGeneralAction(
     .from('study_subjects')
     .update({
       subject_identifier: subjectNumber,
-      randomization_number: clean(formData.get('randomization_number')),
-      randomization_arm: clean(formData.get('study_arm')),
+      ...(canManageUnblinded
+        ? {
+            randomization_number: clean(formData.get('randomization_number')),
+            randomization_arm: clean(formData.get('study_arm')),
+          }
+        : {}),
       enrollment_status: status,
       first_name: clean(formData.get('first_name')),
       middle_initial: clean(formData.get('middle_initial')),

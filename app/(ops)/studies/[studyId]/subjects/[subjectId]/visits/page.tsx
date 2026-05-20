@@ -7,6 +7,8 @@ import { SubjectVisitChronologySummary } from '@/components/subjects/visits/Subj
 import { VisitsTable } from '@/components/subjects/visits/VisitsTable'
 import { buildVisitHealthTimeline } from '@/lib/subject/operations/buildVisitHealthTimeline'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { loadSubjectVisitsPage } from '@/lib/subject/visits/load-subject-visits'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 
@@ -23,6 +25,10 @@ export default async function SubjectVisitsPage({ params }: SubjectVisitsPagePro
   }
 
   const { header, visits, error } = data
+
+  const user = await getSessionUser()
+  const memberships = user ? await getOrganizationMemberships(user.id) : []
+  const canViewUnblinded = canViewUnblindedData(memberships, header.organizationId)
 
   const workflowResult = await loadSubjectWorkflowActions(subjectId, header.organizationId)
   const operationalResult =
@@ -43,7 +49,11 @@ export default async function SubjectVisitsPage({ params }: SubjectVisitsPagePro
 
   return (
     <div className="flex flex-col h-full bg-accent">
-      <SubjectChartHeader header={header} operationalHealth={operationalHealth} />
+      <SubjectChartHeader
+        header={header}
+        operationalHealth={operationalHealth}
+        showUnblindedFields={canViewUnblinded}
+      />
 
       <SubjectChartNav studyId={studyId} subjectId={subjectId} activeTab="visits" />
 

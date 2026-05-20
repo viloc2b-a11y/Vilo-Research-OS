@@ -1,4 +1,6 @@
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { filterRowsByBlindingScope, redactOperationalEventPayloadForDisplay } from '@/lib/rbac/blinding'
+import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { loadPerformancePageModel } from '@/app/(ops)/performance/_lib/load-performance-page'
 import { createServerClient } from '@/lib/supabase/server'
 import { sourceCapturePath, sourceResponseSetPath, visitDetailPath } from '@/lib/ops/paths'
@@ -42,15 +44,8 @@ function one<T>(value: T | T[] | null | undefined): T | null {
   return value ?? null
 }
 
-function eventDetail(payload: unknown): string {
-  if (!payload || typeof payload !== 'object') return 'Operational event recorded.'
-  const row = payload as Record<string, unknown>
-  const parts = [
-    typeof row.validation_status === 'string' ? `Validation: ${row.validation_status}` : null,
-    typeof row.response_set_id === 'string' ? `Source set ${row.response_set_id.slice(0, 8)}` : null,
-    typeof row.note_preview === 'string' ? row.note_preview : null,
-  ].filter(Boolean)
-  return parts.length ? parts.join(' · ') : 'Operational event recorded.'
+function eventDetail(payload: unknown, canViewUnblinded: boolean): string {
+  return redactOperationalEventPayloadForDisplay(payload, canViewUnblinded)
 }
 
 function unavailableSection(section: string): string {
@@ -61,6 +56,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
   const organizationIds = memberships.map((m) => m.organization_id)
+  const canViewUnblinded = canViewUnblindedData(memberships)
   const unavailable: string[] = []
 
   if (organizationIds.length === 0) {
@@ -232,12 +228,23 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     }
   })
 
-  const recentEvents = (events.data ?? []).map((event) => ({
-    id: event.id as string,
-    eventType: event.event_type as string,
-    occurredAt: event.occurred_at as string,
-    href: event.visit_id ? visitDetailPath(event.visit_id as string) : null,
-    detail: eventDetail(event.payload),
+  type EventRow = {
+    id: string
+    event_type: string
+    occurred_at: string
+    visit_id: string | null
+    payload: Record<string, unknown> | null
+  }
+
+  const recentEvents = filterRowsByBlindingScope(
+    (events.data ?? []) as EventRow[],
+    canViewUnblinded,
+  ).map((event) => ({
+    id: event.id,
+    eventType: event.event_type,
+    occurredAt: event.occurred_at,
+    href: event.visit_id ? visitDetailPath(event.visit_id) : null,
+    detail: eventDetail(event.payload, canViewUnblinded),
   }))
 
   const highRisk =

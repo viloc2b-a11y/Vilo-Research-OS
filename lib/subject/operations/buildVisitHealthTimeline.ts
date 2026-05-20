@@ -1,3 +1,4 @@
+import { visitOperationalDisplayDate } from '@/lib/calendar/get-active-visit-reschedule'
 import {
   sourceCapturePath,
   sourceResponseSetPath,
@@ -56,7 +57,14 @@ export function buildVisitHealthTimeline(
       visitId: v.id,
       visitName: v.visitName,
       visitDay: v.visitDay,
+      targetDate: v.targetDate,
       scheduledDate: v.scheduledDate,
+      displayDate: visitOperationalDisplayDate({
+        targetDate: v.targetDate,
+        scheduledDate: v.scheduledDate,
+        calendarReschedule: v.calendarReschedule,
+      }),
+      calendarReschedule: v.calendarReschedule,
       actualDate: v.completedDate,
       windowStatus: v.windowStatus,
       visitStatus: v.visitStatus,

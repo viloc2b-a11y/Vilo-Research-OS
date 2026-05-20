@@ -26,6 +26,16 @@ function StatusPill({ value }: { value: string }) {
   return <span className="rounded bg-muted px-2 py-1 text-xs font-medium">{value}</span>
 }
 
+function HiddenVisitRuntimeInputs({ toolbar }: { toolbar: VisitRuntimeToolbarModel }) {
+  return (
+    <>
+      <input type="hidden" name="procedure_execution_id" value={toolbar.procedureExecutionId} />
+      <input type="hidden" name="organization_id" value={toolbar.organizationId} />
+      <input type="hidden" name="response_set_id" value={toolbar.responseSetId} />
+    </>
+  )
+}
+
 export function VisitActionToolbar({
   toolbar,
   fieldsDisabled,
@@ -71,13 +81,6 @@ export function VisitActionToolbar({
     }
   }, [disableFieldsState.ok, disableSectionState.ok, enableFieldsState.ok, noteState.ok, router, signState.ok, validationState.message])
 
-  const HiddenInputs = () => (
-    <>
-      <input type="hidden" name="procedure_execution_id" value={toolbar.procedureExecutionId} />
-      <input type="hidden" name="organization_id" value={toolbar.organizationId} />
-      <input type="hidden" name="response_set_id" value={toolbar.responseSetId} />
-    </>
-  )
   const actionMessages = [
     signState,
     noteState,
@@ -91,7 +94,7 @@ export function VisitActionToolbar({
     <div className="sticky top-0 z-30 space-y-2 border-b bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="flex flex-wrap items-center gap-2">
         <form action={signAction}>
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <Button type="submit" size="sm" disabled={signPending || toolbar.isSigned || toolbar.isLocked || sectionDisabled}>
             {toolbar.isSigned ? 'Signed' : signPending ? 'Signing…' : 'Sign Procedure'}
           </Button>
@@ -111,7 +114,7 @@ export function VisitActionToolbar({
           Audit Trail
         </Button>
         <form action={validationAction}>
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <Button
             type="submit"
             size="sm"
@@ -123,20 +126,20 @@ export function VisitActionToolbar({
           </Button>
         </form>
         <form action={disableFieldsAction}>
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <input type="hidden" name="disable_reason" value="Coordinator disabled pending fields from visit runtime toolbar." />
           <Button type="submit" size="sm" variant="secondary" disabled={disableFieldsPending || fieldsDisabled || toolbar.isLocked}>
             Disable All Pending Fields
           </Button>
         </form>
         <form action={enableFieldsActionState}>
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <Button type="submit" size="sm" variant="secondary" disabled={enableFieldsPending || !fieldsDisabled || toolbar.isLocked}>
             Enable Fields
           </Button>
         </form>
         <form action={disableSectionActionState}>
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <input type="hidden" name="disable_reason" value="Coordinator disabled procedure section from visit runtime toolbar." />
           <Button type="submit" size="sm" variant="secondary" disabled={disableSectionPending || sectionDisabled || toolbar.isLocked}>
             Disable Section
@@ -170,7 +173,7 @@ export function VisitActionToolbar({
 
       {panel === 'note' ? (
         <form action={noteAction} className="grid gap-3 rounded-md border bg-muted/20 p-3 md:grid-cols-[1fr_auto]">
-          <HiddenInputs />
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
           <textarea
             name="note_text"
             className="min-h-16 rounded-md border border-input bg-background px-3 py-2 text-sm"

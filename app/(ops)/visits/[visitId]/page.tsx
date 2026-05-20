@@ -33,6 +33,8 @@ import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
+import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
+import { loadVisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
 import { createServerClient } from '@/lib/supabase/server'
 
 type VisitWorkspaceProps = {
@@ -118,16 +120,40 @@ function ProgressStrip({ pct }: { pct: number }) {
 // Procedure row
 // ============================================================================
 
-function getProcedureIcon(label: string | undefined) {
+function ProcedureTypeIcon({
+  label,
+  className,
+}: {
+  label: string | undefined
+  className: string
+}) {
   const l = (label ?? '').toLowerCase()
-  if (l.includes('vital'))  return Activity
-  if (l.includes('lab'))    return FlaskConical
-  if (l.includes('ecg'))    return Heart
-  if (l.includes('quest'))  return ClipboardList
-  if (l.includes('pk'))     return Syringe
-  if (l.includes('ae'))     return AlertTriangle
-  if (l.includes('conmed') || l.includes('medication')) return Pill
-  return FileText
+  if (l.includes('vital')) return <Activity className={className} />
+  if (l.includes('lab')) return <FlaskConical className={className} />
+  if (l.includes('ecg')) return <Heart className={className} />
+  if (l.includes('quest')) return <ClipboardList className={className} />
+  if (l.includes('pk')) return <Syringe className={className} />
+  if (l.includes('ae')) return <AlertTriangle className={className} />
+  if (l.includes('conmed') || l.includes('medication')) return <Pill className={className} />
+  return <FileText className={className} />
+}
+
+function ProcedureStatusIcon({
+  done,
+  label,
+  status,
+}: {
+  done: boolean
+  label: string
+  status: string
+}) {
+  if (done) return <Check className="w-4 h-4 text-white" />
+  return (
+    <ProcedureTypeIcon
+      label={label}
+      className={`w-4 h-4 ${status === 'in_progress' ? 'text-white' : 'text-muted-foreground'}`}
+    />
+  )
 }
 
 function ProcedureRow({
@@ -157,7 +183,6 @@ function ProcedureRow({
   const status = proc.execution_status ?? 'pending'
   const done = status === 'completed'
   const canComplete = visitAllowsEdits && (status === 'pending' || status === 'in_progress')
-  const Icon = getProcedureIcon(label)
   const captureHref = `/source/capture/${proc.id}${orgQs}`
   const reviewHref  = responseSet ? `/source/response-set/${responseSet.id}${orgQs}` : null
 
@@ -171,10 +196,7 @@ function ProcedureRow({
       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
         done ? 'bg-primary' : status === 'in_progress' ? 'bg-amber-400' : 'bg-muted'
       }`}>
-        {done
-          ? <Check className="w-4 h-4 text-white" />
-          : <Icon className={`w-4 h-4 ${status === 'in_progress' ? 'text-white' : 'text-muted-foreground'}`} />
-        }
+        <ProcedureStatusIcon done={done} label={label} status={status} />
       </div>
 
       {/* Info */}
@@ -252,7 +274,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   const { data: visit, error: vErr } = await supabase
     .from('visits')
     .select(`
-      id, organization_id, scheduled_date, visit_status, visit_review_status,
+      id, organization_id, scheduled_date, target_date, visit_status, visit_review_status,
       study_id, study_subject_id,
       visit_definitions(code,label),
       study_subjects(subject_identifier)
@@ -355,6 +377,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     limit: 8,
   })
   const visitReviewStatus = (visit.visit_review_status as VisitReviewStatus | null) ?? closeoutBundle?.model.visitReviewStatus ?? 'draft'
+  const protocolTargetDate = (visit.target_date as string | null) ?? null
+  const calendarReschedule = await loadVisitCalendarReschedule(supabase, {
+    organizationId,
+    visitId: visit.id as string,
+    protocolTargetDate,
+  })
 
   const submittedSets = (responseSets ?? []).filter(rs =>
     ['submitted', 'pending_review', 'reviewed'].includes(rs.status)
@@ -412,14 +440,24 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
             <span className="font-semibold text-foreground">{visitLabel}</span>
           </div>
 
-          {/* Meta */}
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            {visit.scheduled_date && (
+          {/* Meta — protocol target unchanged; calendar reschedule is display-only */}
+          <div className="flex flex-col items-end gap-0.5 text-xs text-muted-foreground">
+            {protocolTargetDate ? (
               <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
+                <Calendar className="w-3 h-3 flex-shrink-0" />
+                Protocol target: {protocolTargetDate}
+              </span>
+            ) : visit.scheduled_date && !calendarReschedule ? (
+              <span className="flex items-center gap-1">
+                <Calendar className="w-3 h-3 flex-shrink-0" />
                 {visit.scheduled_date}
               </span>
-            )}
+            ) : null}
+            <VisitCalendarRescheduleMeta
+              reschedule={calendarReschedule}
+              showTargetWhenRescheduled={false}
+              className="text-right"
+            />
           </div>
         </div>
 

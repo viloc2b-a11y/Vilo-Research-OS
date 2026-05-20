@@ -18,6 +18,7 @@ export type CaptureFieldViewModel = {
   fieldId: string
   fieldKey: string
   label: string
+  blindingScope: 'blinded' | 'unblinded' | 'public_to_site'
   kind: CaptureFieldKind
   isRequired: boolean
   options: string[]
@@ -60,6 +61,7 @@ export type CaptureShellViewModel = {
   submittedAtDisplay: string | null
   manifest: ManifestViewModel | null
   fields: CaptureFieldViewModel[]
+  canViewUnblindedSource: boolean
   reviewHref: string
   /**
    * Optional Phase 2 source-engine snapshot (rules, derived values, validation).

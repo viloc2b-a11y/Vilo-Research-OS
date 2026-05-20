@@ -36,14 +36,25 @@ export function subjectConMedsTabPath(studyId: string | null, subjectId: string)
   return subjectChartTabPath(studyId, subjectId, 'conmeds')
 }
 
-/** Subject-level AE / safety signals tab (operational signals, not structured AE registry). */
+/** Subject-level AE / safety timeline tab (operational overlay, not structured AE registry). */
+export function subjectAdverseEventsTabPath(studyId: string | null, subjectId: string) {
+  return subjectChartTabPath(studyId, subjectId, 'adverse-events')
+}
+
+/** @deprecated Use subjectAdverseEventsTabPath — kept for existing deep links. */
 export function subjectAeTabPath(studyId: string | null, subjectId: string) {
-  return subjectChartTabPath(studyId, subjectId, 'ae')
+  return subjectAdverseEventsTabPath(studyId, subjectId)
 }
 
 /** Subject-level regulatory / deviation signals tab (operational overlay, not formal deviations). */
 export function subjectDeviationsTabPath(studyId: string | null, subjectId: string) {
   return subjectChartTabPath(studyId, subjectId, 'deviations')
+}
+
+/** Organization team / user management (owner and admin). */
+export function adminUsersPath(organizationId?: string) {
+  const base = '/admin/users'
+  return organizationId ? `${base}?organization_id=${organizationId}` : base
 }
 
 /** Legacy standalone route — kept for redirects and revalidation only. */
