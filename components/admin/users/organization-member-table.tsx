@@ -1,6 +1,8 @@
 'use client'
 
+import { MemberLifecycleActions } from '@/components/admin/users/member-lifecycle-actions'
 import { MemberRoleEditor } from '@/components/admin/users/member-role-editor'
+import { MemberStatusBadge } from '@/components/admin/users/member-status-badge'
 import {
   formatRoleList,
   roleLabel,
@@ -73,7 +75,9 @@ export function OrganizationMemberTable({ model }: OrganizationMemberTableProps)
                     <span className="text-[10px] text-amber-800">unblinded</span>
                   ) : null}
                 </td>
-                <td className="px-4 py-3">{member.statusLabel}</td>
+                <td className="px-4 py-3">
+                  <MemberStatusBadge status={member.status} />
+                </td>
                 <td className="px-4 py-3 text-xs text-muted-foreground">
                   {formatWhen(member.updatedAt ?? member.joinedAt)}
                 </td>
@@ -82,6 +86,10 @@ export function OrganizationMemberTable({ model }: OrganizationMemberTableProps)
                     member={member}
                     organizationId={model.organizationId}
                     actorIsOwner={model.actorIsOwner}
+                  />
+                  <MemberLifecycleActions
+                    member={member}
+                    organizationId={model.organizationId}
                   />
                 </td>
               </tr>

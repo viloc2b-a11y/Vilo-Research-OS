@@ -21,7 +21,13 @@ export async function resolveEmailsForUserIds(
   const map = new Map<string, string>()
   if (userIds.length === 0) return map
 
-  const service = await createServiceClient()
+  let service
+  try {
+    service = await createServiceClient()
+  } catch (err) {
+    console.error('resolveEmailsForUserIds', err)
+    return map
+  }
   const wanted = new Set(userIds)
   let page = 1
   while (page <= 20 && wanted.size > map.size) {

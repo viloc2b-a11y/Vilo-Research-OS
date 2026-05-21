@@ -1,3 +1,4 @@
+import type { OrganizationMemberStatus } from '@/lib/admin/users/membership-status'
 import type { OrganizationRole } from '@/lib/rbac/roles'
 
 export type OrganizationMemberRow = {
@@ -11,7 +12,11 @@ export type OrganizationMemberRow = {
   additionalRoles: OrganizationRole[]
   joinedAt: string
   updatedAt: string | null
+  status: OrganizationMemberStatus
   statusLabel: string
+  hasHistoricalActivity: boolean
+  canDeactivate: boolean
+  canReactivate: boolean
 }
 
 export type OrganizationMembersAdminModel = {

@@ -84,6 +84,13 @@ export function MemberRoleEditor({
           Roles for {member.displayName ?? member.email ?? member.userId}
         </p>
 
+        {member.status === 'deactivated' ? (
+          <p className="text-xs text-muted-foreground">
+            Member is deactivated. Role changes are saved for audit history and do not
+            reactivate access.
+          </p>
+        ) : null}
+
         {[...selected].map((role) => (
           <input key={role} type="hidden" name="roles" value={role} />
         ))}
