@@ -14,7 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { AllergenCombobox } from './LibrarySearchCombobox'
 import { addAllergy, updateAllergy, verifyProfileEntry } from '@/lib/subject/clinical-profile/actions'
+import {
+  DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
+  resolveClinicalProfileSourceAttribution,
+} from '@/lib/subject/clinical-profile/defaults'
+import type { AllergenResult } from '@/lib/subject/clinical-profile/library-search'
 import type { SubjectAllergy, AllergyInput } from '@/lib/subject/clinical-profile/types'
 
 const SEVERITY_LABELS: Record<string, string> = {
@@ -42,13 +48,15 @@ type AllergyFormState = {
   comments: string
 }
 
-const EMPTY_FORM: AllergyFormState = {
-  allergen: '',
-  allergen_type: '',
-  reaction: '',
-  severity: '',
-  source_attribution: '',
-  comments: '',
+function emptyAllergyForm(): AllergyFormState {
+  return {
+    allergen: '',
+    allergen_type: '',
+    reaction: '',
+    severity: '',
+    source_attribution: DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
+    comments: '',
+  }
 }
 
 type AllergiesSectionProps = {
@@ -56,13 +64,21 @@ type AllergiesSectionProps = {
   rows: SubjectAllergy[]
   canVerify?: boolean
   actorRole?: string
+  /** Override default source line (e.g. visit capture context). */
+  defaultSourceAttribution?: string
 }
 
-export function AllergiesSection({ studySubjectId, rows, canVerify = false, actorRole = 'coordinator' }: AllergiesSectionProps) {
+export function AllergiesSection({
+  studySubjectId,
+  rows,
+  canVerify = false,
+  actorRole = 'coordinator',
+  defaultSourceAttribution,
+}: AllergiesSectionProps) {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [changeReason, setChangeReason] = useState('')
-  const [form, setForm] = useState<AllergyFormState>(EMPTY_FORM)
+  const [form, setForm] = useState<AllergyFormState>(emptyAllergyForm)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
 
@@ -72,7 +88,11 @@ export function AllergiesSection({ studySubjectId, rows, canVerify = false, acto
 
   function openAdd() {
     setEditingId(null)
-    setForm(EMPTY_FORM)
+    setForm({
+      ...emptyAllergyForm(),
+      source_attribution:
+        defaultSourceAttribution?.trim() || DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
+    })
     setChangeReason('')
     setError(null)
     setShowForm(true)
@@ -93,17 +113,29 @@ export function AllergiesSection({ studySubjectId, rows, canVerify = false, acto
     setShowForm(true)
   }
 
+  function handlePickAllergen(result: AllergenResult) {
+    setForm((prev) => ({
+      ...prev,
+      allergen: result.display_name,
+      allergen_type: result.allergen_type ?? prev.allergen_type,
+    }))
+  }
+
   function handleSubmit() {
     if (!form.allergen.trim()) { setError('Allergen is required.'); return }
-    if (!form.source_attribution.trim()) { setError('Source attribution is required.'); return }
     if (editingId && !changeReason.trim()) { setError('Change reason is required when editing.'); return }
+
+    const source_attribution = resolveClinicalProfileSourceAttribution(
+      form.source_attribution,
+      defaultSourceAttribution,
+    )
 
     const input: AllergyInput = {
       allergen: form.allergen.trim(),
       allergen_type: (form.allergen_type || null) as AllergyInput['allergen_type'],
       reaction: form.reaction || null,
       severity: (form.severity || null) as AllergyInput['severity'],
-      source_attribution: form.source_attribution.trim(),
+      source_attribution,
       comments: form.comments || null,
     }
 
@@ -115,7 +147,7 @@ export function AllergiesSection({ studySubjectId, rows, canVerify = false, acto
           await addAllergy(studySubjectId, input)
         }
         setShowForm(false)
-        setForm(EMPTY_FORM)
+        setForm(emptyAllergyForm())
         setEditingId(null)
         setError(null)
       } catch (e) {
@@ -148,12 +180,15 @@ export function AllergiesSection({ studySubjectId, rows, canVerify = false, acto
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="sm:col-span-2 space-y-1">
               <Label htmlFor="allergy-allergen" className="text-xs">Allergen *</Label>
-              <Input
-                id="allergy-allergen"
-                value={form.allergen}
-                onChange={(e) => setForm({ ...form, allergen: e.target.value })}
-                placeholder="e.g. Penicillin, Peanuts, Latex"
+              <AllergenCombobox
+                allergen={form.allergen}
+                onAllergenChange={(value) => setForm({ ...form, allergen: value })}
+                onPick={handlePickAllergen}
+                placeholder="Type 2+ letters (e.g. pen) or enter custom allergen"
               />
+              <p className="text-[10px] text-muted-foreground">
+                Suggestions from allergy vocabulary; custom names are allowed.
+              </p>
             </div>
 
             <div className="space-y-1">
@@ -200,13 +235,16 @@ export function AllergiesSection({ studySubjectId, rows, canVerify = false, acto
             </div>
 
             <div className="sm:col-span-2 space-y-1">
-              <Label htmlFor="allergy-source" className="text-xs">Source attribution *</Label>
+              <Label htmlFor="allergy-source" className="text-xs">Source attribution</Label>
               <Input
                 id="allergy-source"
                 value={form.source_attribution}
                 onChange={(e) => setForm({ ...form, source_attribution: e.target.value })}
-                placeholder="e.g. Subject-reported at screening, Visit 1 intake"
+                placeholder={DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION}
               />
+              <p className="text-[10px] text-muted-foreground">
+                Prefilled from Clinical Profile context; edit if a more specific source applies.
+              </p>
             </div>
 
             {editingId && (

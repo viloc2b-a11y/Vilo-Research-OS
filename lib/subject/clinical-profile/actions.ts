@@ -11,6 +11,7 @@
 import { subjectChartRevalidatePaths } from '@/lib/ops/paths'
 import { createServerClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { resolveClinicalProfileSourceAttribution } from './defaults'
 import { writeProfileEvent } from './audit'
 import type {
   MedicalHistoryInput,
@@ -358,6 +359,10 @@ export async function addAllergy(
 ): Promise<{ id: string }> {
   const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
   const supabase = await createServerClient()
+  const payload: AllergyInput = {
+    ...input,
+    source_attribution: resolveClinicalProfileSourceAttribution(input.source_attribution),
+  }
 
   const { data, error } = await supabase
     .from('subject_allergies')
@@ -365,7 +370,7 @@ export async function addAllergy(
       organization_id: organizationId,
       study_subject_id,
       created_by: userId,
-      ...input,
+      ...payload,
     })
     .select('allergy_id')
     .single()
@@ -377,8 +382,8 @@ export async function addAllergy(
     section: 'allergies',
     record_id: data.allergy_id,
     event_type: 'created',
-    after_snapshot: { ...input, study_subject_id } as Record<string, unknown>,
-    source_attribution: input.source_attribution,
+    after_snapshot: { ...payload, study_subject_id } as Record<string, unknown>,
+    source_attribution: payload.source_attribution,
   })
 
   await revalidateProfilePaths(study_subject_id)
