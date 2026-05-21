@@ -41,6 +41,9 @@ export {
   doWindowsOverlap,
   windowsForDrugClass,
   windowsForMedicationName,
+  isWindowActiveAtDate,
+  ANTICOAGULANT_DRUG_CLASSES,
+  ANTICOAGULANT_MED_NAMES,
 } from './medication-conflicts'
 
 // Protocol hook factories + runner

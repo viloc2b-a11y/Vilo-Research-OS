@@ -15,7 +15,7 @@ import type { SubjectClinicalProfile } from '@/lib/subject/clinical-profile/type
 import type { LongitudinalClinicalProfile, MedicationWindow } from './types'
 import { buildTimeline } from './timeline'
 import { buildRiskFlags } from './risk-flags'
-import { buildMedicationWindows, activeNow } from './medication-conflicts'
+import { buildMedicationWindows, activeNow, windowsForDrugClass, windowsForMedicationName, ANTICOAGULANT_DRUG_CLASSES, ANTICOAGULANT_MED_NAMES } from './medication-conflicts'
 
 // ---------------------------------------------------------------------------
 // Normalized condition status helper
@@ -61,36 +61,18 @@ function computeHasDrugAllergies(profile: SubjectClinicalProfile): boolean {
 function computeHasAnticoagulants(
   medicationWindows: MedicationWindow[],
 ): boolean {
-  const ANTICOAG_CLASSES = [
-    'anticoagulant',
-    'anticoagulation',
-    'thrombin inhibitor',
-    'factor xa inhibitor',
-    'vitamin k antagonist',
-  ]
-  const ANTICOAG_NAMES = [
-    'warfarin',
-    'heparin',
-    'enoxaparin',
-    'apixaban',
-    'rivaroxaban',
-    'dabigatran',
-    'edoxaban',
-    'fondaparinux',
-    'tinzaparin',
-    'dalteparin',
-  ]
-
   const current = activeNow(medicationWindows)
 
-  return current.some((w) => {
-    const nameMatch = ANTICOAG_NAMES.some((n) =>
-      w.name.toLowerCase().includes(n),
-    )
-    const classMatch = ANTICOAG_CLASSES.some((c) =>
-      w.drugClass?.toLowerCase().includes(c) ?? false,
-    )
-    return nameMatch || classMatch
+  // Use the same canonical constants and helper path as flagAnticoagulant in risk-flags.ts
+  // to guarantee hasAnticoagulants and anticoagulant_present are always consistent.
+  const byClass = ANTICOAGULANT_DRUG_CLASSES.flatMap((cls) => windowsForDrugClass(current, cls))
+  const byName  = ANTICOAGULANT_MED_NAMES.flatMap((name) => windowsForMedicationName(current, name))
+
+  const seen = new Set<string>()
+  return [...byClass, ...byName].some((w) => {
+    if (seen.has(w.conmedId)) return false
+    seen.add(w.conmedId)
+    return true
   })
 }
 

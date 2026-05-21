@@ -15,6 +15,52 @@ import type { SubjectClinicalProfile } from '@/lib/subject/clinical-profile/type
 import type { MedicationWindow, MedicationWindowOverlap } from './types'
 
 // ---------------------------------------------------------------------------
+// Canonical anticoagulant / antiplatelet identifier lists
+//
+// CLINICAL NOTE:
+// This list intentionally includes P2Y12 antiplatelet agents (clopidogrel,
+// ticagrelor, prasugrel) alongside classical anticoagulants. These agents are
+// mechanistically distinct but are grouped here because they carry equivalent
+// bleeding-risk signals relevant to most clinical trial exclusion screens.
+// If a protocol distinguishes the two categories, use ANTICOAGULANT_DRUG_CLASSES
+// / ANTICOAGULANT_MED_NAMES separately and filter accordingly.
+// ---------------------------------------------------------------------------
+
+/**
+ * Drug-class substrings that indicate anticoagulant / antiplatelet therapy.
+ * Matched case-insensitively via substring search against MedicationWindow.drugClass.
+ */
+export const ANTICOAGULANT_DRUG_CLASSES: readonly string[] = [
+  'anticoagulant',
+  'anticoagulation',
+  'thrombin inhibitor',
+  'factor xa inhibitor',
+  'vitamin k antagonist',
+]
+
+/**
+ * Common medication name substrings that indicate anticoagulant / antiplatelet therapy.
+ * Matched case-insensitively via substring search against MedicationWindow.name.
+ *
+ * Includes P2Y12 antiplatelet agents — see CLINICAL NOTE above.
+ */
+export const ANTICOAGULANT_MED_NAMES: readonly string[] = [
+  'warfarin',
+  'heparin',
+  'enoxaparin',
+  'apixaban',
+  'rivaroxaban',
+  'dabigatran',
+  'edoxaban',
+  'fondaparinux',
+  'tinzaparin',
+  'dalteparin',
+  'clopidogrel',
+  'ticagrelor',
+  'prasugrel',
+]
+
+// ---------------------------------------------------------------------------
 // Build medication windows from the Phase 6C conmed array
 // ---------------------------------------------------------------------------
 

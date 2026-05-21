@@ -18,36 +18,11 @@ import {
   activeNow,
   windowsForDrugClass,
   windowsForMedicationName,
+  ANTICOAGULANT_DRUG_CLASSES,
+  ANTICOAGULANT_MED_NAMES,
 } from './medication-conflicts'
 
-// ---------------------------------------------------------------------------
-// Known anticoagulant identifiers
-// Drug class substrings and common medication name substrings (case-insensitive)
-// ---------------------------------------------------------------------------
-
-const ANTICOAGULANT_DRUG_CLASSES = [
-  'anticoagulant',
-  'anticoagulation',
-  'thrombin inhibitor',
-  'factor xa inhibitor',
-  'vitamin k antagonist',
-]
-
-const ANTICOAGULANT_MED_NAMES = [
-  'warfarin',
-  'heparin',
-  'enoxaparin',
-  'apixaban',
-  'rivaroxaban',
-  'dabigatran',
-  'edoxaban',
-  'fondaparinux',
-  'tinzaparin',
-  'dalteparin',
-  'clopidogrel',
-  'ticagrelor',
-  'prasugrel',
-]
+// (anticoagulant lists imported from ./medication-conflicts — single source of truth)
 
 // Known pain medication drug classes
 const PAIN_MED_DRUG_CLASSES = [
