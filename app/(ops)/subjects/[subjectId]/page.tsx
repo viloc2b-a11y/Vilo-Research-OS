@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { SubjectOperationalCommandCenter } from '@/components/subjects/operations/SubjectOperationalCommandCenter'
+import { SubjectReturnToVisitBanner } from '@/components/subjects/subject-return-to-visit-banner'
 import { SubjectChartHeader } from '@/components/subjects/subject-chart-header'
 import { SubjectChartNav } from '@/components/subjects/subject-chart-nav'
 import { subjectChartTabs } from '@/lib/subject/chart-tabs'
@@ -40,7 +41,7 @@ import { createServerClient } from '@/lib/supabase/server'
 
 type SubjectDetailPageProps = {
   params: Promise<{ subjectId: string; studyId?: string }>
-  searchParams: Promise<{ tab?: string }>
+  searchParams: Promise<{ tab?: string; returnTo?: string }>
 }
 
 // Tabs that are rendered inline (not visits/clinical-profile which redirect/forward)
@@ -117,8 +118,12 @@ export default async function SubjectDetailPage({
   searchParams,
 }: SubjectDetailPageProps) {
   const { subjectId, studyId: routeStudyId } = await params
-  const { tab } = await searchParams
+  const { tab, returnTo: returnToRaw } = await searchParams
   const activeTab = normalizeTab(tab)
+  const returnToVisit =
+    typeof returnToRaw === 'string' && returnToRaw.startsWith('/visits/')
+      ? returnToRaw
+      : null
   const supabase = await createServerClient()
 
   // Core subject fetch — RLS enforces org membership
@@ -303,6 +308,10 @@ export default async function SubjectDetailPage({
       {/* ===== Tab Content ===== */}
       <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
         <div className="p-6 max-w-[1100px] space-y-5">
+
+          {returnToVisit ? (
+            <SubjectReturnToVisitBanner returnTo={returnToVisit} />
+          ) : null}
 
           {/* Error banners */}
           {!workflowResult.ok && activeTab === 'workflow' ? (

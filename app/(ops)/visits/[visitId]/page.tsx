@@ -25,9 +25,27 @@ import {
 } from 'lucide-react'
 import { ProcedureCompleteButton } from '@/components/clinical/procedure-complete-button'
 import { VisitLifecycleActions } from '@/components/clinical/visit-lifecycle-actions'
+import {
+  deriveVisitCloseoutHeaderChips,
+  VisitCloseoutHeaderIndicators,
+} from '@/components/subjects/visits/VisitCloseoutHeaderIndicators'
 import { VisitCloseoutSection } from '@/components/subjects/visits/VisitCloseoutSection'
 import { VisitReviewStatusBadge } from '@/components/subjects/visits/VisitReviewStatusBadge'
+import {
+  VisitClinicalLinkPanel,
+  VisitGuidancePanel,
+} from '@/components/subjects/visits/visit-workspace-panels'
 import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflowPanel'
+import {
+  subjectAdverseEventsTabPath,
+  subjectConMedsTabPath,
+  visitDetailPath,
+} from '@/lib/ops/paths'
+import {
+  buildVisitProgressSteps,
+  currentVisitProgressIndex,
+  type VisitProgressStep,
+} from '@/lib/visits/visit-progress-steps'
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
 import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load'
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
@@ -75,24 +93,15 @@ function visitStatusBadgeClass(status: string | null) {
 // Progress steps strip
 // ============================================================================
 
-const PROGRESS_STEPS = [
-  'Check-in',
-  'Procedures',
-  'Labs',
-  'Source Complete',
-  'PI Sign',
-  'Locked',
-]
-
-function ProgressStrip({ pct }: { pct: number }) {
-  const currentStep = Math.min(Math.floor((pct / 100) * PROGRESS_STEPS.length), PROGRESS_STEPS.length - 1)
+function ProgressStrip({ steps }: { steps: VisitProgressStep[] }) {
+  const currentStep = currentVisitProgressIndex(steps)
   return (
     <div className="flex items-center gap-1 px-6 py-3 bg-card border-b border-border overflow-x-auto scrollbar-thin">
-      {PROGRESS_STEPS.map((step, i) => {
-        const done    = i < currentStep
-        const current = i === currentStep
+      {steps.map((step, i) => {
+        const done = step.done
+        const current = i === currentStep && !done
         return (
-          <div key={step} className="flex items-center">
+          <div key={step.id} className="flex items-center">
             <div className="flex flex-col items-center gap-1">
               <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0 ${
                 done    ? 'bg-primary text-white' :
@@ -105,9 +114,9 @@ function ProgressStrip({ pct }: { pct: number }) {
                 done    ? 'text-primary' :
                 current ? 'text-blue-600'  :
                           'text-muted-foreground'
-              }`}>{step}</span>
+              }`}>{step.label}</span>
             </div>
-            {i < PROGRESS_STEPS.length - 1 && (
+            {i < steps.length - 1 && (
               <div className={`w-10 h-0.5 mx-1 mb-4 flex-shrink-0 ${done ? 'bg-primary' : 'bg-border'}`} />
             )}
           </div>
@@ -310,8 +319,20 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   // Paths
   const studyPath      = `/studies/${visit.study_id}`
   const subjectPath    = `/studies/${visit.study_id}/subjects/${visit.study_subject_id}`
-  const visitPath      = `/visits/${visit.id}`
+  const visitPath      = visitDetailPath(visit.id as string)
+  const visitWorkflowPath = visitDetailPath(visit.id as string, 'workflow')
   const orgQs          = `?organization_id=${organizationId}`
+  const returnToOpts   = { returnTo: visitPath }
+  const aeTabHref      = subjectAdverseEventsTabPath(
+    visit.study_id as string,
+    visit.study_subject_id as string,
+    returnToOpts,
+  )
+  const conmedsTabHref = subjectConMedsTabPath(
+    visit.study_id as string,
+    visit.study_subject_id as string,
+    returnToOpts,
+  )
 
   const visitAllowsProcedureEdits =
     visit.visit_status === 'scheduled' ||
@@ -323,7 +344,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   // Load procedures
   const { data: procedures, error: pErr } = await supabase
     .from('procedure_executions')
-    .select(`id, execution_status, validation_status, performed_at, is_signed, is_locked, procedure_definitions(code,label)`)
+    .select(`id, execution_status, validation_status, performed_at, is_signed, is_locked, source_definition_version_id, procedure_definitions(code,label)`)
     .eq('visit_id', visitId)
     .eq('organization_id', organizationId)
     .order('created_at', { ascending: true })
@@ -389,10 +410,28 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     ['submitted', 'pending_review', 'reviewed'].includes(rs.status)
   )
 
-  // Completion percentage (for progress strip)
   const totalProcs     = procedures?.length ?? 0
   const completedProcs = procedures?.filter(p => p.execution_status === 'completed').length ?? 0
-  const pct = totalProcs > 0 ? Math.round((completedProcs / totalProcs) * 80) : 0 // 80% max until PI signed
+  const proceduresWithSource = (procedures ?? []).filter(
+    (p) => p.source_definition_version_id,
+  )
+  const submittedStatuses = new Set(['submitted', 'pending_review', 'reviewed'])
+  const submittedSourceForSourceProcs = proceduresWithSource.filter((p) => {
+    const rs = responseSetByPe.get(p.id as string)
+    return rs != null && submittedStatuses.has(String(rs.status))
+  }).length
+
+  const closeoutChips = deriveVisitCloseoutHeaderChips(closeoutBundle)
+  const progressSteps = buildVisitProgressSteps({
+    visitStatus: String(visit.visit_status ?? 'scheduled'),
+    totalProcs,
+    completedProcs,
+    proceduresWithSourceCount: proceduresWithSource.length,
+    submittedSourceForSourceProcsCount: submittedSourceForSourceProcs,
+    coordinatorSigned: closeoutBundle?.model.coordinatorSignatureStatus === 'signed',
+    investigatorSigned: closeoutBundle?.model.investigatorReviewStatus === 'signed',
+    isLocked,
+  })
 
   const visitLabel = vd?.label ?? vd?.code ?? 'Visit'
   const procedureGroups = [
@@ -470,6 +509,10 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               {visit.visit_status?.replace('_', ' ') ?? 'Scheduled'}
             </span>
             <VisitReviewStatusBadge status={visitReviewStatus} />
+            <VisitCloseoutHeaderIndicators
+              chips={closeoutChips}
+              workflowHref={visitWorkflowPath}
+            />
           </div>
 
           {/* Completion indicators */}
@@ -510,7 +553,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       </header>
 
       {/* Progress strip */}
-      <ProgressStrip pct={pct} />
+      <ProgressStrip steps={progressSteps} />
 
       {/* Tab nav */}
       <div className="flex-shrink-0 px-6 border-b border-border bg-card">
@@ -713,47 +756,60 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
           </div>
         )}
 
-        {/* LABS — STUB */}
         {activeTab === 'labs' && (
-          <div className="p-6 max-w-[900px]">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <FlaskConical className="w-10 h-10 text-muted-foreground mb-3" />
-              <p className="text-sm font-semibold text-foreground">Lab Reconciliation</p>
-              <p className="text-xs text-muted-foreground mt-1">Coming soon — lab result review and reconciliation.</p>
-            </div>
+          <div className="p-6">
+            <VisitGuidancePanel
+              icon={FlaskConical}
+              title="Labs on this visit"
+              description="Labs are tracked through protocol procedures and source capture for this visit. Complete lab-related procedures on the Procedures tab and capture results in source."
+              actions={[
+                { label: 'Return to Procedures', href: visitDetailPath(visitId, 'procedures') },
+              ]}
+            />
           </div>
         )}
 
-        {/* AE/SAFETY — STUB */}
         {activeTab === 'safety' && (
-          <div className="p-6 max-w-[900px]">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <AlertTriangle className="w-10 h-10 text-muted-foreground mb-3" />
-              <p className="text-sm font-semibold text-foreground">AE / Safety Review</p>
-              <p className="text-xs text-muted-foreground mt-1">Adverse event documentation coming soon.</p>
-            </div>
+          <div className="p-6">
+            <VisitClinicalLinkPanel
+              icon={AlertTriangle}
+              title="AE / Safety"
+              description="Adverse events and safety signals for this subject are maintained on the subject chart AE timeline — not in a separate visit-level registry."
+              primaryLabel="Open Subject AE Timeline"
+              primaryHref={aeTabHref}
+              secondaryNote="You will return to this visit workspace when done."
+            />
           </div>
         )}
 
-        {/* CONMEDS — STUB */}
         {activeTab === 'conmeds' && (
-          <div className="p-6 max-w-[900px]">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Pill className="w-10 h-10 text-muted-foreground mb-3" />
-              <p className="text-sm font-semibold text-foreground">Concomitant Medications</p>
-              <p className="text-xs text-muted-foreground mt-1">ConMed review at visit level coming soon.</p>
-            </div>
+          <div className="p-6">
+            <VisitClinicalLinkPanel
+              icon={Pill}
+              title="Concomitant medications"
+              description="ConMeds are reviewed and updated on the subject chart. Use the dedicated ConMeds tab for longitudinal medication history."
+              primaryLabel="Open Subject ConMeds"
+              primaryHref={conmedsTabHref}
+              secondaryNote="You will return to this visit workspace when done."
+            />
           </div>
         )}
 
-        {/* NOTES — STUB */}
         {activeTab === 'notes' && (
-          <div className="p-6 max-w-[900px]">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <PenTool className="w-10 h-10 text-muted-foreground mb-3" />
-              <p className="text-sm font-semibold text-foreground">Visit Notes</p>
-              <p className="text-xs text-muted-foreground mt-1">Coordinator notes and deviation documentation coming soon.</p>
-            </div>
+          <div className="p-6">
+            <VisitGuidancePanel
+              icon={PenTool}
+              title="Visit notes"
+              description="Visit notes are captured through source and procedure documentation on this visit, and through coordinator closeout on the Workflow tab."
+              actions={[
+                { label: 'Return to Procedures', href: visitDetailPath(visitId, 'procedures') },
+                {
+                  label: 'Open Workflow / Closeout',
+                  href: visitWorkflowPath,
+                  variant: 'outline',
+                },
+              ]}
+            />
           </div>
         )}
       </div>

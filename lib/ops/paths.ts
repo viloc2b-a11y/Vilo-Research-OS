@@ -15,15 +15,31 @@ export function subjectChartPath(studyId: string | null, subjectId: string) {
   return studyId ? `/studies/${studyId}/subjects/${subjectId}` : `/subjects/${subjectId}`
 }
 
+export type SubjectChartTabOptions = {
+  /** Safe internal path (e.g. /visits/{id}) for return navigation from subject tabs. */
+  returnTo?: string
+}
+
+function appendReturnTo(path: string, options?: SubjectChartTabOptions): string {
+  const returnTo = options?.returnTo?.trim()
+  if (!returnTo || !returnTo.startsWith('/')) return path
+  const sep = path.includes('?') ? '&' : '?'
+  return `${path}${sep}returnTo=${encodeURIComponent(returnTo)}`
+}
+
 export function subjectChartTabPath(
   studyId: string | null,
   subjectId: string,
   tab: string,
+  options?: SubjectChartTabOptions,
 ) {
+  let base: string
   if (studyId && tab === 'visits') {
-    return subjectVisitsPath(studyId, subjectId)
+    base = subjectVisitsPath(studyId, subjectId)
+  } else {
+    base = `${subjectChartPath(studyId, subjectId)}?tab=${tab}`
   }
-  return `${subjectChartPath(studyId, subjectId)}?tab=${tab}`
+  return appendReturnTo(base, options)
 }
 
 /** Canonical Clinical Profile (inline tab, not standalone route). */
@@ -32,13 +48,21 @@ export function subjectClinicalProfilePath(studyId: string | null, subjectId: st
 }
 
 /** Dedicated subject-level ConMeds tab (reuses clinical profile read model). */
-export function subjectConMedsTabPath(studyId: string | null, subjectId: string) {
-  return subjectChartTabPath(studyId, subjectId, 'conmeds')
+export function subjectConMedsTabPath(
+  studyId: string | null,
+  subjectId: string,
+  options?: SubjectChartTabOptions,
+) {
+  return subjectChartTabPath(studyId, subjectId, 'conmeds', options)
 }
 
 /** Subject-level AE / safety timeline tab (operational overlay, not structured AE registry). */
-export function subjectAdverseEventsTabPath(studyId: string | null, subjectId: string) {
-  return subjectChartTabPath(studyId, subjectId, 'adverse-events')
+export function subjectAdverseEventsTabPath(
+  studyId: string | null,
+  subjectId: string,
+  options?: SubjectChartTabOptions,
+) {
+  return subjectChartTabPath(studyId, subjectId, 'adverse-events', options)
 }
 
 /** @deprecated Use subjectAdverseEventsTabPath — kept for existing deep links. */
@@ -66,8 +90,9 @@ export function subjectVisitsPath(studyId: string, subjectId: string) {
   return `/studies/${studyId}/subjects/${subjectId}/visits`
 }
 
-export function visitDetailPath(visitId: string) {
-  return `/visits/${visitId}`
+export function visitDetailPath(visitId: string, tab?: string) {
+  const base = `/visits/${visitId}`
+  return tab ? `${base}?tab=${tab}` : base
 }
 
 export function visitDocumentsPath(studyId: string, subjectId: string, visitId: string) {
