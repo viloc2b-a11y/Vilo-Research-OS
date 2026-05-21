@@ -340,13 +340,31 @@ export async function loadSubjectWorkspaceModel(subjectId: string): Promise<Subj
         }))
     : []
 
-  const signaturesPending = procedureItems
-    .filter((item) => item.detail.includes('unsigned'))
-    .map((item) => ({
-      ...item,
-      title: `Signature pending · ${item.title}`,
-      tone: item.status === 'blocked' ? 'critical' as const : 'warning' as const,
-    }))
+  // Execution states in which an absent signature is operationally actionable.
+  // Derived from the migration-defined lifecycle:
+  //   pending → in_progress → completed → verified   (signable: completed, verified)
+  //                         ↘ not_applicable          (never signed)
+  //                         ↘ cancelled               (never signed)
+  // is_locked=true means the record is closed to further action — skip.
+  const SIGNABLE_STATUSES = new Set(['completed', 'verified'])
+
+  const signaturesPending = (procedures.data ?? [])
+    .filter((p) =>
+      !p.is_signed &&
+      !p.is_locked &&
+      SIGNABLE_STATUSES.has(String(p.execution_status ?? '')),
+    )
+    .map((p) => {
+      const def = one(p.procedure_definitions) as { label?: string | null; code?: string | null } | null
+      return {
+        id: p.id as string,
+        title: `Signature pending · ${def?.label ?? def?.code ?? 'Procedure'}`,
+        detail: `${String(p.execution_status ?? 'completed')} · awaiting signature`,
+        href: sourceCapturePath(p.id as string, organizationId),
+        status: p.validation_status as string | null,
+        tone: (p.validation_status === 'blocked' ? 'critical' : 'warning') as WorkspaceItem['tone'],
+      }
+    })
 
   const clinicalLinks: WorkspaceItem[] = [
     {
