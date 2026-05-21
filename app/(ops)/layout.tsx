@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation'
+import { NoActiveOrganizationAccess } from '@/components/shell/no-active-organization-access'
 import { OpsShell } from '@/components/shell/ops-shell'
+import { activeMemberships } from '@/lib/auth/membership-access'
 import { canAccessAdminSection } from '@/lib/admin/permissions'
 import {
   getOrganizationMemberships,
@@ -24,7 +26,12 @@ export default async function OpsLayout({
     redirect('/login')
   }
 
-  const memberships = await getOrganizationMemberships(user.id)
+  const memberships = activeMemberships(await getOrganizationMemberships(user.id))
+
+  if (memberships.length === 0) {
+    return <NoActiveOrganizationAccess userEmail={user.email} />
+  }
+
   const primaryOrg = memberships[0]?.organizations
   const canAccessAdmin = canAccessAdminSection(memberships)
   const canViewFinancial = canViewFinancialData(memberships)

@@ -3,6 +3,7 @@
 // Entry point for the study hierarchy. Real data from DB.
 
 import Link from 'next/link'
+import { organizationIdsFromMemberships } from '@/lib/rbac/org-scope'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { orgAdminOrganizations } from '@/lib/studies/permissions'
 import {
@@ -129,7 +130,7 @@ export default async function StudiesPortfolioPage() {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
   const canCreateStudy = orgAdminOrganizations(memberships).length > 0
-  const organizationIds = memberships.map((membership) => membership.organization_id)
+  const organizationIds = organizationIdsFromMemberships(memberships)
 
   const supabase = await createServerClient()
   const studiesQuery = supabase

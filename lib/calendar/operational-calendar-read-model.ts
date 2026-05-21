@@ -1,3 +1,4 @@
+import { organizationIdsFromMemberships } from '@/lib/rbac/org-scope'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import {
   calendarDayDiff,
@@ -311,7 +312,7 @@ export async function loadOperationalCalendarModel(input?: {
 }): Promise<OperationalCalendarModel> {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
-  const organizationIds = memberships.map((membership) => membership.organization_id)
+  const organizationIds = organizationIdsFromMemberships(memberships)
   const canViewUnblinded = canViewUnblindedData(memberships)
   const siteTimeZone = getSiteTimeZone()
   const today = todayCalendarDate(siteTimeZone)

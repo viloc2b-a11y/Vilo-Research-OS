@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { completeVisit } from '@/lib/actions/complete-visit'
+import { canAccessOrganization } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { SubjectVisitsActionResult } from '@/lib/subject/visits/types'
 import { createServerClient } from '@/lib/supabase/server'
@@ -16,7 +17,7 @@ async function assertVisitAccess(
   if (!user) return { ok: false, error: 'Sign in required.' }
 
   const memberships = await getOrganizationMemberships(user.id)
-  if (!memberships.some((m) => m.organization_id === organizationId)) {
+  if (!canAccessOrganization(memberships, organizationId)) {
     return { ok: false, error: 'You are not a member of this organization.' }
   }
 

@@ -5,11 +5,16 @@
  * Effective permissions are the UNION of all normalized roles (ANY grants TRUE).
  */
 
+import { isOperationalMembershipStatus } from '@/lib/auth/membership-status'
 import type { OrganizationMembership } from '@/lib/auth/session'
 import {
   normalizeOrganizationRole,
   type OrganizationRole,
 } from '@/lib/rbac/roles'
+
+function membershipGrantsOperationalAccess(membership: OrganizationMembership): boolean {
+  return isOperationalMembershipStatus(membership.status)
+}
 
 export type MembershipRoleInput = {
   role?: string | null
@@ -45,6 +50,7 @@ export function resolveEffectiveRolesForMembership(
   membership: OrganizationMembership,
   organizationId?: string,
 ): OrganizationRole[] {
+  if (!membershipGrantsOperationalAccess(membership)) return []
   if (organizationId && membership.organization_id !== organizationId) {
     return []
   }
@@ -61,6 +67,7 @@ export function membershipHasEffectiveRole(
   predicate: (role: OrganizationRole) => boolean,
   organizationId?: string,
 ): boolean {
+  if (!membershipGrantsOperationalAccess(membership)) return false
   return resolveEffectiveRolesForMembership(membership, organizationId).some(predicate)
 }
 

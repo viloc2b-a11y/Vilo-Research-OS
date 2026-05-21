@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { postSaveDraft, postSubmitResponseSet } from '@/lib/api/source/write-client'
 import {
@@ -32,10 +33,9 @@ async function assertCanMutateSourceCapture(organizationId: string): Promise<str
   if (!user) return 'Sign in required.'
 
   const memberships = await getOrganizationMemberships(user.id)
-  const belongsToOrganization = memberships.some(
-    (membership) => membership.organization_id === organizationId,
-  )
-  if (!belongsToOrganization) return 'You do not have access to this organization.'
+  if (!hasActiveOrganizationMembership(memberships, organizationId)) {
+    return 'You do not have active access to this organization.'
+  }
 
   const canMutate =
     canManageSourceDocuments(memberships, organizationId)

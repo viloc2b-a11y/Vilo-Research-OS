@@ -13,6 +13,7 @@ import {
   type OrganizationMemberStatus,
 } from '@/lib/admin/users/membership-status'
 import { rolesFromMembershipRow, validateRoleChange } from '@/lib/admin/users/role-policy'
+import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import {
   canManageUsers,
@@ -54,10 +55,10 @@ function mapMembershipUpdateError(message: string): string {
 }
 
 async function requireAdminActor(organizationId: string) {
-  const user = await getSessionUser()
-  if (!user) return { ok: false as const, message: 'Sign in required.' }
+  const access = await requireActiveOrganizationAccess(organizationId)
+  if (!access.ok) return { ok: false as const, message: access.message }
 
-  const memberships = await getOrganizationMemberships(user.id)
+  const { user, memberships } = access
   if (!hasSiteAdminAccess(memberships, organizationId)) {
     return { ok: false as const, message: 'Admin access required for this organization.' }
   }

@@ -1,4 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server'
+import { activeMemberships } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { filterUnblindedRows } from '@/lib/rbac/blinding'
 
@@ -41,7 +42,9 @@ export async function loadOperationalChronology(input: {
   if (error) return []
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
-  const scopedMemberships = memberships.filter((membership) => membership.organization_id === input.organizationId)
+  const scopedMemberships = activeMemberships(memberships).filter(
+    (membership) => membership.organization_id === input.organizationId,
+  )
 
   return filterUnblindedRows(
     ((data ?? []) as Array<{

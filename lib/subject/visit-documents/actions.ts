@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { canAccessOrganization } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { createServerClient, createServiceClient } from '@/lib/supabase/server'
 import {
@@ -54,7 +55,7 @@ async function resolveVisitContext(input: {
 
   if (error) return { ok: false as const, error: error.message }
   if (!data) return { ok: false as const, error: 'Visit not found for this subject.' }
-  if (!memberships.some((m) => m.organization_id === data.organization_id)) {
+  if (!canAccessOrganization(memberships, data.organization_id)) {
     return { ok: false as const, error: 'You are not a member of this organization.' }
   }
 

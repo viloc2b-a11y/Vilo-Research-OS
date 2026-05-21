@@ -139,7 +139,7 @@ export async function loadSourceAeCaptures(input: {
     if (!fieldKey || !AE_FIELD_KEYS.has(fieldKey)) continue
 
     const scope = field?.blinding_scope ?? 'public_to_site'
-    if (!canViewBlindingScope(input.memberships, scope)) {
+    if (!canViewBlindingScope(input.memberships, scope, input.organizationId)) {
       blindingBySet.set(row.response_set_id as string, true)
       continue
     }

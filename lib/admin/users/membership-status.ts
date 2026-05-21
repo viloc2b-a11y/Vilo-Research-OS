@@ -1,26 +1,13 @@
-export const ORGANIZATION_MEMBER_STATUSES = ['active', 'inactive', 'deactivated'] as const
+export {
+  ORGANIZATION_MEMBER_STATUSES,
+  membershipStatusLabel,
+  normalizeMembershipStatus,
+  type OrganizationMemberStatus,
+} from '@/lib/auth/membership-status'
 
-export type OrganizationMemberStatus = (typeof ORGANIZATION_MEMBER_STATUSES)[number]
-
-export function normalizeMembershipStatus(raw: string | null | undefined): OrganizationMemberStatus {
-  const value = String(raw ?? 'active').trim().toLowerCase()
-  if (value === 'inactive' || value === 'deactivated') return value
-  return 'active'
-}
-
-export function membershipStatusLabel(status: OrganizationMemberStatus): string {
-  switch (status) {
-    case 'active':
-      return 'Active'
-    case 'inactive':
-      return 'Inactive'
-    case 'deactivated':
-      return 'Deactivated'
-    default:
-      return 'Active'
-  }
-}
-
-export function isMembershipActive(status: OrganizationMemberStatus): boolean {
+/** @deprecated Use isOperationalMembershipStatus from lib/auth/membership-status */
+export function isMembershipActive(
+  status: import('@/lib/auth/membership-status').OrganizationMemberStatus,
+): boolean {
   return status === 'active'
 }

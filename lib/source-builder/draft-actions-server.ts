@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { canAccessOrganization } from '@/lib/auth/membership-access'
 import {
   getOrganizationMemberships,
   getPrimaryOrganizationId,
@@ -49,7 +50,7 @@ async function resolveOrgContext(organizationId?: string) {
   }
 
   const memberships = await getOrganizationMemberships(user.id)
-  if (!memberships.some((m) => m.organization_id === orgId)) {
+  if (!canAccessOrganization(memberships, orgId)) {
     return { ok: false as const, error: 'You are not a member of this organization.' }
   }
 

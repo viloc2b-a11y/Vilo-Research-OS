@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { canAccessOrganization } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { appendVisitCloseoutEvent } from '@/lib/subject/visits/progress-note/events'
 import {
@@ -37,7 +38,7 @@ async function assertVisitWrite(
   if (!user) return { ok: false, error: 'Sign in required.' }
 
   const memberships = await getOrganizationMemberships(user.id)
-  if (!memberships.some((m) => m.organization_id === organizationId)) {
+  if (!canAccessOrganization(memberships, organizationId)) {
     return { ok: false, error: 'You are not a member of this organization.' }
   }
 

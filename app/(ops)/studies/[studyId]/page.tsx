@@ -24,6 +24,7 @@ import {
   Timer,
 } from 'lucide-react'
 import { createServerClient } from '@/lib/supabase/server'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
@@ -321,7 +322,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
   if (!user) notFound()
 
   const memberships = await getOrganizationMemberships(user.id)
-  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   // Load subjects (for Subjects tab + quick stats)

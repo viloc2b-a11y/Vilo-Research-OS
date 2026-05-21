@@ -32,6 +32,7 @@ import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectAdverseEventsTimeline } from '@/lib/subject/adverse-events'
 import { loadSubjectRegulatorySignals } from '@/lib/subject/regulatory-signals'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
 import { canViewUnblindedData } from '@/lib/rbac/permissions'
@@ -158,7 +159,7 @@ export default async function SubjectDetailPage({
   if (!user) notFound()
 
   const memberships = await getOrganizationMemberships(user.id)
-  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   const canViewUnblinded = canViewUnblindedData(memberships, organizationId)

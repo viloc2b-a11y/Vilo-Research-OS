@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { canAccessOrganization } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import {
   canManageUnblindedData,
@@ -65,7 +66,7 @@ export async function updateSubjectGeneralAction(
   if (!user) return { ok: false, message: 'Sign in required.' }
 
   const memberships = await getOrganizationMemberships(user.id)
-  if (!memberships.some((m) => m.organization_id === organizationId)) {
+  if (!canAccessOrganization(memberships, organizationId)) {
     return { ok: false, message: 'You are not a member of this organization.' }
   }
   if (!canMutateOrganizationData(memberships, organizationId)) {

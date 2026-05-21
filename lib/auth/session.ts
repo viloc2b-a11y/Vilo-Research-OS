@@ -1,3 +1,8 @@
+import {
+  isOperationalMembershipStatus,
+  normalizeMembershipStatus,
+  type OrganizationMemberStatus,
+} from '@/lib/auth/membership-status'
 import { createServerClient } from '@/lib/supabase/server'
 
 export type OrganizationMembership = {
@@ -6,6 +11,8 @@ export type OrganizationMembership = {
   role: string
   /** All assigned site roles; union with `role` when evaluating permissions. */
   roles: string[]
+  /** Site membership lifecycle; only `active` (or null legacy) grants ops access. */
+  status: OrganizationMemberStatus
   organizations: { id: string; name: string } | null
 }
 
@@ -26,18 +33,26 @@ export async function getOrganizationMemberships(
     organization_id: string
     role: string
     roles?: string[] | null
+    status?: string | null
     organizations: { id: string; name: string } | { id: string; name: string }[] | null
   }
 
   const fullSelect = await supabase
     .from('organization_members')
-    .select('organization_id, role, roles, organizations(id, name)')
+    .select('organization_id, role, roles, status, organizations(id, name)')
     .eq('user_id', userId)
 
   let rows: MembershipRow[] | null = fullSelect.data as MembershipRow[] | null
   let error = fullSelect.error
 
-  if (error && /roles/i.test(error.message)) {
+  if (error && /status/i.test(error.message)) {
+    const legacySelect = await supabase
+      .from('organization_members')
+      .select('organization_id, role, roles, organizations(id, name)')
+      .eq('user_id', userId)
+    rows = legacySelect.data as MembershipRow[] | null
+    error = legacySelect.error
+  } else if (error && /roles/i.test(error.message)) {
     const legacySelect = await supabase
       .from('organization_members')
       .select('organization_id, role, organizations(id, name)')
@@ -69,6 +84,7 @@ export async function getOrganizationMemberships(
       organization_id: row.organization_id as string,
       role: row.role as string,
       roles,
+      status: normalizeMembershipStatus(row.status),
       organizations: organization,
     }
   })
@@ -76,5 +92,8 @@ export async function getOrganizationMemberships(
 
 export async function getPrimaryOrganizationId(userId: string): Promise<string | null> {
   const memberships = await getOrganizationMemberships(userId)
-  return memberships[0]?.organization_id ?? null
+  return (
+    memberships.find((m) => isOperationalMembershipStatus(m.status))?.organization_id ??
+    null
+  )
 }

@@ -60,6 +60,7 @@ function membershipForRole(orgId: string, role: string, roles?: string[]): Organ
     organization_id: orgId,
     role,
     roles: roles ?? [role],
+    status: 'active',
     organizations: null,
   }
 }

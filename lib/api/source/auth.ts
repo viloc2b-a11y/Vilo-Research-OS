@@ -4,6 +4,7 @@
 
 import type { User } from '@supabase/supabase-js'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships } from '@/lib/auth/session'
 import { apiError } from '@/lib/api/source/errors'
 import { errorEnvelope } from '@/lib/api/source/envelope'
@@ -55,7 +56,7 @@ export async function requireOrganizationMember(
   organizationId: string,
 ): Promise<{ ok: true } | { ok: false; response: ReturnType<typeof jsonEnvelope> }> {
   const memberships = await getOrganizationMemberships(ctx.user.id)
-  const allowed = memberships.some((m) => m.organization_id === organizationId)
+  const allowed = hasActiveOrganizationMembership(memberships, organizationId)
   if (!allowed) {
     return {
       ok: false,

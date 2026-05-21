@@ -60,23 +60,26 @@ function membershipsFromInput(
 export function canViewBlindingScope(
   membership: OrganizationMembership | OrganizationMembership[],
   blindingScope: BlindingScope | string | null | undefined,
+  organizationId?: string,
 ): boolean {
   if (blindingScope !== 'unblinded') return true
-  return canViewUnblindedData(membershipsFromInput(membership))
+  return canViewUnblindedData(membershipsFromInput(membership), organizationId)
 }
 
 export function redactUnblindedPayload(
   payload: Record<string, unknown> | null | undefined,
   membership: OrganizationMembership | OrganizationMembership[],
+  organizationId?: string,
 ): Record<string, unknown> | null {
-  return redactOperationalEventPayload(payload, canViewUnblindedData(membershipsFromInput(membership)))
+  return redactOperationalEventPayload(payload, canViewUnblindedData(membershipsFromInput(membership), organizationId))
 }
 
 export function filterUnblindedRows<T extends { payload?: Record<string, unknown> | null }>(
   rows: T[],
   membership: OrganizationMembership | OrganizationMembership[],
+  organizationId?: string,
 ): T[] {
-  return filterRowsByBlindingScope(rows, canViewUnblindedData(membershipsFromInput(membership)))
+  return filterRowsByBlindingScope(rows, canViewUnblindedData(membershipsFromInput(membership), organizationId))
 }
 
 export function filterRowsByBlindingScope<T extends { payload?: Record<string, unknown> | null }>(

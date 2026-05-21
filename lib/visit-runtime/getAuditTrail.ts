@@ -1,4 +1,5 @@
 import { fetchResponseSetDetail } from '@/lib/api/source/read-client'
+import { activeMemberships } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { filterUnblindedRows, redactUnblindedPayload } from '@/lib/rbac/blinding'
 import { formatValuePayload } from '@/lib/source/read-contract/format'
@@ -45,7 +46,9 @@ export async function getAuditTrail(params: {
 
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
-  const scopedMemberships = memberships.filter((membership) => membership.organization_id === params.organizationId)
+  const scopedMemberships = activeMemberships(memberships).filter(
+    (membership) => membership.organization_id === params.organizationId,
+  )
   const filteredOperational = filterUnblindedRows(
     ((operational ?? []) as Array<{
       id: string

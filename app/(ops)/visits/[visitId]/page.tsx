@@ -31,6 +31,7 @@ import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflow
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
 import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load'
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
@@ -289,7 +290,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   if (!user) notFound()
 
   const memberships = await getOrganizationMemberships(user.id)
-  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   // Study name for breadcrumb

@@ -1,4 +1,5 @@
 import type { OrganizationMembership } from '@/lib/auth/session'
+import { activeMemberships } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { additionalRoles } from '@/lib/admin/users/role-labels'
 import { canActorDeactivateTarget, canActorReactivateTarget } from '@/lib/admin/users/member-permissions'
@@ -27,7 +28,7 @@ export async function loadOrganizationMembersAdmin(
   const user = await getSessionUser()
   if (!user) return { ok: false, reason: 'unauthorized' }
 
-  const memberships = await getOrganizationMemberships(user.id)
+  const memberships = activeMemberships(await getOrganizationMemberships(user.id))
   if (!hasSiteAdminAccess(memberships, organizationId)) {
     return { ok: false, reason: 'forbidden' }
   }
@@ -163,7 +164,7 @@ export async function loadOrganizationMembersAdmin(
 export function adminOrganizationsForUser(
   memberships: OrganizationMembership[],
 ): { id: string; name: string }[] {
-  return memberships
+  return activeMemberships(memberships)
     .filter((m) => hasSiteAdminAccess([m], m.organization_id))
     .map((m) => ({
       id: m.organization_id,

@@ -11,6 +11,7 @@ import { loadSubjectClinicalProfile } from '@/lib/subject/clinical-profile/read'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { createServerClient } from '@/lib/supabase/server'
+import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 
@@ -94,7 +95,7 @@ export async function loadStudyWorkspaceModel(studyId: string): Promise<StudyWor
   if (!user) notFound()
 
   const memberships = await getOrganizationMemberships(user.id)
-  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   const [subjects, visits, sourceSets, workflow, events] = await Promise.all([
@@ -256,7 +257,7 @@ export async function loadSubjectWorkspaceModel(subjectId: string): Promise<Subj
   if (!user) notFound()
 
   const memberships = await getOrganizationMemberships(user.id)
-  const canAccessOrganization = memberships.some((m) => m.organization_id === organizationId)
+  const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   const [visits, procedures, sourceSets, workflow, operational, profile] = await Promise.all([

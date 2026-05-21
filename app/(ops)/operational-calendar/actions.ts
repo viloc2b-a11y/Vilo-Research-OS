@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { activeMemberships } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import {
   allDayBlockRange,
@@ -125,7 +126,9 @@ async function validateMutationPermission(input: {
   organizationId: string
   blindingScope?: BlindingScope
 }): Promise<string | null> {
-  const memberships = await getOrganizationMemberships(input.userId)
+  const memberships = activeMemberships(
+    await getOrganizationMemberships(input.userId),
+  )
   if (!canMutateOrganizationData(memberships, input.organizationId)) {
     return 'Your role does not allow changes to organization data.'
   }
