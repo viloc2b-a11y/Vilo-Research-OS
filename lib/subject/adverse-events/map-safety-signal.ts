@@ -47,6 +47,7 @@ export function mapSafetySignalToTimelineItem(
     severity: parseSeverity(item),
     seriousness,
     relationship: null,
+    relationshipCode: null,
     lifecycleStatus,
     onsetDate: item.occurredAt.slice(0, 10),
     resolutionDate: lifecycleStatus === 'resolved' || lifecycleStatus === 'closed'
@@ -61,5 +62,8 @@ export function mapSafetySignalToTimelineItem(
     href: item.href,
     captureHref: item.captureHref,
     reviewHref: item.reviewHref,
+    registryId: null,
+    isEditable: false,
+    registryComments: null,
   }
 }

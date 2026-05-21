@@ -1,5 +1,6 @@
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { OrganizationMembership } from '@/lib/auth/session'
+import { loadSubjectAdverseEventsRegistry } from '@/lib/subject/adverse-events/load-subject-adverse-events-registry'
 import { loadSourceAeCaptures } from '@/lib/subject/adverse-events/load-source-ae-captures'
 import { mapSafetySignalToTimelineItem } from '@/lib/subject/adverse-events/map-safety-signal'
 import {
@@ -33,7 +34,7 @@ export async function loadSubjectAdverseEventsTimeline(input: {
     input.memberships ??
     (user ? await getOrganizationMemberships(user.id) : [])
 
-  const [safetyModel, sourceCaptures] = await Promise.all([
+  const [safetyModel, sourceCaptures, registry] = await Promise.all([
     loadSubjectSafetySignals({
       subjectId: input.subjectId,
       studyId: input.studyId,
@@ -45,11 +46,16 @@ export async function loadSubjectAdverseEventsTimeline(input: {
       organizationId: input.organizationId,
       memberships,
     }),
+    loadSubjectAdverseEventsRegistry({
+      subjectId: input.subjectId,
+      organizationId: input.organizationId,
+    }),
   ])
 
   const signalItems = safetyModel.items.map(mapSafetySignalToTimelineItem)
 
   const merged = dedupeTimeline([
+    ...registry.timelineItems,
     ...sourceCaptures,
     ...signalItems.filter((item) => item.sourceKind !== 'source_capture'),
   ])
@@ -58,9 +64,10 @@ export async function loadSubjectAdverseEventsTimeline(input: {
   const sections = groupAdverseEventTimeline(merged)
 
   return {
-    hasStructuredAeRegistry: false,
+    hasStructuredAeRegistry: true,
     summary,
     sections,
     totalCount: merged.length,
+    visitOptions: registry.visitOptions,
   }
 }

@@ -198,6 +198,7 @@ export async function loadSourceAeCaptures(input: {
       severity,
       seriousness,
       relationship,
+      relationshipCode: relationship,
       lifecycleStatus: deriveCaptureLifecycle(setStatus, false),
       onsetDate: onset,
       resolutionDate: resolution ?? (outcome?.toLowerCase().includes('resolved') ? onset : null),
@@ -210,6 +211,9 @@ export async function loadSourceAeCaptures(input: {
       href: visitDetailPath(visitId),
       captureHref: sourceCapturePath(procId, input.organizationId),
       reviewHref: sourceResponseSetPath(setId, { organization_id: input.organizationId }),
+      registryId: null,
+      isEditable: false,
+      registryComments: null,
     })
   }
 
