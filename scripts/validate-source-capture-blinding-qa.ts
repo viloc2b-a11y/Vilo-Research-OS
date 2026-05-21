@@ -324,7 +324,7 @@ async function liveApiChecks(fixture: Fixture, baseUrl: string) {
   return rows
 }
 
-async function verifyDbBlindingMap(fixture: Fixture) {
+async function verifyDbBlindingMap(fixture: Fixture): Promise<string | null> {
   requireEnv(['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'])
   const admin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -338,8 +338,9 @@ async function verifyDbBlindingMap(fixture: Fixture) {
   const blinded = map.get(fixture.fields.qa_blinded_field.id)?.blindingScope
   const unblinded = map.get(fixture.fields.qa_unblinded_field.id)?.blindingScope
   if (blinded !== 'blinded' || unblinded !== 'unblinded') {
-    throw new Error(`DB blinding map wrong: blinded=${blinded}, unblinded=${unblinded}`)
+    return `DB blinding map unavailable or stale: blinded=${blinded}, unblinded=${unblinded}. Run npm run db:seed-source-capture-blinding-qa before live DB validation.`
   }
+  return null
 }
 
 function requireEnv(keys: string[]) {
@@ -358,7 +359,16 @@ async function main() {
   }
   const fixture = JSON.parse(readFileSync(FIXTURE_PATH, 'utf8')) as Fixture
 
-  await verifyDbBlindingMap(fixture)
+  let dbMapWarning: string | null = null
+  try {
+    dbMapWarning = await verifyDbBlindingMap(fixture)
+  } catch (err) {
+    dbMapWarning = err instanceof Error ? err.message : String(err)
+  }
+
+  if (dbMapWarning && live) {
+    throw new Error(dbMapWarning)
+  }
 
   const detail = buildMockDetail(fixture)
   const personas: PersonaKey[] = [
@@ -373,6 +383,9 @@ async function main() {
 
   console.log('Fixture procedure:', fixture.procedureExecutionId)
   console.log('Capture path:', fixture.capturePath ?? `/source/capture/${fixture.procedureExecutionId}`)
+  if (dbMapWarning) {
+    console.warn(`DB check skipped for static run: ${dbMapWarning}`)
+  }
 
   const staticTable = personas.map((p) => evaluatePersona(p, fixture.organizationId, detail))
   console.log('\n--- Static blinding matrix (read model + RBAC) ---')

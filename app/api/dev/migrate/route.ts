@@ -8,59 +8,17 @@
 // Response: { ok: boolean, applied: string[], errors: string[] }
 
 import { NextRequest, NextResponse } from 'next/server'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import postgres from 'postgres'
 
 const MIGRATIONS_DIR = resolve(process.cwd(), 'supabase/migrations')
 
-// Ordered list of all migration files — must stay in sync with apply-migrations.mjs
-const ALL_MIGRATIONS = [
-  '0001_auth_foundation.sql',
-  '0002_audit_foundation.sql',
-  '0003_studies.sql',
-  '0004_study_versions.sql',
-  '0005_study_members.sql',
-  '0006_visit_and_procedure_definitions.sql',
-  '0007_study_subjects.sql',
-  '0008_visits.sql',
-  '0009_procedure_executions.sql',
-  '0010_operational_events.sql',
-  '0011_attachments.sql',
-  '0013_visit_completion_and_locking_rpc.sql',
-  '0014_source_definitions.sql',
-  '0015_source_definition_versions.sql',
-  '0016_source_fields.sql',
-  '0017_procedure_source_bindings.sql',
-  '0018_procedure_execution_source_version_fk.sql',
-  '0019_phase4a_validation_helpers.sql',
-  '0020_source_response_sets.sql',
-  '0021_source_responses.sql',
-  '0022_source_response_corrections.sql',
-  '0023_source_response_addenda.sql',
-  '0024_source_response_validation_findings.sql',
-  '0025_phase4b_validation_helpers.sql',
-  '0026_source_publish_packages.sql',
-  '0027_published_source_definitions.sql',
-  '0028_published_source_rules_requirements.sql',
-  '0029_source_publish_approval_evidence.sql',
-  '0030_source_publish_persistence_helpers.sql',
-  '0031_phase4c_publish_validation_helpers.sql',
-  '0032_phase4c_published_phase4a_link_backfill.sql',
-  '0033_publish_source_package_rpc.sql',
-  '0034_phase4b1_open_and_save_rpc.sql',
-  '0035_phase4b1_submit_source_response_set_rpc.sql',
-  '0036_phase4b1_correction_addendum_rpc.sql',
-  '0037_phase4b1_validation_finding_rpc.sql',
-  '0038_phase4b_submit_source_responses_rls.sql',
-  '0039_phase4b_srs_corrected_addended_attribution_fix.sql',
-  '0040_phase51b_history_and_finding_events.sql',
-  '0041_phase51c_read_rpcs.sql',
-  '0042_phase6a5_source_builder_drafts.sql',
-  '0043_phase6b1_patient_libraries.sql',
-  '0044_phase6b1b_patient_libraries_bulk_indexes.sql',
-  '0052_phase6c1_subject_clinical_profile.sql',
-]
+function listMigrationFiles() {
+  return readdirSync(MIGRATIONS_DIR)
+    .filter((file) => file.endsWith('.sql'))
+    .sort()
+}
 
 function isPooler(url: string) {
   try {
@@ -101,9 +59,19 @@ export async function POST(req: NextRequest) {
   }
 
   // Determine which files to apply
-  const filesToApply = body.files && body.files.length > 0
-    ? ALL_MIGRATIONS.filter((f) => body.files!.includes(f))
-    : ALL_MIGRATIONS
+  const allMigrations = listMigrationFiles()
+  const requestedFiles = body.files?.filter((file) => typeof file === 'string') ?? []
+  const unknownFiles = requestedFiles.filter((file) => !allMigrations.includes(file))
+  if (unknownFiles.length > 0) {
+    return NextResponse.json(
+      { ok: false, error: 'Unknown migration file(s)', unknown_files: unknownFiles },
+      { status: 400 },
+    )
+  }
+
+  const filesToApply = requestedFiles.length > 0
+    ? allMigrations.filter((file) => requestedFiles.includes(file))
+    : allMigrations
 
   const sql = postgres(rawUrl, {
     ssl: 'require',
@@ -141,10 +109,11 @@ export async function GET() {
   if (process.env.MIGRATION_ALLOWED !== '1') {
     return NextResponse.json({ ok: false, error: 'Set MIGRATION_ALLOWED=1 in .env.local to enable this endpoint' }, { status: 403 })
   }
+  const allMigrations = listMigrationFiles()
   return NextResponse.json({
     ok: true,
-    available_migrations: ALL_MIGRATIONS,
-    latest: ALL_MIGRATIONS[ALL_MIGRATIONS.length - 1],
+    available_migrations: allMigrations,
+    latest: allMigrations[allMigrations.length - 1] ?? null,
     database_url_set: !!process.env.DATABASE_URL,
     secret_required: !!process.env.MIGRATION_SECRET,
   })

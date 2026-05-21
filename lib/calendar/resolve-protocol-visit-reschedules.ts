@@ -17,6 +17,7 @@ export type ProtocolVisitReschedulePayload = {
 
 export type ProtocolVisitRescheduleRow = {
   id: string
+  organization_id?: string | null
   event_type: string
   payload: ProtocolVisitReschedulePayload | null
   occurred_at: string

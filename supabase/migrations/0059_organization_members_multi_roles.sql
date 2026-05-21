@@ -13,7 +13,8 @@ set roles = array[role]::text[]
 where roles = '{}'::text[] or roles is null;
 
 alter table public.organization_members
-  alter column roles set default '{}';
+  alter column roles set default '{}',
+  alter column roles set not null;
 
 -- Each element of roles must be a valid stored organization role.
 alter table public.organization_members

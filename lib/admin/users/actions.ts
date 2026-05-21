@@ -14,7 +14,6 @@ import {
 } from '@/lib/admin/users/membership-status'
 import { rolesFromMembershipRow, validateRoleChange } from '@/lib/admin/users/role-policy'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
-import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import {
   canManageUsers,
   canPerformOwnershipCriticalActions,

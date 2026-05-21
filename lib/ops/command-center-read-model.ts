@@ -1,5 +1,8 @@
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
-import { filterRowsByBlindingScope, redactOperationalEventPayloadForDisplay } from '@/lib/rbac/blinding'
+import {
+  filterRowsByOrganizationBlindingScope,
+  redactOperationalEventPayloadForDisplay,
+} from '@/lib/rbac/blinding'
 import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { loadPerformancePageModel } from '@/app/(ops)/performance/_lib/load-performance-page'
 import { createServerClient } from '@/lib/supabase/server'
@@ -56,7 +59,6 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
   const organizationIds = memberships.map((m) => m.organization_id)
-  const canViewUnblinded = canViewUnblindedData(memberships)
   const unavailable: string[] = []
 
   if (organizationIds.length === 0) {
@@ -121,7 +123,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .limit(12),
     supabase
       .from('operational_events')
-      .select('id, event_type, payload, occurred_at, visit_id, procedure_execution_id')
+      .select('id, organization_id, event_type, payload, occurred_at, visit_id, procedure_execution_id')
       .in('organization_id', organizationIds)
       .order('occurred_at', { ascending: false })
       .limit(12),
@@ -230,21 +232,25 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
 
   type EventRow = {
     id: string
+    organization_id: string
     event_type: string
     occurred_at: string
     visit_id: string | null
     payload: Record<string, unknown> | null
   }
 
-  const recentEvents = filterRowsByBlindingScope(
+  const recentEvents = filterRowsByOrganizationBlindingScope(
     (events.data ?? []) as EventRow[],
-    canViewUnblinded,
+    memberships,
   ).map((event) => ({
     id: event.id,
     eventType: event.event_type,
     occurredAt: event.occurred_at,
     href: event.visit_id ? visitDetailPath(event.visit_id) : null,
-    detail: eventDetail(event.payload, canViewUnblinded),
+    detail: eventDetail(
+      event.payload,
+      canViewUnblindedData(memberships, event.organization_id),
+    ),
   }))
 
   const highRisk =

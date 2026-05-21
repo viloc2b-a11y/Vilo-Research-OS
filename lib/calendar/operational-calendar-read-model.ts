@@ -8,7 +8,7 @@ import {
   legacyUtcMidnightAllDayDates,
   todayCalendarDate,
 } from '@/lib/calendar/site-calendar-dates'
-import { filterRowsByBlindingScope } from '@/lib/rbac/blinding'
+import { filterRowsByOrganizationBlindingScope } from '@/lib/rbac/blinding'
 import { canViewUnblindedData } from '@/lib/rbac/unblinded-access'
 import { createServerClient } from '@/lib/supabase/server'
 import { enrichOperationalCalendarEvents } from '@/lib/calendar/enrich-operational-calendar-events'
@@ -184,6 +184,7 @@ type ManualEventPayload = {
 
 type ManualEventRow = {
   id: string
+  organization_id: string
   study_id: string
   visit_id: string | null
   event_type: string
@@ -216,6 +217,7 @@ type AvailabilityBlockPayload = {
 
 type AvailabilityBlockRow = {
   id: string
+  organization_id: string
   study_id: string
   event_type: string
   payload: AvailabilityBlockPayload | null
@@ -313,7 +315,10 @@ export async function loadOperationalCalendarModel(input?: {
   const user = await getSessionUser()
   const memberships = user ? await getOrganizationMemberships(user.id) : []
   const organizationIds = organizationIdsFromMemberships(memberships)
-  const canViewUnblinded = canViewUnblindedData(memberships)
+  const unblindedOrganizationIds = organizationIds.filter((organizationId) =>
+    canViewUnblindedData(memberships, organizationId),
+  )
+  const canViewUnblinded = unblindedOrganizationIds.length > 0
   const siteTimeZone = getSiteTimeZone()
   const today = todayCalendarDate(siteTimeZone)
   const requestedYear = input?.year && Number.isFinite(input.year) ? input.year : Number(today.slice(0, 4))
@@ -343,7 +348,7 @@ export async function loadOperationalCalendarModel(input?: {
 
   const rescheduleEventsResult = await supabase
     .from('operational_events')
-    .select('id, event_type, payload, occurred_at')
+    .select('id, organization_id, event_type, payload, occurred_at')
     .in('organization_id', organizationIds)
     .in('event_type', ['protocol_visit_rescheduled', 'protocol_visit_reschedule_cancelled'])
     .order('occurred_at', { ascending: true })
@@ -354,9 +359,9 @@ export async function loadOperationalCalendarModel(input?: {
   }
 
   const activeReschedules = resolveProtocolVisitReschedules(
-    filterRowsByBlindingScope(
+    filterRowsByOrganizationBlindingScope(
       (rescheduleEventsResult.data ?? []) as ProtocolVisitRescheduleRow[],
-      canViewUnblinded,
+      memberships,
     ),
   )
   const rescheduledInYearIds = [...activeReschedules.values()]
@@ -423,11 +428,11 @@ export async function loadOperationalCalendarModel(input?: {
         .limit(500)
       : Promise.resolve({ data: [], error: null }),
     loadOperationalCalendarSelectorOptions(supabase, organizationIds, {
-      canViewUnblinded,
+      unblindedOrganizationIds,
     }),
     supabase
       .from('operational_events')
-      .select('id, study_id, visit_id, event_type, payload, actor_user_id, occurred_at, created_at, studies(name)')
+      .select('id, organization_id, study_id, visit_id, event_type, payload, actor_user_id, occurred_at, created_at, studies(name)')
       .in('organization_id', organizationIds)
       .in('event_type', [
         'OPERATIONAL_CALENDAR_MANUAL_EVENT',
@@ -439,7 +444,7 @@ export async function loadOperationalCalendarModel(input?: {
       .limit(1500),
     supabase
       .from('operational_events')
-      .select('id, study_id, event_type, payload, actor_user_id, occurred_at, created_at, studies(name)')
+      .select('id, organization_id, study_id, event_type, payload, actor_user_id, occurred_at, created_at, studies(name)')
       .in('organization_id', organizationIds)
       .in('event_type', [
         'calendar_availability_block_created',
@@ -533,9 +538,9 @@ export async function loadOperationalCalendarModel(input?: {
   })
 
   const manualEvents = resolveManualEvents(
-    filterRowsByBlindingScope(
+    filterRowsByOrganizationBlindingScope(
       (manualEventsResult.data ?? []) as ManualEventRow[],
-      canViewUnblinded,
+      memberships,
     ),
   )
     .filter((resolved) => {
@@ -630,9 +635,9 @@ export async function loadOperationalCalendarModel(input?: {
   })
 
   const availabilityBlocks = resolveAvailabilityBlocks(
-    filterRowsByBlindingScope(
+    filterRowsByOrganizationBlindingScope(
       (availabilityBlocksResult.data ?? []) as AvailabilityBlockRow[],
-      canViewUnblinded,
+      memberships,
     ),
   )
     .filter((resolved) => {

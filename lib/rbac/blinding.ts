@@ -82,6 +82,21 @@ export function filterUnblindedRows<T extends { payload?: Record<string, unknown
   return filterRowsByBlindingScope(rows, canViewUnblindedData(membershipsFromInput(membership), organizationId))
 }
 
+export function filterRowsByOrganizationBlindingScope<T extends {
+  organization_id?: string | null
+  payload?: Record<string, unknown> | null
+}>(
+  rows: T[],
+  membership: OrganizationMembership | OrganizationMembership[],
+): T[] {
+  const memberships = membershipsFromInput(membership)
+  return rows.filter((row) => {
+    if (!isUnblindedScopedPayload(row.payload ?? null)) return true
+    const organizationId = row.organization_id
+    return Boolean(organizationId && canViewUnblindedData(memberships, organizationId))
+  })
+}
+
 export function filterRowsByBlindingScope<T extends { payload?: Record<string, unknown> | null }>(
   rows: T[],
   canViewUnblinded: boolean,

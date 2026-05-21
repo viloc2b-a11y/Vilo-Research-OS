@@ -57,6 +57,7 @@ type StudyRow = {
 
 type SubjectRow = {
   id: string
+  organization_id: string
   study_id: string
   subject_identifier: string
   randomization_number: string | null
@@ -107,9 +108,9 @@ function formatCoordinatorLabel(profile: { display_name?: string | null } | null
 export async function loadOperationalCalendarSelectorOptions(
   supabase: SupabaseClient,
   organizationIds: string[],
-  options?: { canViewUnblinded?: boolean },
+  options?: { unblindedOrganizationIds?: string[] },
 ): Promise<OperationalCalendarSelectorOptions> {
-  const canViewUnblinded = options?.canViewUnblinded ?? false
+  const unblindedOrganizationIds = new Set(options?.unblindedOrganizationIds ?? [])
   if (organizationIds.length === 0) {
     return { studies: [], subjects: [], visits: [], coordinators: [] }
   }
@@ -123,7 +124,7 @@ export async function loadOperationalCalendarSelectorOptions(
       .limit(200),
     supabase
       .from('study_subjects')
-      .select('id, study_id, subject_identifier, randomization_number, enrollment_status')
+      .select('id, organization_id, study_id, subject_identifier, randomization_number, enrollment_status')
       .in('organization_id', organizationIds)
       .order('subject_identifier', { ascending: true })
       .limit(1000),
@@ -167,7 +168,9 @@ export async function loadOperationalCalendarSelectorOptions(
     id: row.id,
     studyId: row.study_id,
     subjectCode: row.subject_identifier,
-    randomizationNumber: canViewUnblinded ? row.randomization_number : null,
+    randomizationNumber: unblindedOrganizationIds.has(row.organization_id)
+      ? row.randomization_number
+      : null,
     status: row.enrollment_status,
   }))
 
