@@ -251,6 +251,10 @@ export async function loadSubjectWorkspaceModel(subjectId: string): Promise<Subj
   if (subjectError || !subject) notFound()
 
   const study = one(subject.studies) as { name?: string | null } | null
+  // study_id is a nullable FK in study_subjects. A record missing study_id is
+  // incomplete/corrupted runtime state — fail explicitly rather than allowing
+  // a null to propagate through URL construction.
+  if (!subject.study_id) notFound()
   const studyId = subject.study_id as string
   const organizationId = subject.organization_id as string
   const user = await getSessionUser()

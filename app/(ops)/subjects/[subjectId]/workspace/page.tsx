@@ -7,6 +7,7 @@ import {
   loadSubjectWorkspaceModel,
   type WorkspaceItem,
 } from '@/lib/ops/workspace-read-model'
+import { subjectChartPath, subjectVisitsPath } from '@/lib/ops/paths'
 
 type SubjectWorkspacePageProps = {
   params: Promise<{ subjectId: string }>
@@ -82,7 +83,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
           </p>
         </div>
         <Link
-          href={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`}
+          href={subjectChartPath(model.subject.studyId, model.subject.id)}
           className="text-sm font-medium text-primary hover:underline"
         >
           Open subject chart
@@ -112,13 +113,13 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <ListCard title="Subject Timeline" icon={Activity} items={model.timeline} empty="No timeline items found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`} actionLabel="Open chart" />
-        <ListCard title="Visits" icon={Calendar} items={model.visits} empty="No visits found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
-        <ListCard title="Procedures" icon={Activity} items={model.procedures} empty="No procedures found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
-        <ListCard title="Source Status" icon={FileText} items={model.sourceStatus} empty="No source sets found." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}`} actionLabel="Open chart" />
-        <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}?tab=clinical-profile`} actionLabel="Open profile" />
-        <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}?tab=workflow`} actionLabel="Open workflow" />
-        <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." actionHref={`/studies/${model.subject.studyId}/subjects/${model.subject.id}/visits`} actionLabel="Open visits" />
+        <ListCard title="Subject Timeline" icon={Activity} items={model.timeline} empty="No timeline items found." actionHref={subjectChartPath(model.subject.studyId, model.subject.id)} actionLabel="Open chart" />
+        <ListCard title="Visits" icon={Calendar} items={model.visits} empty="No visits found." actionHref={subjectVisitsPath(model.subject.studyId, model.subject.id)} actionLabel="Open visits" />
+        <ListCard title="Procedures" icon={Activity} items={model.procedures} empty="No procedures found." actionHref={subjectVisitsPath(model.subject.studyId, model.subject.id)} actionLabel="Open visits" />
+        <ListCard title="Source Status" icon={FileText} items={model.sourceStatus} empty="No source sets found." actionHref={subjectChartPath(model.subject.studyId, model.subject.id)} actionLabel="Open chart" />
+        <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." actionHref={`${subjectChartPath(model.subject.studyId, model.subject.id)}?tab=clinical-profile`} actionLabel="Open profile" />
+        <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." actionHref={`${subjectChartPath(model.subject.studyId, model.subject.id)}?tab=workflow`} actionLabel="Open workflow" />
+        <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." actionHref={subjectVisitsPath(model.subject.studyId, model.subject.id)} actionLabel="Open visits" />
       </div>
     </div>
   )
