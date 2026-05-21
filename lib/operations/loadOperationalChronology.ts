@@ -57,6 +57,7 @@ export async function loadOperationalChronology(input: {
       procedure_execution_id: string | null
     }>),
     scopedMemberships,
+    input.organizationId,
   ).map((row) => ({
     id: row.id as string,
     eventType: row.event_type as string,
