@@ -2,6 +2,7 @@
 // Loads visits scheduled for today across all orgs the coordinator belongs to.
 // Used by the Operations Command Center homepage.
 
+import { subjectChartPath, visitDetailPath } from '@/lib/ops/paths'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -83,8 +84,8 @@ export async function loadTodayVisits(
       visitName: def?.label ?? def?.code ?? 'Visit',
       scheduledDate: (visit.scheduled_date as string | null) ?? today,
       visitStatus: (visit.visit_status as string | null) ?? 'scheduled',
-      hrefVisit: `/visits/${visitId}`,
-      hrefSubject: `/subjects/${subjectId}`,
+      hrefVisit: visitDetailPath(visitId),
+      hrefSubject: subjectChartPath(studyId, subjectId),
       pendingProcedures: pendingByVisit.get(visitId) ?? 0,
     }
   })

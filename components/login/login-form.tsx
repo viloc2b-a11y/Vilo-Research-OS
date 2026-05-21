@@ -17,7 +17,8 @@ import {
 export function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectedFrom = searchParams.get('redirectedFrom') ?? '/'
+  const rawRedirect = searchParams.get('redirectedFrom') ?? '/command-center'
+  const redirectedFrom = rawRedirect === '/' ? '/command-center' : rawRedirect
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -42,7 +43,7 @@ export function LoginForm() {
       return
     }
 
-    router.push(redirectedFrom.startsWith('/') ? redirectedFrom : '/')
+    router.push(redirectedFrom.startsWith('/') ? redirectedFrom : '/command-center')
     router.refresh()
   }
 

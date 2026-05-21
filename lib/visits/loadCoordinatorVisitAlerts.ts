@@ -1,3 +1,4 @@
+import { visitDetailPath } from '@/lib/ops/paths'
 import { addCalendarDays, todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { isApproachingVisit } from '@/lib/visits/loadSubjectVisitSchedule'
 import { refreshVisitOperationalFields } from '@/lib/visits/refreshVisitOperationalState'
@@ -57,7 +58,7 @@ export async function loadCoordinatorVisitAlerts(
     const studyId = visit.study_id as string
     const subjectId = visit.study_subject_id as string
     const visitId = visit.id as string
-    const href = `/studies/${studyId}/subjects/${subjectId}/visits`
+    const href = visitDetailPath(visitId)
 
     const scheduledDate = (visit.scheduled_date as string | null) ?? null
     const targetDate = (visit.target_date as string | null) ?? null
