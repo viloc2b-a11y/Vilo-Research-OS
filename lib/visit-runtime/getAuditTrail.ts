@@ -58,10 +58,11 @@ export async function getAuditTrail(params: {
       event_type: string
     }>),
     scopedMemberships,
+    params.organizationId,
   )
 
   for (const row of filteredOperational) {
-    const payload = redactUnblindedPayload(row.payload, scopedMemberships) ?? {}
+    const payload = redactUnblindedPayload(row.payload, scopedMemberships, params.organizationId) ?? {}
     const eventType = row.event_type as string
     const label =
       (payload.field_label as string | null) ??
