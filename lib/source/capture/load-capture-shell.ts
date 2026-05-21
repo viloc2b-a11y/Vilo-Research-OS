@@ -39,6 +39,7 @@ import {
   shouldLogPerProcedureEngineEvent,
   SOURCE_ENGINE_EVENT_TYPES,
 } from '@/lib/source-engine/telemetry'
+import { findNextIncompleteProcedureInVisit } from '@/lib/source/capture/next-incomplete-procedure'
 import { createServerClient } from '@/lib/supabase/server'
 
 export async function loadCaptureShell(
@@ -304,15 +305,27 @@ export async function loadCaptureShell(
     }
   }
 
+  const visitPath = `/visits/${ctx.visitId}`
+  const nextIncompleteProcedure = await findNextIncompleteProcedureInVisit({
+    visitId: ctx.visitId,
+    organizationId,
+    excludeProcedureExecutionId: procedureExecutionId,
+  })
+
   return {
     status: 'success',
     model: {
       context: {
         ...ctx,
         organizationId,
-        visitPath: `/visits/${ctx.visitId}`,
+        visitPath,
         studyPath: `/studies/${ctx.studyId}`,
         subjectPath: `/studies/${ctx.studyId}/subjects/${ctx.studySubjectId}`,
+      },
+      completionNav: {
+        visitPath,
+        visitWorkflowPath: `${visitPath}?tab=workflow`,
+        nextIncompleteProcedure,
       },
       responseSetId,
       statusLabel: bundle.detail.data.statusLabel,

@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { CaptureCompletionActions } from '@/components/source/capture-completion-actions'
 import { CaptureField } from '@/components/source/capture-field'
 import { CaptureFeedback } from '@/components/source/capture-feedback'
 import { Button } from '@/components/ui/button'
@@ -30,21 +31,48 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
     INITIAL_CAPTURE_ACTION_STATE,
   )
 
-  const feedback = submitState.message ?? saveState.message
+  const saveSuccess =
+    saveState.message?.kind === 'success' ? saveState.message : null
+  const submitSuccess =
+    submitState.message?.kind === 'success' ? submitState.message : null
+  const errorFeedback =
+    saveState.message?.kind === 'error'
+      ? saveState.message
+      : submitState.message?.kind === 'error'
+        ? submitState.message
+        : null
+  const infoFeedback =
+    !errorFeedback && !saveSuccess && !submitSuccess
+      ? saveState.message ?? submitState.message
+      : null
+
   const pending = savePending || submitPending
   const visibleFields = model.fields.filter((field) => field.runtimeState?.visible !== false)
 
   useEffect(() => {
-    if (feedback?.kind === 'success') {
+    if (saveSuccess || submitSuccess) {
       router.refresh()
     }
-  }, [feedback, router])
+  }, [saveSuccess, submitSuccess, router])
 
   const disabled = !model.canEdit || disabledOverride || pending
+  const showCompletion =
+    (saveSuccess || submitSuccess) && model.completionNav != null
 
   return (
     <div className="space-y-6">
-      <CaptureFeedback message={feedback} />
+      {showCompletion ? (
+        <CaptureCompletionActions
+          message={submitSuccess ?? saveSuccess!}
+          actionKind={submitSuccess ? 'submit' : 'save'}
+          navigation={model.completionNav}
+        />
+      ) : (
+        <>
+          {errorFeedback ? <CaptureFeedback message={errorFeedback} /> : null}
+          {infoFeedback ? <CaptureFeedback message={infoFeedback} /> : null}
+        </>
+      )}
 
       <form action={saveAction} className="space-y-6">
         <input type="hidden" name="organization_id" value={model.context.organizationId} />
@@ -84,8 +112,8 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
                 disabled={disabled}
               />
               <p className="text-xs text-muted-foreground">
-                Submit saves the current form values, then calls the submit API. No optimistic
-                updates — the page reloads from the server after success.
+                Submit saves the current form values, then calls the submit API. After success,
+                use the actions above to return to the visit or continue.
               </p>
             </div>
 

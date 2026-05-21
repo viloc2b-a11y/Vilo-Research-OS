@@ -1,6 +1,7 @@
 export type {
   CaptureActionMessage,
   CaptureActionState,
+  CaptureCompletionNavigation,
   CaptureFieldKind,
   CaptureFieldValue,
   CaptureFieldViewModel,

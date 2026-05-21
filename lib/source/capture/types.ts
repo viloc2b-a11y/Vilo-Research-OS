@@ -51,8 +51,20 @@ export type CaptureProcedureContext = {
   subjectPath: string
 }
 
+/** Post save/submit navigation targets (no auto-redirect). */
+export type CaptureCompletionNavigation = {
+  visitPath: string
+  visitWorkflowPath: string
+  nextIncompleteProcedure: {
+    procedureExecutionId: string
+    label: string
+    captureHref: string
+  } | null
+}
+
 export type CaptureShellViewModel = {
   context: CaptureProcedureContext
+  completionNav: CaptureCompletionNavigation
   responseSetId: string
   statusLabel: string
   canEdit: boolean
