@@ -18,7 +18,7 @@ function fieldDefaultValue(field: CaptureFieldViewModel): string {
 export function CaptureField({ field, disabled }: CaptureFieldProps) {
   const name = `field_${field.fieldId}`
   const inputId = `capture-${field.fieldId}`
-  const required = field.runtimeState?.required ?? field.isRequired
+  const required = field.isRequired
 
   return (
     <div className="space-y-2">
@@ -92,6 +92,7 @@ export function CaptureField({ field, disabled }: CaptureFieldProps) {
           id={inputId}
           name={name}
           type="number"
+          step="any"
           defaultValue={fieldDefaultValue(field)}
           disabled={disabled}
         />

@@ -78,7 +78,7 @@ function formatRelativeTime(iso: string) {
     ['hour', 3600],
     ['minute', 60],
   ]
-  const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' })
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
   for (const [unit, amount] of divisions) {
     if (Math.abs(seconds) >= amount) return rtf.format(Math.round(seconds / amount), unit)
   }
@@ -358,9 +358,9 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
                   <table className="w-full text-left text-xs">
                     <thead className="sticky top-0 bg-muted text-muted-foreground">
                       <tr>
-                        <th className="px-3 py-2 font-medium">Tipo de evento</th>
-                        <th className="px-3 py-2 font-medium">Referencia</th>
-                        <th className="px-3 py-2 font-medium">Fecha</th>
+                        <th className="px-3 py-2 font-medium">Event Type</th>
+                        <th className="px-3 py-2 font-medium">Reference</th>
+                        <th className="px-3 py-2 font-medium">Date</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y">

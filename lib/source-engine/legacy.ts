@@ -97,6 +97,50 @@ export {
   GENERIC_PHASE3_IMMUNOLOGY_LEGACY_PILOT_TRIGGERS,
 } from '@/lib/source-engine/templates.generic-phase3-immunology-legacy'
 
+export {
+  CANONICAL_CLINICAL_LIBRARY_ID,
+  CANONICAL_CLINICAL_LIBRARY_VERSION,
+  CANONICAL_CONTROLLED_LISTS,
+  CANONICAL_CORE_LIBRARY_CODES,
+  CANONICAL_OVERLAY_LIBRARY_CODES,
+  canonicalFieldsToFieldDefinitions,
+  composeCanonicalLibraryFieldKeys,
+  getAllCanonicalLibraryBlocks,
+  getCanonicalLibraryBlock,
+  getCanonicalLibraryFields,
+  loadCanonicalClinicalLibraryDocument,
+  reportCanonicalFieldKeyCollisions,
+  resolveCanonicalClinicalDomain,
+  runCanonicalClinicalLibrarySmokeTests,
+} from '@/lib/source-engine/canonical-clinical-library'
+
+export type {
+  CanonicalClinicalField,
+  CanonicalClinicalLibraryBlock,
+  CanonicalClinicalLibraryDocument,
+  CanonicalLibraryCollision,
+  CanonicalLibrarySmokeResult,
+} from '@/lib/source-engine/canonical-clinical-library'
+
+export {
+  SOURCE_COMPOSITION_CATALOG_VERSION,
+  SOURCE_COMPOSITION_TEMPLATE_KEYS,
+  buildCompositionPublishSnapshot,
+  getCompositionManifest,
+  listCompositionManifests,
+  loadCompositionTemplatesCatalog,
+  resolveSourceCompositionManifest,
+} from '@/lib/source-engine/source-composition'
+
+export { SourceCompositionResolveError } from '@/lib/source-engine/source-composition-resolver'
+
+export type {
+  CompositionPublishSnapshot,
+  ResolvedCompositionFieldMeta,
+  ResolvedSourceComposition,
+  SourceCompositionManifest,
+} from '@/lib/source-engine/source-composition'
+
 export { runAllExamples } from '@/lib/source-engine/examples.runtime'
 export { initViloEngine } from '@/lib/source-engine/init'
 export type { ViloEngineInit } from '@/lib/source-engine/init'

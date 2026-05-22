@@ -1,0 +1,40 @@
+Protocol Number: MV40618
+Protocol Title: Household Transmission Observational Study
+Brief Title: MV40618 household surveillance
+Sponsor: Public Health Research Collaborative
+Phase: 2
+Indication: Respiratory virus household transmission
+Investigational Product: Not applicable — observational surveillance
+Study Design: Prospective household cohort with index patient and household contacts
+Enrollment target: 200 index patients
+Study Duration: 8 weeks per household
+
+Inclusion Criteria:
+1. Index patient with laboratory-confirmed infection within 7 days.
+2. At least one household contact willing to enroll.
+3. Residence in study catchment area.
+
+Exclusion Criteria:
+1. Household unable to complete home visit logistics.
+2. Index patient requiring immediate hospitalization.
+
+Schedule of Events:
+Visit 1: Index screening (window -7 / 0) — site visit index patient
+Visit 2: Index enrollment / baseline (window -1 / +3) — site visit index patient
+Visit 3: Household contact enrollment Day 5 (window -2 / +5) — site visit household contact
+Visit 4: Index home nasal swab Day 7 (window -2 / +2) — home visit index patient
+Visit 5: Contact home nasal swab Day 7 (window -2 / +2) — home visit household contact
+Visit 6: Week 2 phone check-in Day 14 (window -2 / +2) — phone visit index patient and household contact
+Visit 7: Remote symptom follow-up Day 21 (window -3 / +3) — remote visit
+Visit 8: Unscheduled sick visit (off-site) — if symptoms worsen
+Visit 9: End of study Day 56 (window -7 / +7) — site visit
+
+Study Procedures:
+Procedure: Informed Consent (required)
+Procedure: Household linkage confirmation (required)
+Procedure: Home Nasal Swab (required) — visit: home swab
+Procedure: Phone check-in (required)
+Procedure: Remote symptom log (required)
+Procedure: Unscheduled Sick Assessment (conditional) — sick visit if respiratory symptoms worsen
+Procedure: Additional swab if indicated (conditional)
+Procedure: AE Assessment (required)

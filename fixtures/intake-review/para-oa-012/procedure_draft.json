@@ -1,0 +1,1654 @@
+{
+  "procedures": [
+    {
+      "condition_text": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Procedure: ACTH Stimulation Test (conditional)"
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "vitals"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_ACTH_STIMULATION_TEST"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "ACTH Stimulation Test"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Procedure: Adrenal insufficiency symptom review (conditional)"
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "physical_exam"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_ADRENAL_INSUFFICIENCY_SYMPTOM_RE"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Adrenal insufficiency symptom review"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Adrenal insufficiency symptom"
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "true"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Conditional procedures",
+          "source_snippet": "Adrenal insufficiency symptom"
+        }
+      ],
+      "extraction_method": "deterministic_conditional_hint",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "physical_exam"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_ADRENAL_SYMPTOM_REVIEW"
+      },
+      "procedure_name": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "Adrenal Symptom Review"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "false"
+      },
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Conditional procedures",
+            "source_snippet": "Adrenal insufficiency symptom"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: AE Assessment (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "adverse_events"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_AE_ASSESSMENT"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "AE Assessment"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: AE Assessment (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Clinical Chemistry (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "labs"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_CLINICAL_CHEMISTRY"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Clinical Chemistry"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Clinical Chemistry (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Hematology / CBC (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "labs"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_HEMATOLOGY_CBC"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Hematology / CBC"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Hematology / CBC (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Procedure: HIT / Platelet Panel (conditional)"
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "hit"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_HIT_PLATELET_PANEL"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "HIT / Platelet Panel"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Informed Consent (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "vitals"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_INFORMED_CONSENT"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Informed Consent"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Informed Consent (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: IP Administration (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "ip_administration"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_IP_ADMINISTRATION"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "IP Administration"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: IP Administration (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Morning Cortisol (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "labs"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_MORNING_CORTISOL"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Morning Cortisol"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Morning Cortisol (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Remote / Phone Contact (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "vitals"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_REMOTE_PHONE_CONTACT"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Remote / Phone Contact"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Remote / Phone Contact (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "condition_text": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "conditional": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "False"
+      },
+      "confidence": "medium",
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Study Procedures",
+          "source_snippet": "Procedure: Vital Signs (required)"
+        }
+      ],
+      "extraction_method": "deterministic_procedure_line",
+      "procedure_category": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "vitals"
+      },
+      "procedure_code": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "PROC_VITAL_SIGNS"
+      },
+      "procedure_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Vital Signs"
+      },
+      "required": {
+        "confidence": "medium",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "Extracted value not found verbatim in evidence snippet"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": "True"
+      },
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "timing_notes": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Study Procedures",
+            "source_snippet": "Procedure: Vital Signs (required)"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    }
+  ],
+  "safety": {
+    "auto_bind": false,
+    "auto_publish": false,
+    "requires_human_approval": true,
+    "runtime_mutation": false
+  }
+}

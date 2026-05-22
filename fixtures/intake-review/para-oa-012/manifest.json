@@ -1,0 +1,223 @@
+{
+  "approval_status": "draft",
+  "cross_checks": [
+    {
+      "check_id": "metadata_consistency",
+      "message": "Protocol number not echoed in extracted title \u2014 verify both fields",
+      "reviewer_required": true
+    },
+    {
+      "check_id": "visit_count_consistency",
+      "message": "Narrative mentions 9 visit(s) but draft has 12",
+      "reviewer_required": true
+    }
+  ],
+  "draft_id": "e1937788768244a506aadcde9f4f31b4d17def302cd08cd26a9bb621e29a7662",
+  "draft_version": "12C-PY.1.0",
+  "input_files": [
+    "para-oa-012-protocol-excerpt.txt",
+    "para-oa-012-schedule.csv"
+  ],
+  "intake_conflicts": [],
+  "intake_status": "needs_review",
+  "outputs": [
+    "study_metadata_draft.json",
+    "eligibility_draft.json",
+    "schedule_draft.json",
+    "procedure_draft.json",
+    "source_composition_draft.json",
+    "vpi_draft.json",
+    "cliniq_draft.json",
+    "review_summary.md"
+  ],
+  "review": {
+    "conflicts": [],
+    "found": [
+      "12 procedure candidate(s)",
+      "12 visit candidate(s)",
+      "3 exclusion criteria",
+      "3 inclusion criteria",
+      "Phase: 2",
+      "Protocol number: PARA-OA-012",
+      "Sponsor: Example Pharma Inc.",
+      "Title: A Phase 2 Study of Investigational Product in Adrenal Insufficiency"
+    ],
+    "missing": [],
+    "needs_review": [
+      "Narrative mentions 9 visit(s) but draft has 12",
+      "Procedure PROC_ACTH_STIMULATION_TEST needs review",
+      "Procedure PROC_ADRENAL_INSUFFICIENCY_SYMPTOM_RE needs review",
+      "Procedure PROC_ADRENAL_SYMPTOM_REVIEW needs review",
+      "Procedure PROC_HIT_PLATELET_PANEL needs review",
+      "Protocol number not echoed in extracted title \u2014 verify both fields",
+      "Source composition for PROC_ACTH_STIMULATION_TEST",
+      "Source composition for PROC_ADRENAL_INSUFFICIENCY_SYMPTOM_RE",
+      "Source composition for PROC_ADRENAL_SYMPTOM_REVIEW",
+      "Source composition for PROC_HIT_PLATELET_PANEL",
+      "Visit ARM_A_PHONE_MONITORING needs review",
+      "Visit ARM_B_REMOTE_MONITORING needs review",
+      "Visit DAY_15_TREATMENT needs review",
+      "Visit DAY_1_RANDOMIZATION needs review",
+      "Visit DAY_39_ON needs review",
+      "Visit DAY_56_FOLLOW needs review",
+      "Visit DAY_84_ON needs review",
+      "Visit END_OF_STUDY needs review",
+      "Visit SCREENING needs review"
+    ],
+    "recommended_source_sections": [
+      "PROC_ACTH_STIMULATION_TEST: LAB_CORE_V1 + PHYSICAL_EXAM_CORE_V1 + VITALS_CORE_V1 + PARA_ADRENAL_OVERLAY_V1",
+      "PROC_ADRENAL_INSUFFICIENCY_SYMPTOM_RE: LAB_CORE_V1 + PHYSICAL_EXAM_CORE_V1 + MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1 + PARA_ADRENAL_OVERLAY_V1",
+      "PROC_ADRENAL_SYMPTOM_REVIEW: LAB_CORE_V1 + PHYSICAL_EXAM_CORE_V1 + MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1 + PARA_ADRENAL_OVERLAY_V1",
+      "PROC_AE_ASSESSMENT: AE_CORE_V1",
+      "PROC_CLINICAL_CHEMISTRY: LAB_CORE_V1",
+      "PROC_HEMATOLOGY_CBC: LAB_CORE_V1",
+      "PROC_HIT_PLATELET_PANEL: LAB_CORE_V1 + PARA_HIT_OVERLAY_V1",
+      "PROC_INFORMED_CONSENT: VITALS_CORE_V1",
+      "PROC_IP_ADMINISTRATION: IP_ADMIN_CORE_V1 + VITALS_CORE_V1",
+      "PROC_MORNING_CORTISOL: LAB_CORE_V1 + PHYSICAL_EXAM_CORE_V1 + PARA_ADRENAL_OVERLAY_V1",
+      "PROC_REMOTE_PHONE_CONTACT: VITALS_CORE_V1",
+      "PROC_VITAL_SIGNS: VITALS_CORE_V1"
+    ]
+  },
+  "safety": {
+    "auto_bind": false,
+    "auto_publish": false,
+    "requires_human_approval": true,
+    "runtime_mutation": false
+  },
+  "source_documents": [
+    {
+      "document_id": "02c9372c0eb7e2db",
+      "file_name": "para-oa-012-protocol-excerpt.txt",
+      "file_type": "plain_text",
+      "footnotes": [],
+      "pages": [
+        {
+          "page_number": 1,
+          "text": "Protocol Number: PARA-OA-012\nProtocol Title: A Phase 2 Study of Investigational Product in Adrenal Insufficiency\nBrief Title: PARA OA-012 adrenal study\nSponsor: Example Pharma Inc.\nCRO: Example CRO Services\nPhase 2\nIndication: Adrenal insufficiency\nInvestigational Product: PARA-IP-012 tablets\nStudy Design: Randomized, double-blind, placebo-controlled, multi-center\nEnrollment target: 120\nStudy Duration: approximately 24 weeks\n\nInclusion Criteria:\n1. Adults aged 18-75 years with documented adrenal insufficiency.\n2. Able to provide informed consent and comply with visit schedule.\n3. Stable concomitant medications for at least 30 days prior to Day 1.\n\nExclusion Criteria:\n1. Uncontrolled cardiovascular disease.\n2. Pregnancy or breastfeeding.\n3. Prior exposure to PARA-IP-012 within 12 months.\n\nSchedule of Events:\nVisit 1: Screening (window -7 / 0) \u2014 site visit\nVisit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit\nVisit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit\nVisit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit\nVisit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit\nVisit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit\nVisit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A\nVisit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B\nVisit 9: End of Study (window -14 / +14) \u2014 site visit\n\nStudy Procedures:\nProcedure: Informed Consent (required)\nProcedure: Vital Signs (required) \u2014 visit: Screening\nProcedure: Hematology / CBC (required)\nProcedure: Clinical Chemistry (required)\nProcedure: Morning Cortisol (required) \u2014 visit: Day 39\nProcedure: IP Administration (required) \u2014 visit: Day 1\nProcedure: AE Assessment (required)\nProcedure: Remote / Phone Contact (required) \u2014 visit: Day 56\nProcedure: ACTH Stimulation Test (conditional) \u2014 if morning cortisol below site threshold\nProcedure: HIT / Platelet Panel (conditional) \u2014 if platelet drop suspected on follow-up\nProcedure: Adrenal insufficiency symptom review (conditional) \u2014 coordinator assessment\n"
+        }
+      ],
+      "sections": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "offset": 430,
+          "section_name": "Inclusion Criteria"
+        },
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "offset": 656,
+          "section_name": "Exclusion Criteria"
+        },
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "offset": 799,
+          "section_name": "Schedule of Events"
+        },
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "offset": 1392,
+          "section_name": "Study Procedures"
+        }
+      ],
+      "sheets": [],
+      "tables": []
+    },
+    {
+      "document_id": "5af8050ed8ef49f9",
+      "file_name": "para-oa-012-schedule.csv",
+      "file_type": "csv",
+      "footnotes": [],
+      "pages": [],
+      "sections": [],
+      "sheets": [
+        {
+          "headers": [
+            "Visit",
+            "Day",
+            "Window",
+            "Modality"
+          ],
+          "rows": [
+            {
+              "Day": "1",
+              "Modality": "site",
+              "Visit": "Screening",
+              "Window": "-7/0"
+            },
+            {
+              "Day": "1",
+              "Modality": "site",
+              "Visit": "Day 1 Randomization",
+              "Window": "-1/+3"
+            },
+            {
+              "Day": "15",
+              "Modality": "site",
+              "Visit": "Day 15 Treatment",
+              "Window": "-3/+3"
+            },
+            {
+              "Day": "39",
+              "Modality": "site",
+              "Visit": "Day 39 Cortisol",
+              "Window": "-3/+3"
+            },
+            {
+              "Day": "56",
+              "Modality": "phone",
+              "Visit": "Day 56 Follow-up",
+              "Window": "-3/+3"
+            }
+          ],
+          "sheet_name": "para-oa-012-schedule"
+        }
+      ],
+      "tables": [
+        {
+          "column_headers": [
+            "Visit",
+            "Day",
+            "Window",
+            "Modality"
+          ],
+          "row_end": 6,
+          "row_start": 1,
+          "rows": [
+            {
+              "Day": "1",
+              "Modality": "site",
+              "Visit": "Screening",
+              "Window": "-7/0"
+            },
+            {
+              "Day": "1",
+              "Modality": "site",
+              "Visit": "Day 1 Randomization",
+              "Window": "-1/+3"
+            },
+            {
+              "Day": "15",
+              "Modality": "site",
+              "Visit": "Day 15 Treatment",
+              "Window": "-3/+3"
+            },
+            {
+              "Day": "39",
+              "Modality": "site",
+              "Visit": "Day 39 Cortisol",
+              "Window": "-3/+3"
+            },
+            {
+              "Day": "56",
+              "Modality": "phone",
+              "Visit": "Day 56 Follow-up",
+              "Window": "-3/+3"
+            }
+          ],
+          "sheet_name": "para-oa-012-schedule"
+        }
+      ]
+    }
+  ],
+  "study_key": "PARA_OA_012"
+}

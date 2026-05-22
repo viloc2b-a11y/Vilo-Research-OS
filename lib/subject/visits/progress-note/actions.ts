@@ -13,7 +13,9 @@ import type {
   VisitCloseoutActionResult,
 } from '@/lib/subject/visits/progress-note/types'
 import { createServerClient } from '@/lib/supabase/server'
+import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
 import { validateVisitProcedures } from '@/lib/visit-runtime/validateVisitProcedures'
+import { canSignClinicalSourceForRole } from '@/lib/rbac/permissions'
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -110,17 +112,24 @@ async function applyVisitCompletionCoupling(
     criticalOpenCount,
   )
 
-  const now = new Date().toISOString()
-
   if (!readiness.visitCompletionBlocked) {
-    await supabase
-      .from('visits')
-      .update({
-        visit_status: 'completed',
-        completed_at: now,
-        actual_date: new Date().toISOString().slice(0, 10),
-      })
-      .eq('id', visitId)
+    const { data: rpc, error: rpcErr } = await supabase.rpc('complete_visit', {
+      p_visit_id: visitId,
+    })
+    if (rpcErr) {
+      return { autoCompleted: false, reasons: [rpcErr.message] }
+    }
+    const row = rpc as { ok?: boolean; error?: string | null } | null
+    if (!row?.ok) {
+      return {
+        autoCompleted: false,
+        reasons: [
+          typeof row?.error === 'string' && row.error.length > 0
+            ? row.error
+            : 'Visit could not be completed — refresh and retry.',
+        ],
+      }
+    }
     return { autoCompleted: true, reasons: [] }
   }
 
@@ -254,52 +263,25 @@ export async function signCoordinatorProgressNoteAction(input: {
   }
 
   const signedName = await resolveSignerName(user.id)
-  const signedAt = new Date().toISOString()
 
-  const notePatch = {
-    coordinator_signature_status: 'signed',
-    coordinator_signed_by_user_id: user.id,
-    coordinator_signed_by_name: signedName,
-    coordinator_signed_at: signedAt,
-    updated_by: user.id,
+  const { data: rpcResult, error: rpcError } = await supabase.rpc(
+    'sign_visit_coordinator_closeout',
+    {
+      p_organization_id: organizationId,
+      p_visit_id: visitId,
+      p_actor_name: signedName,
+    },
+  )
+
+  if (rpcError) return { ok: false, error: rpcError.message }
+  const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
+  if (!rpc?.ok) {
+    const err = rpc?.error ?? 'Coordinator sign-off failed.'
+    return {
+      ok: false,
+      error: /refresh|changed|blocking|submitted/i.test(err) ? `${err} ${STALE_WRITE_USER_MESSAGE}` : err,
+    }
   }
-
-  if (note.id) {
-    const { error } = await supabase
-      .from('visit_progress_notes')
-      .update(notePatch)
-      .eq('id', note.id)
-    if (error) return { ok: false, error: error.message }
-  } else {
-    const { error } = await supabase.from('visit_progress_notes').insert({
-      organization_id: organizationId,
-      visit_id: visitId,
-      note_text: note.note_text,
-      created_by: user.id,
-      ...notePatch,
-    })
-    if (error) return { ok: false, error: error.message }
-  }
-
-  const { error: visitErr } = await supabase
-    .from('visits')
-    .update({
-      visit_review_status: 'coordinator_signed',
-      coordinator_signed_by: user.id,
-      coordinator_signed_by_name: signedName,
-      coordinator_signed_at: signedAt,
-    })
-    .eq('id', visitId)
-
-  if (visitErr) return { ok: false, error: visitErr.message }
-
-  await appendVisitCloseoutEvent({
-    organizationId,
-    visitId,
-    eventType: 'coordinator_signed',
-    actorUserId: user.id,
-    actorName: signedName,
-  })
 
   revalidateVisitPaths(access.studyId, access.subjectId, visitId)
   return { ok: true }
@@ -311,6 +293,10 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   reopenReason?: string | null
 }): Promise<VisitCloseoutActionResult> {
   const { visitId, organizationId, reopenReason } = input
+  if (!reopenReason?.trim() || reopenReason.trim().length < 3) {
+    return { ok: false, error: 'Reopen reason is required (minimum 3 characters).' }
+  }
+
   const access = await assertVisitWrite(visitId, organizationId)
   if (!access.ok) return access
 
@@ -318,48 +304,28 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   if (!user) return { ok: false, error: 'Sign in required.' }
 
   const supabase = await createServerClient()
-  const { error: noteErr } = await supabase
-    .from('visit_progress_notes')
-    .update({
-      coordinator_signature_status: 'draft',
-      coordinator_signed_by_user_id: null,
-      coordinator_signed_by_name: null,
-      coordinator_signed_at: null,
-      investigator_review_status: 'pending',
-      investigator_signed_by_user_id: null,
-      investigator_signed_by_name: null,
-      investigator_role: null,
-      investigator_signed_at: null,
-    })
-    .eq('visit_id', visitId)
-
-  if (noteErr) return { ok: false, error: noteErr.message }
-
-  const { error: visitErr } = await supabase
-    .from('visits')
-    .update({
-      visit_review_status: 'reopened',
-      coordinator_signed_by: null,
-      coordinator_signed_by_name: null,
-      coordinator_signed_at: null,
-      investigator_signed_by: null,
-      investigator_signed_by_name: null,
-      investigator_role: null,
-      investigator_signed_at: null,
-    })
-    .eq('id', visitId)
-
-  if (visitErr) return { ok: false, error: visitErr.message }
-
   const actorName = await resolveSignerName(user.id)
-  await appendVisitCloseoutEvent({
-    organizationId,
-    visitId,
-    eventType: 'coordinator_reopened',
-    actorUserId: user.id,
-    actorName,
-    reopenReason,
-  })
+
+  const { data: rpcResult, error: rpcError } = await supabase.rpc(
+    'reopen_visit_coordinator_closeout',
+    {
+      p_organization_id: organizationId,
+      p_visit_id: visitId,
+      p_actor_name: actorName,
+      p_reopen_reason: reopenReason ?? null,
+    },
+  )
+
+  if (rpcError) return { ok: false, error: rpcError.message }
+  const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
+  if (!rpc?.ok) {
+    return {
+      ok: false,
+      error: rpc?.error?.includes('refresh')
+        ? STALE_WRITE_USER_MESSAGE
+        : (rpc?.error ?? 'Could not reopen coordinator sign-off.'),
+    }
+  }
 
   revalidateVisitPaths(access.studyId, access.subjectId, visitId)
   return { ok: true }
@@ -384,6 +350,22 @@ export async function signInvestigatorReviewAction(input: {
 
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
+
+  // F-07 fix: enforce investigator role server-side
+  // Only pi_sub_i, admin, or owner may sign as investigator.
+  const memberships = await getOrganizationMemberships(user.id)
+  const orgMembership = memberships.find((m) => m.organization_id === organizationId)
+  const allRoles = orgMembership
+    ? [orgMembership.role, ...orgMembership.roles].filter(Boolean)
+    : []
+  const hasInvestigatorRole = allRoles.some((r) => canSignClinicalSourceForRole(r))
+  if (!hasInvestigatorRole) {
+    return {
+      ok: false,
+      error:
+        'Investigator review requires the pi_sub_i, admin, or owner site role. Contact your site administrator.',
+    }
+  }
 
   const supabase = await createServerClient()
   const runtimeValidation = await validateVisitProcedures({ supabase, visitId, organizationId })
@@ -421,41 +403,22 @@ export async function signInvestigatorReviewAction(input: {
   }
 
   const signedName = await resolveSignerName(user.id)
-  const signedAt = new Date().toISOString()
 
-  const { error: noteErr } = await supabase
-    .from('visit_progress_notes')
-    .update({
-      investigator_review_status: 'signed',
-      investigator_signed_by_user_id: user.id,
-      investigator_signed_by_name: signedName,
-      investigator_role: investigatorRole,
-      investigator_signed_at: signedAt,
-    })
-    .eq('visit_id', visitId)
+  const { data: rpcResult, error: rpcError } = await supabase.rpc(
+    'sign_visit_investigator_closeout',
+    {
+      p_organization_id: organizationId,
+      p_visit_id: visitId,
+      p_investigator_role: investigatorRole,
+      p_actor_name: signedName,
+    },
+  )
 
-  if (noteErr) return { ok: false, error: noteErr.message }
-
-  const { error: visitErr } = await supabase
-    .from('visits')
-    .update({
-      visit_review_status: 'investigator_signed',
-      investigator_signed_by: user.id,
-      investigator_signed_by_name: signedName,
-      investigator_role: investigatorRole,
-      investigator_signed_at: signedAt,
-    })
-    .eq('id', visitId)
-
-  if (visitErr) return { ok: false, error: visitErr.message }
-
-  await appendVisitCloseoutEvent({
-    organizationId,
-    visitId,
-    eventType: 'investigator_signed',
-    actorUserId: user.id,
-    actorName: signedName,
-  })
+  if (rpcError) return { ok: false, error: rpcError.message }
+  const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
+  if (!rpc?.ok) {
+    return { ok: false, error: rpc?.error ?? 'Investigator sign-off failed.' }
+  }
 
   const coupling = await applyVisitCompletionCoupling(visitId, organizationId)
 
@@ -472,6 +435,10 @@ export async function reopenInvestigatorReviewAction(input: {
   reopenReason?: string | null
 }): Promise<VisitCloseoutActionResult> {
   const { visitId, organizationId, reopenReason } = input
+  if (!reopenReason?.trim() || reopenReason.trim().length < 3) {
+    return { ok: false, error: 'Reopen reason is required (minimum 3 characters).' }
+  }
+
   const access = await assertVisitWrite(visitId, organizationId)
   if (!access.ok) return access
 
@@ -479,42 +446,28 @@ export async function reopenInvestigatorReviewAction(input: {
   if (!user) return { ok: false, error: 'Sign in required.' }
 
   const supabase = await createServerClient()
-  const { error: noteErr } = await supabase
-    .from('visit_progress_notes')
-    .update({
-      investigator_review_status: 'reopened',
-      investigator_signed_by_user_id: null,
-      investigator_signed_by_name: null,
-      investigator_role: null,
-      investigator_signed_at: null,
-    })
-    .eq('visit_id', visitId)
-
-  if (noteErr) return { ok: false, error: noteErr.message }
-
-  const { error: visitErr } = await supabase
-    .from('visits')
-    .update({
-      visit_review_status: 'coordinator_signed',
-      investigator_signed_by: null,
-      investigator_signed_by_name: null,
-      investigator_role: null,
-      investigator_signed_at: null,
-      visit_status: 'in_progress',
-    })
-    .eq('id', visitId)
-
-  if (visitErr) return { ok: false, error: visitErr.message }
-
   const actorName = await resolveSignerName(user.id)
-  await appendVisitCloseoutEvent({
-    organizationId,
-    visitId,
-    eventType: 'investigator_reopened',
-    actorUserId: user.id,
-    actorName,
-    reopenReason,
-  })
+
+  const { data: rpcResult, error: rpcError } = await supabase.rpc(
+    'reopen_visit_investigator_closeout',
+    {
+      p_organization_id: organizationId,
+      p_visit_id: visitId,
+      p_actor_name: actorName,
+      p_reopen_reason: reopenReason,
+    },
+  )
+
+  if (rpcError) return { ok: false, error: rpcError.message }
+  const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
+  if (!rpc?.ok) {
+    return {
+      ok: false,
+      error: rpc?.error?.includes('refresh') || rpc?.error?.includes('reason')
+        ? (rpc.error ?? STALE_WRITE_USER_MESSAGE)
+        : (rpc?.error ?? 'Could not reopen investigator sign-off.'),
+    }
+  }
 
   revalidateVisitPaths(access.studyId, access.subjectId, visitId)
   return { ok: true }

@@ -22,9 +22,12 @@ import type {
   ReviewStatus,
   SourceStatus,
   SubjectChartHeaderModel,
+  SubjectRoleKind,
   SubjectVisitGridRow,
+  VisitModalityKind,
 } from '@/lib/subject/visits/types'
 import { loadWorkflowCountsByVisit } from '@/lib/subject/workflow/data'
+import { loadIpCaptureStatusByVisit } from '@/lib/subject/visits/ip-capture'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { hasOrganizationMembership } from '@/lib/rbac/org-scope'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
@@ -58,8 +61,13 @@ export async function loadSubjectVisitsPage(
       subject_identifier,
       initials,
       enrollment_status,
+      subject_role,
+      household_id,
+      anchor_subject_id,
       randomization_number,
       randomization_arm,
+      randomization_date_time,
+      external_iwrs_rtsm_reference,
       study_version_id,
       studies(id, name),
       study_versions(protocol_identifier)
@@ -93,9 +101,14 @@ export async function loadSubjectVisitsPage(
       subjectIdentifier: subject.subject_identifier as string,
       initials: (subject.initials as string | null) ?? null,
       studyName: study?.name ?? 'Study',
+      subjectRole: (subject.subject_role as SubjectRoleKind | null) ?? 'participant',
+      householdId: (subject.household_id as string | null) ?? null,
+      anchorSubjectId: (subject.anchor_subject_id as string | null) ?? null,
       enrollmentStatus: subject.enrollment_status as string,
       randomizationNumber: (subject.randomization_number as string | null) ?? null,
       randomizationArm: (subject.randomization_arm as string | null) ?? null,
+      randomizationDateTime: (subject.randomization_date_time as string | null) ?? null,
+      externalIwrsRtsmReference: (subject.external_iwrs_rtsm_reference as string | null) ?? null,
     },
     canViewUnblinded,
   )
@@ -113,6 +126,7 @@ export async function loadSubjectVisitsPage(
       visit_status,
       window_status,
       visit_review_status,
+      modality,
       visit_day,
       window_start,
       window_end,
@@ -139,6 +153,11 @@ export async function loadSubjectVisitsPage(
     loadScheduledVisitIdByVisitId(supabase, visitIds),
     loadActiveProtocolVisitReschedules(supabase, [subject.organization_id as string]),
   ])
+  const ipCaptureByVisit = await loadIpCaptureStatusByVisit(
+    supabase,
+    visitIds,
+    subject.organization_id as string,
+  )
   const workflowCountsByVisit = await loadWorkflowCountsByVisit(
     visitIds,
     subject.organization_id as string,
@@ -231,12 +250,19 @@ export async function loadSubjectVisitsPage(
       scheduledVisitId,
     })
     const calendarReschedule = buildVisitCalendarReschedule(protocolTargetDate, resolvedReschedule)
+    const ipCapture = ipCaptureByVisit.get(visit.id as string) ?? {
+      status: 'not_required' as const,
+      requiredFieldCount: 0,
+      documentedFieldCount: 0,
+      procedureCount: 0,
+    }
 
     return {
       id: visit.id as string,
       organizationId: visit.organization_id as string,
       visitCode: def?.code ?? '—',
       visitName: def?.label ?? def?.code ?? 'Visit',
+      modality: ((visit.modality as string | null) ?? 'site') as VisitModalityKind,
       visitDay:
         (visit.visit_day as number | null) ??
         def?.target_day ??
@@ -279,6 +305,9 @@ export async function loadSubjectVisitsPage(
         overdueActions: 0,
         openActions: 0,
       },
+      ipCaptureStatus: ipCapture.status,
+      ipRequiredFieldCount: ipCapture.requiredFieldCount,
+      ipDocumentedFieldCount: ipCapture.documentedFieldCount,
       calendarReschedule,
     }
   })

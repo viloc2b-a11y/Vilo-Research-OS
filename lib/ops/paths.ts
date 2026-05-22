@@ -56,7 +56,7 @@ export function subjectConMedsTabPath(
   return subjectChartTabPath(studyId, subjectId, 'conmeds', options)
 }
 
-/** Subject-level AE / safety timeline tab (operational overlay, not structured AE registry). */
+/** Subject-level AE / safety tab (registry + operational timeline). */
 export function subjectAdverseEventsTabPath(
   studyId: string | null,
   subjectId: string,

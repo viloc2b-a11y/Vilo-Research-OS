@@ -2,10 +2,8 @@
 
 import { useActionState } from 'react'
 import { Button } from '@/components/ui/button'
-import {
-  createSubjectWorkflowAction,
-  INITIAL_WORKFLOW_ACTION_STATE,
-} from '@/lib/subject/workflow/actions'
+import { createSubjectWorkflowAction } from '@/lib/subject/workflow/actions'
+import { INITIAL_WORKFLOW_ACTION_STATE } from '@/lib/subject/workflow/types'
 
 type SubjectWorkflowCreateFormProps = {
   organizationId: string

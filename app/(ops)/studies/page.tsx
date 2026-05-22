@@ -11,12 +11,8 @@ import {
   Users,
   AlertCircle,
   ChevronRight,
-  CalendarDays,
-  FileText,
-  PenTool,
   Activity,
   Plus,
-  Search,
 } from 'lucide-react'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -82,29 +78,6 @@ function StudyCard({ study }: { study: StudyRow }) {
           <p className="text-xs text-muted-foreground mt-0.5">
             Clinical Trial
           </p>
-        </div>
-      </div>
-
-      {/* Operational summary — STUB until real columns exist */}
-      <div className="p-3 rounded-lg mb-4" >
-        <p className="section-label mb-2">Pending Actions</p>
-        <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="w-3.5 h-3.5 text-primary" />
-            <span>Visits →</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FileText className="w-3.5 h-3.5 text-amber-400" />
-            <span>Source →</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <PenTool className="w-3.5 h-3.5 text-orange-400" />
-            <span>Signatures →</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <AlertCircle className="w-3.5 h-3.5 text-muted-foreground" />
-            <span>Findings →</span>
-          </div>
         </div>
       </div>
 
@@ -209,29 +182,10 @@ export default async function StudiesPortfolioPage() {
         </div>
       </div>
 
-      {/* Filter bar */}
-      <div className="flex items-center gap-3 px-6 py-3 bg-card border-b border-border">
-        <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search studies…"
-            className="w-full h-9 pl-9 pr-3 rounded-lg border border-border text-sm bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
-        </div>
-        <div className="flex rounded-lg bg-muted p-0.5" >
-          {['All', 'Active', 'Enrolling', 'Follow-up', 'Closeout'].map(f => (
-            <button
-              key={f}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                f === 'All' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:bg-card/50'
-              }`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-      </div>
+      <p className="px-6 py-2 text-xs text-muted-foreground border-b border-border bg-card">
+        Portfolio filters and per-study action counts are not enabled here. Open a study workspace for
+        runtime readiness, bindings, and coordinator execution.
+      </p>
 
       {/* Studies grid */}
       <div className="flex-1 overflow-y-auto p-6 scrollbar-thin">

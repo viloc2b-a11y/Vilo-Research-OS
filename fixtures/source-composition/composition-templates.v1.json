@@ -1,0 +1,125 @@
+{
+  "catalog_version": "12B.1.0",
+  "library_version": "12A.1.0",
+  "templates": {
+    "SCREENING_CORE_V1": {
+      "manifest_version": "12B.1.0",
+      "template_key": "SCREENING_CORE_V1",
+      "library_version": "12A.1.0",
+      "label": "Screening — vitals, labs, physical exam",
+      "protocol_notes": "Core screening capture composed from canonical libraries.",
+      "sections": [
+        {
+          "section_key": "screening_vitals",
+          "library": "VITALS_CORE_V1",
+          "include": [
+            "heart_rate",
+            "systolic_bp",
+            "diastolic_bp",
+            "temperature",
+            "temperature_unit",
+            "weight",
+            "weight_unit",
+            "height",
+            "height_unit",
+            "collection_datetime"
+          ]
+        },
+        {
+          "section_key": "screening_labs",
+          "library": "LAB_CORE_V1",
+          "exclude": ["clinically_significant", "linked_ae_id", "linked_ae", "repeat_required", "repeat_reason", "repeat_scheduled_date"]
+        },
+        {
+          "section_key": "screening_pe",
+          "library": "PHYSICAL_EXAM_CORE_V1",
+          "include": ["exam_performed", "exam_datetime", "overall_normal", "abnormal_findings", "clinically_significant", "investigator_comment"]
+        }
+      ]
+    },
+    "IP_ADMIN_VISIT_V1": {
+      "manifest_version": "12B.1.0",
+      "template_key": "IP_ADMIN_VISIT_V1",
+      "library_version": "12A.1.0",
+      "label": "IP administration visit",
+      "sections": [
+        {
+          "section_key": "ip_vitals",
+          "library": "VITALS_CORE_V1",
+          "include": [
+            "heart_rate",
+            "systolic_bp",
+            "diastolic_bp",
+            "pre_post_ip_timing",
+            "collection_datetime",
+            "abnormal_flag",
+            "clinically_significant",
+            "clinical_comment"
+          ]
+        },
+        {
+          "section_key": "ip_admin",
+          "library": "IP_ADMIN_CORE_V1"
+        }
+      ]
+    },
+    "AE_REVIEW_V1": {
+      "manifest_version": "12B.1.0",
+      "template_key": "AE_REVIEW_V1",
+      "library_version": "12A.1.0",
+      "label": "Adverse event and concomitant medication review",
+      "sections": [
+        {
+          "section_key": "ae_log",
+          "library": "AE_CORE_V1"
+        },
+        {
+          "section_key": "conmed_log",
+          "library": "CONMED_CORE_V1"
+        }
+      ]
+    },
+    "PARA_ADRENAL_REVIEW_V1": {
+      "manifest_version": "12B.1.0",
+      "template_key": "PARA_ADRENAL_REVIEW_V1",
+      "library_version": "12A.1.0",
+      "label": "PARA adrenal symptom review",
+      "sections": [
+        {
+          "section_key": "para_pe",
+          "library": "PHYSICAL_EXAM_CORE_V1",
+          "include": ["exam_performed", "exam_datetime", "overall_normal", "abnormal_findings"]
+        },
+        {
+          "section_key": "para_adrenal",
+          "overlay": "PARA_ADRENAL_OVERLAY_V1"
+        }
+      ]
+    },
+    "MV_HOUSEHOLD_SICK_VISIT_V1": {
+      "manifest_version": "12B.1.0",
+      "template_key": "MV_HOUSEHOLD_SICK_VISIT_V1",
+      "library_version": "12A.1.0",
+      "label": "MV40618 household sick visit",
+      "sections": [
+        {
+          "section_key": "mv_symptoms",
+          "overlay": "MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1"
+        },
+        {
+          "section_key": "mv_swab_lab",
+          "library": "LAB_CORE_V1",
+          "include": [
+            "collection_datetime",
+            "specimen_type",
+            "accession_number",
+            "local_vs_central",
+            "processing_status",
+            "abnormal_flag"
+          ],
+          "exclude": ["linked_ae_id", "linked_ae"]
+        }
+      ]
+    }
+  }
+}

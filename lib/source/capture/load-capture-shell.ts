@@ -40,6 +40,7 @@ import {
   SOURCE_ENGINE_EVENT_TYPES,
 } from '@/lib/source-engine/telemetry'
 import { findNextIncompleteProcedureInVisit } from '@/lib/source/capture/next-incomplete-procedure'
+import { loadSourceDefinitionResolutionContext } from '@/lib/source-engine/resolution/load-resolution-context'
 import { createServerClient } from '@/lib/supabase/server'
 
 export async function loadCaptureShell(
@@ -208,13 +209,37 @@ export async function loadCaptureShell(
   )
 
   let engineSnapshot: Awaited<ReturnType<typeof resolveCaptureShellEngineRuntime>> | null = null
+  let runtimeConfig: Awaited<ReturnType<typeof resolveSourceEngineRuntimeConfig>> | null = null
+  const runtimeFieldsBefore = fields.filter((field) => field.runtimeState).length
   try {
-    const runtimeConfig = await resolveSourceEngineRuntimeConfig({
+    runtimeConfig = await resolveSourceEngineRuntimeConfig({
       procedureExecutionId,
       sourceDefinitionVersionId: ctx.sourceDefinitionVersionId,
       organizationId,
       studyId: ctx.studyId,
     })
+
+    const resolutionCtx = await loadSourceDefinitionResolutionContext(ctx.sourceDefinitionVersionId)
+    const publishedExecutable =
+      resolutionCtx?.lifecycleStatus === 'published'
+      || Boolean(resolutionCtx?.publishedPackageId)
+    if (runtimeConfig.resolution.fallback && publishedExecutable) {
+      return {
+        status: 'error',
+        error: {
+          code: 'EXECUTABLE_TEMPLATE_UNRESOLVED',
+          title: 'Source capture',
+          messages: [
+            'Published source is bound but no executable capture template resolved.',
+            'Coordinator capture cannot run on the generic dev fallback shell.',
+          ],
+          requestId: null,
+          isAuthError: false,
+          isForbidden: false,
+        },
+      }
+    }
+
     if (runtimeConfig.resolution.fallback && runtimeConfig.resolution.warning) {
       console.warn('[SourceEngine]', runtimeConfig.resolution.warning, {
         procedureExecutionId,
@@ -264,6 +289,9 @@ export async function loadCaptureShell(
         supabase,
       })
     }
+
+    const templateFieldKeys = new Set(runtimeConfig.template.fields.map((f) => f.id))
+    fields = applyEngineRuntimeToCaptureFields(fields, engineSnapshot, { templateFieldKeys })
   } catch (error) {
     console.warn('[SourceEngine] capture shell runtime unavailable', {
       procedureExecutionId,
@@ -280,8 +308,6 @@ export async function loadCaptureShell(
     engineSnapshot = null
   }
 
-  const runtimeFieldsBefore = fields.filter((field) => field.runtimeState).length
-  fields = applyEngineRuntimeToCaptureFields(fields, engineSnapshot)
   const runtimeFieldsAfter = fields.filter((field) => field.runtimeState).length
   const fieldsAppliedCount = Math.max(0, runtimeFieldsAfter - runtimeFieldsBefore)
 
@@ -328,6 +354,7 @@ export async function loadCaptureShell(
         nextIncompleteProcedure,
       },
       responseSetId,
+      responseSetUpdatedAt: rs.updated_at,
       statusLabel: bundle.detail.data.statusLabel,
       canEdit,
       isSubmitted,

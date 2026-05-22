@@ -68,9 +68,9 @@ export function DraftActions({
         <Button type="button" variant="outline" onClick={() => setShowPreview((v) => !v)}>
           {showPreview ? 'Hide' : 'Preview'} source structure
         </Button>
-        <Button type="button" variant="outline" disabled title="Phase 6A.6 — publish not wired">
-          Publish (coming soon)
-        </Button>
+        <span className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950">
+          Publish blocked here: use a study workspace with approved package artifacts.
+        </span>
         {savedMessage ? (
           <span className="text-sm text-green-700 dark:text-green-400">{savedMessage}</span>
         ) : null}

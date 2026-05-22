@@ -39,6 +39,7 @@
   ],
   "exclude": [
     "node_modules",
-    "vilo-os UX"
+    "vilo-os UX",
+    ".next/dev"
   ]
 }

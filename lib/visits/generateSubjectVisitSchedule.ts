@@ -1,3 +1,7 @@
+import {
+  canExecuteStudyRuntime,
+  formatStudyRuntimeBlockers,
+} from '@/lib/studies/runtime-readiness'
 import { calculateVisitWindows, todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { validateVisitWindow } from '@/lib/visits/validateVisitWindow'
 import type { GenerateScheduleResult } from '@/lib/visits/types'
@@ -11,6 +15,24 @@ type VisitDefinitionRow = {
   target_day: number | null
   window_min_offset: number | null
   window_max_offset: number | null
+  eligible_arms: string[] | null
+  eligible_subject_roles: string[] | null
+  modality: string | null
+}
+
+function visitDefinitionAppliesToSubject(
+  def: VisitDefinitionRow,
+  subject: { subject_role?: string | null; randomization_arm?: string | null },
+): boolean {
+  const role = subject.subject_role?.trim() || 'participant'
+  if (def.eligible_subject_roles?.length) {
+    if (!def.eligible_subject_roles.includes(role)) return false
+  }
+  if (def.eligible_arms?.length) {
+    if (!subject.randomization_arm?.trim()) return false
+    if (!def.eligible_arms.includes(subject.randomization_arm.trim())) return false
+  }
+  return true
 }
 
 function resolveTargetDay(def: VisitDefinitionRow, index: number): number {
@@ -31,7 +53,7 @@ export async function generateSubjectVisitSchedule(input: {
   const { data: subject, error: subErr } = await supabase
     .from('study_subjects')
     .select(
-      'id, organization_id, study_id, schedule_anchor_date, visit_schedule_generated_at, enrollment_status',
+      'id, organization_id, study_id, schedule_anchor_date, visit_schedule_generated_at, enrollment_status, subject_role, randomization_arm',
     )
     .eq('id', studySubjectId)
     .maybeSingle()
@@ -44,6 +66,62 @@ export async function generateSubjectVisitSchedule(input: {
     return { ok: false, error: 'Visit schedule is generated after enrollment or randomization.' }
   }
 
+  const readiness = await canExecuteStudyRuntime({
+    supabase,
+    studyId: subject.study_id as string,
+    organizationId: subject.organization_id as string,
+  })
+
+  if (!readiness.canExecute) {
+    return {
+      ok: false,
+      error: `Study runtime is not ready for execution: ${formatStudyRuntimeBlockers(readiness)}`,
+    }
+  }
+
+  const anchorForRpc =
+    input.anchorDate?.trim() ||
+    null
+
+  const { data: rpcRaw, error: rpcErr } = await supabase.rpc(
+    'generate_subject_visit_schedule',
+    {
+      p_study_subject_id: studySubjectId,
+      p_anchor_date: anchorForRpc,
+      p_force: force,
+    },
+  )
+
+  if (!rpcErr && rpcRaw && typeof rpcRaw === 'object') {
+    const rpc = rpcRaw as {
+      ok?: boolean
+      error?: string | null
+      created_count?: number
+      skipped?: boolean
+    }
+    if (rpc.ok) {
+      return {
+        ok: true,
+        createdCount: rpc.created_count ?? 0,
+        skipped: rpc.skipped === true,
+      }
+    }
+    if (rpc.error) {
+      return { ok: false, error: rpc.error }
+    }
+  }
+
+  const rpcUnavailable =
+    rpcErr?.code === '42883' ||
+    rpcErr?.message?.toLowerCase().includes('function generate_subject_visit_schedule')
+
+  if (rpcErr && !rpcUnavailable) {
+    return { ok: false, error: rpcErr.message }
+  }
+
+  // Legacy fallback only when generate_subject_visit_schedule RPC is unavailable (pre-0069).
+  // Prefer RPC: single transaction; fallback uses best-effort visit delete rollback (P1).
+
   const anchorDate =
     input.anchorDate?.trim() ||
     (subject.schedule_anchor_date as string | null) ||
@@ -52,14 +130,17 @@ export async function generateSubjectVisitSchedule(input: {
   const { data: definitions, error: defErr } = await supabase
     .from('visit_definitions')
     .select(
-      'id, code, label, sort_order, target_day, window_min_offset, window_max_offset',
+      'id, code, label, sort_order, target_day, window_min_offset, window_max_offset, eligible_arms, eligible_subject_roles, modality',
     )
     .eq('study_id', subject.study_id)
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: true })
 
   if (defErr) return { ok: false, error: defErr.message }
-  if (!definitions?.length) {
+  const applicableDefinitions = (definitions ?? []).filter((def) =>
+    visitDefinitionAppliesToSubject(def as VisitDefinitionRow, subject),
+  )
+  if (!applicableDefinitions.length) {
     return { ok: false, error: 'No visit definitions on this study.' }
   }
 
@@ -74,7 +155,7 @@ export async function generateSubjectVisitSchedule(input: {
 
   const { data: procedureMaps } = await supabase
     .from('visit_def_procedure_map')
-    .select('visit_definition_id, procedure_definition_id, sort_order, is_required')
+    .select('visit_definition_id, procedure_definition_id, sort_order, is_required, is_conditional')
     .eq('study_id', subject.study_id)
     .order('sort_order', { ascending: true })
 
@@ -107,13 +188,14 @@ export async function generateSubjectVisitSchedule(input: {
   }
 
   let createdCount = 0
-  const allExist = definitions.every((d) => existingDefIds.has(d.id as string))
+  const createdVisitIds: string[] = []
+  const allExist = applicableDefinitions.every((d) => existingDefIds.has(d.id as string))
   if (allExist && subject.visit_schedule_generated_at && !force) {
     return { ok: true, createdCount: 0, skipped: true }
   }
 
-  for (let i = 0; i < definitions.length; i++) {
-    const def = definitions[i] as VisitDefinitionRow
+  for (let i = 0; i < applicableDefinitions.length; i++) {
+    const def = applicableDefinitions[i] as VisitDefinitionRow
     if (existingDefIds.has(def.id)) continue
 
     const targetDay = resolveTargetDay(def, i)
@@ -146,16 +228,36 @@ export async function generateSubjectVisitSchedule(input: {
         window_status: validation.windowStatus,
         confirmation_status: 'pending',
         visit_status: 'scheduled',
+        modality: def.modality?.trim() || 'site',
       })
       .select('id')
       .single()
 
-    if (visitErr) return { ok: false, error: visitErr.message }
+    if (visitErr) {
+      if (visitErr.code === '23505') {
+        existingDefIds.add(def.id)
+        continue
+      }
+      if (createdVisitIds.length > 0) {
+        await supabase.from('visits').delete().in('id', createdVisitIds)
+      }
+      return { ok: false, error: visitErr.message }
+    }
+    createdVisitIds.push(visit.id as string)
 
-    const procRows = mapsByVisitDef.get(def.id) ?? []
+    const procRows = (mapsByVisitDef.get(def.id) ?? []).filter((row) => !row.is_conditional)
     for (const procMap of procRows) {
       const procDefId = procMap.procedure_definition_id as string
       const sdvId = bindingsByProcedure.get(procDefId) ?? null
+      if (procMap.is_required && !sdvId) {
+        if (createdVisitIds.length > 0) {
+          await supabase.from('visits').delete().in('id', createdVisitIds)
+        }
+        return {
+          ok: false,
+          error: 'Required procedure execution was not created because no published source binding resolved for schedule generation.',
+        }
+      }
       const { error: peErr } = await supabase.from('procedure_executions').insert({
         organization_id: subject.organization_id,
         study_id: subject.study_id,
@@ -164,7 +266,12 @@ export async function generateSubjectVisitSchedule(input: {
         execution_status: 'pending',
         ...(sdvId ? { source_definition_version_id: sdvId } : {}),
       })
-      if (peErr) return { ok: false, error: peErr.message }
+      if (peErr) {
+        if (createdVisitIds.length > 0) {
+          await supabase.from('visits').delete().in('id', createdVisitIds)
+        }
+        return { ok: false, error: peErr.message }
+      }
     }
 
     createdCount += 1
@@ -179,7 +286,14 @@ export async function generateSubjectVisitSchedule(input: {
     })
     .eq('id', studySubjectId)
 
-  if (anchorErr) return { ok: false, error: anchorErr.message }
+  if (anchorErr) {
+    if (createdVisitIds.length > 0) {
+      await supabase.from('visits').delete().in('id', createdVisitIds)
+    }
+    return { ok: false, error: anchorErr.message }
+  }
 
   return { ok: true, createdCount, skipped: false }
 }
+
+// Schedule generation runs in public.generate_subject_visit_schedule (0069) for transactional safety.

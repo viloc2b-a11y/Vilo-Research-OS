@@ -17,6 +17,8 @@ export type SourceDefinitionResolutionContext = {
   publishedPackageId: string | null
   publishedProvenance: Record<string, unknown> | null
   publishedSourceStatus: string | null
+  /** Active manifest field keys for executable continuity checks. */
+  publishedFieldKeys: string[]
 }
 
 function asObject(value: unknown): Record<string, unknown> | null {
@@ -64,6 +66,11 @@ export async function loadSourceDefinitionResolutionContext(
 
   const published = publishedRows?.[0] ?? null
 
+  const { data: fieldRows } = await supabase
+    .from('source_fields')
+    .select('field_key')
+    .eq('source_definition_version_id', sourceDefinitionVersionId)
+
   return {
     sourceDefinitionVersionId: sdv.id,
     studyId: sdv.study_id,
@@ -77,5 +84,8 @@ export async function loadSourceDefinitionResolutionContext(
     publishedPackageId: (published?.package_id as string | null) ?? null,
     publishedProvenance: asObject(published?.provenance_json),
     publishedSourceStatus: (published?.source_status as string | null) ?? null,
+    publishedFieldKeys: (fieldRows ?? [])
+      .map((row) => String(row.field_key ?? '').trim())
+      .filter(Boolean),
   }
 }

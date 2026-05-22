@@ -22,6 +22,9 @@ import {
   SubjectGeneralForm,
   type SubjectGeneralModel,
 } from '@/components/subject/subject-general-form'
+import { SubjectCloseoutChecklist } from '@/components/subject/SubjectCloseoutChecklist'
+import { SubjectCloseoutForms } from '@/components/subject/subject-closeout-forms'
+import { loadSubjectCloseoutReadiness } from '@/lib/subject/closeout'
 import { subjectVisitsPath } from '@/lib/subject/chart-paths'
 import { resolveSubjectChartPermissions } from '@/lib/subject/permissions'
 import { loadSubjectClinicalProfile } from '@/lib/subject/clinical-profile/read'
@@ -94,9 +97,11 @@ function ComingSoon({ title }: { title: string }) {
 function GeneralPanel({
   subject,
   showUnblindedFields,
+  anchorOptions,
 }: {
   subject: SubjectGeneralModel
   showUnblindedFields: boolean
+  anchorOptions: { id: string; label: string }[]
 }) {
   return (
     <Card>
@@ -107,7 +112,11 @@ function GeneralPanel({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <SubjectGeneralForm subject={subject} showUnblindedFields={showUnblindedFields} />
+        <SubjectGeneralForm
+          subject={subject}
+          showUnblindedFields={showUnblindedFields}
+          anchorOptions={anchorOptions}
+        />
       </CardContent>
     </Card>
   )
@@ -137,12 +146,18 @@ export default async function SubjectDetailPage({
       randomization_number,
       randomization_arm,
       enrollment_status,
+      subject_role,
+      household_id,
+      anchor_subject_id,
       first_name,
       middle_initial,
       last_name,
       initials,
       gender,
       date_of_birth,
+      randomization_date_time,
+      external_iwrs_rtsm_reference,
+      updated_at,
       study_id,
       studies(id, name, slug)
     `,
@@ -198,6 +213,17 @@ export default async function SubjectDetailPage({
       : { ok: false as const, error: 'No study context.' }
   const operationalIntelligence = operationalResult.ok ? operationalResult.data : null
 
+  const closeoutReadinessResult =
+    activeTab === 'general' && chartStudyId && workflowResult.ok
+      ? await loadSubjectCloseoutReadiness({
+          subjectId,
+          studyId: chartStudyId,
+          organizationId,
+        })
+      : null
+  const closeoutReadiness =
+    closeoutReadinessResult?.ok === true ? closeoutReadinessResult.data : null
+
   // Clinical profile — load only when the tab is active
   let clinicalProfile: SubjectClinicalProfile = {
     study_subject_id: subjectId,
@@ -234,6 +260,22 @@ export default async function SubjectDetailPage({
         })
       : null
 
+  const anchorSubjectOptions =
+    chartStudyId
+      ? (
+          await supabase
+            .from('study_subjects')
+            .select('id, subject_identifier')
+            .eq('study_id', chartStudyId)
+            .eq('organization_id', organizationId)
+            .neq('id', subjectId)
+            .order('subject_identifier', { ascending: true })
+        ).data?.map((row) => ({
+          id: row.id as string,
+          label: row.subject_identifier as string,
+        })) ?? []
+      : []
+
   const generalSubject: SubjectGeneralModel = redactSubjectUnblindedFields(
     {
       id: subject.id as string,
@@ -241,7 +283,13 @@ export default async function SubjectDetailPage({
       subjectNumber: subject.subject_identifier as string,
       randomizationNumber: (subject.randomization_number as string | null) ?? null,
       studyArm: (subject.randomization_arm as string | null) ?? null,
+      randomizationDateTime: (subject.randomization_date_time as string | null) ?? null,
+      externalIwrsRtsmReference: (subject.external_iwrs_rtsm_reference as string | null) ?? null,
       status: subject.enrollment_status as string,
+      subjectRole:
+        (subject.subject_role as SubjectGeneralModel['subjectRole'] | null) ?? 'participant',
+      householdId: (subject.household_id as string | null) ?? null,
+      anchorSubjectId: (subject.anchor_subject_id as string | null) ?? null,
       firstName: (subject.first_name as string | null) ?? null,
       middleInitial: (subject.middle_initial as string | null) ?? null,
       lastName: (subject.last_name as string | null) ?? null,
@@ -261,6 +309,10 @@ export default async function SubjectDetailPage({
           subjectIdentifier: generalSubject.subjectNumber,
           initials: generalSubject.initials,
           studyName: study?.name ?? 'Study',
+          subjectRole:
+            (subject.subject_role as SubjectChartHeaderModel['subjectRole'] | null) ?? 'participant',
+          householdId: (subject.household_id as string | null) ?? null,
+          anchorSubjectId: (subject.anchor_subject_id as string | null) ?? null,
           enrollmentStatus: generalSubject.status,
           randomizationNumber: (subject.randomization_number as string | null) ?? null,
           randomizationArm: (subject.randomization_arm as string | null) ?? null,
@@ -330,7 +382,23 @@ export default async function SubjectDetailPage({
             />
           ) : null}
           {activeTab === 'general' ? (
-            <GeneralPanel subject={generalSubject} showUnblindedFields={canViewUnblinded} />
+            <GeneralPanel
+              subject={generalSubject}
+              showUnblindedFields={canViewUnblinded}
+              anchorOptions={anchorSubjectOptions}
+            />
+          ) : null}
+          {activeTab === 'general' && closeoutReadiness ? (
+            <SubjectCloseoutChecklist readiness={closeoutReadiness} />
+          ) : null}
+          {activeTab === 'general' ? (
+            <SubjectCloseoutForms
+              subjectId={subjectId}
+              organizationId={organizationId}
+              currentStatus={generalSubject.status}
+              subjectUpdatedAt={subject.updated_at as string}
+              readiness={closeoutReadiness}
+            />
           ) : null}
 
           {/* Visits — redirect handled above */}
@@ -390,7 +458,10 @@ export default async function SubjectDetailPage({
             </p>
           ) : null}
           {activeTab === 'adverse-events' && adverseEventsTimeline ? (
-            <SubjectAdverseEventsSurface model={adverseEventsTimeline} />
+            <SubjectAdverseEventsSurface
+              model={adverseEventsTimeline}
+              studySubjectId={subjectId}
+            />
           ) : null}
 
           {activeTab === 'deviations' && !chartStudyId ? (

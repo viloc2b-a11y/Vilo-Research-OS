@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { VisitRescheduleDialog } from '@/components/subjects/visits/VisitRescheduleDialog'
 import { VisitReminderActions } from '@/components/subjects/visits/VisitReminderActions'
@@ -16,10 +16,62 @@ type VisitActionsMenuProps = {
   row: SubjectVisitGridRow
 }
 
+// F-05 fix: inline note form replaces window.prompt() for coordinator note
+function InlineNoteForm({
+  initialValue,
+  onSubmit,
+  onCancel,
+  pending,
+}: {
+  initialValue: string
+  onSubmit: (note: string) => void
+  onCancel: () => void
+  pending: boolean
+}) {
+  const [note, setNote] = useState(initialValue)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  return (
+    <div className="px-3 py-2 border-t space-y-2">
+      <p className="text-xs font-medium text-muted-foreground">Coordinator note</p>
+      <textarea
+        ref={textareaRef}
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        rows={3}
+        placeholder="Add a coordinator note (optional)"
+        className="w-full resize-none rounded-md border border-input bg-background px-2 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        autoFocus
+        disabled={pending}
+      />
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          size="sm"
+          disabled={pending}
+          onClick={() => onSubmit(note)}
+        >
+          Save
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          disabled={pending}
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 export function VisitActionsMenu({ row }: VisitActionsMenuProps) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [rescheduleOpen, setRescheduleOpen] = useState(false)
+  const [noteFormOpen, setNoteFormOpen] = useState(false)
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = useState<string | null>(null)
 
@@ -41,6 +93,17 @@ export function VisitActionsMenu({ row }: VisitActionsMenuProps) {
     })
   }
 
+  const handleSaveNote = (note: string) => {
+    setNoteFormOpen(false)
+    run(() =>
+      addVisitNoteAction({
+        visitId: row.id,
+        organizationId: row.organizationId,
+        note,
+      }),
+    )
+  }
+
   return (
     <div className="relative inline-block text-left">
       <Button
@@ -59,9 +122,12 @@ export function VisitActionsMenu({ row }: VisitActionsMenuProps) {
             type="button"
             className="fixed inset-0 z-10 cursor-default"
             aria-label="Close menu"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false)
+              setNoteFormOpen(false)
+            }}
           />
-          <div className="absolute right-0 z-20 mt-1 w-52 rounded-md border bg-popover py-1 shadow-md">
+          <div className="absolute right-0 z-20 mt-1 w-64 rounded-md border bg-popover py-1 shadow-md">
             <Link
               href={`/visits/${row.id}`}
               className="block px-3 py-2 text-sm hover:bg-muted"
@@ -104,20 +170,23 @@ export function VisitActionsMenu({ row }: VisitActionsMenuProps) {
             <button
               type="button"
               className="block w-full px-3 py-2 text-left text-sm hover:bg-muted"
-              onClick={() => {
-                const note = window.prompt('Coordinator note', row.coordinatorNote ?? '')
-                if (note === null) return
-                run(() =>
-                  addVisitNoteAction({
-                    visitId: row.id,
-                    organizationId: row.organizationId,
-                    note,
-                  }),
-                )
+              onClick={(e) => {
+                e.stopPropagation()
+                setNoteFormOpen((v) => !v)
               }}
             >
-              Add note
+              {noteFormOpen ? 'Cancel note' : 'Add note'}
             </button>
+
+            {/* F-05: inline form instead of window.prompt */}
+            {noteFormOpen ? (
+              <InlineNoteForm
+                initialValue={row.coordinatorNote ?? ''}
+                onSubmit={handleSaveNote}
+                onCancel={() => setNoteFormOpen(false)}
+                pending={pending}
+              />
+            ) : null}
           </div>
         </>
       ) : null}

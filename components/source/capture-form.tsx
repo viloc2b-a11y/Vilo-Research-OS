@@ -5,15 +5,14 @@ import { useRouter } from 'next/navigation'
 import { CaptureCompletionActions } from '@/components/source/capture-completion-actions'
 import { CaptureField } from '@/components/source/capture-field'
 import { CaptureFeedback } from '@/components/source/capture-feedback'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { saveCaptureDraftAction, submitCaptureAction } from '@/lib/source/capture/actions'
 import {
   INITIAL_CAPTURE_ACTION_STATE,
-  saveCaptureDraftAction,
-  submitCaptureAction,
-} from '@/lib/source/capture/actions'
-import type { CaptureShellViewModel } from '@/lib/source/capture/types'
+  type CaptureShellViewModel,
+} from '@/lib/source/capture/types'
 
 type CaptureFormProps = {
   model: CaptureShellViewModel
@@ -55,7 +54,8 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
     }
   }, [saveSuccess, submitSuccess, router])
 
-  const disabled = !model.canEdit || disabledOverride || pending
+  const fieldsLocked = !model.canEdit || disabledOverride
+  const controlsDisabled = fieldsLocked || pending
   const showCompletion =
     (saveSuccess || submitSuccess) && model.completionNav != null
 
@@ -79,6 +79,11 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
         <input type="hidden" name="response_set_id" value={model.responseSetId} />
         <input
           type="hidden"
+          name="response_set_updated_at"
+          value={model.responseSetUpdatedAt}
+        />
+        <input
+          type="hidden"
           name="procedure_execution_id"
           value={model.context.procedureExecutionId}
         />
@@ -94,7 +99,10 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
             <li key={field.fieldId} className="px-3 py-4">
               <CaptureField
                 field={field}
-                disabled={disabled || field.runtimeState?.disabled === true}
+                disabled={
+                  fieldsLocked
+                  || (field.runtimeState?.disabled === true && !field.isRequired)
+                }
               />
             </li>
           ))}
@@ -109,7 +117,7 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
                 name="submit_reason"
                 type="text"
                 placeholder="Required to submit (e.g. visit complete)"
-                disabled={disabled}
+                disabled={fieldsLocked}
               />
               <p className="text-xs text-muted-foreground">
                 Submit saves the current form values, then calls the submit API. After success,
@@ -118,12 +126,21 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Button type="submit" variant="secondary" disabled={disabled}>
+              <button
+                type="submit"
+                className={buttonVariants({ variant: 'secondary' })}
+                disabled={controlsDisabled}
+              >
                 {savePending ? 'Saving…' : 'Save draft'}
-              </Button>
-              <Button type="submit" formAction={submitAction} disabled={disabled}>
+              </button>
+              <button
+                type="submit"
+                formAction={submitAction}
+                className={buttonVariants()}
+                disabled={controlsDisabled}
+              >
                 {submitPending ? 'Submitting…' : 'Save and submit'}
-              </Button>
+              </button>
             </div>
           </div>
         ) : (

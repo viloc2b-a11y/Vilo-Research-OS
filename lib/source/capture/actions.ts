@@ -12,10 +12,13 @@ import {
 import { loadSourceFieldBlindingMap } from '@/lib/source/blinding'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
 import { createServerClient } from '@/lib/supabase/server'
+import { assertSourceResponseSetMutable } from '@/lib/source/capture/assert-response-set-mutable'
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
 import { parseCaptureFormToResponses, readCaptureIds } from '@/lib/source/capture/parse-form'
+import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
+import { validateCaptureFieldsForSubmit } from '@/lib/source/capture/validate-capture-fields'
 import type { CaptureActionState, CaptureFieldViewModel } from '@/lib/source/capture/types'
-import { INITIAL_CAPTURE_ACTION_STATE } from '@/lib/source/capture/types'
+import { loadSourceDefinitionResolutionContext } from '@/lib/source-engine/resolution/load-resolution-context'
 import { materializeEngineTasksAfterSubmit } from '@/lib/source/capture/materialize-engine-tasks'
 import {
   bridgeFromProcedureCaptureContext,
@@ -108,11 +111,12 @@ function envelopeToMessage(
     }
   }
   const err = normalizeReadPanelError(envelope, title)
+  const stale = err.messages.some((m) => /STALE_WRITE|refresh/i.test(m))
   return {
     message: {
       kind: 'error',
       title: err.title,
-      messages: err.messages,
+      messages: stale ? [STALE_WRITE_USER_MESSAGE] : err.messages,
       requestId: err.requestId,
     },
   }
@@ -165,6 +169,23 @@ export async function saveCaptureDraftAction(
         kind: 'error',
         title: 'Save draft',
         messages: [editable.message],
+      },
+    }
+  }
+
+  const supabase = await createServerClient()
+  const mutable = await assertSourceResponseSetMutable({
+    supabase,
+    responseSetId: ids.responseSetId,
+    organizationId: ids.organizationId,
+    expectedUpdatedAt: ids.responseSetUpdatedAt,
+  })
+  if (!mutable.ok) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Save draft',
+        messages: [mutable.message],
       },
     }
   }
@@ -293,31 +314,88 @@ export async function submitCaptureAction(
     }
   }
 
+  const supabase = await createServerClient()
+  const mutable = await assertSourceResponseSetMutable({
+    supabase,
+    responseSetId: ids.responseSetId,
+    organizationId: ids.organizationId,
+    expectedUpdatedAt: ids.responseSetUpdatedAt,
+  })
+  if (!mutable.ok) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: [mutable.message],
+      },
+    }
+  }
+
   const saveEnvelope = await postSaveDraft({
     organization_id: ids.organizationId,
     source_response_set_id: ids.responseSetId,
     responses: parsed.responses,
+    expected_updated_at: ids.responseSetUpdatedAt ?? shell.model.responseSetUpdatedAt,
   })
 
   if (!saveEnvelope.ok) {
     return envelopeToMessage(saveEnvelope, 'Submit', 'Could not save draft before submit.')
   }
 
+  const runtimeConfig = await resolveSourceEngineRuntimeConfig({
+    procedureExecutionId: ids.procedureExecutionId,
+    sourceDefinitionVersionId: shell.model.context.sourceDefinitionVersionId,
+    organizationId: ids.organizationId,
+    studyId: shell.model.context.studyId,
+  })
+  const resolutionCtx = await loadSourceDefinitionResolutionContext(
+    shell.model.context.sourceDefinitionVersionId,
+  )
+  const publishedExecutable =
+    resolutionCtx?.lifecycleStatus === 'published'
+    || Boolean(resolutionCtx?.publishedPackageId)
+
+  if (runtimeConfig.resolution.fallback && publishedExecutable) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: [
+          'Published source is bound but executable template did not resolve. Submit blocked.',
+        ],
+      },
+    }
+  }
+
+  const captureCheck = validateCaptureFieldsForSubmit(fields)
+  if (!captureCheck.valid) {
+    return {
+      message: {
+        kind: 'error',
+        title: 'Submit',
+        messages: captureCheck.errors.map((e) => e.message),
+      },
+    }
+  }
+
   let engineAdvisory: string[] = []
-  try {
-    const engineCheck = validateProcedureSourceForSubmit(
-      bridgeFromProcedureCaptureContext(shell.model.context, {
-        canEdit: shell.model.canEdit,
-        isSubmitted: false,
-        responseSetStatus: 'draft',
-      }),
-      fields,
-    )
-    engineAdvisory = engineCheck.errors
-      .filter((e) => !e.blocksSubmission && (e.severity === 'warning' || e.severity === 'info'))
-      .map((e) => `[Engine] ${e.message}`)
-  } catch {
-    engineAdvisory = []
+  if (!runtimeConfig.resolution.fallback) {
+    try {
+      const engineCheck = validateProcedureSourceForSubmit(
+        bridgeFromProcedureCaptureContext(shell.model.context, {
+          canEdit: shell.model.canEdit,
+          isSubmitted: false,
+          responseSetStatus: 'draft',
+        }),
+        fields,
+        { runtimeConfig },
+      )
+      engineAdvisory = engineCheck.errors
+        .filter((e) => !e.blocksSubmission && (e.severity === 'warning' || e.severity === 'info'))
+        .map((e) => `[Engine] ${e.message}`)
+    } catch {
+      engineAdvisory = []
+    }
   }
 
   const submitEnvelope = await postSubmitResponseSet({
@@ -338,12 +416,6 @@ export async function submitCaptureAction(
   )
 
   try {
-    const runtimeConfig = await resolveSourceEngineRuntimeConfig({
-      procedureExecutionId: ids.procedureExecutionId,
-      sourceDefinitionVersionId: shell.model.context.sourceDefinitionVersionId,
-      organizationId: ids.organizationId,
-      studyId: shell.model.context.studyId,
-    })
     if (!runtimeConfig.resolution.fallback) {
       const snapshot = resolveProcedureSourceRuntime(
         bridgeFromProcedureCaptureContext(shell.model.context, {
@@ -380,5 +452,3 @@ export async function submitCaptureAction(
   }
   return base
 }
-
-export { INITIAL_CAPTURE_ACTION_STATE }

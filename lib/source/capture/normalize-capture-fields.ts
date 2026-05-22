@@ -4,21 +4,8 @@
 
 import type { ResponseSetDetailData, SourceValuePayload } from '@/lib/api/source/read-types'
 import { inferSourceFieldBlindingScope, type SourceFieldBlindingInfo } from '@/lib/source/blinding'
+import { parseCaptureFieldOptions } from '@/lib/source/capture/resolve-field-options'
 import type { CaptureFieldKind, CaptureFieldValue, CaptureFieldViewModel } from '@/lib/source/capture/types'
-
-function parseFieldOptions(options: unknown): string[] {
-  if (!options) return []
-  if (!Array.isArray(options)) return []
-  return options.map((item) => {
-    if (typeof item === 'string') return item
-    if (item && typeof item === 'object') {
-      const row = item as Record<string, unknown>
-      if (typeof row.value === 'string') return row.value
-      if (typeof row.label === 'string') return row.label
-    }
-    return JSON.stringify(item)
-  })
-}
 
 function payloadToFieldValue(value: SourceValuePayload | null | undefined): CaptureFieldValue {
   if (!value || typeof value !== 'object') return {}
@@ -61,7 +48,7 @@ export function normalizeCaptureFields(
   blindingByFieldId: Map<string, SourceFieldBlindingInfo> = new Map(),
 ): CaptureFieldViewModel[] {
   return detail.fields.map((field) => {
-    const options = parseFieldOptions(optionsByFieldId[field.source_field_id])
+    const options = parseCaptureFieldOptions(optionsByFieldId[field.source_field_id])
     const kind = resolveCaptureFieldKind(field.widget_hint, options)
     const blindingInfo = blindingByFieldId.get(field.source_field_id)
     return {

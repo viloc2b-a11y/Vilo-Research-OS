@@ -9,17 +9,11 @@ import {
   workflowResolveEventType,
 } from '@/lib/operations/workflow-events'
 import { createServerClient } from '@/lib/supabase/server'
-import type { SubjectWorkflowActionType, SubjectWorkflowPriority } from '@/lib/subject/workflow/types'
-
-export type WorkflowActionState = {
-  ok: boolean
-  message: string | null
-}
-
-export const INITIAL_WORKFLOW_ACTION_STATE: WorkflowActionState = {
-  ok: false,
-  message: null,
-}
+import type {
+  SubjectWorkflowActionType,
+  SubjectWorkflowPriority,
+  WorkflowActionState,
+} from '@/lib/subject/workflow/types'
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''

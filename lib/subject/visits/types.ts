@@ -1,4 +1,5 @@
 import type { VisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
+import type { IpCaptureStatus } from '@/lib/subject/visits/ip-capture'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import type { SubjectWorkflowVisitCounts } from '@/lib/subject/workflow/types'
 
@@ -21,11 +22,14 @@ export type QcStatus = 'pending' | 'entered' | 'verified'
 export type ReviewStatus = 'pending' | 'in_review' | 'complete'
 export type SubjectPaymentStatus = 'pending' | 'scheduled' | 'paid' | 'waived' | 'n/a'
 
+export type VisitModalityKind = 'site' | 'phone' | 'remote' | 'home' | 'off_site'
+
 export type SubjectVisitGridRow = {
   id: string
   organizationId: string
   visitCode: string
   visitName: string
+  modality: VisitModalityKind
   visitDay: number | null
   protocolLabel: string
   arm: string | null
@@ -47,9 +51,19 @@ export type SubjectVisitGridRow = {
   primaryProcedureId: string | null
   primaryResponseSetId: string | null
   workflow: SubjectWorkflowVisitCounts
+  ipCaptureStatus: IpCaptureStatus
+  ipRequiredFieldCount: number
+  ipDocumentedFieldCount: number
   /** Active operational-calendar reschedule layer (does not change visits.target_date). */
   calendarReschedule: VisitCalendarReschedule | null
 }
+
+export type SubjectRoleKind =
+  | 'participant'
+  | 'index_patient'
+  | 'household_contact'
+  | 'caregiver'
+  | 'specimen_donor'
 
 export type SubjectChartHeaderModel = {
   subjectId: string
@@ -58,9 +72,14 @@ export type SubjectChartHeaderModel = {
   subjectIdentifier: string
   initials: string | null
   studyName: string
+  subjectRole: SubjectRoleKind
+  householdId: string | null
+  anchorSubjectId: string | null
   enrollmentStatus: string
   randomizationNumber: string | null
   randomizationArm: string | null
+  randomizationDateTime?: string | null
+  externalIwrsRtsmReference?: string | null
 }
 
 export type SubjectVisitsActionResult =

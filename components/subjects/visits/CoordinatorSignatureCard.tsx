@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   reopenCoordinatorProgressNoteAction,
@@ -19,6 +19,60 @@ function formatWhen(iso: string | null) {
   }
 }
 
+// F-05 fix: inline reason form replaces window.prompt()
+function ReopenReasonForm({
+  onSubmit,
+  onCancel,
+  pending,
+}: {
+  onSubmit: (reason: string) => void
+  onCancel: () => void
+  pending: boolean
+}) {
+  const [reason, setReason] = useState('')
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+
+  return (
+    <div className="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 space-y-2">
+      <p className="text-xs font-medium text-amber-900">
+        Reopen reason <span className="text-red-600">*</span>
+      </p>
+      <textarea
+        ref={inputRef}
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+        rows={3}
+        placeholder="Document reason for reopening (required for audit trail)"
+        className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        autoFocus
+        disabled={pending}
+      />
+      <p className="text-[10px] text-amber-700">
+        This reason will be recorded in the visit audit trail.
+      </p>
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          size="sm"
+          disabled={pending || reason.trim().length < 3}
+          onClick={() => onSubmit(reason.trim())}
+        >
+          {pending ? 'Reopening…' : 'Confirm reopen'}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          disabled={pending}
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 type CoordinatorSignatureCardProps = {
   model: VisitProgressNoteModel
   guards: VisitCloseoutGuards
@@ -33,6 +87,7 @@ export function CoordinatorSignatureCard({
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = useState<string | null>(null)
+  const [showReopenForm, setShowReopenForm] = useState(false)
 
   const isSigned = model.coordinatorSignatureStatus === 'signed'
   const canSign =
@@ -57,6 +112,17 @@ export function CoordinatorSignatureCard({
       }
       router.refresh()
     })
+  }
+
+  const handleReopen = (reason: string) => {
+    setShowReopenForm(false)
+    run(() =>
+      reopenCoordinatorProgressNoteAction({
+        visitId: model.visitId,
+        organizationId: model.organizationId,
+        reopenReason: reason,
+      }),
+    )
   }
 
   return (
@@ -109,28 +175,29 @@ export function CoordinatorSignatureCard({
             Sign progress note
           </Button>
         ) : null}
-        {canReopen ? (
+
+        {/* F-05 fix: replaced window.prompt with inline form */}
+        {canReopen && !showReopenForm ? (
           <Button
             type="button"
             size="sm"
             variant="outline"
             disabled={pending}
-            onClick={() => {
-              const reason = window.prompt('Reopen reason (optional)', '')
-              if (reason === null) return
-              run(() =>
-                reopenCoordinatorProgressNoteAction({
-                  visitId: model.visitId,
-                  organizationId: model.organizationId,
-                  reopenReason: reason,
-                }),
-              )
-            }}
+            onClick={() => setShowReopenForm(true)}
           >
             Reopen progress note
           </Button>
         ) : null}
       </div>
+
+      {showReopenForm ? (
+        <ReopenReasonForm
+          onSubmit={handleReopen}
+          onCancel={() => setShowReopenForm(false)}
+          pending={pending}
+        />
+      ) : null}
+
       {message ? <p className="text-xs text-destructive">{message}</p> : null}
     </div>
   )

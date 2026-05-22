@@ -1,4 +1,5 @@
 import { fetchResponseSetDetail } from '@/lib/api/source/read-client'
+import { isSourceCaptureSubmitted } from '@/lib/source/submitted-source-gate'
 import { formatValuePayload } from '@/lib/source/read-contract/format'
 import type {
   ValidationStatus,
@@ -28,27 +29,69 @@ export async function validateProcedure(params: {
   organizationId: string
   responseSetId?: string | null
 }) {
+  try {
+    return await validateProcedureInner(params)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[validateProcedure] unexpected failure', message, err)
+    return {
+      status: 'blocked' as ValidationStatus,
+      alerts: [
+        {
+          id: 'validate-unexpected',
+          severity: 'blocked' as const,
+          message: 'Validation could not be completed. Try again or open source capture.',
+        },
+      ],
+      responseSetId: null,
+    }
+  }
+}
+
+async function validateProcedureInner(params: {
+  supabase: Supabase
+  procedureExecutionId: string
+  organizationId: string
+  responseSetId?: string | null
+}) {
+  const { data: setRow, error: setErr } = await params.supabase
+    .from('source_response_sets')
+    .select('id, status')
+    .eq('procedure_execution_id', params.procedureExecutionId)
+    .neq('status', 'archived')
+    .order('opened_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (setErr) {
+    console.error('[validateProcedure] response set lookup failed', setErr.message)
+  }
+
   const responseSetId =
-    params.responseSetId ??
-    (
-      await params.supabase
-        .from('source_response_sets')
-        .select('id')
-        .eq('procedure_execution_id', params.procedureExecutionId)
-        .order('opened_at', { ascending: false })
-        .limit(1)
-        .maybeSingle()
-    ).data?.id ??
-    null
+    params.responseSetId ?? (setRow?.id as string | undefined) ?? null
+  const responseSetStatus = (setRow?.status as string | undefined) ?? null
 
   const alerts: VisitRuntimeValidationAlert[] = []
   if (!responseSetId) {
     alerts.push({
       id: 'no-response-set',
       severity: 'blocked',
-      message: 'No response set exists for this procedure.',
+      message: 'No response set exists for this procedure. Open source capture first.',
     })
     return { status: 'blocked' as ValidationStatus, alerts, responseSetId: null }
+  }
+
+  if (!isSourceCaptureSubmitted(responseSetStatus)) {
+    alerts.push({
+      id: 'source-not-submitted',
+      severity: 'blocked',
+      message: 'Source capture must be submitted before signing the procedure.',
+    })
+    return {
+      status: 'blocked' as ValidationStatus,
+      alerts,
+      responseSetId: responseSetId as string,
+    }
   }
 
   const detail = await fetchResponseSetDetail(responseSetId as string, params.organizationId)
@@ -61,7 +104,8 @@ export async function validateProcedure(params: {
     return { status: 'blocked' as ValidationStatus, alerts, responseSetId: responseSetId as string }
   }
 
-  for (const field of detail.data.fields) {
+  const fields = Array.isArray(detail.data.fields) ? detail.data.fields : []
+  for (const field of fields) {
     const current = field.current_effective
     if (field.is_required && (!current || !hasValue(current.value))) {
       alerts.push({

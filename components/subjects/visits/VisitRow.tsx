@@ -13,11 +13,25 @@ import { VisitWindowStatusBadge } from '@/components/subjects/visits/VisitWindow
 import { VisitRowReminderStrip } from '@/components/subjects/visits/VisitActionsMenu'
 import { VisitReviewStatusBadge } from '@/components/subjects/visits/VisitReviewStatusBadge'
 import { visitDetailPath } from '@/lib/subject/chart-paths'
+import { formatVisitModalityLabel } from '@/lib/visits/conditional-procedures'
 import type { SubjectVisitGridRow } from '@/lib/subject/visits/types'
 
 function formatDate(value: string | null) {
   if (!value) return '—'
   return value
+}
+
+function ipLabel(status: SubjectVisitGridRow['ipCaptureStatus']) {
+  switch (status) {
+    case 'documented':
+      return { label: 'IP documented', className: 'bg-emerald-100 text-emerald-900' }
+    case 'incomplete':
+      return { label: 'IP incomplete', className: 'bg-amber-100 text-amber-900' }
+    case 'required':
+      return { label: 'IP required', className: 'bg-blue-100 text-blue-900' }
+    default:
+      return null
+  }
 }
 
 type VisitRowProps = {
@@ -32,6 +46,7 @@ export function VisitRow({ row }: VisitRowProps) {
     scheduledDate: row.scheduledDate,
     calendarReschedule: row.calendarReschedule,
   })
+  const ip = ipLabel(row.ipCaptureStatus)
 
   return (
     <tr className={hasWorkflow ? 'border-b bg-amber-50/30 last:border-0 hover:bg-amber-50/50' : 'border-b last:border-0 hover:bg-muted/30'}>
@@ -39,10 +54,17 @@ export function VisitRow({ row }: VisitRowProps) {
         <Link href={visitDetailPath(row.id)} className="font-medium hover:underline">
           {row.visitName}
         </Link>
-        <p className="text-xs text-muted-foreground">{visitLabel}</p>
+        <p className="text-xs text-muted-foreground">
+          {visitLabel} · {formatVisitModalityLabel(row.modality)}
+        </p>
         <div className="mt-1">
           <VisitReviewStatusBadge status={row.visitReviewStatus} />
         </div>
+        {ip ? (
+          <span className={`mt-1 inline-flex rounded px-2 py-0.5 text-xs ${ip.className}`}>
+            {ip.label}
+          </span>
+        ) : null}
       </td>
       <td className="px-3 py-2.5 align-top text-sm text-muted-foreground">
         {row.protocolLabel}

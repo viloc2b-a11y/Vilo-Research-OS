@@ -54,6 +54,36 @@ export default async function SourceBuilderPage() {
         ) : null}
       </header>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Protocol intake review (12D)</CardTitle>
+          <CardDescription>
+            Review evidence-backed intake drafts, edit with audit trail, and generate approved
+            handoff artifacts — never auto-published or bound to runtime.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-3">
+          <Link href="/source-builder/intake" className={cn(buttonVariants())}>
+            Review protocol intake drafts
+          </Link>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Canonical composition (12B)</CardTitle>
+          <CardDescription>
+            Preview how screening, IP admin, AE, PARA adrenal, and MV sick visit templates resolve from
+            canonical libraries — without publishing or changing runtime SDVs.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Link href="/source-builder/composition" className={cn(buttonVariants({ variant: 'outline' }))}>
+            Open composition preview
+          </Link>
+        </CardContent>
+      </Card>
+
       <Card className="border-dashed">
         <CardHeader>
           <CardTitle className="text-lg">Manual builder</CardTitle>

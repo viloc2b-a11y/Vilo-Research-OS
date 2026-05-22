@@ -66,6 +66,8 @@ export type CaptureShellViewModel = {
   context: CaptureProcedureContext
   completionNav: CaptureCompletionNavigation
   responseSetId: string
+  /** Optimistic concurrency token for draft saves (source_response_sets.updated_at). */
+  responseSetUpdatedAt: string
   statusLabel: string
   canEdit: boolean
   isSubmitted: boolean

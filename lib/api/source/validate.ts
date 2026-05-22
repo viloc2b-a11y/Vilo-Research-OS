@@ -77,6 +77,7 @@ export type SaveDraftRequestBody = {
   organization_id: string
   source_response_set_id: string
   responses: DraftResponseItem[]
+  expected_updated_at?: string | null
 }
 
 function isIsoDate(value: string): boolean {
@@ -93,6 +94,14 @@ export function parseSaveDraftBody(body: unknown):
   const errors: string[] = []
   requireUuid(o.organization_id, 'organization_id', errors)
   requireUuid(o.source_response_set_id, 'source_response_set_id', errors)
+  let expectedUpdatedAt: string | null = null
+  if (o.expected_updated_at !== undefined && o.expected_updated_at !== null) {
+    if (typeof o.expected_updated_at !== 'string' || Number.isNaN(Date.parse(o.expected_updated_at))) {
+      errors.push('expected_updated_at must be an ISO timestamp string')
+    } else {
+      expectedUpdatedAt = o.expected_updated_at
+    }
+  }
   if (!Array.isArray(o.responses)) {
     errors.push('responses must be an array')
   } else {
@@ -145,6 +154,7 @@ export function parseSaveDraftBody(body: unknown):
       organization_id: o.organization_id as string,
       source_response_set_id: o.source_response_set_id as string,
       responses,
+      expected_updated_at: expectedUpdatedAt,
     },
   }
 }

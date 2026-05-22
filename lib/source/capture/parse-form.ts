@@ -15,25 +15,50 @@ export function parseCaptureFormToResponses(
   const responses: DraftResponseItem[] = []
 
   for (const field of fields) {
-    if (field.runtimeState?.visible === false || field.runtimeState?.disabled === true) {
+    const key = `field_${field.fieldId}`
+    const raw = formData.get(key)
+    const hasPostedValue =
+      field.kind === 'boolean'
+        ? raw === 'on' || raw === 'true' || raw === '1'
+        : typeof raw === 'string' && raw.trim() !== ''
+
+    // Coordinator-posted values win over engine hidden/disabled (SDV fields stay on the form).
+    if (field.runtimeState?.visible === false && !hasPostedValue) {
+      continue
+    }
+    const engineDisabled = field.runtimeState?.disabled === true && !field.isRequired
+    if (engineDisabled && !hasPostedValue) {
       continue
     }
 
-    const key = `field_${field.fieldId}`
-    const raw = formData.get(key)
-    const required = field.runtimeState?.required ?? field.isRequired
+    const required = field.isRequired || field.runtimeState?.required === true
 
     if (field.kind === 'boolean') {
-      const checked = raw === 'on' || raw === 'true' || raw === '1'
-      if (required && !checked && raw === null) {
+      const checked =
+        raw === 'on'
+        || raw === 'true'
+        || raw === '1'
+        || (raw === null && field.value.boolean === true)
+        || (field.runtimeState?.disabled === true && field.value.boolean === true)
+      if (required && !checked) {
         messages.push(`${field.fieldKey}: required`)
       }
-      responses.push({ source_field_id: field.fieldId, value_boolean: checked })
+      if (field.runtimeState?.disabled !== true || checked) {
+        responses.push({ source_field_id: field.fieldId, value_boolean: checked })
+      }
       continue
     }
 
     const text = typeof raw === 'string' ? raw.trim() : ''
     if (required && !text) {
+      if (engineDisabled && field.kind === 'number' && field.value.number != null) {
+        responses.push({ source_field_id: field.fieldId, value_number: field.value.number })
+        continue
+      }
+      if (engineDisabled && field.kind === 'text' && field.value.text) {
+        responses.push({ source_field_id: field.fieldId, value_text: field.value.text })
+        continue
+      }
       messages.push(`${field.fieldKey}: required`)
       continue
     }
@@ -81,10 +106,13 @@ export function readCaptureIds(formData: FormData): {
   organizationId: string
   responseSetId: string
   procedureExecutionId: string
+  responseSetUpdatedAt: string | null
 } | null {
   const organizationId = String(formData.get('organization_id') ?? '')
   const responseSetId = String(formData.get('response_set_id') ?? '')
   const procedureExecutionId = String(formData.get('procedure_execution_id') ?? '')
+  const responseSetUpdatedAtRaw = String(formData.get('response_set_updated_at') ?? '').trim()
+  const responseSetUpdatedAt = responseSetUpdatedAtRaw.length > 0 ? responseSetUpdatedAtRaw : null
   if (
     !UUID_RE.test(organizationId) ||
     !UUID_RE.test(responseSetId) ||
@@ -92,5 +120,5 @@ export function readCaptureIds(formData: FormData): {
   ) {
     return null
   }
-  return { organizationId, responseSetId, procedureExecutionId }
+  return { organizationId, responseSetId, procedureExecutionId, responseSetUpdatedAt }
 }

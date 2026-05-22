@@ -7,6 +7,7 @@ import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type {
   CompleteProcedureResult,
   CompleteProcedureRpcPayload,
+  CompleteProcedureValidationAlert,
 } from '@/lib/actions/complete-procedure-execution.types'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
@@ -14,7 +15,37 @@ const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 /**
  * JWT-only: calls `complete_procedure_execution` RPC (single transaction in Postgres).
  */
+function mapValidationAlerts(
+  alerts: { id: string; message: string; severity: string; fieldLabel?: string | null }[],
+): CompleteProcedureValidationAlert[] {
+  return alerts.map((alert) => ({
+    id: alert.id,
+    message: alert.message,
+    severity: alert.severity === 'warning' ? 'warning' : 'blocked',
+    fieldLabel: alert.fieldLabel ?? null,
+  }))
+}
+
 export async function completeProcedureExecution(input: {
+  procedureExecutionId: string
+  revalidateVisitPath: string
+  revalidateStudyPath: string
+  revalidateSubjectPath: string
+}): Promise<CompleteProcedureResult> {
+  try {
+    return await completeProcedureExecutionInner(input)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[completeProcedureExecution] unexpected failure', message, err)
+    return {
+      ok: false,
+      message:
+        'Could not complete the procedure. Resolve source validation blockers or try again.',
+    }
+  }
+}
+
+async function completeProcedureExecutionInner(input: {
   procedureExecutionId: string
   revalidateVisitPath: string
   revalidateStudyPath: string
@@ -53,15 +84,25 @@ export async function completeProcedureExecution(input: {
     procedureExecutionId,
     organizationId: proc.organization_id as string,
   })
-  await supabase
+
+  const { error: statusUpdateErr } = await supabase
     .from('procedure_executions')
     .update({ validation_status: validation.status })
     .eq('id', procedureExecutionId)
 
+  if (statusUpdateErr) {
+    console.error('[completeProcedureExecution] validation_status update failed', statusUpdateErr.message)
+  }
+
   if (validation.status === 'blocked' || validation.status === 'incomplete') {
+    const alerts = mapValidationAlerts(validation.alerts)
+    const summary =
+      alerts.map((a) => a.message).join('; ') ||
+      'Source validation must be resolved before marking complete.'
     return {
       ok: false,
-      message: `Procedure completion blocked: ${validation.alerts.map((alert) => alert.message).join('; ')}`,
+      message: `Procedure completion blocked: ${summary}`,
+      alerts,
     }
   }
 

@@ -488,58 +488,48 @@ export function resolveCaptureShellEngineRuntime(
 
 
 
+export type ApplyEngineRuntimeOptions = {
+  /** Registry template field ids — only these may receive engine disabled/required overrides. */
+  templateFieldKeys?: Set<string>
+}
+
 export function applyEngineRuntimeToCaptureFields(
-
   fields: CaptureFieldViewModel[],
-
   snapshot: ProcedureSourceEngineSnapshot | null | undefined,
-
+  options?: ApplyEngineRuntimeOptions,
 ): CaptureFieldViewModel[] {
-
   if (!snapshot) return fields
 
-
+  const templateKeys = options?.templateFieldKeys
 
   return fields.map((field) => {
-
     const runtimeState =
-
       snapshot.runtime.fields[field.fieldKey] ?? snapshot.runtime.fields[field.fieldId]
-
-
 
     if (!runtimeState) return field
 
-
+    const engineControlsField = templateKeys == null || templateKeys.has(field.fieldKey)
 
     return {
-
       ...field,
-
-      isRequired: runtimeState.required,
-
+      // SDV manifest requiredness is authoritative for submit/RPC; engine only advises via runtimeState.
+      isRequired: field.isRequired,
       runtimeState: {
-
         visible: runtimeState.visible,
-
-        required: runtimeState.required,
-
-        disabled: runtimeState.disabled,
-
-        locked: runtimeState.locked,
-
+        required: engineControlsField ? runtimeState.required : field.isRequired,
+        // Published SDV required fields stay editable for coordinator capture (override engine disable).
+        disabled: engineControlsField
+          ? field.isRequired
+            ? false
+            : runtimeState.disabled
+          : false,
+        locked: engineControlsField && !field.isRequired ? runtimeState.locked : false,
         calculatedValue: runtimeState.calculatedValue,
-
         flags: runtimeState.flags,
-
         messages: runtimeState.messages,
-
       },
-
     }
-
   })
-
 }
 
 

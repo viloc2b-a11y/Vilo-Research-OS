@@ -1,9 +1,16 @@
 /** Aligns with docs/PHASE2-CLINICAL-DOMAIN-SCHEMA.md section 7.4 (`PROCEDURE_COMPLETED`). */
 export const OPERATIONAL_EVENT_PROCEDURE_COMPLETED = 'PROCEDURE_COMPLETED'
 
+export type CompleteProcedureValidationAlert = {
+  id: string
+  message: string
+  severity: 'blocked' | 'warning'
+  fieldLabel?: string | null
+}
+
 export type CompleteProcedureResult =
   | { ok: true; idempotent?: boolean }
-  | { ok: false; message: string }
+  | { ok: false; message: string; alerts?: CompleteProcedureValidationAlert[] }
 
 /** Returned by Postgres `complete_procedure_execution` RPC (typed loosely for JSON coercion). */
 export type CompleteProcedureRpcPayload = {

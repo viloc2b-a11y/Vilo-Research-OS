@@ -4,10 +4,14 @@ import { useActionState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { SubjectProtocolFields, type AnchorSubjectOption } from '@/components/subject/SubjectProtocolFields'
 import {
+  INITIAL_EXTERNAL_RANDOMIZATION_STATE,
   INITIAL_SUBJECT_GENERAL_STATE,
+  recordExternalRandomizationAction,
   updateSubjectGeneralAction,
 } from '@/lib/subject/subject-chart/actions'
+import type { SubjectRoleKind } from '@/lib/subject/visits/types'
 
 export type SubjectGeneralModel = {
   id: string
@@ -15,7 +19,12 @@ export type SubjectGeneralModel = {
   subjectNumber: string
   randomizationNumber: string | null
   studyArm: string | null
+  randomizationDateTime: string | null
+  externalIwrsRtsmReference: string | null
   status: string
+  subjectRole: SubjectRoleKind
+  householdId: string | null
+  anchorSubjectId: string | null
   firstName: string | null
   middleInitial: string | null
   lastName: string | null
@@ -26,26 +35,37 @@ export type SubjectGeneralModel = {
 
 const statuses = [
   ['screening', 'Screening'],
-  ['screen_failed', 'Screen failed'],
   ['enrolled', 'Enrolled'],
-  ['randomized', 'Randomized'],
-  ['completed', 'Completed'],
-  ['withdrawn', 'Withdrawn'],
 ]
+
+function datetimeLocalValue(value: string | null) {
+  if (!value) return ''
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  return date.toISOString().slice(0, 16)
+}
 
 export function SubjectGeneralForm({
   subject,
   showUnblindedFields = false,
+  anchorOptions = [],
 }: {
   subject: SubjectGeneralModel
   showUnblindedFields?: boolean
+  anchorOptions?: AnchorSubjectOption[]
 }) {
   const [state, action, pending] = useActionState(
     updateSubjectGeneralAction,
     INITIAL_SUBJECT_GENERAL_STATE,
   )
+  const [randomizationState, randomizationAction, randomizationPending] = useActionState(
+    recordExternalRandomizationAction,
+    INITIAL_EXTERNAL_RANDOMIZATION_STATE,
+  )
+  const randomizationRecorded = subject.status === 'randomized' || Boolean(subject.randomizationNumber)
 
   return (
+    <div className="space-y-6">
     <form action={action} className="space-y-5">
       <input type="hidden" name="subject_id" value={subject.id} />
       <input type="hidden" name="organization_id" value={subject.organizationId} />
@@ -55,22 +75,6 @@ export function SubjectGeneralForm({
           <Label htmlFor="subject_number">Subject number</Label>
           <Input id="subject_number" name="subject_number" defaultValue={subject.subjectNumber} />
         </div>
-        {showUnblindedFields ? (
-          <div className="space-y-1">
-            <Label htmlFor="randomization_number">Randomization number</Label>
-            <Input
-              id="randomization_number"
-              name="randomization_number"
-              defaultValue={subject.randomizationNumber ?? ''}
-            />
-          </div>
-        ) : null}
-        {showUnblindedFields ? (
-          <div className="space-y-1">
-            <Label htmlFor="study_arm">Study arm</Label>
-            <Input id="study_arm" name="study_arm" defaultValue={subject.studyArm ?? ''} />
-          </div>
-        ) : null}
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
@@ -82,12 +86,18 @@ export function SubjectGeneralForm({
             defaultValue={subject.status}
             className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
           >
+            {subject.status === 'randomized' ? (
+              <option value="randomized">Randomized</option>
+            ) : null}
             {statuses.map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
           </select>
+          <p className="text-xs text-muted-foreground">
+            Randomized status is set by recording an external IWRS/RTSM confirmation below.
+          </p>
         </div>
         <div className="space-y-1">
           <Label htmlFor="first_name">First name</Label>
@@ -128,6 +138,13 @@ export function SubjectGeneralForm({
         </div>
       </div>
 
+      <SubjectProtocolFields
+        subjectRole={subject.subjectRole}
+        householdId={subject.householdId ?? ''}
+        anchorSubjectId={subject.anchorSubjectId ?? ''}
+        anchorOptions={anchorOptions}
+      />
+
       {state.message ? (
         <p
           className={state.ok ? 'text-sm text-emerald-700' : 'text-sm text-destructive'}
@@ -141,5 +158,76 @@ export function SubjectGeneralForm({
         {pending ? 'Saving…' : 'Save general profile'}
       </Button>
     </form>
+
+    {showUnblindedFields ? (
+      <form action={randomizationAction} className="space-y-4 rounded-md border p-4">
+        <input type="hidden" name="subject_id" value={subject.id} />
+        <input type="hidden" name="organization_id" value={subject.organizationId} />
+        <div>
+          <p className="text-sm font-medium">Record External Randomization</p>
+          <p className="text-xs text-muted-foreground">
+            Randomization is performed in the external IWRS/RTSM. Vilo OS records the confirmation only.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-1">
+            <Label htmlFor="external_randomization_number">Randomization number</Label>
+            <Input
+              id="external_randomization_number"
+              name="randomization_number"
+              defaultValue={subject.randomizationNumber ?? ''}
+              disabled={randomizationRecorded || randomizationPending}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="randomization_date_time">Randomization date/time</Label>
+            <Input
+              id="randomization_date_time"
+              name="randomization_date_time"
+              type="datetime-local"
+              defaultValue={datetimeLocalValue(subject.randomizationDateTime)}
+              disabled={randomizationRecorded || randomizationPending}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="external_iwrs_rtsm_reference">External IWRS/RTSM reference</Label>
+            <Input
+              id="external_iwrs_rtsm_reference"
+              name="external_iwrs_rtsm_reference"
+              defaultValue={subject.externalIwrsRtsmReference ?? ''}
+              disabled={randomizationRecorded || randomizationPending}
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="randomization_arm">Treatment arm, if externally provided</Label>
+            <Input
+              id="randomization_arm"
+              name="randomization_arm"
+              defaultValue={subject.studyArm ?? ''}
+              disabled={randomizationRecorded || randomizationPending}
+            />
+          </div>
+        </div>
+        {randomizationState.message ? (
+          <p
+            className={randomizationState.ok ? 'text-sm text-emerald-700' : 'text-sm text-destructive'}
+            role="status"
+          >
+            {randomizationState.message}
+          </p>
+        ) : null}
+        <Button type="submit" disabled={randomizationRecorded || randomizationPending}>
+          {randomizationRecorded
+            ? 'External randomization recorded'
+            : randomizationPending
+              ? 'Recording…'
+              : 'Record external randomization'}
+        </Button>
+      </form>
+    ) : null}
+    </div>
   )
 }

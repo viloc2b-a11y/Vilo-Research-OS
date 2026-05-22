@@ -47,3 +47,13 @@ export type SubjectWorkflowVisitCounts = {
   overdueActions: number
   openActions: number
 }
+
+export type WorkflowActionState = {
+  ok: boolean
+  message: string | null
+}
+
+export const INITIAL_WORKFLOW_ACTION_STATE: WorkflowActionState = {
+  ok: false,
+  message: null,
+}

@@ -34,14 +34,34 @@ async function buildCookieHeader(): Promise<string> {
 async function fetchSourceRead<T>(path: string): Promise<ApiEnvelope<T>> {
   const base = await requestBaseUrl()
   const url = new URL(path, base.endsWith('/') ? base : `${base}/`)
-  const res = await fetch(url.toString(), {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Cookie: await buildCookieHeader(),
-    },
-    cache: 'no-store',
-  })
+  let res: Response
+  try {
+    res = await fetch(url.toString(), {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Cookie: await buildCookieHeader(),
+      },
+      cache: 'no-store',
+    })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('[fetchSourceRead] network failure', path, message)
+    return {
+      ok: false,
+      code: 'INTERNAL_ERROR',
+      data: null,
+      errors: [{ code: 'INTERNAL_ERROR', message: `Source read request failed: ${message}` }],
+      warnings: [],
+      meta: {
+        requestId: 'client',
+        timestamp: new Date().toISOString(),
+        source: 'api',
+        hardBlockCount: 1,
+        warningCount: 0,
+      },
+    }
+  }
 
   let body: ApiEnvelope<T>
   try {

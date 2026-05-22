@@ -1,0 +1,2859 @@
+{
+  "library_version": "12A.1.0",
+  "library_id": "canonical-clinical-library",
+  "description": "Phase 12A canonical clinical field libraries for protocol-grade source document generation. Core blocks are reusable; overlays are protocol-specific extensions.",
+  "controlled_lists": {
+    "YES_NO": [
+      {
+        "code": "yes",
+        "label": "Yes"
+      },
+      {
+        "code": "no",
+        "label": "No"
+      }
+    ],
+    "YES_NO_NA": [
+      {
+        "code": "yes",
+        "label": "Yes"
+      },
+      {
+        "code": "no",
+        "label": "No"
+      },
+      {
+        "code": "na",
+        "label": "N/A"
+      }
+    ],
+    "BODY_POSITION": [
+      {
+        "code": "sitting",
+        "label": "Sitting"
+      },
+      {
+        "code": "standing",
+        "label": "Standing"
+      },
+      {
+        "code": "supine",
+        "label": "Supine"
+      },
+      {
+        "code": "semi_fowler",
+        "label": "Semi-Fowler"
+      }
+    ],
+    "PRE_POST_IP_TIMING": [
+      {
+        "code": "pre_ip",
+        "label": "Pre-IP"
+      },
+      {
+        "code": "post_ip",
+        "label": "Post-IP"
+      },
+      {
+        "code": "not_applicable",
+        "label": "Not applicable"
+      }
+    ],
+    "AE_SEVERITY": [
+      {
+        "code": "mild",
+        "label": "Mild"
+      },
+      {
+        "code": "moderate",
+        "label": "Moderate"
+      },
+      {
+        "code": "severe",
+        "label": "Severe"
+      },
+      {
+        "code": "life_threatening",
+        "label": "Life-threatening"
+      }
+    ],
+    "AE_OUTCOME": [
+      {
+        "code": "recovered",
+        "label": "Recovered"
+      },
+      {
+        "code": "recovering",
+        "label": "Recovering"
+      },
+      {
+        "code": "not_recovered",
+        "label": "Not recovered"
+      },
+      {
+        "code": "sequelae",
+        "label": "Recovered with sequelae"
+      },
+      {
+        "code": "fatal",
+        "label": "Fatal"
+      },
+      {
+        "code": "unknown",
+        "label": "Unknown"
+      }
+    ],
+    "AE_CAUSALITY": [
+      {
+        "code": "unrelated",
+        "label": "Unrelated"
+      },
+      {
+        "code": "unlikely",
+        "label": "Unlikely"
+      },
+      {
+        "code": "possible",
+        "label": "Possible"
+      },
+      {
+        "code": "probable",
+        "label": "Probable"
+      },
+      {
+        "code": "definite",
+        "label": "Definite"
+      }
+    ],
+    "ROUTE": [
+      {
+        "code": "oral",
+        "label": "Oral"
+      },
+      {
+        "code": "iv",
+        "label": "IV"
+      },
+      {
+        "code": "im",
+        "label": "IM"
+      },
+      {
+        "code": "sc",
+        "label": "Subcutaneous"
+      },
+      {
+        "code": "topical",
+        "label": "Topical"
+      },
+      {
+        "code": "inhalation",
+        "label": "Inhalation"
+      },
+      {
+        "code": "other",
+        "label": "Other"
+      }
+    ],
+    "LAB_SOURCE_TYPE": [
+      {
+        "code": "local",
+        "label": "Local"
+      },
+      {
+        "code": "central",
+        "label": "Central"
+      }
+    ],
+    "PROCESSING_STATUS": [
+      {
+        "code": "collected",
+        "label": "Collected"
+      },
+      {
+        "code": "in_transit",
+        "label": "In transit"
+      },
+      {
+        "code": "received",
+        "label": "Received"
+      },
+      {
+        "code": "resulted",
+        "label": "Resulted"
+      },
+      {
+        "code": "cancelled",
+        "label": "Cancelled"
+      }
+    ],
+    "ECG_INTERPRETATION": [
+      {
+        "code": "normal",
+        "label": "Normal"
+      },
+      {
+        "code": "abnormal_ncs",
+        "label": "Abnormal, not clinically significant"
+      },
+      {
+        "code": "abnormal_cs",
+        "label": "Abnormal, clinically significant"
+      },
+      {
+        "code": "uninterpretable",
+        "label": "Uninterpretable"
+      }
+    ],
+    "TEMP_UNIT": [
+      {
+        "code": "C",
+        "label": "°C"
+      },
+      {
+        "code": "F",
+        "label": "°F"
+      }
+    ],
+    "TEMP_METHOD": [
+      {
+        "code": "oral",
+        "label": "Oral"
+      },
+      {
+        "code": "tympanic",
+        "label": "Tympanic"
+      },
+      {
+        "code": "axillary",
+        "label": "Axillary"
+      },
+      {
+        "code": "temporal",
+        "label": "Temporal"
+      }
+    ],
+    "WEIGHT_UNIT": [
+      {
+        "code": "kg",
+        "label": "kg"
+      },
+      {
+        "code": "lb",
+        "label": "lb"
+      }
+    ],
+    "HEIGHT_UNIT": [
+      {
+        "code": "cm",
+        "label": "cm"
+      },
+      {
+        "code": "in",
+        "label": "in"
+      }
+    ],
+    "FASTING_STATUS": [
+      {
+        "code": "fasting",
+        "label": "Fasting"
+      },
+      {
+        "code": "non_fasting",
+        "label": "Non-fasting"
+      },
+      {
+        "code": "unknown",
+        "label": "Unknown"
+      }
+    ],
+    "SPECIMEN_TYPE": [
+      {
+        "code": "blood",
+        "label": "Blood"
+      },
+      {
+        "code": "urine",
+        "label": "Urine"
+      },
+      {
+        "code": "nasal_swab",
+        "label": "Nasal swab"
+      },
+      {
+        "code": "saliva",
+        "label": "Saliva"
+      },
+      {
+        "code": "other",
+        "label": "Other"
+      }
+    ],
+    "SOURCE_ORIGIN": [
+      {
+        "code": "vilo_esource",
+        "label": "Vilo eSource"
+      },
+      {
+        "code": "external_edc",
+        "label": "External EDC"
+      },
+      {
+        "code": "central_lab",
+        "label": "Central lab"
+      },
+      {
+        "code": "local_lab",
+        "label": "Local lab"
+      },
+      {
+        "code": "site_file",
+        "label": "Site file"
+      }
+    ]
+  },
+  "libraries": {
+    "VITALS_CORE_V1": {
+      "library_code": "VITALS_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "vital_signs",
+      "description": "Canonical vital signs and body measurements for interventional eSource.",
+      "fields": [
+        {
+          "field_key": "heart_rate",
+          "display_label": "Heart rate",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "bpm",
+          "validation": [
+            {
+              "kind": "min",
+              "value": 30,
+              "message": "HR minimum 30"
+            },
+            {
+              "kind": "max",
+              "value": 220,
+              "message": "HR maximum 220"
+            }
+          ],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "respiratory_rate",
+          "display_label": "Respiratory rate",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "/min",
+          "validation": [
+            {
+              "kind": "min",
+              "value": 4,
+              "message": "RR minimum 4"
+            },
+            {
+              "kind": "max",
+              "value": 60,
+              "message": "RR maximum 60"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "systolic_bp",
+          "display_label": "Systolic blood pressure",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "mmHg",
+          "validation": [
+            {
+              "kind": "min",
+              "value": 70,
+              "message": "SBP minimum 70"
+            },
+            {
+              "kind": "max",
+              "value": 250,
+              "message": "SBP maximum 250"
+            }
+          ],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "diastolic_bp",
+          "display_label": "Diastolic blood pressure",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "mmHg",
+          "validation": [
+            {
+              "kind": "min",
+              "value": 40,
+              "message": "DBP minimum 40"
+            },
+            {
+              "kind": "max",
+              "value": 150,
+              "message": "DBP maximum 150"
+            }
+          ],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "temperature",
+          "display_label": "Temperature",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "min",
+              "value": 32,
+              "message": "Temperature too low"
+            },
+            {
+              "kind": "max",
+              "value": 45,
+              "message": "Temperature too high"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "temperature_unit",
+          "display_label": "Temperature unit",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "TEMP_UNIT",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "temperature_method",
+          "display_label": "Temperature method",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "TEMP_METHOD",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "weight",
+          "display_label": "Weight",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "min",
+              "value": 1,
+              "message": "Weight required"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "weight_unit",
+          "display_label": "Weight unit",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "WEIGHT_UNIT",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "height",
+          "display_label": "Height",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "min",
+              "value": 1,
+              "message": "Height required"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "height_unit",
+          "display_label": "Height unit",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "HEIGHT_UNIT",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "bmi",
+          "display_label": "BMI",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "May be derived from height/weight when both captured.",
+          "scope": "core"
+        },
+        {
+          "field_key": "body_position",
+          "display_label": "Body position",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "BODY_POSITION",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "resting_duration_minutes",
+          "display_label": "Resting duration (minutes)",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "min",
+              "value": 0,
+              "message": "Non-negative minutes"
+            },
+            {
+              "kind": "max",
+              "value": 60,
+              "message": "Maximum 60 minutes"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "collection_datetime",
+          "display_label": "Collection date/time",
+          "data_type": "datetime",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "collection_timepoint",
+          "display_label": "Collection timepoint",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "pre_post_ip_timing",
+          "display_label": "Pre/post IP timing",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "PRE_POST_IP_TIMING",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "abnormal_flag",
+          "display_label": "Abnormal flag",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinically_significant",
+          "display_label": "Clinically significant",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinical_comment",
+          "display_label": "Clinical comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "clinically_significant",
+              "when_value": "yes",
+              "fields": [
+                "clinical_comment"
+              ],
+              "message": "Clinical comment required when clinically significant is Yes."
+            }
+          ],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "collected_by",
+          "display_label": "Collected by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "source_origin",
+          "display_label": "Source origin",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "SOURCE_ORIGIN",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "AE_CORE_V1": {
+      "library_code": "AE_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "adverse_events",
+      "description": "Canonical adverse event capture for interventional trials.",
+      "fields": [
+        {
+          "field_key": "ae_term",
+          "display_label": "AE term",
+          "data_type": "string",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_onset_datetime",
+          "display_label": "AE onset date/time",
+          "data_type": "datetime",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_resolution_datetime",
+          "display_label": "AE resolution date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ae_ongoing",
+              "when_value": "no",
+              "fields": [
+                "ae_resolution_datetime"
+              ],
+              "message": "Resolution date/time required unless AE is ongoing."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_ongoing",
+          "display_label": "AE ongoing",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_severity",
+          "display_label": "AE severity",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "AE_SEVERITY",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_serious",
+          "display_label": "Serious AE",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_seriousness_category",
+          "display_label": "Seriousness category",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ae_serious",
+              "when_value": "yes",
+              "fields": [
+                "ae_seriousness_category"
+              ],
+              "message": "Seriousness category required when AE is serious."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_causality",
+          "display_label": "Causality",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "AE_CAUSALITY",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_expectedness",
+          "display_label": "Expectedness",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_related_to_ip",
+          "display_label": "Related to IP",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_action_taken",
+          "display_label": "Action taken",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_outcome",
+          "display_label": "Outcome",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "AE_OUTCOME",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_followup_required",
+          "display_label": "Follow-up required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "requires_medical_monitor_notification",
+          "display_label": "Medical monitor notification required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "requires_unblinding",
+          "display_label": "Requires unblinding",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "unblinding_comment",
+          "display_label": "Unblinding reason/comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "requires_unblinding",
+              "when_value": "yes",
+              "fields": [
+                "unblinding_comment"
+              ],
+              "message": "Unblinding comment required when unblinding is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "expedited_reporting_required",
+          "display_label": "Expedited reporting required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ae_followup_plan",
+          "display_label": "Follow-up plan",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ae_followup_required",
+              "when_value": "yes",
+              "fields": [
+                "ae_followup_plan"
+              ],
+              "message": "Follow-up plan required when follow-up is required."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "meddra_soc",
+          "display_label": "MedDRA SOC",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "meddra_hlgt",
+          "display_label": "MedDRA HLGT",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "meddra_hlt",
+          "display_label": "MedDRA HLT",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "meddra_pt",
+          "display_label": "MedDRA PT",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "meddra_code",
+          "display_label": "MedDRA code",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "reported_by",
+          "display_label": "Reported by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "investigator_awareness_datetime",
+          "display_label": "Investigator awareness date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "CONMED_CORE_V1": {
+      "library_code": "CONMED_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "concomitant_medications",
+      "description": "Canonical concomitant medication row fields.",
+      "fields": [
+        {
+          "field_key": "medication_name",
+          "display_label": "Medication name",
+          "data_type": "string",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "generic_name",
+          "display_label": "Generic name",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "indication",
+          "display_label": "Indication",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "dose",
+          "display_label": "Dose",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "dose_unit",
+          "display_label": "Dose unit",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "route",
+          "display_label": "Route",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "ROUTE",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "frequency",
+          "display_label": "Frequency",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "start_date",
+          "display_label": "Start date",
+          "data_type": "date",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "end_date",
+          "display_label": "End date",
+          "data_type": "date",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ongoing",
+              "when_value": "no",
+              "fields": [
+                "end_date"
+              ],
+              "message": "End date required unless medication is ongoing."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ongoing",
+          "display_label": "Ongoing",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "prohibited_therapy",
+          "display_label": "Prohibited therapy",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "medical_monitor_comment",
+          "display_label": "Medical monitor comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "prohibited_therapy",
+              "when_value": "yes",
+              "fields": [
+                "medical_monitor_comment"
+              ],
+              "message": "Medical monitor comment required for prohibited therapy."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "requires_medical_monitor_review",
+          "display_label": "Requires medical monitor review",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "related_to_ae",
+          "display_label": "Related to AE",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "linked_ae_id",
+          "display_label": "Linked AE ID",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "related_to_ae",
+              "when_value": "yes",
+              "fields": [
+                "linked_ae_id"
+              ],
+              "message": "Linked AE required when related to AE is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "prescribed_by",
+          "display_label": "Prescribed by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "verified_with_subject",
+          "display_label": "Verified with subject",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "IP_ADMIN_CORE_V1": {
+      "library_code": "IP_ADMIN_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "investigational_product",
+      "description": "eSource IP administration documentation (not inventory/accountability).",
+      "fields": [
+        {
+          "field_key": "ip_dispensed",
+          "display_label": "IP dispensed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ip_administered",
+          "display_label": "IP administered",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ip_returned",
+          "display_label": "IP returned",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ip_missed",
+          "display_label": "IP missed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "missed_reason",
+          "display_label": "Missed reason/comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ip_missed",
+              "when_value": "yes",
+              "fields": [
+                "missed_reason"
+              ],
+              "message": "Missed reason required when IP missed is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "kit_number",
+          "display_label": "Kit number",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ip_administered",
+              "when_value": "yes",
+              "fields": [
+                "kit_number",
+                "ip_number"
+              ],
+              "message": "Kit number or IP number required when IP administered."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ip_number",
+          "display_label": "IP number",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "batch_lot_number",
+          "display_label": "Batch/lot number",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "expiration_date",
+          "display_label": "Expiration date",
+          "data_type": "date",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "route",
+          "display_label": "Route",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "ROUTE",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "dose",
+          "display_label": "Dose",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "dose_unit",
+          "display_label": "Dose unit",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "administration_datetime",
+          "display_label": "Administration date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "anatomical_site",
+          "display_label": "Anatomical site",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "subject_identity_confirmed",
+          "display_label": "Subject identity confirmed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "second_verifier_required",
+          "display_label": "Second verifier required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "second_verifier_name",
+          "display_label": "Second verifier name",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "second_verifier_required",
+              "when_value": "yes",
+              "fields": [
+                "second_verifier_name"
+              ],
+              "message": "Second verifier name required when dual verification required."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "pre_ip_checks_completed",
+          "display_label": "Pre-IP checks completed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "post_ip_checks_completed",
+          "display_label": "Post-IP checks completed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "pre_ip_vitals_completed",
+          "display_label": "Pre-IP vitals completed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "administered_by",
+          "display_label": "Administered by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ip_administered",
+              "when_value": "yes",
+              "fields": [
+                "administered_by"
+              ],
+              "message": "Administered by required when IP administered is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "witnessed_by",
+          "display_label": "Witnessed by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "administration_comment",
+          "display_label": "Administration comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "infusion_reaction",
+          "display_label": "Infusion reaction",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "immediate_ae_observed",
+          "display_label": "Immediate AE observed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "immediate_ae_comment",
+          "display_label": "Immediate AE comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "immediate_ae_observed",
+              "when_value": "yes",
+              "fields": [
+                "immediate_ae_comment"
+              ],
+              "message": "Comment required when immediate AE observed is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "LAB_CORE_V1": {
+      "library_code": "LAB_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "labs",
+      "description": "Canonical lab collection and result metadata (not full analyte panel).",
+      "fields": [
+        {
+          "field_key": "collection_datetime",
+          "display_label": "Collection date/time",
+          "data_type": "datetime",
+          "required_default": true,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "fasting_status",
+          "display_label": "Fasting status",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "FASTING_STATUS",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "fasting_hours",
+          "display_label": "Fasting hours",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "fasting_status",
+              "when_value": "fasting",
+              "fields": [
+                "fasting_hours"
+              ],
+              "message": "Fasting hours required when fasting status is fasting."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "specimen_type",
+          "display_label": "Specimen type",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "SPECIMEN_TYPE",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "accession_number",
+          "display_label": "Accession number",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "local_vs_central",
+          "display_label": "Local vs central",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "LAB_SOURCE_TYPE",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "processing_status",
+          "display_label": "Processing status",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "PROCESSING_STATUS",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "abnormal_flag",
+          "display_label": "Abnormal flag",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinically_significant",
+          "display_label": "Clinically significant",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinical_comment",
+          "display_label": "Clinical comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "clinically_significant",
+              "when_value": "yes",
+              "fields": [
+                "clinical_comment"
+              ],
+              "message": "Clinical comment required when clinically significant is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "repeat_required",
+          "display_label": "Repeat required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "repeat_reason",
+          "display_label": "Repeat reason",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "repeat_required",
+              "when_value": "yes",
+              "fields": [
+                "repeat_reason",
+                "repeat_scheduled_date"
+              ],
+              "message": "Repeat reason and scheduled date required when repeat is required."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "repeat_scheduled_date",
+          "display_label": "Repeat scheduled date",
+          "data_type": "date",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "linked_ae",
+          "display_label": "Linked to AE",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "linked_ae_id",
+          "display_label": "Linked AE ID",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "linked_ae",
+              "when_value": "yes",
+              "fields": [
+                "linked_ae_id"
+              ],
+              "message": "Linked AE ID required when linked to AE is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "collected_by",
+          "display_label": "Collected by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "shipped_datetime",
+          "display_label": "Shipped date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "received_by_lab",
+          "display_label": "Received by lab",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "ECG_CORE_V1": {
+      "library_code": "ECG_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "ecg",
+      "description": "Canonical ECG procedure documentation.",
+      "fields": [
+        {
+          "field_key": "ecg_performed",
+          "display_label": "ECG performed",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ecg_datetime",
+          "display_label": "ECG date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "ecg_performed",
+              "when_value": "yes",
+              "fields": [
+                "ecg_datetime",
+                "ecg_interpretation"
+              ],
+              "message": "ECG date/time and interpretation required when ECG performed."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "heart_rate",
+          "display_label": "Heart rate",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "bpm",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "pr_interval",
+          "display_label": "PR interval",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "ms",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "qrs_interval",
+          "display_label": "QRS interval",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "ms",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "qt_interval",
+          "display_label": "QT interval",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "ms",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "qtc_interval",
+          "display_label": "QTc interval",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "ms",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "ecg_interpretation",
+          "display_label": "ECG interpretation",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "ECG_INTERPRETATION",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinically_significant",
+          "display_label": "Clinically significant",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "interpretation_comment",
+          "display_label": "Interpretation comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "clinically_significant",
+              "when_value": "yes",
+              "fields": [
+                "clinical_comment"
+              ],
+              "message": "Clinical comment required when clinically significant is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "attached_ecg_file",
+          "display_label": "Attached ECG file",
+          "data_type": "file",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "machine_id",
+          "display_label": "Machine ID",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "interpreted_by",
+          "display_label": "Interpreted by",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "reviewed_by_investigator",
+          "display_label": "Reviewed by investigator",
+          "data_type": "string",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    },
+    "PHYSICAL_EXAM_CORE_V1": {
+      "library_code": "PHYSICAL_EXAM_CORE_V1",
+      "library_kind": "core",
+      "clinical_domain": "physical_exam",
+      "description": "Canonical targeted physical examination documentation.",
+      "fields": [
+        {
+          "field_key": "exam_performed",
+          "display_label": "Physical exam performed",
+          "data_type": "select",
+          "required_default": true,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "exam_datetime",
+          "display_label": "Exam date/time",
+          "data_type": "datetime",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "exam_performed",
+              "when_value": "yes",
+              "fields": [
+                "exam_datetime"
+              ],
+              "message": "Exam date/time required when exam performed is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "overall_normal",
+          "display_label": "Overall normal",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "cardiovascular_review",
+          "display_label": "Cardiovascular review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "respiratory_review",
+          "display_label": "Respiratory review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "gi_review",
+          "display_label": "GI review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "neuro_review",
+          "display_label": "Neurologic review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "musculoskeletal_review",
+          "display_label": "Musculoskeletal review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "skin_review",
+          "display_label": "Skin review",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "targeted_exam_reason",
+          "display_label": "Targeted exam reason",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "abnormal_findings",
+          "display_label": "Abnormal findings",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "overall_normal",
+              "when_value": "no",
+              "fields": [
+                "abnormal_findings"
+              ],
+              "message": "Abnormal findings required when overall normal is No."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "clinically_significant",
+          "display_label": "Clinically significant",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        },
+        {
+          "field_key": "investigator_comment",
+          "display_label": "Investigator comment",
+          "data_type": "textarea",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "required_when",
+              "when_field": "clinically_significant",
+              "when_value": "yes",
+              "fields": [
+                "investigator_comment"
+              ],
+              "message": "Investigator comment required when clinically significant is Yes."
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "core"
+        }
+      ]
+    }
+  },
+  "overlays": {
+    "PARA_ADRENAL_OVERLAY_V1": {
+      "library_code": "PARA_ADRENAL_OVERLAY_V1",
+      "library_kind": "overlay",
+      "clinical_domain": "adrenal_testing",
+      "description": "PARA adrenal insufficiency symptom overlay (namespaced fields).",
+      "fields": [
+        {
+          "field_key": "adrenal_fatigue",
+          "display_label": "Adrenal fatigue",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_weakness",
+          "display_label": "Adrenal weakness",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_low_bp",
+          "display_label": "Adrenal low blood pressure",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_low_blood_sugar",
+          "display_label": "Adrenal low blood sugar",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_irritability",
+          "display_label": "Adrenal irritability",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_depression",
+          "display_label": "Adrenal depression",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_weight_loss",
+          "display_label": "Adrenal weight loss",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_lightheadedness",
+          "display_label": "Adrenal lightheadedness",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_skin_darkening",
+          "display_label": "Adrenal skin darkening",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_abdominal_discomfort",
+          "display_label": "Adrenal abdominal discomfort",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_nausea",
+          "display_label": "Adrenal nausea",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_vomiting",
+          "display_label": "Adrenal vomiting",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_chronic_diarrhea",
+          "display_label": "Adrenal chronic diarrhea",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_loss_of_appetite",
+          "display_label": "Adrenal loss of appetite",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_salt_craving",
+          "display_label": "Adrenal salt craving",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_symptoms_present",
+          "display_label": "Adrenal symptoms present",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "adrenal_action_required",
+          "display_label": "Adrenal action required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        }
+      ]
+    },
+    "PARA_HIT_OVERLAY_V1": {
+      "library_code": "PARA_HIT_OVERLAY_V1",
+      "library_kind": "overlay",
+      "clinical_domain": "hit_monitoring",
+      "description": "PARA HIT / anti-PF4 monitoring overlay (namespaced fields).",
+      "fields": [
+        {
+          "field_key": "hit_platelet_count",
+          "display_label": "Platelet count",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": "/µL",
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_platelet_drop_percent",
+          "display_label": "Platelet drop percent",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_thrombosis_suspected",
+          "display_label": "Thrombosis suspected",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_thrombosis_confirmed",
+          "display_label": "Thrombosis confirmed",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_four_t_score_required",
+          "display_label": "4T score required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_four_t_score",
+          "display_label": "4T score",
+          "data_type": "integer",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [
+            {
+              "kind": "min",
+              "value": 0,
+              "message": "Min 0"
+            },
+            {
+              "kind": "max",
+              "value": 8,
+              "message": "Max 8"
+            }
+          ],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_anti_pf4_required",
+          "display_label": "Anti-PF4 required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_anti_pf4_result",
+          "display_label": "Anti-PF4 result",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_serotonin_release_assay_required",
+          "display_label": "Serotonin release assay required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_d_dimer_required",
+          "display_label": "D-dimer required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_fibrinogen_required",
+          "display_label": "Fibrinogen required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_ip_hold_required",
+          "display_label": "IP hold required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "hit_medical_monitor_contact_required",
+          "display_label": "Medical monitor contact required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        }
+      ]
+    },
+    "MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1": {
+      "library_code": "MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1",
+      "library_kind": "overlay",
+      "clinical_domain": "respiratory_samples",
+      "description": "MV40618 household symptom and swab overlay (namespaced fields).",
+      "fields": [
+        {
+          "field_key": "mv_cough",
+          "display_label": "Cough",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_sore_throat",
+          "display_label": "Sore throat",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_nasal_congestion",
+          "display_label": "Nasal congestion",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_headache",
+          "display_label": "Headache",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_feverishness_or_chills",
+          "display_label": "Feverishness or chills",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_muscle_or_joint_pain",
+          "display_label": "Muscle or joint pain",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_fatigue",
+          "display_label": "Fatigue",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_rhinorrhea",
+          "display_label": "Rhinorrhea",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_temperature",
+          "display_label": "Temperature",
+          "data_type": "number",
+          "required_default": false,
+          "list_code": null,
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_symptoms_worse_than_baseline",
+          "display_label": "Symptoms worse than baseline",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_local_influenza_test_result",
+          "display_label": "Local influenza test result",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO_NA",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_local_sars_cov_2_result",
+          "display_label": "Local SARS-CoV-2 result",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO_NA",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "medium",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_sick_visit_required",
+          "display_label": "Sick visit required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        },
+        {
+          "field_key": "mv_swab_required",
+          "display_label": "Swab required",
+          "data_type": "select",
+          "required_default": false,
+          "list_code": "YES_NO",
+          "unit": null,
+          "validation": [],
+          "audit_relevance": "high",
+          "protocol_notes": "",
+          "scope": "overlay"
+        }
+      ]
+    }
+  }
+}

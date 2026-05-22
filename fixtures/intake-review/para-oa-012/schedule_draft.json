@@ -1,0 +1,1586 @@
+{
+  "safety": {
+    "auto_bind": false,
+    "auto_publish": false,
+    "requires_human_approval": true,
+    "runtime_mutation": false
+  },
+  "visits": [
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Arm A"
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "phone"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "7"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "ARM_A_PHONE_MONITORING"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Arm A phone monitoring"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 7: Arm A phone monitoring Day 30 (window -2 / +2) \u2014 phone visit Arm A"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-2 / +2"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Arm B"
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "remote"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "8"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "ARM_B_REMOTE_MONITORING"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Arm B remote monitoring"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 8: Arm B remote monitoring Day 30 (window -2 / +2) \u2014 remote visit Arm B"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-2 / +2"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "3"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_15_TREATMENT"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 15 Treatment"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 3: Day 15 Treatment (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-3 / +3"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "2"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_1_RANDOMIZATION"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 1 / Randomization"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 2: Day 1 / Randomization (window -1 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-1 / +3"
+      }
+    },
+    {
+      "confidence": "high",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-schedule.csv",
+          "page_or_sheet": "para-oa-012-schedule",
+          "section_reference": "Schedule sheet row",
+          "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+        }
+      ],
+      "extraction_method": "deterministic_csv_row",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "39"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_39_CORTISOL"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 39 Cortisol"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 39 Cortisol,39,-3/+3,site"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-3/+3"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "4"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_39_ON"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 39 On"
+      },
+      "window": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 4: Day 39 On-Treatment / Cortisol window (window -3 / +3) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "phone"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "5"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_56_FOLLOW"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 56 Follow"
+      },
+      "window": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 5: Day 56 Follow-up phone (window -3 / +3) \u2014 phone visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "confidence": "high",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-schedule.csv",
+          "page_or_sheet": "para-oa-012-schedule",
+          "section_reference": "Schedule sheet row",
+          "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+        }
+      ],
+      "extraction_method": "deterministic_csv_row",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "phone"
+      },
+      "procedures": [],
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "56"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_56_FOLLOW_UP"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 56 Follow-up"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-schedule.csv",
+            "page_or_sheet": "para-oa-012-schedule",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Day 56 Follow-up,56,-3/+3,phone"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-3/+3"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "6"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "DAY_84_ON"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Day 84 On"
+      },
+      "window": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 6: Day 84 On-Treatment (window -7 / +7) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "9"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "END_OF_STUDY"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "End of Study"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 9: End of Study (window -14 / +14) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-14 / +14"
+      }
+    },
+    {
+      "confidence": "medium",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule of Events",
+          "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+        }
+      ],
+      "extraction_method": "deterministic_visit_line",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "site"
+      },
+      "procedures": [],
+      "requires_human_review": true,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "1"
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "SCREENING"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Screening"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule of Events",
+            "source_snippet": "Visit 1: Screening (window -7 / 0) \u2014 site visit"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "-7 / 0"
+      }
+    },
+    {
+      "confidence": "high",
+      "eligible_arms": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "eligible_subject_roles": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "evidence_refs": [
+        {
+          "file_name": "para-oa-012-protocol-excerpt.txt",
+          "page_or_sheet": "1",
+          "section_reference": "Schedule sheet row",
+          "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+        }
+      ],
+      "extraction_method": "deterministic_csv_row",
+      "modality": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "multi-center"
+      },
+      "procedures": [],
+      "requires_human_review": false,
+      "reviewer_status": "pending",
+      "study_day": {
+        "confidence": "low",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [
+          "No value extracted"
+        ],
+        "requires_human_review": true,
+        "reviewer_status": "pending",
+        "value": null
+      },
+      "visit_code": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "STUDY_DESIGN_RANDOMIZED"
+      },
+      "visit_name": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "Study Design: Randomized"
+      },
+      "window": {
+        "confidence": "high",
+        "evidence_refs": [
+          {
+            "file_name": "para-oa-012-protocol-excerpt.txt",
+            "page_or_sheet": "1",
+            "section_reference": "Schedule sheet row",
+            "source_snippet": "Study Design: Randomized, double-blind, placebo-controlled, multi-center"
+          }
+        ],
+        "extraction_method": "deterministic_regex",
+        "gate_notes": [],
+        "requires_human_review": false,
+        "reviewer_status": "pending",
+        "value": "placebo-controlled"
+      }
+    }
+  ]
+}

@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+__pycache__/
+*.pyc
 
 # next.js
 /.next/
@@ -46,3 +48,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# protocol intake review workspaces (12D)
+/data/intake-review-workspaces/
+.phase12c-py-smoke/
+.phase12c-py-smoke-input/
+.tmp-phase12d-seed/
+.tmp-phase12d-seed-in/

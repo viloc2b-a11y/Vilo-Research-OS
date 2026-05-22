@@ -15,6 +15,7 @@ export type ProfileSection =
   | 'allergies'
   | 'surgical_history'
   | 'lifestyle'
+  | 'adverse_events'
 
 export type ClinicalProfileSectionTab = ProfileSection
 

@@ -96,7 +96,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .from('source_response_sets')
       .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, status, opened_at, submitted_at')
       .in('organization_id', organizationIds)
-      .in('status', ['draft', 'opened', 'in_progress', 'pending_review'])
+      .in('status', ['draft', 'in_progress', 'pending_review'])
       .order('opened_at', { ascending: false })
       .limit(12),
     supabase
@@ -104,7 +104,8 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .select('id, organization_id, study_id, visit_id, execution_status, validation_status, is_signed, is_locked, procedure_definitions(label, code)')
       .in('organization_id', organizationIds)
       .eq('is_signed', false)
-      .in('execution_status', ['completed', 'in_progress'])
+      .eq('is_locked', false)
+      .in('execution_status', ['completed', 'verified'])
       .order('updated_at', { ascending: false })
       .limit(12),
     supabase
@@ -169,7 +170,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     return {
       id: proc.id as string,
       title: def?.label ?? def?.code ?? 'Procedure signature pending',
-      detail: `Execution: ${String(proc.execution_status ?? 'in_progress')} · Validation: ${String(proc.validation_status ?? 'not_run')}`,
+      detail: `Execution: ${String(proc.execution_status ?? 'completed')} · Validation: ${String(proc.validation_status ?? 'not_run')}`,
       href: sourceCapturePath(proc.id as string, proc.organization_id as string),
       status: proc.validation_status as string | null,
       tone: proc.validation_status === 'blocked' ? 'critical' as const : 'warning' as const,

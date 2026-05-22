@@ -59,6 +59,7 @@ export async function POST(request: Request) {
       p_organization_id: body.organization_id,
       p_source_response_set_id: body.source_response_set_id,
       p_responses: body.responses,
+      p_expected_updated_at: body.expected_updated_at ?? null,
     }, ctx.requestId)
     return jsonEnvelope(envelope)
   } catch (err) {

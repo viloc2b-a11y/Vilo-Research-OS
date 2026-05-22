@@ -10,7 +10,7 @@ export function FindingsFilterBar({ filters }: FindingsFilterBarProps) {
   return (
     <div className="space-y-2">
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        Filters (URL placeholders)
+        Finding filters
       </p>
       <div className="flex flex-wrap gap-2">
         {filters.statusLinks.map((item) => (

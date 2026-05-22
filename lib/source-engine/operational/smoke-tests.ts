@@ -70,6 +70,7 @@ function testBridge(overrides: Partial<ProcedureCaptureBridge> = {}): ProcedureC
 function publishedResolutionContext(
   overrides: Partial<SourceDefinitionResolutionContext> = {},
 ): SourceDefinitionResolutionContext {
+  const { publishedFieldKeys: overrideFieldKeys, ...rest } = overrides
   return {
     sourceDefinitionVersionId: '00000000-0000-4000-8000-000000000010',
     studyId: STUDY_ID,
@@ -83,7 +84,8 @@ function publishedResolutionContext(
     publishedPackageId: 'pkg-smoke-1',
     publishedProvenance: null,
     publishedSourceStatus: 'published',
-    ...overrides,
+    publishedFieldKeys: overrideFieldKeys ?? [],
+    ...rest,
   }
 }
 

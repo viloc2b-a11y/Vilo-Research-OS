@@ -14,9 +14,14 @@ import type { VisitCloseoutBundle } from '@/lib/subject/visits/progress-note/typ
 
 type VisitCloseoutSectionProps = {
   bundle: VisitCloseoutBundle
+  /**
+   * F-07: whether the current viewer has investigator signing authority.
+   * Derived server-side from canSignClinicalSource (pi_sub_i / admin / owner).
+   */
+  canInvestigatorSign?: boolean
 }
 
-export function VisitCloseoutSection({ bundle }: VisitCloseoutSectionProps) {
+export function VisitCloseoutSection({ bundle, canInvestigatorSign = false }: VisitCloseoutSectionProps) {
   const { model, events, guards, noteLocked, closeoutLocked } = bundle
 
   return (
@@ -45,11 +50,23 @@ export function VisitCloseoutSection({ bundle }: VisitCloseoutSectionProps) {
             <VisitCloseoutTimeline events={events} />
           </div>
 
+          {guards.ipCaptureWarning ? (
+            <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+              {guards.ipCaptureWarning} Complete the applicable eSource before closeout signature.
+            </p>
+          ) : null}
+
           <div className={closeoutLocked ? 'pointer-events-none opacity-60' : ''}>
             <ProgressNoteEditor model={model} readOnly={noteLocked || closeoutLocked} locked={noteLocked} />
             <CoordinatorSignatureCard model={model} guards={guards} disabled={closeoutLocked} />
             <div className="mt-6">
-              <InvestigatorSignatureCard model={model} guards={guards} disabled={closeoutLocked} />
+              {/* F-07: canSign prop routes investigator role authority to the card */}
+              <InvestigatorSignatureCard
+                model={model}
+                guards={guards}
+                disabled={closeoutLocked}
+                canSign={canInvestigatorSign}
+              />
             </div>
           </div>
 

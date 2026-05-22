@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { Pencil } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import type {
   AdverseEventTimelineSection,
   SubjectAdverseEventTimelineItem,
@@ -8,6 +10,7 @@ import { cn } from '@/lib/utils'
 
 type SubjectAdverseEventsTimelineProps = {
   sections: AdverseEventTimelineSection[]
+  onEditRegistry?: (registryId: string) => void
 }
 
 function TimelineLink({ href, children }: { href: string; children: ReactNode }) {
@@ -58,7 +61,13 @@ function statusBadge(status: SubjectAdverseEventTimelineItem['lifecycleStatus'])
   )
 }
 
-function AeCard({ item }: { item: SubjectAdverseEventTimelineItem }) {
+function AeCard({
+  item,
+  onEditRegistry,
+}: {
+  item: SubjectAdverseEventTimelineItem
+  onEditRegistry?: (registryId: string) => void
+}) {
   return (
     <article
       className={cn(
@@ -80,6 +89,11 @@ function AeCard({ item }: { item: SubjectAdverseEventTimelineItem }) {
           ) : null}
         </div>
         <div className="flex flex-wrap gap-1">
+          {item.isEditable ? (
+            <span className="rounded border border-violet-300 bg-violet-50 px-1.5 py-0.5 text-[10px] text-violet-900">
+              Subject registry
+            </span>
+          ) : null}
           {statusBadge(item.lifecycleStatus)}
           {item.isSeriousAdverseEvent ? (
             <span className="rounded border border-rose-400 px-1.5 py-0.5 text-[10px] text-rose-900 bg-rose-50">
@@ -121,7 +135,19 @@ function AeCard({ item }: { item: SubjectAdverseEventTimelineItem }) {
         {item.reporter ? ` · Reporter ${item.reporter}` : ''}
       </p>
 
-      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+        {item.isEditable && item.registryId && onEditRegistry ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs"
+            onClick={() => onEditRegistry(item.registryId!)}
+          >
+            <Pencil className="mr-1 h-3 w-3" />
+            Edit
+          </Button>
+        ) : null}
         {item.href ? <TimelineLink href={item.href}>Visit</TimelineLink> : null}
         {item.captureHref ? (
           <TimelineLink href={item.captureHref}>Source capture</TimelineLink>
@@ -134,7 +160,10 @@ function AeCard({ item }: { item: SubjectAdverseEventTimelineItem }) {
   )
 }
 
-export function SubjectAdverseEventsTimeline({ sections }: SubjectAdverseEventsTimelineProps) {
+export function SubjectAdverseEventsTimeline({
+  sections,
+  onEditRegistry,
+}: SubjectAdverseEventsTimelineProps) {
   const total = sections.reduce((n, s) => n + s.items.length, 0)
 
   if (total === 0) {
@@ -189,7 +218,7 @@ export function SubjectAdverseEventsTimeline({ sections }: SubjectAdverseEventsT
                       }}
                       aria-hidden
                     />
-                    <AeCard item={item} />
+                    <AeCard item={item} onEditRegistry={onEditRegistry} />
                   </li>
                 )
               })}

@@ -6,12 +6,23 @@ import type { CompleteProcedureResult } from '@/lib/actions/complete-procedure-e
 import { completeProcedureExecution } from '@/lib/actions/complete-procedure-execution'
 import { Button } from '@/components/ui/button'
 
+function friendlyActionError(err: unknown): string {
+  if (err instanceof Error) {
+    if (err.message.includes('Server Components render')) {
+      return 'Could not complete the procedure. Resolve source validation blockers or open source capture first.'
+    }
+    return err.message
+  }
+  return 'Request failed'
+}
+
 type ProcedureCompleteButtonProps = {
   procedureExecutionId: string
   visitPath: string
   studyPath: string
   subjectPath: string
   disabled?: boolean
+  disabledHint?: string | null
 }
 
 export function ProcedureCompleteButton({
@@ -20,12 +31,14 @@ export function ProcedureCompleteButton({
   studyPath,
   subjectPath,
   disabled,
+  disabledHint,
 }: ProcedureCompleteButtonProps) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [feedback, setFeedback] = useState<{ text: string; ok: boolean } | null>(null)
 
   const onComplete = () => {
+    if (disabled) return
     setFeedback(null)
     startTransition(async () => {
       let result: CompleteProcedureResult = { ok: false, message: 'Unknown error' }
@@ -37,7 +50,7 @@ export function ProcedureCompleteButton({
           revalidateSubjectPath: subjectPath,
         })
       } catch (e) {
-        result = { ok: false, message: e instanceof Error ? e.message : 'Request failed' }
+        result = { ok: false, message: friendlyActionError(e) }
       }
 
       if (result.ok) {
@@ -48,25 +61,35 @@ export function ProcedureCompleteButton({
         router.refresh()
         return
       }
-      setFeedback({ ok: false, text: result.message })
+      const detail =
+        !result.ok && result.alerts?.length
+          ? result.alerts.map((a) => a.message).join(' · ')
+          : result.message
+      setFeedback({ ok: false, text: detail })
     })
   }
 
   return (
-    <div className="flex flex-col items-end gap-1">
+    <div className="flex flex-col items-end gap-1 max-w-[220px]">
       <Button
         type="button"
         variant="outline"
         size="sm"
         disabled={disabled || pending}
         onClick={onComplete}
+        title={disabled ? (disabledHint ?? undefined) : undefined}
       >
         {pending ? 'Working…' : 'Mark completed'}
       </Button>
+      {disabled && disabledHint ? (
+        <p className="text-[10px] text-muted-foreground text-right">{disabledHint}</p>
+      ) : null}
       {feedback ? (
         <p
           className={
-            feedback.ok ? 'text-xs text-muted-foreground' : 'text-xs text-destructive'
+            feedback.ok
+              ? 'text-xs text-muted-foreground text-right'
+              : 'text-xs text-destructive text-right'
           }
         >
           {feedback.text}

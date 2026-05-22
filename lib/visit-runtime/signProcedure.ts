@@ -2,6 +2,7 @@ import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEvent'
 import { materializeEngineTasksAfterSignatureBlock } from '@/lib/source/capture/materialize-engine-tasks'
 import { checkEngineSignatureReadiness } from '@/lib/source/capture/engine-signature-validation'
+import { isSourceCaptureSubmitted } from '@/lib/source/submitted-source-gate'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { createServerClient } from '@/lib/supabase/server'
 
@@ -49,6 +50,21 @@ export async function signProcedure(params: {
   }
 
   if (validation.responseSetId) {
+    const { data: responseSetRow } = await params.supabase
+      .from('source_response_sets')
+      .select('status')
+      .eq('id', validation.responseSetId)
+      .eq('organization_id', params.organizationId)
+      .maybeSingle()
+
+    if (!isSourceCaptureSubmitted(responseSetRow?.status as string | undefined)) {
+      return {
+        ok: false as const,
+        error: 'Source capture must be submitted before signing the procedure.',
+        validation,
+      }
+    }
+
     const engineGate = await checkEngineSignatureReadiness({
       procedureExecutionId: params.procedureExecutionId,
       organizationId: params.organizationId,

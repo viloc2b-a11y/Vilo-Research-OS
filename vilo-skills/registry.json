@@ -1,0 +1,12 @@
+﻿{
+  "version": "1.0.0",
+  "updated": "2026-05-21",
+  "skills": [
+    {"name":"similarweb-analytics","status":"active","trigger":"dominio, tráfico, ranking, canales, geografía"},
+    {"name":"stock-analysis","status":"active","trigger":"acción, ticker, análisis técnico, perfil, SEC, comparativa"},
+    {"name":"video-generator","status":"active","trigger":"video, IA, guion, keyframes, BGM, TTS, producción"},
+    {"name":"vilo-ecosystem","status":"active","trigger":"VRG, VPL, ClinIQ, HazloAsíYa, ShoreIQ, estrategia, BD, pricing"},
+    {"name":"skill-creator","status":"active","trigger":"crear skill, actualizar plantilla, empaquetar workflow, referencias"}
+  ],
+  "rules": {"max_lines":500, "license":"Apache-2.0", "trigger_pattern":"activar skill: [nombre]"}
+}

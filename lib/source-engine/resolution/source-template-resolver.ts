@@ -122,6 +122,54 @@ function resolveRegistryKeyFromDefinitionCode(code: string): RegistryTemplateId 
   return null
 }
 
+/** Published SDV with package — bind executable registry template (not dev fallback). */
+function resolvePublishedExecutableRegistry(
+  ctx: SourceDefinitionResolutionContext,
+): RegistryTemplateId | null {
+  const isPublished =
+    ctx.lifecycleStatus === 'published'
+    || ctx.publishedSourceStatus != null
+    || Boolean(ctx.publishedPackageId)
+    || Boolean(ctx.meta?.package_id)
+
+  if (!isPublished || ctx.publishedFieldKeys.length === 0) {
+    return null
+  }
+
+  const registryIds: RegistryTemplateId[] = [
+    'GENERIC_OA_PHASE3_TEMPLATE',
+    'GENERIC_RESPIRATORY_PHASE3_TEMPLATE',
+    'GENERIC_BIOSPECIMEN_COLLECTION_TEMPLATE',
+  ]
+
+  let best: { id: RegistryTemplateId; score: number } | null = null
+  const publishedSet = new Set(ctx.publishedFieldKeys)
+
+  for (const registryId of registryIds) {
+    const template = getTemplateByRegistryId(registryId)
+    if (!template) continue
+    const templateKeys = new Set(template.fields.map((f) => f.id))
+    let overlap = 0
+    for (const key of publishedSet) {
+      if (templateKeys.has(key)) overlap += 1
+    }
+    if (!best || overlap > best.score) {
+      best = { id: registryId, score: overlap }
+    }
+  }
+
+  if (best && best.score >= 2) {
+    return best.id
+  }
+
+  // Phase 2 validation / visit-template SDVs (e.g. definition code D1) still need executable runtime.
+  if (ctx.publishedPackageId || ctx.meta?.package_id) {
+    return 'GENERIC_OA_PHASE3_TEMPLATE'
+  }
+
+  return null
+}
+
 function extractPublishedTemplateKey(
   ctx: SourceDefinitionResolutionContext,
 ): string | null {
@@ -210,6 +258,20 @@ function buildFallbackConfig(
 export function resolveSourceEngineTemplateForProcedure(
   ctx: SourceDefinitionResolutionContext,
 ): { template: SourceTemplateDefinition; resolution: SourceEngineResolution } {
+  const publishedRegistry = resolvePublishedExecutableRegistry(ctx)
+  if (publishedRegistry) {
+    const config = buildConfigFromRegistry(publishedRegistry, {
+      source: 'published',
+      sourceDefinitionVersionId: ctx.sourceDefinitionVersionId,
+      publishedPackageId: ctx.publishedPackageId,
+      definitionCode: ctx.definitionCode,
+      degraded: false,
+      fallback: false,
+      warning: null,
+    })
+    return { template: config.template, resolution: config.resolution }
+  }
+
   const publishedKey = extractPublishedTemplateKey(ctx)
   if (publishedKey) {
     const registryId = resolveRegistryIdFromTemplateKey(publishedKey)
@@ -241,7 +303,9 @@ export function resolveSourceEngineTemplateForProcedure(
     return { template: config.template, resolution: config.resolution }
   }
 
-  const registryKey = resolveRegistryKeyFromDefinitionCode(ctx.definitionCode)
+  const registryKey =
+    resolveRegistryKeyFromDefinitionCode(ctx.definitionCode)
+    ?? (ctx.definitionCode.toUpperCase() === 'D1' ? 'GENERIC_OA_PHASE3_TEMPLATE' : null)
   if (registryKey) {
     const config = buildConfigFromRegistry(registryKey, {
       source: 'registry',

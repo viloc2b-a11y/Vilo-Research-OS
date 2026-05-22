@@ -6,8 +6,6 @@ export const subjectChartTabs = [
   { key: 'workflow', label: 'Workflow' },
   { key: 'adverse-events', label: 'AE' },
   { key: 'deviations', label: 'Deviations' },
-  { key: 'notes', label: 'Notes' },
-  { key: 'documents', label: 'Documents' },
 ] as const
 
 export type SubjectChartTabKey = (typeof subjectChartTabs)[number]['key']

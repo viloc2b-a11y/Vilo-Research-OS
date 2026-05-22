@@ -1,6 +1,9 @@
+import type { SubjectAdverseEventVisitOption } from '@/lib/subject/adverse-events/registry-types'
+
 export type AdverseEventLifecycleStatus = 'open' | 'follow_up' | 'resolved' | 'closed'
 
 export type AdverseEventSourceKind =
+  | 'subject_registry'
   | 'source_capture'
   | 'validation_finding'
   | 'workflow_action'
@@ -16,6 +19,7 @@ export type SubjectAdverseEventTimelineItem = {
   severity: string | null
   seriousness: boolean
   relationship: string | null
+  relationshipCode: string | null
   lifecycleStatus: AdverseEventLifecycleStatus
   onsetDate: string | null
   resolutionDate: string | null
@@ -28,6 +32,11 @@ export type SubjectAdverseEventTimelineItem = {
   href: string | null
   captureHref: string | null
   reviewHref: string | null
+  /** Set when this row is editable in the subject AE registry. */
+  registryId: string | null
+  isEditable: boolean
+  /** Registry-only notes (shown in edit form). */
+  registryComments: string | null
 }
 
 export type AdverseEventTimelineSummary = {
@@ -46,8 +55,9 @@ export type AdverseEventTimelineSection = {
 }
 
 export type SubjectAdverseEventsTimelineModel = {
-  hasStructuredAeRegistry: false
+  hasStructuredAeRegistry: boolean
   summary: AdverseEventTimelineSummary
   sections: AdverseEventTimelineSection[]
   totalCount: number
+  visitOptions: SubjectAdverseEventVisitOption[]
 }

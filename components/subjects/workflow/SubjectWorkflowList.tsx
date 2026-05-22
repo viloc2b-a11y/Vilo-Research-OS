@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useActionState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import {
-  INITIAL_WORKFLOW_ACTION_STATE,
   resolveSubjectWorkflowAction,
 } from '@/lib/subject/workflow/actions'
+import { INITIAL_WORKFLOW_ACTION_STATE } from '@/lib/subject/workflow/types'
 import type { SubjectWorkflowAction } from '@/lib/subject/workflow/types'
 
 type SubjectWorkflowListProps = {

@@ -39,6 +39,7 @@ import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflow
 import {
   subjectAdverseEventsTabPath,
   subjectConMedsTabPath,
+  visitDocumentsPath,
   visitDetailPath,
 } from '@/lib/ops/paths'
 import {
@@ -51,9 +52,16 @@ import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
+import { canSignClinicalSource } from '@/lib/rbac/permissions'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
+import { ConditionalProceduresPanel } from '@/components/subjects/visits/ConditionalProceduresPanel'
 import { loadVisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
+import {
+  formatVisitModalityLabel,
+  instantiateConditionalProcedureFormAction,
+  loadConditionalProcedureOptions,
+} from '@/lib/visits/conditional-procedures'
 import { createServerClient } from '@/lib/supabase/server'
 
 type VisitWorkspaceProps = {
@@ -192,7 +200,16 @@ function ProcedureRow({
   const label = pdef?.label ?? pdef?.code ?? 'Procedure'
   const status = proc.execution_status ?? 'pending'
   const done = status === 'completed'
-  const canComplete = visitAllowsEdits && (status === 'pending' || status === 'in_progress')
+  const validationBlocked = proc.validation_status === 'blocked'
+  const canComplete =
+    visitAllowsEdits &&
+    (status === 'pending' || status === 'in_progress') &&
+    !validationBlocked
+  const completeDisabledHint = validationBlocked
+    ? 'Validation blocked — open source capture and resolve required fields or findings.'
+    : sourceBlockerCount > 0
+      ? 'Resolve Source Engine blockers before marking complete.'
+      : null
   const captureHref = `/source/capture/${proc.id}${orgQs}`
   const reviewHref  = responseSet ? `/source/response-set/${responseSet.id}${orgQs}` : null
 
@@ -264,6 +281,7 @@ function ProcedureRow({
         studyPath={studyPath}
         subjectPath={subjectPath}
         disabled={!canComplete}
+        disabledHint={completeDisabledHint}
       />
     </div>
   )
@@ -285,7 +303,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     .from('visits')
     .select(`
       id, organization_id, scheduled_date, target_date, visit_status, visit_review_status,
-      study_id, study_subject_id,
+      study_id, study_subject_id, modality,
       visit_definitions(code,label),
       study_subjects(subject_identifier)
     `)
@@ -301,6 +319,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   const memberships = await getOrganizationMemberships(user.id)
   const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
+
+  // F-07: determine investigator signing authority for the current viewer
+  const canInvestigatorSign = canSignClinicalSource(memberships, organizationId)
 
   // Study name for breadcrumb
   const { data: studyBanner } = await supabase
@@ -340,6 +361,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     visit.visit_status === 'in_progress'
 
   const isLocked = visit.visit_status === 'locked'
+  const visitModalityLabel = formatVisitModalityLabel(visit.modality as string | null)
+
+  const conditionalProcedureOptions = await loadConditionalProcedureOptions({
+    visitId: visit.id as string,
+    organizationId,
+  })
 
   // Load procedures
   const { data: procedures, error: pErr } = await supabase
@@ -498,6 +525,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               showTargetWhenRescheduled={false}
               className="text-right"
             />
+            <span className="capitalize">Modality: {visitModalityLabel}</span>
           </div>
         </div>
 
@@ -593,12 +621,17 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
 
             {pErr ? (
               <p className="text-sm text-destructive">{pErr.message}</p>
-            ) : !procedures?.length ? (
-              <div className="vilo-card p-8 text-center">
-                <ClipboardList className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground">No procedures on this visit.</p>
-              </div>
             ) : (
+              <>
+            <ConditionalProceduresPanel
+              organizationId={organizationId}
+              visitId={visit.id as string}
+              options={conditionalProcedureOptions}
+              canInstantiate={visitAllowsProcedureEdits}
+              instantiateAction={instantiateConditionalProcedureFormAction}
+            />
+
+            {procedures?.length ? (
               <div className="space-y-5">
                 {procedureGroups.map((group) => (
                   <section key={group.id} className="space-y-2">
@@ -634,6 +667,13 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                   </section>
                 ))}
               </div>
+            ) : !conditionalProcedureOptions.length ? (
+              <div className="vilo-card p-8 text-center">
+                <ClipboardList className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">No procedures on this visit.</p>
+              </div>
+            ) : null}
+              </>
             )}
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -732,7 +772,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                 actions={workflowActions}
               />
             )}
-            {closeoutBundle ? <VisitCloseoutSection bundle={closeoutBundle} /> : null}
+            {closeoutBundle ? <VisitCloseoutSection bundle={closeoutBundle} canInvestigatorSign={canInvestigatorSign} /> : null}
           </div>
         )}
 
@@ -743,7 +783,11 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-sm font-semibold text-foreground">Visit Documents</h2>
                 <Link
-                  href={`/studies/${visit.study_id}/subjects/${visit.study_subject_id}/visits/${visit.id}/documents`}
+                  href={visitDocumentsPath(
+                    visit.study_id as string,
+                    visit.study_subject_id as string,
+                    visit.id as string,
+                  )}
                   className="text-xs text-primary hover:underline"
                 >
                   Open full documents view →

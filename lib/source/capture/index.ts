@@ -10,8 +10,5 @@ export type {
 } from '@/lib/source/capture/types'
 
 export { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
-export {
-  INITIAL_CAPTURE_ACTION_STATE,
-  saveCaptureDraftAction,
-  submitCaptureAction,
-} from '@/lib/source/capture/actions'
+export { INITIAL_CAPTURE_ACTION_STATE } from '@/lib/source/capture/types'
+export { saveCaptureDraftAction, submitCaptureAction } from '@/lib/source/capture/actions'
