@@ -60,9 +60,17 @@ export function IntakeReviewWorkspace(props: {
             Not published · Not bound
           </span>
           {hasApprovedArtifact ? (
-            <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-1">
-              Approved artifact on file
-            </span>
+            <>
+              <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-1">
+                Approved artifact on file
+              </span>
+              <Link
+                href={`/source-builder/intake/publish-prep/${pkg.draft_key}`}
+                className={cn(buttonVariants({ size: 'sm' }))}
+              >
+                Continue to publish prep →
+              </Link>
+            </>
           ) : null}
         </div>
       </header>

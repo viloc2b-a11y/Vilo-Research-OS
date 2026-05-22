@@ -12,6 +12,8 @@ import {
 import { cn } from '@/lib/utils'
 import { discoverIntakePackages } from '@/lib/protocol-intake-review/load-package'
 import { workspaceDir } from '@/lib/protocol-intake-review/paths'
+import { hasApprovedIntakeDraft } from '@/lib/protocol-intake-publish-prep/load-approved'
+import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
 import {
   getOrganizationMemberships,
   getPrimaryOrganizationId,
@@ -64,9 +66,12 @@ export default async function ProtocolIntakeReviewListPage() {
         </Card>
       ) : (
         packages.map((pkg) => {
-          const wsApproved = existsSync(
-            join(workspaceDir(process.cwd(), pkg.draft_key), 'approved_intake_draft.json'),
-          )
+          const wsApproved =
+            hasApprovedIntakeDraft(pkg.draft_key)
+            || existsSync(
+              join(workspaceDir(process.cwd(), pkg.draft_key), 'approved_intake_draft.json'),
+            )
+          const prep = wsApproved ? resolvePublishPrepStatus(pkg.draft_key) : null
           return (
             <Card key={pkg.draft_key}>
               <CardHeader>
@@ -81,15 +86,26 @@ export default async function ProtocolIntakeReviewListPage() {
                     <li key={f}>{f}</li>
                   ))}
                 </ul>
-                <Link
-                  href={`/source-builder/intake/review/${pkg.draft_key}`}
-                  className={cn(buttonVariants())}
-                >
-                  Open review workspace
-                </Link>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    href={`/source-builder/intake/review/${pkg.draft_key}`}
+                    className={cn(buttonVariants())}
+                  >
+                    Open review workspace
+                  </Link>
+                  {wsApproved ? (
+                    <Link
+                      href={`/source-builder/intake/publish-prep/${pkg.draft_key}`}
+                      className={cn(buttonVariants({ variant: 'outline' }))}
+                    >
+                      Publish prep / preflight
+                    </Link>
+                  ) : null}
+                </div>
                 {pkg.has_approved || wsApproved ? (
                   <span className="text-xs text-emerald-700 dark:text-emerald-400">
                     Approved artifact available
+                    {prep ? ` · ${prep.status.replace(/_/g, ' ')}` : ''}
                   </span>
                 ) : null}
               </CardContent>

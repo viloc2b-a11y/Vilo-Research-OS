@@ -71,6 +71,21 @@ export default async function SourceBuilderPage() {
 
       <Card>
         <CardHeader>
+          <CardTitle className="text-lg">Controlled publish prep (12E)</CardTitle>
+          <CardDescription>
+            After an approved intake draft exists, run preflight and create a publish candidate
+            artifact — never auto-published or bound to runtime.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Link href="/source-builder/intake" className={cn(buttonVariants({ variant: 'outline' }))}>
+            Open intake queue (publish prep)
+          </Link>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle className="text-lg">Canonical composition (12B)</CardTitle>
           <CardDescription>
             Preview how screening, IP admin, AE, PARA adrenal, and MV sick visit templates resolve from
