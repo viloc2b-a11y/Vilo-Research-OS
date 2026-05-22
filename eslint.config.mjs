@@ -12,6 +12,7 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
       "vilo-os UX/**",
+      "Vilo Scientific Events/**",
     ],
   },
   {

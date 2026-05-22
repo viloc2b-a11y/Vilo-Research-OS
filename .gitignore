@@ -51,6 +51,8 @@ next-env.d.ts
 
 # protocol intake review workspaces (12D)
 /data/intake-review-workspaces/
+# controlled publish candidates (12E)
+/data/source-publish-candidates/
 .phase12c-py-smoke/
 .phase12c-py-smoke-input/
 .tmp-phase12d-seed/
