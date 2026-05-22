@@ -24,3 +24,15 @@ export function approvedDraftPath(draftKey: string, cwd = process.cwd()): string
 export function reviewAuditPath(draftKey: string, cwd = process.cwd()): string {
   return join(workspaceDir(cwd, draftKey), 'review_audit.json')
 }
+
+export function sourcePublishSnapshotDir(draftKey: string, cwd = process.cwd()): string {
+  return join(/*turbopackIgnore: true*/ cwd, 'data', 'source-publish-snapshots', draftKey)
+}
+
+export function sourcePackageSnapshotPath(draftKey: string, cwd = process.cwd()): string {
+  return join(sourcePublishSnapshotDir(draftKey, cwd), 'source_package_snapshot.json')
+}
+
+export function sourcePackageSnapshotAuditPath(draftKey: string, cwd = process.cwd()): string {
+  return join(sourcePublishSnapshotDir(draftKey, cwd), 'source_package_snapshot_audit.json')
+}

@@ -1,13 +1,13 @@
 # Phase 12E — Controlled Publish Preparation
 
-**Status:** 12E-A publish candidate + 12E-B final approval gate. No runtime activation.
+**Status:** 12E-A/B/C filesystem pipeline. No runtime activation.
 
 **Parents:** [`PHASE-12D-INTAKE-REVIEW.md`](./PHASE-12D-INTAKE-REVIEW.md)
 
 ## Flow
 
 ```text
-Source Builder → Intake Review → Approved Draft → Publish Prep → Publish Candidate → Candidate Review → Approval
+Source Builder → … → Candidate Review → Approval → Snapshot
 ```
 
 | Step | Route | Artifact |
@@ -15,9 +15,11 @@ Source Builder → Intake Review → Approved Draft → Publish Prep → Publish
 | 12D review | `/source-builder/intake/review/[draftKey]` | `approved_intake_draft.json`, `review_audit.json` |
 | 12E-A preflight | `/source-builder/intake/publish-prep/[draftKey]` | `publish_candidate.json` (on explicit create) |
 | 12E-B review | `/source-builder/intake/publish-prep/[draftKey]/review` | `publish_candidate_approval.json` (on explicit approve) |
+| 12E-C snapshot | `/source-builder/intake/publish-prep/[draftKey]/snapshot` | `source_package_snapshot.json` (on explicit create) |
 
 Approved draft path: `data/intake-review-workspaces/{draftKey}/`  
 Publish candidate path: `data/source-publish-candidates/{draftKey}/`
+Snapshot path: `data/source-publish-snapshots/{draftKey}/`
 
 ## Status model
 
@@ -28,7 +30,9 @@ Publish candidate path: `data/source-publish-candidates/{draftKey}/`
 | `ready_for_candidate` | Preflight passed; candidate not yet created |
 | `candidate_pending_review` | Candidate on file; final checks pass; not yet approved |
 | `candidate_blocked` | Candidate on file; final review blockers |
-| `candidate_approved` | `publish_candidate_approval.json` on file |
+| `snapshot_ready` | Candidate approved; snapshot readiness passes |
+| `snapshot_blocked` | Approved but snapshot readiness blockers |
+| `snapshot_created` | `source_package_snapshot.json` on file |
 
 ## Preflight (all blockers must pass)
 
@@ -79,9 +83,32 @@ Human gate after publish candidate exists. Does **not** create a live source pac
 
 `publish_candidate_approval.json` — requires **approval reason**. Audit appends `publish_candidate_approved`.
 
+## 12E-C — Immutable source package snapshot
+
+Filesystem snapshot from approved candidate. **Does not activate runtime.**
+
+### Inputs
+
+- `publish_candidate.json`
+- `publish_candidate_approval.json`
+
+### Snapshot readiness
+
+- Candidate and approval on file
+- Approval reason present
+- All safety flags false; `runtime_activation` false on candidate and approval
+- No duplicate snapshot (one-time immutable create)
+
+### Output
+
+`source_package_snapshot.json` includes `snapshot_id`, `content_checksum` (SHA-256), approved metadata/visits/procedures/composition, rejected items, audit references, `immutable: true`, `runtime_activation: false`.
+
+Audit: `source_package_snapshot_audit.json` appends `source_package_snapshot_created`.
+
 ## Smoke
 
 ```bash
 npx tsx scripts/phase12e-publish-prep-smoke.ts
 npx tsx scripts/phase12eb-publish-candidate-review-smoke.ts
+npx tsx scripts/phase12ec-source-package-snapshot-smoke.ts
 ```

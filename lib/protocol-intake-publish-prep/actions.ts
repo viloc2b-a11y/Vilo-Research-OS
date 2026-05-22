@@ -18,7 +18,13 @@ import {
   writePublishCandidateApproval,
   writePublishCandidateArtifacts,
 } from '@/lib/protocol-intake-publish-prep/write-artifacts'
-import type { PublishCandidateAuditEvent } from '@/lib/protocol-intake-publish-prep/types'
+import { buildSourcePackageSnapshot } from '@/lib/protocol-intake-publish-prep/build-snapshot'
+import { runSnapshotReadiness } from '@/lib/protocol-intake-publish-prep/snapshot-readiness'
+import { writeSourcePackageSnapshot, loadSourcePackageSnapshot } from '@/lib/protocol-intake-publish-prep/write-snapshot'
+import type {
+  PublishCandidateAuditEvent,
+  SourcePackageSnapshotAuditEvent,
+} from '@/lib/protocol-intake-publish-prep/types'
 import {
   canManageSourceDocuments,
   canPrepareSourceDrafts,
@@ -106,4 +112,50 @@ export async function approvePublishCandidateAction(input: {
   }
   writePublishCandidateApproval(approval, auditEvent)
   return { ok: true, approved_at: approval.approved_at }
+}
+
+export async function createSourcePackageSnapshotAction(draftKey: string) {
+  const user = await requirePublishPrepActor()
+
+  const candidate = loadPublishCandidate(draftKey)
+  if (!candidate) {
+    throw new Error('Publish candidate not found. Create and approve a candidate first.')
+  }
+
+  const approval = loadPublishCandidateApproval(draftKey)
+  if (!approval) {
+    throw new Error('Publish candidate approval not found. Approve the candidate first.')
+  }
+
+  if (!approval.approval_reason?.trim()) {
+    throw new Error('Approval reason is required before creating a snapshot')
+  }
+
+  if (loadSourcePackageSnapshot(draftKey)) {
+    throw new Error('Source package snapshot already exists for this draft')
+  }
+
+  const readiness = runSnapshotReadiness(draftKey, candidate, approval)
+  if (!readiness.passed) {
+    throw new Error(
+      `Snapshot readiness blocked: ${readiness.blockers.join('; ')}`,
+    )
+  }
+
+  const snapshot = buildSourcePackageSnapshot(candidate, approval, user.id)
+  const auditEvent: SourcePackageSnapshotAuditEvent = {
+    event: 'source_package_snapshot_created',
+    draft_key: draftKey,
+    snapshot_id: snapshot.snapshot_id,
+    timestamp: snapshot.snapshot_created_at,
+    actor_id: user.id,
+    content_checksum: snapshot.content_checksum,
+    snapshot_version: '12E-C.1.0',
+  }
+  writeSourcePackageSnapshot(snapshot, auditEvent)
+  return {
+    ok: true,
+    snapshot_id: snapshot.snapshot_id,
+    content_checksum: snapshot.content_checksum,
+  }
 }

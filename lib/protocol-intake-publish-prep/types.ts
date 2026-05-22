@@ -25,6 +25,9 @@ export type PublishPrepStatus =
   | 'candidate_pending_review'
   | 'candidate_approved'
   | 'candidate_blocked'
+  | 'snapshot_ready'
+  | 'snapshot_created'
+  | 'snapshot_blocked'
   | 'blocked'
 
 export type PreflightCheckStatus = 'pass' | 'fail' | 'warn'
@@ -122,4 +125,65 @@ export type PublishCandidateApproval = {
     candidate_created_by?: string
   }
   final_review_snapshot: FinalReviewResult
+}
+
+export type SnapshotReadinessCheck = {
+  id: string
+  label: string
+  status: PreflightCheckStatus
+  blocker: boolean
+  detail?: string
+}
+
+export type SnapshotReadinessResult = {
+  passed: boolean
+  blockers: string[]
+  checks: SnapshotReadinessCheck[]
+}
+
+export type SourcePackageSnapshotPayload = {
+  snapshot_version: '12E-C.1.0'
+  snapshot_id: string
+  draft_key: string
+  immutable: true
+  runtime_activation: false
+  safety: typeof PUBLISH_PREP_SAFETY
+  snapshot_created_at: string
+  snapshot_created_by?: string
+  candidate_reference: PublishCandidateApproval['candidate_reference'] & {
+    candidate_path: string
+  }
+  approval_reference: {
+    approval_path: string
+    approved_at: string
+    approved_by?: string
+    approval_reason: string
+  }
+  approval_summary: PublishCandidate['approval_summary']
+  study_metadata: PublishCandidate['study_metadata']
+  eligibility: PublishCandidate['eligibility']
+  visits: PublishCandidate['visits']
+  procedures: PublishCandidate['procedures']
+  source_composition: PublishCandidate['source_composition']
+  rejected_items: PublishCandidate['rejected_items']
+  edit_history_summary: PublishCandidate['edit_history_ref']
+  review_audit_reference: { audit_path: string }
+  publish_candidate_audit_reference: {
+    audit_path: string
+    event_count: number
+  }
+}
+
+export type SourcePackageSnapshot = SourcePackageSnapshotPayload & {
+  content_checksum: string
+}
+
+export type SourcePackageSnapshotAuditEvent = {
+  event: 'source_package_snapshot_created'
+  draft_key: string
+  snapshot_id: string
+  timestamp: string
+  actor_id?: string
+  content_checksum: string
+  snapshot_version: '12E-C.1.0'
 }
