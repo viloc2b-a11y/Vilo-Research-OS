@@ -363,6 +363,16 @@ export async function reopenCoordinatorProgressNoteAction(input: {
     return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
   }
 
+  const { data: visit } = await supabase
+    .from('visits')
+    .select('visit_status')
+    .eq('id', visitId)
+    .maybeSingle()
+
+  if (visit && ['locked', 'cancelled', 'no_show'].includes(visit.visit_status)) {
+    return { ok: false, error: `Cannot reopen: the visit is in a terminal ${visit.visit_status} state.` }
+  }
+
   const actorName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(
@@ -375,7 +385,12 @@ export async function reopenCoordinatorProgressNoteAction(input: {
     },
   )
 
-  if (rpcError) return { ok: false, error: rpcError.message }
+  if (rpcError) {
+    if (rpcError.message.includes('terminal and cannot be changed')) {
+      return { ok: false, error: 'Cannot reopen: the visit is in a terminal locked state.' }
+    }
+    return { ok: false, error: rpcError.message }
+  }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
     return {
@@ -538,6 +553,16 @@ export async function reopenInvestigatorReviewAction(input: {
     return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
   }
 
+  const { data: visit } = await supabase
+    .from('visits')
+    .select('visit_status')
+    .eq('id', visitId)
+    .maybeSingle()
+
+  if (visit && ['locked', 'cancelled', 'no_show'].includes(visit.visit_status)) {
+    return { ok: false, error: `Cannot reopen: the visit is in a terminal ${visit.visit_status} state.` }
+  }
+
   const actorName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(
@@ -550,7 +575,12 @@ export async function reopenInvestigatorReviewAction(input: {
     },
   )
 
-  if (rpcError) return { ok: false, error: rpcError.message }
+  if (rpcError) {
+    if (rpcError.message.includes('terminal and cannot be changed')) {
+      return { ok: false, error: 'Cannot reopen: the visit is in a terminal locked state.' }
+    }
+    return { ok: false, error: rpcError.message }
+  }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
     return {
