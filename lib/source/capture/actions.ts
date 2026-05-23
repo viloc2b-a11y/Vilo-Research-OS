@@ -220,6 +220,7 @@ export async function saveCaptureDraftAction(
     organization_id: ids.organizationId,
     source_response_set_id: ids.responseSetId,
     responses: parsed.responses,
+    expected_updated_at: ids.responseSetUpdatedAt ?? shell.model.responseSetUpdatedAt,
   })
 
   revalidatePath(capturePath(ids.procedureExecutionId))
