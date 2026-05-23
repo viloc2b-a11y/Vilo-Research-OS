@@ -121,6 +121,7 @@ export function CoordinatorSignatureCard({
         visitId: model.visitId,
         organizationId: model.organizationId,
         reopenReason: reason,
+        expectedUpdatedAt: model.updatedAt,
       }),
     )
   }
@@ -168,6 +169,7 @@ export function CoordinatorSignatureCard({
                 signCoordinatorProgressNoteAction({
                   visitId: model.visitId,
                   organizationId: model.organizationId,
+                  expectedUpdatedAt: model.updatedAt,
                 }),
               )
             }

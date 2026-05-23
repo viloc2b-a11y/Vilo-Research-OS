@@ -24,6 +24,7 @@ type ProcedureRuntimeRow = {
   section_disabled_by?: string | null
   section_disabled_reason?: string | null
   validation_status?: ValidationStatus | null
+  updated_at?: string | null
 }
 
 function mapNote(row: Record<string, unknown>): VisitRuntimeNote {
@@ -59,7 +60,8 @@ export async function loadVisitRuntimeToolbar(
         section_disabled_at,
         section_disabled_by,
         section_disabled_reason,
-        validation_status
+        validation_status,
+        updated_at
       `)
       .eq('id', context.procedureExecutionId)
       .maybeSingle(),
@@ -105,6 +107,7 @@ export async function loadVisitRuntimeToolbar(
     sectionDisabledBy: row?.section_disabled_by ?? null,
     sectionDisabledReason: row?.section_disabled_reason ?? null,
     validationStatus,
+    updatedAt: row?.updated_at ?? null,
     validationAlerts: validation.alerts,
     missingRequiredCount,
     unresolvedFindingCount,

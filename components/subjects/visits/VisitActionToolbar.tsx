@@ -32,6 +32,7 @@ function HiddenVisitRuntimeInputs({ toolbar }: { toolbar: VisitRuntimeToolbarMod
       <input type="hidden" name="procedure_execution_id" value={toolbar.procedureExecutionId} />
       <input type="hidden" name="organization_id" value={toolbar.organizationId} />
       <input type="hidden" name="response_set_id" value={toolbar.responseSetId} />
+      {toolbar.updatedAt ? <input type="hidden" name="expected_updated_at" value={toolbar.updatedAt} /> : null}
     </>
   )
 }

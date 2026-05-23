@@ -44,6 +44,7 @@ export type VisitRuntimeToolbarModel = {
   sectionDisabledBy: string | null
   sectionDisabledReason: string | null
   validationStatus: ValidationStatus
+  updatedAt: string | null
   validationAlerts: VisitRuntimeValidationAlert[]
   missingRequiredCount: number
   unresolvedFindingCount: number

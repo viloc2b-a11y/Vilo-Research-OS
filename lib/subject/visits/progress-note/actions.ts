@@ -252,8 +252,9 @@ export async function saveVisitProgressNoteAction(input: {
 export async function signCoordinatorProgressNoteAction(input: {
   visitId: string
   organizationId: string
+  expectedUpdatedAt?: string | null
 }): Promise<VisitCloseoutActionResult> {
-  const { visitId, organizationId } = input
+  const { visitId, organizationId, expectedUpdatedAt } = input
   if (!UUID_RE.test(visitId)) return { ok: false, error: 'Invalid visit id.' }
 
   const access = await assertVisitWrite(visitId, organizationId)
@@ -281,9 +282,13 @@ export async function signCoordinatorProgressNoteAction(input: {
 
   const { data: note } = await supabase
     .from('visit_progress_notes')
-    .select('id, note_text')
+    .select('id, note_text, updated_at')
     .eq('visit_id', visitId)
     .maybeSingle()
+
+  if (expectedUpdatedAt && note?.updated_at !== expectedUpdatedAt) {
+    return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
 
   if (!note?.note_text?.trim()) {
     return { ok: false, error: 'Add a progress note before signing.' }
@@ -328,8 +333,9 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   visitId: string
   organizationId: string
   reopenReason?: string | null
+  expectedUpdatedAt?: string | null
 }): Promise<VisitCloseoutActionResult> {
-  const { visitId, organizationId, reopenReason } = input
+  const { visitId, organizationId, reopenReason, expectedUpdatedAt } = input
   if (!reopenReason?.trim() || reopenReason.trim().length < 3) {
     return { ok: false, error: 'Reopen reason is required (minimum 3 characters).' }
   }
@@ -346,6 +352,17 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   }
 
   const supabase = await createServerClient()
+
+  const { data: note } = await supabase
+    .from('visit_progress_notes')
+    .select('updated_at')
+    .eq('visit_id', visitId)
+    .maybeSingle()
+
+  if (expectedUpdatedAt && note?.updated_at !== expectedUpdatedAt) {
+    return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
+
   const actorName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(
@@ -377,8 +394,9 @@ export async function signInvestigatorReviewAction(input: {
   visitId: string
   organizationId: string
   investigatorRole: InvestigatorRole
+  expectedUpdatedAt?: string | null
 }): Promise<VisitCloseoutActionResult> {
-  const { visitId, organizationId, investigatorRole } = input
+  const { visitId, organizationId, investigatorRole, expectedUpdatedAt } = input
   if (!UUID_RE.test(visitId)) return { ok: false, error: 'Invalid visit id.' }
   if (
     investigatorRole !== 'principal_investigator'
@@ -436,9 +454,13 @@ export async function signInvestigatorReviewAction(input: {
 
   const { data: note } = await supabase
     .from('visit_progress_notes')
-    .select('note_text, coordinator_signature_status')
+    .select('note_text, coordinator_signature_status, updated_at')
     .eq('visit_id', visitId)
     .maybeSingle()
+
+  if (expectedUpdatedAt && note?.updated_at !== expectedUpdatedAt) {
+    return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
 
   const guards = await loadVisitCloseoutGuards(
     visitId,
@@ -481,8 +503,9 @@ export async function reopenInvestigatorReviewAction(input: {
   visitId: string
   organizationId: string
   reopenReason?: string | null
+  expectedUpdatedAt?: string | null
 }): Promise<VisitCloseoutActionResult> {
-  const { visitId, organizationId, reopenReason } = input
+  const { visitId, organizationId, reopenReason, expectedUpdatedAt } = input
   if (!reopenReason?.trim() || reopenReason.trim().length < 3) {
     return { ok: false, error: 'Reopen reason is required (minimum 3 characters).' }
   }
@@ -504,6 +527,17 @@ export async function reopenInvestigatorReviewAction(input: {
   }
 
   const supabase = await createServerClient()
+
+  const { data: note } = await supabase
+    .from('visit_progress_notes')
+    .select('updated_at')
+    .eq('visit_id', visitId)
+    .maybeSingle()
+
+  if (expectedUpdatedAt && note?.updated_at !== expectedUpdatedAt) {
+    return { ok: false, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
+
   const actorName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(

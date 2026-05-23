@@ -147,6 +147,7 @@ export function InvestigatorSignatureCard({
         visitId: model.visitId,
         organizationId: model.organizationId,
         reopenReason: reason,
+        expectedUpdatedAt: model.updatedAt,
       }),
     )
   }
@@ -235,6 +236,7 @@ export function InvestigatorSignatureCard({
                       visitId: model.visitId,
                       organizationId: model.organizationId,
                       investigatorRole: role,
+                      expectedUpdatedAt: model.updatedAt,
                     }),
                   )
                 }

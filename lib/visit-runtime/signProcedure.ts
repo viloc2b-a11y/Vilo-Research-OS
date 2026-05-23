@@ -13,16 +13,22 @@ export async function signProcedure(params: {
   procedureExecutionId: string
   organizationId: string
   actorUserId: string
+  expectedUpdatedAt?: string | null
 }) {
   const { data: proc, error: procError } = await params.supabase
     .from('procedure_executions')
-    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at')
+    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at')
     .eq('id', params.procedureExecutionId)
     .eq('organization_id', params.organizationId)
     .maybeSingle()
 
   if (procError) return { ok: false as const, error: procError.message }
   if (!proc) return { ok: false as const, error: 'Procedure not found.' }
+
+  if (params.expectedUpdatedAt && proc.updated_at !== params.expectedUpdatedAt) {
+    return { ok: false as const, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
+
   if (proc.is_signed) {
     return {
       ok: true as const,

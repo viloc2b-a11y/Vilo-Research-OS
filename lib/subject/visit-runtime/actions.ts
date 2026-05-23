@@ -49,6 +49,7 @@ export async function signProcedureAction(
     procedureExecutionId: ctx.procedure.id,
     organizationId: ctx.procedure.organization_id,
     actorUserId: ctx.user.id,
+    expectedUpdatedAt: clean(formData.get('expected_updated_at')),
   })
   if (!result.ok) return { ok: false, message: result.error }
 

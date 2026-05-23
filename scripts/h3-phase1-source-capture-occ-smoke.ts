@@ -54,19 +54,19 @@ async function liveApiChecks(fixture: Fixture, baseUrl: string) {
     },
   })
   
-  const openBody = openResult.json as any
+  const openBody = openResult.json as { data?: { source_response_set_id?: string } }
   const responseSetId = openBody?.data?.source_response_set_id
   gates.push(gate('open response set', !!responseSetId, responseSetId))
 
   if (!responseSetId) return gates
 
   // Fetch detail to get expected_updated_at
-  let detailResult = await apiFetch(
+  const detailResult = await apiFetch(
     baseUrl,
     `/api/source/response-set/${responseSetId}?organization_id=${fixture.organizationId}`,
     { cookieHeader },
   )
-  let expectedUpdatedAt = (detailResult.json as any)?.data?.response_set?.updated_at
+  const expectedUpdatedAt = (detailResult.json as { data?: { response_set?: { updated_at?: string } } })?.data?.response_set?.updated_at
   gates.push(gate('fetch detail updated_at', !!expectedUpdatedAt, expectedUpdatedAt))
 
   // 2. Fresh Save Succeeds
@@ -98,7 +98,7 @@ async function liveApiChecks(fixture: Fixture, baseUrl: string) {
       ],
     },
   })
-  gates.push(gate('stale save blocks', save2Stale.httpStatus === 400 || (save2Stale.json as any)?.code === 'STALE_WRITE', JSON.stringify(save2Stale.json)))
+  gates.push(gate('stale save blocks', save2Stale.httpStatus === 400 || (save2Stale.json as { code?: string })?.code === 'STALE_WRITE', JSON.stringify(save2Stale.json)))
 
   // 4. Stale Submit Blocks
   // Fetch fresh to submit properly, wait, we want to prove stale submit blocks.
@@ -135,7 +135,7 @@ async function liveApiChecks(fixture: Fixture, baseUrl: string) {
     body: {
       organization_id: fixture.organizationId,
       source_response_set_id: responseSetId,
-      expected_updated_at: (submitOk.json as any)?.data?.response_set_updated_at,
+      expected_updated_at: (submitOk.json as { data?: { response_set_updated_at?: string } })?.data?.response_set_updated_at,
       responses: [
         { source_field_id: fixture.fields.qa_blinded_field.id, value: { value_text: 'save-after-submit' } }
       ],
