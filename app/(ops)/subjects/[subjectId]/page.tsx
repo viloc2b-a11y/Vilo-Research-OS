@@ -41,6 +41,8 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
 import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
+import { OperationalAuditPanel } from '@/components/operations/OperationalAuditPanel'
+import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
 
 type SubjectDetailPageProps = {
   params: Promise<{ subjectId: string; studyId?: string }>
@@ -477,6 +479,25 @@ export default async function SubjectDetailPage({
           {/* Placeholder tabs */}
           {PLACEHOLDER_LABELS.has(activeTab) ? (
             <ComingSoon title={PLACEHOLDER_LABELS.get(activeTab)!} />
+          ) : null}
+
+          {/* Audit Trail Tab */}
+          {activeTab === 'audit' && chartStudyId ? (
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">Audit Trail</h2>
+                <p className="text-sm text-muted-foreground">
+                  Read-only operational event history.
+                </p>
+              </div>
+              <OperationalAuditPanel
+                events={await loadOperationalChronology({
+                  organizationId,
+                  subjectId: subjectId,
+                  limit: 100, // Reasonable limit for chart display
+                })}
+              />
+            </div>
           ) : null}
         </div>
       </div>

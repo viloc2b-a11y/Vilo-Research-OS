@@ -16,6 +16,7 @@ export type OperationalChronologyRow = {
 export async function loadOperationalChronology(input: {
   organizationId: string
   studyId?: string
+  subjectId?: string
   visitId?: string
   procedureExecutionId?: string
   eventTypes?: string[]
@@ -33,6 +34,23 @@ export async function loadOperationalChronology(input: {
   if (input.procedureExecutionId) {
     query = query.eq('procedure_execution_id', input.procedureExecutionId)
   }
+  
+  if (input.subjectId) {
+    // operational_events doesn't have study_subject_id directly, so we map through visits
+    const { data: visits } = await supabase
+      .from('visits')
+      .select('id')
+      .eq('study_subject_id', input.subjectId)
+    
+    if (visits && visits.length > 0) {
+      const visitIds = visits.map((v) => v.id)
+      query = query.in('visit_id', visitIds)
+    } else {
+      // If subject has no visits, they can't have visit-level operational events
+      return []
+    }
+  }
+
   if (input.eventTypes?.length) {
     query = query.in('event_type', input.eventTypes)
   }
