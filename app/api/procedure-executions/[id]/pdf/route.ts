@@ -14,6 +14,20 @@ export async function GET(request: Request, context: RouteContext) {
     return NextResponse.json({ error: ctx.error }, { status: 404 })
   }
 
+  const def = Array.isArray(ctx.procedure.procedure_definitions)
+    ? ctx.procedure.procedure_definitions[0]
+    : ctx.procedure.procedure_definitions
+  const isUnblinded = Boolean(def?.is_unblinded)
+
+  if (isUnblinded) {
+    const { canViewUnblindedData } = await import('@/lib/rbac/permissions')
+    const { getOrganizationMemberships } = await import('@/lib/auth/session')
+    const memberships = await getOrganizationMemberships(ctx.user.id)
+    if (!canViewUnblindedData(memberships, ctx.procedure.organization_id)) {
+      return NextResponse.json({ error: 'Your role cannot export unblinded source records.' }, { status: 403 })
+    }
+  }
+
   const result = await generateProcedurePdf({
     supabase: ctx.supabase,
     procedureExecutionId: ctx.procedure.id,

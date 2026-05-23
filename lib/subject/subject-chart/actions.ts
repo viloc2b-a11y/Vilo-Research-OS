@@ -178,6 +178,11 @@ export async function updateSubjectGeneralAction(
   })
   if (!protocolFields.ok) return { ok: false, message: protocolFields.message }
 
+  const attemptingUnblindedUpdate = Boolean(clean(formData.get('randomization_number')) || clean(formData.get('study_arm')))
+  if (attemptingUnblindedUpdate && !canManageUnblinded) {
+    return { ok: false, message: 'Your role cannot manage unblinded data such as randomization fields.' }
+  }
+
   const { error } = await supabase
     .from('study_subjects')
     .update({

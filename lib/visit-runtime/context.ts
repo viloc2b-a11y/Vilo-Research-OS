@@ -34,7 +34,8 @@ export async function resolveProcedureContext(
       section_disabled_at,
       section_disabled_by,
       section_disabled_reason,
-      validation_status
+      validation_status,
+      procedure_definitions(is_unblinded)
     `)
     .eq('id', procedureExecutionId)
     .eq('organization_id', organizationId)
