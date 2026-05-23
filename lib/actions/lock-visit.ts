@@ -63,6 +63,15 @@ export async function lockVisit(input: {
     })
   }
 
+  // H5 Phase 4: Generate immutable eCRF/PDF snapshots on successful lock
+  if (!idempotent && row.ok) {
+    const { snapshotVisitProcedures } = await import('@/lib/visit-runtime/snapshotVisit')
+    // Dispatch in background so we don't block the UI heavily, or await it if preferred.
+    // The prompt says "generate immutable snapshot artifact on lock workflow".
+    // We await it to ensure it completes before revalidating, giving immediate feedback.
+    await snapshotVisitProcedures(visitId, user.id)
+  }
+
   revalidatePath(visitPath)
   revalidatePath(studyPath)
   revalidatePath(subjectPath)
