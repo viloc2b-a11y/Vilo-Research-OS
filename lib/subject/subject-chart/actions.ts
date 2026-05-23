@@ -86,6 +86,7 @@ export async function updateSubjectGeneralAction(
   const subjectNumber = clean(formData.get('subject_number'))
   const status = clean(formData.get('status'))
   const dateOfBirth = clean(formData.get('date_of_birth'))
+  const expectedUpdatedAt = clean(formData.get('expected_updated_at'))
 
   if (!subjectId || !organizationId) {
     return { ok: false, message: 'Missing subject or organization context.' }
@@ -116,13 +117,17 @@ export async function updateSubjectGeneralAction(
   const supabase = await createServerClient()
   const { data: subject, error: subjectError } = await supabase
     .from('study_subjects')
-    .select('id, organization_id, study_id, enrollment_status')
+    .select('id, organization_id, study_id, enrollment_status, updated_at')
     .eq('id', subjectId)
     .eq('organization_id', organizationId)
     .maybeSingle()
 
   if (subjectError) return { ok: false, message: subjectError.message }
   if (!subject) return { ok: false, message: 'Subject not found in this organization.' }
+
+  if (expectedUpdatedAt && subject.updated_at !== expectedUpdatedAt) {
+    return { ok: false, message: 'This subject has already been enrolled or randomized. Please refresh.' }
+  }
 
   const prevStatus = subject.enrollment_status as string
   if (status === 'randomized' && prevStatus !== 'randomized') {
@@ -252,6 +257,7 @@ export async function recordExternalRandomizationAction(
   const randomizationDateTimeRaw = clean(formData.get('randomization_date_time'))
   const externalReference = clean(formData.get('external_iwrs_rtsm_reference'))
   const randomizationArm = clean(formData.get('randomization_arm'))
+  const expectedUpdatedAt = clean(formData.get('expected_updated_at'))
 
   if (!subjectId || !organizationId) {
     return { ok: false, message: 'Missing subject or organization context.' }
@@ -285,7 +291,7 @@ export async function recordExternalRandomizationAction(
   const { data: subject, error: subjectError } = await supabase
     .from('study_subjects')
     .select(
-      'id, organization_id, study_id, enrollment_status, randomization_number, randomization_date_time, randomization_arm, external_iwrs_rtsm_reference, schedule_anchor_date',
+      'id, organization_id, study_id, enrollment_status, randomization_number, randomization_date_time, randomization_arm, external_iwrs_rtsm_reference, schedule_anchor_date, updated_at',
     )
     .eq('id', subjectId)
     .eq('organization_id', organizationId)
@@ -293,6 +299,11 @@ export async function recordExternalRandomizationAction(
 
   if (subjectError) return { ok: false, message: subjectError.message }
   if (!subject) return { ok: false, message: 'Subject not found in this organization.' }
+
+  if (expectedUpdatedAt && subject.updated_at !== expectedUpdatedAt) {
+    return { ok: false, message: 'This subject has already been enrolled or randomized. Please refresh.' }
+  }
+
   if (subject.enrollment_status === 'randomized' || subject.randomization_number || subject.randomization_date_time) {
     return {
       ok: false,

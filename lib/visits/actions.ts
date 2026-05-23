@@ -143,8 +143,9 @@ export async function generateSubjectVisitScheduleAction(input: {
   studySubjectId: string
   organizationId: string
   anchorDate?: string | null
+  expectedUpdatedAt?: string | null
 }): Promise<SubjectVisitsActionResult & { createdCount?: number }> {
-  const { studySubjectId, organizationId, anchorDate } = input
+  const { studySubjectId, organizationId, anchorDate, expectedUpdatedAt } = input
   if (!UUID_RE.test(studySubjectId)) {
     return { ok: false, error: 'Invalid subject id.' }
   }
@@ -163,12 +164,16 @@ export async function generateSubjectVisitScheduleAction(input: {
   const supabase = await createServerClient()
   const { data: subject } = await supabase
     .from('study_subjects')
-    .select('id, study_id')
+    .select('id, study_id, updated_at')
     .eq('id', studySubjectId)
     .eq('organization_id', organizationId)
     .maybeSingle()
 
   if (!subject) return { ok: false, error: 'Subject not found.' }
+
+  if (expectedUpdatedAt && subject.updated_at !== expectedUpdatedAt) {
+    return { ok: false, error: 'This subject has already been enrolled or randomized. Please refresh.' }
+  }
 
   const result = await generateSubjectVisitSchedule({
     supabase,

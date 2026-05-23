@@ -296,6 +296,7 @@ export default async function SubjectDetailPage({
       initials: (subject.initials as string | null) ?? null,
       gender: (subject.gender as string | null) ?? null,
       dateOfBirth: (subject.date_of_birth as string | null) ?? null,
+      updatedAt: subject.updated_at as string,
     },
     canViewUnblinded,
   )

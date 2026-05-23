@@ -31,6 +31,7 @@ export type SubjectGeneralModel = {
   initials: string | null
   gender: string | null
   dateOfBirth: string | null
+  updatedAt: string
 }
 
 const statuses = [
@@ -69,6 +70,7 @@ export function SubjectGeneralForm({
     <form action={action} className="space-y-5">
       <input type="hidden" name="subject_id" value={subject.id} />
       <input type="hidden" name="organization_id" value={subject.organizationId} />
+      <input type="hidden" name="expected_updated_at" value={subject.updatedAt} />
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-1">
@@ -163,6 +165,7 @@ export function SubjectGeneralForm({
       <form action={randomizationAction} className="space-y-4 rounded-md border p-4">
         <input type="hidden" name="subject_id" value={subject.id} />
         <input type="hidden" name="organization_id" value={subject.organizationId} />
+        <input type="hidden" name="expected_updated_at" value={subject.updatedAt} />
         <div>
           <p className="text-sm font-medium">Record External Randomization</p>
           <p className="text-xs text-muted-foreground">
