@@ -17,7 +17,7 @@ export async function signProcedure(params: {
 }) {
   const { data: proc, error: procError } = await params.supabase
     .from('procedure_executions')
-    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at')
+    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at, visits!inner(visit_status)')
     .eq('id', params.procedureExecutionId)
     .eq('organization_id', params.organizationId)
     .maybeSingle()
@@ -27,6 +27,12 @@ export async function signProcedure(params: {
 
   if (params.expectedUpdatedAt && proc.updated_at !== params.expectedUpdatedAt) {
     return { ok: false as const, error: 'This visit or source was updated elsewhere. Please refresh before signing.' }
+  }
+
+  // @ts-expect-error - PostgREST response shape is slightly tricky with inner joins
+  const visitStatus = proc.visits?.visit_status as string | undefined
+  if (visitStatus && ['locked', 'completed', 'cancelled', 'no_show'].includes(visitStatus)) {
+    return { ok: false as const, error: `Cannot sign procedure: visit is ${visitStatus}.` }
   }
 
   if (proc.is_signed) {
