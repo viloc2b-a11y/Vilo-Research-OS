@@ -18,6 +18,7 @@ import {
   canManageUsers,
   canPerformOwnershipCriticalActions,
   hasSiteAdminAccess,
+  canManageUnblindedData,
 } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -71,6 +72,7 @@ async function requireAdminActor(organizationId: string) {
     memberships,
     actorIsOwner: canPerformOwnershipCriticalActions(memberships, organizationId),
     actorIsAdmin: canManageUsers(memberships, organizationId),
+    actorCanManageUnblinded: canManageUnblindedData(memberships, organizationId),
   }
 }
 
@@ -187,15 +189,18 @@ export async function updateOrganizationMemberRoles(
     const loaded = await loadMemberRows(organizationId)
     if (!loaded.ok) return { ok: false, message: loaded.message }
 
+    const targetRoles = rolesFromMembershipRow({
+      role: target.role as string,
+      roles: target.roles as string[] | null,
+    })
+
     const validation = validateRoleChange({
       actorUserId: actor.user.id,
       actorIsOwner: actor.actorIsOwner,
       actorIsAdmin: actor.actorIsAdmin,
+      actorCanManageUnblinded: actor.actorCanManageUnblinded,
       targetUserId: target.user_id as string,
-      targetCurrentRoles: rolesFromMembershipRow({
-        role: target.role as string,
-        roles: target.roles as string[] | null,
-      }),
+      targetCurrentRoles: targetRoles,
       requestedRoles: roleValues,
       allMembers: loaded.members.map((m) => ({ userId: m.userId, roles: m.roles })),
     })
@@ -232,7 +237,8 @@ export async function updateOrganizationMemberRoles(
       target: `organization_members:${memberId}`,
       metadata: {
         target_user_id: target.user_id,
-        roles,
+        previous_roles: targetRoles,
+        new_roles: roles,
         primary_role: primaryRole,
         membership_status: normalizeMembershipStatus(
           (target as { status?: string }).status,
@@ -328,8 +334,11 @@ export async function deactivateOrganizationMember(
       target: `organization_members:${memberId}`,
       metadata: {
         target_user_id: target.user_id,
-        roles: targetRoles,
-        deactivation_reason: reason,
+        previous_roles: targetRoles,
+        new_roles: targetRoles,
+        previous_status: targetStatus,
+        new_status: 'deactivated',
+        mutation_reason: reason,
       },
     })
 
@@ -415,7 +424,13 @@ export async function reactivateOrganizationMember(
       actorUserId: actor.user.id,
       action: 'organization_member.reactivated',
       target: `organization_members:${memberId}`,
-      metadata: { target_user_id: target.user_id, roles: targetRoles },
+      metadata: {
+        target_user_id: target.user_id,
+        previous_roles: targetRoles,
+        new_roles: targetRoles,
+        previous_status: targetStatus,
+        new_status: 'active'
+      },
     })
 
     revalidateAdminUsers()
@@ -475,6 +490,7 @@ export async function addOrganizationMemberByEmail(
       actorUserId: actor.user.id,
       actorIsOwner: actor.actorIsOwner,
       actorIsAdmin: actor.actorIsAdmin,
+      actorCanManageUnblinded: actor.actorCanManageUnblinded,
       targetUserId: authUser.id,
       targetCurrentRoles: [],
       requestedRoles: [initialRole],
@@ -550,7 +566,7 @@ export async function addOrganizationMemberByEmail(
       actorUserId: actor.user.id,
       action: 'organization_member.added',
       target: `auth.users:${authUser.id}`,
-      metadata: { email: authUser.email, roles, primary_role: primaryRole },
+      metadata: { email: authUser.email, previous_roles: [], new_roles: roles, primary_role: primaryRole },
     })
 
     revalidateAdminUsers()

@@ -26,16 +26,29 @@ assert('research + data', validateRoleChange({
   actorUserId: adminId,
   actorIsOwner: false,
   actorIsAdmin: true,
+  actorCanManageUnblinded: false,
   targetUserId: targetId,
   targetCurrentRoles: ['research_coordinator'],
   requestedRoles: ['research_coordinator', 'data_coordinator'],
   allMembers: members.map((m) => ({ userId: m.userId, roles: [...m.roles] })),
 }))
 
-assert('unblinded + data', validateRoleChange({
+assertBlocked('admin without unblinded cannot assign unblinded', validateRoleChange({
   actorUserId: adminId,
   actorIsOwner: false,
   actorIsAdmin: true,
+  actorCanManageUnblinded: false,
+  targetUserId: targetId,
+  targetCurrentRoles: ['research_coordinator'],
+  requestedRoles: ['unblinded_coordinator', 'data_coordinator'],
+  allMembers: members.map((m) => ({ userId: m.userId, roles: [...m.roles] })),
+}))
+
+assert('admin with unblinded can assign unblinded', validateRoleChange({
+  actorUserId: adminId,
+  actorIsOwner: false,
+  actorIsAdmin: true,
+  actorCanManageUnblinded: true,
   targetUserId: targetId,
   targetCurrentRoles: ['research_coordinator'],
   requestedRoles: ['unblinded_coordinator', 'data_coordinator'],
@@ -46,6 +59,7 @@ assertBlocked('admin cannot assign owner', validateRoleChange({
   actorUserId: adminId,
   actorIsOwner: false,
   actorIsAdmin: true,
+  actorCanManageUnblinded: false,
   targetUserId: targetId,
   targetCurrentRoles: ['research_coordinator'],
   requestedRoles: ['owner', 'admin'],

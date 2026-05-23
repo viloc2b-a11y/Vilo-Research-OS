@@ -6,6 +6,7 @@ import {
 import {
   CANONICAL_ORGANIZATION_ROLES,
   normalizeOrganizationRole,
+  isUnblindedRole,
   type OrganizationRole,
 } from '@/lib/rbac/roles'
 
@@ -13,6 +14,7 @@ export type RoleChangeContext = {
   actorUserId: string
   actorIsOwner: boolean
   actorIsAdmin: boolean
+  actorCanManageUnblinded: boolean
   targetUserId: string
   targetCurrentRoles: OrganizationRole[]
   requestedRoles: string[]
@@ -47,6 +49,22 @@ export function validateRoleChange(ctx: RoleChangeContext): RoleChangeResult {
 
   if (!ctx.actorIsAdmin) {
     return { ok: false, message: 'Admin access required.' }
+  }
+
+  // Self-promotion guard
+  if (actorIsTarget) {
+    const addingNewRoles = roles.some((r) => !ctx.targetCurrentRoles.includes(r))
+    if (addingNewRoles) {
+      return { ok: false, message: 'You cannot promote or assign yourself new roles.' }
+    }
+  }
+
+  // Unblinded role escalation guard
+  const includesUnblinded = roles.some(isUnblindedRole)
+  const targetHadUnblinded = ctx.targetCurrentRoles.some(isUnblindedRole)
+
+  if ((includesUnblinded || targetHadUnblinded) && !ctx.actorCanManageUnblinded) {
+    return { ok: false, message: 'Only unblinded managers or owners can assign or edit unblinded roles.' }
   }
 
   if (includesOwner && !ctx.actorIsOwner) {
