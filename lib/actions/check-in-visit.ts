@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
 import type { VisitLifecycleResult, VisitLifecycleRpcPayload } from '@/lib/actions/visit-lifecycle.types'
+import { mapRuntimeDbErrorToCoordinatorMessage } from '@/lib/concurrency/db-errors'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -85,7 +86,7 @@ export async function checkInVisit(input: {
         .eq('visit_status', 'scheduled')
         .select('id')
         .maybeSingle()
-      if (fallbackErr) return { ok: false, message: fallbackErr.message }
+      if (fallbackErr) return { ok: false, message: mapRuntimeDbErrorToCoordinatorMessage(fallbackErr, fallbackErr.message) }
       if (!fallbackRow) {
         return {
           ok: false,
@@ -93,7 +94,7 @@ export async function checkInVisit(input: {
         }
       }
     } else {
-      return { ok: false, message: updateErr.message }
+      return { ok: false, message: mapRuntimeDbErrorToCoordinatorMessage(updateErr, updateErr.message) }
     }
   } else if (!updated) {
     return {

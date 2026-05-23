@@ -21,6 +21,7 @@ import {
   canViewUnblindedData,
 } from '@/lib/rbac/permissions'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { mapRuntimeDbErrorToCoordinatorMessage } from '@/lib/concurrency/db-errors'
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -73,7 +74,7 @@ async function assertVisitWrite(
     .eq('organization_id', organizationId)
     .maybeSingle()
 
-  if (error) return { ok: false, error: error.message }
+  if (error) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(error, error.message) }
   if (!visit) return { ok: false, error: 'Visit not found.' }
 
   return {
@@ -227,13 +228,13 @@ export async function saveVisitProgressNoteAction(input: {
       .from('visit_progress_notes')
       .update(payload)
       .eq('id', existing.id)
-    if (error) return { ok: false, error: error.message }
+    if (error) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(error, error.message) }
   } else {
     const { error } = await supabase.from('visit_progress_notes').insert({
       ...payload,
       created_by: user.id,
     })
-    if (error) return { ok: false, error: error.message }
+    if (error) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(error, error.message) }
   }
 
   const actorName = await resolveSignerName(user.id)
@@ -315,13 +316,13 @@ export async function signCoordinatorProgressNoteAction(input: {
     },
   )
 
-  if (rpcError) return { ok: false, error: rpcError.message }
+  if (rpcError) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpcError, rpcError.message) }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
     const err = rpc?.error ?? 'Coordinator sign-off failed.'
     return {
       ok: false,
-      error: /refresh|changed|blocking|submitted/i.test(err) ? `${err} ${STALE_WRITE_USER_MESSAGE}` : err,
+      error: /refresh|changed|blocking|submitted/i.test(err) ? `${err} ${STALE_WRITE_USER_MESSAGE}` : mapRuntimeDbErrorToCoordinatorMessage(err, err),
     }
   }
 
@@ -385,19 +386,14 @@ export async function reopenCoordinatorProgressNoteAction(input: {
     },
   )
 
-  if (rpcError) {
-    if (rpcError.message.includes('terminal and cannot be changed')) {
-      return { ok: false, error: 'Cannot reopen: the visit is in a terminal locked state.' }
-    }
-    return { ok: false, error: rpcError.message }
-  }
+  if (rpcError) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpcError, rpcError.message) }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
     return {
       ok: false,
       error: rpc?.error?.includes('refresh')
         ? STALE_WRITE_USER_MESSAGE
-        : (rpc?.error ?? 'Could not reopen coordinator sign-off.'),
+        : mapRuntimeDbErrorToCoordinatorMessage(rpc?.error, 'Could not reopen coordinator sign-off.'),
     }
   }
 
@@ -499,10 +495,10 @@ export async function signInvestigatorReviewAction(input: {
     },
   )
 
-  if (rpcError) return { ok: false, error: rpcError.message }
+  if (rpcError) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpcError, rpcError.message) }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
-    return { ok: false, error: rpc?.error ?? 'Investigator sign-off failed.' }
+    return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpc?.error, 'Investigator sign-off failed.') }
   }
 
   const coupling = await applyVisitCompletionCoupling(visitId, organizationId)
@@ -575,19 +571,14 @@ export async function reopenInvestigatorReviewAction(input: {
     },
   )
 
-  if (rpcError) {
-    if (rpcError.message.includes('terminal and cannot be changed')) {
-      return { ok: false, error: 'Cannot reopen: the visit is in a terminal locked state.' }
-    }
-    return { ok: false, error: rpcError.message }
-  }
+  if (rpcError) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpcError, rpcError.message) }
   const rpc = rpcResult as { ok?: boolean; error?: string | null } | null
   if (!rpc?.ok) {
     return {
       ok: false,
       error: rpc?.error?.includes('refresh') || rpc?.error?.includes('reason')
         ? (rpc.error ?? STALE_WRITE_USER_MESSAGE)
-        : (rpc?.error ?? 'Could not reopen investigator sign-off.'),
+        : mapRuntimeDbErrorToCoordinatorMessage(rpc?.error, 'Could not reopen investigator sign-off.'),
     }
   }
 
