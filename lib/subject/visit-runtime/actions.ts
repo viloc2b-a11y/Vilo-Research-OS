@@ -10,7 +10,7 @@ import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEve
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { VisitRuntimeActionState } from '@/lib/subject/visit-runtime/types'
 import { getOrganizationMemberships } from '@/lib/auth/session'
-import { canSignClinicalSource, canViewUnblindedData } from '@/lib/rbac/permissions'
+import { canEditClinicalSource, canViewUnblindedData } from '@/lib/rbac/permissions'
 import { responseSetHasUnblindedSourceFields } from '@/lib/source/blinding'
 
 function clean(value: FormDataEntryValue | null) {
@@ -29,7 +29,7 @@ export async function signProcedureAction(
   if (!ctx.ok) return { ok: false, message: ctx.error }
 
   const memberships = await getOrganizationMemberships(ctx.user.id)
-  if (!canSignClinicalSource(memberships, ctx.procedure.organization_id)) {
+  if (!canEditClinicalSource(memberships, ctx.procedure.organization_id)) {
     return { ok: false, message: 'You do not have permission to sign clinical source.' }
   }
 

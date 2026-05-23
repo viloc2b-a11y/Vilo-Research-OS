@@ -15,9 +15,30 @@ import type {
 import { createServerClient } from '@/lib/supabase/server'
 import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
 import { validateVisitProcedures } from '@/lib/visit-runtime/validateVisitProcedures'
-import { canSignClinicalSourceForRole } from '@/lib/rbac/permissions'
+import {
+  canSignClinicalSourceForRole,
+  canEditClinicalSource,
+  canViewUnblindedData,
+} from '@/lib/rbac/permissions'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
+
+async function visitHasUnblindedProcedures(
+  supabase: SupabaseClient,
+  visitId: string,
+  organizationId: string
+): Promise<boolean> {
+  const { data } = await supabase
+    .from('procedure_executions')
+    .select('id, procedure_definitions!inner(is_unblinded)')
+    .eq('visit_id', visitId)
+    .eq('organization_id', organizationId)
+    .eq('procedure_definitions.is_unblinded', true)
+    .limit(1)
+
+  return Boolean(data && data.length > 0)
+}
 
 async function resolveSignerName(userId: string) {
   const supabase = await createServerClient()
@@ -164,6 +185,11 @@ export async function saveVisitProgressNoteAction(input: {
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
 
+  const memberships = await getOrganizationMemberships(user.id)
+  if (!canEditClinicalSource(memberships, organizationId)) {
+    return { ok: false, error: 'You do not have permission to edit clinical source.' }
+  }
+
   const supabase = await createServerClient()
 
   const { data: existing } = await supabase
@@ -236,7 +262,18 @@ export async function signCoordinatorProgressNoteAction(input: {
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
 
+  const memberships = await getOrganizationMemberships(user.id)
+  if (!canEditClinicalSource(memberships, organizationId)) {
+    return { ok: false, error: 'You do not have permission to sign clinical source.' }
+  }
+
   const supabase = await createServerClient()
+
+  const hasUnblindedProcedures = await visitHasUnblindedProcedures(supabase, visitId, organizationId)
+  if (hasUnblindedProcedures && !canViewUnblindedData(memberships, organizationId)) {
+    return { ok: false, error: 'This visit includes unblinded source material and requires unblinded access to sign.' }
+  }
+
   const runtimeValidation = await validateVisitProcedures({ supabase, visitId, organizationId })
   if (!runtimeValidation.ok) {
     return { ok: false, error: runtimeValidation.error }
@@ -303,6 +340,11 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
 
+  const memberships = await getOrganizationMemberships(user.id)
+  if (!canEditClinicalSource(memberships, organizationId)) {
+    return { ok: false, error: 'You do not have permission to edit clinical source.' }
+  }
+
   const supabase = await createServerClient()
   const actorName = await resolveSignerName(user.id)
 
@@ -368,6 +410,12 @@ export async function signInvestigatorReviewAction(input: {
   }
 
   const supabase = await createServerClient()
+
+  const hasUnblindedProcedures = await visitHasUnblindedProcedures(supabase, visitId, organizationId)
+  if (hasUnblindedProcedures && !canViewUnblindedData(memberships, organizationId)) {
+    return { ok: false, error: 'This visit includes unblinded source material and requires unblinded access to sign.' }
+  }
+
   const runtimeValidation = await validateVisitProcedures({ supabase, visitId, organizationId })
   if (!runtimeValidation.ok) {
     return { ok: false, error: runtimeValidation.error }
@@ -444,6 +492,16 @@ export async function reopenInvestigatorReviewAction(input: {
 
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
+
+  const memberships = await getOrganizationMemberships(user.id)
+  const orgMembership = memberships.find((m) => m.organization_id === organizationId)
+  const allRoles = orgMembership
+    ? [orgMembership.role, ...orgMembership.roles].filter(Boolean)
+    : []
+  const hasInvestigatorRole = allRoles.some((r) => canSignClinicalSourceForRole(r))
+  if (!hasInvestigatorRole) {
+    return { ok: false, error: 'Reopening investigator review requires the pi_sub_i, admin, or owner site role.' }
+  }
 
   const supabase = await createServerClient()
   const actorName = await resolveSignerName(user.id)
