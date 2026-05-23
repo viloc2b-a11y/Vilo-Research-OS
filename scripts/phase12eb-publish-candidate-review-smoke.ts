@@ -19,6 +19,7 @@ import {
   publishCandidateApprovalPath,
   publishCandidateDir,
   publishCandidatePath,
+  sourcePublishSnapshotDir,
 } from '@/lib/protocol-intake-publish-prep/paths'
 import { runPublishPreflight } from '@/lib/protocol-intake-publish-prep/preflight'
 import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
@@ -127,8 +128,8 @@ function main() {
     packages.find((p) => p.draft_key.includes('para'))?.draft_key ?? packages[0]?.draft_key
   if (!draftKey) process.exit(1)
 
-  const candidateDir = publishCandidateDir(draftKey, root)
-  removeDirIfExists(candidateDir)
+  removeDirIfExists(publishCandidateDir(draftKey, root))
+  removeDirIfExists(sourcePublishSnapshotDir(draftKey, root))
   const noCandidate = resolvePublishPrepStatus(draftKey, root)
   gates.push(
     gate(
@@ -175,7 +176,11 @@ function main() {
   const approval = loadPublishCandidateApproval(draftKey, root)
   const approvedStatus = resolvePublishPrepStatus(draftKey, root)
   gates.push(
-    gate('status candidate_approved', approvedStatus.status === 'candidate_approved'),
+    gate(
+      'status ready after approval',
+      approvedStatus.status === 'snapshot_ready'
+      || approvedStatus.status === 'candidate_approved',
+    ),
     gate('approval publish_ready false', approval?.publish_ready === false),
     gate('approval runtime_activation false', approval?.runtime_activation === false),
     gate('approval does not auto_publish', approval?.safety.auto_publish === false),

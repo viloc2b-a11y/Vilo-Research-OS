@@ -12,6 +12,7 @@ import {
   payloadToDraftParts,
   validateDraftPayload,
 } from '@/lib/source-builder/draft-payload'
+import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import type { SourceBuilderDraft } from '@/lib/source-builder/types'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -52,6 +53,9 @@ async function resolveOrgContext(organizationId?: string) {
   const memberships = await getOrganizationMemberships(user.id)
   if (!canAccessOrganization(memberships, orgId)) {
     return { ok: false as const, error: 'You are not a member of this organization.' }
+  }
+  if (!canManageSourceBuilder(memberships, orgId)) {
+    return { ok: false as const, error: 'Your role cannot manage source builder drafts.' }
   }
 
   const supabase = await createServerClient()

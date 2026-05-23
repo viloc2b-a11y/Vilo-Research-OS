@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { createServerClient } from '@/lib/supabase/server'
+import { canPublishSource } from '@/lib/rbac/permissions'
 
 function formText(formData: FormData, key: string): string {
   const value = formData.get(key)
@@ -127,6 +128,9 @@ export async function publishSourcePackageFromArtifacts(formData: FormData): Pro
   const access = await requireActiveOrganizationAccess(organizationId)
   if (!access.ok) {
     redirectPublishResult(studyId, 'error', access.message)
+  }
+  if (!canPublishSource(access.memberships, organizationId)) {
+    redirectPublishResult(studyId, 'error', 'Your role cannot publish source packages.')
   }
 
   const publishPackage = publishPackageResult.value

@@ -10,20 +10,18 @@ import { buildApprovedDraft, writeApprovedArtifacts } from '@/lib/protocol-intak
 import type { ReviewSectionId, ReviewerStatus } from '@/lib/protocol-intake-review/types'
 import { loadWorkspace, saveWorkspace } from '@/lib/protocol-intake-review/workspace'
 import {
-  canManageSourceDocuments,
-  canPrepareSourceDrafts,
+  canManageSourceBuilder,
 } from '@/lib/rbac/permissions'
 
 async function requireReviewer() {
   const user = await getSessionUser()
-  if (!user) throw new Error('Sign in required')
+  if (!user) return { ok: false as const, error: 'Sign in required' }
   const organizationId = await getPrimaryOrganizationId(user.id)
   const memberships = await getOrganizationMemberships(user.id)
-  const canReview =
-    canPrepareSourceDrafts(memberships, organizationId ?? undefined)
-    || canManageSourceDocuments(memberships, organizationId ?? undefined)
-  if (!canReview) throw new Error('Your role cannot review protocol intake drafts')
-  return user
+  if (!canManageSourceBuilder(memberships, organizationId ?? undefined)) {
+    return { ok: false as const, error: 'Your role cannot review protocol intake drafts' }
+  }
+  return { ok: true as const, user }
 }
 
 function touch(ws: ReturnType<typeof loadWorkspace>) {
@@ -39,25 +37,28 @@ export async function updateReviewItemAction(input: {
   edited_value?: unknown
   edit_reason?: string
 }) {
-  const user = await requireReviewer()
+  const auth = await requireReviewer()
+  if (!auth.ok) return auth
+  const user = auth.user
+
   const pkg = loadIntakePackage(input.draft_key)
-  if (!pkg) throw new Error('Draft package not found')
+  if (!pkg) return { ok: false, error: 'Draft package not found' }
   const ws = loadWorkspace(pkg)
   const item = pkg.items.find((i) => i.item_id === input.item_id)
   const state = ws.items[input.item_id]
-  if (!item || !state) throw new Error('Item not found')
+  if (!item || !state) return { ok: false, error: 'Item not found' }
 
   if (input.reviewer_status) state.reviewer_status = input.reviewer_status
   if (input.evidence_insufficient !== undefined) state.evidence_insufficient = input.evidence_insufficient
 
   if (input.field_key !== undefined && input.edited_value !== undefined) {
     const field = item.fields.find((f) => f.field_key === input.field_key)
-    if (!field) throw new Error('Field not found')
+    if (!field) return { ok: false, error: 'Field not found' }
     const original = field.original_extracted_value
     const changed =
       JSON.stringify(original) !== JSON.stringify(input.edited_value)
     if (changed && !input.edit_reason?.trim()) {
-      throw new Error('Edit reason is required when changing extracted content')
+      return { ok: false, error: 'Edit reason is required when changing extracted content' }
     }
     state.field_overrides[input.field_key] = input.edited_value
     if (changed) {
@@ -87,9 +88,11 @@ export async function acceptHighConfidenceInSectionAction(input: {
   draft_key: string
   section: ReviewSectionId
 }) {
-  await requireReviewer()
+  const auth = await requireReviewer()
+  if (!auth.ok) return auth
+
   const pkg = loadIntakePackage(input.draft_key)
-  if (!pkg) throw new Error('Draft package not found')
+  if (!pkg) return { ok: false, error: 'Draft package not found' }
   const ws = loadWorkspace(pkg)
   for (const item of pkg.items.filter((i) => i.section === input.section)) {
     const high = item.fields.every(
@@ -111,9 +114,12 @@ export async function approveSectionAction(input: {
   draft_key: string
   section: ReviewSectionId
 }) {
-  const user = await requireReviewer()
+  const auth = await requireReviewer()
+  if (!auth.ok) return auth
+  const user = auth.user
+
   const pkg = loadIntakePackage(input.draft_key)
-  if (!pkg) throw new Error('Draft package not found')
+  if (!pkg) return { ok: false, error: 'Draft package not found' }
   const ws = loadWorkspace(pkg)
 
   const sectionItems = pkg.items.filter(
@@ -123,7 +129,7 @@ export async function approveSectionAction(input: {
     const state = ws.items[item.item_id]
     if (!state) continue
     if (state.reviewer_status === 'pending' || state.reviewer_status === 'needs_clarification') {
-      throw new Error(`Item "${item.title}" needs a reviewer decision before section approval`)
+      return { ok: false, error: `Item "${item.title}" needs a reviewer decision before section approval` }
     }
   }
 
@@ -139,9 +145,12 @@ export async function approveSectionAction(input: {
 }
 
 export async function generateApprovedDraftAction(draft_key: string) {
-  const user = await requireReviewer()
+  const auth = await requireReviewer()
+  if (!auth.ok) return auth
+  const user = auth.user
+
   const pkg = loadIntakePackage(draft_key)
-  if (!pkg) throw new Error('Draft package not found')
+  if (!pkg) return { ok: false, error: 'Draft package not found' }
   const ws = loadWorkspace(pkg)
 
   const operationalSections: ReviewSectionId[] = [
@@ -153,7 +162,7 @@ export async function generateApprovedDraftAction(draft_key: string) {
   ]
   for (const section of operationalSections) {
     if (ws.sections[section]?.section_status !== 'approved') {
-      throw new Error(`Section "${section}" must be approved before generating approved draft`)
+      return { ok: false, error: `Section "${section}" must be approved before generating approved draft` }
     }
   }
 
@@ -166,7 +175,7 @@ export async function generateApprovedDraftAction(draft_key: string) {
       .map((i) => i.item_id),
   )
   if (pending.some((p) => operationalIds.has(p.item_id))) {
-    throw new Error('All operational items need accepted, edited, or rejected status')
+    return { ok: false, error: 'All operational items need accepted, edited, or rejected status' }
   }
 
   const approved = buildApprovedDraft(pkg, ws, user.id)

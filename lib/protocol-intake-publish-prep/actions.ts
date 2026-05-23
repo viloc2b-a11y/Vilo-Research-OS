@@ -26,34 +26,45 @@ import type {
   SourcePackageSnapshotAuditEvent,
 } from '@/lib/protocol-intake-publish-prep/types'
 import {
-  canManageSourceDocuments,
-  canPrepareSourceDrafts,
+  canManageSourceBuilder,
+  canPublishSource,
 } from '@/lib/rbac/permissions'
 
 async function requirePublishPrepActor() {
   const user = await getSessionUser()
-  if (!user) throw new Error('Sign in required')
+  if (!user) return { ok: false as const, error: 'Sign in required' }
   const organizationId = await getPrimaryOrganizationId(user.id)
   const memberships = await getOrganizationMemberships(user.id)
-  const canAct =
-    canPrepareSourceDrafts(memberships, organizationId ?? undefined)
-    || canManageSourceDocuments(memberships, organizationId ?? undefined)
-  if (!canAct) throw new Error('Your role cannot prepare publish candidates')
-  return user
+  if (!canManageSourceBuilder(memberships, organizationId ?? undefined)) {
+    return { ok: false as const, error: 'Your role cannot prepare publish candidates' }
+  }
+  return { ok: true as const, user }
+}
+
+async function requirePublishAuthority() {
+  const user = await getSessionUser()
+  if (!user) return { ok: false as const, error: 'Sign in required' }
+  const organizationId = await getPrimaryOrganizationId(user.id)
+  const memberships = await getOrganizationMemberships(user.id)
+  if (!canPublishSource(memberships, organizationId ?? undefined)) {
+    return { ok: false as const, error: 'Your role cannot approve publish candidates or create snapshots' }
+  }
+  return { ok: true as const, user }
 }
 
 export async function createPublishCandidateAction(draftKey: string) {
-  const user = await requirePublishPrepActor()
+  const auth = await requirePublishPrepActor()
+  if (!auth.ok) return auth
+  const user = auth.user
+
   const handoff = loadApprovedIntakeDraft(draftKey)
   if (!handoff) {
-    throw new Error('Approved intake draft not found. Complete 12D review first.')
+    return { ok: false as const, error: 'Approved intake draft not found. Complete 12D review first.' }
   }
 
   const preflight = runPublishPreflight(handoff)
   if (!preflight.passed) {
-    throw new Error(
-      `Preflight blocked publish candidate: ${preflight.blockers.join('; ')}`,
-    )
+    return { ok: false as const, error: `Preflight blocked publish candidate: ${preflight.blockers.join('; ')}` }
   }
 
   const candidate = buildPublishCandidate(handoff, preflight, user.id)
@@ -73,26 +84,27 @@ export async function approvePublishCandidateAction(input: {
   draft_key: string
   approval_reason: string
 }) {
-  const user = await requirePublishPrepActor()
+  const auth = await requirePublishAuthority()
+  if (!auth.ok) return auth
+  const user = auth.user
+
   const reason = input.approval_reason?.trim()
   if (!reason) {
-    throw new Error('Approval reason is required')
+    return { ok: false as const, error: 'Approval reason is required' }
   }
 
   const candidate = loadPublishCandidate(input.draft_key)
   if (!candidate) {
-    throw new Error('Publish candidate not found. Create a publish candidate first.')
+    return { ok: false as const, error: 'Publish candidate not found. Create a publish candidate first.' }
   }
 
   if (loadPublishCandidateApproval(input.draft_key)) {
-    throw new Error('Publish candidate is already approved')
+    return { ok: false as const, error: 'Publish candidate is already approved' }
   }
 
   const finalReview = runFinalReviewChecks(candidate)
   if (!finalReview.passed) {
-    throw new Error(
-      `Final review blocked approval: ${finalReview.blockers.join('; ')}`,
-    )
+    return { ok: false as const, error: `Final review blocked approval: ${finalReview.blockers.join('; ')}` }
   }
 
   const approval = buildPublishCandidateApproval(
@@ -115,31 +127,31 @@ export async function approvePublishCandidateAction(input: {
 }
 
 export async function createSourcePackageSnapshotAction(draftKey: string) {
-  const user = await requirePublishPrepActor()
+  const auth = await requirePublishAuthority()
+  if (!auth.ok) return auth
+  const user = auth.user
 
   const candidate = loadPublishCandidate(draftKey)
   if (!candidate) {
-    throw new Error('Publish candidate not found. Create and approve a candidate first.')
+    return { ok: false as const, error: 'Publish candidate not found. Create and approve a candidate first.' }
   }
 
   const approval = loadPublishCandidateApproval(draftKey)
   if (!approval) {
-    throw new Error('Publish candidate approval not found. Approve the candidate first.')
+    return { ok: false as const, error: 'Publish candidate approval not found. Approve the candidate first.' }
   }
 
   if (!approval.approval_reason?.trim()) {
-    throw new Error('Approval reason is required before creating a snapshot')
+    return { ok: false as const, error: 'Approval reason is required before creating a snapshot' }
   }
 
   if (loadSourcePackageSnapshot(draftKey)) {
-    throw new Error('Source package snapshot already exists for this draft')
+    return { ok: false as const, error: 'Source package snapshot already exists for this draft' }
   }
 
   const readiness = runSnapshotReadiness(draftKey, candidate, approval)
   if (!readiness.passed) {
-    throw new Error(
-      `Snapshot readiness blocked: ${readiness.blockers.join('; ')}`,
-    )
+    return { ok: false as const, error: `Snapshot readiness blocked: ${readiness.blockers.join('; ')}` }
   }
 
   const snapshot = buildSourcePackageSnapshot(candidate, approval, user.id)

@@ -57,6 +57,47 @@ export function canPerformOwnershipCriticalActions(
 // Studies, templates, coordinator workspace
 // ---------------------------------------------------------------------------
 
+export function canManageSourceBuilderForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'data_coordinator'
+  )
+}
+
+export function canManageSourceBuilder(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManageSourceBuilderForRole(role),
+    organizationId,
+  )
+}
+
+export function canPublishSourceForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+  )
+}
+
+export function canPublishSource(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canPublishSourceForRole(role),
+    organizationId,
+  )
+}
+
 export function canManageStudiesForRole(role: string): boolean {
   return isOrganizationAdmin(role)
 }
