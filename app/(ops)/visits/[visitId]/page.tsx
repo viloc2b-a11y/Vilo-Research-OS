@@ -53,7 +53,7 @@ import { loadVisitCloseoutBundle } from '@/lib/subject/visits/progress-note/load
 import { loadVisitWorkflowActions } from '@/lib/subject/workflow/data'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
-import { canSignClinicalSource } from '@/lib/rbac/permissions'
+import { canSignClinicalSource, canMutateOrganizationData } from '@/lib/rbac/permissions'
 import type { VisitReviewStatus } from '@/lib/subject/visits/progress-note/types'
 import { VisitCalendarRescheduleMeta } from '@/components/calendar/VisitCalendarRescheduleMeta'
 import { ConditionalProceduresPanel } from '@/components/subjects/visits/ConditionalProceduresPanel'
@@ -177,7 +177,7 @@ function ProcedureStatusIcon({
 
 function ProcedureRow({
   proc, visitAllowsEdits, visitPath, studyPath, subjectPath, orgQs,
-  responseSet, sourceBlockerCount, workflowTaskCount,
+  responseSet, sourceBlockerCount, workflowTaskCount, canMutate,
 }: {
   proc: {
     id: string
@@ -196,6 +196,7 @@ function ProcedureRow({
   responseSet: { id: string; status: string } | null
   sourceBlockerCount: number
   workflowTaskCount: number
+  canMutate: boolean
 }) {
   const pdef = proc.procedure_definitions
   const label = pdef?.label ?? pdef?.code ?? 'Procedure'
@@ -203,6 +204,7 @@ function ProcedureRow({
   const done = status === 'completed'
   const validationBlocked = proc.validation_status === 'blocked'
   const canComplete =
+    canMutate &&
     visitAllowsEdits &&
     (status === 'pending' || status === 'in_progress') &&
     !validationBlocked
@@ -265,7 +267,7 @@ function ProcedureRow({
         )}
         <div className="flex items-center gap-3 mt-1">
           <Link href={captureHref} className="text-[10px] font-medium text-primary hover:underline">
-            Source capture →
+            {canMutate ? 'Source capture →' : 'View source →'}
           </Link>
           {reviewHref && (
             <Link href={reviewHref} className="text-[10px] text-muted-foreground hover:underline">
@@ -276,14 +278,16 @@ function ProcedureRow({
       </div>
 
       {/* Action */}
-      <ProcedureCompleteButton
-        procedureExecutionId={proc.id}
-        visitPath={visitPath}
-        studyPath={studyPath}
-        subjectPath={subjectPath}
-        disabled={!canComplete}
-        disabledHint={completeDisabledHint}
-      />
+      {canMutate && (
+        <ProcedureCompleteButton
+          procedureExecutionId={proc.id}
+          visitPath={visitPath}
+          studyPath={studyPath}
+          subjectPath={subjectPath}
+          disabled={!canComplete}
+          disabledHint={completeDisabledHint}
+        />
+      )}
     </div>
   )
 }
@@ -321,8 +325,10 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
+  const canMutate = canMutateOrganizationData(memberships, organizationId)
+
   // F-07: determine investigator signing authority for the current viewer
-  const canInvestigatorSign = canSignClinicalSource(memberships, organizationId)
+  const canInvestigatorSign = canMutate && canSignClinicalSource(memberships, organizationId)
 
   // Study name for breadcrumb
   const { data: studyBanner } = await supabase
@@ -570,13 +576,15 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
             </div>
 
             {/* Lifecycle actions */}
-            <VisitLifecycleActions
-              visitId={visit.id}
-              visitPath={visitPath}
-              studyPath={studyPath}
-              subjectPath={subjectPath}
-              visitStatus={visit.visit_status}
-            />
+            {canMutate && (
+              <VisitLifecycleActions
+                visitId={visit.id}
+                visitPath={visitPath}
+                studyPath={studyPath}
+                subjectPath={subjectPath}
+                visitStatus={visit.visit_status}
+              />
+            )}
           </div>
         </div>
       </header>
@@ -609,6 +617,18 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       {/* === CONTENT === */}
       <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
 
+        {!canMutate && (
+          <div className="mx-6 mt-6 mb-2 bg-amber-500/15 border border-amber-500/30 text-amber-700 px-4 py-3 rounded-md flex items-start gap-3">
+            <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <h3 className="text-sm font-semibold">Read-only review mode</h3>
+              <p className="text-sm mt-1">You are viewing this visit in read-only mode. Mutations and operational workflows are disabled for your role.</p>
+            </div>
+          </div>
+        )}
+
         {/* PROCEDURES */}
         {activeTab === 'procedures' && (
           <div className="p-6 max-w-[900px]">
@@ -628,7 +648,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               organizationId={organizationId}
               visitId={visit.id as string}
               options={conditionalProcedureOptions}
-              canInstantiate={visitAllowsProcedureEdits}
+              canInstantiate={visitAllowsProcedureEdits && canMutate}
               instantiateAction={instantiateConditionalProcedureFormAction}
             />
 
@@ -661,6 +681,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                             responseSet={rs}
                             sourceBlockerCount={sourceBlockerCount}
                             workflowTaskCount={workflowByProcedure.get(proc.id as string) ?? 0}
+                            canMutate={canMutate}
                           />
                         )
                       })}
@@ -752,7 +773,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
           <div className="p-6 max-w-[900px] space-y-6">
             {!workflowResult.ok ? (
               <p className="text-sm text-destructive">Could not load visit workflow: {workflowResult.error}</p>
-            ) : (
+            ) : canMutate ? (
               <VisitWorkflowPanel
                 organizationId={organizationId}
                 studyId={visit.study_id as string}
@@ -760,8 +781,10 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
                 visitId={visit.id as string}
                 actions={workflowActions}
               />
+            ) : (
+               <p className="text-sm text-muted-foreground">Workflow actions are disabled in read-only mode.</p>
             )}
-            {closeoutBundle ? <VisitCloseoutSection bundle={closeoutBundle} canInvestigatorSign={canInvestigatorSign} /> : null}
+            {closeoutBundle && canMutate ? <VisitCloseoutSection bundle={closeoutBundle} canInvestigatorSign={canInvestigatorSign} /> : null}
           </div>
         )}
 

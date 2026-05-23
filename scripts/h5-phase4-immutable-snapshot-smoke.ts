@@ -53,6 +53,13 @@ function run() {
     } else {
       console.log('✅ Lock workflow linkage exists.')
     }
+
+    if (!content.includes('!idempotent')) {
+      console.error('❌ lock-visit.ts must prevent snapshot regeneration on idempotent retries (!idempotent missing).')
+      failed = true
+    } else {
+      console.log('✅ Idempotent lock path does not regenerate snapshot.')
+    }
   }
 
   if (failed) {

@@ -1,9 +1,20 @@
+import type { OrganizationMembership } from '../lib/auth/session'
 import { filterUnblindedRows } from '../lib/rbac/blinding'
+
+type MockLoadedEvent = {
+  id: string
+  eventType: string
+  payload: Record<string, unknown>
+  actorUserId: string
+  occurredAt: string
+  visitId: string | null
+  procedureExecutionId: string | null
+}
 
 async function smokeTestAuditTrail() {
   console.log('--- H5 Phase 5: Audit Trail Smoke Test ---')
 
-  const loadedEvents = [
+  const loadedEvents: MockLoadedEvent[] = [
     {
       id: 'mock-1',
       eventType: 'SUBJECT_RANDOMIZED',
@@ -28,7 +39,7 @@ async function smokeTestAuditTrail() {
 
   // 3. Test safe summary extraction
   const summaries = loadedEvents.map((e) => {
-    const p = e.payload as any
+    const p = e.payload
     let summary = 'System action recorded.'
     if (typeof p.reason === 'string') summary = p.reason
     else if (typeof p.note_preview === 'string') summary = p.note_preview
@@ -65,26 +76,18 @@ async function smokeTestAuditTrail() {
   ]
 
   // Mock blinded membership
-  const blindedMemberships = [
+  const blindedMemberships: OrganizationMembership[] = [
     {
-      id: 'mock-membership',
       organization_id: sampleEvent.organization_id,
-      user_id: 'mock-user',
+      role: 'research_coordinator',
+      roles: ['research_coordinator'],
       status: 'active',
-      roles: ['user'],
       organizations: {
         id: sampleEvent.organization_id,
-        name: 'Mock Org'
+        name: 'Mock Org',
       },
-      study_members: [
-        {
-          study_id: sampleEvent.study_id,
-          role: 'coordinator',
-          role_context: 'blinded'
-        }
-      ]
-    }
-  ] as any
+    },
+  ]
 
   // Should remove the row entirely
   const redacted = filterUnblindedRows(rawRows, blindedMemberships, sampleEvent.organization_id)

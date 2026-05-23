@@ -39,7 +39,7 @@ import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
-import { canViewUnblindedData } from '@/lib/rbac/permissions'
+import { canViewUnblindedData, canMutateOrganizationData } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { OperationalAuditPanel } from '@/components/operations/OperationalAuditPanel'
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
@@ -100,10 +100,12 @@ function GeneralPanel({
   subject,
   showUnblindedFields,
   anchorOptions,
+  isReadOnly,
 }: {
   subject: SubjectGeneralModel
   showUnblindedFields: boolean
   anchorOptions: { id: string; label: string }[]
+  isReadOnly: boolean
 }) {
   return (
     <Card>
@@ -118,6 +120,7 @@ function GeneralPanel({
           subject={subject}
           showUnblindedFields={showUnblindedFields}
           anchorOptions={anchorOptions}
+          isReadOnly={isReadOnly}
         />
       </CardContent>
     </Card>
@@ -185,6 +188,7 @@ export default async function SubjectDetailPage({
   if (!canAccessOrganization) notFound()
 
   const canViewUnblinded = canViewUnblindedData(memberships, organizationId)
+  const canMutate = canMutateOrganizationData(memberships, organizationId)
 
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
@@ -368,6 +372,19 @@ export default async function SubjectDetailPage({
             <SubjectReturnToVisitBanner returnTo={returnToVisit} />
           ) : null}
 
+          {/* Read-Only Banner */}
+          {!canMutate ? (
+            <div className="bg-amber-500/15 border border-amber-500/30 text-amber-700 px-4 py-3 rounded-md flex items-start gap-3">
+              <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div>
+                <h3 className="text-sm font-semibold">Read-only review mode</h3>
+                <p className="text-sm mt-1">You are viewing this chart in read-only mode. Mutations and operational workflows are disabled for your role.</p>
+              </div>
+            </div>
+          ) : null}
+
           {/* Error banners */}
           {!workflowResult.ok && activeTab === 'workflow' ? (
             <p className="text-sm text-destructive">{workflowResult.error}</p>
@@ -377,7 +394,7 @@ export default async function SubjectDetailPage({
           ) : null}
 
           {/* General */}
-          {activeTab === 'general' && operationalIntelligence && chartStudyId ? (
+          {activeTab === 'general' && operationalIntelligence && chartStudyId && canMutate ? (
             <SubjectOperationalCommandCenter
               intelligence={operationalIntelligence}
               studyId={chartStudyId}
@@ -389,12 +406,13 @@ export default async function SubjectDetailPage({
               subject={generalSubject}
               showUnblindedFields={canViewUnblinded}
               anchorOptions={anchorSubjectOptions}
+              isReadOnly={!canMutate}
             />
           ) : null}
           {activeTab === 'general' && closeoutReadiness ? (
             <SubjectCloseoutChecklist readiness={closeoutReadiness} />
           ) : null}
-          {activeTab === 'general' ? (
+          {activeTab === 'general' && canMutate ? (
             <SubjectCloseoutForms
               subjectId={subjectId}
               organizationId={organizationId}
@@ -409,13 +427,19 @@ export default async function SubjectDetailPage({
 
           {/* Workflow */}
           {activeTab === 'workflow' && chartStudyId ? (
-            <SubjectWorkflowPanel
-              organizationId={organizationId}
-              studyId={chartStudyId}
-              subjectId={subjectId}
-              actions={workflowActions}
-              operationalIntelligence={operationalIntelligence}
-            />
+            canMutate ? (
+              <SubjectWorkflowPanel
+                organizationId={organizationId}
+                studyId={chartStudyId}
+                subjectId={subjectId}
+                actions={workflowActions}
+                operationalIntelligence={operationalIntelligence}
+              />
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Workflow actions are hidden in read-only review mode.
+              </p>
+            )
           ) : null}
 
           {/* Clinical Profile */}
