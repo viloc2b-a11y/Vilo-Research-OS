@@ -11,6 +11,7 @@ import {
   canManageUnblindedData,
 } from '@/lib/rbac/permissions'
 import { responseSetHasCurrentUnblindedDrafts } from '@/lib/source/blinding'
+import { observeSourceApiSubmitResult } from '@/lib/observability/hooks/observe-source-api'
 
 export async function POST(request: Request) {
   const auth = await requireSourceApiContext()
@@ -60,6 +61,13 @@ export async function POST(request: Request) {
       p_source_response_set_id: body.source_response_set_id,
       p_submit_reason: body.submit_reason,
     }, ctx.requestId)
+    void observeSourceApiSubmitResult({
+      supabase: ctx.supabase,
+      organizationId: body.organization_id,
+      sourceResponseSetId: body.source_response_set_id,
+      actorUserId: ctx.user.id,
+      envelope,
+    })
     return jsonEnvelope(envelope)
   } catch (err) {
     return jsonEnvelope(

@@ -5,6 +5,8 @@ import { completeVisit } from '@/lib/actions/complete-visit'
 import { canAccessOrganization } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import type { SubjectVisitsActionResult } from '@/lib/subject/visits/types'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { createServerClient } from '@/lib/supabase/server'
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
@@ -101,6 +103,9 @@ export async function addVisitNoteAction(input: {
   const access = await assertVisitAccess(visitId, organizationId)
   if (!access.ok) return access
 
+  const user = await getSessionUser()
+  if (!user) return { ok: false, error: 'Sign in required.' }
+
   const supabase = await createServerClient()
   const { error } = await supabase
     .from('visits')
@@ -108,6 +113,18 @@ export async function addVisitNoteAction(input: {
     .eq('id', visitId)
 
   if (error) return { ok: false, error: error.message }
+
+  await ClinicalMutationGateway.emitVisit({
+    supabase,
+    organizationId,
+    studyId: access.studyId,
+    visitId,
+    actorUserId: user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.NOTE_ADDED,
+    payloadSource: 'subject-visits-actions',
+    mutation: 'visits.coordinator_note',
+    details: { coordinator_note: note.trim() || null },
+  })
 
   for (const path of visitsPaths(access.studyId, access.subjectId)) {
     revalidatePath(path)

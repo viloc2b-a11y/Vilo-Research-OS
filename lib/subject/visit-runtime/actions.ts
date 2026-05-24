@@ -12,6 +12,7 @@ import type { VisitRuntimeActionState } from '@/lib/subject/visit-runtime/types'
 import { getOrganizationMemberships } from '@/lib/auth/session'
 import { canEditClinicalSource, canViewUnblindedData } from '@/lib/rbac/permissions'
 import { responseSetHasUnblindedSourceFields } from '@/lib/source/blinding'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''
@@ -51,7 +52,14 @@ export async function signProcedureAction(
     actorUserId: ctx.user.id,
     expectedUpdatedAt: clean(formData.get('expected_updated_at')),
   })
-  if (!result.ok) return { ok: false, message: result.error }
+  if (!result.ok) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(new Error(result.error), {
+        context: 'sign_procedure_action',
+      }),
+    }
+  }
 
   revalidatePath(`/source/capture/${ctx.procedure.id}`)
   if ('idempotent' in result && result.idempotent) {
@@ -80,7 +88,14 @@ export async function addVisitRuntimeNoteAction(
     noteText,
   })
 
-  if (!result.ok) return { ok: false, message: result.error }
+  if (!result.ok) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(new Error(result.error), {
+        context: 'add_visit_note_action',
+      }),
+    }
+  }
   revalidatePath(`/source/capture/${ctx.procedure.id}`)
   return { ok: true, message: 'Note added.' }
 }
@@ -108,7 +123,12 @@ export async function validateProcedureAction(
     .eq('id', ctx.procedure.id)
     .eq('organization_id', ctx.procedure.organization_id)
 
-  if (error) return { ok: false, message: error.message }
+  if (error) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(error, { context: 'validate_procedure_action' }),
+    }
+  }
 
   await logProcedureOperationalEvent({
     supabase: ctx.supabase,
@@ -169,7 +189,14 @@ async function toggleProcedureState(
     reason: clean(formData.get('disable_reason')),
   })
 
-  if (!result.ok) return { ok: false, message: result.error }
+  if (!result.ok) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(new Error(result.error), {
+        context: 'toggle_procedure_state',
+      }),
+    }
+  }
   revalidatePath(`/source/capture/${ctx.procedure.id}`)
   return { ok: true, message: successMessage }
 }

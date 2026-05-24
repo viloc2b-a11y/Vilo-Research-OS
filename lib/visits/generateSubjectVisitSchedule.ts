@@ -1,3 +1,6 @@
+import { getSessionUser } from '@/lib/auth/session'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import {
   canExecuteStudyRuntime,
   formatStudyRuntimeBlockers,
@@ -40,6 +43,37 @@ function resolveTargetDay(def: VisitDefinitionRow, index: number): number {
     return def.target_day
   }
   return index + 1
+}
+
+async function emitScheduleMaterializedEvent(input: {
+  supabase: SupabaseClient
+  organizationId: string
+  studyId: string
+  studySubjectId: string
+  createdCount: number
+  skipped: boolean
+  anchorDate: string
+  channel: 'rpc' | 'legacy_fallback'
+  visitIds?: string[]
+}) {
+  const user = await getSessionUser()
+  await ClinicalMutationGateway.emitStudy({
+    supabase: input.supabase,
+    organizationId: input.organizationId,
+    studyId: input.studyId,
+    subjectId: input.studySubjectId,
+    actorUserId: user?.id ?? null,
+    eventType: OPERATIONAL_EVENT_TYPES.SCHEDULE_MATERIALIZED,
+    payloadSource: 'generate-subject-visit-schedule',
+    mutation: 'visits.schedule_materialized',
+    details: {
+      created_count: input.createdCount,
+      skipped: input.skipped,
+      anchor_date: input.anchorDate,
+      channel: input.channel,
+      visit_ids: input.visitIds ?? [],
+    },
+  })
 }
 
 export async function generateSubjectVisitSchedule(input: {
@@ -100,10 +134,30 @@ export async function generateSubjectVisitSchedule(input: {
       skipped?: boolean
     }
     if (rpc.ok) {
+      const createdCount = rpc.created_count ?? 0
+      const skipped = rpc.skipped === true
+      const anchorDate =
+        input.anchorDate?.trim() ||
+        (subject.schedule_anchor_date as string | null) ||
+        todayIsoDate()
+
+      if (createdCount > 0) {
+        await emitScheduleMaterializedEvent({
+          supabase,
+          organizationId: subject.organization_id as string,
+          studyId: subject.study_id as string,
+          studySubjectId,
+          createdCount,
+          skipped,
+          anchorDate,
+          channel: 'rpc',
+        })
+      }
+
       return {
         ok: true,
-        createdCount: rpc.created_count ?? 0,
-        skipped: rpc.skipped === true,
+        createdCount,
+        skipped,
       }
     }
     if (rpc.error) {
@@ -291,6 +345,20 @@ export async function generateSubjectVisitSchedule(input: {
       await supabase.from('visits').delete().in('id', createdVisitIds)
     }
     return { ok: false, error: anchorErr.message }
+  }
+
+  if (createdCount > 0) {
+    await emitScheduleMaterializedEvent({
+      supabase,
+      organizationId: subject.organization_id as string,
+      studyId: subject.study_id as string,
+      studySubjectId,
+      createdCount,
+      skipped: false,
+      anchorDate,
+      channel: 'legacy_fallback',
+      visitIds: createdVisitIds,
+    })
   }
 
   return { ok: true, createdCount, skipped: false }

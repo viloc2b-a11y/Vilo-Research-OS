@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "fixture": {
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studySlug": "phase2-validation-study",
+    "subjectIdentifier": "PHASE9A-PILOT-001",
+    "visitStatus": null,
+    "discoveredAt": "2026-05-24T17:13:07.763Z"
+  },
+  "envHints": {
+    "missingEnv": [
+      "PHASE11_COORDINATOR_ACTOR_ID"
+    ],
+    "usedDefaults": false,
+    "hint": "Partial PHASE11_* env — missing: PHASE11_COORDINATOR_ACTOR_ID"
+  },
+  "sourceBinding": {
+    "ok": true,
+    "bindingId": "be0fb92a-8642-485e-a279-abad72ce3b74",
+    "sourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "lifecycleStatus": "published",
+    "message": "Screening CBC bound to published canonical SDV."
+  },
+  "procedureLinkage": {
+    "ok": true,
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+    "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+    "procedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+    "peSourceDefinitionVersionId": "e0317385-5066-47af-b5dc-c0e4264f49d7",
+    "bindingSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "sdvAlignedWithBinding": false,
+    "resolutionSource": "published",
+    "resolutionFallback": false,
+    "message": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist)."
+  },
+  "coordinatorCaptureAccess": {
+    "ok": true,
+    "userId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7",
+    "email": "calendar.qa.coordinator@vilo-os.staging",
+    "organizationRoles": [
+      "research_coordinator",
+      "data_coordinator"
+    ],
+    "studyMemberRole": "coordinator",
+    "canAccessCapture": true,
+    "canEditClinicalSource": true,
+    "canManageSourceDocuments": true,
+    "canViewUnblinded": false,
+    "message": "Pilot coordinator can open/save/submit source via user-scoped API and RPC."
+  },
+  "pilotScenarioSteps": [
+    "Publish protocol graph",
+    "Enroll subject",
+    "Materialize schedule",
+    "Check in visit",
+    "Open / save / submit source",
+    "Create unresolved finding or query",
+    "Create AE",
+    "Trigger blocked readiness",
+    "Compute projections",
+    "Generate replay",
+    "Compute financial leakage",
+    "Derive next action",
+    "Propose automation",
+    "Apply automation (coordinator)",
+    "Verify UI model"
+  ],
+  "envSnippet": "# Phase 11/14 pilot fixture — 2026-05-24T17:13:07.763Z\nPHASE11_STUDY_ID=6bae715a-8536-4000-8d24-22b6a3dbb8c9\nPHASE11_SUBJECT_ID=4384b789-4e16-4512-b3f3-50642b3b9735\nPHASE11_VISIT_ID=6690da63-4bf1-4681-815a-3e39b7b014bc\nPHASE11_ORG_ID=f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e\nPHASE11_COORDINATOR_ACTOR_ID=d7e43ee5-5c08-489b-b293-8ef288e7fdb7\n",
+  "nextCommands": [
+    "npm run runtime:pilot-staging-prep",
+    "npx tsx scripts/phase11-runtime-e2e-validation.ts --live --fail-on-fail",
+    "npm run integrity:audit"
+  ]
+}

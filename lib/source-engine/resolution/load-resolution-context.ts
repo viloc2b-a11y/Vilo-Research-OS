@@ -3,6 +3,7 @@
  */
 
 import { createServerClient } from '@/lib/supabase/server'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export type SourceDefinitionResolutionContext = {
   sourceDefinitionVersionId: string
@@ -30,8 +31,9 @@ function asObject(value: unknown): Record<string, unknown> | null {
 
 export async function loadSourceDefinitionResolutionContext(
   sourceDefinitionVersionId: string,
+  supabaseClient?: SupabaseClient,
 ): Promise<SourceDefinitionResolutionContext | null> {
-  const supabase = await createServerClient()
+  const supabase = supabaseClient ?? (await createServerClient())
 
   const { data: sdv, error } = await supabase
     .from('source_definition_versions')

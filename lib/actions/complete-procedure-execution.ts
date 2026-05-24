@@ -9,6 +9,10 @@ import type {
   CompleteProcedureRpcPayload,
   CompleteProcedureValidationAlert,
 } from '@/lib/actions/complete-procedure-execution.types'
+import {
+  coordinatorMessageFromError,
+  coordinatorMessageFromRpcFailure,
+} from '@/lib/runtime-errors'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -35,13 +39,13 @@ export async function completeProcedureExecution(input: {
   try {
     return await completeProcedureExecutionInner(input)
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
-    console.error('[completeProcedureExecution] unexpected failure', message, err)
-    return {
-      ok: false,
-      message:
+    const translated = coordinatorMessageFromError(err, {
+      context: 'complete_procedure_execution',
+      fallbackMessage:
         'Could not complete the procedure. Resolve source validation blockers or try again.',
-    }
+    })
+    console.error('[completeProcedureExecution] unexpected failure', err)
+    return { ok: false, message: translated }
   }
 }
 
@@ -73,7 +77,15 @@ async function completeProcedureExecutionInner(input: {
     .eq('id', procedureExecutionId)
     .maybeSingle()
 
-  if (procErr) return { ok: false, message: procErr.message }
+  if (procErr) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(procErr, {
+        context: 'complete_procedure_execution',
+        fallbackMessage: 'Procedure execution not found.',
+      }),
+    }
+  }
   if (!proc) return { ok: false, message: 'Procedure execution not found.' }
   if (proc.section_disabled_at) {
     return { ok: false, message: 'Procedure section is disabled and cannot be completed.' }
@@ -111,7 +123,13 @@ async function completeProcedureExecutionInner(input: {
   })
 
   if (rpcErr) {
-    return { ok: false, message: rpcErr.message }
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(rpcErr, {
+        context: 'complete_procedure_execution_rpc',
+        fallbackMessage: 'Procedure completion failed.',
+      }),
+    }
   }
 
   const row = rawRpc as CompleteProcedureRpcPayload | null | undefined
@@ -124,7 +142,10 @@ async function completeProcedureExecutionInner(input: {
       typeof row.error === 'string' && row.error.trim().length > 0
         ? row.error
         : 'Procedure completion denied.'
-    return { ok: false, message: msg }
+    return {
+      ok: false,
+      message: coordinatorMessageFromRpcFailure(msg, 'Procedure completion denied.'),
+    }
   }
 
   const idempotent = row.idempotent === true

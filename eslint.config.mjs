@@ -22,6 +22,8 @@ const eslintConfig = [
       "react-hooks/purity": "warn",
     },
   },
+  // Phase 6: clinical spine enforcement is enforced via `npm run integrity:audit`
+  // (lib/runtime-integrity/detect/direct-mutation-scanner.ts), not ESLint selectors.
 ];
 
 export default eslintConfig;

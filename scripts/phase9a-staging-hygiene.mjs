@@ -16,6 +16,11 @@ const PILOT_IDENTIFIER = 'PHASE9A-PILOT-001'
 const LEGACY_SUBJECT_ID = '3bae1645-b94b-441c-b081-916a03896b0e'
 const CANONICAL_SDV_ID = '2ee5a544-fba6-4edb-a5c1-61ba5e2eee00'
 const REQUIRED_PROCEDURE_DEF_ID = '17059af6-37fa-48a5-9bef-e82b7e2606b1'
+/** Stable Screening visit for PHASE9A-PILOT-001 when present */
+const PILOT_SCREENING_VISIT_ID = '6690da63-4bf1-4681-815a-3e39b7b014bc'
+const SCREENING_VISIT_DEF_CODE = 'V_SCREENING'
+const PILOT_COORDINATOR_USER_ID = 'd7e43ee5-5c08-489b-b293-8ef288e7fdb7'
+const PILOT_COORDINATOR_EMAIL = 'calendar.qa.coordinator@vilo-os.staging'
 
 function addDays(isoDate, offset) {
   const base = new Date(`${isoDate}T12:00:00`)
@@ -334,6 +339,147 @@ async function generateScheduleInline(studySubjectId, anchorDate) {
   return { ok: true, createdCount }
 }
 
+/**
+ * Ensure Screening visit has a materialized procedure_execution with published SDV.
+ * Uses the same insert shape as generateScheduleInline (approved schedule path).
+ */
+async function ensurePilotScreeningProcedure(subjectId) {
+  if (!subjectId) {
+    step('ensure pilot screening PE', true, 'no pilot subject — skip')
+    return
+  }
+
+  const visitRows = await sql`
+    select v.id, v.visit_definition_id, vd.code
+    from visits v
+    join visit_definitions vd on vd.id = v.visit_definition_id
+    where v.study_subject_id = ${subjectId}
+      and v.visit_status <> 'cancelled'
+      and (v.id = ${PILOT_SCREENING_VISIT_ID}::uuid or vd.code = ${SCREENING_VISIT_DEF_CODE})
+    order by case when v.id = ${PILOT_SCREENING_VISIT_ID}::uuid then 0 else 1 end, v.created_at asc
+    limit 1
+  `
+
+  const visit = visitRows[0]
+  if (!visit) {
+    step('ensure pilot screening PE', false, 'no active Screening visit on pilot subject')
+    return
+  }
+
+  const peRows = await sql`
+    select pe.id, pe.source_definition_version_id,
+           (select count(*)::int from source_response_sets srs where srs.procedure_execution_id = pe.id) as rs_count
+    from procedure_executions pe
+    where pe.visit_id = ${visit.id}
+      and pe.procedure_definition_id = ${REQUIRED_PROCEDURE_DEF_ID}
+    order by pe.created_at asc
+  `
+
+  let peId = peRows[0]?.id ?? null
+  let peSdv = peRows[0]?.source_definition_version_id ?? null
+  const rsCount = Number(peRows[0]?.rs_count ?? 0)
+
+  if (!peId && !DRY_RUN) {
+    const { data: inserted, error } = await admin
+      .from('procedure_executions')
+      .insert({
+        organization_id: ORG_ID,
+        study_id: STUDY_ID,
+        visit_id: visit.id,
+        procedure_definition_id: REQUIRED_PROCEDURE_DEF_ID,
+        execution_status: 'pending',
+        source_definition_version_id: CANONICAL_SDV_ID,
+      })
+      .select('id, source_definition_version_id')
+      .single()
+
+    if (error) {
+      step('ensure pilot screening PE', false, error.message)
+      return
+    }
+    peId = inserted.id
+    peSdv = inserted.source_definition_version_id
+    step(
+      'ensure pilot screening PE',
+      true,
+      `inserted ${peId} on visit ${visit.id} (${visit.code}) sdv=${peSdv}`,
+    )
+    report.pilotScreeningProcedureExecutionId = peId
+    report.pilotScreeningCapturePath = `/source/capture/${peId}`
+    return
+  }
+
+  if (!peId) {
+    step('ensure pilot screening PE', true, 'dry-run would insert screening PE')
+    return
+  }
+
+  if (peSdv === CANONICAL_SDV_ID) {
+    step(
+      'ensure pilot screening PE',
+      true,
+      `exists ${peId} sdv aligned (${CANONICAL_SDV_ID})`,
+    )
+    report.pilotScreeningProcedureExecutionId = peId
+    report.pilotScreeningCapturePath = `/source/capture/${peId}`
+    return
+  }
+
+  if (rsCount === 0 && peSdv !== CANONICAL_SDV_ID && !DRY_RUN) {
+    const { error: updErr } = await admin
+      .from('procedure_executions')
+      .update({ source_definition_version_id: CANONICAL_SDV_ID })
+      .eq('id', peId)
+
+    if (updErr) {
+      step(
+        'ensure pilot screening PE',
+        true,
+        `exists ${peId} sdv=${peSdv} (rebind blocked: ${updErr.message})`,
+      )
+    } else {
+      peSdv = CANONICAL_SDV_ID
+      step('ensure pilot screening PE', true, `rebound ${peId} to canonical SDV`)
+    }
+  } else if (peSdv !== CANONICAL_SDV_ID) {
+    step(
+      'ensure pilot screening PE',
+      true,
+      `exists ${peId} sdv=${peSdv} binding=${CANONICAL_SDV_ID} rs=${rsCount} (SDV immutable after capture)`,
+    )
+  }
+
+  report.pilotScreeningProcedureExecutionId = peId
+  report.pilotScreeningCapturePath = `/source/capture/${peId}`
+}
+
+/**
+ * study_members enrollment scope for capture RPC + source_response_sets RLS.
+ * Org-level research_coordinator alone is insufficient (user_has_study_access).
+ */
+async function ensurePilotCoordinatorStudyAccess() {
+  if (DRY_RUN) {
+    step('pilot coordinator study_members', true, 'dry-run skip')
+    return
+  }
+
+  const { error } = await admin.from('study_members').upsert(
+    {
+      organization_id: ORG_ID,
+      study_id: STUDY_ID,
+      user_id: PILOT_COORDINATOR_USER_ID,
+      role: 'coordinator',
+    },
+    { onConflict: 'study_id,user_id' },
+  )
+
+  step(
+    'pilot coordinator study_members',
+    !error,
+    error?.message ?? `${PILOT_COORDINATOR_EMAIL} → study_members.coordinator`,
+  )
+}
+
 async function proofReadiness() {
   const blockers = []
   const { count: bindingCount } = await admin
@@ -394,6 +540,11 @@ async function main() {
     const pilotId = await createCleanPilot()
     if (pilotId && !DRY_RUN) {
       await resolveDuplicateVisits(pilotId, 'PHASE9A-PILOT')
+      await ensurePilotScreeningProcedure(pilotId)
+      await ensurePilotCoordinatorStudyAccess()
+    } else if (pilotId && DRY_RUN) {
+      await ensurePilotScreeningProcedure(pilotId)
+      await ensurePilotCoordinatorStudyAccess()
     }
     await proofReadiness()
     await pilotSnapshot(pilotId)

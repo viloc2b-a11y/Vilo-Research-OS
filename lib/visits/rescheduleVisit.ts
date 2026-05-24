@@ -1,4 +1,6 @@
 import { getSessionUser } from '@/lib/auth/session'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { refreshVisitOperationalFields } from '@/lib/visits/refreshVisitOperationalState'
 import { validateVisitWindow } from '@/lib/visits/validateVisitWindow'
 import type { RescheduleVisitResult } from '@/lib/visits/types'
@@ -17,7 +19,7 @@ export async function rescheduleVisit(input: {
   const { data: visit, error: loadErr } = await input.supabase
     .from('visits')
     .select(
-      'id, organization_id, visit_status, scheduled_date, target_date, window_start, window_end, actual_date, completed_at',
+      'id, organization_id, study_id, study_subject_id, visit_status, scheduled_date, target_date, window_start, window_end, actual_date, completed_at',
     )
     .eq('id', input.visitId)
     .eq('organization_id', input.organizationId)
@@ -88,6 +90,28 @@ export async function rescheduleVisit(input: {
     .eq('id', input.visitId)
 
   if (updateErr) return { ok: false, error: updateErr.message }
+
+  await ClinicalMutationGateway.emitVisit({
+    supabase: input.supabase,
+    organizationId: input.organizationId,
+    studyId: visit.study_id as string,
+    visitId: input.visitId,
+    actorUserId: user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.VISIT_RESCHEDULED,
+    payloadSource: 'reschedule-visit',
+    mutation: 'visits.reschedule',
+    subjectId: (visit.study_subject_id as string | null) ?? null,
+    details: {
+      previous_scheduled_date: visit.scheduled_date,
+      scheduled_date: input.scheduledDate,
+      previous_visit_status: visit.visit_status,
+      visit_status: visitStatus,
+      window_status: validation.windowStatus,
+      is_outside_window: validation.isOutsideWindow,
+      out_of_window_reason: input.outOfWindowReason?.trim() || null,
+      reschedule_channel: 'direct',
+    },
+  })
 
   return {
     ok: true,

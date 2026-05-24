@@ -369,6 +369,7 @@ export function resolveSourceEngineRuntimeConfigFromContext(
 
 export async function resolveSourceEngineRuntimeConfig(
   ref: SourceEngineProcedureRef,
+  options?: { supabase?: import('@supabase/supabase-js').SupabaseClient },
 ): Promise<SourceEngineRuntimeConfig> {
   if (!ref.sourceDefinitionVersionId?.trim()) {
     return buildFallbackConfig(
@@ -377,7 +378,10 @@ export async function resolveSourceEngineRuntimeConfig(
     )
   }
 
-  const ctx = await loadSourceDefinitionResolutionContext(ref.sourceDefinitionVersionId)
+  const ctx = await loadSourceDefinitionResolutionContext(
+    ref.sourceDefinitionVersionId,
+    options?.supabase,
+  )
   if (!ctx) {
     return buildFallbackConfig(
       null,

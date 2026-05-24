@@ -1,0 +1,599 @@
+{
+  "phase": "phase15-coordinator-dry-run",
+  "runAt": "2026-05-24T17:16:27.354Z",
+  "fixture": {
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "coordinatorActorUserId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7",
+    "studySlug": "phase2-validation-study",
+    "subjectIdentifier": "PHASE9A-PILOT-001",
+    "canonicalSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "screeningProcedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+    "screeningProcedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "coordinator": {
+    "email": "calendar.qa.coordinator@vilo-os.staging",
+    "actorUserId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7"
+  },
+  "uiRoutes": {
+    "studyPath": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "subjectPath": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735",
+    "subjectWorkspacePath": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace",
+    "visitPath": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "steps": [
+    {
+      "goal": 1,
+      "step": "Open subject workspace",
+      "status": "pass",
+      "detail": "Routes: /studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735, /studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace",
+      "evidence": {
+        "subjectPath": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735",
+        "subjectWorkspacePath": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace"
+      }
+    },
+    {
+      "goal": 2,
+      "step": "Open Screening visit",
+      "status": "pass",
+      "detail": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc · status=in_progress",
+      "evidence": {
+        "visitPath": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+        "visitStatus": "in_progress",
+        "visitReviewStatus": "coordinator_signed"
+      }
+    },
+    {
+      "goal": 2,
+      "step": "Screening visit procedures",
+      "status": "pass",
+      "detail": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist).",
+      "evidence": {
+        "procedureLinkage": {
+          "ok": true,
+          "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+          "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "procedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+          "peSourceDefinitionVersionId": "e0317385-5066-47af-b5dc-c0e4264f49d7",
+          "bindingSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+          "sdvAlignedWithBinding": false,
+          "resolutionSource": "published",
+          "resolutionFallback": false,
+          "message": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist)."
+        }
+      }
+    },
+    {
+      "goal": 3,
+      "step": "Published Screening source (not fallback)",
+      "status": "pass",
+      "detail": "resolution.source=published, fallback=false; PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist).",
+      "evidence": {
+        "procedureLinkage": {
+          "ok": true,
+          "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+          "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "procedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+          "peSourceDefinitionVersionId": "e0317385-5066-47af-b5dc-c0e4264f49d7",
+          "bindingSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+          "sdvAlignedWithBinding": false,
+          "resolutionSource": "published",
+          "resolutionFallback": false,
+          "message": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist)."
+        },
+        "sourceBinding": {
+          "ok": true,
+          "bindingId": "be0fb92a-8642-485e-a279-abad72ce3b74",
+          "sourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+          "lifecycleStatus": "published",
+          "message": "Screening CBC bound to published canonical SDV."
+        }
+      }
+    },
+    {
+      "goal": 3,
+      "step": "Capture route",
+      "status": "pass",
+      "detail": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+      "evidence": {
+        "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+        "responseSetId": "dc431c9a-2360-47a7-ba3b-d5b8ebd85c31"
+      }
+    },
+    {
+      "goal": 4,
+      "step": "Coordinator capture access (org + study)",
+      "status": "pass",
+      "detail": "Pilot coordinator can open/save/submit source via user-scoped API and RPC.",
+      "evidence": {
+        "captureAccess": {
+          "ok": true,
+          "userId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7",
+          "email": "calendar.qa.coordinator@vilo-os.staging",
+          "organizationRoles": [
+            "research_coordinator",
+            "data_coordinator"
+          ],
+          "studyMemberRole": "coordinator",
+          "canAccessCapture": true,
+          "canEditClinicalSource": true,
+          "canManageSourceDocuments": true,
+          "canViewUnblinded": false,
+          "message": "Pilot coordinator can open/save/submit source via user-scoped API and RPC."
+        }
+      }
+    },
+    {
+      "goal": 1,
+      "step": "Coordinator auth",
+      "status": "pass",
+      "detail": "calendar.qa.coordinator@vilo-os.staging"
+    },
+    {
+      "goal": 4,
+      "step": "Open response set (API)",
+      "status": "pass",
+      "detail": "HTTP 200 ok=true code=SUCCESS",
+      "evidence": {
+        "openJson": {
+          "ok": true,
+          "code": "SUCCESS",
+          "data": {
+            "fields": [
+              {
+                "label": "Heart rate",
+                "field_key": "heart_rate",
+                "sort_order": 10,
+                "value_type": "integer",
+                "is_required": true,
+                "widget_hint": "integer",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "e523f3e5-db09-4e1a-80ee-6a2f4448e87f"
+              },
+              {
+                "label": "Temperature",
+                "field_key": "temperature",
+                "sort_order": 20,
+                "value_type": "decimal",
+                "is_required": true,
+                "widget_hint": "number",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "c7b429c6-1e36-47c4-a6c5-3cfaae7ab580"
+              },
+              {
+                "label": "Systolic BP",
+                "field_key": "systolic_bp",
+                "sort_order": 30,
+                "value_type": "decimal",
+                "is_required": true,
+                "widget_hint": "number",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "c8345aeb-7a0b-4f0e-93a6-02333a71f2c1"
+              },
+              {
+                "label": "Diastolic BP",
+                "field_key": "diastolic_bp",
+                "sort_order": 40,
+                "value_type": "decimal",
+                "is_required": true,
+                "widget_hint": "number",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "b813907b-a451-4251-be2e-a1109d74daef"
+              },
+              {
+                "label": "Completion status",
+                "field_key": "completion_status",
+                "sort_order": 50,
+                "value_type": "dropdown_single",
+                "is_required": true,
+                "widget_hint": "dropdown",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "7b48b970-1a7c-40f1-aa9a-3d235e5003b4"
+              },
+              {
+                "label": "AE present",
+                "field_key": "ae_present",
+                "sort_order": 60,
+                "value_type": "boolean",
+                "is_required": true,
+                "widget_hint": "boolean",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "6c91ae79-f36c-4a18-b135-280ea4ca2d29"
+              },
+              {
+                "label": "ePRO completed",
+                "field_key": "epro_completed",
+                "sort_order": 70,
+                "value_type": "boolean",
+                "is_required": true,
+                "widget_hint": "boolean",
+                "instructions": "Phase 10E blinded CRC proof field.",
+                "source_field_id": "a0752a5b-544d-4cd2-9aa8-60d3f1a876d7"
+              }
+            ],
+            "status": "submitted",
+            "created": false,
+            "opened_at": "2026-05-21T19:16:26.300594+00:00",
+            "opened_by_user_id": "4e07ab47-6632-4b96-9a2c-8891d4632978",
+            "existing_responses": [
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "boolean",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "8792b200-0d9e-430a-9412-89066b8b7a72",
+                "is_submitted": true,
+                "value_number": null,
+                "value_boolean": true,
+                "value_datetime": null,
+                "source_field_id": "6c91ae79-f36c-4a18-b135-280ea4ca2d29",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": "completed",
+                "value_type": "dropdown_single",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "fef9fd04-65dd-4181-95b9-80d08b2a2767",
+                "is_submitted": true,
+                "value_number": null,
+                "value_boolean": null,
+                "value_datetime": null,
+                "source_field_id": "7b48b970-1a7c-40f1-aa9a-3d235e5003b4",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "boolean",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "23797518-0511-4027-8cfc-ced95d890b60",
+                "is_submitted": true,
+                "value_number": null,
+                "value_boolean": true,
+                "value_datetime": null,
+                "source_field_id": "a0752a5b-544d-4cd2-9aa8-60d3f1a876d7",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "decimal",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "314190e6-bdf3-4227-acf5-1a5601e50b69",
+                "is_submitted": true,
+                "value_number": 76,
+                "value_boolean": null,
+                "value_datetime": null,
+                "source_field_id": "b813907b-a451-4251-be2e-a1109d74daef",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "decimal",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "08c4114b-67ac-44ed-994c-f41d4d1936b3",
+                "is_submitted": true,
+                "value_number": 98.7,
+                "value_boolean": null,
+                "value_datetime": null,
+                "source_field_id": "c7b429c6-1e36-47c4-a6c5-3cfaae7ab580",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "decimal",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "930ca380-7a88-4ee4-99ae-9d28de06edf4",
+                "is_submitted": true,
+                "value_number": 118,
+                "value_boolean": null,
+                "value_datetime": null,
+                "source_field_id": "c8345aeb-7a0b-4f0e-93a6-02333a71f2c1",
+                "response_sequence": 1
+              },
+              {
+                "is_current": true,
+                "value_date": null,
+                "value_json": null,
+                "value_text": null,
+                "value_type": "integer",
+                "captured_at": "2026-05-21T19:19:02.553964+00:00",
+                "response_id": "6d76ec11-ff89-4908-9212-a61b8bc94eb8",
+                "is_submitted": true,
+                "value_number": 74,
+                "value_boolean": null,
+                "value_datetime": null,
+                "source_field_id": "e523f3e5-db09-4e1a-80ee-6a2f4448e87f",
+                "response_sequence": 1
+              }
+            ],
+            "procedure_execution_id": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+            "source_response_set_id": "dc431c9a-2360-47a7-ba3b-d5b8ebd85c31",
+            "source_definition_version_id": "e0317385-5066-47af-b5dc-c0e4264f49d7"
+          },
+          "errors": [],
+          "warnings": [],
+          "meta": {
+            "requestId": "cfd52d0f-0ab6-4c07-9c45-0c38639a98f3",
+            "timestamp": "2026-05-24T17:15:49.332Z",
+            "source": "api",
+            "rpc": "open_source_response_set",
+            "hardBlockCount": 0,
+            "warningCount": 0
+          }
+        }
+      }
+    },
+    {
+      "goal": 5,
+      "step": "Save draft",
+      "status": "warn",
+      "detail": "HTTP 409 ok=false code=SUBMITTED_VALUE_IMMUTABLE",
+      "evidence": {
+        "saveJson": {
+          "ok": false,
+          "code": "SUBMITTED_VALUE_IMMUTABLE",
+          "data": null,
+          "errors": [
+            {
+              "code": "SUBMITTED_VALUE_IMMUTABLE",
+              "message": "response set status submitted does not allow draft save",
+              "field": null,
+              "source": "rpc",
+              "context": {
+                "rpc_prefix": "SET_NOT_MUTABLE",
+                "raw": "SET_NOT_MUTABLE: response set status submitted does not allow draft save"
+              }
+            }
+          ],
+          "warnings": [],
+          "meta": {
+            "requestId": "d8d5b094-f895-43bf-aba1-c213d77c75d5",
+            "timestamp": "2026-05-24T17:15:50.530Z",
+            "source": "api",
+            "rpc": "save_source_draft",
+            "hardBlockCount": 1,
+            "warningCount": 0
+          }
+        }
+      }
+    },
+    {
+      "goal": 6,
+      "step": "Submit source",
+      "status": "pass",
+      "detail": "HTTP 200 ok=true code=SUCCESS",
+      "evidence": {
+        "submitJson": {
+          "ok": true,
+          "code": "SUCCESS",
+          "data": {
+            "status": "submitted",
+            "submitted_at": "2026-05-21T19:19:03.687325+00:00",
+            "required_count": 0,
+            "submitted_count": 0,
+            "operational_event_id": "81e85c60-9fe0-4ce6-916f-3187f3f3ccc7",
+            "submitted_by_user_id": "4e07ab47-6632-4b96-9a2c-8891d4632978",
+            "missing_required_count": 0,
+            "source_response_set_id": "dc431c9a-2360-47a7-ba3b-d5b8ebd85c31",
+            "validation_error_count": 0
+          },
+          "errors": [],
+          "warnings": [],
+          "meta": {
+            "requestId": "fd63723d-6576-4223-adc0-30330116fb96",
+            "timestamp": "2026-05-24T17:15:51.656Z",
+            "source": "api",
+            "rpc": "submit_source_response_set",
+            "hardBlockCount": 0,
+            "warningCount": 0
+          }
+        }
+      }
+    },
+    {
+      "goal": 7,
+      "step": "Procedure / signoff state",
+      "status": "pass",
+      "detail": "response_set=submitted; pe validation=clean is_signed=false",
+      "evidence": {
+        "responseSet": {
+          "status": "submitted",
+          "submitted_at": "2026-05-21T19:19:03.687325+00:00"
+        },
+        "procedureExecution": {
+          "validation_status": "clean",
+          "is_signed": false,
+          "source_definition_version_id": "e0317385-5066-47af-b5dc-c0e4264f49d7",
+          "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc"
+        }
+      }
+    },
+    {
+      "goal": 8,
+      "step": "Visit readiness projection",
+      "status": "pass",
+      "detail": "blocked, 2 blocker(s)",
+      "evidence": {
+        "readinessRow": {
+          "readiness_status": "blocked",
+          "blocker_count": 2,
+          "computed_at": "2026-05-24T17:15:52.543+00:00"
+        }
+      }
+    },
+    {
+      "goal": 9,
+      "step": "Next action panel (runtime UI model)",
+      "status": "pass",
+      "detail": "Unsigned procedures",
+      "evidence": {
+        "nextAction": {
+          "label": "Unsigned procedures",
+          "detail": "1 procedure(s) require signature.",
+          "kind": "signoff",
+          "priority": 85,
+          "requiresPiReview": false,
+          "requiresEscalation": false,
+          "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+        },
+        "readinessStatus": "blocked",
+        "urgencyLevel": "low"
+      }
+    },
+    {
+      "goal": 10,
+      "step": "Why blocked drawer",
+      "status": "pass",
+      "detail": "blocked: signatures: Unsigned procedures; completion: Visit completion blocked",
+      "evidence": {
+        "whyBlocked": {
+          "blocked": true,
+          "readinessStatus": "blocked",
+          "primaryCauses": [
+            "signatures: Unsigned procedures",
+            "completion: Visit completion blocked"
+          ],
+          "blockerRows": [
+            {
+              "id": "unsigned-procedures",
+              "category": "signatures",
+              "severity": "blocker",
+              "label": "Unsigned procedures",
+              "detail": "1 procedure(s) require signature.",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+            },
+            {
+              "id": "completion-1 procedure(s) not signe",
+              "category": "completion",
+              "severity": "blocker",
+              "label": "Visit completion blocked",
+              "detail": "1 procedure(s) not signed.",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "goal": 10,
+      "step": "Automation panel (supervised)",
+      "status": "pass",
+      "detail": "5 proposal(s); explicit coordinator apply required (no blind apply)",
+      "evidence": {
+        "automationProposals": [
+          {
+            "id": "auto:rule:visit:window-pressure:route_coordinator_follow_up",
+            "ruleId": "rule:visit:window-pressure",
+            "kind": "route_coordinator_follow_up",
+            "label": "Visit window pressure — route coordinator follow up",
+            "detail": "Visit is past scheduled window — timeline pressure elevated.",
+            "priority": 75,
+            "status": "proposed",
+            "requiresCoordinatorApproval": true
+          },
+          {
+            "id": "auto:rule:financial:leakage:route_coordinator_follow_up",
+            "ruleId": "rule:financial:leakage",
+            "kind": "route_coordinator_follow_up",
+            "label": "Financial leakage remediation — route coordinator follow up",
+            "detail": "Financial leakage detected.",
+            "priority": 75,
+            "status": "proposed",
+            "requiresCoordinatorApproval": true
+          },
+          {
+            "id": "auto:rule:financial:leakage:create_orchestration_action",
+            "ruleId": "rule:financial:leakage",
+            "kind": "create_orchestration_action",
+            "label": "Financial leakage remediation — create orchestration action",
+            "detail": "Financial leakage detected.",
+            "priority": 75,
+            "status": "proposed",
+            "requiresCoordinatorApproval": true
+          }
+        ],
+        "requiresExplicitApply": true
+      }
+    },
+    {
+      "goal": 10,
+      "step": "Work queue panel",
+      "status": "pass",
+      "detail": "buckets=1",
+      "evidence": {
+        "workQueue": [
+          {
+            "bucket": "Action now",
+            "items": [
+              {
+                "kind": "signoff",
+                "label": "Unsigned procedures",
+                "bucket": "action_now",
+                "actionId": "action:sign:unsigned-procedures",
+                "priority": 85
+              },
+              {
+                "kind": "procedure_execution",
+                "label": "Visit completion blocked",
+                "bucket": "action_now",
+                "actionId": "action:proc:completion-1 procedure(s) not signe",
+                "priority": 85
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "goal": 12,
+      "step": "subject_runtime_projections freshness",
+      "status": "warn",
+      "detail": "missing row; script refresh: `cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context",
+      "evidence": {
+        "subjectProj": null,
+        "subjectRefresh": {
+          "ok": false,
+          "projectionVersion": 1,
+          "rowsAffected": 0,
+          "error": "`cookies` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context"
+        },
+        "note": "Live e2e refreshes via service client in validate-live-pilot"
+      }
+    },
+    {
+      "goal": 11,
+      "step": "runtime:e2e:live",
+      "status": "warn",
+      "detail": "Overall: degraded"
+    }
+  ],
+  "summary": {
+    "fails": 0,
+    "warns": 3,
+    "overall": "conditional_go",
+    "e2eOverall": "degraded",
+    "resolutionFallback": false,
+    "resolutionSource": "published"
+  }
+}

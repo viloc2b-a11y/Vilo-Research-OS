@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { subjectChartRevalidatePaths } from '@/lib/ops/paths'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { writeProfileEvent } from '@/lib/subject/clinical-profile/audit'
 import {
   DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
@@ -13,6 +15,8 @@ import { createServerClient } from '@/lib/supabase/server'
 async function resolveActorAndOrg(study_subject_id: string): Promise<{
   userId: string
   organizationId: string
+  studyId: string
+  supabase: Awaited<ReturnType<typeof createServerClient>>
 }> {
   const supabase = await createServerClient()
   const {
@@ -22,7 +26,7 @@ async function resolveActorAndOrg(study_subject_id: string): Promise<{
 
   const { data: subject, error } = await supabase
     .from('study_subjects')
-    .select('organization_id')
+    .select('organization_id, study_id')
     .eq('id', study_subject_id)
     .maybeSingle()
 
@@ -33,6 +37,8 @@ async function resolveActorAndOrg(study_subject_id: string): Promise<{
   return {
     userId: user.id,
     organizationId: subject.organization_id as string,
+    studyId: subject.study_id as string,
+    supabase,
   }
 }
 
@@ -72,8 +78,7 @@ export async function addSubjectAdverseEvent(
   const payload = normalizeInput(input)
   if (!payload.event_term) throw new Error('AE term is required.')
 
-  const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
-  const supabase = await createServerClient()
+  const { userId, organizationId, studyId, supabase } = await resolveActorAndOrg(study_subject_id)
 
   const { data, error } = await supabase
     .from('subject_adverse_events')
@@ -110,6 +115,27 @@ export async function addSubjectAdverseEvent(
     source_attribution: payload.source_attribution,
   })
 
+  await ClinicalMutationGateway.emitProfileBridge({
+    supabase,
+    organizationId,
+    studyId,
+    subjectId: study_subject_id,
+    actorUserId: userId,
+    eventType: OPERATIONAL_EVENT_TYPES.ADVERSE_EVENT_CREATED,
+    payloadSource: 'adverse-events',
+    mutation: 'adverse_events.create',
+    visitId: payload.visit_id,
+    profileSection: 'adverse_events',
+    profileEventType: 'created',
+    recordId: data.ae_id,
+    details: {
+      event_term: payload.event_term,
+      severity: payload.severity,
+      seriousness: payload.seriousness,
+      lifecycle_status: payload.lifecycle_status,
+    },
+  })
+
   await revalidateAePaths(study_subject_id)
   return { id: data.ae_id }
 }
@@ -119,8 +145,7 @@ export async function updateSubjectAdverseEvent(
   study_subject_id: string,
   input: Partial<SubjectAdverseEventInput> & { change_reason: string },
 ): Promise<void> {
-  await resolveActorAndOrg(study_subject_id)
-  const supabase = await createServerClient()
+  const { userId, organizationId, studyId, supabase } = await resolveActorAndOrg(study_subject_id)
 
   const { data: before, error: fetchError } = await supabase
     .from('subject_adverse_events')
@@ -177,6 +202,28 @@ export async function updateSubjectAdverseEvent(
     source_attribution:
       (fields.source_attribution as string | undefined) ??
       (before.source_attribution as string | null),
+  })
+
+  await ClinicalMutationGateway.emitProfileBridge({
+    supabase,
+    organizationId,
+    studyId,
+    subjectId: study_subject_id,
+    actorUserId: userId,
+    eventType: OPERATIONAL_EVENT_TYPES.ADVERSE_EVENT_UPDATED,
+    payloadSource: 'adverse-events',
+    mutation: 'adverse_events.update',
+    visitId: (fields.visit_id as string | undefined) ?? (before.visit_id as string | null),
+    profileSection: 'adverse_events',
+    profileEventType: 'updated',
+    recordId: ae_id,
+    details: {
+      change_reason,
+      updated_fields: Object.keys(fields),
+      lifecycle_status:
+        (fields.lifecycle_status as string | undefined) ??
+        (before.lifecycle_status as string | null),
+    },
   })
 
   await revalidateAePaths(study_subject_id)

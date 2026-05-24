@@ -1,5 +1,6 @@
 import { revalidatePath } from 'next/cache'
 import { getSessionUser } from '@/lib/auth/session'
+import { filterConditionalOptionsWithGraph } from '@/lib/protocol-graph/integration/conditional-procedures-graph'
 import { createServerClient } from '@/lib/supabase/server'
 import { visitDetailPath } from '@/lib/subject/chart-paths'
 
@@ -90,7 +91,7 @@ export async function loadConditionalProcedureOptions(input: {
 
   const existingIds = new Set((existing ?? []).map((r) => r.procedure_definition_id as string))
 
-  return maps
+  const options = maps
     .filter((m) => !existingIds.has(m.procedure_definition_id as string))
     .map((m) => {
       const proc = Array.isArray(m.procedure_definitions)
@@ -108,6 +109,14 @@ export async function loadConditionalProcedureOptions(input: {
         isRequired: Boolean(m.is_required),
       }
     })
+
+  return filterConditionalOptionsWithGraph({
+    supabase,
+    organizationId: input.organizationId,
+    studyId: visit.study_id as string,
+    visitId: input.visitId,
+    options,
+  })
 }
 
 export async function instantiateConditionalProcedureAction(

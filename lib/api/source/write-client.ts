@@ -4,6 +4,7 @@
 
 import { cookies, headers } from 'next/headers'
 import type { ApiEnvelope } from '@/lib/api/source/types'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import type {
   AddendumRequestBody,
   CorrectRequestBody,
@@ -58,7 +59,13 @@ async function postSourceWrite<T>(
       errors: [
         {
           code: 'INTERNAL_ERROR',
-          message: `Invalid JSON from ${path} (HTTP ${res.status})`,
+          message: coordinatorMessageFromError(
+            new Error(`Invalid JSON (HTTP ${res.status})`),
+            {
+              context: 'post_source_write',
+              fallbackMessage: 'Source action failed. Refresh and try again.',
+            },
+          ),
         },
       ],
       warnings: [],

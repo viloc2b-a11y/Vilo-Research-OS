@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
+import { publishProtocolGraph } from '@/lib/protocol-graph/publish'
 import { createServerClient } from '@/lib/supabase/server'
 import { canPublishSource } from '@/lib/rbac/permissions'
 
@@ -209,6 +212,35 @@ export async function publishSourcePackageFromArtifacts(formData: FormData): Pro
       'error',
       sdvError?.message ?? 'Publish did not create published source definition versions available for binding.',
     )
+  }
+
+  await ClinicalMutationGateway.emitStudy({
+    supabase,
+    organizationId,
+    studyId,
+    actorUserId: access.user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.SOURCE_PACKAGE_PUBLISHED,
+    payloadSource: 'source-publish',
+    mutation: 'source.publish_package',
+    details: {
+      study_version_id: studyVersionId,
+      package_id: packageId,
+      persisted_at: persistedAt,
+      published_source_definition_version_count: count,
+      graph_id: stringValue(asRecord(publishPackage), 'graph_id') || null,
+      source_definitions_hash: stringValue(asRecord(publishPackage), 'source_definitions_hash') || null,
+    },
+  })
+
+  const graphPublish = await publishProtocolGraph({
+    supabase,
+    organizationId,
+    studyId,
+    studyVersionId,
+    actorUserId: access.user.id,
+  })
+  if (!graphPublish.ok) {
+    console.warn('[source-publish] protocol graph co-publish skipped:', graphPublish.error)
   }
 
   revalidatePath(`/studies/${studyId}`)

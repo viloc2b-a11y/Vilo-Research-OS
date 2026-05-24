@@ -1,0 +1,333 @@
+{
+  "phase": "phase11-runtime-e2e",
+  "runAt": "2026-05-24T17:16:27.264Z",
+  "mode": "hybrid",
+  "pilot": {
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e"
+  },
+  "overallStatus": "degraded",
+  "chainChecks": [
+    {
+      "id": "events-on-mutation",
+      "goal": 1,
+      "label": "Runtime actions emit operational_events",
+      "status": "pass",
+      "detail": "Automation spine event types registered in GATEWAY_EMITTED_EVENT_TYPES."
+    },
+    {
+      "id": "graph-blockers",
+      "goal": 3,
+      "label": "Protocol graph blockers appear in readiness",
+      "status": "pass",
+      "detail": "Graph-category blockers on synthetic blocked visit."
+    },
+    {
+      "id": "safety-governance-carry",
+      "goal": 4,
+      "label": "Safety/governance blockers carry forward",
+      "status": "pass",
+      "detail": "2 safety/governance blocker(s)."
+    },
+    {
+      "id": "replay-explains-blocked",
+      "goal": 5,
+      "label": "Replay explains blocked readiness",
+      "status": "pass",
+      "detail": "protocol_graph: Graph dependency; safety_continuity: Unresolved AE; source: Unresolved CBC",
+      "evidence": {
+        "causalityPath": [
+          "graph-dep",
+          "safety-ae",
+          "source-find",
+          "missing-source",
+          "unresolved-findings",
+          "safety-continuity"
+        ]
+      }
+    },
+    {
+      "id": "financial-leakage",
+      "goal": 6,
+      "label": "Financial leakage derives correctly",
+      "status": "pass",
+      "detail": "7 leakage item(s), score 67."
+    },
+    {
+      "id": "coordinator-next-action",
+      "goal": 7,
+      "label": "Coordinator next action appears",
+      "status": "pass",
+      "detail": "Unresolved AE"
+    },
+    {
+      "id": "automation-propose-apply",
+      "goal": 8,
+      "label": "Automation proposal can be applied (supervised)",
+      "status": "pass",
+      "detail": "12 proposed action(s); coordinator supervised."
+    },
+    {
+      "id": "ui-runtime-intelligence",
+      "goal": 9,
+      "label": "UI model surfaces runtime intelligence",
+      "status": "pass",
+      "detail": "next=\"Unresolved AE\", blocked=true."
+    },
+    {
+      "id": "events-refresh-projections",
+      "goal": 2,
+      "label": "Events / compute refresh derived projections",
+      "status": "pass",
+      "detail": "Enrich chain wired in visit-readiness compute (phases 3–10 integration smokes)."
+    },
+    {
+      "id": "no-silent-mutation",
+      "goal": 10,
+      "label": "No silent mutation breaks the chain (static audit)",
+      "status": "pass",
+      "detail": "No unapproved direct-mutation blockers in lib/ (33 findings, 26 warnings).",
+      "evidence": {
+        "blockers": 0,
+        "warnings": 26
+      }
+    },
+    {
+      "id": "events-on-mutation-live",
+      "goal": 1,
+      "label": "Runtime actions emit operational_events (live visit)",
+      "status": "pass",
+      "detail": "29 operational_event(s) for visit.",
+      "evidence": {
+        "eventCount": 29,
+        "checkInBridge": {
+          "bridged": false,
+          "skipped": true,
+          "reason": "VISIT_CHECKED_IN already present"
+        },
+        "sourceBinding": {
+          "ok": true,
+          "bindingId": "be0fb92a-8642-485e-a279-abad72ce3b74",
+          "sourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+          "lifecycleStatus": "published",
+          "message": "Screening CBC bound to published canonical SDV."
+        }
+      }
+    },
+    {
+      "id": "events-refresh-projections-live",
+      "goal": 2,
+      "label": "Events / compute refresh derived projections",
+      "status": "pass",
+      "detail": "visit_readiness_projections: blocked, 2 blocker(s)",
+      "evidence": {
+        "refresh": {
+          "ok": true,
+          "projectionVersion": 1,
+          "rowsAffected": 1
+        }
+      }
+    },
+    {
+      "id": "graph-blockers-live",
+      "goal": 3,
+      "label": "Protocol graph blockers appear in readiness",
+      "status": "warn",
+      "detail": "readiness=blocked (no graph blockers — OK if visit ready)"
+    },
+    {
+      "id": "safety-governance-carry-live",
+      "goal": 4,
+      "label": "Safety/governance blockers carry forward",
+      "status": "warn",
+      "detail": "0 projection blocker(s), safetyBlockerCount=0"
+    },
+    {
+      "id": "replay-explains-blocked-live",
+      "goal": 5,
+      "label": "Replay explains blocked readiness",
+      "status": "pass",
+      "detail": "signatures: Unsigned procedures; completion: Visit completion blocked",
+      "evidence": {
+        "replayBlocked": true
+      }
+    },
+    {
+      "id": "financial-leakage-live",
+      "goal": 6,
+      "label": "Financial leakage derives correctly",
+      "status": "pass",
+      "detail": "leakage_score=11, items=2"
+    },
+    {
+      "id": "coordinator-next-action-live",
+      "goal": 7,
+      "label": "Coordinator next action appears",
+      "status": "pass",
+      "detail": "Unsigned procedures"
+    },
+    {
+      "id": "automation-propose-apply-live",
+      "goal": 8,
+      "label": "Automation proposal can be applied (supervised)",
+      "status": "pass",
+      "detail": "4 proposed; pending=4; applied=0"
+    },
+    {
+      "id": "ui-runtime-intelligence-live",
+      "goal": 9,
+      "label": "UI model surfaces runtime intelligence",
+      "status": "pass",
+      "detail": "next=\"Unsigned procedures\", readiness=blocked"
+    },
+    {
+      "id": "no-silent-mutation-live",
+      "goal": 10,
+      "label": "No silent mutation breaks the chain (live integrity)",
+      "status": "warn",
+      "detail": "integrity overall=critical; visit replay gaps=0"
+    }
+  ],
+  "failures": [],
+  "integrityAudit": {
+    "directMutationBlockers": 0,
+    "directMutationWarnings": 26,
+    "catalogSilent": 2
+  },
+  "integrityReport": {
+    "version": 1,
+    "scope": "visit",
+    "scopeId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "computedAt": "2026-05-24T17:16:26.147Z",
+    "overallStatus": "critical",
+    "summary": "Status: critical · 1 projection issue(s) · 6 replay gap(s)",
+    "projectionFreshness": [
+      {
+        "projection": "subject_runtime_projections",
+        "scopeId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+        "issue": "missing",
+        "detail": "Subject runtime projection not materialized."
+      }
+    ],
+    "replayGaps": [
+      {
+        "id": "catalog:schedule-materialize",
+        "kind": "catalogued_silent",
+        "severity": "warning",
+        "label": "visits.schedule_materialize",
+        "detail": "Emits when createdCount > 0; visit/procedure inserts may rollback without per-row events.",
+        "expectedEventType": "SCHEDULE_MATERIALIZED"
+      },
+      {
+        "id": "catalog:procedure-sign",
+        "kind": "catalogued_silent",
+        "severity": "critical",
+        "label": "procedure_executions.sign",
+        "detail": "Uses logProcedureOperationalEvent; verify payload envelope matches gateway standard.",
+        "expectedEventType": "PROCEDURE_SIGNED"
+      },
+      {
+        "id": "catalog:procedure-validate-update",
+        "kind": "catalogued_silent",
+        "severity": "info",
+        "label": "procedure_executions.validation_status",
+        "detail": "Updates validation_status without spine event.",
+        "expectedEventType": "VALIDATION_EXECUTED"
+      },
+      {
+        "id": "catalog:visit-runtime-validate",
+        "kind": "catalogued_silent",
+        "severity": "info",
+        "label": "procedure_executions.validation_status",
+        "detail": "Validation refresh write only.",
+        "expectedEventType": "VALIDATION_EXECUTED"
+      },
+      {
+        "id": "catalog:workflow-create-generic",
+        "kind": "catalogued_silent",
+        "severity": "warning",
+        "label": "subject_workflow_actions.create",
+        "detail": "Only query/signature/follow_up types emit; action/correction silent.",
+        "expectedEventType": "QUERY_CREATED | FOLLOW_UP_CREATED | SIGNATURE_REQUESTED"
+      },
+      {
+        "id": "catalog:workflow-resolve-non-query",
+        "kind": "catalogued_silent",
+        "severity": "info",
+        "label": "subject_workflow_actions.resolve",
+        "detail": "Only query resolve emits spine event.",
+        "expectedEventType": "QUERY_RESOLVED"
+      }
+    ],
+    "eventRegistry": {
+      "driftCount": 18,
+      "cataloguedSilentMutations": 6
+    },
+    "recommendations": [],
+    "snapshot": {
+      "catalogSummary": {
+        "patched": 11,
+        "partial": 4,
+        "silent": 2,
+        "rpc_only": 2
+      },
+      "registryDrift": {
+        "legacyAliases": [
+          "external_randomization_recorded",
+          "external_randomization_voided",
+          "visit_checked_in",
+          "visit_rescheduled",
+          "procedure_completed",
+          "procedure_signed",
+          "engine_snapshot_generated",
+          "engine_snapshot_failed",
+          "engine_signature_blocked",
+          "engine_signature_gate_failed_closed",
+          "engine_tasks_materialized",
+          "engine_task_materialization_skipped",
+          "engine_fallback_template_used",
+          "engine_runtime_state_applied",
+          "phase10e_blinded_safe_source_rebound",
+          "phase10e_minimal_blinded_source_bound"
+        ],
+        "nonCanonicalRegistered": [
+          "external_randomization_recorded",
+          "external_randomization_voided"
+        ]
+      }
+    }
+  },
+  "replaySummary": {
+    "segmentCount": 5,
+    "blocked": true,
+    "primaryCauses": [
+      "signatures: Unsigned procedures",
+      "completion: Visit completion blocked"
+    ]
+  },
+  "projectionSummary": {
+    "readinessStatus": "blocked",
+    "blockerCount": 2,
+    "missingSourceCount": 0,
+    "safetyBlockerCount": 0
+  },
+  "uiModelSummary": {
+    "nextAction": "Unsigned procedures",
+    "leakageShow": false,
+    "automationCount": 5,
+    "automationApplied": 0
+  },
+  "remainingBlockers": [],
+  "recommendedFixes": [
+    "Run npm run integrity:audit:strict and clear blocker paths before production pilot.",
+    "Apply migrations 0076–0081 on staging; verify visit_readiness + orchestration + automation tables.",
+    "Use PHASE11_* env vars with a PARA pilot subject that has blocked visit state for full live validation.",
+    "Coordinator must explicitly apply automation — never expect blind apply on projection refresh."
+  ]
+}

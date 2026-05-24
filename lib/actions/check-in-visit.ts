@@ -3,7 +3,9 @@
 import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
-import type { VisitLifecycleResult, VisitLifecycleRpcPayload } from '@/lib/actions/visit-lifecycle.types'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
+import type { VisitLifecycleResult } from '@/lib/actions/visit-lifecycle.types'
 import { mapRuntimeDbErrorToCoordinatorMessage } from '@/lib/concurrency/db-errors'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
@@ -40,7 +42,9 @@ export async function checkInVisit(input: {
     .eq('id', visitId)
     .maybeSingle()
 
-  if (visitErr) return { ok: false, message: visitErr.message }
+  if (visitErr) {
+    return { ok: false, message: mapRuntimeDbErrorToCoordinatorMessage(visitErr, 'Could not load visit.') }
+  }
   if (!visit) return { ok: false, message: 'Visit not found.' }
 
   const currentStatus = visit.visit_status as string | null
@@ -102,6 +106,22 @@ export async function checkInVisit(input: {
       message: 'Visit status changed — refresh the page before checking in.',
     }
   }
+
+  await ClinicalMutationGateway.emitVisit({
+    supabase,
+    organizationId: visit.organization_id as string,
+    studyId: visit.study_id as string,
+    visitId,
+    actorUserId: user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.VISIT_CHECKED_IN,
+    payloadSource: 'check-in-visit',
+    mutation: 'visits.check_in',
+    details: {
+      previous_status: currentStatus,
+      visit_status: 'checked_in',
+      checked_in_at: now,
+    },
+  })
 
   void logAuditEvent({
     organizationId: visit.organization_id as string,

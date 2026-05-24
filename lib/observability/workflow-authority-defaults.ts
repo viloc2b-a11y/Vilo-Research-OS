@@ -1,0 +1,95 @@
+/**
+ * OBS-2 — Static GOV-1 authority defaults for best-effort trace emission (no DB lookup).
+ */
+
+import {
+  WORKFLOW_AUTHORITY_LEVEL,
+  WORKFLOW_KEY,
+  type WorkflowAuthorityLevel,
+  type WorkflowKey,
+} from '@/lib/governance/workflow-authority/constants'
+
+export type ObsWorkflowAuthoritySnapshot = {
+  workflowKey: WorkflowKey
+  baseAuthorityLevel: WorkflowAuthorityLevel
+  effectiveAuthorityLevel: WorkflowAuthorityLevel
+}
+
+const DEFAULTS: Record<WorkflowKey, ObsWorkflowAuthoritySnapshot> = {
+  [WORKFLOW_KEY.ELIGIBILITY]: {
+    workflowKey: WORKFLOW_KEY.ELIGIBILITY,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.RANDOMIZATION]: {
+    workflowKey: WORKFLOW_KEY.RANDOMIZATION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+  },
+  [WORKFLOW_KEY.SOURCE_SIGNING]: {
+    workflowKey: WORKFLOW_KEY.SOURCE_SIGNING,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+  },
+  [WORKFLOW_KEY.VISIT_LOCKING]: {
+    workflowKey: WORKFLOW_KEY.VISIT_LOCKING,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.AE_WORKFLOW]: {
+    workflowKey: WORKFLOW_KEY.AE_WORKFLOW,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.PROTOCOL_DEVIATION]: {
+    workflowKey: WORKFLOW_KEY.PROTOCOL_DEVIATION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.FINANCIAL_RECONCILIATION]: {
+    workflowKey: WORKFLOW_KEY.FINANCIAL_RECONCILIATION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+  },
+  [WORKFLOW_KEY.QUERY_MANAGEMENT]: {
+    workflowKey: WORKFLOW_KEY.QUERY_MANAGEMENT,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+  },
+  [WORKFLOW_KEY.SCHEDULING]: {
+    workflowKey: WORKFLOW_KEY.SCHEDULING,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.ASSISTIVE,
+  },
+  [WORKFLOW_KEY.LAB_SAFETY_ESCALATION]: {
+    workflowKey: WORKFLOW_KEY.LAB_SAFETY_ESCALATION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.SOURCE_INTEGRITY_SNAPSHOT]: {
+    workflowKey: WORKFLOW_KEY.SOURCE_INTEGRITY_SNAPSHOT,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+  },
+  [WORKFLOW_KEY.SOURCE_INTEGRITY_VIOLATION]: {
+    workflowKey: WORKFLOW_KEY.SOURCE_INTEGRITY_VIOLATION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.SYSTEM_ENFORCED,
+  },
+  [WORKFLOW_KEY.WORKFLOW_ABANDONMENT_REVIEW]: {
+    workflowKey: WORKFLOW_KEY.WORKFLOW_ABANDONMENT_REVIEW,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+  [WORKFLOW_KEY.ROLE_CONFLICT_RESOLUTION]: {
+    workflowKey: WORKFLOW_KEY.ROLE_CONFLICT_RESOLUTION,
+    baseAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+    effectiveAuthorityLevel: WORKFLOW_AUTHORITY_LEVEL.HUMAN_REQUIRED,
+  },
+}
+
+export function getObsWorkflowAuthorityDefault(
+  workflowKey: WorkflowKey,
+): ObsWorkflowAuthoritySnapshot {
+  return DEFAULTS[workflowKey]
+}

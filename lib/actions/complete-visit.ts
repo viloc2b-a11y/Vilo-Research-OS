@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
 import type { VisitLifecycleResult, VisitLifecycleRpcPayload } from '@/lib/actions/visit-lifecycle.types'
+import { coordinatorMessageFromError, coordinatorMessageFromRpcFailure } from '@/lib/runtime-errors'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -31,7 +32,13 @@ export async function completeVisit(input: {
     p_visit_id: visitId,
   })
   if (rpcErr) {
-    return { ok: false, message: rpcErr.message }
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(rpcErr, {
+        context: 'complete_visit',
+        fallbackMessage: 'Visit completion failed. Try again or contact support.',
+      }),
+    }
   }
 
   const row = rawRpc as VisitLifecycleRpcPayload | null | undefined
@@ -43,7 +50,10 @@ export async function completeVisit(input: {
       typeof row.error === 'string' && row.error.trim().length > 0
         ? row.error
         : 'Visit completion denied.'
-    return { ok: false, message: msg }
+    return {
+      ok: false,
+      message: coordinatorMessageFromRpcFailure(msg, 'Visit completion denied.'),
+    }
   }
 
   const idempotent = row.idempotent === true

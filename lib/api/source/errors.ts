@@ -2,6 +2,7 @@
  * Phase 5.0 — Source API error/warning builders and RPC normalization.
  */
 
+import { apiErrorFromRuntimeError } from '@/lib/runtime-errors/coordinator-facing'
 import type {
   ApiError,
   ApiWarning,
@@ -81,13 +82,22 @@ function mapRpcItemToApiError(
 ): ApiError {
   const rpcCode = item.code ?? 'RPC_ERROR'
   const mapped = RPC_CODE_TO_HARD_CODE[rpcCode] ?? rpcCode
-  return apiError(
-    mapped,
-    typeof item.message === 'string' && item.message.length > 0 ? item.message : fallbackMessage,
-    { rpc_code: rpcCode, ...item },
-    typeof item.field === 'string' ? item.field : null,
-    'rpc',
-  )
+  const rawMessage =
+    typeof item.message === 'string' && item.message.length > 0 ? item.message : fallbackMessage
+  const translated = apiErrorFromRuntimeError(new Error(rawMessage), {
+    hardBlockCode: mapped,
+    field: typeof item.field === 'string' ? item.field : null,
+    source: 'rpc',
+    context: `rpc:${rpcCode}`,
+  })
+  return {
+    ...translated,
+    context: {
+      ...(translated.context ?? {}),
+      rpc_code: rpcCode,
+      ...item,
+    },
+  }
 }
 
 /**
@@ -96,7 +106,12 @@ function mapRpcItemToApiError(
  */
 export function normalizeRpcError(error: unknown): ApiError[] {
   if (error == null) {
-    return [apiError('RPC_ERROR', 'Unknown RPC error', null, null, 'rpc')]
+    return [
+      apiErrorFromRuntimeError(new Error('Unknown RPC error'), {
+        hardBlockCode: 'RPC_ERROR',
+        source: 'rpc',
+      }),
+    ]
   }
 
   if (typeof error === 'string') {
@@ -112,28 +127,37 @@ export function normalizeRpcError(error: unknown): ApiError[] {
     }
     const mapped = e.code ? RPC_CODE_TO_HARD_CODE[e.code] : undefined
     return [
-      apiError(
-        mapped ?? 'RPC_ERROR',
-        message,
-        { rpc_code: e.code, details: e.details, hint: e.hint },
-        null,
-        'rpc',
-      ),
+      apiErrorFromRuntimeError(error, {
+        hardBlockCode: mapped ?? 'RPC_ERROR',
+        source: 'rpc',
+        context: e.code ?? 'supabase',
+      }),
     ]
   }
 
-  return [apiError('RPC_ERROR', String(error), null, null, 'rpc')]
+  return [
+    apiErrorFromRuntimeError(new Error(String(error)), {
+      hardBlockCode: 'RPC_ERROR',
+      source: 'rpc',
+    }),
+  ]
 }
 
 function exceptionStringToApiError(message: string): ApiError {
   const match = message.match(RPC_PREFIX_RE)
   if (match) {
     const prefix = match[1]
-    const detail = match[2]?.trim() || message
     const code = RPC_PREFIX_TO_HARD_CODE[prefix] ?? 'RPC_ERROR'
-    return apiError(code, detail, { rpc_prefix: prefix, raw: message }, null, 'rpc')
+    return apiErrorFromRuntimeError(new Error(message), {
+      hardBlockCode: code,
+      source: 'rpc',
+      context: `rpc-prefix:${prefix}`,
+    })
   }
-  return apiError('RPC_ERROR', message, { raw: message }, null, 'rpc')
+  return apiErrorFromRuntimeError(new Error(message), {
+    hardBlockCode: 'RPC_ERROR',
+    source: 'rpc',
+  })
 }
 
 /** Convert RPC jsonb `errors` array without dropping entries. */

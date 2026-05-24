@@ -5,6 +5,7 @@
 
 import { cookies, headers } from 'next/headers'
 import type { ApiEnvelope } from '@/lib/api/source/types'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import type {
   FindingsListData,
   FindingsListFilters,
@@ -45,13 +46,16 @@ async function fetchSourceRead<T>(path: string): Promise<ApiEnvelope<T>> {
       cache: 'no-store',
     })
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err)
-    console.error('[fetchSourceRead] network failure', path, message)
+    console.error('[fetchSourceRead] network failure', path, err)
+    const message = coordinatorMessageFromError(err, {
+      context: 'fetch_source_read',
+      fallbackMessage: 'Could not load source data. Refresh and try again.',
+    })
     return {
       ok: false,
       code: 'INTERNAL_ERROR',
       data: null,
-      errors: [{ code: 'INTERNAL_ERROR', message: `Source read request failed: ${message}` }],
+      errors: [{ code: 'INTERNAL_ERROR', message }],
       warnings: [],
       meta: {
         requestId: 'client',
@@ -71,7 +75,12 @@ async function fetchSourceRead<T>(path: string): Promise<ApiEnvelope<T>> {
       ok: false,
       code: 'INTERNAL_ERROR',
       data: null,
-      errors: [{ code: 'INTERNAL_ERROR', message: `Invalid JSON from ${path} (HTTP ${res.status})` }],
+      errors: [
+        {
+          code: 'INTERNAL_ERROR',
+          message: 'Could not load source data. Refresh and try again.',
+        },
+      ],
       warnings: [],
       meta: {
         requestId: 'client',

@@ -23,7 +23,8 @@ const QA_COORDINATOR = {
   email: 'calendar.qa.coordinator@vilo-os.staging',
   password: 'CalendarQaCoordinator!2026',
   displayName: 'Calendar QA Coordinator',
-  role: 'member',
+  role: 'research_coordinator',
+  roles: ['research_coordinator', 'data_coordinator'],
 }
 
 function assertStagingTarget(org) {
@@ -291,16 +292,29 @@ async function main() {
         organization_id: org.id,
         user_id: user.id,
         role: coordinatorSpec.role,
+        roles: coordinatorSpec.roles ?? [coordinatorSpec.role],
       },
       { onConflict: 'organization_id,user_id' },
     )
-    .select('id, role')
+    .select('id, role, roles')
     .single()
 
   if (memErr) throw new Error(`organization_members upsert: ${memErr.message}`)
 
-  const coordinators = await probeCoordinatorSelector(admin, org.id)
   const studyId = (process.env.CALENDAR_QA_STUDY_ID ?? DEFAULT_STUDY_ID).trim()
+
+  const { error: studyMemErr } = await admin.from('study_members').upsert(
+    {
+      organization_id: org.id,
+      study_id: studyId,
+      user_id: user.id,
+      role: 'coordinator',
+    },
+    { onConflict: 'study_id,user_id' },
+  )
+  if (studyMemErr) throw new Error(`study_members upsert: ${studyMemErr.message}`)
+
+  const coordinators = await probeCoordinatorSelector(admin, org.id)
   const availabilityProbe = await probeAvailabilityRules(admin, org.id, user.id, studyId)
 
   const summary = {

@@ -135,8 +135,12 @@ export function fromRpcEnvelope<T>(
 
 /**
  * Build envelope from a thrown Supabase/Postgres error (route catch blocks).
+ * Coordinator-facing messages are translated; technical detail is in error.context.
  */
 export function fromRpcThrown(error: unknown, options?: EnvelopeBuildOptions): ApiEnvelope<null> {
   const errors = normalizeRpcError(error)
-  return errorEnvelope(errors[0]?.code ?? 'RPC_ERROR', errors, options)
+  return errorEnvelope(errors[0]?.code ?? 'RPC_ERROR', errors, {
+    ...options,
+    rpc: options?.rpc,
+  })
 }

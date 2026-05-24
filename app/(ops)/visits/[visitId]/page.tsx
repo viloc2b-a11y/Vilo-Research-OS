@@ -63,6 +63,8 @@ import {
   instantiateConditionalProcedureFormAction,
   loadConditionalProcedureOptions,
 } from '@/lib/visits/conditional-procedures'
+import { VisitRuntimeActionPanel } from '@/components/runtime-ui/VisitRuntimeActionPanel'
+import { loadVisitRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
 
 type VisitWorkspaceProps = {
@@ -440,6 +442,8 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
     protocolTargetDate,
   })
 
+  const visitRuntimeUi = await loadVisitRuntimeUiModel(supabase, visitId, organizationId)
+
   const submittedSets = (responseSets ?? []).filter(rs =>
     ['submitted', 'pending_review', 'reviewed'].includes(rs.status)
   )
@@ -548,6 +552,11 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               chips={closeoutChips}
               workflowHref={visitWorkflowPath}
             />
+            {visitRuntimeUi && visitRuntimeUi.readinessStatus !== 'ready' ? (
+              <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
+                Runtime: {visitRuntimeUi.readinessStatus}
+              </span>
+            ) : null}
           </div>
 
           {/* Completion indicators */}
@@ -588,6 +597,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
           </div>
         </div>
       </header>
+
+      {visitRuntimeUi ? (
+        <div className="flex-shrink-0 border-b border-border bg-card px-6 py-3">
+          <VisitRuntimeActionPanel model={visitRuntimeUi} canMutate={canMutate} variant="compact" />
+        </div>
+      ) : null}
 
       {/* Progress strip */}
       <ProgressStrip steps={progressSteps} />
@@ -698,6 +713,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               </>
             )}
 
+            {visitRuntimeUi ? (
+              <div className="mt-6">
+                <VisitRuntimeActionPanel model={visitRuntimeUi} canMutate={canMutate} variant="full" />
+              </div>
+            ) : null}
+
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <div className="vilo-card p-4">
                 <h3 className="mb-3 text-sm font-semibold text-foreground">Open task links</h3>
@@ -771,6 +792,9 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
         {/* WORKFLOW */}
         {activeTab === 'workflow' && (
           <div className="p-6 max-w-[900px] space-y-6">
+            {visitRuntimeUi ? (
+              <VisitRuntimeActionPanel model={visitRuntimeUi} canMutate={canMutate} variant="workflow" />
+            ) : null}
             {!workflowResult.ok ? (
               <p className="text-sm text-destructive">Could not load visit workflow: {workflowResult.error}</p>
             ) : canMutate ? (

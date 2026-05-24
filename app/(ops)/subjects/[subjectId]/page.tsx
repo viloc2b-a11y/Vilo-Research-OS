@@ -40,6 +40,8 @@ import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
 import { canViewUnblindedData, canMutateOrganizationData } from '@/lib/rbac/permissions'
+import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
+import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
 import { OperationalAuditPanel } from '@/components/operations/OperationalAuditPanel'
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
@@ -230,6 +232,11 @@ export default async function SubjectDetailPage({
   const closeoutReadiness =
     closeoutReadinessResult?.ok === true ? closeoutReadinessResult.data : null
 
+  const subjectRuntimeUi =
+    chartStudyId
+      ? await loadSubjectRuntimeUiModel(supabase, subjectId, organizationId)
+      : null
+
   // Clinical profile — load only when the tab is active
   let clinicalProfile: SubjectClinicalProfile = {
     study_subject_id: subjectId,
@@ -394,6 +401,9 @@ export default async function SubjectDetailPage({
           ) : null}
 
           {/* General */}
+          {activeTab === 'general' && subjectRuntimeUi && chartStudyId ? (
+            <SubjectRuntimeSummaryPanel model={subjectRuntimeUi} studyId={chartStudyId} />
+          ) : null}
           {activeTab === 'general' && operationalIntelligence && chartStudyId && canMutate ? (
             <SubjectOperationalCommandCenter
               intelligence={operationalIntelligence}

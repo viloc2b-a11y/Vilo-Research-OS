@@ -7,6 +7,9 @@ import {
   loadSubjectWorkspaceModel,
   type WorkspaceItem,
 } from '@/lib/ops/workspace-read-model'
+import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
+import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
+import { createServerClient } from '@/lib/supabase/server'
 import { subjectChartPath, subjectVisitsPath } from '@/lib/ops/paths'
 
 type SubjectWorkspacePageProps = {
@@ -63,6 +66,12 @@ function ListCard({
 export default async function SubjectWorkspacePage({ params }: SubjectWorkspacePageProps) {
   const { subjectId } = await params
   const model = await loadSubjectWorkspaceModel(subjectId)
+  const supabase = await createServerClient()
+  const subjectRuntimeUi = await loadSubjectRuntimeUiModel(
+    supabase,
+    subjectId,
+    model.subject.organizationId,
+  )
   const stats: Array<{ label: string; value: number; Icon: LucideIcon }> = [
     { label: 'Visits', value: model.visits.length, Icon: Calendar },
     { label: 'Procedures', value: model.procedures.length, Icon: Activity },
@@ -89,6 +98,10 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
           Open subject chart
         </Link>
       </div>
+
+      {subjectRuntimeUi ? (
+        <SubjectRuntimeSummaryPanel model={subjectRuntimeUi} studyId={model.subject.studyId} />
+      ) : null}
 
       {model.unavailable.length > 0 ? (
         <Card className="border-amber-200 bg-amber-50">

@@ -10,6 +10,7 @@ import type {
   SubjectWorkflowPriority,
   SubjectWorkflowStatus,
 } from '@/lib/subject/workflow/types'
+import { emitWorkflowActionCreatedEvent } from '@/lib/operations/emit-workflow-created'
 import {
   logSourceEngineOperationalEvent,
   operationalContextFromSnapshot,
@@ -398,27 +399,46 @@ export async function materializeSourceEngineTasks(
 
     const payload = mapEngineTaskToSubjectWorkflowAction(candidate, input, input.snapshot)
 
-    const { error } = await supabase.from('subject_workflow_actions').insert({
-      organization_id: payload.organizationId,
-      study_id: payload.studyId,
-      study_subject_id: payload.subjectId,
-      visit_id: payload.visitId,
-      procedure_execution_id: payload.procedureExecutionId,
-      source_response_set_id: payload.sourceResponseSetId,
-      source_section_key: payload.sectionId,
-      action_type: payload.actionType,
-      status: payload.status,
-      priority: payload.priority,
-      title: payload.title,
-      description: payload.description,
-      assigned_role: payload.assignedRole,
-      created_by: input.actorUserId ?? null,
-    })
+    const { data: inserted, error } = await supabase
+      .from('subject_workflow_actions')
+      .insert({
+        organization_id: payload.organizationId,
+        study_id: payload.studyId,
+        study_subject_id: payload.subjectId,
+        visit_id: payload.visitId,
+        procedure_execution_id: payload.procedureExecutionId,
+        source_response_set_id: payload.sourceResponseSetId,
+        source_section_key: payload.sectionId,
+        action_type: payload.actionType,
+        status: payload.status,
+        priority: payload.priority,
+        title: payload.title,
+        description: payload.description,
+        assigned_role: payload.assignedRole,
+        created_by: input.actorUserId ?? null,
+      })
+      .select('id')
+      .single()
 
     if (error) {
       errors.push(`${candidate.deterministicKey}: ${error.message}`)
       continue
     }
+
+    await emitWorkflowActionCreatedEvent({
+      supabase,
+      organizationId: payload.organizationId,
+      studyId: payload.studyId,
+      studySubjectId: payload.subjectId,
+      visitId: payload.visitId,
+      procedureExecutionId: payload.procedureExecutionId,
+      actorUserId: input.actorUserId ?? null,
+      workflowActionId: inserted.id as string,
+      actionType: payload.actionType,
+      title: payload.title,
+      assignedRole: payload.assignedRole,
+      origin: 'source_engine_task_materializer',
+    })
 
     existingKeys.add(candidate.deterministicKey)
     created += 1

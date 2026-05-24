@@ -16,6 +16,7 @@ import { assertSourceResponseSetMutable } from '@/lib/source/capture/assert-resp
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
 import { parseCaptureFormToResponses, readCaptureIds } from '@/lib/source/capture/parse-form'
 import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import { validateCaptureFieldsForSubmit } from '@/lib/source/capture/validate-capture-fields'
 import type { CaptureActionState, CaptureFieldViewModel } from '@/lib/source/capture/types'
 import { loadSourceDefinitionResolutionContext } from '@/lib/source-engine/resolution/load-resolution-context'
@@ -79,7 +80,15 @@ async function assertProcedureEditable(procedureExecutionId: string, organizatio
     .eq('organization_id', organizationId)
     .maybeSingle()
 
-  if (error) return { ok: false as const, message: error.message }
+  if (error) {
+    return {
+      ok: false as const,
+      message: coordinatorMessageFromError(error, {
+        context: 'assert_procedure_editable',
+        fallbackMessage: 'Could not verify procedure status.',
+      }),
+    }
+  }
   if (!data) return { ok: false as const, message: 'Procedure not found.' }
   if (data.is_signed || data.is_locked) {
     return { ok: false as const, message: 'Procedure is signed/locked and cannot be edited.' }

@@ -14,6 +14,11 @@ import {
 import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
 import { resolveSubjectProtocolFields } from '@/lib/subject/subject-protocol-fields'
 import { assertSubjectCloseoutAllowed } from '@/lib/subject/closeout'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
+import {
+  emitSubjectChartSpineEvent,
+  emitSubjectEnrollmentRollback,
+} from '@/lib/subject/subject-chart/emit-subject-spine'
 import { createServerClient } from '@/lib/supabase/server'
 
 const STATUS_VALUES = new Set([
@@ -214,6 +219,21 @@ export async function updateSubjectGeneralAction(
 
   if (error) return { ok: false, message: subjectUpdateErrorMessage(error.message, error.code) }
 
+  await emitSubjectChartSpineEvent({
+    supabase,
+    organizationId,
+    studyId: subject.study_id as string,
+    subjectId,
+    actorUserId: user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.NOTE_ADDED,
+    mutation: 'study_subjects.update_general',
+    details: {
+      prior_enrollment_status: prevStatus,
+      enrollment_status: status,
+      profile_fields_updated: true,
+    },
+  })
+
   if (isExecutionTransition) {
     const { generateSubjectVisitSchedule } = await import(
       '@/lib/visits/generateSubjectVisitSchedule'
@@ -228,6 +248,21 @@ export async function updateSubjectGeneralAction(
         .update({ enrollment_status: prevStatus })
         .eq('id', subjectId)
         .eq('organization_id', organizationId)
+
+      await emitSubjectEnrollmentRollback({
+        supabase,
+        organizationId,
+        studyId: subject.study_id as string,
+        subjectId,
+        actorUserId: user.id,
+        eventType: OPERATIONAL_EVENT_TYPES.NOTE_ADDED,
+        mutation: 'study_subjects.enrollment_status_rollback',
+        details: {
+          restored_enrollment_status: prevStatus,
+          reason: 'visit_schedule_generation_failed',
+          schedule_error: scheduleResult.error,
+        },
+      })
 
       const rollbackNote = rollbackError
         ? ` Rollback of enrollment status also failed: ${rollbackError.message}`
@@ -343,16 +378,16 @@ export async function recordExternalRandomizationAction(
     return { ok: false, message: updateError.message }
   }
 
-  const { data: randomizationEvent, error: eventError } = await supabase
-    .from('operational_events')
-    .insert({
-      organization_id: organizationId,
-      study_id: subject.study_id,
-      event_type: 'external_randomization_recorded',
-      actor_user_id: user.id,
-      occurred_at: new Date().toISOString(),
-      payload: {
-        subject_id: subjectId,
+  try {
+    await emitSubjectChartSpineEvent({
+      supabase,
+      organizationId,
+      studyId: subject.study_id as string,
+      subjectId,
+      actorUserId: user.id,
+      eventType: OPERATIONAL_EVENT_TYPES.EXTERNAL_RANDOMIZATION_RECORDED,
+      mutation: 'study_subjects.external_randomization',
+      details: {
         randomization_number: randomizationNumber,
         randomization_date_time: randomizationIso,
         external_iwrs_rtsm_reference: externalReference,
@@ -361,10 +396,8 @@ export async function recordExternalRandomizationAction(
         product_boundary: 'vilo_records_confirmation_only',
       },
     })
-    .select('id')
-    .single()
-
-  if (eventError) {
+  } catch (eventError) {
+    const message = eventError instanceof Error ? eventError.message : String(eventError)
     const { error: rollbackError } = await supabase
       .from('study_subjects')
       .update({
@@ -378,13 +411,27 @@ export async function recordExternalRandomizationAction(
       .eq('id', subjectId)
       .eq('organization_id', organizationId)
 
+    await emitSubjectEnrollmentRollback({
+      supabase,
+      organizationId,
+      studyId: subject.study_id as string,
+      subjectId,
+      actorUserId: user.id,
+      eventType: OPERATIONAL_EVENT_TYPES.EXTERNAL_RANDOMIZATION_VOIDED,
+      mutation: 'study_subjects.external_randomization_rollback',
+      details: {
+        reason: 'operational_event_logging_failed',
+        event_error: message,
+      },
+    })
+
     const rollbackNote = rollbackError
       ? ` Rollback also failed: ${rollbackError.message}`
       : ' Randomization update was rolled back.'
 
     return {
       ok: false,
-      message: `Subject was not left randomized: operational event logging failed (${eventError.message}).${rollbackNote}`,
+      message: `Subject was not left randomized: operational event logging failed (${message}).${rollbackNote}`,
     }
   }
 
@@ -411,22 +458,20 @@ export async function recordExternalRandomizationAction(
       .eq('id', subjectId)
       .eq('organization_id', organizationId)
 
-    if (randomizationEvent?.id) {
-      await supabase.from('operational_events').insert({
-        organization_id: organizationId,
-        study_id: subject.study_id,
-        event_type: 'external_randomization_voided',
-        actor_user_id: user.id,
-        occurred_at: new Date().toISOString(),
-        payload: {
-          subject_id: subjectId,
-          voided_operational_event_id: randomizationEvent.id,
-          void_reason: 'visit_schedule_generation_failed',
-          schedule_error: scheduleResult.error,
-          product_boundary: 'compensating_event_no_delete',
-        },
-      })
-    }
+    await emitSubjectEnrollmentRollback({
+      supabase,
+      organizationId,
+      studyId: subject.study_id as string,
+      subjectId,
+      actorUserId: user.id,
+      eventType: OPERATIONAL_EVENT_TYPES.EXTERNAL_RANDOMIZATION_VOIDED,
+      mutation: 'study_subjects.external_randomization_rollback',
+      details: {
+        void_reason: 'visit_schedule_generation_failed',
+        schedule_error: scheduleResult.error,
+        product_boundary: 'compensating_event_no_delete',
+      },
+    })
 
     const rollbackNote = rollbackError
       ? ` Rollback of randomization also failed: ${rollbackError.message}`
@@ -467,8 +512,12 @@ async function applySubjectEnrollmentTransition(params: {
   supabase: Awaited<ReturnType<typeof createServerClient>>
   subjectId: string
   organizationId: string
+  studyId: string
   expectedUpdatedAt: string | null
   enrollmentStatus: string
+  spineEventType: string
+  actorUserId: string
+  spineDetails: Record<string, unknown>
 }) {
   let query = params.supabase
     .from('study_subjects')
@@ -487,27 +536,23 @@ async function applySubjectEnrollmentTransition(params: {
   if (!data) {
     return { ok: false as const, message: STALE_WRITE_USER_MESSAGE }
   }
-  return { ok: true as const }
-}
 
-async function insertSubjectCloseoutEvent(params: {
-  supabase: Awaited<ReturnType<typeof createServerClient>>
-  organizationId: string
-  studyId: string
-  eventType: string
-  actorUserId: string
-  payload: Record<string, unknown>
-}) {
-  const { error } = await params.supabase.from('operational_events').insert({
-    organization_id: params.organizationId,
-    study_id: params.studyId,
-    event_type: params.eventType,
-    actor_user_id: params.actorUserId,
-    occurred_at: new Date().toISOString(),
-    payload: params.payload,
-  })
-  if (error?.code === '23505') return { ok: true as const }
-  if (error) return { ok: false as const, message: error.message }
+  try {
+    await emitSubjectChartSpineEvent({
+      supabase: params.supabase,
+      organizationId: params.organizationId,
+      studyId: params.studyId,
+      subjectId: params.subjectId,
+      actorUserId: params.actorUserId,
+      eventType: params.spineEventType,
+      mutation: 'study_subjects.enrollment_status',
+      details: params.spineDetails,
+    })
+  } catch (spineError) {
+    const message = spineError instanceof Error ? spineError.message : String(spineError)
+    return { ok: false as const, message: `Enrollment updated but spine event failed: ${message}` }
+  }
+
   return { ok: true as const }
 }
 
@@ -593,24 +638,17 @@ export async function completeSubjectAction(
     supabase,
     subjectId,
     organizationId,
+    studyId: subject.study_id,
     expectedUpdatedAt: expectedUpdatedAt ?? subject.updated_at,
     enrollmentStatus: 'completed',
-  })
-  if (!transition.ok) return { ok: false, message: transition.message }
-
-  const event = await insertSubjectCloseoutEvent({
-    supabase,
-    organizationId,
-    studyId: subject.study_id,
-    eventType: 'SUBJECT_COMPLETED',
+    spineEventType: OPERATIONAL_EVENT_TYPES.SUBJECT_COMPLETED,
     actorUserId: user.id,
-    payload: {
-      subject_id: subjectId,
+    spineDetails: {
       completion_date: date,
       prior_status: prevStatus,
     },
   })
-  if (!event.ok) return { ok: false, message: event.message }
+  if (!transition.ok) return { ok: false, message: transition.message }
 
   revalidatePath(subjectPath(subjectId))
   return { ok: true, message: 'Subject marked completed. Closeout event recorded.' }
@@ -646,25 +684,18 @@ export async function withdrawSubjectAction(
     supabase,
     subjectId,
     organizationId,
+    studyId: subject.study_id,
     expectedUpdatedAt: expectedUpdatedAt ?? subject.updated_at,
     enrollmentStatus: 'withdrawn',
-  })
-  if (!transition.ok) return { ok: false, message: transition.message }
-
-  const event = await insertSubjectCloseoutEvent({
-    supabase,
-    organizationId,
-    studyId: subject.study_id,
-    eventType: 'SUBJECT_WITHDRAWN',
+    spineEventType: OPERATIONAL_EVENT_TYPES.SUBJECT_WITHDRAWN,
     actorUserId: user.id,
-    payload: {
-      subject_id: subjectId,
+    spineDetails: {
       withdrawal_date: date,
       withdrawal_reason: reason,
       prior_status: prevStatus,
     },
   })
-  if (!event.ok) return { ok: false, message: event.message }
+  if (!transition.ok) return { ok: false, message: transition.message }
 
   revalidatePath(subjectPath(subjectId))
   return { ok: true, message: 'Subject marked withdrawn — reason documented.' }
@@ -701,25 +732,18 @@ export async function screenFailSubjectAction(
     supabase,
     subjectId,
     organizationId,
+    studyId: subject.study_id,
     expectedUpdatedAt: ctx.expectedUpdatedAt ?? subject.updated_at,
     enrollmentStatus: 'screen_failed',
-  })
-  if (!transition.ok) return { ok: false, message: transition.message }
-
-  const event = await insertSubjectCloseoutEvent({
-    supabase,
-    organizationId,
-    studyId: subject.study_id,
-    eventType: 'SUBJECT_SCREEN_FAILED',
+    spineEventType: OPERATIONAL_EVENT_TYPES.SUBJECT_SCREEN_FAILED,
     actorUserId: user.id,
-    payload: {
-      subject_id: subjectId,
+    spineDetails: {
       screen_fail_date: date,
       screen_fail_reason: reason,
       prior_status: prevStatus,
     },
   })
-  if (!event.ok) return { ok: false, message: event.message }
+  if (!transition.ok) return { ok: false, message: transition.message }
 
   revalidatePath(subjectPath(subjectId))
   return { ok: true, message: 'Subject marked screen failed — reason documented.' }
@@ -754,25 +778,18 @@ export async function lostToFollowUpSubjectAction(
     supabase,
     subjectId,
     organizationId,
+    studyId: subject.study_id,
     expectedUpdatedAt: ctx.expectedUpdatedAt ?? subject.updated_at,
     enrollmentStatus: 'lost_to_follow_up',
-  })
-  if (!transition.ok) return { ok: false, message: transition.message }
-
-  const event = await insertSubjectCloseoutEvent({
-    supabase,
-    organizationId,
-    studyId: subject.study_id,
-    eventType: 'SUBJECT_LOST_TO_FOLLOW_UP',
+    spineEventType: OPERATIONAL_EVENT_TYPES.SUBJECT_LOST_TO_FOLLOW_UP,
     actorUserId: user.id,
-    payload: {
-      subject_id: subjectId,
+    spineDetails: {
       ltfu_date: date,
       ltfu_reason: reason,
       prior_status: prevStatus,
     },
   })
-  if (!event.ok) return { ok: false, message: event.message }
+  if (!transition.ok) return { ok: false, message: transition.message }
 
   revalidatePath(subjectPath(subjectId))
   return { ok: true, message: 'Subject marked lost to follow-up — attempts documented.' }

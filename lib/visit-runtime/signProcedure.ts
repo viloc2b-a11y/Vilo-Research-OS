@@ -1,8 +1,13 @@
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEvent'
+import {
+  captureSourceSnapshotBestEffort,
+  SOURCE_SNAPSHOT_TYPE,
+} from '@/lib/source/integrity'
 import { materializeEngineTasksAfterSignatureBlock } from '@/lib/source/capture/materialize-engine-tasks'
 import { checkEngineSignatureReadiness } from '@/lib/source/capture/engine-signature-validation'
 import { isSourceCaptureSubmitted } from '@/lib/source/submitted-source-gate'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { createServerClient } from '@/lib/supabase/server'
 
@@ -17,12 +22,20 @@ export async function signProcedure(params: {
 }) {
   const { data: proc, error: procError } = await params.supabase
     .from('procedure_executions')
-    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at, visits!inner(visit_status)')
+    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at, visits!inner(visit_status, study_subject_id)')
     .eq('id', params.procedureExecutionId)
     .eq('organization_id', params.organizationId)
     .maybeSingle()
 
-  if (procError) return { ok: false as const, error: procError.message }
+  if (procError) {
+    return {
+      ok: false as const,
+      error: coordinatorMessageFromError(procError, {
+        context: 'sign_procedure',
+        fallbackMessage: 'Could not load procedure for signing.',
+      }),
+    }
+  }
   if (!proc) return { ok: false as const, error: 'Procedure not found.' }
 
   if (params.expectedUpdatedAt && proc.updated_at !== params.expectedUpdatedAt) {
@@ -118,7 +131,15 @@ export async function signProcedure(params: {
     .select('id, signed_at, signed_by')
     .maybeSingle()
 
-  if (error) return { ok: false as const, error: error.message }
+  if (error) {
+    return {
+      ok: false as const,
+      error: coordinatorMessageFromError(error, {
+        context: 'sign_procedure_update',
+        fallbackMessage: 'Could not sign procedure. Refresh and try again.',
+      }),
+    }
+  }
   if (!signedRow) {
     const { data: persisted } = await params.supabase
       .from('procedure_executions')
@@ -145,6 +166,24 @@ export async function signProcedure(params: {
       validation_status: validation.status,
     },
   })
+
+  if (validation.responseSetId) {
+    // @ts-expect-error - PostgREST nested visit shape
+    const studySubjectId = proc.visits?.study_subject_id as string | undefined
+    captureSourceSnapshotBestEffort({
+      scope: {
+        supabase: params.supabase,
+        organizationId: params.organizationId,
+        studyId: proc.study_id as string,
+        studySubjectId: studySubjectId ?? null,
+        visitId: proc.visit_id as string,
+        procedureExecutionId: params.procedureExecutionId,
+        sourceResponseSetId: validation.responseSetId,
+        actorUserId: params.actorUserId,
+      },
+      snapshotType: SOURCE_SNAPSHOT_TYPE.SIGN,
+    })
+  }
 
   return { ok: true as const, validation }
 }

@@ -3,6 +3,7 @@ import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/so
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
 import { jsonEnvelope } from '@/lib/api/source/respond'
 import { parseJsonBody, parseOpenBody } from '@/lib/api/source/validate'
+import { observeSourceApiOpenResult } from '@/lib/observability/hooks/observe-source-api'
 
 export async function POST(request: Request) {
   const auth = await requireSourceApiContext()
@@ -32,6 +33,18 @@ export async function POST(request: Request) {
       p_procedure_execution_id: body.procedure_execution_id,
       p_source_definition_version_id: body.source_definition_version_id,
     }, ctx.requestId)
+    observeSourceApiOpenResult({
+      scope: {
+        supabase: ctx.supabase,
+        organizationId: body.organization_id,
+        studyId: body.study_id,
+        studySubjectId: body.study_subject_id,
+        visitId: body.visit_id,
+        procedureExecutionId: body.procedure_execution_id,
+        actorUserId: ctx.user.id,
+      },
+      envelope,
+    })
     return jsonEnvelope(envelope)
   } catch (err) {
     return jsonEnvelope(fromRpcThrown(err, { requestId: ctx.requestId, rpc: 'open_source_response_set' }))

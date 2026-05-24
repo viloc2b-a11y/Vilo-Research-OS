@@ -1,4 +1,5 @@
 import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import type { createServerClient } from '@/lib/supabase/server'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
@@ -18,7 +19,15 @@ export async function assertSourceResponseSetMutable(params: {
     .eq('organization_id', params.organizationId)
     .maybeSingle()
 
-  if (error) return { ok: false as const, message: error.message }
+  if (error) {
+    return {
+      ok: false as const,
+      message: coordinatorMessageFromError(error, {
+        context: 'assert_response_set_mutable',
+        fallbackMessage: 'Could not verify source capture status.',
+      }),
+    }
+  }
   if (!data) return { ok: false as const, message: 'Response set not found.' }
 
   const status = data.status as string

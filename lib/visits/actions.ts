@@ -6,6 +6,8 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { generateSubjectVisitSchedule } from '@/lib/visits/generateSubjectVisitSchedule'
 import { rescheduleVisit } from '@/lib/visits/rescheduleVisit'
 import type { SubjectVisitsActionResult } from '@/lib/subject/visits/types'
+import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
+import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { createServerClient } from '@/lib/supabase/server'
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
@@ -133,6 +135,21 @@ export async function sendVisitReminderAction(input: {
     .eq('id', visitId)
 
   if (visitErr) return { ok: false, error: visitErr.message }
+
+  await ClinicalMutationGateway.emitVisit({
+    supabase,
+    organizationId,
+    studyId: access.studyId,
+    visitId,
+    actorUserId: user.id,
+    eventType: OPERATIONAL_EVENT_TYPES.NOTE_ADDED,
+    payloadSource: 'visit-coordinator-actions',
+    mutation: 'visits.reminder_sent',
+    details: {
+      reminder_type: reminderType,
+      confirmation_status: 'reminder_sent',
+    },
+  })
 
   revalidateVisitPaths(access.studyId, access.subjectId, visitId)
   revalidatePath('/')

@@ -11,6 +11,7 @@ import {
   canManageUnblindedData,
 } from '@/lib/rbac/permissions'
 import { responseItemsContainUnblindedFields } from '@/lib/source/blinding'
+import { observeSourceApiDraftResult } from '@/lib/observability/hooks/observe-source-api'
 
 export async function POST(request: Request) {
   const auth = await requireSourceApiContext()
@@ -61,6 +62,13 @@ export async function POST(request: Request) {
       p_responses: body.responses,
       p_expected_updated_at: body.expected_updated_at ?? null,
     }, ctx.requestId)
+    void observeSourceApiDraftResult({
+      supabase: ctx.supabase,
+      organizationId: body.organization_id,
+      sourceResponseSetId: body.source_response_set_id,
+      actorUserId: ctx.user.id,
+      envelope,
+    })
     return jsonEnvelope(envelope)
   } catch (err) {
     return jsonEnvelope(fromRpcThrown(err, { requestId: ctx.requestId, rpc: 'save_source_draft' }))
