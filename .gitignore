@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -19,9 +20,12 @@ __pycache__/
 /.next/
 /.next-build/
 /out/
+**/.vite/
+**/.cache/
 
 # production
 /build
+**/dist/
 
 # misc
 .DS_Store
