@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
-  INITIAL_FINDING_ACTION_STATE,
   acknowledgeFindingAction,
   resolveFindingAction,
   waiveFindingAction,
 } from '@/lib/source/findings/actions'
+import { INITIAL_FINDING_ACTION_STATE } from '@/lib/source/findings/action-state'
 import type { FindingRowViewModel } from '@/lib/source/read-contract/view-models'
 
 type FindingRowActionsProps = {

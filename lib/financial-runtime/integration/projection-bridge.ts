@@ -22,7 +22,7 @@ export async function enrichVisitReadinessWithFinancialRuntime(input: {
   if (!financial) return input.projection
 
   if (input.persist) {
-    await upsertVisitFinancialRuntimeProjection(input.supabase, financial)
+    await upsertVisitFinancialRuntimeProjection(financial)
   }
 
   return {

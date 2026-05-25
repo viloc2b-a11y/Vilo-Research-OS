@@ -9,6 +9,7 @@ import { publishProtocolGraph } from '@/lib/protocol-graph/publish'
 import { createServerClient } from '@/lib/supabase/server'
 import { canPublishSource } from '@/lib/rbac/permissions'
 import { assertNoForbiddenProtocolTokens, sanitizeObjectDeep } from '@/lib/sanitization/protocol-sanitizer'
+import { safeLogger } from '@/lib/sanitization/safe-logger'
 
 function formText(formData: FormData, key: string): string {
   const value = formData.get(key)
@@ -245,7 +246,7 @@ export async function publishSourcePackageFromArtifacts(formData: FormData): Pro
     actorUserId: access.user.id,
   })
   if (!graphPublish.ok) {
-    console.warn('[source-publish] protocol graph co-publish skipped:', graphPublish.error)
+    safeLogger.warn('[source-publish] protocol graph co-publish skipped:', graphPublish.error)
   }
 
   revalidatePath(`/studies/${studyId}`)

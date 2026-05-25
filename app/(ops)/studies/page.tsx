@@ -188,7 +188,7 @@ export default async function StudiesPortfolioPage() {
       </p>
 
       {/* Studies grid */}
-      <div className="flex-1 overflow-y-auto p-6 scrollbar-thin">
+      <div className="vilo-ops-scroll min-h-0 flex-1 overflow-y-auto p-6 scrollbar-thin">
         {error && (
           <p className="text-sm text-destructive">Could not load studies: {error.message}</p>
         )}

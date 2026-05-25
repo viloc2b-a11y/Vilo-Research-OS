@@ -13,19 +13,12 @@ import {
   validateDraftPayload,
 } from '@/lib/source-builder/draft-payload'
 import { canManageSourceBuilder } from '@/lib/rbac/permissions'
+import type {
+  SourceBuilderDraftActionResult,
+  SourceBuilderDraftSummary,
+} from '@/lib/source-builder/draft-actions-types'
 import type { SourceBuilderDraft } from '@/lib/source-builder/types'
 import { createServerClient } from '@/lib/supabase/server'
-
-export type SourceBuilderDraftSummary = {
-  id: string
-  name: string
-  studyNickname: string | null
-  lastSavedAt: string | null
-}
-
-export type SourceBuilderDraftActionResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string }
 
 type DraftRow = {
   draft_id: string

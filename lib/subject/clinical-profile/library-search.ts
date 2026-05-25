@@ -5,23 +5,18 @@
 // Called from client components via useTransition — returns serializable arrays.
 
 import { createServerClient } from '@/lib/supabase/server'
-import {
-  filterAllergenVocabularyFallback,
-  type AllergenVocabularyEntry,
-} from '@/lib/subject/clinical-profile/allergy-vocabulary-fallback'
+import { filterAllergenVocabularyFallback } from '@/lib/subject/clinical-profile/allergy-vocabulary-fallback'
 import type { SubjectClinicalProfileEvent } from './types'
+import type {
+  AllergenResult,
+  MedicationLibrarySearchOutcome,
+  MedicationResult,
+  PathologyResult,
+} from './library-search-types'
 
 // ---------------------------------------------------------------------------
 // Pathology library search
 // ---------------------------------------------------------------------------
-
-export interface PathologyResult {
-  pathology_id: string
-  common_name: string
-  medical_name: string | null
-  icd10_code: string | null
-  system: string
-}
 
 export async function searchPathologyLibrary(
   query: string,
@@ -46,20 +41,6 @@ export async function searchPathologyLibrary(
 // ---------------------------------------------------------------------------
 // Medication library search
 // ---------------------------------------------------------------------------
-
-export interface MedicationResult {
-  medication_id: string
-  medication_name: string
-  brand_name: string | null
-  drug_class: string | null
-  route: string | null
-}
-
-export type MedicationLibrarySearchOutcome = {
-  results: MedicationResult[]
-  /** Non-blocking client hint when lookup failed; never throws to the page. */
-  error?: string
-}
 
 function escapeMedicationIlike(value: string) {
   return value.replace(/[%_,]/g, ' ').trim()
@@ -150,8 +131,6 @@ export async function searchMedicationLibrary(
 // ---------------------------------------------------------------------------
 // Allergen vocabulary search (library when available + safe fallback)
 // ---------------------------------------------------------------------------
-
-export type AllergenResult = AllergenVocabularyEntry
 
 export async function searchAllergenLibrary(query: string): Promise<AllergenResult[]> {
   if (!query || query.trim().length < 2) return []

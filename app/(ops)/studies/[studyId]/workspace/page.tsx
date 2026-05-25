@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { StudyOperationsPanel } from '@/components/coordinator-operations/StudyOperationsPanel'
+import { StudyVisitSourceContinuityPanel } from '@/components/coordinator-operations/StudyVisitSourceContinuityPanel'
 import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { operationalCalendarPath } from '@/lib/ops/paths'
 import { loadStudyOperationsSurface } from '@/lib/coordinator-operations'
@@ -11,6 +12,8 @@ import {
   loadStudyWorkspaceModel,
   type WorkspaceItem,
 } from '@/lib/ops/workspace-read-model'
+import { createServerClient } from '@/lib/supabase/server'
+import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 
 type StudyWorkspacePageProps = {
   params: Promise<{ studyId: string }>
@@ -65,9 +68,15 @@ function ListCard({
 
 export default async function StudyWorkspacePage({ params }: StudyWorkspacePageProps) {
   const { studyId } = await params
-  const [model, operations] = await Promise.all([
-    loadStudyWorkspaceModel(studyId),
+  const model = await loadStudyWorkspaceModel(studyId)
+  const supabase = await createServerClient()
+  const [operations, runtimeReadiness] = await Promise.all([
     loadStudyOperationsSurface(studyId),
+    canExecuteStudyRuntime({
+      supabase,
+      studyId,
+      organizationId: model.study.organizationId,
+    }),
   ])
   const stats: Array<{ label: string; value: number; Icon: LucideIcon }> = [
     { label: 'Active subjects', value: model.overview.activeSubjects, Icon: Users },
@@ -79,7 +88,7 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
 
   return (
     <CoordinatorPageScroll contentClassName="p-6">
-    <div className="space-y-6">
+    <div className="w-full min-w-0 max-w-none space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{model.study.name}</h1>
@@ -122,7 +131,9 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
 
       <StudyOperationsPanel surface={operations} />
 
-      <div className="grid gap-3 md:grid-cols-5">
+      <StudyVisitSourceContinuityPanel rows={runtimeReadiness.continuityRows} />
+
+      <div className="grid min-w-0 w-full max-w-none gap-3 md:grid-cols-5">
         {stats.map(({ label, value, Icon }) => (
           <Card key={label}>
             <CardContent className="flex items-center gap-3 pt-6">
@@ -136,7 +147,7 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
         ))}
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid min-w-0 w-full max-w-none gap-6 xl:grid-cols-2">
         <ListCard title="Active Subjects" icon={Users} items={model.activeSubjects} empty="No active subjects found." actionHref={`/studies/${studyId}?tab=subjects`} actionLabel="Open subjects" />
         <ListCard title="Upcoming Visits" icon={Calendar} items={model.upcomingVisits} empty="No upcoming visits found." actionHref={`/studies/${studyId}`} actionLabel="Open study" />
         <ListCard title="Source Completion Status" icon={FileText} items={model.sourceCompletion} empty="No incomplete source found." actionHref={`/studies/${studyId}`} actionLabel="Review study" />

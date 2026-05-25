@@ -14,7 +14,7 @@ export default async function AdminPage() {
 
   if (!allowed) {
     return (
-      <div className="flex h-full flex-col overflow-y-auto bg-accent p-6 scrollbar-thin">
+      <div className="vilo-ops-scroll flex h-full min-h-0 flex-col overflow-y-auto bg-accent p-6 scrollbar-thin">
         <div className="mx-auto max-w-lg vilo-card p-6">
           <h1 className="heading-serif text-xl text-foreground">Admin</h1>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -30,7 +30,7 @@ export default async function AdminPage() {
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto bg-accent scrollbar-thin">
+    <div className="vilo-ops-scroll flex h-full min-h-0 flex-col overflow-y-auto bg-accent scrollbar-thin">
       <div className="border-b border-border bg-card px-6 py-5">
         <h1 className="heading-serif text-xl text-foreground">Admin</h1>
         <p className="text-sm text-muted-foreground">

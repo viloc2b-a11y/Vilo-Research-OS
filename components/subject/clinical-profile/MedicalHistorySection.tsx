@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { PathologyCombobox } from './LibrarySearchCombobox'
-import type { PathologyResult } from '@/lib/subject/clinical-profile/library-search'
+import type { PathologyResult } from '@/lib/subject/clinical-profile/library-search-types'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import {

@@ -18,7 +18,7 @@ export function CoordinatorPageScroll({
     <div className={cn('flex h-full flex-col bg-accent', className)}>
       <div
         className={cn(
-          'flex-1 overflow-y-auto bg-accent scrollbar-thin',
+          'vilo-ops-scroll vilo-page-scroll min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-auto bg-accent scrollbar-thin',
           contentClassName,
         )}
       >

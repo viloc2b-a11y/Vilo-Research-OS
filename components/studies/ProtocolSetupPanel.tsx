@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
-  INITIAL_PROTOCOL_SETUP_STATE,
   updateProcedureMapProtocolAction,
   updateVisitDefinitionProtocolAction,
 } from '@/lib/studies/protocol-setup-actions'
+import { INITIAL_PROTOCOL_SETUP_STATE } from '@/lib/studies/protocol-setup-action-state'
 import type { ProtocolSetupMapRow, ProtocolSetupVisitRow } from '@/lib/studies/load-protocol-setup'
 import { SUBJECT_ROLE_OPTIONS, VISIT_MODALITY_OPTIONS } from '@/lib/studies/protocol-primitives'
 

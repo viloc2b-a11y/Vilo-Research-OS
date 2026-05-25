@@ -23,7 +23,7 @@ export function OpsShell({
   canViewVpi = false,
 }: OpsShellProps) {
   return (
-    <div className="flex h-screen overflow-hidden bg-accent">
+    <div className="vilo-ops-shell flex h-screen overflow-hidden bg-accent">
       <Sidebar
         organizationName={organizationName}
         canAccessAdmin={canAccessAdmin}

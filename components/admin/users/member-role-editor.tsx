@@ -4,10 +4,8 @@ import { useActionState, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import {
-  updateOrganizationMemberRoles,
-  INITIAL_ADMIN_USER_ACTION_STATE,
-} from '@/lib/admin/users/actions'
+import { updateOrganizationMemberRoles } from '@/lib/admin/users/actions'
+import { INITIAL_ADMIN_USER_ACTION_STATE } from '@/lib/admin/users/actions-state'
 import {
   assignableRolesForActor,
   canActorEditTargetRoles,

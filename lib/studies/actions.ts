@@ -4,20 +4,10 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { getSessionUser } from '@/lib/auth/session'
+import type { CreateStudyActionState } from '@/lib/studies/create-study-action-state'
 import { isOrgAdminForOrganization } from '@/lib/studies/permissions'
 import { parseCreateStudyForm } from '@/lib/studies/validate-create-study'
 import { createServerClient } from '@/lib/supabase/server'
-
-export type CreateStudyActionState = {
-  ok: boolean
-  message: string | null
-  fieldErrors?: Record<string, string>
-}
-
-export const INITIAL_CREATE_STUDY_STATE: CreateStudyActionState = {
-  ok: false,
-  message: null,
-}
 
 export async function createStudy(
   _prev: CreateStudyActionState,

@@ -17,8 +17,8 @@ import {
   withdrawSubjectAction,
   screenFailSubjectAction,
   lostToFollowUpSubjectAction,
-  INITIAL_SUBJECT_GENERAL_STATE,
 } from '@/lib/subject/subject-chart/actions'
+import { INITIAL_SUBJECT_GENERAL_STATE } from '@/lib/subject/subject-chart/action-state'
 
 function datetimeLocalValue(date?: Date) {
   const d = date || new Date()

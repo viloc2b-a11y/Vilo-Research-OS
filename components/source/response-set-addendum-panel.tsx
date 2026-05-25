@@ -6,10 +6,8 @@ import { CaptureFeedback } from '@/components/source/capture-feedback'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  INITIAL_ADDENDUM_ACTION_STATE,
-  submitResponseSetAddendumAction,
-} from '@/lib/source/addendum/actions'
+import { submitResponseSetAddendumAction } from '@/lib/source/addendum/actions'
+import { INITIAL_ADDENDUM_ACTION_STATE } from '@/lib/source/addendum/action-state'
 import type { AddendumEligibleFieldViewModel } from '@/lib/source/read-contract/view-models'
 
 type ResponseSetAddendumPanelProps = {

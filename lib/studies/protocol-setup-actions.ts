@@ -8,17 +8,8 @@ import {
   parseCommaSeparatedList,
   parseVisitModality,
 } from '@/lib/studies/protocol-primitives'
+import type { ProtocolSetupActionState } from '@/lib/studies/protocol-setup-action-state'
 import { createServerClient } from '@/lib/supabase/server'
-
-export type ProtocolSetupActionState = {
-  ok: boolean
-  message: string | null
-}
-
-export const INITIAL_PROTOCOL_SETUP_STATE: ProtocolSetupActionState = {
-  ok: false,
-  message: null,
-}
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''

@@ -16,7 +16,7 @@ export async function enrichSubjectRuntimeWithOperationalIntelligence(input: {
   })
 
   if (input.persist) {
-    await upsertSubjectOperationalIntelligence(input.supabase, intelligence)
+    await upsertSubjectOperationalIntelligence(intelligence)
   }
 
   return {

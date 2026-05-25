@@ -6,20 +6,8 @@ import {
   postResolveFinding,
   postWaiveFinding,
 } from '@/lib/api/source/write-client'
+import type { FindingActionState } from '@/lib/source/findings/action-state'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
-
-export type FindingActionMessage = {
-  kind: 'success' | 'error'
-  title: string
-  messages: string[]
-  requestId?: string | null
-}
-
-export type FindingActionState = {
-  message: FindingActionMessage | null
-}
-
-export const INITIAL_FINDING_ACTION_STATE: FindingActionState = { message: null }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 

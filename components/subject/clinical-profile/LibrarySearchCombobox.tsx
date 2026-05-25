@@ -11,10 +11,12 @@ import {
   searchPathologyLibrary,
   searchMedicationLibrary,
   searchAllergenLibrary,
-  type PathologyResult,
-  type MedicationResult,
-  type AllergenResult,
 } from '@/lib/subject/clinical-profile/library-search'
+import type {
+  AllergenResult,
+  MedicationResult,
+  PathologyResult,
+} from '@/lib/subject/clinical-profile/library-search-types'
 
 // ---------------------------------------------------------------------------
 // Pathology combobox

@@ -4,19 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { postCorrectResponse } from '@/lib/api/source/write-client'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
 import { parseCorrectedValueInput } from '@/lib/source/correction/parse-corrected-value'
-
-export type CorrectionActionMessage = {
-  kind: 'success' | 'error'
-  title: string
-  messages: string[]
-  requestId?: string | null
-}
-
-export type CorrectionActionState = {
-  message: CorrectionActionMessage | null
-}
-
-export const INITIAL_CORRECTION_ACTION_STATE: CorrectionActionState = { message: null }
+import type { CorrectionActionState } from '@/lib/source/correction/action-state'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 

@@ -3,17 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { getSessionUser } from '@/lib/auth/session'
 import { visitDetailPath } from '@/lib/ops/paths'
+import type { InstantiateConditionalFormState } from '@/lib/visits/conditional-procedure-action-state'
 import { instantiateConditionalProcedureAction } from '@/lib/visits/conditional-procedures'
-
-export type InstantiateConditionalFormState = {
-  ok: boolean
-  message: string | null
-}
-
-export const INITIAL_INSTANTIATE_CONDITIONAL_STATE: InstantiateConditionalFormState = {
-  ok: false,
-  message: null,
-}
 
 export async function instantiateConditionalProcedureFormAction(
   _prev: InstantiateConditionalFormState,

@@ -20,7 +20,7 @@ import {
   DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
   resolveClinicalProfileSourceAttribution,
 } from '@/lib/subject/clinical-profile/defaults'
-import type { AllergenResult } from '@/lib/subject/clinical-profile/library-search'
+import type { AllergenResult } from '@/lib/subject/clinical-profile/library-search-types'
 import type { SubjectAllergy, AllergyInput } from '@/lib/subject/clinical-profile/types'
 
 const SEVERITY_LABELS: Record<string, string> = {

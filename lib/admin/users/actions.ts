@@ -21,16 +21,7 @@ import {
   canManageUnblindedData,
 } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
-
-export type AdminUserActionState = {
-  ok: boolean
-  message: string | null
-}
-
-export const INITIAL_ADMIN_USER_ACTION_STATE: AdminUserActionState = {
-  ok: false,
-  message: null,
-}
+import type { AdminUserActionState } from '@/lib/admin/users/actions-state'
 
 function revalidateAdminUsers() {
   try {

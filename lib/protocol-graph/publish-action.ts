@@ -2,14 +2,8 @@
 
 import { getSessionUser } from '@/lib/auth/session'
 import { publishProtocolGraph } from '@/lib/protocol-graph/publish'
+import type { PublishProtocolGraphFormState } from '@/lib/protocol-graph/publish-action-state'
 import { createServerClient } from '@/lib/supabase/server'
-
-export type PublishProtocolGraphFormState = {
-  ok: boolean
-  message: string | null
-  publicationId?: string
-  graphRevision?: number
-}
 
 export async function publishProtocolGraphAction(input: {
   organizationId: string

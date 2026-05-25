@@ -1,4 +1,4 @@
-import { sanitizeObjectDeep, assertNoForbiddenProtocolTokens } from '@/lib/sanitization/protocol-sanitizer'
+import { assertRuntimePayloadSanitized, sanitizeObjectDeep } from '@/lib/sanitization/protocol-sanitizer'
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
@@ -54,7 +54,7 @@ export async function createOpenRouterChatCompletion(
 ): Promise<OpenRouterChatResponse> {
   const apiKey = requireOpenRouterApiKey()
   const sanitizedRequest = sanitizeObjectDeep(request)
-  assertNoForbiddenProtocolTokens(sanitizedRequest, 'AI chat completion request')
+  assertRuntimePayloadSanitized(sanitizedRequest, 'AI chat completion request')
 
   const response = await fetch(OPENROUTER_API_URL, {
     method: 'POST',

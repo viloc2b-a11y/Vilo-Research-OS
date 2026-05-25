@@ -49,8 +49,8 @@ export async function enrichVisitReadinessWithSafetyContinuity(input: {
   ])
 
   if (input.persist) {
-    await upsertSubjectSafetyContinuityProjection(input.supabase, subjectContinuity)
-    await upsertVisitSafetyCarryForwardProjection(input.supabase, carryForward)
+    await upsertSubjectSafetyContinuityProjection(subjectContinuity)
+    await upsertVisitSafetyCarryForwardProjection(carryForward)
   }
 
   const strengthenedGraphBlockers = strengthenGraphSafetyBlockers({

@@ -10,7 +10,7 @@ export function StudyOperationsPanel({
   const visitStatusEntries = Object.entries(surface.visitStatusCounts).sort((a, b) => b[1] - a[1])
 
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 w-full max-w-none space-y-4">
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border bg-card p-4">
           <p className="text-xs text-muted-foreground">Study readiness</p>

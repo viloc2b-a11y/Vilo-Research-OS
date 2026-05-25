@@ -6,11 +6,11 @@ import { ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { createStudy } from '@/lib/studies/actions'
 import {
-  createStudy,
   INITIAL_CREATE_STUDY_STATE,
   type CreateStudyActionState,
-} from '@/lib/studies/actions'
+} from '@/lib/studies/create-study-action-state'
 import { STUDY_PHASE_OPTIONS, STUDY_STATUS_VALUES } from '@/lib/studies/types'
 
 type OrgOption = {
@@ -58,7 +58,7 @@ export function CreateStudyForm({ organizations, defaultOrganizationId }: Create
         </p>
       </div>
 
-      <form action={formAction} className="vilo-card p-6 space-y-5">
+      <form id="create-study-form" action={formAction} className="vilo-card p-6 space-y-5">
         {showOrgSelect ? (
           <div>
             <Label htmlFor="organization_id">Organization</Label>
@@ -176,7 +176,12 @@ export function CreateStudyForm({ organizations, defaultOrganizationId }: Create
         ) : null}
 
         <div className="flex items-center gap-3 pt-2">
-          <Button type="submit" disabled={pending} className="vilo-btn-primary border-0">
+          <Button
+            id="create-study-submit"
+            type="submit"
+            disabled={pending}
+            className="vilo-btn-primary border-0"
+          >
             {pending ? 'Creating…' : 'Create Study'}
           </Button>
           <Link href="/studies" className="text-sm text-muted-foreground hover:text-foreground">

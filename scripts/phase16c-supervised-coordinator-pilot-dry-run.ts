@@ -269,7 +269,7 @@ async function recomputeVisitOrchestration(service: SupabaseClient, orgId: strin
     visitId: FIXTURE.visitId,
     readiness,
   })
-  if (orch) await upsertVisitCoordinatorOrchestrationProjection(service, orch)
+  if (orch) await upsertVisitCoordinatorOrchestrationProjection(orch)
   return orch
 }
 

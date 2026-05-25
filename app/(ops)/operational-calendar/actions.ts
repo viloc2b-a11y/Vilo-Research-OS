@@ -26,21 +26,18 @@ import {
 } from '@/lib/rbac/permissions'
 import type { BlindingScope } from '@/lib/rbac/blinding'
 import { createServerClient } from '@/lib/supabase/server'
+import type {
+  AvailabilityBlockMutationState,
+  CreateManualCalendarEventState,
+  ManualCalendarEventMutationState,
+  ProtocolVisitRescheduleMutationState,
+} from './action-state'
 
 function clean(value: FormDataEntryValue | null): string | null {
   if (typeof value !== 'string') return null
   const trimmed = value.trim()
   return trimmed.length ? trimmed : null
 }
-
-export type CreateManualCalendarEventState = {
-  ok: boolean
-  message: string | null
-}
-
-export type ManualCalendarEventMutationState = CreateManualCalendarEventState
-export type AvailabilityBlockMutationState = CreateManualCalendarEventState
-export type ProtocolVisitRescheduleMutationState = CreateManualCalendarEventState
 
 const MANUAL_CALENDAR_MUTATION_EVENT_TYPES = [
   'manual_calendar_event_updated',

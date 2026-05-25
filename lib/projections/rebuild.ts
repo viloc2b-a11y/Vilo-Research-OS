@@ -59,7 +59,7 @@ export async function rebuildStudyProjections(
         organizationId,
       )
       if (computed) {
-        await upsertVisitReadinessProjection(supabase, computed)
+        await upsertVisitReadinessProjection(computed)
         visitsRefreshed += 1
       }
     } catch (err) {
@@ -84,7 +84,7 @@ export async function rebuildStudyProjections(
           organizationId,
         )
         if (computed) {
-          await upsertSubjectRuntimeProjection(supabase, computed)
+          await upsertSubjectRuntimeProjection(computed)
           subjectsRefreshed += 1
         }
       } catch (err) {
@@ -101,7 +101,7 @@ export async function rebuildStudyProjections(
       organizationId,
     )
     if (studyComputed) {
-      await upsertStudyExecutionProjection(supabase, studyComputed)
+      await upsertStudyExecutionProjection(studyComputed)
       studyRefreshed = true
     }
   } catch (err) {

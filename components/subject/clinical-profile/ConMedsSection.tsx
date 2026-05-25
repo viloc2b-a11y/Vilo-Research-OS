@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Textarea } from '@/components/ui/textarea'
 import { MedicationCombobox } from './LibrarySearchCombobox'
-import type { MedicationResult } from '@/lib/subject/clinical-profile/library-search'
+import type { MedicationResult } from '@/lib/subject/clinical-profile/library-search-types'
 import {
   addConMed,
   updateConMed,

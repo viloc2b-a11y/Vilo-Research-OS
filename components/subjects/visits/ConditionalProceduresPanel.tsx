@@ -3,10 +3,8 @@
 import { useActionState } from 'react'
 import { Button } from '@/components/ui/button'
 import type { ConditionalProcedureOption } from '@/lib/visits/conditional-procedures'
-import {
-  INITIAL_INSTANTIATE_CONDITIONAL_STATE,
-  instantiateConditionalProcedureFormAction,
-} from '@/lib/visits/conditional-procedure-actions'
+import { instantiateConditionalProcedureFormAction } from '@/lib/visits/conditional-procedure-actions'
+import { INITIAL_INSTANTIATE_CONDITIONAL_STATE } from '@/lib/visits/conditional-procedure-action-state'
 
 function InstantiateForm({
   organizationId,

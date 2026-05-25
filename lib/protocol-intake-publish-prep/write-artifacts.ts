@@ -10,6 +10,7 @@ import type {
   PublishCandidateApproval,
   PublishCandidateAuditEvent,
 } from '@/lib/protocol-intake-publish-prep/types'
+import { sanitizeProtocolRuntimeObject } from '@/lib/sanitization/protocol-sanitizer'
 
 export function loadPublishCandidate(
   draftKey: string,
@@ -18,7 +19,7 @@ export function loadPublishCandidate(
   const path = publishCandidatePath(draftKey, cwd)
   if (!existsSync(path)) return null
   try {
-    return JSON.parse(readFileSync(path, 'utf8')) as PublishCandidate
+    return sanitizeProtocolRuntimeObject(JSON.parse(readFileSync(path, 'utf8')) as PublishCandidate)
   } catch {
     return null
   }
@@ -49,13 +50,14 @@ export function writePublishCandidateArtifacts(
   auditEvent: PublishCandidateAuditEvent,
   cwd = process.cwd(),
 ): void {
-  mkdirSync(publishCandidateDir(candidate.draft_key, cwd), { recursive: true })
+  const sanitizedCandidate = sanitizeProtocolRuntimeObject(candidate)
+  mkdirSync(publishCandidateDir(sanitizedCandidate.draft_key, cwd), { recursive: true })
   writeFileSync(
-    publishCandidatePath(candidate.draft_key, cwd),
-    `${JSON.stringify(candidate, null, 2)}\n`,
+    publishCandidatePath(sanitizedCandidate.draft_key, cwd),
+    `${JSON.stringify(sanitizedCandidate, null, 2)}\n`,
     'utf8',
   )
-  appendPublishCandidateAuditEvent(candidate.draft_key, auditEvent, cwd)
+  appendPublishCandidateAuditEvent(sanitizedCandidate.draft_key, auditEvent, cwd)
 }
 
 export function writePublishCandidateApproval(
@@ -63,11 +65,12 @@ export function writePublishCandidateApproval(
   auditEvent: PublishCandidateAuditEvent,
   cwd = process.cwd(),
 ): void {
-  mkdirSync(publishCandidateDir(approval.draft_key, cwd), { recursive: true })
+  const sanitizedApproval = sanitizeProtocolRuntimeObject(approval)
+  mkdirSync(publishCandidateDir(sanitizedApproval.draft_key, cwd), { recursive: true })
   writeFileSync(
-    publishCandidateApprovalPath(approval.draft_key, cwd),
-    `${JSON.stringify(approval, null, 2)}\n`,
+    publishCandidateApprovalPath(sanitizedApproval.draft_key, cwd),
+    `${JSON.stringify(sanitizedApproval, null, 2)}\n`,
     'utf8',
   )
-  appendPublishCandidateAuditEvent(approval.draft_key, auditEvent, cwd)
+  appendPublishCandidateAuditEvent(sanitizedApproval.draft_key, auditEvent, cwd)
 }

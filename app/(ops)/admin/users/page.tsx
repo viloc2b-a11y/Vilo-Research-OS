@@ -22,7 +22,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
 
   if (!canAccessAdminSection(memberships)) {
     return (
-      <div className="flex h-full flex-col overflow-y-auto bg-accent p-6 scrollbar-thin">
+      <div className="vilo-ops-scroll flex h-full min-h-0 flex-col overflow-y-auto bg-accent p-6 scrollbar-thin">
         <div className="mx-auto max-w-lg vilo-card p-6">
           <h1 className="heading-serif text-xl text-foreground">Team / Users</h1>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -54,7 +54,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   const { model } = loaded
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto bg-accent scrollbar-thin">
+    <div className="vilo-ops-scroll flex h-full min-h-0 flex-col overflow-y-auto bg-accent scrollbar-thin">
       <div className="border-b border-border bg-card px-6 py-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>

@@ -16,7 +16,7 @@ export async function enrichSubjectRuntimeWithFinancialRuntime(input: {
   })
 
   if (input.persist) {
-    await upsertSubjectFinancialRuntimeProjection(input.supabase, financial)
+    await upsertSubjectFinancialRuntimeProjection(financial)
   }
 
   return {

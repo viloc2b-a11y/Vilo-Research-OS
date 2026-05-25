@@ -1,4 +1,5 @@
 import { OperationalCalendarClient } from '@/components/calendar/operational-calendar-client'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { loadOperationalCalendarModel } from '@/lib/calendar/operational-calendar-read-model'
 
 type OperationalCalendarPageProps = {
@@ -11,8 +12,8 @@ export default async function OperationalCalendarPage({ searchParams }: Operatio
   const model = await loadOperationalCalendarModel({ year: parsedYear })
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <CoordinatorPageScroll>
       <OperationalCalendarClient model={model} />
-    </div>
+    </CoordinatorPageScroll>
   )
 }

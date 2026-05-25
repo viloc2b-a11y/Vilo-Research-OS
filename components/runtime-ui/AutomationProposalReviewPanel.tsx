@@ -2,10 +2,8 @@
 
 import { useActionState } from 'react'
 import { Bot, Check, Ban } from 'lucide-react'
-import {
-  applyVisitAutomationProposalAction,
-  type RuntimeUiActionState,
-} from '@/lib/runtime-ui/actions'
+import { applyVisitAutomationProposalAction } from '@/lib/runtime-ui/actions'
+import type { RuntimeUiActionState } from '@/lib/runtime-ui/actions-state'
 import type { VisitRuntimeUiModel } from '@/lib/runtime-ui/types'
 
 const initial: RuntimeUiActionState = { ok: false, message: '' }

@@ -52,7 +52,7 @@ export async function enrichVisitReadinessWithRuntimeAutomation(input: {
   if (!automation) return input.projection
 
   if (input.persist) {
-    await upsertVisitRuntimeAutomationProjection(input.supabase, automation)
+    await upsertVisitRuntimeAutomationProjection(automation)
   }
 
   const top = automation.plan.proposedActions[0]

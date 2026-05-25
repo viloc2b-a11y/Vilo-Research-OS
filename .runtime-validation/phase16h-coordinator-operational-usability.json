@@ -1,0 +1,178 @@
+{
+  "phase": "16h-coordinator-operational-usability",
+  "baseUrl": "http://localhost:3000",
+  "generatedAt": "2026-05-25T16:58:54.728Z",
+  "pass": true,
+  "failureCount": 0,
+  "results": [
+    {
+      "step": "sign-in",
+      "status": "pass",
+      "baseUrl": "http://localhost:3000"
+    },
+    {
+      "route": "studies",
+      "path": "/studies",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "short_page_no_scroll_needed"
+      }
+    },
+    {
+      "route": "command-center",
+      "path": "/command-center",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "operational-calendar",
+      "path": "/operational-calendar",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "study-workspace",
+      "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/workspace",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "subject-workspace",
+      "path": "/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "subject-chart",
+      "path": "/subjects/4384b789-4e16-4512-b3f3-50642b3b9735",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "visit",
+      "path": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "short_page_no_scroll_needed"
+      }
+    },
+    {
+      "route": "source-capture",
+      "path": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc?organization_id=f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+      "status": "pass",
+      "serverError": false,
+      "technicalLeak": false,
+      "rlsViolation": false,
+      "serverActionBoundary": false,
+      "markerOk": true,
+      "scroll": {
+        "ok": true,
+        "note": "scrolled"
+      }
+    },
+    {
+      "route": "studies-new",
+      "path": "/studies/new",
+      "status": "pass",
+      "ok": true,
+      "reason": "admin_gate",
+      "hasForm": false
+    },
+    {
+      "route": "study-workspace-continuity-table",
+      "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/workspace#study-visit-source-continuity",
+      "status": "pass",
+      "ok": true,
+      "reason": "ok",
+      "overflows": true,
+      "scrolled": true,
+      "scrollWidth": 960,
+      "clientWidth": 592,
+      "lastHeader": "Next Action",
+      "titleVisible": true,
+      "serverError": false
+    },
+    {
+      "route": "calendar-from-command-center",
+      "status": "pass",
+      "calendarLinkVisible": true
+    },
+    {
+      "route": "calendar-navigation",
+      "status": "pass"
+    },
+    {
+      "route": "subject-tab-conmeds",
+      "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735?tab=conmeds",
+      "status": "pass",
+      "serverError": false,
+      "safeErrorPanel": false
+    },
+    {
+      "route": "subject-tab-clinical-profile",
+      "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735?tab=clinical-profile",
+      "status": "pass",
+      "serverError": false,
+      "safeErrorPanel": false
+    },
+    {
+      "route": "subject-tab-adverse-events",
+      "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/subjects/4384b789-4e16-4512-b3f3-50642b3b9735?tab=adverse-events",
+      "status": "pass",
+      "serverError": false,
+      "safeErrorPanel": false
+    }
+  ]
+}

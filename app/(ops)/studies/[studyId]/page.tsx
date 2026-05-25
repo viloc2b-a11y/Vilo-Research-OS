@@ -28,6 +28,8 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { canMutateOrganizationData } from '@/lib/rbac/permissions'
 import { publishSourcePackageFromArtifacts } from '@/lib/source-publish/actions'
 import { ProtocolSetupPanel } from '@/components/studies/ProtocolSetupPanel'
+import { StudyVisitSourceContinuityPanel } from '@/components/coordinator-operations/StudyVisitSourceContinuityPanel'
+import { OperationalTableScroll } from '@/components/runtime-ui/OperationalTableScroll'
 import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 import { loadProtocolSetupModel } from '@/lib/studies/load-protocol-setup'
 import { resolveSubjectProtocolFields } from '@/lib/subject/subject-protocol-fields'
@@ -1032,7 +1034,7 @@ function ExecutionReadinessSection({ model }: { model: ExecutionReadinessModel }
   const warnings = model.findings.filter((finding) => finding.severity === 'warning')
 
   return (
-    <section className="vilo-card overflow-hidden">
+    <section id="execution-readiness" className="vilo-card min-w-0 w-full max-w-none">
       <div className="border-b border-border/60 px-5 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -1085,8 +1087,8 @@ function ExecutionReadinessSection({ model }: { model: ExecutionReadinessModel }
         </div>
       </div>
 
-      <div className="grid gap-5 p-5 xl:grid-cols-[minmax(0,360px)_minmax(0,1fr)]">
-        <div className="space-y-3">
+      <div className="flex flex-col gap-5 p-5 xl:flex-row xl:items-start">
+        <div className="min-w-0 space-y-3 xl:w-[min(360px,100%)] xl:shrink-0">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Blockers and Warnings</h3>
           {model.findings.length === 0 ? (
             <div className="rounded-md border border-border p-3 text-sm text-muted-foreground">
@@ -1106,40 +1108,8 @@ function ExecutionReadinessSection({ model }: { model: ExecutionReadinessModel }
           )}
         </div>
 
-        <div className="space-y-3">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Visit to Procedure to Source Continuity</h3>
-          {model.continuityRows.length === 0 ? (
-            <div className="rounded-md border border-border p-3 text-sm text-muted-foreground">
-              No required visit/procedure/source rows are available to validate.
-            </div>
-          ) : (
-            <div className="overflow-x-auto rounded-md border border-border">
-              <table className="w-full min-w-[820px] text-left text-xs">
-                <thead className="bg-muted/40 text-muted-foreground">
-                  <tr>
-                    <th className="px-3 py-2 font-medium">Visit</th>
-                    <th className="px-3 py-2 font-medium">Required Procedure</th>
-                    <th className="px-3 py-2 font-medium">Published Source Bound?</th>
-                    <th className="px-3 py-2 font-medium">Executable?</th>
-                    <th className="px-3 py-2 font-medium">Blocker</th>
-                    <th className="px-3 py-2 font-medium">Next Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {model.continuityRows.map((row) => (
-                    <tr key={row.id} className={row.severity === 'blocker' ? 'bg-red-50/70' : undefined}>
-                      <td className="px-3 py-2 font-medium text-foreground">{row.visitLabel}</td>
-                      <td className="px-3 py-2 text-foreground">{row.procedureLabel}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.bindingState}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.executableState}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.blocker}</td>
-                      <td className="px-3 py-2 text-muted-foreground">{row.nextAction}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        <div className="min-w-0 w-full max-w-none flex-1">
+          <StudyVisitSourceContinuityPanel rows={model.continuityRows} embedded />
         </div>
       </div>
     </section>
@@ -1162,7 +1132,7 @@ function SourceBindingSection({
   const hasPublishedSources = model.publishedSources.length > 0
 
   return (
-    <section id="source-bindings" className="vilo-card overflow-hidden">
+    <section id="source-bindings" className="vilo-card min-w-0 w-full max-w-none">
       <div className="border-b border-border/60 px-5 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -1202,8 +1172,8 @@ function SourceBindingSection({
         </div>
       )}
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[1120px] text-left text-xs">
+      <OperationalTableScroll id="procedure-source-bindings-scroll" minTableWidth={1120}>
+        <table className="w-full min-w-[1120px] text-left text-sm">
           <thead className="bg-muted/40 text-muted-foreground">
             <tr>
               <th className="px-3 py-2 font-medium">Visit</th>
@@ -1285,7 +1255,7 @@ function SourceBindingSection({
             )}
           </tbody>
         </table>
-      </div>
+      </OperationalTableScroll>
     </section>
   )
 }
@@ -1306,7 +1276,7 @@ function SourcePublishContinuitySection({
   const canAttemptPublish = model.studyVersions.length > 0
 
   return (
-    <section id="source-publish" className="vilo-card overflow-hidden">
+    <section id="source-publish" className="vilo-card min-w-0 w-full max-w-none">
       <div className="border-b border-border/60 px-5 py-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -1587,12 +1557,12 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
       </header>
 
       {/* === Tab Content === */}
-      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
+      <div className="vilo-ops-scroll min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-auto bg-accent scrollbar-thin">
 
         {/* OVERVIEW */}
         {activeTab === 'overview' && (
-          <div className="p-6 grid grid-cols-3 gap-6 max-w-[1200px]">
-            <div className="col-span-2 space-y-5">
+          <div className="w-full min-w-0 max-w-none space-y-5 p-6">
+            <div className="min-w-0 w-full max-w-none space-y-5">
               {readiness ? <ExecutionReadinessSection model={readiness} /> : null}
               {protocolSetup ? (
                 <ProtocolSetupPanel
@@ -1663,26 +1633,22 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
               </div>
             </div>
 
-            {/* Right column */}
-            <div className="space-y-5">
-              {/* Study details */}
-              <div className="vilo-card p-5">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Study Details</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Status</span>
-                    <span className="font-medium capitalize">{study.status ?? '—'}</span>
+            <div className="vilo-card min-w-0 w-full p-5">
+              <h3 className="mb-4 text-sm font-semibold text-foreground">Study Details</h3>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Status </span>
+                  <span className="font-medium capitalize">{study.status ?? '—'}</span>
+                </div>
+                {study.slug ? (
+                  <div>
+                    <span className="text-muted-foreground">Slug </span>
+                    <span className="mono-id">{study.slug}</span>
                   </div>
-                  {study.slug && (
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Slug / ID</span>
-                      <span className="mono-id">{study.slug}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total Subjects</span>
-                    <span className="font-medium">{totalSubjects}</span>
-                  </div>
+                ) : null}
+                <div>
+                  <span className="text-muted-foreground">Total subjects </span>
+                  <span className="font-medium">{totalSubjects}</span>
                 </div>
               </div>
             </div>

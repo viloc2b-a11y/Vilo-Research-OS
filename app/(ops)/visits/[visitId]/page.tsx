@@ -651,7 +651,7 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       </div>
 
       {/* === CONTENT === */}
-      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
+      <div className="vilo-ops-scroll min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-auto bg-accent scrollbar-thin">
 
         <VisitOperationalQuickActions
           visitId={visitId}

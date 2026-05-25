@@ -22,7 +22,7 @@ export async function enrichVisitReadinessWithCoordinatorOrchestration(input: {
   if (!orchestration) return input.projection
 
   if (input.persist) {
-    await upsertVisitCoordinatorOrchestrationProjection(input.supabase, orchestration)
+    await upsertVisitCoordinatorOrchestrationProjection(orchestration)
   }
 
   const topAction = orchestration.nextActions[0]

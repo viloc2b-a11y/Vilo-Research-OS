@@ -108,7 +108,7 @@
   --vilo-text-muted: #98a5ad;
   --vilo-border: #e5e5e5;
   --vilo-border-light: #f0eeec;
-  --vilo-font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --vilo-font-sans: var(--font-inter, "Inter"), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --vilo-font-heading: Georgia, "Times New Roman", serif;
   --vilo-font-mono: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
 
@@ -566,4 +566,485 @@
 *:focus-visible {
   outline: 2px solid var(--vilo-teal);
   outline-offset: 2px;
+}
+
+/* =========================================================================
+   Vilo OS — Coordinator ops visual polish (scoped to .vilo-ops-shell)
+   Inter loaded via next/font in app/layout.tsx
+   ========================================================================= */
+.vilo-ops-shell {
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
+  --teal-50: #f0fdfa;
+  --teal-100: #ccfbf1;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+}
+
+.vilo-ops-shell aside.h-screen {
+  background: linear-gradient(175deg, #0e1c28 0%, #0a1520 100%) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.vilo-ops-shell aside .h-16 {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.vilo-ops-shell aside nav.flex-1 {
+  background: transparent !important;
+}
+
+.vilo-ops-shell aside .p-3.flex-shrink-0 {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.vilo-ops-shell aside a.text-white\/60,
+.vilo-ops-shell aside a.text-white\/60:hover {
+  transition: all 0.15s ease !important;
+}
+
+.vilo-ops-shell aside a.bg-\[\#34a090\]\/15 {
+  background: rgba(20, 184, 166, 0.18) !important;
+  border-left: 3px solid #14b8a6 !important;
+  color: #5eead4 !important;
+  font-weight: 600 !important;
+}
+
+.vilo-ops-shell header.flex.h-14 {
+  background: white !important;
+  border-bottom: 1px solid var(--slate-200) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.vilo-ops-shell input[placeholder*='Search'] {
+  background: var(--slate-100) !important;
+  border: 1.5px solid var(--slate-200) !important;
+  border-radius: 8px !important;
+  font-size: 13.5px !important;
+  color: var(--slate-700) !important;
+  transition: all 0.2s ease !important;
+}
+
+.vilo-ops-shell input[placeholder*='Search']:focus {
+  background: white !important;
+  border-color: var(--teal-500) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12) !important;
+  outline: none !important;
+}
+
+.vilo-ops-shell .vilo-ops-scroll,
+.vilo-ops-shell .vilo-page-scroll {
+  background: var(--slate-50) !important;
+}
+
+/* Portfolio / workspace cards (preserve overflow for wide tables) */
+.vilo-ops-shell .vilo-card,
+.vilo-ops-shell .op-card {
+  background: white !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--slate-200) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+
+.vilo-ops-shell .vilo-card-interactive,
+.vilo-ops-shell .op-card-interactive,
+.vilo-ops-shell a.block.vilo-card-interactive {
+  background: white !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--slate-200) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.vilo-ops-shell .vilo-card-interactive:hover,
+.vilo-ops-shell .op-card-interactive:hover,
+.vilo-ops-shell a.block.vilo-card-interactive:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px) !important;
+  border-color: rgba(20, 184, 166, 0.35) !important;
+}
+
+.vilo-ops-shell .heading-serif {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  color: var(--slate-900) !important;
+  letter-spacing: -0.8px !important;
+  line-height: 1.15 !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell main h2:not(.heading-accent) {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--slate-800) !important;
+  letter-spacing: -0.4px !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell main h3 {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--slate-800) !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell main a.border-b-2.border-primary {
+  color: var(--teal-700) !important;
+  border-bottom-color: var(--teal-600) !important;
+}
+
+.vilo-ops-shell main input:not([type='checkbox']):not([type='radio']):not([placeholder*='Search']),
+.vilo-ops-shell main textarea,
+.vilo-ops-shell main select {
+  border-radius: 8px !important;
+  border: 1.5px solid var(--slate-200) !important;
+  font-size: 13.5px !important;
+}
+
+.vilo-ops-shell main input:not([type='checkbox']):not([type='radio']):focus,
+.vilo-ops-shell main textarea:focus,
+.vilo-ops-shell main select:focus {
+  border-color: var(--teal-500) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12) !important;
+  outline: none !important;
+}
+
+.vilo-ops-shell main button.bg-primary {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25) !important;
+}
+
+.vilo-ops-shell main button.bg-primary:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35) !important;
+}
+
+.vilo-ops-shell .bg-card.border-b {
+  background: white !important;
+  border-bottom-color: var(--slate-200) !important;
+}
+
+.vilo-ops-shell main h1 {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  color: var(--slate-900) !important;
+  letter-spacing: -0.8px !important;
+  line-height: 1.15 !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell main p.text-muted-foreground {
+  color: var(--slate-500) !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+}
+
+.vilo-ops-shell .badge-realdb {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #065f46 !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 3px 10px !important;
+}
+
+/* Cards: no overflow:hidden — preserves wide table horizontal scroll */
+.vilo-ops-shell .group\/card {
+  background: white !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--slate-200) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  animation: viloFadeInUp 0.35s ease forwards !important;
+}
+
+.vilo-ops-shell .group\/card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px) !important;
+}
+
+.vilo-ops-shell .group\/card-header {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid var(--slate-100) !important;
+}
+
+.vilo-ops-shell .font-heading {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--slate-800) !important;
+  letter-spacing: -0.2px !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell a[href*='/studies/'].rounded-full {
+  background: #f0fdf4 !important;
+  border: 1.5px solid rgba(16, 185, 129, 0.3) !important;
+  color: #065f46 !important;
+  border-radius: 999px !important;
+  padding: 5px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.vilo-ops-shell a.vilo-calendar-cta,
+.vilo-ops-shell a[href*='operational-calendar'].vilo-calendar-cta {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+  color: white !important;
+  border-radius: 10px !important;
+  padding: 10px 20px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3) !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+}
+
+.vilo-ops-shell a.vilo-calendar-cta:hover {
+  box-shadow: 0 6px 18px rgba(13, 148, 136, 0.42) !important;
+  transform: translateY(-1px) !important;
+}
+
+.vilo-ops-shell a[href*='#today-visits'],
+.vilo-ops-shell a[href*='#out-of-window'],
+.vilo-ops-shell a[href*='#site-work-queue'],
+.vilo-ops-shell a[href*='#incomplete-source'],
+.vilo-ops-shell a[href*='#pending-signatures'],
+.vilo-ops-shell a[href*='#top-next-actions'] {
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.vilo-ops-shell a[href*='#today-visits']:hover .group\/card,
+.vilo-ops-shell a[href*='#out-of-window']:hover .group\/card,
+.vilo-ops-shell a[href*='#incomplete-source']:hover .group\/card,
+.vilo-ops-shell a[href*='#pending-signatures']:hover .group\/card {
+  border-color: var(--teal-500) !important;
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.18) !important;
+  transform: translateY(-2px) !important;
+}
+
+.vilo-ops-shell a[href^='#'] .text-3xl,
+.vilo-ops-shell a[href^='#'] .text-2xl {
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+}
+
+.vilo-ops-shell .wq-label {
+  border-radius: 5px !important;
+  padding: 3px 10px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin-bottom: 6px !important;
+  text-transform: uppercase !important;
+}
+
+.vilo-ops-shell .wq-label-finding-prevention {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.vilo-ops-shell .wq-label-do-now {
+  background: #fef2f2 !important;
+  color: #b91c1c !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+.vilo-ops-shell .wq-label-blocked {
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+}
+
+.vilo-ops-shell .wq-label-source-incomplete {
+  background: #f5f3ff !important;
+  color: #6d28d9 !important;
+  border: 1px solid rgba(124, 58, 237, 0.25) !important;
+}
+
+.vilo-ops-shell .wq-label-follow-up {
+  background: #ecfeff !important;
+  color: #0e7490 !important;
+  border: 1px solid rgba(8, 145, 178, 0.25) !important;
+}
+
+.vilo-ops-shell main h2.heading-accent {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--slate-900) !important;
+  letter-spacing: -0.5px !important;
+  font-family: var(--vilo-font-sans) !important;
+}
+
+.vilo-ops-shell .heading-accent {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 14px !important;
+  border-bottom: 2px solid var(--slate-100) !important;
+}
+
+.vilo-ops-shell .heading-accent-bar {
+  width: 4px !important;
+  height: 22px !important;
+  background: linear-gradient(180deg, #0d9488, #14b8a6) !important;
+  border-radius: 999px !important;
+  flex-shrink: 0 !important;
+}
+
+.vilo-ops-shell main table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.vilo-ops-shell main table thead th {
+  background: var(--slate-50) !important;
+  color: var(--slate-500) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.7px !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid var(--slate-200) !important;
+}
+
+.vilo-ops-shell main table tbody td {
+  padding: 10px 16px !important;
+  color: var(--slate-600) !important;
+  border-bottom: 1px solid var(--slate-100) !important;
+  font-size: 12.5px !important;
+  vertical-align: middle !important;
+}
+
+.vilo-ops-shell main table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.vilo-ops-shell main table tbody tr:hover td {
+  background: var(--slate-50) !important;
+}
+
+.vilo-ops-shell a[href*='#recent-events'] {
+  border-radius: 6px !important;
+  padding: 4px 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease !important;
+  color: var(--slate-500) !important;
+  border: 1.5px solid var(--slate-200) !important;
+  background: white !important;
+}
+
+.vilo-ops-shell a[href*='#recent-events'].bg-primary {
+  background: var(--teal-600) !important;
+  color: white !important;
+  border-color: var(--teal-600) !important;
+}
+
+.vilo-ops-shell .cc-readonly-disclaimer {
+  background: var(--slate-50) !important;
+  color: var(--slate-400) !important;
+  font-size: 11.5px !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--slate-200) !important;
+  margin-top: 8px !important;
+}
+
+.vilo-ops-shell *:focus-visible {
+  outline: 2px solid var(--teal-500) !important;
+  outline-offset: 2px !important;
+}
+
+.vilo-ops-shell ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.vilo-ops-shell ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.vilo-ops-shell ::-webkit-scrollbar-thumb {
+  background: var(--slate-300);
+  border-radius: 999px;
+}
+
+.vilo-ops-shell ::-webkit-scrollbar-thumb:hover {
+  background: var(--slate-400);
+}
+
+/* Login (outside ops shell) */
+.vilo-login-page {
+  --slate-50: #f8fafc;
+  --slate-200: #e2e8f0;
+  --slate-900: #0f172a;
+  background: var(--slate-50) !important;
+}
+
+.vilo-login-page .group\/card {
+  background: white !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--slate-200) !important;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08) !important;
+}
+
+.vilo-login-page .group\/card-header {
+  padding: 20px 24px 8px !important;
+}
+
+.vilo-login-page [data-slot='card-title'] {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--slate-900) !important;
+  letter-spacing: -0.5px !important;
+}
+
+.vilo-login-page input:not([type='checkbox']):not([type='radio']) {
+  border-radius: 8px !important;
+  border: 1.5px solid var(--slate-200) !important;
+}
+
+.vilo-login-page button.bg-primary {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+@keyframes viloFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

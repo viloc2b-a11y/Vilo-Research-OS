@@ -3,7 +3,6 @@ import {
   Activity,
   AlertTriangle,
   Calendar,
-  CalendarDays,
   CheckCircle2,
   Clock,
   FileText,
@@ -14,7 +13,7 @@ import {
 import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { operationalCalendarPath } from '@/lib/ops/paths'
+import { CommandCenterOperationsToolbar } from '@/components/coordinator-operations/CommandCenterOperationsToolbar'
 import { CoordinatorTopActionsPanel } from '@/components/coordinator-operations/CoordinatorTopActionsPanel'
 import { OperationalWorkQueuePanel } from '@/components/coordinator-operations/OperationalWorkQueuePanel'
 import { loadSiteOperationsSurface } from '@/lib/coordinator-operations'
@@ -111,18 +110,18 @@ function Section({
   actionLabel: string
 }) {
   return (
-    <Card id={id} className={`scroll-mt-6 border-t-4 ${sectionToneClass(tone)}`}>
-      <CardHeader className="px-4 pb-2 pt-4">
-        <CardTitle className="flex items-center gap-2 text-base">
+    <Card id={id} className={`scroll-mt-4 border-t-4 ${sectionToneClass(tone)}`}>
+      <CardHeader className="px-3 pb-1 pt-3">
+        <CardTitle className="flex items-center gap-2 text-sm font-semibold">
             <Icon className="size-4 text-primary" />
           {title}
-          <Badge variant="secondary">{items.length}</Badge>
-          <Link href={actionHref} className="ml-auto text-xs font-medium text-primary hover:underline">
+          <Badge variant="secondary" className="text-xs">{items.length}</Badge>
+          <Link href={actionHref} className="ml-auto text-sm font-medium text-primary hover:underline">
             {actionLabel}
           </Link>
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-4 pb-4">
+      <CardContent className="px-3 pb-3">
         {items.length === 0 ? (
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">{empty}</p>
@@ -255,30 +254,38 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
   ]
 
   return (
-    <CoordinatorPageScroll contentClassName="p-6">
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Site Operations Home</h1>
+    <CoordinatorPageScroll contentClassName="p-4 md:p-5">
+    <div className="space-y-3">
+      <header className="flex flex-wrap items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="text-xl font-semibold text-foreground">Site Operations Home</h1>
           <p className="text-sm text-muted-foreground">
-            Site → study → subject → visit → source. Prioritized from live runtime projections — no fabricated metrics.
+            Live runtime projections — work first, then status.
           </p>
         </div>
-        <div className="flex flex-col items-end gap-2">
-          <Badge variant="outline">Real DB read model</Badge>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span>Last updated {formatRelativeTime(model.generatedAt)}</span>
-            <Link href="/command-center" className="inline-flex items-center gap-1 font-medium text-primary hover:underline">
-              <RotateCw className="size-3" />
-              Refresh
-            </Link>
-          </div>
+        <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <Badge variant="outline" className="badge-realdb text-xs font-normal">
+            Live data
+          </Badge>
+          <span>Updated {formatRelativeTime(model.generatedAt)}</span>
+          <Link
+            href="/command-center"
+            className="inline-flex items-center gap-1 font-medium text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <RotateCw className="size-3.5" aria-hidden />
+            Refresh
+          </Link>
         </div>
-      </div>
+      </header>
+
+      <CommandCenterOperationsToolbar
+        activeStudies={siteOps.activeStudies}
+        todayVisitCount={model.todayVisits.length}
+      />
 
       {model.unavailable.length > 0 ? (
         <Card className="border-yellow-400/40 bg-yellow-50 dark:bg-yellow-950/30">
-          <CardContent className="flex flex-wrap items-center gap-3 px-4 py-3">
+          <CardContent className="flex flex-wrap items-center gap-2 px-3 py-2">
             <AlertTriangle className="size-4 flex-shrink-0 text-yellow-700 dark:text-yellow-200" />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">Some sections need attention</p>
@@ -295,69 +302,28 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
         </Card>
       ) : null}
 
-      {siteOps.activeStudies.length > 0 ? (
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Active studies</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
-            {siteOps.activeStudies.map((study) => (
-              <Link
-                key={study.id}
-                href={study.href}
-                className="rounded-full border px-3 py-1 text-xs font-medium hover:bg-accent/30"
-              >
-                {study.name}
-                {study.status ? ` · ${study.status}` : ''}
-              </Link>
-            ))}
-          </CardContent>
-        </Card>
-      ) : null}
-
-      <Card className="border-primary/30 bg-accent/20">
-        <CardContent className="flex flex-wrap items-center justify-between gap-4 px-4 py-4">
-          <div className="flex items-start gap-3">
-            <CalendarDays className="size-5 flex-shrink-0 text-primary" />
-            <div>
-              <p className="text-sm font-semibold text-foreground">Operational calendar</p>
-              <p className="text-xs text-muted-foreground">
-                View scheduled visits, reschedule protocol visits, and coordinate site workload.
-              </p>
-            </div>
-          </div>
-          <Link
-            href={operationalCalendarPath()}
-            className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Open operational calendar
-          </Link>
-        </CardContent>
-      </Card>
-
-      <div id="top-next-actions" className="scroll-mt-6 space-y-4">
-        <CoordinatorTopActionsPanel actions={siteOps.topNextActions} />
-        <div id="site-work-queue">
-          <OperationalWorkQueuePanel
-            buckets={siteOps.workQueueBuckets}
-            emptyMessage={
-              siteOps.projectionDataAvailable
-                ? 'Work queue buckets are empty — visits may be ready or orchestration has not run yet.'
-                : 'Runtime orchestration projections are not populated yet. Open visits to trigger compute, then refresh.'
-            }
-          />
-        </div>
+      <div id="top-next-actions" className="scroll-mt-4 space-y-3">
+        <CoordinatorTopActionsPanel actions={siteOps.topNextActions} compact />
+        <OperationalWorkQueuePanel
+          compact
+          buckets={siteOps.workQueueBuckets}
+          emptyMessage={
+            siteOps.projectionDataAvailable
+              ? 'Work queue buckets are empty — visits may be ready or orchestration has not run yet.'
+              : 'Runtime orchestration projections are not populated yet. Open visits to trigger compute, then refresh.'
+          }
+        />
       </div>
 
-      <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div id="cc-summary-metrics" className="grid gap-2 md:grid-cols-3 xl:grid-cols-6">
         {summary.map(({ id, label, value, icon: Icon, href }) => (
           <Link key={label} href={href} className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-            <Card className={`min-h-28 transition-colors ${summaryToneClass(id, value)}`}>
-            <CardContent className="relative flex h-full flex-col items-center justify-center px-4 py-5 text-center">
-              <Icon className="absolute right-3 top-3 size-4 opacity-70" />
+            <Card className={`min-h-[4.5rem] transition-colors ${summaryToneClass(id, value)}`}>
+            <CardContent className="relative flex h-full flex-col items-center justify-center px-2 py-3 text-center">
+              <Icon className="absolute right-2 top-2 size-3.5 opacity-60" />
               <div>
-                <p className="text-3xl font-semibold leading-none">{value}</p>
-                <p className="mt-2 text-xs font-medium text-muted-foreground">{label}</p>
+                <p className="text-2xl font-semibold leading-none">{value}</p>
+                <p className="mt-1 text-sm font-medium text-muted-foreground">{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -365,25 +331,27 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
         ))}
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        <div className="space-y-4">
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Operational Alerts</h2>
-          </div>
+      <div id="cc-detail-sections" className="grid gap-4 xl:grid-cols-2">
+        <div className="space-y-3">
+          <h2 className="heading-accent text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            <span className="heading-accent-bar" aria-hidden />
+            Operational Alerts
+          </h2>
           {alertSections.map((section) => (
             <Section key={section.id} {...section} />
           ))}
         </div>
-        <div className="space-y-4">
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Process Status</h2>
-          </div>
+        <div className="space-y-3">
+          <h2 className="heading-accent text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            <span className="heading-accent-bar" aria-hidden />
+            Process Status
+          </h2>
           {processSections.map((section) => (
             <Section key={section.id} {...section} />
           ))}
-          <Card id="recent-events" className="scroll-mt-6 border-t-4 border-t-border">
-            <CardHeader className="px-4 pb-2 pt-4">
-              <CardTitle className="flex items-center gap-2 text-base">
+          <Card id="recent-events" className="scroll-mt-4 border-t-4 border-t-border">
+            <CardHeader className="px-3 pb-1 pt-3">
+              <CardTitle className="flex items-center gap-2 text-sm font-semibold">
                 <Clock className="size-4 text-primary" />
                 Recent Operational Events
                 <Badge variant="secondary">{visibleEvents.length}</Badge>
@@ -411,7 +379,7 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
                 </div>
               ) : null}
             </CardHeader>
-            <CardContent className="px-4 pb-4">
+            <CardContent className="px-3 pb-3">
               {visibleEvents.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No recent operational events found.</p>
               ) : (
@@ -453,10 +421,10 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
         </div>
       </div>
 
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <CheckCircle2 className="size-3 text-primary" />
+      <p className="cc-readonly-disclaimer flex items-center gap-2 pt-1 text-sm text-muted-foreground">
+        <CheckCircle2 className="size-3 shrink-0 text-primary" />
         Data shown is read-only and sourced from existing runtime tables; missing sections report unavailable data instead of fabricating values.
-      </div>
+      </p>
     </div>
     </CoordinatorPageScroll>
   )

@@ -6,11 +6,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { SubjectProtocolFields, type AnchorSubjectOption } from '@/components/subject/SubjectProtocolFields'
 import {
-  INITIAL_EXTERNAL_RANDOMIZATION_STATE,
-  INITIAL_SUBJECT_GENERAL_STATE,
   recordExternalRandomizationAction,
   updateSubjectGeneralAction,
 } from '@/lib/subject/subject-chart/actions'
+import {
+  INITIAL_EXTERNAL_RANDOMIZATION_STATE,
+  INITIAL_SUBJECT_GENERAL_STATE,
+} from '@/lib/subject/subject-chart/action-state'
 import type { SubjectRoleKind } from '@/lib/subject/visits/types'
 
 export type SubjectGeneralModel = {

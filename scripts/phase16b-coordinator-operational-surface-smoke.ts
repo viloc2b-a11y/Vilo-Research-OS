@@ -38,6 +38,7 @@ function smokeBucketMapping() {
 function smokeRoutesExist() {
   const routes = [
     'app/(ops)/command-center/page.tsx',
+    'app/(ops)/studies/new/page.tsx',
     'app/(ops)/studies/[studyId]/workspace/page.tsx',
     'app/(ops)/subjects/[subjectId]/workspace/page.tsx',
     'app/(ops)/visits/[visitId]/page.tsx',
@@ -47,9 +48,91 @@ function smokeRoutesExist() {
   }
 }
 
+function smokeProjectionPersistUsesServiceRole() {
+  const persist = read('lib/operational-intelligence/persist.ts')
+  const runtimePersist = read('lib/projections/runtime-projection-persist.ts')
+
+  assert.ok(
+    runtimePersist.includes('getRuntimeProjectionServiceClient'),
+    'runtime projection service client required',
+  )
+  assert.ok(
+    runtimePersist.includes('persistDerivedProjectionSafe'),
+    'fail-soft derived projection persist required',
+  )
+  assert.ok(
+    !persist.includes('if (error) throw new Error'),
+    'operational intelligence persist must not throw on RLS failure',
+  )
+  assert.ok(
+    persist.includes('persistDerivedProjectionSafe'),
+    'operational intelligence persist must use service-role helper',
+  )
+}
+
+function smokeCreateStudyServerActionBoundary() {
+  const actions = read('lib/studies/actions.ts')
+  const state = read('lib/studies/create-study-action-state.ts')
+
+  assert.ok(actions.includes("'use server'"), 'create study actions must be server actions')
+  assert.ok(
+    !actions.includes('export const INITIAL_CREATE_STUDY_STATE'),
+    'initial state must not be exported from use server file',
+  )
+  assert.ok(
+    !actions.includes('export type CreateStudyActionState'),
+    'action state type must not be exported from use server file',
+  )
+  assert.ok(state.includes('INITIAL_CREATE_STUDY_STATE'), 'initial state belongs in state module')
+  assert.match(actions, /export async function createStudy/, 'createStudy must be async export')
+}
+
+function smokeNewStudyPageScroll() {
+  const page = read('app/(ops)/studies/new/page.tsx')
+  const scroll = read('components/runtime-ui/CoordinatorPageScroll.tsx')
+
+  assert.ok(page.includes('CoordinatorPageScroll'), 'new study page needs CoordinatorPageScroll')
+  assert.ok(page.includes('pb-24'), 'new study page needs bottom padding for submit reachability')
+  assert.ok(scroll.includes('min-h-0'), 'scroll host needs min-h-0 in flex shell')
+}
+
+function smokeStudyWorkspaceTableScroll() {
+  const workspace = read('app/(ops)/studies/[studyId]/workspace/page.tsx')
+  const panel = read('components/coordinator-operations/StudyVisitSourceContinuityPanel.tsx')
+  const scroll = read('components/runtime-ui/OperationalTableScroll.tsx')
+
+  assert.ok(workspace.includes('StudyVisitSourceContinuityPanel'), 'study workspace needs continuity panel')
+  assert.ok(panel.includes('study-visit-source-continuity-scroll'), 'continuity scroll container required')
+  assert.ok(panel.includes('min-w-[960px]'), 'continuity table min width required')
+  assert.ok(scroll.includes('overflow-x-auto'), 'operational table scroll wrapper required')
+  assert.ok(scroll.includes('min-w-0'), 'table scroll parent needs min-w-0')
+}
+
+function smokeCommandCenterCompression() {
+  const commandCenter = read('app/(ops)/command-center/page.tsx')
+  const toolbar = read('components/coordinator-operations/CommandCenterOperationsToolbar.tsx')
+
+  assert.ok(commandCenter.includes('CommandCenterOperationsToolbar'), 'compact operations toolbar required')
+  assert.ok(toolbar.includes('cc-operations-toolbar'), 'toolbar landmark id required')
+  assert.ok(toolbar.includes('Open study workspace'), 'active study workspace link required')
+  assert.ok(toolbar.includes('operationalCalendarPath'), 'calendar route required')
+  assert.ok(toolbar.includes('Calendar</span>'), 'compact calendar control required')
+
+  const topActionsIndex = commandCenter.indexOf('CoordinatorTopActionsPanel')
+  const summaryIndex = commandCenter.indexOf('cc-summary-metrics')
+  const detailIndex = commandCenter.indexOf('cc-detail-sections')
+  assert.ok(topActionsIndex >= 0, 'top next actions panel required')
+  assert.ok(summaryIndex >= 0, 'summary metrics section required')
+  assert.ok(topActionsIndex < summaryIndex, 'next actions must precede summary metrics')
+  assert.ok(topActionsIndex < detailIndex, 'next actions must precede detail sections')
+
+  assert.ok(commandCenter.includes('compact'), 'command center uses compact coordinator panels')
+  assert.ok(!commandCenter.includes('Open operational calendar'), 'large calendar promo card removed')
+  assert.ok(!commandCenter.includes('Active studies</CardTitle>'), 'large active studies card removed')
+}
+
 function smokeCoordinatorUsabilityArtifacts() {
   const commandCenter = read('app/(ops)/command-center/page.tsx')
-  assert.ok(commandCenter.includes('Open operational calendar'), 'command center must link calendar')
   assert.ok(commandCenter.includes('CoordinatorPageScroll'), 'command center must scroll')
 
   const subjectWorkspace = read('app/(ops)/subjects/[subjectId]/workspace/page.tsx')
@@ -117,6 +200,11 @@ function smokePagesWired() {
 function main() {
   smokeBucketMapping()
   smokeRoutesExist()
+  smokeProjectionPersistUsesServiceRole()
+  smokeCreateStudyServerActionBoundary()
+  smokeNewStudyPageScroll()
+  smokeStudyWorkspaceTableScroll()
+  smokeCommandCenterCompression()
   smokeCoordinatorUsabilityArtifacts()
   smokeNoSponsorLabels()
   smokeProjectionDerivation()

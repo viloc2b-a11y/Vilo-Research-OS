@@ -34,8 +34,7 @@ export default async function PerformancePage({ searchParams }: PerformancePageP
   ])
 
   return (
-    <div className="p-6">
-      <div className="space-y-6">
+    <div className="space-y-6">
         <PerformanceHeader
         organizationCount={model.organizationCount}
         selectedStudyName={model.studyFilter.selectedStudyName}
@@ -78,7 +77,6 @@ export default async function PerformancePage({ searchParams }: PerformancePageP
           />
         </div>
         </details>
-      </div>
     </div>
   )
 }

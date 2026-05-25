@@ -23,7 +23,7 @@ export async function enrichVisitReadinessWithOperationalIntelligence(input: {
   })
 
   if (input.persist) {
-    await upsertVisitOperationalIntelligence(input.supabase, intelligence)
+    await upsertVisitOperationalIntelligence(intelligence)
   }
 
   let replaySummary: string | undefined

@@ -17,7 +17,7 @@ export async function enrichSubjectRuntimeWithRuntimeAutomation(input: {
   })
 
   if (input.persist) {
-    await upsertSubjectRuntimeAutomationProjection(input.supabase, automation)
+    await upsertSubjectRuntimeAutomationProjection(automation)
   }
 
   return {

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { FindingsPanel } from '@/components/source/findings-panel'
 import { HistoryTimeline } from '@/components/source/history-timeline'
 import { ManifestSummaryPanel } from '@/components/source/manifest-summary-panel'
@@ -86,8 +87,8 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
     bundle.findings.status === 'error'
 
   return (
-    <div className="p-6">
-      <div className="space-y-6 max-w-5xl mx-auto">
+    <CoordinatorPageScroll contentClassName="p-6 pb-24">
+      <div className="mx-auto max-w-5xl space-y-6">
         <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
           <Link href="/studies" className="hover:underline">
@@ -160,6 +161,6 @@ export default async function ResponseSetReviewPage({ params, searchParams }: Pa
         </div>
         </div>
       </div>
-    </div>
+    </CoordinatorPageScroll>
   )
 }

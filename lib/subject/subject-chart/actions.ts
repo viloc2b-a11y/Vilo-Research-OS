@@ -20,6 +20,10 @@ import {
   emitSubjectEnrollmentRollback,
 } from '@/lib/subject/subject-chart/emit-subject-spine'
 import { createServerClient } from '@/lib/supabase/server'
+import type {
+  ExternalRandomizationActionState,
+  SubjectGeneralActionState,
+} from '@/lib/subject/subject-chart/action-state'
 
 const STATUS_VALUES = new Set([
   'screening',
@@ -41,23 +45,6 @@ const BLOCKED_TRANSITIONS: Record<string, Set<string>> = {
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
-
-export type SubjectGeneralActionState = {
-  ok: boolean
-  message: string | null
-}
-
-export const INITIAL_SUBJECT_GENERAL_STATE: SubjectGeneralActionState = {
-  ok: false,
-  message: null,
-}
-
-export type ExternalRandomizationActionState = SubjectGeneralActionState
-
-export const INITIAL_EXTERNAL_RANDOMIZATION_STATE: ExternalRandomizationActionState = {
-  ok: false,
-  message: null,
-}
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''

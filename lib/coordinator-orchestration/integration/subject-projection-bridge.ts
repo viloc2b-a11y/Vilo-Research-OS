@@ -17,7 +17,7 @@ export async function enrichSubjectRuntimeWithCoordinatorOrchestration(input: {
   })
 
   if (input.persist) {
-    await upsertSubjectCoordinatorOrchestrationProjection(input.supabase, orchestration)
+    await upsertSubjectCoordinatorOrchestrationProjection(orchestration)
   }
 
   return {

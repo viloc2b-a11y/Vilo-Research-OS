@@ -12,11 +12,7 @@ import { loadVisitReadinessProjection } from '@/lib/projections/load'
 import { computeVisitReadinessProjection } from '@/lib/projections/compute/visit-readiness'
 import { createServerClient } from '@/lib/supabase/server'
 import { coordinatorMessageFromError } from '@/lib/runtime-errors'
-
-export type RuntimeUiActionState = {
-  ok: boolean
-  message: string
-}
+import type { RuntimeUiActionState } from '@/lib/runtime-ui/actions-state'
 
 function clean(value: FormDataEntryValue | null) {
   const text = typeof value === 'string' ? value.trim() : ''

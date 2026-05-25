@@ -4,10 +4,8 @@ import { useActionState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  addOrganizationMemberByEmail,
-  INITIAL_ADMIN_USER_ACTION_STATE,
-} from '@/lib/admin/users/actions'
+import { addOrganizationMemberByEmail } from '@/lib/admin/users/actions'
+import { INITIAL_ADMIN_USER_ACTION_STATE } from '@/lib/admin/users/actions-state'
 import { ASSIGNABLE_ROLES, roleLabel } from '@/lib/admin/users/role-labels'
 
 type AddMemberFormProps = {

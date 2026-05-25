@@ -27,6 +27,7 @@ const FIXTURE = {
 }
 
 const SCROLL_BOTTOM = {
+  studies: null,
   'command-center': '#recent-events',
   'operational-calendar': null,
   'study-workspace': null,
@@ -37,12 +38,17 @@ const SCROLL_BOTTOM = {
 }
 
 const ROUTES = [
-  { id: 'command-center', path: '/command-center', scrollMarker: /Data shown is read-only/i },
+  { id: 'studies', path: '/studies', scrollMarker: /Studies|Study/i },
+  {
+    id: 'command-center',
+    path: '/command-center',
+    scrollMarker: /Top coordinator next actions|Coordinator work queue/i,
+  },
   { id: 'operational-calendar', path: '/operational-calendar', scrollMarker: /Operational Calendar/i },
   {
     id: 'study-workspace',
     path: `/studies/${FIXTURE.studyId}/workspace`,
-    scrollMarker: /Study operations workspace/i,
+    scrollMarker: /Study operations workspace|Visit to Procedure to Source Continuity/i,
   },
   {
     id: 'subject-workspace',
@@ -66,6 +72,10 @@ const SERVER_ERROR_RE =
   /This page couldn't load|A server error occurred|Application error: a server-side exception/i
 const TECHNICAL_RE =
   /\b(violates|constraint|row-level|pg_|supabase|42P01|stack trace|digest)\b/i
+const RLS_VIOLATION_RE =
+  /row-level security policy|new row violates row-level security/i
+const SERVER_ACTION_BOUNDARY_RE =
+  /use server.*file can only export async functions|found object/i
 
 /** @type {Array<Record<string, unknown>>} */
 const results = []
@@ -152,6 +162,158 @@ async function assertPageScrollable(page, bottomSelector) {
   return { ok: true, note: 'scrolled' }
 }
 
+async function assertContinuityTableReachable(page, studyId) {
+  await page.goto(`/studies/${studyId}/workspace`, { waitUntil: 'domcontentloaded' })
+  try {
+    await page.waitForLoadState('networkidle', { timeout: 25_000 })
+  } catch {
+    // staging latency
+  }
+
+  const body = await page.locator('body').innerText({ timeout: 60_000 })
+  if (SERVER_ERROR_RE.test(body)) {
+    return { ok: false, reason: 'server_error', serverError: true }
+  }
+  if (RLS_VIOLATION_RE.test(body)) {
+    return { ok: false, reason: 'rls_violation', rlsViolation: true }
+  }
+
+  const section = page.locator('#study-visit-source-continuity')
+  await section.waitFor({ state: 'visible', timeout: 60_000 })
+
+  const titleVisible = /Visit to Procedure to Source Continuity/i.test(body)
+  if (!titleVisible) {
+    return { ok: false, reason: 'continuity_title_missing', titleVisible }
+  }
+
+  const metrics = await page.evaluate(() => {
+    const section = document.getElementById('study-visit-source-continuity')
+    const emptyState = /No required visit\/procedure\/source rows/i.test(section?.textContent ?? '')
+    const scroll = document.getElementById('study-visit-source-continuity-scroll')
+    const lastHeader = scroll?.querySelector('thead th:last-child')
+    if (!scroll) {
+      return { ok: emptyState, reason: emptyState ? 'empty_state' : 'scroll_container_missing' }
+    }
+
+    const overflows = scroll.scrollWidth > scroll.clientWidth + 4
+    const before = scroll.scrollLeft
+    scroll.scrollLeft = scroll.scrollWidth
+    const after = scroll.scrollLeft
+    const scrolled = after > before
+
+    let lastColumnReachable = true
+    if (lastHeader && overflows) {
+      const rect = lastHeader.getBoundingClientRect()
+      const host = scroll.getBoundingClientRect()
+      lastColumnReachable = scrolled || rect.right <= host.right + 4
+    }
+
+    const nextActionHeader = scroll.querySelector('thead th:last-child')?.textContent?.trim() ?? ''
+    return {
+      ok: lastColumnReachable && /Next Action/i.test(nextActionHeader),
+      reason: lastColumnReachable ? 'ok' : 'last_column_clipped',
+      overflows,
+      scrolled,
+      scrollWidth: scroll.scrollWidth,
+      clientWidth: scroll.clientWidth,
+      lastHeader: nextActionHeader,
+    }
+  })
+
+  return { ...metrics, titleVisible, serverError: false }
+}
+
+async function assertNewStudyFormScroll(page) {
+  await page.setViewportSize({ width: 900, height: 520 })
+  await page.goto('/studies/new', { waitUntil: 'domcontentloaded' })
+  try {
+    await page.waitForLoadState('networkidle', { timeout: 25_000 })
+  } catch {
+    // staging latency
+  }
+
+  const body = await page.locator('body').innerText({ timeout: 60_000 })
+  if (SERVER_ERROR_RE.test(body)) {
+    return { ok: false, reason: 'server_error', serverError: true }
+  }
+  if (RLS_VIOLATION_RE.test(body)) {
+    return { ok: false, reason: 'rls_violation', rlsViolation: true }
+  }
+  if (SERVER_ACTION_BOUNDARY_RE.test(body)) {
+    return { ok: false, reason: 'server_action_boundary', serverActionBoundary: true }
+  }
+
+  if (/Only organization owners or admins can create studies/i.test(body)) {
+    return { ok: true, reason: 'admin_gate', hasForm: false }
+  }
+
+  const form = page.locator('#create-study-form')
+  await form.waitFor({ state: 'visible', timeout: 60_000 })
+
+  await page.fill('#title', 'Phase16H Scroll Smoke Study')
+  await page.fill('#study_code', `SMOKE-${Date.now().toString(36).slice(-8).toUpperCase()}`)
+  await page.fill('#sponsor_name', 'Vilo QA')
+  const phaseSelect = page.locator('#phase')
+  const phaseOptions = await phaseSelect.locator('option').allTextContents()
+  const firstPhase = phaseOptions.find((t) => t.trim() && !/select phase/i.test(t))?.trim()
+  if (firstPhase) {
+    await phaseSelect.selectOption({ label: firstPhase })
+  }
+
+  const metrics = await page.evaluate(() => {
+    const submit = document.getElementById('create-study-submit')
+    const scrollHosts = Array.from(document.querySelectorAll('.overflow-y-auto'))
+    const scrollEl =
+      scrollHosts.find((el) => el.scrollHeight > el.clientHeight + 8) ??
+      scrollHosts[scrollHosts.length - 1] ??
+      document.scrollingElement ??
+      document.documentElement
+    const before = scrollEl.scrollTop
+    scrollEl.scrollTop = scrollEl.scrollHeight
+    const after = scrollEl.scrollTop
+    const hostRect = scrollEl.getBoundingClientRect()
+    let submitVisible = false
+    if (submit) {
+      const rect = submit.getBoundingClientRect()
+      submitVisible = rect.top >= hostRect.top - 4 && rect.bottom <= hostRect.bottom + 4
+    }
+    const scrollable = scrollEl.scrollHeight > scrollEl.clientHeight + 40
+    return {
+      scrollable,
+      scrolled: after > before || Math.abs(after - (scrollEl.scrollHeight - scrollEl.clientHeight)) < 4,
+      submitVisible,
+      scrollHeight: scrollEl.scrollHeight,
+      clientHeight: scrollEl.clientHeight,
+      viewportHeight: window.innerHeight,
+    }
+  })
+
+  const submitReachable =
+    metrics.submitVisible || (!metrics.scrollable && (await page.locator('#create-study-submit').isVisible()))
+
+  let submitBoundaryOk = true
+  if (submitReachable) {
+    await page.locator('#create-study-submit').click({ noWaitAfter: true })
+    await page.waitForTimeout(1500)
+    const afterSubmit = await page.locator('body').innerText({ timeout: 30_000 })
+    submitBoundaryOk =
+      !SERVER_ERROR_RE.test(afterSubmit) && !SERVER_ACTION_BOUNDARY_RE.test(afterSubmit)
+  }
+
+  return {
+    ok: submitReachable && submitBoundaryOk,
+    reason: !submitReachable
+      ? 'submit_not_reachable'
+      : !submitBoundaryOk
+        ? 'submit_server_action_boundary'
+        : 'submit_reachable',
+    hasForm: true,
+    submitBoundaryOk,
+    ...metrics,
+    serverError: false,
+  }
+}
+
 async function main() {
   const { loadEnvFiles } = await import('./lib/env.mjs')
   loadEnvFiles()
@@ -199,24 +361,46 @@ async function main() {
       const body = await page.locator('body').innerText({ timeout: 60_000 })
       const serverError = SERVER_ERROR_RE.test(body)
       const technicalLeak = TECHNICAL_RE.test(body)
+      const rlsViolation = RLS_VIOLATION_RE.test(body)
+      const serverActionBoundary = SERVER_ACTION_BOUNDARY_RE.test(body)
       const markerOk = route.scrollMarker.test(body)
       const scroll = await assertPageScrollable(page, SCROLL_BOTTOM[route.id] ?? null)
 
       record({
         route: route.id,
         path: route.path,
-        status: serverError ? 'fail' : markerOk && scroll.ok ? 'pass' : 'warn',
+        status:
+          serverError || rlsViolation || serverActionBoundary ? 'fail' : markerOk && scroll.ok ? 'pass' : 'warn',
         serverError,
         technicalLeak,
+        rlsViolation,
+        serverActionBoundary,
         markerOk,
         scroll,
       })
     }
 
+    const newStudy = await assertNewStudyFormScroll(page)
+    record({
+      route: 'studies-new',
+      path: '/studies/new',
+      status: newStudy.ok && !newStudy.serverError ? 'pass' : 'fail',
+      ...newStudy,
+    })
+    await page.setViewportSize({ width: 900, height: 640 })
+
+    const continuity = await assertContinuityTableReachable(page, FIXTURE.studyId)
+    record({
+      route: 'study-workspace-continuity-table',
+      path: `/studies/${FIXTURE.studyId}/workspace#study-visit-source-continuity`,
+      status: continuity.ok && !continuity.serverError ? 'pass' : 'fail',
+      ...continuity,
+    })
+
     // Command center → calendar link
     await page.goto('/command-center', { waitUntil: 'domcontentloaded' })
     const ccBody = await page.locator('body').innerText()
-    const calendarLinkVisible = /Open operational calendar/i.test(ccBody)
+    const calendarLinkVisible = /Calendar/i.test(ccBody) && /Scheduled visits/i.test(ccBody)
     record({
       route: 'calendar-from-command-center',
       status: calendarLinkVisible ? 'pass' : 'fail',
@@ -224,7 +408,7 @@ async function main() {
     })
 
     if (calendarLinkVisible) {
-      await page.getByRole('link', { name: 'Open operational calendar' }).first().click()
+      await page.getByRole('link', { name: /Calendar/i }).first().click()
       await page.waitForLoadState('domcontentloaded')
       const calBody = await page.locator('body').innerText()
       record({

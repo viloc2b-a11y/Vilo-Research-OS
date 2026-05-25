@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import type { ApprovedIntakeDraft } from '@/lib/protocol-intake-review/approve'
 import { approvedDraftPath, reviewAuditPath } from '@/lib/protocol-intake-publish-prep/paths'
+import { sanitizeProtocolRuntimeObject } from '@/lib/sanitization/protocol-sanitizer'
 
 export type LoadedApprovedHandoff = {
   approved: ApprovedIntakeDraft
@@ -16,7 +17,9 @@ export function loadApprovedIntakeDraft(
 ): LoadedApprovedHandoff | null {
   const path = approvedDraftPath(draftKey, cwd)
   if (!existsSync(path)) return null
-  const approved = JSON.parse(readFileSync(path, 'utf8')) as ApprovedIntakeDraft
+  const approved = sanitizeProtocolRuntimeObject(
+    JSON.parse(readFileSync(path, 'utf8')) as ApprovedIntakeDraft,
+  )
   const auditPath = reviewAuditPath(draftKey, cwd)
   const auditExists = existsSync(auditPath)
   let auditEntryCount = 0

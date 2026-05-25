@@ -64,7 +64,7 @@ export async function refreshVisitReadinessProjection(
     if (!computed) {
       return { ok: false, projectionVersion: RUNTIME_PROJECTION_VERSION, rowsAffected: 0, error: 'Visit not found.' }
     }
-    await upsertVisitReadinessProjection(supabase, computed)
+    await upsertVisitReadinessProjection(computed)
     await logProjectionRefresh(supabase, {
       organizationId,
       scope: 'visit',
@@ -141,7 +141,7 @@ export async function refreshSubjectRuntimeProjection(
         error: 'Subject not found.',
       }
     }
-    await upsertSubjectRuntimeProjection(supabase, computed)
+    await upsertSubjectRuntimeProjection(computed)
     await logProjectionRefresh(supabase, {
       organizationId,
       scope: 'subject',
@@ -202,7 +202,7 @@ export async function refreshStudyExecutionProjection(
     if (!computed) {
       return { ok: false, projectionVersion: RUNTIME_PROJECTION_VERSION, rowsAffected: 0, error: 'Study not found.' }
     }
-    await upsertStudyExecutionProjection(supabase, computed)
+    await upsertStudyExecutionProjection(computed)
     await logProjectionRefresh(supabase, {
       organizationId,
       scope: 'study',

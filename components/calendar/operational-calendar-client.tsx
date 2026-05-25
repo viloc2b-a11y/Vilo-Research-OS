@@ -26,11 +26,11 @@ import {
   completeManualCalendarEvent,
   createAvailabilityBlock,
   createManualCalendarEvent,
-  type CreateManualCalendarEventState,
   rescheduleProtocolVisit,
   updateAvailabilityBlock,
   updateManualCalendarEvent,
 } from '@/app/(ops)/operational-calendar/actions'
+import type { CreateManualCalendarEventState } from '@/app/(ops)/operational-calendar/action-state'
 import type {
   OperationalCalendarEvent,
   OperationalCalendarModel,

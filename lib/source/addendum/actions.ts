@@ -4,19 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { postAddendum } from '@/lib/api/source/write-client'
 import { normalizeReadPanelError } from '@/lib/source/read-contract/errors'
 import { parseAddendumValueInput } from '@/lib/source/addendum/parse-addendum-value'
-
-export type AddendumActionMessage = {
-  kind: 'success' | 'error'
-  title: string
-  messages: string[]
-  requestId?: string | null
-}
-
-export type AddendumActionState = {
-  message: AddendumActionMessage | null
-}
-
-export const INITIAL_ADDENDUM_ACTION_STATE: AddendumActionState = { message: null }
+import type { AddendumActionState } from '@/lib/source/addendum/action-state'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 

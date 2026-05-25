@@ -13,6 +13,7 @@ import {
 } from '@/lib/rbac/permissions'
 import { responseItemsContainUnblindedFields } from '@/lib/source/blinding'
 import { observeSourceApiDraftResult } from '@/lib/observability/hooks/observe-source-api'
+import { assertRuntimePayloadSanitized } from '@/lib/sanitization/protocol-sanitizer'
 
 export async function POST(request: Request) {
   const auth = await requireSourceApiContext()
@@ -35,6 +36,20 @@ export async function POST(request: Request) {
   if (!internal.ok) return internal.response
 
   const body = parsed.data
+  try {
+    assertRuntimePayloadSanitized(body, 'source save draft request')
+  } catch (error) {
+    return jsonEnvelope(
+      errorEnvelope('INVALID_REQUEST', [
+        apiError(
+          'INVALID_REQUEST',
+          error instanceof Error ? error.message : 'Runtime rejected unsafe protocol identifier.',
+        ),
+      ], { requestId: ctx.requestId }),
+      422,
+    )
+  }
+
   const memberships = await getOrganizationMemberships(ctx.user.id)
   const canMutateSource =
     canManageSourceDocuments(memberships, body.organization_id)

@@ -57,7 +57,7 @@ export default async function SubjectVisitsPage({ params }: SubjectVisitsPagePro
 
       <SubjectChartNav studyId={studyId} subjectId={subjectId} activeTab="visits" />
 
-      <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
+      <div className="vilo-ops-scroll min-h-0 min-w-0 flex-1 overflow-x-auto overflow-y-auto bg-accent scrollbar-thin">
         <div className="p-6 max-w-[1100px] space-y-5">
           <div>
             <h2 className="text-lg font-semibold" >

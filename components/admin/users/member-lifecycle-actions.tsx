@@ -7,8 +7,8 @@ import { Textarea } from '@/components/ui/textarea'
 import {
   deactivateOrganizationMember,
   reactivateOrganizationMember,
-  INITIAL_ADMIN_USER_ACTION_STATE,
 } from '@/lib/admin/users/actions'
+import { INITIAL_ADMIN_USER_ACTION_STATE } from '@/lib/admin/users/actions-state'
 import type { OrganizationMemberRow } from '@/lib/admin/users/types'
 
 type MemberLifecycleActionsProps = {

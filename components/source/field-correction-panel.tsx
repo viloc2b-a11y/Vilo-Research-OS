@@ -6,10 +6,8 @@ import { CaptureFeedback } from '@/components/source/capture-feedback'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  INITIAL_CORRECTION_ACTION_STATE,
-  submitFieldCorrectionAction,
-} from '@/lib/source/correction/actions'
+import { submitFieldCorrectionAction } from '@/lib/source/correction/actions'
+import { INITIAL_CORRECTION_ACTION_STATE } from '@/lib/source/correction/action-state'
 import type { FieldRowViewModel } from '@/lib/source/read-contract/view-models'
 
 type FieldCorrectionPanelProps = {
