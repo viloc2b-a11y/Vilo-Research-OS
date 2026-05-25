@@ -29,3 +29,6 @@ export const PUBLISH_BLOCKED_UNSAFE_PROTOCOL_IDENTIFIER =
 
 export const EXPORT_BLOCKED_UNSAFE_PROTOCOL_IDENTIFIER =
   'Export blocked: unsafe protocol identifier detected.'
+
+export const RUNTIME_REJECTED_UNSAFE_PROTOCOL_IDENTIFIER =
+  'Runtime rejected: unsafe protocol identifier detected.'

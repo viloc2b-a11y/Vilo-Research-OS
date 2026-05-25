@@ -15,6 +15,7 @@ const SCAN_ROOTS = [
   'supabase',
   'fixtures',
   'tmp',
+  '.github',
 ]
 
 const TEXT_EXTENSIONS = new Set([

@@ -2,6 +2,7 @@ import {
   DEFAULT_PROTOCOL_ALIAS_MAP,
   FORBIDDEN_PROTOCOL_TOKENS,
   PUBLISH_BLOCKED_UNSAFE_PROTOCOL_IDENTIFIER,
+  RUNTIME_REJECTED_UNSAFE_PROTOCOL_IDENTIFIER,
   type ForbiddenProtocolToken,
 } from '@/lib/sanitization/forbidden-protocol-tokens'
 
@@ -62,6 +63,25 @@ export function assertNoForbiddenProtocolTokens(input: unknown, context = 'proto
     tokens: [...new Set(hits.map((hit) => hit.token))],
   })
   throw error
+}
+
+export function assertRuntimePayloadSanitized(input: unknown, context = 'runtime payload'): void {
+  const hits = detectForbiddenProtocolTokens(input)
+  if (hits.length === 0) return
+
+  const error = new Error(RUNTIME_REJECTED_UNSAFE_PROTOCOL_IDENTIFIER)
+  error.name = 'UnsafeRuntimeProtocolIdentifierError'
+  Object.assign(error, {
+    context,
+    tokens: [...new Set(hits.map((hit) => hit.token))],
+  })
+  throw error
+}
+
+export function sanitizeProtocolRuntimeObject<T>(object: T, aliasMap: ProtocolAliasMap = DEFAULT_PROTOCOL_ALIAS_MAP): T {
+  const sanitized = sanitizeObjectDeep(object, aliasMap)
+  assertRuntimePayloadSanitized(sanitized, 'sanitized runtime object')
+  return sanitized
 }
 
 export function sanitizeObjectDeep<T>(object: T, aliasMap: ProtocolAliasMap = DEFAULT_PROTOCOL_ALIAS_MAP): T {
