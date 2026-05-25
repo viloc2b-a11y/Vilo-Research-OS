@@ -53,6 +53,7 @@ export async function createOpenRouterChatCompletion(
   request: OpenRouterChatRequest,
 ): Promise<OpenRouterChatResponse> {
   const apiKey = requireOpenRouterApiKey()
+  // AI context: sanitized display policy (lib/protocol-vault/display-policy — never raw commercial IDs).
   const sanitizedRequest = sanitizeObjectDeep(request)
   assertRuntimePayloadSanitized(sanitizedRequest, 'AI chat completion request')
 

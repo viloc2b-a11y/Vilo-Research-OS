@@ -1,4 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { getStudyDisplayBatch } from '@/lib/protocol-vault/study-display'
+import { resolveOperationalDisplayMode } from '@/lib/protocol-vault/display-policy'
 
 export type OperationalCalendarStudyOption = {
   id: string
@@ -44,15 +46,6 @@ type StudyRow = {
   name: string
   status: string
   slug: string | null
-  study_versions?: {
-    protocol_identifier?: string | null
-    metadata?: { sponsor?: string } | null
-    created_at?: string
-  }[] | {
-    protocol_identifier?: string | null
-    metadata?: { sponsor?: string } | null
-    created_at?: string
-  } | null
 }
 
 type SubjectRow = {
@@ -85,20 +78,6 @@ function one<T>(value: T | T[] | null | undefined): T | null {
   return value ?? null
 }
 
-function latestStudyVersion(
-  versions: StudyRow['study_versions'],
-): { protocol_identifier?: string | null; metadata?: { sponsor?: string } | null } | null {
-  if (!versions) return null
-  const list = Array.isArray(versions) ? versions : [versions]
-  if (list.length === 0) return null
-  const sorted = [...list].sort((a, b) => {
-    const aTime = a.created_at ? new Date(a.created_at).getTime() : 0
-    const bTime = b.created_at ? new Date(b.created_at).getTime() : 0
-    return bTime - aTime
-  })
-  return sorted[0] ?? null
-}
-
 function formatCoordinatorLabel(profile: { display_name?: string | null } | null, userId: string): string {
   const name = profile?.display_name?.trim()
   if (name) return name
@@ -118,7 +97,7 @@ export async function loadOperationalCalendarSelectorOptions(
   const [studiesResult, subjectsResult, visitsResult, membersResult] = await Promise.all([
     supabase
       .from('studies')
-      .select('id, name, status, slug, study_versions(protocol_identifier, metadata, created_at)')
+      .select('id, name, status, slug')
       .in('organization_id', organizationIds)
       .order('name', { ascending: true })
       .limit(200),
@@ -152,14 +131,21 @@ export async function loadOperationalCalendarSelectorOptions(
       .limit(300),
   ])
 
-  const studies = ((studiesResult.data ?? []) as StudyRow[]).map((row) => {
-    const version = latestStudyVersion(row.study_versions)
-    const metadata = version?.metadata as { sponsor?: string } | null | undefined
+  const studyRows = (studiesResult.data ?? []) as StudyRow[]
+  const operationalDisplayMode = resolveOperationalDisplayMode('site_staff_workspace')
+  const studyDisplayById = await getStudyDisplayBatch(
+    supabase,
+    studyRows.map((row) => row.id),
+    operationalDisplayMode,
+  )
+
+  const studies = studyRows.map((row) => {
+    const display = studyDisplayById.get(row.id)
     return {
       id: row.id,
-      name: row.name,
-      protocolNumber: version?.protocol_identifier ?? row.slug ?? null,
-      sponsor: typeof metadata?.sponsor === 'string' ? metadata.sponsor : null,
+      name: display?.studyTitle ?? row.name,
+      protocolNumber: display?.protocolLabel ?? null,
+      sponsor: display?.sponsorLabel ?? null,
       status: row.status,
     }
   })

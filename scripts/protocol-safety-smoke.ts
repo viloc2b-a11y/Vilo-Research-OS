@@ -139,6 +139,14 @@ function smokeRuntimeRejectsUnsafePayloads() {
   )
 }
 
+function smokePhase3VaultMigrationPresent() {
+  const migrationPath = join(process.cwd(), 'supabase', 'migrations', '0092_phase3_protocol_raw_vault.sql')
+  assert.equal(existsSync(migrationPath), true)
+  const sql = readFileSync(migrationPath, 'utf8')
+  assert.match(sql, /study_alias_maps/)
+  assert.equal(detectForbiddenProtocolTokens(sql).length, 0)
+}
+
 function main() {
   assert.ok(FORBIDDEN_PROTOCOL_TOKENS.length >= 9)
   smokeSanitizerReplacesKnownTokens()
@@ -147,6 +155,7 @@ function main() {
   smokeSanitizedPayloadPasses()
   smokeLoggerStripsForbiddenTokens()
   smokeMigrationSanitizesRows()
+  smokePhase3VaultMigrationPresent()
   smokeCiFailsOnUnsafeToken()
   smokeRuntimeRejectsUnsafePayloads()
   console.log('Protocol safety smoke: PASS')

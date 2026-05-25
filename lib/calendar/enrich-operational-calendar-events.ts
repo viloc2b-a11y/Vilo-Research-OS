@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { OperationalCalendarEvent } from '@/lib/calendar/operational-calendar-read-model'
+import { formatStudyDisplayLabel, getStudyDisplayBatch } from '@/lib/protocol-vault/study-display'
+import { resolveOperationalDisplayMode } from '@/lib/protocol-vault/display-policy'
 
 function one<T>(value: T | T[] | null | undefined): T | null {
   if (Array.isArray(value)) return value[0] ?? null
@@ -26,13 +28,10 @@ export async function enrichOperationalCalendarEvents(
     if (userId) userIds.add(userId)
   }
 
-  const [studies, subjects, visits, profiles] = await Promise.all([
-    studyIds.size
-      ? supabase
-        .from('studies')
-        .select('id, name, slug, study_versions(protocol_identifier, metadata, created_at)')
-        .in('id', [...studyIds])
-      : Promise.resolve({ data: [] }),
+  const operationalDisplayMode = resolveOperationalDisplayMode('coordinator_dashboard')
+
+  const [studyDisplayById, subjects, visits, profiles] = await Promise.all([
+    getStudyDisplayBatch(supabase, [...studyIds], operationalDisplayMode),
     subjectIds.size
       ? supabase
         .from('study_subjects')
@@ -51,20 +50,10 @@ export async function enrichOperationalCalendarEvents(
   ])
 
   const studyLabelById = new Map<string, string>()
-  for (const row of studies.data ?? []) {
-    const versions = row.study_versions
-    const versionList = Array.isArray(versions) ? versions : versions ? [versions] : []
-    const latest = versionList.sort((a, b) => {
-      const aTime = a.created_at ? new Date(a.created_at).getTime() : 0
-      const bTime = b.created_at ? new Date(b.created_at).getTime() : 0
-      return bTime - aTime
-    })[0]
-    const protocol = latest?.protocol_identifier ?? row.slug
-    const sponsor = (latest?.metadata as { sponsor?: string } | null)?.sponsor
-    studyLabelById.set(
-      row.id as string,
-      [row.name, protocol, sponsor].filter(Boolean).join(' · ') || (row.name as string),
-    )
+  for (const studyId of studyIds) {
+    const display = studyDisplayById.get(studyId)
+    if (!display) continue
+    studyLabelById.set(studyId, formatStudyDisplayLabel(display))
   }
 
   const subjectLabelById = new Map<string, string>()

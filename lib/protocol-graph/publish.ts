@@ -3,6 +3,7 @@ import { loadPublicationById } from '@/lib/protocol-graph/load'
 import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import type { ProtocolGraphDocument } from '@/lib/protocol-graph/types'
+import { loadProtocolAliasMapForStudy } from '@/lib/protocol-vault/alias-map'
 import { sanitizeProtocolRuntimeObject } from '@/lib/sanitization/protocol-sanitizer'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
@@ -30,7 +31,8 @@ export async function publishProtocolGraph(input: {
     studyId: input.studyId,
     studyVersionId: input.studyVersionId,
   })
-  const graphDocument = sanitizeProtocolRuntimeObject(compiledGraphDocument)
+  const aliasMap = await loadProtocolAliasMapForStudy(input.supabase, input.studyId)
+  const graphDocument = sanitizeProtocolRuntimeObject(compiledGraphDocument, aliasMap)
 
   let supersedesPublicationId = input.supersedesPublicationId ?? null
   let priorRevision = 0

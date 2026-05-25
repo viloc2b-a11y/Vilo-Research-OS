@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "scan:protocol-safety": "tsx scripts/scan-forbidden-protocol-tokens.ts",
     "protocol-safety:smoke": "tsx scripts/protocol-safety-smoke.ts",
+    "protocol-vault:smoke": "tsx scripts/protocol-vault-smoke.ts",
     "integrity:audit": "npx tsx scripts/runtime-integrity-audit.ts",
     "integrity:audit:strict": "npx tsx scripts/runtime-integrity-audit.ts --fail-on-blocker",
     "integrity:smoke": "npx tsx scripts/phase6-runtime-integrity-smoke.ts",
