@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:build": "node scripts/deploy.mjs --skip-push",
     "start": "next start",
     "lint": "eslint .",
     "scan:protocol-safety": "tsx scripts/scan-forbidden-protocol-tokens.ts",

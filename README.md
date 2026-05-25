@@ -66,6 +66,8 @@ npm run dev
 |---------|---------|
 | `npm run dev` | Local development |
 | `npm run build` | Production build |
+| `npm run deploy` | Build preflight + `git push` (triggers Cloudflare Pages for os.viloresearchgroup.com) |
+| `npm run deploy:build` | Build only (no push) |
 | `npm run lint` | ESLint |
 | `npm run db:migrate` | Apply auth + audit migrations |
 | `npm run db:provision` | Seed synthetic staging users/orgs |

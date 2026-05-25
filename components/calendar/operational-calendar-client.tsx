@@ -97,11 +97,11 @@ const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 function statusClass(status: OperationalCalendarStatus): string {
   switch (status) {
     case 'completed':
-      return 'bg-teal-600'
+      return 'bg-slate-400'
     case 'today':
       return 'bg-teal-500'
     default:
-      return 'bg-amber-400'
+      return 'bg-teal-500'
   }
 }
 
@@ -1003,12 +1003,13 @@ function MonthEventButton({
 }) {
   const isManual = event.kind === 'manual_event'
   const isBlock = event.kind === 'availability_block'
+  const isAttenuated = event.status === 'completed'
 
   return (
     <button
       type="button"
       onClick={() => onOpen(event)}
-      className={`group relative transition-[box-shadow,transform] hover:shadow-sm ${calendarEventTypeClass(event)}`}
+      className={`group relative transition-[box-shadow,transform] hover:shadow-sm ${calendarEventTypeClass(event)} ${isAttenuated ? 'calendar-event-completed' : ''}`}
     >
       <div className="flex items-center gap-1.5">
         <span className={`size-1.5 rounded-full ${isBlock ? 'bg-slate-500' : statusClass(event.status)}`} />
@@ -1120,7 +1121,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
               Protocol visit timing, coordinator workload, phone visits, labs, and operational follow-ups.
             </p>
             {model.canViewUnblinded ? (
-              <Badge variant="outline" className="mt-2 border-yellow-400/50 bg-yellow-50 text-yellow-900 dark:bg-yellow-950/30 dark:text-yellow-100">
+              <Badge variant="outline" className="vilo-surface-restricted mt-2 border-slate-200 text-slate-600">
                 Unblinded Access — Restricted
               </Badge>
             ) : null}
@@ -1149,7 +1150,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
           </div>
         </div>
         {model.unavailable.length ? (
-          <div className="mt-3 rounded-md border border-yellow-400/40 bg-yellow-50 px-3 py-2 text-sm text-yellow-900 dark:bg-yellow-950/30 dark:text-yellow-100">
+          <div className="vilo-surface-restricted mt-3 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-600">
             {model.unavailable.join(' ')}
           </div>
         ) : null}
@@ -1225,25 +1226,24 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         ) : null}
 
         {view === 'month' ? (
-          <div className="overflow-hidden rounded-lg border border-[#dbe4ee] bg-white">
-            <div className="grid grid-cols-7 border-b border-[#dbe4ee]">
+          <div className="calendar-month-panel overflow-hidden rounded-lg border border-[#dbe4ee] bg-white">
+            <div className="grid shrink-0 grid-cols-7 border-b border-[#dbe4ee]">
               {WEEKDAY_LABELS.map((day) => (
                 <div key={day} className="calendar-weekday px-3 py-2 text-center">
                   {day}
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-7">
+            <div className="calendar-month-grid grid min-h-0 flex-1 grid-cols-7">
               {buildMonthGridDates(activeYear, activeMonth, model.siteTimeZone).map((date) => {
                 const events = eventsByDate.get(date) ?? []
                 const isCurrentMonth = sameCalendarMonth(date, activeYear, activeMonth)
-                const visibleEvents = events.slice(0, 3)
                 const hasUpcoming = events.some((event) => event.status === 'upcoming')
                 const cellClass = [
-                  'calendar-cell',
+                  'group calendar-cell',
                   !isCurrentMonth ? 'calendar-cell-muted' : '',
                   date === model.today ? 'calendar-today' : '',
-                  hasUpcoming && isCurrentMonth ? 'calendar-upcoming' : '',
+                  hasUpcoming && isCurrentMonth && date !== model.today ? 'calendar-upcoming' : '',
                 ]
                   .filter(Boolean)
                   .join(' ')
@@ -1256,11 +1256,15 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                           setActiveDate(date)
                           setView('day')
                         }}
-                        className={`calendar-day-number hover:opacity-90 ${date === model.today ? 'calendar-day-number-today' : ''}`}
+                        className={`calendar-day-number hover:opacity-90 ${
+                          date === model.today && isCurrentMonth
+                            ? 'calendar-day-number-today'
+                            : ''
+                        } ${!isCurrentMonth ? 'calendar-day-number-out' : ''}`}
                       >
                         {Number(date.slice(8, 10))}
                       </button>
-                      <div className="calendar-cell-actions">
+                      <div className="calendar-cell-actions vilo-hover-reveal">
                         <button
                           type="button"
                           onClick={() => setDrawer({ mode: 'block', date })}
@@ -1277,8 +1281,8 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                         </button>
                       </div>
                     </div>
-                    <div className="calendar-cell-events">
-                      {visibleEvents.map((event) => (
+                    <div className="calendar-cell-events scrollbar-thin">
+                      {events.map((event) => (
                         <MonthEventButton
                           key={event.id}
                           event={event}
@@ -1286,18 +1290,6 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                           onOpen={(item) => setDrawer({ mode: 'event', event: item })}
                         />
                       ))}
-                      {events.length > visibleEvents.length ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveDate(date)
-                            setView('day')
-                          }}
-                          className="calendar-cell-action text-left"
-                        >
-                          +{events.length - visibleEvents.length} more
-                        </button>
-                      ) : null}
                     </div>
                   </div>
                 )
@@ -1312,8 +1304,8 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         ) : null}
 
         {view === 'day' ? (
-          <div className="rounded-lg border bg-card">
-            <div className="border-b px-4 py-3">
+          <div className="calendar-day-panel flex max-h-[min(72dvh,780px)] flex-col overflow-hidden rounded-lg border bg-card">
+            <div className="shrink-0 border-b px-4 py-3">
               <h2 className="text-base font-semibold">Daily execution</h2>
               <p className="text-sm text-muted-foreground">{dayEvents.length} scheduled operational item(s)</p>
             </div>
@@ -1322,19 +1314,35 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                 No scheduled visits found. Create or schedule a visit from the subject workspace.
               </div>
             ) : (
-              <ol className="divide-y">
+              <ol className="vilo-scroll-contained divide-y scrollbar-thin">
                 {dayEvents.map((event) => {
                   const isBlock = event.kind === 'availability_block'
+                  const isAttenuated = event.status === 'completed'
+                  const isTodayRow = event.status === 'today'
                   return (
-                    <li key={event.id} className="flex flex-wrap items-center gap-4 px-4 py-3">
-                      <div className={`flex size-10 items-center justify-center rounded-lg ${isBlock ? 'bg-muted' : 'bg-accent/30'}`}>
-                        <CalendarDays className="size-4 text-primary" />
+                    <li
+                      key={event.id}
+                      className={[
+                        'group flex flex-wrap items-center gap-4 px-4 py-3',
+                        isBlock ? 'vilo-surface-restricted' : '',
+                        isTodayRow ? 'bg-slate-50' : '',
+                        isAttenuated ? 'vilo-state-attenuated' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      <div
+                        className={`flex size-10 items-center justify-center rounded-lg ${isBlock ? 'bg-slate-100' : 'bg-accent/30'}`}
+                      >
+                        <CalendarDays className={`size-4 ${isBlock ? 'text-slate-500' : 'text-primary'}`} />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="font-medium">{isBlock ? event.visitName : event.subjectIdentifier}</p>
-                          <span className={`size-2 rounded-full ${isBlock ? 'bg-muted-foreground' : statusClass(event.status)}`} />
-                          <Badge variant="outline" className="capitalize">{displayEventStatus(event)}</Badge>
+                          <span className={`size-2 rounded-full ${isBlock ? 'bg-slate-400' : statusClass(event.status)}`} />
+                          <Badge variant="outline" className="capitalize">
+                            {displayEventStatus(event)}
+                          </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {isBlock
@@ -1354,14 +1362,16 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                           </div>
                         </>
                       ) : null}
-                      <Button variant="outline" size="sm" onClick={() => setDrawer({ mode: 'event', event })}>
-                        Details
-                      </Button>
-                      {!isBlock && event.href ? (
-                        <Link href={event.href} className="calendar-btn calendar-btn-primary">
-                          Open Visit Workspace
-                        </Link>
-                      ) : null}
+                      <div className="vilo-hover-reveal flex flex-wrap items-center gap-2">
+                        <Button variant="outline" size="sm" onClick={() => setDrawer({ mode: 'event', event })}>
+                          Details
+                        </Button>
+                        {!isBlock && event.href ? (
+                          <Link href={event.href} className="calendar-btn calendar-btn-primary">
+                            Open Visit Workspace
+                          </Link>
+                        ) : null}
+                      </div>
                     </li>
                   )
                 })}

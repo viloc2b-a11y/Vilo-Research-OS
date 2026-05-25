@@ -1,0 +1,47 @@
+---
+description: Vilo OS institutional UI/UX — 5 visual governance rules (palette-safe)
+alwaysApply: true
+---
+
+# Vilo OS — Gobernanza Visual (5 reglas)
+
+Aplica estas reglas en **todo** UI nuevo o modificado. Usa **solo** la paleta existente de Vilo Research (`--vilo-*`, slate/gray/teal del design system). No inventes colores nuevos.
+
+## 1. Acciones bajo demanda (hover group)
+
+- Contenedor padre: clase `group`.
+- Acciones secundarias repetitivas (Editar, Eliminar, + Add, Block en filas/celdas): `opacity-0 transition-opacity duration-200 group-hover:opacity-100`.
+- Utilidad recomendada: `vilo-hover-reveal`.
+
+## 2. Atenuación de estados secundarios o pasados
+
+- Histórico, completado, archivado, días fuera del mes actual: peso visual reducido.
+- Usar `opacity-40` / `opacity-50` y/o `text-slate-400` / `text-muted-foreground`.
+- Reservar protagonismo para **Upcoming**, **Today** y elementos que requieran acción inmediata.
+- Utilidad recomendada: `vilo-state-attenuated`.
+
+## 3. Texturas para bloqueos y restricciones
+
+- Bloqueos de tiempo, unavailable, acceso restringido/cegado (blinded): **no** usar amarillo/rojo de alerta.
+- Patrón de rayas diagonales sutiles sobre grises neutros (`vilo-surface-restricted` o `event-blocked`).
+- Comunicar “espacio cerrado o inalterable”, no urgencia clínica.
+
+## 4. Foco en el elemento activo
+
+- Día “Hoy”, pestaña activa, fila seleccionada, input en focus: fondo diferenciado sutil (`bg-slate-50` / `#f8fafc`), no competir con fondo blanco masivo.
+- Pestañas activas institucionales: `vilo-surface-active` (slate-50 + acento teal en texto/borde), no gradientes llamativos salvo CTA primario explícito.
+- Utilidad recomendada: `vilo-surface-active`.
+
+## 5. Contenedores con altura controlada y scroll interno
+
+- Listas variables (celdas de calendario, dashboards, sidebars): no deformar la cuadrícula.
+- `flex-1 min-h-0 overflow-y-auto` + `scrollbar-thin` (o scrollbar nativo fino en gris).
+- Utilidad recomendada: `vilo-scroll-contained`.
+
+## Referencia de utilidades (globals.css)
+
+- `vilo-hover-reveal`
+- `vilo-state-attenuated`
+- `vilo-surface-restricted`
+- `vilo-surface-active`
+- `vilo-scroll-contained`
