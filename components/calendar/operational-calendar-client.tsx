@@ -105,15 +105,31 @@ function statusClass(status: OperationalCalendarStatus): string {
   }
 }
 
-function eventChipClass(status: OperationalCalendarStatus): string {
-  switch (status) {
-    case 'completed':
-      return 'border-primary/40 bg-accent/30 text-foreground hover:bg-accent/40'
-    case 'today':
-      return 'border-blue-400/40 bg-blue-50 text-blue-900 hover:bg-blue-100 dark:bg-blue-950/30 dark:text-blue-100'
-    default:
-      return 'border-yellow-400/50 bg-yellow-50 text-yellow-900 hover:bg-yellow-100 dark:bg-yellow-950/30 dark:text-yellow-100'
+function calendarEventTypeClass(event: OperationalCalendarEvent): string {
+  if (event.kind === 'availability_block') {
+    return 'calendar-event event-blocked'
   }
+  if (event.kind === 'manual_event') {
+    const manualType = (event.manualEventType ?? '').toLowerCase()
+    if (manualType.includes('lab')) return 'calendar-event event-lab'
+    if (manualType.includes('safety') || manualType.includes('ae')) return 'calendar-event event-safety'
+    if (manualType.includes('follow')) return 'calendar-event event-followup'
+    if (manualType.includes('phone') || manualType.includes('remote')) return 'calendar-event event-phone'
+    return 'calendar-event event-followup'
+  }
+  if (event.modality === 'phone' || event.modality === 'remote') {
+    return 'calendar-event event-phone'
+  }
+  if (
+    event.labDueCount > 0
+    || event.requiredProcedures.some((procedure) => procedure.isLabLike)
+  ) {
+    return 'calendar-event event-lab'
+  }
+  if (event.alerts.some((alert) => /safety|adverse|serious|ae\b/i.test(alert))) {
+    return 'calendar-event event-safety'
+  }
+  return 'calendar-event event-visit'
 }
 
 function displayEventStatus(event: OperationalCalendarEvent): string {
@@ -992,17 +1008,13 @@ function MonthEventButton({
     <button
       type="button"
       onClick={() => onOpen(event)}
-      className={`group relative w-full rounded-md border px-2 py-1 text-left text-xs transition-colors ${
-        isBlock
-          ? 'border-muted-foreground/30 bg-muted/50 text-muted-foreground hover:bg-muted'
-          : eventChipClass(event.status)
-      }`}
+      className={`group relative transition-opacity hover:opacity-90 ${calendarEventTypeClass(event)}`}
     >
       <div className="flex items-center gap-1.5">
-        <span className={`size-1.5 rounded-full ${isBlock ? 'bg-muted-foreground' : statusClass(event.status)}`} />
+        <span className={`size-1.5 rounded-full ${isBlock ? 'bg-slate-500' : statusClass(event.status)}`} />
         <span className="truncate font-medium">{isBlock ? 'Blocked' : isManual ? event.visitName : event.subjectIdentifier}</span>
       </div>
-      <p className="truncate text-[11px] opacity-80">
+      <p className="truncate text-[12px] opacity-90">
         {isBlock ? `${event.blockScope ?? 'site'} · ${event.blockType ?? 'unavailable'}` : isManual ? `${event.manualEventType ?? 'manual'} · ${displayEventStatus(event)}` : event.visitName}
       </p>
       <div className="pointer-events-none absolute left-0 top-full z-20 mt-1 hidden w-64 rounded-md border bg-popover p-3 text-xs text-popover-foreground shadow-lg group-hover:block">
@@ -1099,12 +1111,12 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
   }
 
   return (
-    <div className="flex h-full flex-col bg-accent">
-      <div className="border-b border-border px-6 py-4">
+    <div className="calendar-root flex h-full flex-col">
+      <div className="border-b border-[#dbe4ee] bg-white px-6 py-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold">Operational Calendar</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="calendar-title">Operational Calendar</h1>
+            <p className="calendar-subtitle">
               Protocol visit timing, coordinator workload, phone visits, labs, and operational follow-ups.
             </p>
             {model.canViewUnblinded ? (
@@ -1150,14 +1162,14 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
               <ChevronLeft className="size-4" />
             </Button>
             <div>
-              <p className="text-lg font-semibold">
+              <p className="calendar-month">
                 {view === 'year'
                   ? activeYear
                   : view === 'month'
                     ? `${MONTH_LABELS[activeMonth]} ${activeYear}`
                     : activeDate}
               </p>
-              <p className="text-xs text-muted-foreground">Generated {new Date(model.generatedAt).toLocaleString()}</p>
+              <p className="calendar-generated">Generated {new Date(model.generatedAt).toLocaleString()}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => shiftCurrentView(1)}>
               <ChevronRight className="size-4" />
@@ -1213,10 +1225,10 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         ) : null}
 
         {view === 'month' ? (
-          <div className="overflow-hidden rounded-lg border bg-card">
-            <div className="grid grid-cols-7 border-b bg-muted/60 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <div className="overflow-hidden rounded-lg border border-[#dbe4ee] bg-white">
+            <div className="grid grid-cols-7 border-b border-[#dbe4ee]">
               {WEEKDAY_LABELS.map((day) => (
-                <div key={day} className="px-3 py-2">
+                <div key={day} className="calendar-weekday px-3 py-2 text-center">
                   {day}
                 </div>
               ))}
@@ -1226,15 +1238,24 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                 const events = eventsByDate.get(date) ?? []
                 const isCurrentMonth = sameCalendarMonth(date, activeYear, activeMonth)
                 const visibleEvents = events.slice(0, 3)
+                const hasUpcoming = events.some((event) => event.status === 'upcoming')
+                const cellClass = [
+                  'calendar-cell',
+                  !isCurrentMonth ? 'calendar-cell-muted' : '',
+                  date === model.today ? 'calendar-today' : '',
+                  hasUpcoming && isCurrentMonth ? 'calendar-upcoming' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')
                 return (
-                  <div key={date} className={`min-h-32 border-b border-r p-2 ${isCurrentMonth ? 'bg-card' : 'bg-muted/30 text-muted-foreground'}`}>
+                  <div key={date} className={cellClass}>
                     <button
                       type="button"
                       onClick={() => {
                         setActiveDate(date)
                         setView('day')
                       }}
-                      className={`mb-2 rounded px-1 text-xs font-semibold hover:bg-accent/30 ${date === model.today ? 'bg-primary text-primary-foreground' : ''}`}
+                      className={`calendar-day-number mb-2 hover:opacity-80 ${date === model.today ? 'calendar-day-number-today' : ''}`}
                     >
                       {Number(date.slice(8, 10))}
                     </button>
@@ -1333,10 +1354,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                         Details
                       </Button>
                       {!isBlock && event.href ? (
-                        <Link
-                          href={event.href}
-                          className="inline-flex h-7 items-center justify-center rounded-lg bg-primary px-2.5 text-[0.8rem] font-medium text-primary-foreground transition-colors hover:bg-primary/80"
-                        >
+                        <Link href={event.href} className="calendar-btn calendar-btn-primary">
                           Open Visit Workspace
                         </Link>
                       ) : null}

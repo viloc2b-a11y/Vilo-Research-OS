@@ -399,6 +399,150 @@
 }
 
 /* =========================================================================
+   Operational Calendar (coordinator global)
+   ========================================================================= */
+.calendar-root {
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.calendar-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.calendar-subtitle {
+  font-size: 16px;
+  color: #475569;
+}
+
+.calendar-month {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.calendar-generated {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.calendar-weekday {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #475569;
+  background: #f1f5f9;
+}
+
+.calendar-cell {
+  min-height: 150px;
+  padding: 12px;
+  border: 1px solid #dbe4ee;
+  background: white;
+  transition: background 0.15s ease;
+}
+
+.calendar-cell:hover {
+  background: #f8fafc;
+}
+
+.calendar-cell-muted {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.calendar-day-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.calendar-day-number-today {
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.calendar-event {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.event-visit {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.event-lab {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.event-phone {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.event-safety {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.event-followup {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.event-blocked {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.calendar-today {
+  border: 2px solid #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.calendar-upcoming {
+  background: #eff6ff;
+}
+
+.calendar-btn {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.calendar-btn-primary {
+  background: #0f766e;
+  color: white;
+}
+
+.calendar-btn-primary:hover {
+  background: #115e59;
+}
+
+/* =========================================================================
    Animations
    ========================================================================= */
 @keyframes slideUp {
