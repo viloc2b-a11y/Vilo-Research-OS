@@ -82,6 +82,13 @@ async function main() {
   }
 
   console.log(`\nVilo OS deploy → Cloudflare Pages (git: ${remote}/${branch})\n`)
+  if (branch !== 'main' && branch !== 'master') {
+    console.warn(
+      `Warning: production (os.viloresearchgroup.com) typically builds from "main".\n` +
+        `You are pushing "${branch}" — calendar/UI changes will not appear until that branch is merged to main\n` +
+        `or set as the Cloudflare Pages production branch.\n`,
+    )
+  }
 
   if (!skipBuild) {
     console.log('Step 1/2: production build preflight…')
