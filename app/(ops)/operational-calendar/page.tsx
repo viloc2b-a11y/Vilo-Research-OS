@@ -12,7 +12,7 @@ export default async function OperationalCalendarPage({ searchParams }: Operatio
   const model = await loadOperationalCalendarModel({ year: parsedYear })
 
   return (
-    <CoordinatorPageScroll>
+    <CoordinatorPageScroll contentClassName="p-0">
       <OperationalCalendarClient model={model} />
     </CoordinatorPageScroll>
   )

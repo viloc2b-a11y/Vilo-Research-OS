@@ -97,11 +97,11 @@ const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 function statusClass(status: OperationalCalendarStatus): string {
   switch (status) {
     case 'completed':
-      return 'bg-primary'
+      return 'bg-teal-600'
     case 'today':
-      return 'bg-blue-500'
+      return 'bg-teal-500'
     default:
-      return 'bg-yellow-500'
+      return 'bg-amber-400'
   }
 }
 
@@ -113,9 +113,9 @@ function calendarEventTypeClass(event: OperationalCalendarEvent): string {
     const manualType = (event.manualEventType ?? '').toLowerCase()
     if (manualType.includes('lab')) return 'calendar-event event-lab'
     if (manualType.includes('safety') || manualType.includes('ae')) return 'calendar-event event-safety'
-    if (manualType.includes('follow')) return 'calendar-event event-followup'
     if (manualType.includes('phone') || manualType.includes('remote')) return 'calendar-event event-phone'
-    return 'calendar-event event-followup'
+    if (manualType.includes('follow')) return 'calendar-event event-followup'
+    return 'calendar-event event-manual'
   }
   if (event.modality === 'phone' || event.modality === 'remote') {
     return 'calendar-event event-phone'
@@ -1008,7 +1008,7 @@ function MonthEventButton({
     <button
       type="button"
       onClick={() => onOpen(event)}
-      className={`group relative transition-opacity hover:opacity-90 ${calendarEventTypeClass(event)}`}
+      className={`group relative transition-[box-shadow,transform] hover:shadow-sm ${calendarEventTypeClass(event)}`}
     >
       <div className="flex items-center gap-1.5">
         <span className={`size-1.5 rounded-full ${isBlock ? 'bg-slate-500' : statusClass(event.status)}`} />
@@ -1111,7 +1111,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
   }
 
   return (
-    <div className="calendar-root flex h-full flex-col">
+    <div className="calendar-root flex h-full min-h-0 flex-col">
       <div className="border-b border-[#dbe4ee] bg-white px-6 py-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -1126,13 +1126,13 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="rounded-lg border bg-card p-1">
+            <div className="calendar-view-toggle flex gap-0.5">
               {(['year', 'month', 'day'] as CalendarView[]).map((mode) => (
                 <button
                   key={mode}
                   type="button"
                   onClick={() => setView(mode)}
-                  className={`rounded-md px-3 py-1.5 text-sm font-medium capitalize ${view === mode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-accent/30'}`}
+                  className={`calendar-view-tab ${view === mode ? 'calendar-view-tab-active' : ''}`}
                 >
                   {mode}
                 </button>
@@ -1155,7 +1155,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
         ) : null}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="min-h-0 flex-1 overflow-y-auto p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => shiftCurrentView(-1)}>
@@ -1249,31 +1249,35 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                   .join(' ')
                 return (
                   <div key={date} className={cellClass}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setActiveDate(date)
-                        setView('day')
-                      }}
-                      className={`calendar-day-number mb-2 hover:opacity-80 ${date === model.today ? 'calendar-day-number-today' : ''}`}
-                    >
-                      {Number(date.slice(8, 10))}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setDrawer({ mode: 'manual', date })}
-                      className="float-right rounded px-1 text-[10px] font-medium text-muted-foreground hover:bg-accent/30 hover:text-primary"
-                    >
-                      + Add event
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setDrawer({ mode: 'block', date })}
-                      className="float-right mr-1 rounded px-1 text-[10px] font-medium text-muted-foreground hover:bg-accent/30 hover:text-primary"
-                    >
-                      Block
-                    </button>
-                    <div className="space-y-1">
+                    <div className="calendar-cell-header">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveDate(date)
+                          setView('day')
+                        }}
+                        className={`calendar-day-number hover:opacity-90 ${date === model.today ? 'calendar-day-number-today' : ''}`}
+                      >
+                        {Number(date.slice(8, 10))}
+                      </button>
+                      <div className="calendar-cell-actions">
+                        <button
+                          type="button"
+                          onClick={() => setDrawer({ mode: 'block', date })}
+                          className="calendar-cell-action"
+                        >
+                          Block
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDrawer({ mode: 'manual', date })}
+                          className="calendar-cell-action"
+                        >
+                          + Add event
+                        </button>
+                      </div>
+                    </div>
+                    <div className="calendar-cell-events">
                       {visibleEvents.map((event) => (
                         <MonthEventButton
                           key={event.id}
@@ -1289,7 +1293,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
                             setActiveDate(date)
                             setView('day')
                           }}
-                          className="text-xs text-muted-foreground hover:text-primary"
+                          className="calendar-cell-action text-left"
                         >
                           +{events.length - visibleEvents.length} more
                         </button>
