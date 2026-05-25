@@ -25,7 +25,7 @@ const py = spawnSync(
     '--input',
     smokeIn,
     '--study-key',
-    'PARA_OA_012',
+    'STUDY-KOA-001',
     '--output',
     join(root, '.tmp-phase12d-seed'),
     '--force',

@@ -82,7 +82,7 @@ Use only deterministic, structured sources:
 Example output:
 
 ```text
-Protocol PARA_OA_012
+Protocol STUDY-KOA-001
 Common operational friction:
 - Repeat monitor query on BP positioning
 - Delays on HIT lab reconciliation

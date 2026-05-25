@@ -1,5 +1,5 @@
 /**
- * Phase 11F-B — load MV40618 thin operational runtime (data only).
+ * Phase 11F-B — load STUDY-INF-001 thin operational runtime (data only).
  *
  * Usage:
  *   node scripts/load-mv40618-runtime.mjs

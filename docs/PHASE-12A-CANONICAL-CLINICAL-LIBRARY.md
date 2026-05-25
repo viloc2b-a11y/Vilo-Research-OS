@@ -36,7 +36,7 @@
 |------|------------------|-----|
 | `PARA_ADRENAL_OVERLAY_V1` | `adrenal_*` | PARA adrenal symptom review |
 | `PARA_HIT_OVERLAY_V1` | `hit_*` | PARA HIT / platelet monitoring |
-| `MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1` | `mv_*` | MV40618 household symptom / swab |
+| `MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1` | `mv_*` | STUDY-INF-001 household symptom / swab |
 
 ## Controlled lists
 

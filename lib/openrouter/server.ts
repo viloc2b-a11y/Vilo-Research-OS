@@ -1,3 +1,5 @@
+import { sanitizeObjectDeep, assertNoForbiddenProtocolTokens } from '@/lib/sanitization/protocol-sanitizer'
+
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
 export class OpenRouterConfigError extends Error {
@@ -51,6 +53,8 @@ export async function createOpenRouterChatCompletion(
   request: OpenRouterChatRequest,
 ): Promise<OpenRouterChatResponse> {
   const apiKey = requireOpenRouterApiKey()
+  const sanitizedRequest = sanitizeObjectDeep(request)
+  assertNoForbiddenProtocolTokens(sanitizedRequest, 'AI chat completion request')
 
   const response = await fetch(OPENROUTER_API_URL, {
     method: 'POST',
@@ -61,10 +65,10 @@ export async function createOpenRouterChatCompletion(
       'X-Title': 'Vilo OS',
     },
     body: JSON.stringify({
-      model: request.model,
-      messages: request.messages,
-      temperature: request.temperature,
-      max_tokens: request.maxTokens,
+      model: sanitizedRequest.model,
+      messages: sanitizedRequest.messages,
+      temperature: sanitizedRequest.temperature,
+      max_tokens: sanitizedRequest.maxTokens,
     }),
   })
 

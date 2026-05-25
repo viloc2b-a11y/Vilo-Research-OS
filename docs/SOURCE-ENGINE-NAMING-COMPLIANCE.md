@@ -16,7 +16,7 @@ All examples, templates, and rule sets use **abstract, reusable identifiers** (e
 | Use | Avoid |
 |-----|--------|
 | `GENERIC_*` | Sponsor names |
-| `PHASE2_*`, `PHASE3_*` | Exact protocol numbers (e.g. `PARA_OA_012`) |
+| `PHASE2_*`, `PHASE3_*` | Exact protocol numbers (e.g. `STUDY-KOA-001`) |
 | `OA_*`, `RESP_*`, `GI_*`, `METABOLIC_*`, `IMMUNOLOGY_*` | Study-specific acronyms |
 | `pharmacokinetic_substudy_participant` | Trial-specific field tokens tied to one protocol |
 

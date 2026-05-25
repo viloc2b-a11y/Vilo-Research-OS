@@ -1,5 +1,5 @@
 /**
- * Phase 11F-B — MV40618 operational buildout verification + PARA regression.
+ * Phase 11F-B — STUDY-INF-001 operational buildout verification + PARA regression.
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'

@@ -36,7 +36,7 @@ function main() {
   )
 
   const paraText = loadFixture('para-oa-012-protocol-excerpt.txt')
-  const paraCorpus = adaptPdfExtractedText('para-doc-1', 'PARA_OA_012_Protocol.pdf', paraText)
+  const paraCorpus = adaptPdfExtractedText('para-doc-1', 'STUDY-KOA-001_Protocol.pdf', paraText)
   const paraCsv = loadFixture('para-oa-012-schedule.csv')
   const paraLines = paraCsv.trim().split('\n')
   const paraHeaders = paraLines[0].split(',')
@@ -57,13 +57,13 @@ function main() {
 
   const frozenAt = '2026-05-22T12:00:00.000Z'
   const para1 = runProtocolIntakePipeline({
-    protocol_id: 'PARA_OA_012',
-    protocol_id_hint: 'PARA_OA_012',
+    protocol_id: 'STUDY-KOA-001',
+    protocol_id_hint: 'STUDY-KOA-001',
     corpus: paraCorpus,
     created_at: frozenAt,
   })
   const para2 = runProtocolIntakePipeline({
-    protocol_id: 'PARA_OA_012',
+    protocol_id: 'STUDY-KOA-001',
     corpus: paraCorpus,
     created_at: frozenAt,
   })
@@ -122,11 +122,11 @@ function main() {
   )
 
   const mvText = loadFixture('mv40618-protocol-excerpt.txt')
-  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'MV40618_Protocol.pdf', mvText)
-  const mv1 = runProtocolIntakePipeline({ protocol_id: 'MV40618', corpus: mvCorpus })
+  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'STUDY-INF-001_Protocol.pdf', mvText)
+  const mv1 = runProtocolIntakePipeline({ protocol_id: 'STUDY-INF-001', corpus: mvCorpus })
 
   gates.push(
-    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'MV40618'),
+    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'STUDY-INF-001'),
     gate('MV title present', Boolean(mv1.draft.study_metadata.protocol_title.value)),
     gate(
       'MV index/contact roles in visits',

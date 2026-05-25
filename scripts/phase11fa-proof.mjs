@@ -1,5 +1,5 @@
 /**
- * Phase 11F-A — PARA_OA_012 operational buildout verification.
+ * Phase 11F-A — STUDY-KOA-001 operational buildout verification.
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'

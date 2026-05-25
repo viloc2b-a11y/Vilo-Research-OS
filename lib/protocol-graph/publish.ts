@@ -3,6 +3,7 @@ import { loadPublicationById } from '@/lib/protocol-graph/load'
 import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gateway'
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import type { ProtocolGraphDocument } from '@/lib/protocol-graph/types'
+import { assertNoForbiddenProtocolTokens, sanitizeObjectDeep } from '@/lib/sanitization/protocol-sanitizer'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 export type PublishProtocolGraphResult =
@@ -23,12 +24,14 @@ export async function publishProtocolGraph(input: {
   actorUserId: string
   supersedesPublicationId?: string | null
 }): Promise<PublishProtocolGraphResult> {
-  const graphDocument = await compileProtocolGraphFromStudy({
+  const compiledGraphDocument = await compileProtocolGraphFromStudy({
     supabase: input.supabase,
     organizationId: input.organizationId,
     studyId: input.studyId,
     studyVersionId: input.studyVersionId,
   })
+  const graphDocument = sanitizeObjectDeep(compiledGraphDocument)
+  assertNoForbiddenProtocolTokens(graphDocument, 'protocol graph publication')
 
   let supersedesPublicationId = input.supersedesPublicationId ?? null
   let priorRevision = 0

@@ -1,4 +1,4 @@
-# PARA_OA_012 — Phase 11F-A Operational Buildout (Data Only)
+# STUDY-KOA-001 — Phase 11F-A Operational Buildout (Data Only)
 
 **Status:** Thin operational runtime loaded on staging host study `6bae715a-8536-4000-8d24-22b6a3dbb8c9`.
 
@@ -25,7 +25,7 @@
 
 ## What was loaded
 
-- Study version: `PARA_OA_012-operational-thin-v1`
+- Study version: `STUDY-KOA-001-operational-thin-v1`
 - 10 visit definitions (`PARA_SCR` … `PARA_ET`)
 - 14 procedure definitions
 - 30 visit×procedure maps (2 conditional)

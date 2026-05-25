@@ -13,7 +13,7 @@
 ## CLI
 
 ```bash
-python scripts/phase_12c_protocol_intake.py --input fixtures/protocol-intake --output ./out/para --study-key PARA_OA_012
+python scripts/phase_12c_protocol_intake.py --input fixtures/protocol-intake --output ./out/para --study-key STUDY-KOA-001
 python scripts/phase_12c_protocol_intake.py --smoke
 ```
 

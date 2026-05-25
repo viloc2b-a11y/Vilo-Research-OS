@@ -1,6 +1,8 @@
 import { fetchResponseSetDetail } from '@/lib/api/source/read-client'
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEvent'
+import { EXPORT_BLOCKED_UNSAFE_PROTOCOL_IDENTIFIER } from '@/lib/sanitization/forbidden-protocol-tokens'
+import { detectForbiddenProtocolTokens, sanitizeProtocolText } from '@/lib/sanitization/protocol-sanitizer'
 import { formatValuePayload } from '@/lib/source/read-contract/format'
 import { buildVisitCloseoutPdfLines } from '@/lib/subject/visits/progress-note/pdf-lines'
 import type { createServerClient } from '@/lib/supabase/server'
@@ -130,7 +132,11 @@ export async function generateProcedurePdf(params: {
       ? (notes ?? []).map((note) => `${note.created_at} ${note.created_by ?? ''}: ${note.note_text}`)
       : ['No procedure notes recorded.']),
     ...closeoutLines,
-  ]
+  ].map((line) => sanitizeProtocolText(line))
+
+  if (detectForbiddenProtocolTokens(lines.join('\n')).length > 0) {
+    return { ok: false as const, error: EXPORT_BLOCKED_UNSAFE_PROTOCOL_IDENTIFIER }
+  }
 
   if (params.actorUserId) {
     await logProcedureOperationalEvent({

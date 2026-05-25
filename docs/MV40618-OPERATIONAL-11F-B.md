@@ -1,4 +1,4 @@
-# MV40618 — Phase 11F-B Operational Buildout (Data Only)
+# STUDY-INF-001 — Phase 11F-B Operational Buildout (Data Only)
 
 **Status:** Thin operational runtime on staging host study `6bae715a-8536-4000-8d24-22b6a3dbb8c9` (shared with PARA thin runtime).
 
@@ -8,7 +8,7 @@
 
 ## Operational mapping (pre-load audit)
 
-| MV40618 requirement | Runtime primitive | Classification |
+| STUDY-INF-001 requirement | Runtime primitive | Classification |
 |---------------------|-------------------|----------------|
 | Index patient screening | `subject_role=index_patient`, visit `eligible_subject_roles` | Supported |
 | Household contact enrollment | `household_contact`, `household_id`, `anchor_subject_id` | Supported |
@@ -27,7 +27,7 @@
 
 ## What was loaded
 
-- Study version: `MV40618-operational-thin-v1`
+- Study version: `STUDY-INF-001-operational-thin-v1`
 - 11 visit definitions (`MV_SCR` … `MV_ET`)
 - 12 procedure definitions
 - 24 visit×procedure maps (4 conditional)
@@ -66,5 +66,5 @@
 
 ## Pilot identifiers (optional live enroll)
 
-- Index: `MV40618-IDX-PILOT-001`
-- Contact: `MV40618-CNT-PILOT-001`
+- Index: `STUDY-INF-001-IDX-PILOT-001`
+- Contact: `STUDY-INF-001-CNT-PILOT-001`

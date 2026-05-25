@@ -38,7 +38,7 @@ def run_smoke() -> int:
     result = run_intake(
         input_path=smoke_in,
         output_dir=out_dir,
-        study_key="PARA_OA_012",
+        study_key="STUDY-KOA-001",
         force=True,
         emit_timestamp=False,
     )
@@ -85,7 +85,7 @@ def run_smoke() -> int:
 
     blob = manifest_path.read_bytes()
     h1 = hashlib.sha256(blob).hexdigest()
-    result2 = run_intake(smoke_in, out_dir, study_key="PARA_OA_012", force=True)
+    result2 = run_intake(smoke_in, out_dir, study_key="STUDY-KOA-001", force=True)
     h2 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
     g("idempotent manifest hash", h1 == h2, h1[:12])
 

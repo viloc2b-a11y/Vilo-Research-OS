@@ -8,6 +8,7 @@ import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { publishProtocolGraph } from '@/lib/protocol-graph/publish'
 import { createServerClient } from '@/lib/supabase/server'
 import { canPublishSource } from '@/lib/rbac/permissions'
+import { assertNoForbiddenProtocolTokens, sanitizeObjectDeep } from '@/lib/sanitization/protocol-sanitizer'
 
 function formText(formData: FormData, key: string): string {
   const value = formData.get(key)
@@ -136,9 +137,13 @@ export async function publishSourcePackageFromArtifacts(formData: FormData): Pro
     redirectPublishResult(studyId, 'error', 'Your role cannot publish source packages.')
   }
 
-  const publishPackage = publishPackageResult.value
-  const sourceDefinitions = sourceDefinitionsResult.value
-  const approval = approvalResult.value
+  const publishPackage = sanitizeObjectDeep(publishPackageResult.value)
+  const sourceDefinitions = sanitizeObjectDeep(sourceDefinitionsResult.value)
+  const approval = sanitizeObjectDeep(approvalResult.value)
+  assertNoForbiddenProtocolTokens(
+    { publishPackage, sourceDefinitions, approval },
+    'source publish final payload',
+  )
   const blockers = validationBlockers(publishPackage, sourceDefinitions, approval)
   if (blockers.length > 0) {
     redirectPublishResult(studyId, 'error', blockers.join(' '))

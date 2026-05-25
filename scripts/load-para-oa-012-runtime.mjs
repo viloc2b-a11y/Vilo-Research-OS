@@ -1,5 +1,5 @@
 /**
- * Phase 11F-A — load PARA_OA_012 thin operational runtime (data only).
+ * Phase 11F-A — load STUDY-KOA-001 thin operational runtime (data only).
  *
  * Usage:
  *   node scripts/load-para-oa-012-runtime.mjs
@@ -71,10 +71,10 @@ async function main() {
 
     await sql`
       update studies
-      set name = 'PARA_OA_012 Operational (Phase 2 Validation Host)'
+      set name = 'Phase 3 Knee OA Study'
       where id = ${studyId}
     `
-    step('study display name', true, 'PARA_OA_012 Operational (Phase 2 Validation Host)')
+    step('study display name', true, 'Phase 3 Knee OA Study')
 
     await sql`
       update visit_definitions

@@ -4,7 +4,7 @@
 Validate the Vilo OS clinical execution engine as a real coordinator runtime. Ensure determinism, idempotency, and regulatory compliance across all interconnected operational flows (from Intake to Visit Lock).
 
 ## Methodology
-Validation will execute complete operational flows using existing `PARA_OA_012` / `MV40618` fixtures. We will simulate adversarial and high-concurrency environments to trigger potential state machine fractures.
+Validation will execute complete operational flows using existing `STUDY-KOA-001` / `STUDY-INF-001` fixtures. We will simulate adversarial and high-concurrency environments to trigger potential state machine fractures.
 
 **Roles Simulated:**
 *   Coordinator (Primary operational actor)

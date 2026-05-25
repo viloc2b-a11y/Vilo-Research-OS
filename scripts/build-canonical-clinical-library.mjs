@@ -534,7 +534,7 @@ const MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1 = {
   library_code: 'MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1',
   library_kind: 'overlay',
   clinical_domain: 'respiratory_samples',
-  description: 'MV40618 household symptom and swab overlay (namespaced fields).',
+  description: 'STUDY-INF-001 household symptom and swab overlay (namespaced fields).',
   fields: [
     f('mv_cough', 'Cough', 'select', { list_code: 'YES_NO', scope: 'overlay' }),
     f('mv_sore_throat', 'Sore throat', 'select', { list_code: 'YES_NO', scope: 'overlay' }),
