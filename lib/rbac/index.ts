@@ -35,6 +35,19 @@ export {
 } from '@/lib/rbac/org-scope'
 
 export {
+  EXTERNAL_MONITOR_ROLE,
+  EXTERNAL_MONITOR_ROLES,
+  EXTERNAL_STUDY_MEMBER_ROLE,
+  isExternalActorOrganizationRole,
+  isExternalActorStudyRole,
+  isExternalMonitorRoleId,
+  isSiteInternalOrganizationRole,
+  resolveExternalMonitorRoleFromOrganization,
+  resolveExternalMonitorRoleFromStudyMember,
+  type ExternalMonitorRole,
+} from '@/lib/rbac/external-actors'
+
+export {
   CANONICAL_ORGANIZATION_ROLES,
   LEGACY_ORGANIZATION_ROLE,
   ORGANIZATION_ROLES,

@@ -2,6 +2,8 @@
 
 Coordinator-first orchestration intelligence derived from runtime execution, projections, operational intelligence, and financial runtime. **Not** a generic task manager, dashboard, sponsor portal, or AI copilot.
 
+> **Queue purpose:** Coordinator operational survival prioritization — reduce cognitive load and surface operational risk early. **Not** task management for external oversight.
+
 ## Principles
 
 | Rule | Implementation |

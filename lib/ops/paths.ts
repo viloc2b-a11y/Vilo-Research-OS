@@ -11,6 +11,18 @@ export function studyDetailPath(studyId: string, tab?: string) {
   return tab ? `${base}?tab=${tab}` : base
 }
 
+export function studyWorkspacePath(studyId: string) {
+  return `/studies/${studyId}/workspace`
+}
+
+export function subjectWorkspacePath(subjectId: string) {
+  return `/subjects/${subjectId}/workspace`
+}
+
+export function commandCenterPath() {
+  return '/command-center'
+}
+
 export function subjectChartPath(studyId: string | null, subjectId: string) {
   return studyId ? `/studies/${studyId}/subjects/${subjectId}` : `/subjects/${subjectId}`
 }

@@ -83,4 +83,4 @@ However, several **P1 (Operational Blockers)** and **P2 (UX/Consistency)** issue
 3.  **P1: PDF eCRF Export Generation**
     *   Finalize the PDF export pipeline tied to the `lock_visit` lifecycle.
 4.  **P2: Audit Trail Dashboard**
-    *   Expose `operational_events` to the UI for monitoring transparency.
+    *   Expose `operational_events` to the UI for operational explainability (site self-defense — not sponsor/monitor surveillance).

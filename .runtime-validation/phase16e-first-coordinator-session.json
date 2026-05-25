@@ -1,0 +1,243 @@
+{
+  "phase": "16E-first-coordinator-session",
+  "runAt": "2026-05-25T01:03:52.377Z",
+  "environment": {
+    "app": "http://localhost:3000",
+    "database": "https://xwioewqzapbinvdyjxzm.supabase.co",
+    "coordinator": "calendar.qa.coordinator@vilo-os.staging"
+  },
+  "fixture": {
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "pathCompleted": true,
+  "sessionSteps": [
+    {
+      "step": 1,
+      "completed": true,
+      "detail": "Signed in",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 2,
+      "completed": true,
+      "detail": "Command center loaded",
+      "coordinatorNote": "Unsigned procedures"
+    },
+    {
+      "step": 3,
+      "completed": true,
+      "detail": "Top action cue: Unsigned procedures",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 4,
+      "completed": true,
+      "detail": "Study workspace",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 5,
+      "completed": true,
+      "detail": "Subject workspace",
+      "coordinatorNote": "Unsigned procedures visible"
+    },
+    {
+      "step": 6,
+      "completed": true,
+      "detail": "Subject next action strip",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 7,
+      "completed": true,
+      "detail": "Screening visit opened",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 8,
+      "completed": true,
+      "detail": "Why blocked=true blockers=true",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 9,
+      "completed": true,
+      "detail": "Source capture opened",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 10,
+      "completed": true,
+      "detail": "Submitted read-only copy shown",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 11,
+      "completed": false,
+      "detail": "Sign: no_signed_state",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 12,
+      "completed": true,
+      "detail": "Visit after sign: stillBlocked=true signedCue=false",
+      "coordinatorNote": ""
+    },
+    {
+      "step": 13,
+      "completed": true,
+      "detail": "Resolve unsigned procedures / validation before visit completion",
+      "coordinatorNote": ""
+    }
+  ],
+  "friction": [
+    {
+      "step": 1,
+      "coordinatorExpectation": "Sign in and land on command center",
+      "actualBehavior": "Form redirect slow; session established via fallback",
+      "hesitation": "Would retry or ask IT",
+      "verbatimNote": "",
+      "severity": "medium",
+      "fixRecommendation": "Login hard-redirect already added; verify in manual session",
+      "pilotImpact": "Minor delay only"
+    },
+    {
+      "step": 11,
+      "coordinatorExpectation": "Sign procedure after source submitted",
+      "actualBehavior": "no_signed_state",
+      "hesitation": "Would read validation alerts",
+      "verbatimNote": "",
+      "severity": "high",
+      "fixRecommendation": "Surface validation blockers before sign; ensure coordinator RBAC allows sign",
+      "pilotImpact": "Cannot close visit without sign"
+    }
+  ],
+  "sign": {
+    "attempted": true,
+    "uiOutcome": "no_signed_state",
+    "dbIsSigned": false,
+    "signedAt": null,
+    "procedureSignedEvent": false
+  },
+  "blockedStateAfter": {
+    "readiness_status": "blocked",
+    "blocker_count": 2,
+    "unsigned_procedure_count": 1
+  },
+  "coordinatorNextAction": "Resolve unsigned procedures / validation before visit completion",
+  "submittedCopySeen": true,
+  "dbBefore": {
+    "label": "before",
+    "pe": {
+      "is_signed": false,
+      "signed_at": null,
+      "signed_by": null,
+      "execution_status": "completed",
+      "validation_status": "clean"
+    },
+    "operationalEvents": [
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T18:37:48.826885+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T18:18:29.466192+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:58:20.186219+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:57:10.625746+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:16:45.934732+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:15:52.556051+00:00"
+      },
+      {
+        "event_type": "PROCEDURE_COMPLETED",
+        "created_at": "2026-05-21T19:19:52.929011+00:00"
+      },
+      {
+        "event_type": "SOURCE_RESPONSE_SET_SUBMITTED",
+        "created_at": "2026-05-21T19:19:03.687325+00:00"
+      }
+    ],
+    "snapshotCount": 42,
+    "readiness": {
+      "readiness_status": "blocked",
+      "blocker_count": 2,
+      "unsigned_procedure_count": 1
+    },
+    "telemetrySignals": []
+  },
+  "dbAfter": {
+    "label": "after",
+    "pe": {
+      "is_signed": false,
+      "signed_at": null,
+      "signed_by": null,
+      "execution_status": "completed",
+      "validation_status": "clean"
+    },
+    "operationalEvents": [
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T18:37:48.826885+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T18:18:29.466192+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:58:20.186219+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:57:10.625746+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:16:45.934732+00:00"
+      },
+      {
+        "event_type": "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+        "created_at": "2026-05-24T17:15:52.556051+00:00"
+      },
+      {
+        "event_type": "PROCEDURE_COMPLETED",
+        "created_at": "2026-05-21T19:19:52.929011+00:00"
+      },
+      {
+        "event_type": "SOURCE_RESPONSE_SET_SUBMITTED",
+        "created_at": "2026-05-21T19:19:03.687325+00:00"
+      }
+    ],
+    "snapshotCount": 42,
+    "readiness": {
+      "readiness_status": "blocked",
+      "blocker_count": 2,
+      "unsigned_procedure_count": 1
+    },
+    "telemetrySignals": []
+  },
+  "postValidation": {
+    "coordinatorOps": true,
+    "integrity": true,
+    "e2eExitOk": true,
+    "e2eOverall": "degraded",
+    "browserWalkthrough": false
+  },
+  "recommendationSecondSession": "CONDITIONAL_GO"
+}

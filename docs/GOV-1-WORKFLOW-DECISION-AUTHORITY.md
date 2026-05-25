@@ -103,10 +103,10 @@ Conditional escalation definitions: `workflow_key`, `rule_key`, `condition_type`
 
 **Non-PHI policy:** `notes` and `condition_expression` must not contain subject identifiers or clinical content. DB check constraints block obvious PHI patterns in `notes`.
 
-## Seeded workflows (global)
+## Seeded workflows (global — GOV1_CORE_WORKFLOW_KEYS)
 
-| `workflow_key` | `base_authority_level` | Escalation rules |
-|----------------|------------------------|------------------|
+| `workflow_key` | `base_authority_level` | Escalation `rule_key` |
+|----------------|------------------------|------------------------|
 | `eligibility` | `human_required` | `unresolved_required_criterion` |
 | `randomization` | `system_enforced` | `missing_prerequisite_evidence` |
 | `source_signing` | `system_enforced` | `missing_required_signature` |
@@ -117,6 +117,16 @@ Conditional escalation definitions: `workflow_key`, `rule_key`, `condition_type`
 | `query_management` | `assistive` | — |
 | `scheduling` | `assistive` | — |
 | `lab_safety_escalation` | `human_required` | `severe_thrombocytopenia_or_hit_signal` |
+
+### Seeded escalation rules (0083 — condition evaluator deferred to v2)
+
+| `workflow_key` | `rule_key` | `condition_type` | `from` → `to` |
+|----------------|------------|------------------|---------------|
+| `lab_safety_escalation` | `severe_thrombocytopenia_or_hit_signal` | `lab_result_rule` | `human_required` → `system_enforced` |
+| `eligibility` | `unresolved_required_criterion` | `eligibility_state` | `human_required` → `system_enforced` |
+| `source_signing` | `missing_required_signature` | `signature_state` | `system_enforced` → `system_enforced` |
+| `randomization` | `missing_prerequisite_evidence` | `protocol_runtime_rule` | `system_enforced` → `system_enforced` |
+| `financial_reconciliation` | `audit_triggered_dispute` | `financial_audit_state` | `assistive` → `human_required` |
 | `source_integrity_snapshot` | `system_enforced` | `hash_mismatch_detected` |
 | `source_integrity_violation` | `system_enforced` | — |
 | `workflow_abandonment_review` | `human_required` | `stale_workflow_unresolved_past_escalation_threshold` |
@@ -166,6 +176,7 @@ const traceRefs = buildGovernedWorkflowTraceRefs({
 ## Validation
 
 ```bash
+npm run gov1:smoke
 npx tsc --noEmit
 npm run lint
 npm run build

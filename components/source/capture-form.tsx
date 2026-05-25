@@ -144,13 +144,19 @@ export function CaptureForm({ model, disabledOverride = false }: CaptureFormProp
             </div>
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            This response set is read-only ({disabledOverride ? 'operationally disabled' : model.statusLabel}). Use{' '}
-            <a href={model.reviewHref} className="font-medium underline">
-              source review
-            </a>{' '}
-            to inspect lineage.
-          </p>
+          <div className="rounded-md border border-border bg-muted/30 px-3 py-3 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">
+              This source has already been submitted.
+            </p>
+            <p className="mt-1">
+              Use correction/addendum workflow if changes are needed. You can still{' '}
+              <a href={model.reviewHref} className="font-medium underline">
+                open source review
+              </a>{' '}
+              to inspect lineage
+              {disabledOverride ? ' (operationally disabled for your role)' : model.statusLabel ? ` (${model.statusLabel})` : ''}.
+            </p>
+          </div>
         )}
       </form>
     </div>

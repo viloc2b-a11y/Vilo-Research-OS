@@ -3,6 +3,8 @@ import { Activity, AlertTriangle, Calendar, FileText, Users, Workflow } from 'lu
 import type { LucideIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { StudyOperationsPanel } from '@/components/coordinator-operations/StudyOperationsPanel'
+import { loadStudyOperationsSurface } from '@/lib/coordinator-operations'
 import {
   loadStudyWorkspaceModel,
   type WorkspaceItem,
@@ -61,7 +63,10 @@ function ListCard({
 
 export default async function StudyWorkspacePage({ params }: StudyWorkspacePageProps) {
   const { studyId } = await params
-  const model = await loadStudyWorkspaceModel(studyId)
+  const [model, operations] = await Promise.all([
+    loadStudyWorkspaceModel(studyId),
+    loadStudyOperationsSurface(studyId),
+  ])
   const stats: Array<{ label: string; value: number; Icon: LucideIcon }> = [
     { label: 'Active subjects', value: model.overview.activeSubjects, Icon: Users },
     { label: 'Upcoming visits', value: model.overview.upcomingVisits, Icon: Calendar },
@@ -75,7 +80,9 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{model.study.name}</h1>
-          <p className="text-sm text-muted-foreground">Study workspace · {model.study.status ?? 'status unavailable'}</p>
+          <p className="text-sm text-muted-foreground">
+            Study operations workspace · {model.study.status ?? 'status unavailable'}
+          </p>
         </div>
         <Link href={`/studies/${studyId}`} className="text-sm font-medium text-primary hover:underline">
           Open study detail
@@ -89,6 +96,8 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
           </CardContent>
         </Card>
       ) : null}
+
+      <StudyOperationsPanel surface={operations} />
 
       <div className="grid gap-3 md:grid-cols-5">
         {stats.map(({ label, value, Icon }) => (

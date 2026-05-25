@@ -1,4 +1,6 @@
-# Phase 5.6B — CRA Review Workflow Shell (Planning)
+# Phase 5.6B — Inspection Readiness Review Workflow Shell (Planning)
+
+> **Terminology (site-first):** Former framing “CRA Review Workflow” → **Inspection Readiness Review**. External monitor/CRA access is **controlled external review** — site-gated, derived from submitted source, operationally justified. Not a CRA-first surveillance surface.
 
 **Status:** Planning / architecture only  
 **Parents:** Phase 5.6A post-submit writes regression · Phase 5.2B canonical read layer · Phase 5.5A/B findings actions  

@@ -1,5 +1,10 @@
 import { errorEnvelope, fromRpcThrown } from '@/lib/api/source/envelope'
 import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/source/auth'
+import {
+  enforceInternalSourceRoute,
+  enforceReplayRoute,
+  resolveSourceRuntimeActor,
+} from '@/lib/api/source/runtime-isolation-enforcement'
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
 import { jsonEnvelope } from '@/lib/api/source/respond'
 import { parseResponseSetReadQuery } from '@/lib/api/source/validate'
@@ -30,6 +35,12 @@ export async function GET(request: Request, context: RouteContext) {
 
   const orgCheck = await requireOrganizationMember(ctx, parsed.data.organization_id)
   if (!orgCheck.ok) return orgCheck.response
+
+  const actor = await resolveSourceRuntimeActor(ctx, parsed.data.organization_id)
+  const replayGuard = enforceReplayRoute(ctx, actor)
+  if (!replayGuard.ok) return replayGuard.response
+  const internal = await enforceInternalSourceRoute(ctx, parsed.data.organization_id)
+  if (!internal.ok) return internal.response
 
   const query = parsed.data
   try {

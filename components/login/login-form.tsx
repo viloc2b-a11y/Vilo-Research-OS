@@ -43,8 +43,15 @@ export function LoginForm() {
       return
     }
 
-    router.push(redirectedFrom.startsWith('/') ? redirectedFrom : '/command-center')
+    const target = redirectedFrom.startsWith('/') ? redirectedFrom : '/command-center'
+    router.push(target)
     router.refresh()
+    // Hard navigation fallback when client router does not leave /login (headless / slow hydration).
+    window.setTimeout(() => {
+      if (window.location.pathname.startsWith('/login')) {
+        window.location.assign(target)
+      }
+    }, 1500)
   }
 
   return (

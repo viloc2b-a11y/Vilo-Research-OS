@@ -38,7 +38,11 @@ export async function upsertSubjectFinancialRuntimeProjection(
   supabase: SupabaseClient,
   financial: SubjectFinancialRuntime,
 ): Promise<void> {
-  const { error } = await supabase.from('subject_financial_runtime_projections').upsert({
+  const snapshot = {
+    ...financial.snapshot,
+    safeguards: financial.safeguards,
+  }
+  const row = {
     study_subject_id: financial.studySubjectId,
     organization_id: financial.organizationId,
     study_id: financial.studyId,
@@ -58,8 +62,15 @@ export async function upsertSubjectFinancialRuntimeProjection(
     leakage_score: financial.leakageScore,
     earned_rate_basis_points: financial.earnedRateBasisPoints,
     safeguards: financial.safeguards,
-    snapshot: financial.snapshot,
-  })
+    snapshot,
+  }
+
+  let { error } = await supabase.from('subject_financial_runtime_projections').upsert(row)
+
+  if (error && /safeguards/i.test(error.message)) {
+    const { safeguards: _omit, ...withoutSafeguards } = row
+    ;({ error } = await supabase.from('subject_financial_runtime_projections').upsert(withoutSafeguards))
+  }
 
   if (error) throw new Error(error.message)
 }

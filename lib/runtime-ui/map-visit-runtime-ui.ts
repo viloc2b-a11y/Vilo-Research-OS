@@ -1,3 +1,4 @@
+import { mapVisitRuntimeWorkQueueBuckets } from '@/lib/coordinator-operations/map-operational-work-queue'
 import { explainVisitReadinessBlocked } from '@/lib/runtime-replay/explain/readiness-blocked'
 import {
   MAX_AUTOMATION_PROPOSALS_SHOWN,
@@ -95,18 +96,15 @@ function mapNextAction(
   return null
 }
 
-function mapWorkQueue(orch: OrchRow | null): RuntimeUiWorkQueueBucket[] {
-  const wq = orch?.work_queue
-  if (!wq) return []
-
-  const buckets: RuntimeUiWorkQueueBucket[] = [
-    { bucket: 'Action now', items: (wq.actionNow ?? []).slice(0, MAX_WORK_QUEUE_ITEMS_SHOWN) },
-    { bucket: 'PI review', items: (wq.piReview ?? []).slice(0, MAX_WORK_QUEUE_ITEMS_SHOWN) },
-    { bucket: 'Escalation', items: (wq.escalation ?? []).slice(0, MAX_WORK_QUEUE_ITEMS_SHOWN) },
-    { bucket: 'Coordinator follow-up', items: (wq.coordinatorFollowUp ?? []).slice(0, MAX_WORK_QUEUE_ITEMS_SHOWN) },
-  ]
-
-  return buckets.filter((b) => b.items.length > 0)
+function mapWorkQueue(
+  orch: OrchRow | null,
+  readiness: VisitReadinessProjection,
+): RuntimeUiWorkQueueBucket[] {
+  return mapVisitRuntimeWorkQueueBuckets(orch, {
+    missingSourceCount: readiness.missingSourceCount,
+    unsignedProcedureCount: readiness.unsignedProcedureCount,
+    safetyBlockerCount: readiness.safetyBlockerCount,
+  })
 }
 
 function mapAutomation(auto: AutoRow | null): RuntimeUiAutomationProposal[] {
@@ -154,7 +152,7 @@ export function mapVisitRuntimeUiModel(input: {
     || input.readiness.missingSourceCount > 0
     || input.readiness.unsignedProcedureCount > 0
 
-  const workQueue = mapWorkQueue(input.orchestration ?? null)
+  const workQueue = mapWorkQueue(input.orchestration ?? null, input.readiness)
   const piReviewNeeded =
     (orchSnap?.piReviewCount ?? 0) > 0
     || (input.orchestration?.work_queue?.piReview?.length ?? 0) > 0

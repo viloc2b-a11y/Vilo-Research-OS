@@ -1,0 +1,553 @@
+{
+  "phase": "16C-supervised-coordinator-pilot-dry-run",
+  "runAt": "2026-05-24T18:37:59.580Z",
+  "environment": {
+    "supabaseUrl": "https://xwioewqzapbinvdyjxzm.supabase.co",
+    "baseUrl": "http://localhost:3000",
+    "note": "Staging DB; app at baseUrl (local unless E2E_API_BASE_URL set)"
+  },
+  "coordinator": {
+    "email": "calendar.qa.coordinator@vilo-os.staging",
+    "password": "CalendarQaCoordinator!2026",
+    "userId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7"
+  },
+  "fixture": {
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "coordinatorActorUserId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7",
+    "studySlug": "phase2-validation-study",
+    "subjectIdentifier": "PHASE9A-PILOT-001",
+    "canonicalSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "screeningProcedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+    "screeningProcedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+  "routes": {
+    "commandCenter": "/command-center",
+    "studyWorkspace": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/workspace",
+    "subjectWorkspace": "/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace",
+    "visit": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "capture": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "projections": {
+    "before": {
+      "label": "before",
+      "visitOrch": {
+        "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:37:12.538+00:00"
+      },
+      "visitReady": {
+        "readiness_status": "blocked",
+        "blocker_count": 2,
+        "computed_at": "2026-05-24T18:32:05.774+00:00"
+      },
+      "subjectOrch": {
+        "study_subject_id": "4384b789-4e16-4512-b3f3-50642b3b9735",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:34:26.163+00:00"
+      },
+      "subjectReady": null
+    },
+    "afterRecompute": {
+      "label": "after_recompute",
+      "visitOrch": {
+        "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:37:42.714+00:00"
+      },
+      "visitReady": {
+        "readiness_status": "blocked",
+        "blocker_count": 2,
+        "computed_at": "2026-05-24T18:37:32.259+00:00"
+      },
+      "subjectOrch": {
+        "study_subject_id": "4384b789-4e16-4512-b3f3-50642b3b9735",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:34:26.163+00:00"
+      },
+      "subjectReady": null
+    },
+    "after": {
+      "label": "after_pilot",
+      "visitOrch": {
+        "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:37:58.18+00:00"
+      },
+      "visitReady": {
+        "readiness_status": "blocked",
+        "blocker_count": 2,
+        "computed_at": "2026-05-24T18:37:48.53+00:00"
+      },
+      "subjectOrch": {
+        "study_subject_id": "4384b789-4e16-4512-b3f3-50642b3b9735",
+        "top_priority_score": 85,
+        "action_now_count": 2,
+        "computed_at": "2026-05-24T18:34:26.163+00:00"
+      },
+      "subjectReady": null
+    }
+  },
+  "steps": [
+    {
+      "id": "environment",
+      "status": "pass",
+      "detail": "Staging Supabase + app base http://localhost:3000",
+      "evidence": {
+        "supabaseUrl": "https://xwioewqzapbinvdyjxzm.supabase.co",
+        "baseUrl": "http://localhost:3000"
+      }
+    },
+    {
+      "id": "preflight.migrations",
+      "status": "pass",
+      "detail": "0082–0089 tables present",
+      "evidence": {
+        "missing": []
+      }
+    },
+    {
+      "id": "projections.before",
+      "status": "pass",
+      "detail": "visit_orch=true visit_ready=true",
+      "evidence": {
+        "label": "before",
+        "visitOrch": {
+          "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+          "top_priority_score": 85,
+          "action_now_count": 2,
+          "computed_at": "2026-05-24T18:37:12.538+00:00"
+        },
+        "visitReady": {
+          "readiness_status": "blocked",
+          "blocker_count": 2,
+          "computed_at": "2026-05-24T18:32:05.774+00:00"
+        },
+        "subjectOrch": {
+          "study_subject_id": "4384b789-4e16-4512-b3f3-50642b3b9735",
+          "top_priority_score": 85,
+          "action_now_count": 2,
+          "computed_at": "2026-05-24T18:34:26.163+00:00"
+        },
+        "subjectReady": null
+      }
+    },
+    {
+      "id": "fixture.linkage",
+      "status": "pass",
+      "detail": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist).",
+      "evidence": {
+        "linkage": {
+          "ok": true,
+          "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+          "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "capturePath": "/source/capture/c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+          "procedureDefinitionId": "17059af6-37fa-48a5-9bef-e82b7e2606b1",
+          "peSourceDefinitionVersionId": "e0317385-5066-47af-b5dc-c0e4264f49d7",
+          "bindingSourceDefinitionVersionId": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+          "sdvAlignedWithBinding": false,
+          "resolutionSource": "published",
+          "resolutionFallback": false,
+          "message": "PE SDV e0317385-5066-47af-b5dc-c0e4264f49d7 differs from binding 2ee5a544-fba6-4edb-a5c1-61ba5e2eee00; capture uses PE-bound published SDV (pre-capture rows may exist)."
+        }
+      }
+    },
+    {
+      "id": "route.command_center",
+      "status": "pass",
+      "detail": "topActions=4 queueBuckets=4 studies=1",
+      "evidence": {
+        "path": "/command-center",
+        "topNextActions": [
+          {
+            "id": "6690da63-4bf1-4681-815a-3e39b7b014bc:action:sign:unsigned-procedures",
+            "label": "Unsigned procedures",
+            "priority": 85
+          },
+          {
+            "id": "6690da63-4bf1-4681-815a-3e39b7b014bc:action:proc:completion-1 procedure(s) not signe",
+            "label": "Visit completion blocked",
+            "priority": 85
+          },
+          {
+            "id": "6690da63-4bf1-4681-815a-3e39b7b014bc:action:leak:unsigned:c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+            "label": "Unsigned procedure — leakage risk",
+            "priority": 65
+          },
+          {
+            "id": "6690da63-4bf1-4681-815a-3e39b7b014bc:action:replay:chronology",
+            "label": "Review replay chronology",
+            "priority": 45
+          }
+        ],
+        "workQueueBuckets": [
+          {
+            "bucket": "Do now",
+            "count": 2
+          },
+          {
+            "bucket": "Blocked",
+            "count": 1
+          },
+          {
+            "bucket": "Source incomplete",
+            "count": 1
+          },
+          {
+            "bucket": "Follow-up later",
+            "count": 1
+          }
+        ],
+        "projectionDataAvailable": true
+      }
+    },
+    {
+      "id": "route.study_workspace",
+      "status": "pass",
+      "detail": "risk=attention blockers=1",
+      "evidence": {
+        "path": "/studies/6bae715a-8536-4000-8d24-22b6a3dbb8c9/workspace",
+        "studyOps": {
+          "projectionDataAvailable": true,
+          "activeBlockers": [
+            {
+              "id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+              "label": "Visit blocked (2)"
+            }
+          ],
+          "operationalRiskLevel": "attention"
+        }
+      }
+    },
+    {
+      "id": "route.subject_workspace",
+      "status": "pass",
+      "detail": "currentVisit=true openSource=2",
+      "evidence": {
+        "path": "/subjects/4384b789-4e16-4512-b3f3-50642b3b9735/workspace",
+        "subjectOps": {
+          "projectionDataAvailable": true,
+          "currentVisit": {
+            "id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+            "label": "Screening",
+            "status": "in_progress"
+          },
+          "openSourceItems": [
+            {
+              "id": "59f7a569-1150-4187-85d3-51f4abc2c059",
+              "status": "in_progress"
+            },
+            {
+              "id": "21533aa7-d2c6-4e87-8479-eecce080babc",
+              "status": "draft"
+            }
+          ],
+          "nextActions": [
+            {
+              "id": "action:sign:unsigned-procedures",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+              "kind": "signoff",
+              "label": "Unsigned procedures",
+              "detail": "1 procedure(s) require signature.",
+              "domain": "visit",
+              "priority": 85,
+              "blockerId": "unsigned-procedures",
+              "requiresPiReview": false,
+              "requiresEscalation": false
+            },
+            {
+              "id": "action:proc:completion-1 procedure(s) not signe",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+              "kind": "procedure_execution",
+              "label": "Visit completion blocked",
+              "detail": "1 procedure(s) not signed.",
+              "domain": "visit",
+              "priority": 85,
+              "blockerId": "completion-1 procedure(s) not signe",
+              "requiresPiReview": false,
+              "requiresEscalation": false
+            },
+            {
+              "id": "action:leak:unsigned:c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+              "href": null,
+              "kind": "leakage_escalation",
+              "label": "Unsigned procedure — leakage risk",
+              "detail": "CBC completed without signature — revenue at risk.",
+              "domain": "financial",
+              "priority": 65,
+              "requiresPiReview": false,
+              "requiresEscalation": false,
+              "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+            },
+            {
+              "id": "action:replay:chronology",
+              "href": null,
+              "kind": "coordinator_follow_up",
+              "label": "Review replay chronology",
+              "detail": "signatures: Unsigned procedures; completion: Visit completion blocked",
+              "domain": "replay",
+              "priority": 45,
+              "requiresPiReview": false,
+              "requiresEscalation": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "auth.coordinator",
+      "status": "pass",
+      "detail": "calendar.qa.coordinator@vilo-os.staging",
+      "evidence": {
+        "userId": "d7e43ee5-5c08-489b-b293-8ef288e7fdb7"
+      }
+    },
+    {
+      "id": "rbac.capture",
+      "status": "pass",
+      "detail": "Pilot coordinator can open/save/submit source via user-scoped API and RPC."
+    },
+    {
+      "id": "api.reachable",
+      "status": "pass",
+      "detail": "HTTP 200 at http://localhost:3000"
+    },
+    {
+      "id": "source.open",
+      "status": "pass",
+      "detail": "HTTP 200",
+      "evidence": {
+        "technicalInContext": false
+      }
+    },
+    {
+      "id": "source.save_draft",
+      "status": "warn",
+      "detail": "HTTP 409",
+      "evidence": {
+        "code": "SUBMITTED_VALUE_IMMUTABLE",
+        "message": "Data changed on the server since this form was loaded. Refresh the page and try again."
+      }
+    },
+    {
+      "id": "source.submit",
+      "status": "pass",
+      "detail": "HTTP 200",
+      "evidence": {
+        "code": "SUCCESS"
+      }
+    },
+    {
+      "id": "integrity.snapshots",
+      "status": "pass",
+      "detail": "42 snapshot row(s) for response set",
+      "evidence": {
+        "responseSetId": "dc431c9a-2360-47a7-ba3b-d5b8ebd85c31"
+      }
+    },
+    {
+      "id": "visit.sign",
+      "status": "warn",
+      "detail": "PE unsigned — coordinator signoff requires supervised UI action (server action; not exercised in API dry run)",
+      "evidence": {
+        "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+        "isSigned": false,
+        "executionStatus": "completed"
+      }
+    },
+    {
+      "id": "ux.no_technical_errors",
+      "status": "pass",
+      "detail": "No SQL/constraint leakage in API error envelopes checked"
+    },
+    {
+      "id": "runtime.ui",
+      "status": "pass",
+      "detail": "Unsigned procedures",
+      "evidence": {
+        "path": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc",
+        "nextAction": {
+          "label": "Unsigned procedures",
+          "detail": "1 procedure(s) require signature.",
+          "kind": "signoff",
+          "priority": 85,
+          "requiresPiReview": false,
+          "requiresEscalation": false,
+          "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+        },
+        "workQueue": [
+          {
+            "bucket": "Do now",
+            "items": [
+              {
+                "kind": "signoff",
+                "label": "Unsigned procedures",
+                "bucket": "action_now",
+                "actionId": "action:sign:unsigned-procedures",
+                "priority": 85
+              },
+              {
+                "kind": "procedure_execution",
+                "label": "Visit completion blocked",
+                "bucket": "action_now",
+                "actionId": "action:proc:completion-1 procedure(s) not signe",
+                "priority": 85
+              }
+            ]
+          },
+          {
+            "bucket": "Blocked",
+            "items": [
+              {
+                "kind": "coordinator_follow_up",
+                "label": "Review replay chronology",
+                "bucket": "blocked",
+                "actionId": "action:replay:chronology",
+                "priority": 45
+              }
+            ]
+          },
+          {
+            "bucket": "Source incomplete",
+            "items": [
+              {
+                "label": "Resolve unsigned procedures",
+                "kind": "signature",
+                "priority": 75
+              }
+            ]
+          },
+          {
+            "bucket": "Follow-up later",
+            "items": [
+              {
+                "kind": "leakage_escalation",
+                "label": "Unsigned procedure — leakage risk",
+                "bucket": "can_wait",
+                "actionId": "action:leak:unsigned:c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc",
+                "priority": 65
+              }
+            ]
+          }
+        ],
+        "whyBlocked": {
+          "blocked": true,
+          "readinessStatus": "blocked",
+          "primaryCauses": [
+            "signatures: Unsigned procedures",
+            "completion: Visit completion blocked"
+          ],
+          "blockerRows": [
+            {
+              "id": "unsigned-procedures",
+              "category": "signatures",
+              "severity": "blocker",
+              "label": "Unsigned procedures",
+              "detail": "1 procedure(s) require signature.",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+            },
+            {
+              "id": "completion-1 procedure(s) not signe",
+              "category": "completion",
+              "severity": "blocker",
+              "label": "Visit completion blocked",
+              "detail": "1 procedure(s) not signed.",
+              "href": "/visits/6690da63-4bf1-4681-815a-3e39b7b014bc"
+            }
+          ]
+        },
+        "readinessStatus": "blocked"
+      }
+    },
+    {
+      "id": "obs.telemetry",
+      "status": "pass",
+      "detail": "telemetry=0 workflow signal(s); operational_events=10 for visit",
+      "evidence": {
+        "signals": [],
+        "operationalEventTypes": [
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "SOURCE_FIELD_SNAPSHOT_CAPTURED",
+          "RUNTIME_AUTOMATION_APPLIED",
+          "VISIT_CHECKED_IN",
+          "RUNTIME_AUTOMATION_APPLIED",
+          "RUNTIME_AUTOMATION_APPLIED"
+        ]
+      }
+    },
+    {
+      "id": "obs.no_phi",
+      "status": "pass",
+      "detail": "No PHI patterns in sampled telemetry metadata",
+      "evidence": {
+        "phiIssues": []
+      }
+    },
+    {
+      "id": "projections.after",
+      "status": "pass",
+      "detail": "Post-pilot projection snapshot captured",
+      "evidence": {
+        "label": "after_pilot",
+        "visitOrch": {
+          "visit_id": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+          "top_priority_score": 85,
+          "action_now_count": 2,
+          "computed_at": "2026-05-24T18:37:58.18+00:00"
+        },
+        "visitReady": {
+          "readiness_status": "blocked",
+          "blocker_count": 2,
+          "computed_at": "2026-05-24T18:37:48.53+00:00"
+        },
+        "subjectOrch": {
+          "study_subject_id": "4384b789-4e16-4512-b3f3-50642b3b9735",
+          "top_priority_score": 85,
+          "action_now_count": 2,
+          "computed_at": "2026-05-24T18:34:26.163+00:00"
+        },
+        "subjectReady": null
+      }
+    },
+    {
+      "id": "preflight.e2e",
+      "status": "warn",
+      "detail": "Overall: degraded (run npm run runtime:e2e:live separately)"
+    }
+  ],
+  "summary": {
+    "fails": 0,
+    "warns": 3,
+    "recommendation": "GO",
+    "e2eOverall": "degraded",
+    "openOk": true,
+    "saveOk": false,
+    "submitOk": true
+  },
+  "friction": [
+    {
+      "id": "source.save_draft",
+      "detail": "HTTP 409"
+    },
+    {
+      "id": "visit.sign",
+      "detail": "PE unsigned — coordinator signoff requires supervised UI action (server action; not exercised in API dry run)"
+    },
+    {
+      "id": "preflight.e2e",
+      "detail": "Overall: degraded (run npm run runtime:e2e:live separately)"
+    }
+  ]
+}

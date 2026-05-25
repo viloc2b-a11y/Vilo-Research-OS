@@ -76,6 +76,7 @@ export interface ApiEnvelopeMeta {
   rpc?: string
   hardBlockCount: number
   warningCount: number
+  projection?: string
   /** Reserved for future RPC-backed pagination; not applied until RPC supports it. */
   pagination?: ApiEnvelopePaginationMeta
 }

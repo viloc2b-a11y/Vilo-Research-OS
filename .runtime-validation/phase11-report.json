@@ -1,6 +1,6 @@
 {
   "phase": "phase11-runtime-e2e",
-  "runAt": "2026-05-24T17:16:27.264Z",
+  "runAt": "2026-05-25T00:59:37.772Z",
   "mode": "hybrid",
   "pilot": {
     "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
@@ -99,9 +99,9 @@
       "goal": 1,
       "label": "Runtime actions emit operational_events (live visit)",
       "status": "pass",
-      "detail": "29 operational_event(s) for visit.",
+      "detail": "34 operational_event(s) for visit.",
       "evidence": {
-        "eventCount": 29,
+        "eventCount": 34,
         "checkInBridge": {
           "bridged": false,
           "skipped": true,
@@ -204,7 +204,7 @@
     "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
     "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
     "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
-    "computedAt": "2026-05-24T17:16:26.147Z",
+    "computedAt": "2026-05-25T00:59:36.628Z",
     "overallStatus": "critical",
     "summary": "Status: critical · 1 projection issue(s) · 6 replay gap(s)",
     "projectionFreshness": [

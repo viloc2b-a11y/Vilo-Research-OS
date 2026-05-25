@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server'
+import { getOrganizationMemberships } from '@/lib/auth/session'
+import { classifyActorForOrganization } from '@/lib/external-access/runtime-isolation'
 import { resolveProcedureContext } from '@/lib/visit-runtime/context'
 import { generateProcedurePdf } from '@/lib/visit-runtime/generateProcedurePdf'
 
@@ -12,6 +14,15 @@ export async function GET(request: Request, context: RouteContext) {
 
   if (!ctx.ok) {
     return NextResponse.json({ error: ctx.error }, { status: 404 })
+  }
+
+  const memberships = await getOrganizationMemberships(ctx.user.id)
+  const actor = classifyActorForOrganization(memberships, ctx.procedure.organization_id)
+  if (!actor.mayAccessInternalRuntime) {
+    return NextResponse.json(
+      { error: 'External actors cannot access internal procedure runtime exports.' },
+      { status: 403 },
+    )
   }
 
   const def = Array.isArray(ctx.procedure.procedure_definitions)

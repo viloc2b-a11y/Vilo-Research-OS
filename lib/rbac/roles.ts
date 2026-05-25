@@ -57,7 +57,11 @@ export type StoredOrganizationRole = (typeof STORED_ORGANIZATION_ROLES)[number]
  *   plus treatment/IP-sensitive fields and unblinded calendar items.
  *
  * unblinded_cra — Sponsor/CRO monitor: unblinded review/audit only; no site admin or
- *   general user management.
+ *   general user management. Maps to policy role cra_monitor (see lib/rbac/external-actors.ts).
+ *
+ * Policy-only external aliases (study_members or future org roles):
+ *   cra_monitor, external_monitor (study role monitor), sponsor_viewer — external actors;
+ *   no runtime intelligence; see docs/CRA_ACCESS_BOUNDARY.md.
  */
 
 const LEGACY_ROLE_NORMALIZATION: Record<string, OrganizationRole> = {

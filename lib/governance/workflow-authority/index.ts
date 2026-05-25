@@ -29,6 +29,7 @@ export {
   assertWorkflowAuthorityLevel,
   assertWorkflowKey,
   EFFECTIVE_AUTHORITY_LEVEL,
+  GOV1_CORE_WORKFLOW_KEYS,
   GOV1_SEEDED_WORKFLOW_KEYS,
   isWorkflowAuthorityLevel,
   isWorkflowCategory,
@@ -51,6 +52,7 @@ export {
 
 export type {
   EffectiveAuthorityLevel,
+  Gov1CoreWorkflowKey,
   Gov1SeededWorkflowKey,
   WorkflowAuthorityEscalationRule,
   WorkflowAuthorityEscalationRuleRow,

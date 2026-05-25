@@ -9,6 +9,8 @@
 
 Provide append-oriented storage for **runtime traces**, **execution spans**, and **workflow telemetry events** so future runtime instrumentation (OBS-2) can record governed workflow execution without changing clinical behavior in this phase.
 
+> **Site-first framing:** Observability exists primarily to help the site identify and resolve operational risk **before external escalation** — operational explainability, site self-defense telemetry, runtime self-correction, and operational continuity signals. **Not** sponsor transparency, monitor visibility, or oversight telemetry as product goals.
+
 ## Non-goals
 
 - No UI or dashboards  

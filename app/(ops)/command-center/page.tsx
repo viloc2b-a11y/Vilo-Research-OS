@@ -12,6 +12,9 @@ import {
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CoordinatorTopActionsPanel } from '@/components/coordinator-operations/CoordinatorTopActionsPanel'
+import { OperationalWorkQueuePanel } from '@/components/coordinator-operations/OperationalWorkQueuePanel'
+import { loadSiteOperationsSurface } from '@/lib/coordinator-operations'
 import {
   loadCommandCenterModel,
   type CommandCenterListItem,
@@ -150,7 +153,7 @@ type CoordinatorCommandCenterPageProps = {
 
 export default async function CoordinatorCommandCenterPage({ searchParams }: CoordinatorCommandCenterPageProps) {
   const { eventType } = await searchParams
-  const model = await loadCommandCenterModel()
+  const [model, siteOps] = await Promise.all([loadCommandCenterModel(), loadSiteOperationsSurface()])
   const selectedEventType = eventType?.trim() || 'all'
   const eventTypes = Array.from(new Set(model.recentEvents.map((event) => event.eventType))).sort()
   const visibleEvents =
@@ -160,11 +163,11 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
 
   const summary = [
     { id: 'today-visits', label: "Today's visits", value: model.todayVisits.length, icon: Calendar, href: '#today-visits' },
-    { id: 'out-of-window', label: 'Out of window', value: model.outOfWindowVisits.length, icon: AlertTriangle, href: '#out-of-window' },
+    { id: 'out-of-window', label: 'Overdue / OOW', value: siteOps.overdueVisitCount, icon: AlertTriangle, href: '#out-of-window' },
+    { id: 'blocked-visits', label: 'Blocked visits', value: siteOps.blockedVisitCount, icon: AlertTriangle, href: '#site-work-queue' },
     { id: 'incomplete-source', label: 'Incomplete source', value: model.incompleteSource.length, icon: FileText, href: '#incomplete-source' },
     { id: 'pending-signatures', label: 'Pending signatures', value: model.pendingSignatures.length, icon: PenTool, href: '#pending-signatures' },
-    { id: 'open-workflow-tasks', label: 'Open tasks', value: model.openWorkflowTasks.length, icon: Workflow, href: '#open-workflow-tasks' },
-    { id: 'blockers', label: 'Blockers', value: model.sourceEngineBlockers.length, icon: Activity, href: '#source-engine-blockers' },
+    { id: 'subjects-action', label: 'Subjects needing action', value: siteOps.subjectsNeedingActionCount, icon: Workflow, href: '#top-next-actions' },
   ]
   const alertSections = [
     {
@@ -252,9 +255,9 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
     <div className="space-y-6 p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Coordinator Command Center</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Site Operations Home</h1>
           <p className="text-sm text-muted-foreground">
-            Daily operating cockpit from visits, source, signatures, workflow, events, and VPI signals.
+            Site → study → subject → visit → source. Prioritized from live runtime projections — no fabricated metrics.
           </p>
         </div>
         <div className="flex flex-col items-end gap-2">
@@ -287,6 +290,40 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
           </CardContent>
         </Card>
       ) : null}
+
+      {siteOps.activeStudies.length > 0 ? (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Active studies</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-2">
+            {siteOps.activeStudies.map((study) => (
+              <Link
+                key={study.id}
+                href={study.href}
+                className="rounded-full border px-3 py-1 text-xs font-medium hover:bg-accent/30"
+              >
+                {study.name}
+                {study.status ? ` · ${study.status}` : ''}
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
+      ) : null}
+
+      <div id="top-next-actions" className="scroll-mt-6 space-y-4">
+        <CoordinatorTopActionsPanel actions={siteOps.topNextActions} />
+        <div id="site-work-queue">
+          <OperationalWorkQueuePanel
+            buckets={siteOps.workQueueBuckets}
+            emptyMessage={
+              siteOps.projectionDataAvailable
+                ? 'Work queue buckets are empty — visits may be ready or orchestration has not run yet.'
+                : 'Runtime orchestration projections are not populated yet. Open visits to trigger compute, then refresh.'
+            }
+          />
+        </div>
+      </div>
 
       <div className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
         {summary.map(({ id, label, value, icon: Icon, href }) => (

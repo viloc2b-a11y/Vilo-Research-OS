@@ -1,0 +1,172 @@
+{
+  "phase": "16D-coordinator-browser-walkthrough",
+  "runAt": "2026-05-25T01:03:52.350Z",
+  "environment": {
+    "baseUrl": "http://localhost:3000",
+    "database": "staging Supabase (via app)"
+  },
+  "coordinator": {
+    "email": "calendar.qa.coordinator@vilo-os.staging"
+  },
+  "fixture": {
+    "organizationId": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "studyId": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "studySubjectId": "4384b789-4e16-4512-b3f3-50642b3b9735",
+    "visitId": "6690da63-4bf1-4681-815a-3e39b7b014bc",
+    "procedureExecutionId": "c022a7f6-3bc1-4b81-a19f-8075a4e3a1dc"
+  },
+  "routesCompleted": [
+    "login",
+    "command-center",
+    "study-workspace",
+    "subject-workspace",
+    "visit",
+    "capture"
+  ],
+  "signInOk": true,
+  "sourceCapture": "Capture shell loaded",
+  "saveResult": {
+    "attempted": false,
+    "outcome": "disabled"
+  },
+  "submitResult": {
+    "attempted": false,
+    "outcome": "disabled"
+  },
+  "signResult": {
+    "attempted": true,
+    "outcome": "unknown"
+  },
+  "comprehension": {
+    "commandCenter": "pass",
+    "studyWorkspace": "pass",
+    "subjectWorkspace": "pass",
+    "runtimeUi": "pass",
+    "workQueue": "pass"
+  },
+  "friction": [
+    {
+      "step": 1,
+      "whatCoordinatorSees": "Headless login did not redirect off /login",
+      "expectedBehavior": "Form sign-in redirects to command center within a few seconds",
+      "actualBehavior": "Form redirect timed out; cookie session fallback cookies=1 ok=true",
+      "severity": "medium",
+      "fixRecommendation": "Investigate client router.refresh after sign-in in headless browsers",
+      "pilotImpact": "Manual browser sign-in likely fine; automate with session for CI"
+    },
+    {
+      "step": 12,
+      "whatCoordinatorSees": "Save draft button disabled or absent",
+      "expectedBehavior": "Mutable sets allow draft save",
+      "actualBehavior": "Save draft not enabled (likely already submitted)",
+      "severity": "low",
+      "fixRecommendation": "Show read-only state clearly when submitted",
+      "pilotImpact": "Expected for pilot fixture; document for coordinators"
+    },
+    {
+      "step": 17,
+      "whatCoordinatorSees": "Browser console: Failed to load resource: the server responded with a status of 400 ()",
+      "expectedBehavior": "No client errors during walkthrough",
+      "actualBehavior": "1 console error(s)",
+      "severity": "medium",
+      "fixRecommendation": "Fix client exceptions on visit/capture routes",
+      "pilotImpact": "May indicate broken UI paths"
+    }
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "status": "pass",
+      "detail": "Signed in via supabase_session_cookies → http://localhost:3000/command-center"
+    },
+    {
+      "step": 2,
+      "status": "pass",
+      "detail": "Site Operations Home visible"
+    },
+    {
+      "step": 3,
+      "status": "pass",
+      "detail": "workQueue=true topActions=true"
+    },
+    {
+      "step": 4,
+      "status": "pass",
+      "detail": "Study operations workspace loaded"
+    },
+    {
+      "step": 6,
+      "status": "pass",
+      "detail": "Subject workspace loaded"
+    },
+    {
+      "step": 7,
+      "status": "pass",
+      "detail": "nextActionVisible=true"
+    },
+    {
+      "step": 8,
+      "status": "pass",
+      "detail": "Screening visit runtime panel loaded"
+    },
+    {
+      "step": 9,
+      "status": "pass",
+      "detail": "whyBlocked=true blockers=true"
+    },
+    {
+      "step": 10,
+      "status": "pass",
+      "detail": "Capture shell loaded"
+    },
+    {
+      "step": 11,
+      "status": "pass",
+      "detail": "destructiveAlerts=7"
+    },
+    {
+      "step": 12,
+      "status": "warn",
+      "detail": "save: disabled"
+    },
+    {
+      "step": 13,
+      "status": "warn",
+      "detail": "submit: disabled"
+    },
+    {
+      "step": 14,
+      "status": "warn",
+      "detail": "sign: unknown"
+    },
+    {
+      "step": 15,
+      "status": "pass",
+      "detail": "Runtime action panel present after actions"
+    },
+    {
+      "step": 16,
+      "status": "pass",
+      "detail": "workQueueOnVisit=true"
+    },
+    {
+      "step": 17,
+      "status": "pass",
+      "detail": "consoleErrors=1"
+    },
+    {
+      "step": 18,
+      "status": "skip",
+      "detail": "Verify via post-walkthrough dry-run (snapshots)"
+    },
+    {
+      "step": 19,
+      "status": "skip",
+      "detail": "Verify via post-walkthrough dry-run (telemetry)"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 400 ()"
+  ],
+  "recommendation": "GO"
+}

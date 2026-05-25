@@ -1,5 +1,6 @@
 import { errorEnvelope, fromRpcThrown } from '@/lib/api/source/envelope'
 import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/source/auth'
+import { enforceInternalSourceRoute } from '@/lib/api/source/runtime-isolation-enforcement'
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
 import { jsonEnvelope } from '@/lib/api/source/respond'
 import { parseJsonBody, parseWaiveBody } from '@/lib/api/source/validate'
@@ -20,6 +21,9 @@ export async function POST(request: Request) {
 
   const orgCheck = await requireOrganizationMember(ctx, parsed.data.organization_id)
   if (!orgCheck.ok) return orgCheck.response
+
+  const internal = await enforceInternalSourceRoute(ctx, parsed.data.organization_id)
+  if (!internal.ok) return internal.response
 
   const body = parsed.data
   try {

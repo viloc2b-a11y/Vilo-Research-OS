@@ -6,6 +6,8 @@
 
 ## Principles
 
+> **Site-first framing:** Observability exists primarily to help the site identify and resolve operational risk **before external escalation** — operational explainability, site self-defense telemetry, runtime self-correction, and operational continuity signals. **Not** sponsor transparency, monitor visibility, or oversight telemetry as product goals.
+
 - **Best-effort:** `safeObserve()` wraps all writes; failures never propagate to clinical runtime.
 - **Non-blocking:** Hooks use fire-and-forget async; callers do not await observability.
 - **Production silence:** Failures log `console.warn` only in `development` / `test`.

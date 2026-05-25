@@ -2,36 +2,25 @@
 
 import { useActionState } from 'react'
 import { Button } from '@/components/ui/button'
-import type {
-  ConditionalProcedureOption,
-  InstantiateConditionalFormState,
-} from '@/lib/visits/conditional-procedures'
-
-const INITIAL_INSTANTIATE_CONDITIONAL_STATE: InstantiateConditionalFormState = {
-  ok: false,
-  message: null,
-}
-
-type InstantiateConditionalProcedureFormAction = (
-  prev: InstantiateConditionalFormState,
-  formData: FormData,
-) => Promise<InstantiateConditionalFormState>
+import type { ConditionalProcedureOption } from '@/lib/visits/conditional-procedures'
+import {
+  INITIAL_INSTANTIATE_CONDITIONAL_STATE,
+  instantiateConditionalProcedureFormAction,
+} from '@/lib/visits/conditional-procedure-actions'
 
 function InstantiateForm({
   organizationId,
   visitId,
   option,
   canInstantiate,
-  instantiateAction,
 }: {
   organizationId: string
   visitId: string
   option: ConditionalProcedureOption
   canInstantiate: boolean
-  instantiateAction: InstantiateConditionalProcedureFormAction
 }) {
   const [state, action, pending] = useActionState(
-    instantiateAction,
+    instantiateConditionalProcedureFormAction,
     INITIAL_INSTANTIATE_CONDITIONAL_STATE,
   )
 
@@ -68,13 +57,11 @@ export function ConditionalProceduresPanel({
   visitId,
   options,
   canInstantiate,
-  instantiateAction,
 }: {
   organizationId: string
   visitId: string
   options: ConditionalProcedureOption[]
   canInstantiate: boolean
-  instantiateAction: InstantiateConditionalProcedureFormAction
 }) {
   if (options.length === 0) return null
 
@@ -100,7 +87,6 @@ export function ConditionalProceduresPanel({
             visitId={visitId}
             option={option}
             canInstantiate={canInstantiate}
-            instantiateAction={instantiateAction}
           />
         ))}
       </div>

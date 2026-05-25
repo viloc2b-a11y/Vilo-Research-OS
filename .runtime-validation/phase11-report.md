@@ -1,6 +1,6 @@
 # Phase 11 Runtime E2E — DEGRADED
 
-Run: 2026-05-24T17:16:27.264Z
+Run: 2026-05-25T00:59:37.772Z
 Mode: hybrid
 
 ## Pilot scope
@@ -19,7 +19,7 @@ Mode: hybrid
 - [PASS] **UI model surfaces runtime intelligence** — next="Unresolved AE", blocked=true.
 - [PASS] **Events / compute refresh derived projections** — Enrich chain wired in visit-readiness compute (phases 3–10 integration smokes).
 - [PASS] **No silent mutation breaks the chain (static audit)** — No unapproved direct-mutation blockers in lib/ (33 findings, 26 warnings).
-- [PASS] **Runtime actions emit operational_events (live visit)** — 29 operational_event(s) for visit.
+- [PASS] **Runtime actions emit operational_events (live visit)** — 34 operational_event(s) for visit.
 - [PASS] **Events / compute refresh derived projections** — visit_readiness_projections: blocked, 2 blocker(s)
 - [WARN] **Protocol graph blockers appear in readiness** — readiness=blocked (no graph blockers — OK if visit ready)
 - [WARN] **Safety/governance blockers carry forward** — 0 projection blocker(s), safetyBlockerCount=0

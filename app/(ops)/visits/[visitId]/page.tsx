@@ -60,7 +60,6 @@ import { ConditionalProceduresPanel } from '@/components/subjects/visits/Conditi
 import { loadVisitCalendarReschedule } from '@/lib/calendar/get-active-visit-reschedule'
 import {
   formatVisitModalityLabel,
-  instantiateConditionalProcedureFormAction,
   loadConditionalProcedureOptions,
 } from '@/lib/visits/conditional-procedures'
 import { VisitRuntimeActionPanel } from '@/components/runtime-ui/VisitRuntimeActionPanel'
@@ -664,7 +663,6 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               visitId={visit.id as string}
               options={conditionalProcedureOptions}
               canInstantiate={visitAllowsProcedureEdits && canMutate}
-              instantiateAction={instantiateConditionalProcedureFormAction}
             />
 
             {procedures?.length ? (
