@@ -26,8 +26,11 @@ import { SubjectCloseoutChecklist } from '@/components/subject/SubjectCloseoutCh
 import { SubjectCloseoutForms } from '@/components/subject/subject-closeout-forms'
 import { loadSubjectCloseoutReadiness } from '@/lib/subject/closeout'
 import { subjectVisitsPath } from '@/lib/subject/chart-paths'
+import { subjectChartPath } from '@/lib/ops/paths'
 import { resolveSubjectChartPermissions } from '@/lib/subject/permissions'
-import { loadSubjectClinicalProfile } from '@/lib/subject/clinical-profile/read'
+import { loadSubjectClinicalProfileSafe } from '@/lib/subject/clinical-profile/load-safe'
+import { CoordinatorSafeErrorPanel } from '@/components/runtime-ui/CoordinatorSafeErrorPanel'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors/coordinator-facing'
 import { buildLongitudinalProfile } from '@/lib/subject/clinical-intelligence'
 import type { SubjectClinicalProfile } from '@/lib/subject/clinical-profile/types'
 import type { LongitudinalClinicalProfile } from '@/lib/subject/clinical-intelligence/types'
@@ -246,10 +249,14 @@ export default async function SubjectDetailPage({
     surgical_history: [],
     lifestyle: null,
   }
+  let clinicalProfileLoadError: string | null = null
   let longitudinal: LongitudinalClinicalProfile | null = null
   if (activeTab === 'clinical-profile' || activeTab === 'conmeds') {
-    clinicalProfile = await loadSubjectClinicalProfile(subjectId)
-    if (activeTab === 'clinical-profile') {
+    const clinicalLoad = await loadSubjectClinicalProfileSafe(subjectId)
+    clinicalProfile = clinicalLoad.profile
+    if (!clinicalLoad.ok) {
+      clinicalProfileLoadError = clinicalLoad.coordinatorMessage
+    } else if (activeTab === 'clinical-profile') {
       longitudinal = buildLongitudinalProfile(clinicalProfile)
     }
   }
@@ -394,10 +401,24 @@ export default async function SubjectDetailPage({
 
           {/* Error banners */}
           {!workflowResult.ok && activeTab === 'workflow' ? (
-            <p className="text-sm text-destructive">{workflowResult.error}</p>
+            <CoordinatorSafeErrorPanel
+              title="Workflow unavailable"
+              detail={coordinatorMessageFromError(new Error(workflowResult.error), {
+                context: 'subject-workflow',
+              })}
+              retryHref={`${subjectChartPath(chartStudyId, subjectId)}?tab=workflow`}
+              backHref={subjectChartPath(chartStudyId, subjectId)}
+            />
           ) : null}
           {!operationalResult.ok && activeTab === 'general' && chartStudyId ? (
-            <p className="text-sm text-destructive">{operationalResult.error}</p>
+            <CoordinatorSafeErrorPanel
+              title="Operational summary unavailable"
+              detail={coordinatorMessageFromError(new Error(operationalResult.error), {
+                context: 'subject-operational',
+              })}
+              retryHref={`${subjectChartPath(chartStudyId, subjectId)}?tab=general`}
+              backHref={subjectChartPath(chartStudyId, subjectId)}
+            />
           ) : null}
 
           {/* General */}
@@ -453,7 +474,17 @@ export default async function SubjectDetailPage({
           ) : null}
 
           {/* Clinical Profile */}
-          {activeTab === 'clinical-profile' ? (
+          {clinicalProfileLoadError &&
+          (activeTab === 'clinical-profile' || activeTab === 'conmeds') ? (
+            <CoordinatorSafeErrorPanel
+              title="Clinical profile unavailable"
+              detail={clinicalProfileLoadError}
+              retryHref={`${subjectChartPath(chartStudyId, subjectId)}?tab=${activeTab}`}
+              backHref={subjectChartPath(chartStudyId, subjectId)}
+            />
+          ) : null}
+
+          {activeTab === 'clinical-profile' && !clinicalProfileLoadError ? (
             <div className="space-y-4">
               <div>
                 <h2 className="text-lg font-semibold" >Clinical Profile</h2>
@@ -478,7 +509,7 @@ export default async function SubjectDetailPage({
             </div>
           ) : null}
 
-          {activeTab === 'conmeds' ? (
+          {activeTab === 'conmeds' && !clinicalProfileLoadError ? (
             <SubjectConMedsSurface
               profile={clinicalProfile}
               studySubjectId={subjectId}

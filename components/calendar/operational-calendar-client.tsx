@@ -1280,7 +1280,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             </div>
             {monthEvents.length === 0 ? (
               <div className="border-t px-4 py-6 text-center text-sm text-muted-foreground">
-                No protocol or manual operational events found for this month.
+                No scheduled visits found. Create or schedule a visit from the subject workspace.
               </div>
             ) : null}
           </div>
@@ -1294,7 +1294,7 @@ export function OperationalCalendarClient({ model }: { model: OperationalCalenda
             </div>
             {dayEvents.length === 0 ? (
               <div className="px-4 py-10 text-center text-sm text-muted-foreground">
-                No visits or manual operational events on this day.
+                No scheduled visits found. Create or schedule a visit from the subject workspace.
               </div>
             ) : (
               <ol className="divide-y">

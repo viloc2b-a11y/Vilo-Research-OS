@@ -10,5 +10,9 @@ export default async function OperationalCalendarPage({ searchParams }: Operatio
   const parsedYear = year ? Number(year) : undefined
   const model = await loadOperationalCalendarModel({ year: parsedYear })
 
-  return <OperationalCalendarClient model={model} />
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      <OperationalCalendarClient model={model} />
+    </div>
+  )
 }

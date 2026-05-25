@@ -8,6 +8,8 @@ import {
   type WorkspaceItem,
 } from '@/lib/ops/workspace-read-model'
 import { SubjectOperationsPanel } from '@/components/coordinator-operations/SubjectOperationsPanel'
+import { SubjectWorkspaceActions } from '@/components/coordinator-operations/SubjectWorkspaceActions'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { OperationalNextActionStrip } from '@/components/coordinator-operations/OperationalNextActionStrip'
 import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
 import { loadSubjectOperationsSurface } from '@/lib/coordinator-operations'
@@ -82,8 +84,12 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
     { label: 'Pending signatures', value: model.signaturesPending.length, Icon: PenTool },
   ]
 
+  const openSourceHref = subjectOps.openSourceItems[0]?.href ?? null
+  const currentVisitHref = subjectOps.currentVisit?.href ?? null
+
   return (
-    <div className="space-y-6 p-6">
+    <CoordinatorPageScroll contentClassName="p-6">
+    <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">
@@ -108,6 +114,15 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       {subjectRuntimeUi ? (
         <SubjectRuntimeSummaryPanel model={subjectRuntimeUi} studyId={model.subject.studyId} />
       ) : null}
+
+      <SubjectWorkspaceActions
+        studyId={model.subject.studyId}
+        subjectId={model.subject.id}
+        organizationId={model.subject.organizationId}
+        enrollmentStatus={model.subject.enrollmentStatus}
+        openSourceHref={openSourceHref}
+        currentVisitHref={currentVisitHref}
+      />
 
       <SubjectOperationsPanel surface={subjectOps} />
 
@@ -143,5 +158,6 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
         <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." actionHref={subjectVisitsPath(model.subject.studyId, model.subject.id)} actionLabel="Open visits" />
       </div>
     </div>
+    </CoordinatorPageScroll>
   )
 }

@@ -1,9 +1,11 @@
 import Link from 'next/link'
-import { Activity, AlertTriangle, Calendar, FileText, Users, Workflow } from 'lucide-react'
+import { Activity, AlertTriangle, Calendar, CalendarDays, FileText, Users, Workflow } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { StudyOperationsPanel } from '@/components/coordinator-operations/StudyOperationsPanel'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
+import { operationalCalendarPath } from '@/lib/ops/paths'
 import { loadStudyOperationsSurface } from '@/lib/coordinator-operations'
 import {
   loadStudyWorkspaceModel,
@@ -76,7 +78,8 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
   ]
 
   return (
-    <div className="space-y-6 p-6">
+    <CoordinatorPageScroll contentClassName="p-6">
+    <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{model.study.name}</h1>
@@ -88,6 +91,26 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
           Open study detail
         </Link>
       </div>
+
+      <Card className="border-primary/30 bg-accent/20">
+        <CardContent className="flex flex-wrap items-center justify-between gap-4 px-4 py-4">
+          <div className="flex items-start gap-3">
+            <CalendarDays className="size-5 flex-shrink-0 text-primary" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">Site calendar</p>
+              <p className="text-xs text-muted-foreground">
+                Cross-study operational calendar for scheduled visits and coordinator workload.
+              </p>
+            </div>
+          </div>
+          <Link
+            href={operationalCalendarPath()}
+            className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent"
+          >
+            Open operational calendar
+          </Link>
+        </CardContent>
+      </Card>
 
       {model.unavailable.length > 0 ? (
         <Card className="border-amber-200 bg-amber-50">
@@ -121,5 +144,6 @@ export default async function StudyWorkspacePage({ params }: StudyWorkspacePageP
         <ListCard title="Recent Study Events" icon={Activity} items={model.recentEvents} empty="No recent operational events found." actionHref={`/studies/${studyId}`} actionLabel="Open study" />
       </div>
     </div>
+    </CoordinatorPageScroll>
   )
 }

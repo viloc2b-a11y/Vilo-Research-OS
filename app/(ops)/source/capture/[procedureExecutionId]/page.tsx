@@ -2,6 +2,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ManifestSummaryPanel } from '@/components/source/manifest-summary-panel'
 import { ReadPanelErrorCard } from '@/components/source/read-panel-error'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
+import { CoordinatorSafeErrorPanel } from '@/components/runtime-ui/CoordinatorSafeErrorPanel'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors/coordinator-facing'
 import { VisitRuntimeShell } from '@/components/subjects/visits/VisitRuntimeShell'
 import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflowPanel'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
@@ -40,10 +43,19 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
 
   if (loaded.status === 'error') {
     return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Source capture</h1>
-        <ReadPanelErrorCard error={loaded.error} />
-      </div>
+      <CoordinatorPageScroll contentClassName="p-6">
+        <div className="mx-auto max-w-5xl space-y-6">
+          <h1 className="text-2xl font-semibold tracking-tight">Source capture</h1>
+          <CoordinatorSafeErrorPanel
+            title="Source capture unavailable"
+            detail={loaded.error.messages[0] ?? 'This capture session could not be loaded.'}
+            retryHref={`/source/capture/${procedureExecutionId}`}
+            backHref="/command-center"
+            backLabel="Command center"
+          />
+          <ReadPanelErrorCard error={loaded.error} />
+        </div>
+      </CoordinatorPageScroll>
     )
   }
 
@@ -64,8 +76,8 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
   })
 
   return (
-    <div className="p-6">
-      <div className="space-y-6 max-w-5xl mx-auto">
+    <CoordinatorPageScroll contentClassName="p-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
           <Link href="/studies" className="hover:underline">
@@ -138,9 +150,17 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
           actions={workflowResult.actions}
         />
       ) : (
-        <p className="text-sm text-destructive">Could not load procedure workflow: {workflowResult.error}</p>
+        <CoordinatorSafeErrorPanel
+          title="Procedure workflow unavailable"
+          detail={coordinatorMessageFromError(new Error(workflowResult.error), {
+            context: 'source-capture-workflow',
+          })}
+          retryHref={`/source/capture/${procedureExecutionId}`}
+          backHref={context.visitPath}
+          backLabel="Back to visit"
+        />
       )}
       </div>
-    </div>
+    </CoordinatorPageScroll>
   )
 }

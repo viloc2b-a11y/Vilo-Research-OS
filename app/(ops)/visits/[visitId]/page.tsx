@@ -42,6 +42,7 @@ import {
   subjectConMedsTabPath,
   visitDocumentsPath,
   visitDetailPath,
+  operationalCalendarPath,
 } from '@/lib/ops/paths'
 import {
   buildVisitProgressSteps,
@@ -62,7 +63,10 @@ import {
   formatVisitModalityLabel,
   loadConditionalProcedureOptions,
 } from '@/lib/visits/conditional-procedures'
+import { VisitOperationalQuickActions } from '@/components/coordinator-operations/VisitOperationalQuickActions'
+import { CoordinatorSafeErrorPanel } from '@/components/runtime-ui/CoordinatorSafeErrorPanel'
 import { VisitRuntimeActionPanel } from '@/components/runtime-ui/VisitRuntimeActionPanel'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors/coordinator-facing'
 import { loadVisitRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -471,6 +475,18 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
   })
 
   const visitLabel = vd?.label ?? vd?.code ?? 'Visit'
+  const incompleteProceduresCount = totalProcs - completedProcs
+  const incompleteSourceCount = (responseSets ?? []).filter(
+    (rs) => !submittedStatuses.has(String(rs.status)),
+  ).length
+  const firstOpenProcedure = (procedures ?? []).find((p) => {
+    if (!p.source_definition_version_id) return false
+    const rs = responseSetByPe.get(p.id as string)
+    return !rs || !submittedStatuses.has(String(rs.status))
+  })
+  const firstOpenCaptureHref = firstOpenProcedure
+    ? `/source/capture/${firstOpenProcedure.id as string}${orgQs}`
+    : null
   const procedureGroups = [
     {
       id: 'active',
@@ -536,6 +552,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               className="text-right"
             />
             <span className="capitalize">Modality: {visitModalityLabel}</span>
+            <Link
+              href={operationalCalendarPath()}
+              className="text-primary hover:underline"
+            >
+              Open operational calendar
+            </Link>
           </div>
         </div>
 
@@ -631,6 +653,15 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
       {/* === CONTENT === */}
       <div className="flex-1 overflow-y-auto bg-accent scrollbar-thin">
 
+        <VisitOperationalQuickActions
+          visitId={visitId}
+          studyId={visit.study_id as string}
+          subjectId={visit.study_subject_id as string}
+          incompleteProcedures={incompleteProceduresCount}
+          incompleteSource={incompleteSourceCount}
+          firstOpenCaptureHref={firstOpenCaptureHref}
+        />
+
         {!canMutate && (
           <div className="mx-6 mt-6 mb-2 bg-amber-500/15 border border-amber-500/30 text-amber-700 px-4 py-3 rounded-md flex items-start gap-3">
             <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -655,7 +686,12 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
             </div>
 
             {pErr ? (
-              <p className="text-sm text-destructive">{pErr.message}</p>
+              <CoordinatorSafeErrorPanel
+                title="Procedures unavailable"
+                detail={coordinatorMessageFromError(pErr, { context: 'visit-procedures' })}
+                retryHref={visitDetailPath(visitId, 'procedures')}
+                backHref={visitPath}
+              />
             ) : (
               <>
             <ConditionalProceduresPanel
@@ -794,7 +830,14 @@ export default async function VisitWorkspacePage({ params, searchParams }: Visit
               <VisitRuntimeActionPanel model={visitRuntimeUi} canMutate={canMutate} variant="workflow" />
             ) : null}
             {!workflowResult.ok ? (
-              <p className="text-sm text-destructive">Could not load visit workflow: {workflowResult.error}</p>
+              <CoordinatorSafeErrorPanel
+                title="Workflow unavailable"
+                detail={coordinatorMessageFromError(new Error(workflowResult.error), {
+                  context: 'visit-workflow',
+                })}
+                retryHref={visitDetailPath(visitId, 'workflow')}
+                backHref={visitPath}
+              />
             ) : canMutate ? (
               <VisitWorkflowPanel
                 organizationId={organizationId}

@@ -25,6 +25,7 @@
     "safety-net:service-role-audit": "npx tsx scripts/phase16a27-service-role-audit.ts",
     "runtime-api:hardening-smoke": "npx tsx scripts/phase16-runtime-api-hardening-smoke.ts",
     "coordinator-ops:smoke": "npx tsx scripts/phase16b-coordinator-operational-surface-smoke.ts",
+    "coordinator-usability:smoke": "node scripts/phase16h-coordinator-operational-usability-smoke.mjs",
     "sovereignty:smoke": "npx tsx scripts/runtime-protection-sovereignty-smoke.ts",
     "cra-access:smoke": "npx tsx scripts/phase16e-cra-access-boundary-smoke.ts",
     "runtime-isolation:smoke": "npx tsx scripts/phase16e1-runtime-isolation-smoke.ts",

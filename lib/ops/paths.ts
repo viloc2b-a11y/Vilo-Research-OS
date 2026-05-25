@@ -23,6 +23,11 @@ export function commandCenterPath() {
   return '/command-center'
 }
 
+export function operationalCalendarPath(year?: number) {
+  const base = '/operational-calendar'
+  return year ? `${base}?year=${year}` : base
+}
+
 export function subjectChartPath(studyId: string | null, subjectId: string) {
   return studyId ? `/studies/${studyId}/subjects/${subjectId}` : `/subjects/${subjectId}`
 }

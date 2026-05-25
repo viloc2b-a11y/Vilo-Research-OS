@@ -145,6 +145,7 @@ export async function loadSubjectOperationsSurface(
 
   const clinicalLinks = [
     { label: 'Subject chart', href: subjectChartPath(studyId, studySubjectId) },
+    { label: 'Medical history', href: `${subjectChartPath(studyId, studySubjectId)}?tab=clinical-profile` },
     { label: 'Visit schedule', href: subjectVisitsPath(studyId, studySubjectId) },
     { label: 'Concomitant meds', href: subjectConMedsTabPath(studyId, studySubjectId) },
     {

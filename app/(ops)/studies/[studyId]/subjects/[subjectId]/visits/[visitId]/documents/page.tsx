@@ -7,7 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
+import { CoordinatorSafeErrorPanel } from '@/components/runtime-ui/CoordinatorSafeErrorPanel'
 import { VisitDocumentUploader } from '@/components/subjects/visit-documents/VisitDocumentUploader'
+import { coordinatorMessageFromError } from '@/lib/runtime-errors/coordinator-facing'
 import { VisitDocumentsTable } from '@/components/subjects/visit-documents/VisitDocumentsTable'
 import { listVisitDocuments } from '@/lib/subject/visit-documents/actions'
 import { createServerClient } from '@/lib/supabase/server'
@@ -54,8 +57,11 @@ export default async function VisitDocumentsPage({ params }: VisitDocumentsPageP
   const documentsResult = await listVisitDocuments({ studyId, subjectId, visitId })
   const documents = documentsResult.ok ? documentsResult.data : []
 
+  const visitPath = `/visits/${visitId}`
+
   return (
-    <div className="space-y-6">
+    <CoordinatorPageScroll contentClassName="p-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <div className="space-y-2">
         <p className="text-sm text-muted-foreground">
           <Link href="/studies" className="hover:underline">
@@ -106,7 +112,17 @@ export default async function VisitDocumentsPage({ params }: VisitDocumentsPageP
         </CardHeader>
         <CardContent>
           {!documentsResult.ok ? (
-            <p className="mb-4 text-sm text-destructive">{documentsResult.error}</p>
+            <div className="mb-4">
+              <CoordinatorSafeErrorPanel
+                title="Documents unavailable"
+                detail={coordinatorMessageFromError(new Error(documentsResult.error), {
+                  context: 'visit-documents',
+                })}
+                retryHref={`/studies/${studyId}/subjects/${subjectId}/visits/${visitId}/documents`}
+                backHref={visitPath}
+                backLabel="Back to visit"
+              />
+            </div>
           ) : null}
           <VisitDocumentsTable
             studyId={studyId}
@@ -117,6 +133,7 @@ export default async function VisitDocumentsPage({ params }: VisitDocumentsPageP
         </CardContent>
       </Card>
     </div>
+    </CoordinatorPageScroll>
   )
 }
 

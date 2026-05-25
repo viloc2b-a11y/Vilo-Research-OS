@@ -3,6 +3,7 @@ import {
   Activity,
   AlertTriangle,
   Calendar,
+  CalendarDays,
   CheckCircle2,
   Clock,
   FileText,
@@ -10,8 +11,10 @@ import {
   RotateCw,
   Workflow,
 } from 'lucide-react'
+import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { operationalCalendarPath } from '@/lib/ops/paths'
 import { CoordinatorTopActionsPanel } from '@/components/coordinator-operations/CoordinatorTopActionsPanel'
 import { OperationalWorkQueuePanel } from '@/components/coordinator-operations/OperationalWorkQueuePanel'
 import { loadSiteOperationsSurface } from '@/lib/coordinator-operations'
@@ -252,7 +255,8 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
   ]
 
   return (
-    <div className="space-y-6 p-6">
+    <CoordinatorPageScroll contentClassName="p-6">
+    <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Site Operations Home</h1>
@@ -310,6 +314,26 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
           </CardContent>
         </Card>
       ) : null}
+
+      <Card className="border-primary/30 bg-accent/20">
+        <CardContent className="flex flex-wrap items-center justify-between gap-4 px-4 py-4">
+          <div className="flex items-start gap-3">
+            <CalendarDays className="size-5 flex-shrink-0 text-primary" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">Operational calendar</p>
+              <p className="text-xs text-muted-foreground">
+                View scheduled visits, reschedule protocol visits, and coordinate site workload.
+              </p>
+            </div>
+          </div>
+          <Link
+            href={operationalCalendarPath()}
+            className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            Open operational calendar
+          </Link>
+        </CardContent>
+      </Card>
 
       <div id="top-next-actions" className="scroll-mt-6 space-y-4">
         <CoordinatorTopActionsPanel actions={siteOps.topNextActions} />
@@ -434,5 +458,6 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
         Data shown is read-only and sourced from existing runtime tables; missing sections report unavailable data instead of fabricating values.
       </div>
     </div>
+    </CoordinatorPageScroll>
   )
 }

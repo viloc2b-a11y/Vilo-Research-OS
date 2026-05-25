@@ -86,11 +86,21 @@ export async function loadSubjectClinicalProfile(
       .maybeSingle(),
   ])
 
-  if (medHistory.error) throw new Error(`loadSubjectClinicalProfile/medical_history: ${medHistory.error.message}`)
-  if (conmeds.error) throw new Error(`loadSubjectClinicalProfile/conmeds: ${conmeds.error.message}`)
-  if (allergies.error) throw new Error(`loadSubjectClinicalProfile/allergies: ${allergies.error.message}`)
-  if (surgicalHistory.error) throw new Error(`loadSubjectClinicalProfile/surgical_history: ${surgicalHistory.error.message}`)
-  if (lifestyle.error) throw new Error(`loadSubjectClinicalProfile/lifestyle: ${lifestyle.error.message}`)
+  if (medHistory.error) {
+    console.error('loadSubjectClinicalProfile/medical_history', medHistory.error.message)
+  }
+  if (conmeds.error) {
+    console.error('loadSubjectClinicalProfile/conmeds', conmeds.error.message)
+  }
+  if (allergies.error) {
+    console.error('loadSubjectClinicalProfile/allergies', allergies.error.message)
+  }
+  if (surgicalHistory.error) {
+    console.error('loadSubjectClinicalProfile/surgical_history', surgicalHistory.error.message)
+  }
+  if (lifestyle.error) {
+    console.error('loadSubjectClinicalProfile/lifestyle', lifestyle.error.message)
+  }
 
   return {
     study_subject_id,

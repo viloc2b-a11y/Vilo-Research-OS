@@ -47,6 +47,28 @@ function smokeRoutesExist() {
   }
 }
 
+function smokeCoordinatorUsabilityArtifacts() {
+  const commandCenter = read('app/(ops)/command-center/page.tsx')
+  assert.ok(commandCenter.includes('Open operational calendar'), 'command center must link calendar')
+  assert.ok(commandCenter.includes('CoordinatorPageScroll'), 'command center must scroll')
+
+  const subjectWorkspace = read('app/(ops)/subjects/[subjectId]/workspace/page.tsx')
+  assert.ok(subjectWorkspace.includes('SubjectWorkspaceActions'), 'subject workspace needs actions')
+  assert.ok(subjectWorkspace.includes('CoordinatorPageScroll'), 'subject workspace must scroll')
+
+  assert.ok(
+    read('components/runtime-ui/CoordinatorSafeErrorPanel.tsx').includes(
+      "We couldn't load this section",
+    ),
+    'coordinator safe error panel required',
+  )
+  assert.ok(
+    read('lib/subject/clinical-profile/load-safe.ts').includes('loadSubjectClinicalProfileSafe'),
+    'safe clinical profile loader required',
+  )
+  assert.ok(read('app/(ops)/error.tsx').includes('CoordinatorSafeErrorPanel'), 'ops error boundary required')
+}
+
 function smokeNoSponsorLabels() {
   const files = [
     'components/coordinator-operations/StudyOperationsPanel.tsx',
@@ -95,6 +117,7 @@ function smokePagesWired() {
 function main() {
   smokeBucketMapping()
   smokeRoutesExist()
+  smokeCoordinatorUsabilityArtifacts()
   smokeNoSponsorLabels()
   smokeProjectionDerivation()
   smokePilotGuardrails()
