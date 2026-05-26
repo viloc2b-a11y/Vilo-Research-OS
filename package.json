@@ -113,7 +113,9 @@
     "document-intake:smoke": "npx tsx scripts/document-intake-phase1b-smoke.ts",
     "document-intake:smoke:live": "npx tsx scripts/document-intake-phase1b-smoke.ts --live",
     "document-intake:smoke:1c": "npx tsx scripts/document-intake-phase1c-smoke.ts",
-    "document-intake:smoke:1c:live": "npx tsx scripts/document-intake-phase1c-smoke.ts --live"
+    "document-intake:smoke:1c:live": "npx tsx scripts/document-intake-phase1c-smoke.ts --live",
+    "document-intake:smoke:1d": "npx tsx scripts/document-intake-phase1d-smoke.ts",
+    "document-intake:smoke:1d:live": "npx tsx scripts/document-intake-phase1d-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

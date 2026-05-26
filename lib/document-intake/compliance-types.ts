@@ -45,6 +45,10 @@ export type ComplianceAuditEventType =
   | 'obligation_created'
   | 'obligation_completed'
   | 'obligation_cancelled'
+  | 'expiration_alert_created'
+  | 'expiration_alert_resolved'
+  | 'document_marked_expiring_soon'
+  | 'document_marked_expired'
 
 export interface ComplianceRuntimeDocument {
   id: string
