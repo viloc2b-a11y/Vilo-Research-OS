@@ -5,13 +5,19 @@ interface DocumentDestinationSelectorProps {
   onDomainChange: (val: string) => void
   entityType: string
   onEntityTypeChange: (val: string) => void
+  destinationEntityId?: string
+  onDestinationEntityIdChange?: (val: string) => void
+  showEntityId?: boolean
 }
 
 export function DocumentDestinationSelector({
   domain,
   onDomainChange,
   entityType,
-  onEntityTypeChange
+  onEntityTypeChange,
+  destinationEntityId = '',
+  onDestinationEntityIdChange,
+  showEntityId = false,
 }: DocumentDestinationSelectorProps) {
   return (
     <div className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
@@ -51,9 +57,20 @@ export function DocumentDestinationSelector({
           </select>
         </div>
       </div>
-      <p className="text-xs text-slate-500">
-        In a full implementation, this will cascade into specific search dropdowns for actual subjects, visits, and procedures.
-      </p>
+
+      {showEntityId && onDestinationEntityIdChange ? (
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-slate-600">Destination entity id</label>
+          <input
+            type="text"
+            value={destinationEntityId}
+            onChange={(e) => onDestinationEntityIdChange(e.target.value)}
+            className="w-full rounded-md border border-slate-300 p-2 font-mono text-sm"
+            placeholder="UUID for subject, visit, or procedure"
+            required
+          />
+        </div>
+      ) : null}
     </div>
   )
 }

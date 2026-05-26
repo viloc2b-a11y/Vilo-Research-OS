@@ -27,13 +27,12 @@ export interface CreateComplianceDocumentArgs {
   metadata?: Record<string, unknown>
   actorId: string
   actorRole: string | null
+  /** Pre-generated id when storage path is computed before insert. */
+  documentId?: string
 }
 
 export async function createComplianceDocument(args: CreateComplianceDocumentArgs): Promise<{ id: string }> {
-  // 1. Insert the document registry row
-  const { data, error } = await args.supabase
-    .from('compliance_runtime_documents')
-    .insert({
+  const insertRow: Record<string, unknown> = {
       organization_id: args.organizationId,
       study_id: args.studyId,
       subject_id: args.subjectId,
@@ -55,8 +54,16 @@ export async function createComplianceDocument(args: CreateComplianceDocumentArg
       tags: args.tags,
       operational_notes: args.operationalNotes,
       metadata: args.metadata || {},
-      created_by: args.actorId
-    })
+      created_by: args.actorId,
+    }
+
+  if (args.documentId) {
+    insertRow.id = args.documentId
+  }
+
+  const { data, error } = await args.supabase
+    .from('compliance_runtime_documents')
+    .insert(insertRow)
     .select('id')
     .single()
 

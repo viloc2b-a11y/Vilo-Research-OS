@@ -109,7 +109,9 @@
     "approve:source-preview:golden": "node scripts/approve-source-preview.mjs --source-definitions tmp/compiled/source-definitions.golden-basic.json --preview tmp/compiled/source-preview.golden-basic.md --output tmp/approvals/source-preview-approval.golden-basic.json --reviewer-user-id reviewer-001 --reviewer-role PI --decision approved --reason \"Golden fixture approved for compiler QA despite expected metadata-only section warnings\"",
     "build:publish-package:golden": "node scripts/build-source-publish-package.mjs --source-definitions tmp/compiled/source-definitions.golden-basic.json --preview tmp/compiled/source-preview.golden-basic.md --approval tmp/approvals/source-preview-approval.golden-basic.json --output tmp/publish/source-publish-package.golden-basic.json --strict",
     "dry-run:publish-source-package:golden": "node scripts/dry-run-publish-source-package.mjs",
-    "phase1b": "npm run db:migrate && npm run db:provision && npm run db:validate"
+    "phase1b": "npm run db:migrate && npm run db:provision && npm run db:validate",
+    "document-intake:smoke": "npx tsx scripts/document-intake-phase1b-smoke.ts",
+    "document-intake:smoke:live": "npx tsx scripts/document-intake-phase1b-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
