@@ -1,4 +1,5 @@
 import { emitClinicalOperationalEvent } from '@/lib/operations/clinical-mutation-gateway'
+import { logOperationalEvent } from '@/lib/operations/logOperationalEvent'
 import {
   observeAutomationApplied,
   observeAutomationOverridden,
@@ -77,20 +78,15 @@ export async function emitRuntimeAutomationApplied(input: {
     },
   })
 
-  const { data, error } = await input.supabase
-    .from('operational_events')
-    .insert({
-      organization_id: input.organizationId,
-      study_id: input.studyId,
-      visit_id: input.visitId,
-      event_type: OPERATIONAL_EVENT_TYPES.RUNTIME_AUTOMATION_APPLIED,
-      actor_user_id: input.actorUserId,
-      payload,
-    })
-    .select('id')
-    .single()
-
-  if (error) throw new Error(error.message)
+  const eventId = await logOperationalEvent({
+    supabase: input.supabase as never,
+    organizationId: input.organizationId,
+    studyId: input.studyId,
+    visitId: input.visitId,
+    eventType: OPERATIONAL_EVENT_TYPES.RUNTIME_AUTOMATION_APPLIED,
+    actorUserId: input.actorUserId,
+    payload,
+  })
   observeAutomationApplied({
     supabase: input.supabase,
     organizationId: input.organizationId,
@@ -101,7 +97,7 @@ export async function emitRuntimeAutomationApplied(input: {
     executionId: input.executionId,
     actionId: input.action.id,
   })
-  return (data?.id as string) ?? null
+  return eventId
 }
 
 export async function emitRuntimeAutomationReversed(input: {

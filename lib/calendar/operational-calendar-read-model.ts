@@ -23,7 +23,7 @@ import {
   getRescheduleForScheduledVisit,
   resolveProtocolVisitReschedules,
   type ProtocolVisitRescheduleRow,
-} from '@/lib/calendar/resolve-protocol-visit-reschedules'
+} from '@/lib/visit-schedule/resolve-protocol-visit-reschedules'
 import {
   resolveAvailabilityBlockChains,
   resolveManualCalendarEvents,
@@ -37,9 +37,17 @@ export type {
   OperationalCalendarVisitOption,
 } from '@/lib/calendar/operational-calendar-selector-options'
 
-export type OperationalCalendarStatus = 'upcoming' | 'today' | 'completed'
-export type OperationalCalendarEventKind = 'protocol_visit' | 'manual_event' | 'availability_block'
-export type OperationalVisitModality = 'onsite' | 'phone' | 'remote' | 'vendor' | 'unspecified'
+import type {
+  OperationalCalendarEventKind,
+  OperationalCalendarStatus,
+  OperationalVisitModality,
+} from '@/lib/calendar/orchestration-boundary'
+
+export type {
+  OperationalCalendarStatus,
+  OperationalCalendarEventKind,
+  OperationalVisitModality,
+} from '@/lib/calendar/orchestration-boundary'
 
 export type OperationalCalendarProcedure = {
   id: string

@@ -26,6 +26,11 @@ import {
 } from '@/lib/rbac/permissions'
 import type { BlindingScope } from '@/lib/rbac/blinding'
 import { createServerClient } from '@/lib/supabase/server'
+import { logOperationalEvent } from '@/lib/operations/logOperationalEvent'
+import {
+  cancelVisitReschedule,
+  requestVisitReschedule,
+} from '@/lib/visit-schedule/reschedule'
 import type {
   AvailabilityBlockMutationState,
   CreateManualCalendarEventState,
@@ -419,38 +424,39 @@ export async function createManualCalendarEvent(
   })
   if (conflictMessage) return { ok: false, message: conflictMessage }
 
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: resolvedOrganizationId,
-    study_id: resolvedStudyId,
-    visit_id: linkedVisitId,
-    event_type: 'OPERATIONAL_CALENDAR_MANUAL_EVENT',
-    actor_user_id: user.id,
-    occurred_at: zonedLocalDateTimeToUtcIso(eventDate, eventTime ?? '12:00', getSiteTimeZone()),
-    payload: {
-      calendar_event_type: 'manual',
-      blinding_scope: blindingScope,
-      manual_event_type: manualEventType,
-      title,
-      event_date: eventDate,
-      event_time: eventTime,
-      site_time_zone: getSiteTimeZone(),
-      study_id: linkedStudyId,
-      subject_id: linkedSubjectId,
-      subject_identifier: subjectIdentifier,
-      study_label: studyLabel,
-      subject_label: subjectLabel,
-      visit_id: linkedVisitId,
-      visit_label: visitLabel,
-      assigned_user_id: assignedUserId,
-      assigned_user_label: assignedUserLabel,
-      priority,
-      notes,
-      source: 'operational_calendar',
-      guardrail: 'manual_event_does_not_overwrite_protocol_schedule',
-    },
-  })
-
-  if (error) {
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: resolvedOrganizationId,
+      studyId: resolvedStudyId,
+      visitId: linkedVisitId,
+      eventType: 'OPERATIONAL_CALENDAR_MANUAL_EVENT',
+      actorUserId: user.id,
+      occurredAt: zonedLocalDateTimeToUtcIso(eventDate, eventTime ?? '12:00', getSiteTimeZone()),
+      payload: {
+        calendar_event_type: 'manual',
+        blinding_scope: blindingScope,
+        manual_event_type: manualEventType,
+        title,
+        event_date: eventDate,
+        event_time: eventTime,
+        site_time_zone: getSiteTimeZone(),
+        study_id: linkedStudyId,
+        subject_id: linkedSubjectId,
+        subject_identifier: subjectIdentifier,
+        study_label: studyLabel,
+        subject_label: subjectLabel,
+        visit_id: linkedVisitId,
+        visit_label: visitLabel,
+        assigned_user_id: assignedUserId,
+        assigned_user_label: assignedUserLabel,
+        priority,
+        notes,
+        source: 'operational_calendar',
+        guardrail: 'manual_event_does_not_overwrite_protocol_schedule',
+      },
+    })
+  } catch {
     return { ok: false, message: 'Could not create the manual operational event.' }
   }
 
@@ -524,39 +530,42 @@ export async function updateManualCalendarEvent(
     getSiteTimeZone(),
   )
 
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: original.row.organization_id,
-    study_id: original.row.study_id,
-    visit_id: resolved.data.visitId ?? original.row.visit_id,
-    event_type: 'manual_calendar_event_updated',
-    actor_user_id: user.id,
-    occurred_at: scheduleOccurredAt,
-    payload: {
-      calendar_event_type: 'manual',
-      blinding_scope: effectiveBlindingScope,
-      manual_event_action: 'updated',
-      original_event_id: original.row.id,
-      title,
-      event_date: eventDate,
-      event_time: eventTime,
-      manual_event_type: manualEventType,
-      study_id: resolved.data.studyId,
-      subject_id: resolved.data.subjectId,
-      subject_identifier: resolved.data.subjectIdentifier,
-      study_label: resolved.data.studyLabel,
-      subject_label: resolved.data.subjectLabel,
-      visit_id: resolved.data.visitId,
-      visit_label: resolved.data.visitLabel,
-      assigned_user_id: resolved.data.assignedUserId,
-      assigned_user_label: resolved.data.assignedUserLabel,
-      priority,
-      notes,
-      source: 'operational_calendar',
-      guardrail: 'manual_event_does_not_overwrite_protocol_schedule',
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not update the manual operational event.' }
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: original.row.organization_id,
+      studyId: original.row.study_id,
+      visitId: resolved.data.visitId ?? original.row.visit_id,
+      eventType: 'manual_calendar_event_updated',
+      actorUserId: user.id,
+      occurredAt: scheduleOccurredAt,
+      payload: {
+        calendar_event_type: 'manual',
+        blinding_scope: effectiveBlindingScope,
+        manual_event_action: 'updated',
+        original_event_id: original.row.id,
+        title,
+        event_date: eventDate,
+        event_time: eventTime,
+        manual_event_type: manualEventType,
+        study_id: resolved.data.studyId,
+        subject_id: resolved.data.subjectId,
+        subject_identifier: resolved.data.subjectIdentifier,
+        study_label: resolved.data.studyLabel,
+        subject_label: resolved.data.subjectLabel,
+        visit_id: resolved.data.visitId,
+        visit_label: resolved.data.visitLabel,
+        assigned_user_id: resolved.data.assignedUserId,
+        assigned_user_label: resolved.data.assignedUserLabel,
+        priority,
+        notes,
+        source: 'operational_calendar',
+        guardrail: 'manual_event_does_not_overwrite_protocol_schedule',
+      },
+    })
+  } catch {
+    return { ok: false, message: 'Could not update the manual operational event.' }
+  }
 
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Manual operational event updated.' }
@@ -586,24 +595,27 @@ export async function completeManualCalendarEvent(
     original.row,
     organizationIds,
   )
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: original.row.organization_id,
-    study_id: original.row.study_id,
-    visit_id: original.row.visit_id,
-    event_type: 'manual_calendar_event_completed',
-    actor_user_id: user.id,
-    occurred_at: scheduleOccurredAt,
-    payload: {
-      calendar_event_type: 'manual',
-      blinding_scope: originalBlindingScope,
-      manual_event_action: 'completed',
-      original_event_id: original.row.id,
-      completed_at: new Date().toISOString(),
-      completion_notes: clean(formData.get('completion_notes')),
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not mark the manual event complete.' }
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: original.row.organization_id,
+      studyId: original.row.study_id,
+      visitId: original.row.visit_id,
+      eventType: 'manual_calendar_event_completed',
+      actorUserId: user.id,
+      occurredAt: scheduleOccurredAt,
+      payload: {
+        calendar_event_type: 'manual',
+        blinding_scope: originalBlindingScope,
+        manual_event_action: 'completed',
+        original_event_id: original.row.id,
+        completed_at: new Date().toISOString(),
+        completion_notes: clean(formData.get('completion_notes')),
+      },
+    })
+  } catch {
+    return { ok: false, message: 'Could not mark the manual event complete.' }
+  }
 
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Manual operational event marked complete.' }
@@ -633,24 +645,27 @@ export async function cancelManualCalendarEvent(
     original.row,
     organizationIds,
   )
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: original.row.organization_id,
-    study_id: original.row.study_id,
-    visit_id: original.row.visit_id,
-    event_type: 'manual_calendar_event_cancelled',
-    actor_user_id: user.id,
-    occurred_at: scheduleOccurredAt,
-    payload: {
-      calendar_event_type: 'manual',
-      blinding_scope: originalBlindingScope,
-      manual_event_action: 'cancelled',
-      original_event_id: original.row.id,
-      cancelled_at: new Date().toISOString(),
-      cancel_reason: clean(formData.get('cancel_reason')),
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not cancel the manual event.' }
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: original.row.organization_id,
+      studyId: original.row.study_id,
+      visitId: original.row.visit_id,
+      eventType: 'manual_calendar_event_cancelled',
+      actorUserId: user.id,
+      occurredAt: scheduleOccurredAt,
+      payload: {
+        calendar_event_type: 'manual',
+        blinding_scope: originalBlindingScope,
+        manual_event_action: 'cancelled',
+        original_event_id: original.row.id,
+        cancelled_at: new Date().toISOString(),
+        cancel_reason: clean(formData.get('cancel_reason')),
+      },
+    })
+  } catch {
+    return { ok: false, message: 'Could not cancel the manual event.' }
+  }
 
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Manual operational event cancelled.' }
@@ -812,36 +827,39 @@ async function writeAvailabilityBlockEvent(input: {
   if (permissionMessage) return { ok: false, message: permissionMessage }
 
   const supabase = await createServerClient()
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: input.organizationId,
-    study_id: input.storageStudyId,
-    event_type: input.eventType,
-    actor_user_id: input.actorUserId,
-    occurred_at: range.start,
-    payload: {
-      calendar_event_type: 'availability_block',
-      blinding_scope: blindingScope,
-      availability_block_action: input.eventType === 'calendar_availability_block_updated' ? 'updated' : 'created',
-      original_block_id: input.originalBlockId,
-      title,
-      block_type: blockType,
-      scope,
-      affected_user_id: affectedUserId,
-      affected_user_label: affectedUserLabel,
-      study_id: studyId,
-      study_label: studyLabel,
-      resource_name: resourceName,
-      start_datetime: range.start,
-      end_datetime: range.end,
-      start_date: range.startDate,
-      end_date: range.endDate,
-      all_day: allDay,
-      site_time_zone: getSiteTimeZone(),
-      notes,
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not save the availability block.' }
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: input.organizationId,
+      studyId: input.storageStudyId,
+      eventType: input.eventType,
+      actorUserId: input.actorUserId,
+      occurredAt: range.start,
+      payload: {
+        calendar_event_type: 'availability_block',
+        blinding_scope: blindingScope,
+        availability_block_action: input.eventType === 'calendar_availability_block_updated' ? 'updated' : 'created',
+        original_block_id: input.originalBlockId,
+        title,
+        block_type: blockType,
+        scope,
+        affected_user_id: affectedUserId,
+        affected_user_label: affectedUserLabel,
+        study_id: studyId,
+        study_label: studyLabel,
+        resource_name: resourceName,
+        start_datetime: range.start,
+        end_datetime: range.end,
+        start_date: range.startDate,
+        end_date: range.endDate,
+        all_day: allDay,
+        site_time_zone: getSiteTimeZone(),
+        notes,
+      },
+    })
+  } catch {
+    return { ok: false, message: 'Could not save the availability block.' }
+  }
   revalidatePath('/operational-calendar')
   return {
     ok: true,
@@ -925,23 +943,26 @@ export async function cancelAvailabilityBlock(
     original.row,
     organizationIds,
   )
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: original.row.organization_id,
-    study_id: original.row.study_id,
-    event_type: 'calendar_availability_block_cancelled',
-    actor_user_id: user.id,
-    occurred_at: scheduleOccurredAt,
-    payload: {
-      calendar_event_type: 'availability_block',
-      blinding_scope: originalBlindingScope,
-      availability_block_action: 'cancelled',
-      original_block_id: original.row.id,
-      cancelled_at: new Date().toISOString(),
-      cancel_reason: clean(formData.get('cancel_reason')),
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not cancel the availability block.' }
+  try {
+    await logOperationalEvent({
+      supabase,
+      organizationId: original.row.organization_id,
+      studyId: original.row.study_id,
+      eventType: 'calendar_availability_block_cancelled',
+      actorUserId: user.id,
+      occurredAt: scheduleOccurredAt,
+      payload: {
+        calendar_event_type: 'availability_block',
+        blinding_scope: originalBlindingScope,
+        availability_block_action: 'cancelled',
+        original_block_id: original.row.id,
+        cancelled_at: new Date().toISOString(),
+        cancel_reason: clean(formData.get('cancel_reason')),
+      },
+    })
+  } catch {
+    return { ok: false, message: 'Could not cancel the availability block.' }
+  }
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Availability block cancelled.' }
 }
@@ -1020,33 +1041,20 @@ export async function rescheduleProtocolVisit(
   })
   if (conflictMessage) return { ok: false, message: conflictMessage }
 
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: scheduled.row.organization_id,
-    study_id: scheduled.row.study_id,
-    visit_id: scheduled.row.visit_id,
-    event_type: 'protocol_visit_rescheduled',
-    actor_user_id: user.id,
-    occurred_at: new Date().toISOString(),
-    payload: {
-      calendar_event_type: 'protocol_visit_reschedule',
-      blinding_scope: 'public_to_site',
-      scheduled_visit_id: scheduled.row.id,
-      visit_id: scheduled.row.visit_id,
-      study_id: scheduled.row.study_id,
-      subject_id: scheduled.row.subject_id,
-      visit_definition_id: scheduled.row.visit_definition_id,
-      original_target_date: scheduled.row.ideal_date,
-      rescheduled_date: rescheduledDate,
-      rescheduled_time: rescheduledTime,
-      assigned_user_id: effectiveAssignedUserId,
+  try {
+    await requestVisitReschedule({
+      supabase,
+      actorUserId: user.id,
+      scheduledVisit: scheduled.row,
+      rescheduledDate,
+      rescheduledTime,
+      assignedUserId: effectiveAssignedUserId,
       reason,
       notes,
-      source: 'operational_calendar',
-      guardrail: 'does_not_overwrite_protocol_target_date',
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not reschedule the protocol visit.' }
+    })
+  } catch {
+    return { ok: false, message: 'Could not reschedule the protocol visit.' }
+  }
 
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Protocol visit rescheduled on the operational calendar.' }
@@ -1069,25 +1077,16 @@ export async function cancelProtocolVisitReschedule(
   if (permissionMessage) return { ok: false, message: permissionMessage }
 
   const supabase = await createServerClient()
-  const { error } = await supabase.from('operational_events').insert({
-    organization_id: scheduled.row.organization_id,
-    study_id: scheduled.row.study_id,
-    visit_id: scheduled.row.visit_id,
-    event_type: 'protocol_visit_reschedule_cancelled',
-    actor_user_id: user.id,
-    occurred_at: new Date().toISOString(),
-    payload: {
-      calendar_event_type: 'protocol_visit_reschedule',
-      blinding_scope: 'public_to_site',
-      scheduled_visit_id: scheduled.row.id,
-      visit_id: scheduled.row.visit_id,
-      cancelled_at: new Date().toISOString(),
-      cancel_reason: clean(formData.get('cancel_reason')),
-      source: 'operational_calendar',
-    },
-  })
-
-  if (error) return { ok: false, message: 'Could not cancel the reschedule.' }
+  try {
+    await cancelVisitReschedule({
+      supabase,
+      actorUserId: user.id,
+      scheduledVisit: scheduled.row,
+      cancelReason: clean(formData.get('cancel_reason')),
+    })
+  } catch {
+    return { ok: false, message: 'Could not cancel the reschedule.' }
+  }
 
   revalidatePath('/operational-calendar')
   return { ok: true, message: 'Reschedule cancelled. Visit returns to its protocol target date.' }

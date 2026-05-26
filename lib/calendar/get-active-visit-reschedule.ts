@@ -4,7 +4,7 @@ import {
   resolveProtocolVisitReschedules,
   type ProtocolVisitRescheduleRow,
   type ResolvedProtocolVisitReschedule,
-} from '@/lib/calendar/resolve-protocol-visit-reschedules'
+} from '@/lib/visit-schedule/resolve-protocol-visit-reschedules'
 
 export type VisitCalendarReschedule = {
   isActive: boolean

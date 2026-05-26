@@ -1,4 +1,6 @@
 import type { OperationalEventType } from '@/lib/operations/event-types'
+import { appendOperationalEvent } from '@/lib/operational-events'
+import type { EmitContext } from '@/lib/operational-events'
 import type { createServerClient } from '@/lib/supabase/server'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
@@ -12,30 +14,36 @@ export type LogOperationalEventInput = {
   payload?: Record<string, unknown>
   visitId?: string | null
   procedureExecutionId?: string | null
+  occurredAt?: string | Date | null
+  emitContext?: EmitContext
 }
 
 export async function logOperationalEvent(
   input: LogOperationalEventInput,
 ): Promise<string | null> {
-  const { data, error } = await input.supabase
-    .from('operational_events')
-    .insert({
-      organization_id: input.organizationId,
-      study_id: input.studyId,
-      visit_id: input.visitId ?? null,
-      procedure_execution_id: input.procedureExecutionId ?? null,
-      event_type: input.eventType,
-      actor_user_id: input.actorUserId,
-      payload: input.payload ?? {},
-    })
-    .select('id')
-    .single()
+  const appended = await appendOperationalEvent(
+    {
+      domainEvent: {
+        organizationId: input.organizationId,
+        studyId: input.studyId,
+        visitId: input.visitId ?? null,
+        procedureExecutionId: input.procedureExecutionId ?? null,
+        eventType: input.eventType,
+        actorUserId: input.actorUserId,
+        occurredAt: input.occurredAt
+          ? input.occurredAt instanceof Date
+            ? input.occurredAt
+            : new Date(input.occurredAt)
+          : undefined,
+        payload: input.payload ?? {},
+      },
+      context: input.emitContext,
+      mirrorToPublic: true,
+    },
+    { supabase: input.supabase },
+  )
 
-  if (error) {
-    throw new Error(error.message)
-  }
-
-  return (data?.id as string) ?? null
+  return appended.eventId
 }
 
 export async function logProcedureOperationalEvent(params: {
