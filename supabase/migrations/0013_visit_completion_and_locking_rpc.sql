@@ -23,7 +23,8 @@ alter table public.visits add constraint visits_visit_status_check check (
     'completed',
     'cancelled',
     'no_show',
-    'locked'
+    'locked',
+    'missed'
   )
 );
 
