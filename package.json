@@ -125,7 +125,13 @@
     "visit-runtime:smoke": "npx tsx scripts/visit-runtime-execution-phase5-smoke.ts",
     "visit-runtime:smoke:live": "npx tsx scripts/visit-runtime-execution-phase5-smoke.ts --live",
     "visit-runtime:smoke:lock": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts",
-    "visit-runtime:smoke:lock:live": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts --live"
+    "visit-runtime:smoke:lock:live": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts --live",
+    "operational-review:smoke": "npx tsx scripts/operational-review-phase7-smoke.ts",
+    "operational-review:smoke:live": "npx tsx scripts/operational-review-phase7-smoke.ts --live",
+    "protocol-intake-runtime:smoke": "npx tsx scripts/protocol-intake-runtime-phaseP1-smoke.ts",
+    "protocol-intake-runtime:smoke:live": "npx tsx scripts/protocol-intake-runtime-phaseP1-smoke.ts --live",
+    "protocol-reconciliation:smoke": "npx tsx scripts/protocol-reconciliation-phaseP2-smoke.ts",
+    "protocol-reconciliation:smoke:live": "npx tsx scripts/protocol-reconciliation-phaseP2-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
