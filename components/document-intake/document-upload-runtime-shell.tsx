@@ -5,6 +5,7 @@ import { DocumentClassificationSelect } from './document-classification-select'
 import { DocumentDestinationSelector } from './document-destination-selector'
 import { CertifiedCopyAttestationBox } from './certified-copy-attestation-box'
 import { ExpirationDateField } from './expiration-date-field'
+import { ObligationRequestPanel } from './obligation-request-panel'
 
 type DocumentUploadRuntimeShellProps = {
   organizationId: string
@@ -12,7 +13,7 @@ type DocumentUploadRuntimeShellProps = {
   subjectId?: string | null
   visitId?: string | null
   procedureExecutionId?: string | null
-  onUploaded?: () => void
+  onUploaded?: (documentId: string, displayName: string) => void
 }
 
 export function DocumentUploadRuntimeShell({
@@ -35,6 +36,8 @@ export function DocumentUploadRuntimeShell({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [uploadedDocumentId, setUploadedDocumentId] = useState<string | null>(null)
+  const [uploadedDisplayName, setUploadedDisplayName] = useState<string | null>(null)
 
   const showCertifiedCopy = [
     'source_document',
@@ -79,12 +82,19 @@ export function DocumentUploadRuntimeShell({
         body: formData,
       })
 
-      const data = (await res.json()) as { error?: string; ok?: boolean }
+      const data = (await res.json()) as { error?: string; ok?: boolean; documentId?: string }
       if (!res.ok) {
         throw new Error(data.error || 'Upload failed')
       }
 
+      const documentId = data.documentId
+      if (!documentId) {
+        throw new Error('Upload succeeded but document id was not returned.')
+      }
+
       setSuccess(true)
+      setUploadedDocumentId(documentId)
+      setUploadedDisplayName(operationalName || file.name)
       setFile(null)
       setOperationalName('')
       setClassification('')
@@ -94,7 +104,7 @@ export function DocumentUploadRuntimeShell({
       setExpirationDate('')
       setOperationalNotes('')
       setIsCertifiedCopy(false)
-      onUploaded?.()
+      onUploaded?.(documentId, operationalName || file.name)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed')
     } finally {
@@ -116,6 +126,17 @@ export function DocumentUploadRuntimeShell({
       {success ? (
         <div className="mb-4 rounded-md bg-green-50 p-4 text-sm text-green-700">
           Document uploaded. Audit events recorded.
+        </div>
+      ) : null}
+
+      {uploadedDocumentId && uploadedDisplayName ? (
+        <div className="mb-6">
+          <ObligationRequestPanel
+            organizationId={organizationId}
+            documentId={uploadedDocumentId}
+            documentLabel={uploadedDisplayName}
+            onCreated={() => onUploaded?.(uploadedDocumentId, uploadedDisplayName)}
+          />
         </div>
       ) : null}
 

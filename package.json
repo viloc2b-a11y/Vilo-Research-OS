@@ -111,7 +111,9 @@
     "dry-run:publish-source-package:golden": "node scripts/dry-run-publish-source-package.mjs",
     "phase1b": "npm run db:migrate && npm run db:provision && npm run db:validate",
     "document-intake:smoke": "npx tsx scripts/document-intake-phase1b-smoke.ts",
-    "document-intake:smoke:live": "npx tsx scripts/document-intake-phase1b-smoke.ts --live"
+    "document-intake:smoke:live": "npx tsx scripts/document-intake-phase1b-smoke.ts --live",
+    "document-intake:smoke:1c": "npx tsx scripts/document-intake-phase1c-smoke.ts",
+    "document-intake:smoke:1c:live": "npx tsx scripts/document-intake-phase1c-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

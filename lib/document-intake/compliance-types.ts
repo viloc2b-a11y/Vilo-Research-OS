@@ -42,6 +42,9 @@ export type ComplianceAuditEventType =
   | 'document_superseded'
   | 'document_archived'
   | 'expiration_metadata_set'
+  | 'obligation_created'
+  | 'obligation_completed'
+  | 'obligation_cancelled'
 
 export interface ComplianceRuntimeDocument {
   id: string
