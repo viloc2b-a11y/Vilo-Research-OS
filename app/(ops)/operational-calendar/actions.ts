@@ -27,10 +27,11 @@ import {
 import type { BlindingScope } from '@/lib/rbac/blinding'
 import { createServerClient } from '@/lib/supabase/server'
 import { logOperationalEvent } from '@/lib/operations/logOperationalEvent'
+import { cancelVisitReschedule, requestVisitReschedule } from '@/lib/visit-schedule/reschedule'
 import {
-  cancelVisitReschedule,
-  requestVisitReschedule,
-} from '@/lib/visit-schedule/reschedule'
+  createCalendarResourceAvailabilityBlock,
+  cancelCalendarResourceAvailabilityBlock,
+} from '@/lib/resource-runtime'
 import type {
   AvailabilityBlockMutationState,
   CreateManualCalendarEventState,
@@ -882,6 +883,18 @@ export async function createAvailabilityBlock(
   const storage = await resolveStorageStudy({ organizationIds, studyId: clean(formData.get('study_id')) })
   if (!storage.organizationId || !storage.studyId) return { ok: false, message: storage.message ?? 'Could not resolve availability block storage.' }
 
+  const scope = clean(formData.get('scope'))
+  if (scope === 'resource') {
+    return createCalendarResourceAvailabilityBlock({
+      eventType: 'calendar_availability_block_created',
+      organizationId: storage.organizationId,
+      organizationIds,
+      storageStudyId: storage.studyId,
+      actorUserId: user.id,
+      formData,
+    })
+  }
+
   return writeAvailabilityBlockEvent({
     eventType: 'calendar_availability_block_created',
     organizationId: storage.organizationId,
@@ -908,6 +921,20 @@ export async function updateAvailabilityBlock(
     blindingScope: blindingScopeFromPayload(original.row.payload),
   })
   if (originalPermissionMessage) return { ok: false, message: originalPermissionMessage }
+
+  const scope = clean(formData.get('scope'))
+  if (scope === 'resource') {
+    return createCalendarResourceAvailabilityBlock({
+      eventType: 'calendar_availability_block_updated',
+      organizationId: original.row.organization_id,
+      organizationIds,
+      storageStudyId: original.row.study_id,
+      actorUserId: user.id,
+      originalBlockId: original.row.id,
+      formData,
+    })
+  }
+
   return writeAvailabilityBlockEvent({
     eventType: 'calendar_availability_block_updated',
     organizationId: original.row.organization_id,
@@ -943,6 +970,16 @@ export async function cancelAvailabilityBlock(
     original.row,
     organizationIds,
   )
+
+  if ((original.row.payload as Record<string, unknown>)?.scope === 'resource') {
+    return cancelCalendarResourceAvailabilityBlock({
+      originalRow: original.row,
+      actorUserId: user.id,
+      formData,
+      scheduleOccurredAt,
+    })
+  }
+
   try {
     await logOperationalEvent({
       supabase,
