@@ -1,7 +1,6 @@
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { SnapshotWorkspace } from '@/components/source-builder/publish-prep/snapshot-workspace'
 import { loadPublishCandidateApproval } from '@/lib/protocol-intake-publish-prep/approval'
-import { loadIntakePackage } from '@/lib/protocol-intake-review/load-package'
 import { runSnapshotReadiness } from '@/lib/protocol-intake-publish-prep/snapshot-readiness'
 import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
 import { loadPublishCandidate } from '@/lib/protocol-intake-publish-prep/write-artifacts'
@@ -33,9 +32,6 @@ export default async function SourcePackageSnapshotPage({ params }: PageProps) {
     )
   }
 
-  const pkg = loadIntakePackage(draftKey)
-  if (!pkg) notFound()
-
   const candidate = loadPublishCandidate(draftKey)
   if (!candidate) {
     redirect(`/source-builder/intake/publish-prep/${draftKey}`)
@@ -54,7 +50,7 @@ export default async function SourcePackageSnapshotPage({ params }: PageProps) {
     <div className="p-6">
       <SnapshotWorkspace
         draftKey={draftKey}
-        packageLabel={pkg.package_label}
+        packageLabel={draftKey}
         status={prep.status}
         candidate={candidate}
         approval={approval}

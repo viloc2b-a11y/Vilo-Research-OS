@@ -1,8 +1,7 @@
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { CandidateReviewWorkspace } from '@/components/source-builder/publish-prep/candidate-review-workspace'
 import { loadPublishCandidateApproval } from '@/lib/protocol-intake-publish-prep/approval'
 import { runFinalReviewChecks } from '@/lib/protocol-intake-publish-prep/final-review'
-import { loadIntakePackage } from '@/lib/protocol-intake-review/load-package'
 import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
 import { loadPublishCandidate } from '@/lib/protocol-intake-publish-prep/write-artifacts'
 import {
@@ -32,9 +31,6 @@ export default async function CandidateReviewPage({ params }: PageProps) {
     )
   }
 
-  const pkg = loadIntakePackage(draftKey)
-  if (!pkg) notFound()
-
   const candidate = loadPublishCandidate(draftKey)
   if (!candidate) {
     redirect(`/source-builder/intake/publish-prep/${draftKey}`)
@@ -48,7 +44,7 @@ export default async function CandidateReviewPage({ params }: PageProps) {
     <div className="p-6">
       <CandidateReviewWorkspace
         draftKey={draftKey}
-        packageLabel={pkg.package_label}
+        packageLabel={draftKey}
         status={prep.status}
         candidate={candidate}
         finalReview={finalReview}

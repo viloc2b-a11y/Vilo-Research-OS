@@ -8,7 +8,11 @@ import type {
   ReviewableItem,
   ReviewerStatus,
 } from '@/lib/protocol-intake-review/types'
-import { intakeReviewRoots, workspaceDir } from '@/lib/protocol-intake-review/paths'
+import {
+  canLoadIntakeReviewFixtures,
+  intakeReviewRoots,
+  workspaceDir,
+} from '@/lib/protocol-intake-review/paths'
 import { draftToReviewPackage } from '@/lib/protocol-intake-review/normalize-from-ts'
 import { pyPackageToReviewPackage } from '@/lib/protocol-intake-review/normalize-from-py'
 
@@ -42,6 +46,8 @@ function isPackageDir(dir: string): boolean {
 }
 
 export function discoverIntakePackages(cwd?: string): IntakePackageListing[] {
+  if (!canLoadIntakeReviewFixtures()) return []
+
   const listings: IntakePackageListing[] = []
   const seen = new Set<string>()
 
@@ -88,6 +94,8 @@ function addListing(
 }
 
 export function loadIntakePackage(draftKey: string, cwd?: string): IntakeReviewPackage | null {
+  if (!canLoadIntakeReviewFixtures()) return null
+
   const listing = discoverIntakePackages(cwd).find((l) => l.draft_key === draftKey)
   if (!listing) return null
 

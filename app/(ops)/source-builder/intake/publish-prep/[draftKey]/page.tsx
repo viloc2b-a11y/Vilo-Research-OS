@@ -1,6 +1,4 @@
-import { notFound } from 'next/navigation'
 import { PublishPrepWorkspace } from '@/components/source-builder/publish-prep/publish-prep-workspace'
-import { loadIntakePackage } from '@/lib/protocol-intake-review/load-package'
 import { loadPublishCandidate } from '@/lib/protocol-intake-publish-prep/write-artifacts'
 import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
 import {
@@ -30,9 +28,6 @@ export default async function PublishPrepPage({ params }: PageProps) {
     )
   }
 
-  const pkg = loadIntakePackage(draftKey)
-  if (!pkg) notFound()
-
   const prep = resolvePublishPrepStatus(draftKey)
   const candidate = loadPublishCandidate(draftKey)
 
@@ -40,7 +35,7 @@ export default async function PublishPrepPage({ params }: PageProps) {
     <div className="p-6">
       <PublishPrepWorkspace
         draftKey={draftKey}
-        packageLabel={pkg.package_label}
+        packageLabel={draftKey}
         status={prep.status}
         preflight={prep.preflight}
         candidate={candidate}

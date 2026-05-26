@@ -1,17 +1,16 @@
 import { join } from 'node:path'
 
-const DEFAULT_INTAKE_REVIEW_ROOTS = [
-  join(/*turbopackIgnore: true*/ process.cwd(), 'fixtures', 'intake-review'),
-  join(/*turbopackIgnore: true*/ process.cwd(), '.phase12c-py-smoke'),
-]
+export function canLoadIntakeReviewFixtures(): boolean {
+  return process.env.NODE_ENV !== 'production'
+}
 
 export function intakeReviewRoots(cwd?: string): string[] {
-  return cwd
-    ? [
-        join(/*turbopackIgnore: true*/ cwd, 'fixtures', 'intake-review'),
-        join(/*turbopackIgnore: true*/ cwd, '.phase12c-py-smoke'),
-      ]
-    : [...DEFAULT_INTAKE_REVIEW_ROOTS]
+  if (!canLoadIntakeReviewFixtures()) return []
+  const root = cwd ?? process.cwd()
+  return [
+    join(root, 'fixtures', 'intake-review'),
+    join(root, '.phase12c-py-smoke'),
+  ]
 }
 
 export function workspaceDir(draftKey: string): string

@@ -1,19 +1,10 @@
 import Link from 'next/link'
-import { existsSync } from 'node:fs'
-import { join } from 'node:path'
 import { buttonVariants } from '@/components/ui/button'
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { discoverIntakePackages } from '@/lib/protocol-intake-review/load-package'
-import { workspaceDir } from '@/lib/protocol-intake-review/paths'
-import { hasApprovedIntakeDraft } from '@/lib/protocol-intake-publish-prep/load-approved'
-import { resolvePublishPrepStatus } from '@/lib/protocol-intake-publish-prep/status'
 import {
   getOrganizationMemberships,
   getPrimaryOrganizationId,
@@ -41,8 +32,6 @@ export default async function ProtocolIntakeReviewListPage() {
     )
   }
 
-  const packages = discoverIntakePackages()
-
   return (
     <div className="space-y-6 p-6">
       <header className="space-y-2">
@@ -56,63 +45,11 @@ export default async function ProtocolIntakeReviewListPage() {
         </p>
       </header>
 
-      {packages.length === 0 ? (
-        <Card>
-          <CardContent className="py-8 text-sm text-muted-foreground">
-            No intake packages found. Run{' '}
-            <code className="text-xs">python scripts/phase_12c_protocol_intake.py</code> or seed{' '}
-            <code className="text-xs">fixtures/intake-review/</code>.
-          </CardContent>
-        </Card>
-      ) : (
-        packages.map((pkg) => {
-          const wsApproved =
-            hasApprovedIntakeDraft(pkg.draft_key)
-            || existsSync(
-              join(workspaceDir(process.cwd(), pkg.draft_key), 'approved_intake_draft.json'),
-            )
-          const prep = wsApproved ? resolvePublishPrepStatus(pkg.draft_key) : null
-          return (
-            <Card key={pkg.draft_key}>
-              <CardHeader>
-                <CardTitle className="text-lg">{pkg.label}</CardTitle>
-                <CardDescription>
-                  {pkg.artifact_files.length} artifacts · {pkg.study_key}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-wrap items-center justify-between gap-4">
-                <ul className="text-xs text-muted-foreground">
-                  {pkg.artifact_files.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2">
-                  <Link
-                    href={`/source-builder/intake/review/${pkg.draft_key}`}
-                    className={cn(buttonVariants())}
-                  >
-                    Open review workspace
-                  </Link>
-                  {wsApproved ? (
-                    <Link
-                      href={`/source-builder/intake/publish-prep/${pkg.draft_key}`}
-                      className={cn(buttonVariants({ variant: 'outline' }))}
-                    >
-                      Publish prep / preflight
-                    </Link>
-                  ) : null}
-                </div>
-                {pkg.has_approved || wsApproved ? (
-                  <span className="text-xs text-emerald-700 dark:text-emerald-400">
-                    Approved artifact available
-                    {prep ? ` · ${prep.status.replace(/_/g, ' ')}` : ''}
-                  </span>
-                ) : null}
-              </CardContent>
-            </Card>
-          )
-        })
-      )}
+      <Card>
+        <CardContent className="py-8 text-sm text-muted-foreground">
+          Intake fixture packages are not loaded during production builds.
+        </CardContent>
+      </Card>
     </div>
   )
 }
