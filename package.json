@@ -119,7 +119,13 @@
     "procedure-library:smoke": "npx tsx scripts/procedure-library-phase2-smoke.ts",
     "procedure-library:smoke:live": "npx tsx scripts/procedure-library-phase2-smoke.ts --live",
     "study-runtime:smoke": "npx tsx scripts/study-runtime-composition-phase3-smoke.ts",
-    "study-runtime:smoke:live": "npx tsx scripts/study-runtime-composition-phase3-smoke.ts --live"
+    "study-runtime:smoke:live": "npx tsx scripts/study-runtime-composition-phase3-smoke.ts --live",
+    "runtime-source:smoke": "npx tsx scripts/runtime-source-package-phase4-smoke.ts",
+    "runtime-source:smoke:live": "npx tsx scripts/runtime-source-package-phase4-smoke.ts --live",
+    "visit-runtime:smoke": "npx tsx scripts/visit-runtime-execution-phase5-smoke.ts",
+    "visit-runtime:smoke:live": "npx tsx scripts/visit-runtime-execution-phase5-smoke.ts --live",
+    "visit-runtime:smoke:lock": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts",
+    "visit-runtime:smoke:lock:live": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
