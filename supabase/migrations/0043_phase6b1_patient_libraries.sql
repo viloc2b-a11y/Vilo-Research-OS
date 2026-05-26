@@ -790,11 +790,4 @@ from
   join public.pathology_library p on p.external_seed_id = v.pathology_seed_id
   join public.medication_library m on m.external_seed_id = v.medication_seed_id
 where
-  not exists (select 1 from public.pathology_medication_links limit 1)
-on conflict (pathology_id, medication_id) do
-update
-set
-  relation_rank = excluded.relation_rank,
-  relation_type = excluded.relation_type,
-  notes = excluded.notes,
-  active_flag = excluded.active_flag;
+  not exists (select 1 from public.pathology_medication_links limit 1);
