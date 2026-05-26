@@ -931,6 +931,8 @@ export async function updateAvailabilityBlock(
       storageStudyId: original.row.study_id,
       actorUserId: user.id,
       originalBlockId: original.row.id,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resourceBlockId: (original.row.payload as any)?.resource_block_id,
       formData,
     })
   }
@@ -973,7 +975,8 @@ export async function cancelAvailabilityBlock(
 
   if ((original.row.payload as Record<string, unknown>)?.scope === 'resource') {
     return cancelCalendarResourceAvailabilityBlock({
-      originalRow: original.row,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      originalRow: original.row as any,
       actorUserId: user.id,
       formData,
       scheduleOccurredAt,

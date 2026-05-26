@@ -1,6 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { logOperationalEvent } from '@/lib/operations/logOperationalEvent'
-import { createResourceBlock, cancelResourceBlock, ResourceCatalogStore } from '../core'
+import { createResourceBlock, updateResourceBlock, cancelResourceBlock, ResourceCatalogStore } from '../core'
 import { getSiteTimeZone, allDayBlockRange, timedBlockRange } from '@/lib/calendar/site-calendar-dates'
 import type { AvailabilityBlockMutationState } from '@/app/(ops)/operational-calendar/action-state'
 import { resolveCalendarLinks } from '@/lib/calendar/resolve-calendar-links'
@@ -70,6 +70,7 @@ export async function createCalendarResourceAvailabilityBlock(input: {
   storageStudyId: string
   actorUserId: string
   originalBlockId?: string
+  resourceBlockId?: string
   formData: FormData
 }): Promise<AvailabilityBlockMutationState> {
   const title = clean(input.formData.get('title'))
@@ -101,12 +102,9 @@ export async function createCalendarResourceAvailabilityBlock(input: {
 
   let resourceDoc
   try {
-    resourceDoc = await ResourceCatalogStore.findByCode(supabaseForValidation, resourceName)
+    resourceDoc = await ResourceCatalogStore.findByCode(supabaseForValidation, resourceName, input.organizationId)
   } catch (err) {
-    if (err instanceof Error && err.message.includes('NOT_IMPLEMENTED')) {
-      return { ok: false, message: 'Resource availability runtime is not enabled yet.' }
-    }
-    throw err
+    return { ok: false, message: err instanceof Error ? err.message : 'Invalid resource.' }
   }
   if (!resourceDoc) {
      return { ok: false, message: 'Invalid resource code.' }
@@ -136,21 +134,32 @@ export async function createCalendarResourceAvailabilityBlock(input: {
   })
   if (permissionMessage) return { ok: false, message: permissionMessage }
 
-  let resourceBlock
+  let resourceBlockId = input.resourceBlockId
   try {
-    resourceBlock = await createResourceBlock({
-       organizationId: input.organizationId,
-       studyId: input.storageStudyId,
-       resourceCode: resourceName,
-       startDatetime: range.start,
-       endDatetime: range.end,
-       allDay
-    })
-  } catch (err) {
-    if (err instanceof Error && err.message.includes('NOT_IMPLEMENTED')) {
-      return { ok: false, message: 'Resource availability runtime is not enabled yet.' }
+    if (input.eventType === 'calendar_availability_block_updated' && resourceBlockId) {
+       await updateResourceBlock({
+          supabase: supabaseForValidation,
+          resourceBlockId,
+          organizationId: input.organizationId,
+          studyId: input.storageStudyId,
+          startDatetime: range.start,
+          endDatetime: range.end,
+          allDay
+       })
+    } else {
+       const resourceBlock = await createResourceBlock({
+          supabase: supabaseForValidation,
+          organizationId: input.organizationId,
+          studyId: input.storageStudyId,
+          resourceCode: resourceName,
+          startDatetime: range.start,
+          endDatetime: range.end,
+          allDay
+       })
+       resourceBlockId = resourceBlock.id
     }
-    throw err
+  } catch (err) {
+    return { ok: false, message: err instanceof Error ? err.message : 'Could not save resource block.' }
   }
 
   const supabase = await createServerClient()
@@ -175,7 +184,7 @@ export async function createCalendarResourceAvailabilityBlock(input: {
         study_id: studyId,
         study_label: studyLabel,
         resource_name: resourceName,
-        resource_block_id: resourceBlock.id,
+        resource_block_id: resourceBlockId,
         start_datetime: range.start,
         end_datetime: range.end,
         start_date: range.startDate,
@@ -215,12 +224,10 @@ export async function cancelCalendarResourceAvailabilityBlock(input: {
 
   if (resourceBlockId) {
      try {
-       await cancelResourceBlock(resourceBlockId)
+       const supabaseForCancel = await createServerClient()
+       await cancelResourceBlock(supabaseForCancel, resourceBlockId)
      } catch (err) {
-       if (err instanceof Error && err.message.includes('NOT_IMPLEMENTED')) {
-         return { ok: false, message: 'Resource availability runtime is not enabled yet.' }
-       }
-       throw err
+       return { ok: false, message: err instanceof Error ? err.message : 'Could not cancel resource block.' }
      }
   }
 
