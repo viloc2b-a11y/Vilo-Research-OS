@@ -18,6 +18,7 @@ import { StudyRuntimeStatusCards } from './study-runtime-status-cards'
 import { StudySourcePanel } from './study-source-panel'
 import { StudySubjectsPanel } from './study-subjects-panel'
 import { StudyTrainingPanel } from './study-training-panel'
+import { StudyDocumentIntelligencePanel } from './study-document-intelligence-panel'
 import { STUDY_WORKSPACE_NAV_ITEMS, StudyWorkspaceNav } from './study-workspace-nav'
 
 const VALID_SECTIONS = new Set<string>(STUDY_WORKSPACE_NAV_ITEMS.map((item) => item.id))
@@ -85,6 +86,7 @@ export function StudyWorkspaceShell({ summary, subjects }: StudyWorkspaceShellPr
               unavailable={summary.unavailable}
             />
             <StudyRuntimeStatusCards counts={summary.counts} links={links} />
+            <StudyDocumentIntelligencePanel links={links} />
           </div>
         ) : null}
 
@@ -205,6 +207,7 @@ function DocumentsComplianceSection({
         </p>
       </div>
       <StudyRegulatoryBinderPanel links={links} counts={counts} />
+      <StudyDocumentIntelligencePanel links={links} />
       <Link
         href={links.documentIntake}
         className="inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"

@@ -63,6 +63,12 @@ export function StudyRuntimeStatusCards({ counts, links }: StudyRuntimeStatusCar
       href: links.documentIntake,
       detail: 'Pending document expirations',
     },
+    {
+      label: 'Document Intelligence',
+      value: null,
+      href: links.documentIntelligence,
+      detail: 'Study-scoped document search & evidence',
+    },
   ]
 
   return (

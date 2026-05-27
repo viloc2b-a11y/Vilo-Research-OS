@@ -15,6 +15,7 @@ import {
   BarChart3,
   Settings,
   FileStack,
+  FileSearch,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -42,6 +43,20 @@ const navItems: NavItem[] = [
   { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar, coordinatorWorkspace: true },
   { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban, allMembers: true },
   { id: 'source-builder', label: 'Source', href: '/source-builder', icon: FileStack, sourceWorkflow: true },
+  {
+    id: 'document-intelligence',
+    label: 'Document Intelligence',
+    href: '/document-intelligence',
+    icon: FileSearch,
+    coordinatorWorkspace: true,
+  },
+  {
+    id: 'source-blueprint-evidence',
+    label: 'Source Evidence',
+    href: '/source-blueprint-evidence',
+    icon: FileSearch,
+    sourceWorkflow: true,
+  },
   { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true, availability: 'Planned for the next operational workflow release.' },
   { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true, availability: 'Planned after coordinator cockpit stabilization.' },
   { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true, availability: 'Regulatory workspace is planned for an upcoming release.' },

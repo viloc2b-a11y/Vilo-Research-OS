@@ -33,6 +33,18 @@ export function StudySourcePanel({ links }: StudySourcePanelProps) {
       description: 'Review and approve source package drafts compiled from the runtime graph.',
       href: links.sourcePackages,
     },
+    {
+      title: 'Document Intelligence',
+      description:
+        'Search and review study documents used to support protocol intake, source design, budget review, and operational guidance.',
+      href: links.documentIntelligence,
+    },
+    {
+      title: 'Source Evidence Review',
+      description:
+        'Review structured evidence from documents, accept or reject, and map to procedure blueprints before source drafting.',
+      href: links.sourceBlueprintEvidence,
+    },
   ]
 
   return (

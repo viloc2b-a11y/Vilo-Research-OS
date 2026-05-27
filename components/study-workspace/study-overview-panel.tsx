@@ -11,6 +11,7 @@ const SPINE_STEPS = [
   { label: 'Locking / Snapshots', hrefKey: 'visitRuntime' as const },
   { label: 'Review', hrefKey: 'operationalReview' as const },
   { label: 'Compliance Runtime', hrefKey: 'documentIntake' as const },
+  { label: 'Document Intelligence', hrefKey: 'documentIntelligence' as const },
 ]
 
 type StudyOverviewPanelProps = {

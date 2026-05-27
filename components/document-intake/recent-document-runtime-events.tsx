@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { pollIntelligenceDocumentUntilSettled } from '@/components/document-intelligence/poll-intelligence-document'
 
 type RecentDocument = {
   id: string
@@ -17,6 +18,8 @@ type RecentDocument = {
 
 type RecentDocumentRuntimeEventsProps = {
   organizationId: string
+  studyId?: string | null
+  onIntelligenceIngested?: () => void
 }
 
 function formatWhen(iso: string | null): string {
@@ -34,10 +37,14 @@ function shortId(value: string): string {
 
 export function RecentDocumentRuntimeEvents({
   organizationId,
+  studyId,
+  onIntelligenceIngested,
 }: RecentDocumentRuntimeEventsProps) {
   const [documents, setDocuments] = useState<RecentDocument[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [ingestingId, setIngestingId] = useState<string | null>(null)
+  const [ingestMessage, setIngestMessage] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -72,6 +79,55 @@ export function RecentDocumentRuntimeEvents({
     }
   }, [organizationId])
 
+  async function ingestForSearch(documentId: string) {
+    if (!studyId) {
+      setIngestMessage(
+        'Select a study on document upload (or open Document Intelligence from the study workspace) before ingesting.',
+      )
+      return
+    }
+    setIngestingId(documentId)
+    setIngestMessage(null)
+    try {
+      const res = await fetch('/api/document-intelligence/ingest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          compliance_document_id: documentId,
+          study_id: studyId,
+        }),
+      })
+      const data = (await res.json()) as {
+        status?: string
+        intelligence_document_id?: string
+        error?: string
+      }
+      if (!res.ok) throw new Error(data.error || 'Ingestion failed')
+
+      if (data.status === 'processing' && data.intelligence_document_id) {
+        setIngestMessage('Ingesting for search…')
+        const settled = await pollIntelligenceDocumentUntilSettled(
+          organizationId,
+          studyId,
+          data.intelligence_document_id,
+        )
+        if (settled?.intelligenceStatus === 'ready') {
+          setIngestMessage('Added to Document Intelligence for study-scoped search.')
+        } else {
+          setIngestMessage('Ingestion started — check Document Intelligence for status.')
+        }
+      } else {
+        setIngestMessage('Added to Document Intelligence for study-scoped search.')
+      }
+      onIntelligenceIngested?.()
+    } catch (err) {
+      setIngestMessage(err instanceof Error ? err.message : 'Ingestion failed')
+    } finally {
+      setIngestingId(null)
+    }
+  }
+
   return (
     <div className="mx-auto mt-8 max-w-2xl rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="mb-4 text-xl font-bold text-slate-800">Recent uploads</h2>
@@ -83,6 +139,7 @@ export function RecentDocumentRuntimeEvents({
       {!loading && !error && documents.length === 0 ? (
         <p className="text-sm text-slate-500">No documents uploaded yet.</p>
       ) : null}
+      {ingestMessage ? <p className="mb-3 text-sm text-teal-700">{ingestMessage}</p> : null}
 
       <div className="space-y-4">
         {documents.map((doc) => (
@@ -114,6 +171,14 @@ export function RecentDocumentRuntimeEvents({
               Latest audit: {doc.latestAuditEventType ?? '—'}
               {doc.latestAuditEventAt ? ` · ${formatWhen(doc.latestAuditEventAt)}` : ''}
             </div>
+            <button
+              type="button"
+              className="vilo-hover-reveal mt-2 rounded border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700 hover:bg-white disabled:opacity-50"
+              disabled={ingestingId === doc.id}
+              onClick={() => void ingestForSearch(doc.id)}
+            >
+              {ingestingId === doc.id ? 'Ingesting…' : 'Ingest for search'}
+            </button>
           </div>
         ))}
       </div>
