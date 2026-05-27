@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { resolveVisitRuntimeClientStudyId } from '@/lib/visit-runtime-execution/resolve-initial-visit-runtime-study'
 import type { VisitRuntimeInstanceRow } from '@/lib/visit-runtime-execution/visit-runtime-types'
 import { VisitSnapshotList } from '@/components/visit-runtime-locking/visit-snapshot-list'
 import type { VisitRuntimeSnapshotRow } from '@/lib/visit-runtime-locking/visit-locking-types'
@@ -20,6 +22,8 @@ type VisitShellOption = { id: string; visitCode: string; visitName: string }
 type VisitRuntimeClientProps = {
   organizationId: string
   studies: StudyOption[]
+  initialStudyId?: string | null
+  invalidStudyIdFromQuery?: boolean
   subjectsByStudy: Record<string, SubjectOption[]>
   publishedSourcesByStudy: Record<string, PublishedSourceOption[]>
   visitShellsByPublication: Record<string, VisitShellOption[]>
@@ -122,15 +126,82 @@ function SnapshotListLoader({
 export function VisitRuntimeClient({
   organizationId,
   studies,
+  initialStudyId = null,
+  invalidStudyIdFromQuery = false,
   subjectsByStudy,
   publishedSourcesByStudy,
   visitShellsByPublication,
   procedureFieldDefinitionsByShell,
 }: VisitRuntimeClientProps) {
-  const [studyId, setStudyId] = useState(studies[0]?.id ?? '')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const studyIds = useMemo(() => new Set(studies.map((study) => study.id)), [studies])
+
+  const resolveStudyFromScope = useCallback((): {
+    studyId: string
+    invalidQuery: boolean
+  } => {
+    const fromQuery = searchParams.get('study_id')?.trim() ?? ''
+    if (fromQuery) {
+      if (studyIds.has(fromQuery)) {
+        return { studyId: fromQuery, invalidQuery: false }
+      }
+      return { studyId: '', invalidQuery: true }
+    }
+    if (invalidStudyIdFromQuery) {
+      return { studyId: '', invalidQuery: true }
+    }
+    return {
+      studyId: resolveVisitRuntimeClientStudyId(studies, initialStudyId, false),
+      invalidQuery: false,
+    }
+  }, [initialStudyId, invalidStudyIdFromQuery, searchParams, studies, studyIds])
+
+  const [studyId, setStudyId] = useState(() => resolveStudyFromScope().studyId)
+  const [invalidStudyNotice, setInvalidStudyNotice] = useState(
+    () => resolveStudyFromScope().invalidQuery,
+  )
   const [subjectId, setSubjectId] = useState('')
   const [selectedVisitInstanceId, setSelectedVisitInstanceId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
+
+  useEffect(() => {
+    const resolved = resolveStudyFromScope()
+    setStudyId(resolved.studyId)
+    setInvalidStudyNotice(resolved.invalidQuery)
+  }, [resolveStudyFromScope])
+
+  useEffect(() => {
+    if (!studyId || invalidStudyNotice) {
+      setSubjectId('')
+      return
+    }
+    const subjectsForStudy = subjectsByStudy[studyId] ?? []
+    setSubjectId((current) =>
+      current && subjectsForStudy.some((subject) => subject.id === current)
+        ? current
+        : (subjectsForStudy[0]?.id ?? ''),
+    )
+  }, [invalidStudyNotice, studyId, subjectsByStudy])
+
+  const onStudyChange = useCallback(
+    (nextStudyId: string) => {
+      setStudyId(nextStudyId)
+      setInvalidStudyNotice(false)
+      setSubjectId(subjectsByStudy[nextStudyId]?.[0]?.id ?? '')
+      setSelectedVisitInstanceId(null)
+
+      const params = new URLSearchParams(searchParams.toString())
+      if (nextStudyId) {
+        params.set('study_id', nextStudyId)
+      } else {
+        params.delete('study_id')
+      }
+      const query = params.toString()
+      router.replace(query ? `/visit-runtime?${query}` : '/visit-runtime', { scroll: false })
+    },
+    [router, searchParams, subjectsByStudy],
+  )
 
   const subjects = subjectsByStudy[studyId] ?? []
   const publishedSources = publishedSourcesByStudy[studyId] ?? []
@@ -138,6 +209,12 @@ export function VisitRuntimeClient({
 
   return (
     <div className="space-y-6">
+      {invalidStudyNotice ? (
+        <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+          The requested study is not available or you do not have access. Select a study below to
+          continue.
+        </p>
+      ) : null}
       <div className="flex flex-wrap items-center gap-3">
         <label className="text-sm text-slate-600">
           Study
@@ -145,12 +222,12 @@ export function VisitRuntimeClient({
             className="ml-2 rounded border border-slate-300 px-2 py-1.5 text-sm"
             value={studyId}
             onChange={(e) => {
-              const nextStudyId = e.target.value
-              setStudyId(nextStudyId)
-              setSubjectId(subjectsByStudy[nextStudyId]?.[0]?.id ?? '')
-              setSelectedVisitInstanceId(null)
+              onStudyChange(e.target.value)
             }}
           >
+            {invalidStudyNotice && !studyId ? (
+              <option value="">Select study…</option>
+            ) : null}
             {studies.map((study) => (
               <option key={study.id} value={study.id}>{study.name}</option>
             ))}

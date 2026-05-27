@@ -58,6 +58,14 @@ function runChecks() {
   )
   assert(links.protocolIntake.includes('study_id='), 'protocol intake link has study_id param')
   assert(links.visitRuntime.includes('study_id='), 'visit runtime link has study_id param')
+  assert(
+    links.operationalSignatures.includes('study_id='),
+    'operational signatures link has study_id param',
+  )
+  assert(
+    links.operationalSignatures.startsWith('/operational-signatures?'),
+    'operational signatures workspace route',
+  )
 
   const monitorPanelPath = path.join(
     process.cwd(),

@@ -56,6 +56,11 @@ export function StudySourcePanel({ links }: StudySourcePanelProps) {
       description: 'Sign off reviewed source evidence and export audit traceability.',
       href: links.sourceBlueprintSignoff,
     },
+    {
+      title: 'Operational Signatures',
+      description: 'Review and record operational eSignatures for study artifacts.',
+      href: links.operationalSignatures,
+    },
   ]
 
   return (

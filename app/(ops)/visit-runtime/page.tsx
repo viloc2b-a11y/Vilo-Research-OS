@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import {
   getOrganizationMemberships,
@@ -8,8 +9,22 @@ import { canAccessSubjectVisitWorkspace } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { VisitRuntimeClient } from '@/components/visit-runtime-execution/visit-runtime-client'
 import { PUBLICATION_STATUS } from '@/lib/runtime-source-publication/runtime-source-publication-types'
+import { resolveInitialVisitRuntimeStudy } from '@/lib/visit-runtime-execution/resolve-initial-visit-runtime-study'
 
-export default async function VisitRuntimePage() {
+type VisitRuntimePageProps = {
+  searchParams: Promise<{ study_id?: string }>
+}
+
+function VisitRuntimeLoading() {
+  return (
+    <div className="space-y-6 p-6">
+      <div className="h-8 w-72 animate-pulse rounded bg-slate-100" />
+      <div className="h-24 animate-pulse rounded-md bg-slate-100" />
+    </div>
+  )
+}
+
+async function VisitRuntimeContent({ queryStudyId }: { queryStudyId: string | null }) {
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -45,6 +60,11 @@ export default async function VisitRuntimePage() {
     id: String(study.id),
     name: String(study.name),
   }))
+
+  const { initialStudyId, invalidStudyIdFromQuery } = resolveInitialVisitRuntimeStudy({
+    queryStudyId,
+    accessibleStudyIds: studyList.map((study) => study.id),
+  })
 
   type PublishedSourceInternal = {
     publicationId: string
@@ -147,6 +167,8 @@ export default async function VisitRuntimePage() {
       <VisitRuntimeClient
         organizationId={organizationId}
         studies={studyList}
+        initialStudyId={initialStudyId}
+        invalidStudyIdFromQuery={invalidStudyIdFromQuery}
         subjectsByStudy={subjectsByStudy}
         publishedSourcesByStudy={Object.fromEntries(
           Object.entries(publishedSourcesByStudy).map(([studyId, pubs]) => [
@@ -162,5 +184,16 @@ export default async function VisitRuntimePage() {
         procedureFieldDefinitionsByShell={procedureFieldDefinitionsByShell}
       />
     </div>
+  )
+}
+
+export default async function VisitRuntimePage({ searchParams }: VisitRuntimePageProps) {
+  const params = await searchParams
+  const queryStudyId = params.study_id?.trim() || null
+
+  return (
+    <Suspense fallback={<VisitRuntimeLoading />}>
+      <VisitRuntimeContent queryStudyId={queryStudyId} />
+    </Suspense>
   )
 }
