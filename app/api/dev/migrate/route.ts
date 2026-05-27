@@ -14,6 +14,10 @@ import postgres from 'postgres'
 
 const MIGRATIONS_DIR = resolve(process.cwd(), 'supabase/migrations')
 
+function isProductionRuntime() {
+  return process.env.NODE_ENV === 'production'
+}
+
 function listMigrationFiles() {
   return readdirSync(MIGRATIONS_DIR)
     .filter((file) => file.endsWith('.sql'))
@@ -30,6 +34,10 @@ function isPooler(url: string) {
 }
 
 export async function POST(req: NextRequest) {
+  if (isProductionRuntime()) {
+    return NextResponse.json({ ok: false, error: 'Development migration endpoint is disabled in production' }, { status: 404 })
+  }
+
   // Guard: require explicit opt-in — set MIGRATION_ALLOWED=1 in .env.local
   // This works in both dev and production-mode starts.
   if (process.env.MIGRATION_ALLOWED !== '1') {
@@ -106,6 +114,10 @@ export async function POST(req: NextRequest) {
 
 // GET — health check & shows available migrations
 export async function GET() {
+  if (isProductionRuntime()) {
+    return NextResponse.json({ ok: false, error: 'Development migration endpoint is disabled in production' }, { status: 404 })
+  }
+
   if (process.env.MIGRATION_ALLOWED !== '1') {
     return NextResponse.json({ ok: false, error: 'Set MIGRATION_ALLOWED=1 in .env.local to enable this endpoint' }, { status: 403 })
   }

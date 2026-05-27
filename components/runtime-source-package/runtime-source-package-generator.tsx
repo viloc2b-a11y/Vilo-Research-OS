@@ -102,7 +102,7 @@ export function RuntimeSourcePackageGenerator({
         </label>
         <input
           className="rounded border border-slate-300 px-2 py-1.5 text-sm sm:col-span-2"
-          placeholder="Package name (e.g. PARA_OA_012 Source Draft v1)"
+          placeholder="Package name (e.g. STUDY-KOA-001 Source Draft v1)"
           value={packageName}
           onChange={(e) => setPackageName(e.target.value)}
           required
