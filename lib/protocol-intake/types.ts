@@ -164,3 +164,37 @@ export type ProtocolIntakeDraft = {
   review: ProtocolIntakeReviewSummary
   intake_conflicts: IntakeConflict[]
 }
+
+export type ScheduleMatrixIntersection = {
+  study_id: string
+  protocol_document_id: string
+  extraction_run_id: string
+  visit_name: string
+  visit_number: number | null
+  study_day: number | null
+  visit_window: string | null
+  visit_phase: 'screening' | 'treatment' | 'follow-up' | 'eos' | 'other'
+  procedure_name: string
+  procedure_category: string
+  required_status: boolean
+  conditionality: boolean
+  source_note: string | null
+  protocol_reference: string
+  confidence_score: ConfidenceLevel
+  needs_review: boolean
+  suggested_downstream_consumer: string | null
+}
+
+export type RawExtractionOutput = {
+  tables?: { table_html: string; table_markdown: string }[]
+  error?: string
+}
+
+export type DocumentExtractionRun = {
+  run_id: string
+  study_id: string
+  document_name: string
+  raw_extraction_output: RawExtractionOutput
+  schedule_matrix: ScheduleMatrixIntersection[]
+  coordinator_selected_procedures: string[]
+}

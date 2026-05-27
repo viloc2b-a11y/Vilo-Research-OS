@@ -3,8 +3,12 @@ import { buttonVariants } from '@/components/ui/button'
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { DocumentIntakeUploadForm } from '@/components/protocol-intake/document-intake-upload'
 import {
   getOrganizationMemberships,
   getPrimaryOrganizationId,
@@ -50,6 +54,21 @@ export default async function ProtocolIntakeReviewListPage() {
           Intake fixture packages are not loaded during production builds.
         </CardContent>
       </Card>
+
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold tracking-tight mb-4">Phase 1: Schedule of Events Extraction</h2>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Upload Protocol or SoA Document</CardTitle>
+            <CardDescription>
+              Upload a PDF or Excel Schedule of Events to extract the Visit × Procedure matrix for review.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <DocumentIntakeUploadForm />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
