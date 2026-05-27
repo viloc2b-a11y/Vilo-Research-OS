@@ -128,6 +128,7 @@
     "visit-runtime:smoke:lock:live": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts --live",
     "visit-runtime:smoke:published-source": "npx tsx scripts/visit-runtime-published-source-phaseP4B-smoke.ts",
     "study-workspace:smoke": "npx tsx scripts/study-workspace-shell-smoke.ts",
+    "coordinator-command-center:smoke": "npx tsx scripts/coordinator-command-center-smoke.ts",
     "document-intelligence:smoke": "npx tsx scripts/document-intelligence-k1-smoke.ts",
     "source-blueprint-evidence:smoke": "npx tsx scripts/source-blueprint-evidence-k2-smoke.ts",
     "source-blueprint-drafting:smoke": "npx tsx scripts/source-blueprint-drafting-k3-smoke.ts",
