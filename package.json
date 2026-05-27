@@ -130,6 +130,7 @@
     "study-workspace:smoke": "npx tsx scripts/study-workspace-shell-smoke.ts",
     "document-intelligence:smoke": "npx tsx scripts/document-intelligence-k1-smoke.ts",
     "source-blueprint-evidence:smoke": "npx tsx scripts/source-blueprint-evidence-k2-smoke.ts",
+    "source-blueprint-drafting:smoke": "npx tsx scripts/source-blueprint-drafting-k3-smoke.ts",
     "operational-review:smoke": "npx tsx scripts/operational-review-phase7-smoke.ts",
     "operational-review:smoke:live": "npx tsx scripts/operational-review-phase7-smoke.ts --live",
     "protocol-intake-runtime:smoke": "npx tsx scripts/protocol-intake-runtime-phaseP1-smoke.ts",
