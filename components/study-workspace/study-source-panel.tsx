@@ -29,8 +29,8 @@ export function StudySourcePanel({ links }: StudySourcePanelProps) {
       href: links.protocolRuntimeGeneration,
     },
     {
-      title: 'Source Runtime (packages)',
-      description: 'Review and approve source package drafts compiled from the runtime graph.',
+      title: 'Runtime Source',
+      description: 'Published runtime source remains the execution authority.',
       href: links.sourcePackages,
     },
     {
@@ -42,8 +42,19 @@ export function StudySourcePanel({ links }: StudySourcePanelProps) {
     {
       title: 'Source Evidence Review',
       description:
-        'Review structured evidence from documents, accept or reject, and map to procedure blueprints before source drafting.',
+        'Review mapped evidence before using it in source drafting.',
       href: links.sourceBlueprintEvidence,
+    },
+    {
+      title: 'Draft Suggestions',
+      description:
+        'Review evidence-backed draft suggestions. No runtime changes occur automatically.',
+      href: links.sourceBlueprintDrafting,
+    },
+    {
+      title: 'Signoff & Audit',
+      description: 'Sign off reviewed source evidence and export audit traceability.',
+      href: links.sourceBlueprintSignoff,
     },
   ]
 

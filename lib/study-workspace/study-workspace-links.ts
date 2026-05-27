@@ -8,6 +8,8 @@ export type StudyWorkspaceRuntimeLinks = {
   documentIntake: string
   documentIntelligence: string
   sourceBlueprintEvidence: string
+  sourceBlueprintDrafting: string
+  sourceBlueprintSignoff: string
   operationalReview: string
   studySubjects: string
   studyDetail: string
@@ -25,6 +27,8 @@ export function buildStudyWorkspaceRuntimeLinks(studyId: string): StudyWorkspace
     documentIntake: `/document-intake?study_id=${q}`,
     documentIntelligence: `/document-intelligence?study_id=${q}`,
     sourceBlueprintEvidence: `/source-blueprint-evidence?study_id=${q}`,
+    sourceBlueprintDrafting: `/source-blueprint-drafting?study_id=${q}`,
+    sourceBlueprintSignoff: `/source-blueprint-signoff?study_id=${q}`,
     operationalReview: `/operational-review?study_id=${q}`,
     studySubjects: `/studies/${studyId}?tab=subjects`,
     studyDetail: `/studies/${studyId}`,

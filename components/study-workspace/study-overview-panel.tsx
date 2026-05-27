@@ -2,16 +2,12 @@ import Link from 'next/link'
 import type { StudyWorkspaceRuntimeLinks } from '@/lib/study-workspace/study-workspace-links'
 
 const SPINE_STEPS = [
-  { label: 'Protocol Intake', hrefKey: 'protocolIntake' as const },
-  { label: 'Reconciliation', hrefKey: 'protocolReconciliation' as const },
-  { label: 'Runtime Generation', hrefKey: 'protocolRuntimeGeneration' as const },
-  { label: 'Source Package', hrefKey: 'sourcePackages' as const },
-  { label: 'Published Source', hrefKey: 'publishedSource' as const },
-  { label: 'Visit Execution', hrefKey: 'visitRuntime' as const },
-  { label: 'Locking / Snapshots', hrefKey: 'visitRuntime' as const },
-  { label: 'Review', hrefKey: 'operationalReview' as const },
-  { label: 'Compliance Runtime', hrefKey: 'documentIntake' as const },
   { label: 'Document Intelligence', hrefKey: 'documentIntelligence' as const },
+  { label: 'Source Evidence Review', hrefKey: 'sourceBlueprintEvidence' as const },
+  { label: 'Draft Suggestions', hrefKey: 'sourceBlueprintDrafting' as const },
+  { label: 'Signoff & Audit', hrefKey: 'sourceBlueprintSignoff' as const },
+  { label: 'Runtime Source', hrefKey: 'sourcePackages' as const },
+  { label: 'Visit Execution', hrefKey: 'visitRuntime' as const },
 ]
 
 type StudyOverviewPanelProps = {
@@ -42,7 +38,7 @@ export function StudyOverviewPanel({
       </div>
 
       <div className="rounded-md border border-slate-200 bg-slate-50/80 p-5">
-        <h3 className="text-sm font-semibold text-slate-800">Runtime spine</h3>
+        <h3 className="text-sm font-semibold text-slate-800">Evidence runtime spine</h3>
         <ol className="mt-4 flex flex-wrap items-center gap-2 text-sm">
           {SPINE_STEPS.map((step, index) => (
             <li key={step.label} className="flex items-center gap-2">
