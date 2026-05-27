@@ -23,6 +23,7 @@ export async function ensureDefaultActiveReferencesForDomains(
       .eq('document_family_id', args.documentFamilyId)
       .eq('study_id', args.studyId)
       .eq('domain', domain)
+      .eq('is_active_reference', true)
       .maybeSingle()
 
     if (existing) continue
@@ -33,6 +34,7 @@ export async function ensureDefaultActiveReferencesForDomains(
       document_family_id: args.documentFamilyId,
       domain,
       intelligence_document_id: args.intelligenceDocumentId,
+      is_active_reference: true,
       active_reference_set_by: args.actorId,
       active_reference_set_at: now,
       active_reference_reason: 'default_first_ready_version',

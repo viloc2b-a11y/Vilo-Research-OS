@@ -48,7 +48,6 @@ export async function setActiveDocumentReference(
   }
 
   const documentFamilyId = String(doc.document_family_id)
-  const now = new Date().toISOString()
   const activeReferences: DocumentIntelligenceActiveReferenceRow[] = []
   let evidenceSupersededCount = 0
 
@@ -71,63 +70,31 @@ export async function setActiveDocumentReference(
       .eq('document_family_id', documentFamilyId)
       .eq('study_id', input.studyId)
       .eq('domain', domain)
+      .eq('is_active_reference', true)
       .maybeSingle()
 
     const previousDocumentId = prior
       ? String((prior as Record<string, unknown>).intelligence_document_id)
       : null
 
-    const { data: upserted, error: upsertError } = await supabase
-      .from('document_intelligence_active_references')
-      .upsert(
-        {
-          organization_id: input.organizationId,
-          study_id: input.studyId,
-          document_family_id: documentFamilyId,
-          domain,
-          intelligence_document_id: input.intelligenceDocumentId,
-          active_reference_set_by: input.actorId,
-          active_reference_set_at: now,
-          active_reference_reason: input.reason ?? null,
-        },
-        { onConflict: 'document_family_id,study_id,domain' },
-      )
-      .select('*')
-      .single()
-
-    if (upsertError || !upserted) {
-      throw new Error(upsertError?.message ?? 'Failed to set active reference')
-    }
-
-    activeReferences.push(mapActiveReferenceRow(upserted as Record<string, unknown>))
-
-    await supabase.from('document_intelligence_active_reference_events').insert({
-      organization_id: input.organizationId,
-      study_id: input.studyId,
-      document_family_id: documentFamilyId,
-      domain,
-      previous_intelligence_document_id: previousDocumentId,
+    const { data: activated, error: activateError } = await supabase.rpc('set_active_reference', {
+      filter_organization_id: input.organizationId,
+      filter_study_id: input.studyId,
+      filter_document_family_id: documentFamilyId,
+      filter_domain: domain,
       new_intelligence_document_id: input.intelligenceDocumentId,
       actor_id: input.actorId,
       reason: input.reason ?? null,
-      event_payload: {
-        runtime_mutated: false,
-        published_source_mutated: false,
-      },
     })
 
-    if (previousDocumentId && previousDocumentId !== input.intelligenceDocumentId) {
-      await supabase
-        .from('document_intelligence_documents')
-        .update({
-          superseded_by_document_id: input.intelligenceDocumentId,
-          superseded_reason: input.reason ?? 'active_reference_changed',
-          effective_to: now,
-          updated_at: now,
-        })
-        .eq('id', previousDocumentId)
-        .eq('organization_id', input.organizationId)
+    if (activateError || !activated) {
+      throw new Error(activateError?.message ?? 'Failed to set active reference')
+    }
 
+    const activatedRow = Array.isArray(activated) ? activated[0] : activated
+    activeReferences.push(mapActiveReferenceRow(activatedRow as Record<string, unknown>))
+
+    if (previousDocumentId && previousDocumentId !== input.intelligenceDocumentId) {
       evidenceSupersededCount += await markEvidenceSupersededForDocumentFamily({
         supabase,
         organizationId: input.organizationId,
@@ -139,19 +106,6 @@ export async function setActiveDocumentReference(
       })
     }
   }
-
-  await supabase
-    .from('document_intelligence_documents')
-    .update({
-      active_reference_set_by: input.actorId,
-      active_reference_set_at: now,
-      active_reference_reason: input.reason ?? null,
-      effective_from: doc.effective_from ?? now,
-      effective_to: null,
-      updated_at: now,
-    })
-    .eq('id', input.intelligenceDocumentId)
-    .eq('organization_id', input.organizationId)
 
   return { activeReferences, evidenceSupersededCount }
 }

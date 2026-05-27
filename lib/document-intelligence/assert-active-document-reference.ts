@@ -15,6 +15,7 @@ export async function isActiveDocumentReferenceForDomain(
     .eq('study_id', studyId)
     .eq('intelligence_document_id', intelligenceDocumentId)
     .eq('domain', domain)
+    .eq('is_active_reference', true)
     .maybeSingle()
 
   if (error) throw new Error(error.message)

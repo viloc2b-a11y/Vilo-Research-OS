@@ -189,6 +189,10 @@ function runChecks() {
     path.join(process.cwd(), 'supabase/migrations/0127_document_intelligence_version_control.sql'),
     'utf8',
   )
+  const activeReferenceAtomicMigration = fs.readFileSync(
+    path.join(process.cwd(), 'supabase/migrations/0129_document_intelligence_active_reference_atomic.sql'),
+    'utf8',
+  )
   assert(versionMigration.includes('document_family_id'), 'version control adds document_family_id')
   assert(
     versionMigration.includes('document_intelligence_active_references'),
@@ -206,14 +210,30 @@ function runChecks() {
     versionMigration.includes('document_intelligence_active_reference_events'),
     'audit log for active reference changes',
   )
+  assert(
+    activeReferenceAtomicMigration.includes('is_active_reference boolean'),
+    'active reference flag is persisted',
+  )
+  assert(
+    activeReferenceAtomicMigration.includes('where is_active_reference = true'),
+    'active reference partial unique/index filtering',
+  )
+  assert(
+    activeReferenceAtomicMigration.includes('function public.set_active_reference'),
+    'atomic set_active_reference function exists',
+  )
+  assert(
+    activeReferenceAtomicMigration.includes("'reconciliation_mutated', false"),
+    'active reference audit records no reconciliation mutation',
+  )
 
   const setActiveSource = fs.readFileSync(
     path.join(process.cwd(), 'lib/document-intelligence/set-active-document-reference.ts'),
     'utf8',
   )
   assert(
-    setActiveSource.includes('runtime_mutated: false'),
-    'set active reference documents no runtime mutation',
+    setActiveSource.includes("rpc('set_active_reference'"),
+    'set active reference uses atomic database function',
   )
   assert(
     !setActiveSource.includes('publish_source_package'),

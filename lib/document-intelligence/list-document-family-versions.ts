@@ -38,6 +38,7 @@ export async function listDocumentFamilyVersions(
     .eq('organization_id', organizationId)
     .eq('study_id', studyId)
     .eq('document_family_id', documentFamilyId)
+    .eq('is_active_reference', true)
     .order('version_number', { ascending: false })
 
   if (versionsError) throw new Error(versionsError.message)
