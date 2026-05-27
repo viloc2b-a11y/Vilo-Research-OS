@@ -34,6 +34,12 @@ export function StudySourcePanel({ links }: StudySourcePanelProps) {
       href: links.sourcePackages,
     },
     {
+      title: 'Document Intake',
+      description:
+        'Upload or register study documents before intelligence processing.',
+      href: links.documentIntake,
+    },
+    {
       title: 'Document Intelligence',
       description:
         'Search and review study documents used to support protocol intake, source design, budget review, and operational guidance.',

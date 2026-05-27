@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { StudyWorkspaceRuntimeLinks } from '@/lib/study-workspace/study-workspace-links'
 
 const SPINE_STEPS = [
+  { label: 'Document Intake', hrefKey: 'documentIntake' as const },
   { label: 'Document Intelligence', hrefKey: 'documentIntelligence' as const },
   { label: 'Source Evidence Review', hrefKey: 'sourceBlueprintEvidence' as const },
   { label: 'Draft Suggestions', hrefKey: 'sourceBlueprintDrafting' as const },

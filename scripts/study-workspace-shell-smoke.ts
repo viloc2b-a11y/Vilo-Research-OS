@@ -57,7 +57,34 @@ function runChecks() {
     'route links include studyId where applicable',
   )
   assert(links.protocolIntake.includes('study_id='), 'protocol intake link has study_id param')
+  assert(
+    links.documentIntake.includes('study_id='),
+    'document intake link has study_id param',
+  )
+  assert(
+    links.documentIntake.startsWith('/document-intake?'),
+    'document intake workspace route',
+  )
   assert(links.visitRuntime.includes('study_id='), 'visit runtime link has study_id param')
+
+  const overviewPanel = fs.readFileSync(
+    path.join(process.cwd(), 'components/study-workspace/study-overview-panel.tsx'),
+    'utf8',
+  )
+  const intakePanel = fs.readFileSync(
+    path.join(process.cwd(), 'components/study-workspace/study-document-intake-panel.tsx'),
+    'utf8',
+  )
+  assert(
+    overviewPanel.indexOf("label: 'Document Intake'") <
+      overviewPanel.indexOf("label: 'Document Intelligence'"),
+    'evidence spine starts with Document Intake before Document Intelligence',
+  )
+  assert(
+    intakePanel.includes('Upload or register study documents before intelligence processing'),
+    'document intake panel helper text',
+  )
+  assert(intakePanel.includes('links.documentIntake'), 'document intake panel uses study link')
   assert(
     links.operationalSignatures.includes('study_id='),
     'operational signatures link has study_id param',

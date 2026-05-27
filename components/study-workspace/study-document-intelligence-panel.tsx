@@ -13,6 +13,13 @@ export function StudyDocumentIntelligencePanel({ links }: StudyDocumentIntellige
         Search and review study documents used to support protocol intake, source design, budget
         review, and operational guidance.
       </p>
+      <p className="mt-2 text-xs text-slate-500">
+        Follows{' '}
+        <Link href={links.documentIntake} className="font-medium text-teal-700 hover:underline">
+          Document Intake
+        </Link>{' '}
+        — documents must be uploaded before ingest here.
+      </p>
       <ol className="mt-3 list-decimal space-y-1 pl-5 text-xs text-slate-600">
         <li>Select this study (preselected when opened from workspace)</li>
         <li>Ingest uploaded compliance documents for search</li>

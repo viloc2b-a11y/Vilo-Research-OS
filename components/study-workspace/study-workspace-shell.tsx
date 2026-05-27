@@ -18,6 +18,7 @@ import { StudyRuntimeStatusCards } from './study-runtime-status-cards'
 import { StudySourcePanel } from './study-source-panel'
 import { StudySubjectsPanel } from './study-subjects-panel'
 import { StudyTrainingPanel } from './study-training-panel'
+import { StudyDocumentIntakePanel } from './study-document-intake-panel'
 import { StudyDocumentIntelligencePanel } from './study-document-intelligence-panel'
 import { STUDY_WORKSPACE_NAV_ITEMS, StudyWorkspaceNav } from './study-workspace-nav'
 
@@ -86,6 +87,7 @@ export function StudyWorkspaceShell({ summary, subjects }: StudyWorkspaceShellPr
               unavailable={summary.unavailable}
             />
             <StudyRuntimeStatusCards counts={summary.counts} links={links} />
+            <StudyDocumentIntakePanel links={links} />
             <StudyDocumentIntelligencePanel links={links} />
           </div>
         ) : null}
@@ -213,13 +215,8 @@ function DocumentsComplianceSection({
         </p>
       </div>
       <StudyRegulatoryBinderPanel links={links} counts={counts} />
+      <StudyDocumentIntakePanel links={links} />
       <StudyDocumentIntelligencePanel links={links} />
-      <Link
-        href={links.documentIntake}
-        className="inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
-      >
-        Open document intake
-      </Link>
     </div>
   )
 }
