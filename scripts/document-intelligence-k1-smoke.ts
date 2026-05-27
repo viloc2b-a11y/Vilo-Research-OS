@@ -253,6 +253,19 @@ function runChecks() {
     'set active does not publish source',
   )
 
+  const listFamilyVersionsSource = fs.readFileSync(
+    path.join(process.cwd(), 'lib/document-intelligence/list-document-family-versions.ts'),
+    'utf8',
+  )
+  assert(
+    !listFamilyVersionsSource.includes(".eq('is_active_reference', true)"),
+    'family version listing does not filter documents by is_active_reference',
+  )
+  assert(
+    listFamilyVersionsSource.includes("from('document_intelligence_active_references')"),
+    'family version listing resolves active state from active references table',
+  )
+
   const extractEvidence = fs.readFileSync(
     path.join(process.cwd(), 'lib/source-blueprint-evidence/extract-evidence-from-intelligence.ts'),
     'utf8',
