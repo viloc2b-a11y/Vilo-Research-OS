@@ -6,6 +6,7 @@ export type DocumentIntelligenceActiveReferenceRow = {
   studyId: string
   documentFamilyId: string
   domain: DocumentIntelligenceDomain
+  activeReferenceDomain: DocumentIntelligenceDomain | null
   intelligenceDocumentId: string
   isActiveReference: boolean
   activeReferenceSetBy: string | null
@@ -39,6 +40,9 @@ export function mapActiveReferenceRow(
     studyId: String(row.study_id),
     documentFamilyId: String(row.document_family_id),
     domain: String(row.domain) as DocumentIntelligenceDomain,
+    activeReferenceDomain: row.active_reference_domain
+      ? (String(row.active_reference_domain) as DocumentIntelligenceDomain)
+      : null,
     intelligenceDocumentId: String(row.intelligence_document_id),
     isActiveReference: row.is_active_reference !== false,
     activeReferenceSetBy: row.active_reference_set_by

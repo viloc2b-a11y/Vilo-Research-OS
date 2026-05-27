@@ -53,10 +53,18 @@ function runChecks() {
     path.join(process.cwd(), 'supabase/migrations/0126_source_blueprint_evidence_lineage.sql'),
     'utf8',
   )
+  const closureMigration = fs.readFileSync(
+    path.join(process.cwd(), 'supabase/migrations/0130_document_intelligence_k2_closure_alignment.sql'),
+    'utf8',
+  )
 
   assert(
     migration.includes("'pending_review'") && migration.includes("'superseded'"),
     'evidence statuses include pending_review and superseded',
+  )
+  assert(
+    closureMigration.includes("'superseded_candidate'"),
+    'active-reference changes mark affected evidence for coordinator review',
   )
   assert(
     !migration.match(/evidence_status in \([^)]*'extracted'/),
@@ -140,6 +148,10 @@ function runChecks() {
   )
 
   assert(EVIDENCE_STATUS.PENDING_REVIEW === 'pending_review', 'pending_review status')
+  assert(
+    EVIDENCE_STATUS.SUPERSEDED_CANDIDATE === 'superseded_candidate',
+    'superseded_candidate status',
+  )
   assert(EVIDENCE_STATUS.SUPERSEDED === 'superseded', 'superseded status')
 
   console.log('✅ Evidence classification')

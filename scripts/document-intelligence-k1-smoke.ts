@@ -193,6 +193,10 @@ function runChecks() {
     path.join(process.cwd(), 'supabase/migrations/0129_document_intelligence_active_reference_atomic.sql'),
     'utf8',
   )
+  const k2ClosureMigration = fs.readFileSync(
+    path.join(process.cwd(), 'supabase/migrations/0130_document_intelligence_k2_closure_alignment.sql'),
+    'utf8',
+  )
   assert(versionMigration.includes('document_family_id'), 'version control adds document_family_id')
   assert(
     versionMigration.includes('document_intelligence_active_references'),
@@ -219,8 +223,17 @@ function runChecks() {
     'active reference partial unique/index filtering',
   )
   assert(
+    k2ClosureMigration.includes('active_reference_domain text null') &&
+      k2ClosureMigration.includes('document_intelligence_active_reference_domain_active_idx'),
+    'active reference domain has partial unique active index',
+  )
+  assert(
     activeReferenceAtomicMigration.includes('function public.set_active_reference'),
     'atomic set_active_reference function exists',
+  )
+  assert(
+    k2ClosureMigration.includes("'affected_evidence_state', 'superseded_candidate'"),
+    'active reference change marks affected evidence as superseded candidate',
   )
   assert(
     activeReferenceAtomicMigration.includes("'reconciliation_mutated', false"),

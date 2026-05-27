@@ -27,6 +27,7 @@ export async function rejectSourceBlueprintEvidence(args: {
   if (current.evidenceStatus === EVIDENCE_STATUS.REJECTED) return current
   if (
     current.evidenceStatus === EVIDENCE_STATUS.ARCHIVED ||
+    current.evidenceStatus === EVIDENCE_STATUS.SUPERSEDED_CANDIDATE ||
     current.evidenceStatus === EVIDENCE_STATUS.SUPERSEDED
   ) {
     throw new EvidenceReviewStateError('Archived or superseded evidence cannot be rejected.')

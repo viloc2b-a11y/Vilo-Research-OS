@@ -22,7 +22,7 @@ export async function ensureDefaultActiveReferencesForDomains(
       .select('id')
       .eq('document_family_id', args.documentFamilyId)
       .eq('study_id', args.studyId)
-      .eq('domain', domain)
+      .eq('active_reference_domain', domain)
       .eq('is_active_reference', true)
       .maybeSingle()
 
@@ -33,6 +33,7 @@ export async function ensureDefaultActiveReferencesForDomains(
       study_id: args.studyId,
       document_family_id: args.documentFamilyId,
       domain,
+      active_reference_domain: domain,
       intelligence_document_id: args.intelligenceDocumentId,
       is_active_reference: true,
       active_reference_set_by: args.actorId,
@@ -52,5 +53,4 @@ export async function ensureDefaultActiveReferencesForDomains(
       event_payload: { auto: true },
     })
   }
-
 }

@@ -18,6 +18,7 @@ export const EVIDENCE_STATUS = {
   REJECTED: 'rejected',
   MAPPED: 'mapped',
   ARCHIVED: 'archived',
+  SUPERSEDED_CANDIDATE: 'superseded_candidate',
   SUPERSEDED: 'superseded',
 } as const
 
@@ -31,6 +32,7 @@ export const EVIDENCE_REVIEW_EVENT_TYPE = {
   MAPPING_PROPOSED: 'mapping_proposed',
   MAPPED: 'mapped',
   ARCHIVED: 'archived',
+  SUPERSEDED_CANDIDATE: 'superseded_candidate',
   SUPERSEDED: 'superseded',
 } as const
 

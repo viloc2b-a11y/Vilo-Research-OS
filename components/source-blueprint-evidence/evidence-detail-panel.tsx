@@ -195,6 +195,7 @@ export function EvidenceDetailPanel({
     evidence.evidenceStatus !== 'rejected' &&
     evidence.evidenceStatus !== 'mapped' &&
     evidence.evidenceStatus !== 'archived' &&
+    evidence.evidenceStatus !== 'superseded_candidate' &&
     evidence.evidenceStatus !== 'superseded'
   const canMap =
     evidence.evidenceStatus === 'accepted' || evidence.evidenceStatus === 'mapped'

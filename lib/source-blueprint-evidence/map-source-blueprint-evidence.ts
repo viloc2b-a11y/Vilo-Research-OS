@@ -43,6 +43,7 @@ export async function mapSourceBlueprintEvidence(args: {
   }
   if (
     current.evidenceStatus === EVIDENCE_STATUS.ARCHIVED ||
+    current.evidenceStatus === EVIDENCE_STATUS.SUPERSEDED_CANDIDATE ||
     current.evidenceStatus === EVIDENCE_STATUS.SUPERSEDED
   ) {
     throw new EvidenceReviewStateError('Archived or superseded evidence cannot be mapped.')

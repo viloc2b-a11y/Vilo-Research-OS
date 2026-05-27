@@ -4,8 +4,8 @@ import { EVIDENCE_REVIEW_EVENT_TYPE, EVIDENCE_STATUS } from '@/lib/source-bluepr
 import type { DocumentIntelligenceDomain } from './document-domain-mapper'
 
 /**
- * Marks non-deleted evidence from superseded document versions in the same family.
- * Does not delete rows; does not mutate runtime or published source.
+ * Marks non-deleted evidence from superseded document versions for coordinator review.
+ * Does not delete rows; does not mutate runtime, reconciliation, or published source.
  */
 export async function markEvidenceSupersededForDocumentFamily(args: {
   supabase: SupabaseClient
@@ -53,7 +53,7 @@ export async function markEvidenceSupersededForDocumentFamily(args: {
   const { error: updateError } = await args.supabase
     .from('source_blueprint_evidence')
     .update({
-      evidence_status: EVIDENCE_STATUS.SUPERSEDED,
+      evidence_status: EVIDENCE_STATUS.SUPERSEDED_CANDIDATE,
       reviewed_at: reviewedAt,
       updated_at: reviewedAt,
     })
@@ -69,12 +69,16 @@ export async function markEvidenceSupersededForDocumentFamily(args: {
       organizationId: args.organizationId,
       studyId: args.studyId,
       evidenceId,
-      eventType: EVIDENCE_REVIEW_EVENT_TYPE.SUPERSEDED,
+      eventType: EVIDENCE_REVIEW_EVENT_TYPE.SUPERSEDED_CANDIDATE,
       actorId: args.actorId,
       eventPayload: {
         reason: 'active_document_reference_changed',
         active_intelligence_document_id: args.activeIntelligenceDocumentId,
         domain: args.domain,
+        coordinator_review_required: true,
+        runtime_mutated: false,
+        published_source_mutated: false,
+        reconciliation_mutated: false,
       },
     })
   }

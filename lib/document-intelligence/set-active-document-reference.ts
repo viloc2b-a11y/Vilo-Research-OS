@@ -69,7 +69,7 @@ export async function setActiveDocumentReference(
       .select('*')
       .eq('document_family_id', documentFamilyId)
       .eq('study_id', input.studyId)
-      .eq('domain', domain)
+      .eq('active_reference_domain', domain)
       .eq('is_active_reference', true)
       .maybeSingle()
 
