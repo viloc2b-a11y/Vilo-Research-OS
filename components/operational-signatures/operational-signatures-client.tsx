@@ -128,12 +128,6 @@ export function OperationalSignaturesClient({
           organization_id: organizationId,
           explicit_user_action: true,
           confirmation_statement: OPERATIONAL_SIGNATURE_WARNING,
-          artifact_snapshot: {
-            artifact_id: selectedRequest.artifactId,
-            artifact_type: selectedRequest.artifactType,
-            request_id: selectedRequest.id,
-            signature_meaning: selectedRequest.signatureMeaning,
-          },
         }),
       })
       const data = (await res.json()) as {

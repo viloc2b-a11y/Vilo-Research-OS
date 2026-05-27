@@ -70,15 +70,7 @@ export function validateSignerAuthorization({
     }
   }
 
-  const delegatedRole = signerRoles.find((role) => role === 'owner' || role === 'admin')
-  if (delegatedRole) {
-    return {
-      ok: true,
-      signerRole: delegatedRole,
-      requiredRole: normalizedRequired,
-      delegationMatched: true,
-    }
-  }
+  // TODO: Wire to explicit delegation assignment table before allowing delegated signatures.
 
   return {
     ok: false,

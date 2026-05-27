@@ -6,13 +6,8 @@ import {
   type OperationalSignatureRequestRow,
 } from './operational-signature-types'
 import { appendOperationalSignatureEvent } from './append-signature-event'
-
-export class OperationalSignatureStateError extends Error {
-  constructor(message: string) {
-    super(message)
-    this.name = 'OperationalSignatureStateError'
-  }
-}
+import { assertOperationalSignatureStudyScope } from './validate-org-study-scope'
+import { OperationalSignatureStateError } from './operational-signature-errors'
 
 export async function createOperationalSignatureRequest(
   supabase: SupabaseClient,
@@ -29,6 +24,10 @@ export async function createOperationalSignatureRequest(
   if (!isOperationalSignatureMeaning(input.signatureMeaning)) {
     throw new OperationalSignatureStateError('Signature meaning is not supported.')
   }
+  await assertOperationalSignatureStudyScope(supabase, {
+    organizationId: input.organizationId,
+    studyId: input.studyId,
+  })
 
   const { data, error } = await supabase
     .from('operational_signature_requests')

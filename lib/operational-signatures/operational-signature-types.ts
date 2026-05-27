@@ -102,7 +102,6 @@ export type SignOperationalArtifactInput = {
   signerMemberships: import('@/lib/auth/session').OrganizationMembership[]
   explicitUserAction: boolean
   confirmationStatement: string
-  artifactSnapshot?: Record<string, unknown>
   ipAddress?: string | null
   userAgent?: string | null
   metadata?: Record<string, unknown>

@@ -17,7 +17,6 @@ export async function POST(req: NextRequest, context: RouteContext) {
     organization_id?: string
     explicit_user_action?: boolean
     confirmation_statement?: string
-    artifact_snapshot?: Record<string, unknown>
     metadata?: Record<string, unknown>
   }
 
@@ -48,7 +47,6 @@ export async function POST(req: NextRequest, context: RouteContext) {
       signerMemberships: auth.memberships,
       explicitUserAction: body.explicit_user_action,
       confirmationStatement: body.confirmation_statement,
-      artifactSnapshot: body.artifact_snapshot,
       ipAddress,
       userAgent,
       metadata: body.metadata,

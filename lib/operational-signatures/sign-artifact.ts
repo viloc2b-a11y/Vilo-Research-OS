@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { computeOperationalArtifactHash } from './artifact-hash'
+import { loadOperationalSignatureArtifactForHash } from './artifact-loader'
 import { appendOperationalSignatureEvent } from './append-signature-event'
 import { validateSignerAuthorization } from './validate-signer-authorization'
 import {
@@ -9,7 +10,7 @@ import {
   type OperationalSignatureRow,
   type SignOperationalArtifactInput,
 } from './operational-signature-types'
-import { OperationalSignatureStateError } from './create-signature-request'
+import { OperationalSignatureStateError } from './operational-signature-errors'
 
 export async function signOperationalArtifact(
   supabase: SupabaseClient,
@@ -45,8 +46,9 @@ export async function signOperationalArtifact(
     throw new OperationalSignatureStateError(authorization.reason)
   }
 
+  const loadedArtifact = await loadOperationalSignatureArtifactForHash(supabase, request)
   const signedArtifactHash = computeOperationalArtifactHash({
-    artifact: input.artifactSnapshot ?? {},
+    artifact: loadedArtifact.payload,
     artifact_id: request.artifactId,
     artifact_type: request.artifactType,
     locked_snapshot_id: request.lockedSnapshotId,
@@ -82,11 +84,12 @@ export async function signOperationalArtifact(
       user_agent: input.userAgent ?? null,
       status: 'signed',
       metadata: {
-        ...(input.metadata ?? {}),
-        explicit_user_action: true,
-        delegation_matched: authorization.delegationMatched,
-      },
-    })
+      ...(input.metadata ?? {}),
+      explicit_user_action: true,
+      delegation_matched: authorization.delegationMatched,
+      hash_source: 'server_loaded_artifact',
+    },
+  })
     .select('*')
     .single()
 
@@ -111,10 +114,18 @@ export async function signOperationalArtifact(
     signatureId: signature.id,
     eventType: 'signature_recorded',
     eventPayload: {
+      signature_id: signature.id,
+      request_id: request.id,
+      artifact_type: signature.artifactType,
+      artifact_id: signature.artifactId,
+      signer_user_id: signature.signerUserId,
       signer_role: signature.signerRole,
       required_role: signature.requiredRole,
       signature_meaning: signature.signatureMeaning,
+      delegation_matched: authorization.delegationMatched,
       signed_artifact_hash: signature.signedArtifactHash,
+      ip_address: signature.ipAddress,
+      user_agent: signature.userAgent,
       signed_at: signature.signedAt,
     },
     actorUserId: input.signerUserId,
