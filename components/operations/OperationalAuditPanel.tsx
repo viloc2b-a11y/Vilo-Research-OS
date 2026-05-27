@@ -1,4 +1,4 @@
-import { Clock, ShieldAlert, FileText, User } from 'lucide-react'
+import { Clock, FileText, User } from 'lucide-react'
 import type { OperationalChronologyRow } from '@/lib/operations/loadOperationalChronology'
 
 function formatSafeSummary(event: OperationalChronologyRow): string {
