@@ -127,6 +127,7 @@
     "visit-runtime:smoke:lock": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts",
     "visit-runtime:smoke:lock:live": "npx tsx scripts/visit-runtime-locking-phase6-smoke.ts --live",
     "visit-runtime:smoke:published-source": "npx tsx scripts/visit-runtime-published-source-phaseP4B-smoke.ts",
+    "study-workspace:smoke": "npx tsx scripts/study-workspace-shell-smoke.ts",
     "operational-review:smoke": "npx tsx scripts/operational-review-phase7-smoke.ts",
     "operational-review:smoke:live": "npx tsx scripts/operational-review-phase7-smoke.ts --live",
     "protocol-intake-runtime:smoke": "npx tsx scripts/protocol-intake-runtime-phaseP1-smoke.ts",
