@@ -38,7 +38,6 @@ export async function listDocumentFamilyVersions(
     .eq('organization_id', organizationId)
     .eq('study_id', studyId)
     .eq('document_family_id', documentFamilyId)
-    .eq('is_active_reference', true)
     .order('version_number', { ascending: false })
 
   if (versionsError) throw new Error(versionsError.message)
@@ -73,6 +72,7 @@ export async function listDocumentFamilyVersions(
   const activeByDoc = new Map<string, DocumentIntelligenceDomain[]>()
   for (const row of activeRows ?? []) {
     const mapped = mapActiveReferenceRow(row as Record<string, unknown>)
+    if (!mapped.isActiveReference) continue
     const list = activeByDoc.get(mapped.intelligenceDocumentId) ?? []
     list.push(mapped.domain)
     activeByDoc.set(mapped.intelligenceDocumentId, list)
@@ -109,12 +109,12 @@ export async function listDocumentFamilyVersions(
   return {
     documentFamilyId,
     versions: summaries,
-    activeReferences: (activeRows ?? []).map((row) => {
-      const mapped = mapActiveReferenceRow(row as Record<string, unknown>)
-      return {
+    activeReferences: (activeRows ?? [])
+      .map((row) => mapActiveReferenceRow(row as Record<string, unknown>))
+      .filter((mapped) => mapped.isActiveReference)
+      .map((mapped) => ({
         domain: mapped.domain,
         intelligenceDocumentId: mapped.intelligenceDocumentId,
-      }
-    }),
+      })),
   }
 }

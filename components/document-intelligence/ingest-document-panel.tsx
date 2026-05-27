@@ -66,7 +66,7 @@ export function IngestDocumentPanel({
       return
     }
     setSelectedDomains(resolveDefaultDomains(selectedDoc.documentClassification))
-  }, [selectedDoc?.id, selectedDoc?.documentClassification])
+  }, [selectedDoc])
 
   async function handleIngest() {
     if (!selectedId || !studyId) {
