@@ -4,7 +4,7 @@ import type { OrganizationMembership } from '@/lib/auth/session'
 import { zonedLocalDateTimeToUtcIso, getSiteTimeZone } from '@/lib/calendar/site-calendar-dates'
 import { logOperationalEvent } from '@/lib/operations/logOperationalEvent'
 import type { createServerClient } from '@/lib/supabase/server'
-import type { ApiV1ManualOperationalEntryResult } from '../../../packages/contracts/src/api/v1/commands/manual-operational-entry'
+import type { ApiV1ManualOperationalEntryResult } from '../../packages/contracts/src/api/v1/commands/manual-operational-entry'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
 
