@@ -132,6 +132,7 @@
     "source-blueprint-evidence:smoke": "npx tsx scripts/source-blueprint-evidence-k2-smoke.ts",
     "source-blueprint-drafting:smoke": "npx tsx scripts/source-blueprint-drafting-k3-smoke.ts",
     "source-blueprint-signoff:smoke": "npx tsx scripts/source-blueprint-signoff-k4-smoke.ts",
+    "operational-signature:smoke": "npx tsx scripts/operational-signature-k5-smoke.ts",
     "operational-review:smoke": "npx tsx scripts/operational-review-phase7-smoke.ts",
     "operational-review:smoke:live": "npx tsx scripts/operational-review-phase7-smoke.ts --live",
     "protocol-intake-runtime:smoke": "npx tsx scripts/protocol-intake-runtime-phaseP1-smoke.ts",
