@@ -133,7 +133,9 @@
     "protocol-reconciliation:smoke": "npx tsx scripts/protocol-reconciliation-phaseP2-smoke.ts",
     "protocol-reconciliation:smoke:live": "npx tsx scripts/protocol-reconciliation-phaseP2-smoke.ts --live",
     "protocol-runtime-generation:smoke": "npx tsx scripts/protocol-runtime-generation-phaseP3-smoke.ts",
-    "protocol-runtime-generation:smoke:live": "npx tsx scripts/protocol-runtime-generation-phaseP3-smoke.ts --live"
+    "protocol-runtime-generation:smoke:live": "npx tsx scripts/protocol-runtime-generation-phaseP3-smoke.ts --live",
+    "runtime-source-publication:smoke": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts",
+    "runtime-source-publication:smoke:live": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts --live"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

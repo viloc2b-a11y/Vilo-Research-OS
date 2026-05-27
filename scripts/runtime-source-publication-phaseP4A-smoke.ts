@@ -1,0 +1,59 @@
+/**
+ * Phase P4A smoke: runtime source publication + signature placeholders.
+ *
+ * Usage:
+ *   npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts
+ *   npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts --live
+ */
+import { createClient } from '@supabase/supabase-js'
+import { PUBLICATION_STATUS } from '../lib/runtime-source-publication/runtime-source-publication-types'
+
+const LIVE = process.argv.includes('--live')
+
+function assert(condition: boolean, message: string) {
+  if (!condition) throw new Error(message)
+}
+
+function runUnitChecks() {
+  console.log('--- Phase P4A unit checks ---')
+  assert(PUBLICATION_STATUS.PUBLISHED === 'published', 'publication status enum')
+  console.log('✅ Publication types load')
+}
+
+async function runLiveChecks() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) {
+    console.log('⏭️  Skipping live checks (Supabase env not set)')
+    return
+  }
+
+  console.log('--- Phase P4A live integration ---')
+  const supabase = createClient(url, key)
+
+  const tables = [
+    'runtime_source_signature_placeholders',
+    'runtime_source_package_publications',
+    'runtime_source_publication_events',
+  ] as const
+
+  for (const table of tables) {
+    const { error } = await supabase.from(table).select('id').limit(1)
+    if (error) throw new Error(`${table}: ${error.message}`)
+  }
+
+  console.log('✅ Publication tables reachable (publish flow requires an approved runtime_source_package)')
+}
+
+async function main() {
+  runUnitChecks()
+  if (LIVE) await runLiveChecks()
+  console.log('------------------------------------------------------------')
+  console.log('Phase P4A runtime source publication smoke test passed.')
+}
+
+main().catch((err) => {
+  console.error('Smoke test failed:', err)
+  process.exit(1)
+})
+
