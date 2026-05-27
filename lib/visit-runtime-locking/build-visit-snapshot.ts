@@ -33,6 +33,9 @@ export function buildVisitSnapshot(input: BuildVisitSnapshotInput): VisitSnapsho
     procedures,
     events,
     source_context: {
+      source_publication_id: input.visitInstance.sourcePublicationId ?? null,
+      source_publication_version: input.visitInstance.sourcePublicationVersion ?? null,
+      source_package_hash: input.visitInstance.sourcePackageHash ?? null,
       source_package_id: input.visitInstance.sourcePackageId,
       visit_shell_id: input.visitInstance.visitShellId,
       runtime_visit_id: input.visitInstance.runtimeVisitId,

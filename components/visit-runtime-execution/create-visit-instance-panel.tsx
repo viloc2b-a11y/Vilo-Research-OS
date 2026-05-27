@@ -2,15 +2,19 @@
 
 import { useState } from 'react'
 
-type PackageOption = { id: string; packageName: string; packageVersion: number }
+type PublishedSourceOption = {
+  publicationId: string
+  publicationVersion: number
+  packageHash: string
+}
 type VisitShellOption = { id: string; visitCode: string; visitName: string }
 
 type CreateVisitInstancePanelProps = {
   organizationId: string
   studyId: string
   subjectId: string
-  packages: PackageOption[]
-  visitShellsByPackage: Record<string, VisitShellOption[]>
+  publishedSources: PublishedSourceOption[]
+  visitShellsByPublication: Record<string, VisitShellOption[]>
   onCreated: (visitInstanceId: string) => void
 }
 
@@ -18,21 +22,22 @@ export function CreateVisitInstancePanel({
   organizationId,
   studyId,
   subjectId,
-  packages,
-  visitShellsByPackage,
+  publishedSources,
+  visitShellsByPublication,
   onCreated,
 }: CreateVisitInstancePanelProps) {
-  const [packageId, setPackageId] = useState(packages[0]?.id ?? '')
+  const [publicationId, setPublicationId] = useState(publishedSources[0]?.publicationId ?? '')
   const [visitShellId, setVisitShellId] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const visitShells = visitShellsByPackage[packageId] ?? []
+  const selected = publishedSources.find((p) => p.publicationId === publicationId) ?? null
+  const visitShells = visitShellsByPublication[publicationId] ?? []
   const effectiveVisitShellId = visitShellId || visitShells[0]?.id || ''
 
   async function handleCreate() {
-    if (!packageId || !effectiveVisitShellId) {
-      setError('Select a source package and visit shell.')
+    if (!publicationId || !effectiveVisitShellId) {
+      setError('Select a published source version and visit shell.')
       return
     }
     setLoading(true)
@@ -45,7 +50,7 @@ export function CreateVisitInstancePanel({
           organization_id: organizationId,
           study_id: studyId,
           subject_id: subjectId,
-          source_package_id: packageId,
+          source_publication_id: publicationId,
           visit_shell_id: effectiveVisitShellId,
         }),
       })
@@ -68,18 +73,18 @@ export function CreateVisitInstancePanel({
       <h2 className="text-sm font-semibold text-slate-800">Create visit workspace</h2>
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <label className="text-sm text-slate-600">
-          Source package
+          Published source version
           <select
             className="ml-2 rounded border border-slate-300 px-2 py-1.5 text-sm"
-            value={packageId}
+            value={publicationId}
             onChange={(e) => {
-              setPackageId(e.target.value)
+              setPublicationId(e.target.value)
               setVisitShellId('')
             }}
           >
-            {packages.map((pkg) => (
-              <option key={pkg.id} value={pkg.id}>
-                {pkg.packageName} (v{pkg.packageVersion})
+            {publishedSources.map((pub) => (
+              <option key={pub.publicationId} value={pub.publicationId}>
+                v{pub.publicationVersion}
               </option>
             ))}
           </select>
@@ -101,11 +106,15 @@ export function CreateVisitInstancePanel({
         <button
           type="button"
           className="rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-50"
-          disabled={loading || packages.length === 0}
+          disabled={loading || publishedSources.length === 0}
           onClick={() => void handleCreate()}
         >
           {loading ? 'Creating…' : 'Create workspace'}
         </button>
+      </div>
+      <div className="mt-2 text-xs text-slate-500">
+        <span className="font-medium text-slate-600">Source package hash</span>{' '}
+        {selected?.packageHash ? <span className="font-mono">{selected.packageHash}</span> : '—'}
       </div>
       {error ? <p className="mt-2 text-sm text-red-600">{error}</p> : null}
     </div>

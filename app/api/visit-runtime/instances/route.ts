@@ -43,18 +43,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  if (
-    !body.organization_id
-    || !body.study_id
-    || !body.subject_id
-    || !body.source_package_id
-    || !body.visit_shell_id
-  ) {
+  if (!body.organization_id || !body.study_id || !body.subject_id || !body.visit_shell_id) {
     return NextResponse.json(
       {
         error:
-          'organization_id, study_id, subject_id, source_package_id, and visit_shell_id are required',
+          'organization_id, study_id, subject_id, and visit_shell_id are required',
       },
+      { status: 400 },
+    )
+  }
+
+  if (!body.source_publication_id && !body.source_package_id) {
+    return NextResponse.json(
+      { error: 'source_publication_id (preferred) or source_package_id (legacy) is required' },
       { status: 400 },
     )
   }
@@ -64,12 +65,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: auth.message }, { status: auth.status })
   }
 
+  const allowLegacy =
+    process.env.VISIT_RUNTIME_ALLOW_UNPUBLISHED_SOURCE === '1' || process.env.NODE_ENV !== 'production'
+
+  if (!body.source_publication_id && !allowLegacy) {
+    return NextResponse.json(
+      { error: 'Visit runtime execution requires a published source package.' },
+      { status: 400 },
+    )
+  }
+
   const supabase = await createServerClient()
   try {
     const result = await createVisitInstanceFromShell({
       supabase,
       input: body,
       createdBy: auth.userId,
+      allowUnpublishedSource: allowLegacy,
     })
     return NextResponse.json({
       ok: true,

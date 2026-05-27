@@ -7,6 +7,7 @@ import {
 import { canAccessSubjectVisitWorkspace } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { VisitRuntimeClient } from '@/components/visit-runtime-execution/visit-runtime-client'
+import { PUBLICATION_STATUS } from '@/lib/runtime-source-publication/runtime-source-publication-types'
 
 export default async function VisitRuntimePage() {
   const user = await getSessionUser()
@@ -45,12 +46,16 @@ export default async function VisitRuntimePage() {
     name: String(study.name),
   }))
 
+  type PublishedSourceInternal = {
+    publicationId: string
+    publicationVersion: number
+    packageHash: string
+    sourcePackageId: string
+  }
+
   const subjectsByStudy: Record<string, { id: string; subjectIdentifier: string }[]> = {}
-  const packagesByStudy: Record<
-    string,
-    { id: string; packageName: string; packageVersion: number }[]
-  > = {}
-  const visitShellsByPackage: Record<string, { id: string; visitCode: string; visitName: string }[]> =
+  const publishedSourcesByStudy: Record<string, PublishedSourceInternal[]> = {}
+  const visitShellsByPublication: Record<string, { id: string; visitCode: string; visitName: string }[]> =
     {}
   const procedureFieldDefinitionsByShell: Record<
     string,
@@ -70,43 +75,50 @@ export default async function VisitRuntimePage() {
       subjectIdentifier: String(subject.subject_identifier),
     }))
 
-    const { data: packages } = await supabase
-      .from('runtime_source_packages')
-      .select('id, package_name, package_version')
+    const { data: pubs } = await supabase
+      .from('runtime_source_package_publications')
+      .select('id, publication_version, publication_status, package_hash, source_package_id')
       .eq('organization_id', organizationId)
       .eq('study_id', study.id)
-      .in('package_status', ['reviewed', 'approved'])
-      .order('package_version', { ascending: false })
+      .eq('publication_status', PUBLICATION_STATUS.PUBLISHED)
+      .order('publication_version', { ascending: false })
 
-    packagesByStudy[study.id] = (packages ?? []).map((pkg) => ({
-      id: String(pkg.id),
-      packageName: String(pkg.package_name),
-      packageVersion: Number(pkg.package_version),
+    publishedSourcesByStudy[study.id] = (pubs ?? []).map((pub) => ({
+      publicationId: String(pub.id),
+      publicationVersion: Number(pub.publication_version),
+      packageHash: String(pub.package_hash),
+      sourcePackageId: String(pub.source_package_id),
     }))
   }
 
-  const packageIds = Object.values(packagesByStudy).flatMap((packages) => packages.map((pkg) => pkg.id))
-  if (packageIds.length > 0) {
+  const allPublishedSources = Object.values(publishedSourcesByStudy).flat()
+  const sourcePackageIds = allPublishedSources.map((p) => p.sourcePackageId)
+
+  if (sourcePackageIds.length > 0) {
     const { data: visitShells } = await supabase
       .from('runtime_source_visit_shells')
       .select('id, source_package_id, visit_code, visit_name, sequence_order')
-      .in('source_package_id', packageIds)
+      .in('source_package_id', sourcePackageIds)
       .order('sequence_order', { ascending: true })
 
     for (const shell of visitShells ?? []) {
       const packageId = String(shell.source_package_id)
-      if (!visitShellsByPackage[packageId]) visitShellsByPackage[packageId] = []
-      visitShellsByPackage[packageId].push({
-        id: String(shell.id),
-        visitCode: String(shell.visit_code),
-        visitName: String(shell.visit_name),
-      })
+      const matchingPublications = allPublishedSources.filter((p) => p.sourcePackageId === packageId)
+      for (const pub of matchingPublications) {
+        const publicationId = pub.publicationId
+        if (!visitShellsByPublication[publicationId]) visitShellsByPublication[publicationId] = []
+        visitShellsByPublication[publicationId].push({
+          id: String(shell.id),
+          visitCode: String(shell.visit_code),
+          visitName: String(shell.visit_name),
+        })
+      }
     }
 
     const { data: procedureShells } = await supabase
       .from('runtime_source_procedure_shells')
       .select('id, source_shell_json')
-      .in('source_package_id', packageIds)
+      .in('source_package_id', sourcePackageIds)
 
     for (const shell of procedureShells ?? []) {
       const fields =
@@ -127,17 +139,26 @@ export default async function VisitRuntimePage() {
           Visit runtime execution
         </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Create subject visit workspaces from reviewed source packages. Capture procedure field
-          values, lock completed visits, and preserve immutable snapshots (draft execution mode — not
-          final eSource signatures).
+          Create subject visit workspaces from published source versions. Capture procedure field
+          values, lock completed visits, and preserve immutable snapshots (execution uses published
+          source truth — final eSource signatures not implemented here).
         </p>
       </header>
       <VisitRuntimeClient
         organizationId={organizationId}
         studies={studyList}
         subjectsByStudy={subjectsByStudy}
-        packagesByStudy={packagesByStudy}
-        visitShellsByPackage={visitShellsByPackage}
+        publishedSourcesByStudy={Object.fromEntries(
+          Object.entries(publishedSourcesByStudy).map(([studyId, pubs]) => [
+            studyId,
+            pubs.map((p) => ({
+              publicationId: p.publicationId,
+              publicationVersion: p.publicationVersion,
+              packageHash: p.packageHash,
+            })),
+          ]),
+        ) as Record<string, { publicationId: string; publicationVersion: number; packageHash: string }[]>}
+        visitShellsByPublication={visitShellsByPublication}
         procedureFieldDefinitionsByShell={procedureFieldDefinitionsByShell}
       />
     </div>

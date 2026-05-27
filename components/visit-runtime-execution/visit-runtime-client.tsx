@@ -10,15 +10,19 @@ import { VisitWorkspace } from './visit-workspace'
 
 type StudyOption = { id: string; name: string }
 type SubjectOption = { id: string; subjectIdentifier: string }
-type PackageOption = { id: string; packageName: string; packageVersion: number }
+type PublishedSourceOption = {
+  publicationId: string
+  publicationVersion: number
+  packageHash: string
+}
 type VisitShellOption = { id: string; visitCode: string; visitName: string }
 
 type VisitRuntimeClientProps = {
   organizationId: string
   studies: StudyOption[]
   subjectsByStudy: Record<string, SubjectOption[]>
-  packagesByStudy: Record<string, PackageOption[]>
-  visitShellsByPackage: Record<string, VisitShellOption[]>
+  publishedSourcesByStudy: Record<string, PublishedSourceOption[]>
+  visitShellsByPublication: Record<string, VisitShellOption[]>
   procedureFieldDefinitionsByShell: Record<
     string,
     Array<{ field_id: string; label: string; type: string; required?: boolean }>
@@ -119,8 +123,8 @@ export function VisitRuntimeClient({
   organizationId,
   studies,
   subjectsByStudy,
-  packagesByStudy,
-  visitShellsByPackage,
+  publishedSourcesByStudy,
+  visitShellsByPublication,
   procedureFieldDefinitionsByShell,
 }: VisitRuntimeClientProps) {
   const [studyId, setStudyId] = useState(studies[0]?.id ?? '')
@@ -129,7 +133,7 @@ export function VisitRuntimeClient({
   const [refreshKey, setRefreshKey] = useState(0)
 
   const subjects = subjectsByStudy[studyId] ?? []
-  const packages = packagesByStudy[studyId] ?? []
+  const publishedSources = publishedSourcesByStudy[studyId] ?? []
   const subjectOptionsKey = `${studyId}:${subjects.map((s) => s.id).join(',')}`
 
   return (
@@ -176,8 +180,8 @@ export function VisitRuntimeClient({
         organizationId={organizationId}
         studyId={studyId}
         subjectId={subjectId}
-        packages={packages}
-        visitShellsByPackage={visitShellsByPackage}
+        publishedSources={publishedSources}
+        visitShellsByPublication={visitShellsByPublication}
         onCreated={(visitInstanceId) => {
           setSelectedVisitInstanceId(visitInstanceId)
           setRefreshKey((value) => value + 1)

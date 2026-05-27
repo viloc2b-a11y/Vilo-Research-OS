@@ -46,6 +46,9 @@ export type VisitSnapshotJson = {
   procedures: VisitSnapshotProcedure[]
   events: VisitSnapshotEvent[]
   source_context: {
+    source_publication_id: string | null
+    source_publication_version: number | null
+    source_package_hash: string | null
     source_package_id: string
     visit_shell_id: string
     runtime_visit_id: string
@@ -113,6 +116,14 @@ export function mapVisitInstanceWithLock(row: Record<string, unknown>): VisitIns
     organizationId: String(row.organization_id),
     studyId: String(row.study_id),
     subjectId: String(row.subject_id),
+    sourcePublicationId: row.source_publication_id ? String(row.source_publication_id) : null,
+    sourcePublicationVersion:
+      typeof row.source_publication_version === 'number'
+        ? row.source_publication_version
+        : row.source_publication_version
+          ? Number(row.source_publication_version)
+          : null,
+    sourcePackageHash: row.source_package_hash ? String(row.source_package_hash) : null,
     sourcePackageId: String(row.source_package_id),
     visitShellId: String(row.visit_shell_id),
     runtimeVisitId: String(row.runtime_visit_id),

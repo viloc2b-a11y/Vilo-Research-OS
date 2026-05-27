@@ -8,6 +8,7 @@ import {
   type ProcedureRuntimeInstanceRow,
   type VisitRuntimeInstanceRow,
 } from './visit-runtime-types'
+import { loadPublishedSourcePackage } from './load-published-source-package'
 
 const EXECUTABLE_PACKAGE_STATUSES = new Set(['reviewed', 'approved'])
 
@@ -15,6 +16,7 @@ export type CreateVisitInstanceFromShellArgs = {
   supabase: SupabaseClient
   input: CreateVisitInstanceInput
   createdBy: string
+  allowUnpublishedSource?: boolean
 }
 
 export type CreateVisitInstanceFromShellResult = {
@@ -45,27 +47,58 @@ export async function createVisitInstanceFromShell(
 ): Promise<CreateVisitInstanceFromShellResult> {
   const { input } = args
 
-  const { data: sourcePackage, error: packageError } = await args.supabase
-    .from('runtime_source_packages')
-    .select('id, package_status')
-    .eq('id', input.source_package_id)
-    .eq('organization_id', input.organization_id)
-    .eq('study_id', input.study_id)
-    .maybeSingle()
+  const allowLegacy = Boolean(args.allowUnpublishedSource)
 
-  if (packageError) throw new Error(packageError.message)
-  if (!sourcePackage) throw new Error('Source package not found.')
-  if (!EXECUTABLE_PACKAGE_STATUSES.has(String(sourcePackage.package_status))) {
-    throw new Error(
-      `Source package must be reviewed or approved before creating visit workspaces (current: ${sourcePackage.package_status}).`,
-    )
+  const sourcePublicationId = input.source_publication_id
+  const legacySourcePackageId = input.source_package_id
+
+  if (!sourcePublicationId && !allowLegacy) {
+    throw new Error('Visit runtime execution requires a published source package.')
+  }
+
+  let effectiveSourcePackageId = ''
+  let sourcePublicationVersion: number | null = null
+  let sourcePackageHash: string | null = null
+
+  if (sourcePublicationId) {
+    const loaded = await loadPublishedSourcePackage(args.supabase, {
+      organizationId: input.organization_id,
+      studyId: input.study_id,
+      sourcePublicationId,
+    })
+
+    effectiveSourcePackageId = loaded.publication.sourcePackageId
+    sourcePublicationVersion = loaded.publication.publicationVersion
+    sourcePackageHash = loaded.publication.packageHash
+  } else {
+    if (!legacySourcePackageId) {
+      throw new Error('source_package_id is required for legacy draft execution mode.')
+    }
+
+    const { data: sourcePackage, error: packageError } = await args.supabase
+      .from('runtime_source_packages')
+      .select('id, package_status')
+      .eq('id', legacySourcePackageId)
+      .eq('organization_id', input.organization_id)
+      .eq('study_id', input.study_id)
+      .maybeSingle()
+
+    if (packageError) throw new Error(packageError.message)
+    if (!sourcePackage) throw new Error('Source package not found.')
+    if (!EXECUTABLE_PACKAGE_STATUSES.has(String(sourcePackage.package_status))) {
+      throw new Error(
+        `Source package must be reviewed or approved before creating visit workspaces (current: ${sourcePackage.package_status}).`,
+      )
+    }
+
+    effectiveSourcePackageId = legacySourcePackageId
   }
 
   const { data: visitShell, error: visitShellError } = await args.supabase
     .from('runtime_source_visit_shells')
     .select('*')
     .eq('id', input.visit_shell_id)
-    .eq('source_package_id', input.source_package_id)
+    .eq('source_package_id', effectiveSourcePackageId)
     .eq('organization_id', input.organization_id)
     .eq('study_id', input.study_id)
     .maybeSingle()
@@ -84,7 +117,7 @@ export async function createVisitInstanceFromShell(
     .from('runtime_source_procedure_shells')
     .select('*')
     .eq('visit_shell_id', input.visit_shell_id)
-    .eq('source_package_id', input.source_package_id)
+    .eq('source_package_id', effectiveSourcePackageId)
     .order('procedure_order', { ascending: true })
 
   if (procedureShellError) throw new Error(procedureShellError.message)
@@ -97,7 +130,10 @@ export async function createVisitInstanceFromShell(
       organization_id: input.organization_id,
       study_id: input.study_id,
       subject_id: input.subject_id,
-      source_package_id: input.source_package_id,
+      source_publication_id: sourcePublicationId ?? null,
+      source_publication_version: sourcePublicationVersion,
+      source_package_hash: sourcePackageHash,
+      source_package_id: effectiveSourcePackageId,
       visit_shell_id: input.visit_shell_id,
       runtime_visit_id: visitShell.runtime_visit_id,
       visit_code: visitShell.visit_code,
@@ -130,7 +166,7 @@ export async function createVisitInstanceFromShell(
         study_id: input.study_id,
         subject_id: input.subject_id,
         visit_instance_id: visitInstance.id,
-        source_package_id: input.source_package_id,
+        source_package_id: effectiveSourcePackageId,
         visit_shell_id: input.visit_shell_id,
         procedure_shell_id: shell.id,
         procedure_id: shell.procedure_id,
@@ -166,7 +202,10 @@ export async function createVisitInstanceFromShell(
     eventType: VISIT_RUNTIME_EVENT_TYPE.VISIT_INSTANCE_CREATED,
     actorId: args.createdBy,
     eventPayload: {
-      source_package_id: input.source_package_id,
+      source_publication_id: sourcePublicationId ?? null,
+      source_publication_version: sourcePublicationVersion,
+      source_package_hash: sourcePackageHash,
+      source_package_id: effectiveSourcePackageId,
       visit_shell_id: input.visit_shell_id,
       procedure_count: procedureInstances.length,
     },
