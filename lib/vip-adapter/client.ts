@@ -18,6 +18,18 @@ function createTraceId() {
   return `vip_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
 }
 
+function serializeError(error: unknown) {
+  if (error instanceof Error) {
+    const serialized: Record<string, unknown> = {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    }
+    return Object.assign(serialized, error)
+  }
+  return error
+}
+
 function screeningVisitName(context: VipProtocolContext) {
   return (
     context.visitCandidates.find((visit) => /screen/i.test(visit.visitName))?.visitName ??
@@ -126,8 +138,29 @@ function normalizeVipArtifact(
   context: VipProtocolContext,
   traceId: string,
 ): VipDraftArtifact {
-  const candidate = value as Partial<VipDraftArtifact> | null
-  if (!candidate || typeof candidate !== 'object' || !candidate.source_document) {
+  const candidate = value as (Partial<VipDraftArtifact> & { body?: string }) | null
+  if (!candidate || typeof candidate !== 'object') {
+    throw new Error('VIP response did not include a draft source document artifact')
+  }
+
+  const sourceDocument = candidate.source_document ?? (candidate.body ? {
+    visit_name: screeningVisitName(context),
+    sections: [
+      {
+        title: candidate.title || 'VIP Draft',
+        fields: [
+          {
+            label: 'Draft Content',
+            type: 'text' as const,
+            required: false,
+            source: candidate.body,
+          }
+        ]
+      }
+    ]
+  } : undefined)
+
+  if (!sourceDocument) {
     throw new Error('VIP response did not include a draft source document artifact')
   }
 
@@ -144,7 +177,7 @@ function normalizeVipArtifact(
     title:
       candidate.title ??
       `${context.protocolRuntimeStudy.protocolNumber} Screening Visit Source Draft`,
-    source_document: candidate.source_document,
+    source_document: sourceDocument,
     metadata: {
       ...(candidate.metadata ?? {}),
       vip_external: true,
@@ -156,7 +189,7 @@ async function fetchWithRetry(args: {
   url: string
   init: RequestInit
   traceId: string
-  operation: 'generateDraft' | 'captureFeedback'
+  operation: 'generateDraft' | 'captureFeedback' | 'readContext'
   organizationId: string
   studyId: string
 }) {
@@ -178,7 +211,15 @@ async function fetchWithRetry(args: {
       })
 
       if (!response.ok) {
-        throw new Error(`VIP ${args.operation} request failed with HTTP ${response.status}`)
+        let bodyText = ''
+        try {
+          bodyText = await response.text()
+        } catch {
+          bodyText = '<unreadable body>'
+        }
+        const error = new Error(`VIP ${args.operation} request failed with HTTP ${response.status}`)
+        Object.assign(error, { status: response.status, body: bodyText })
+        throw error
       }
 
       safeLogger.info('[vip-adapter] VIP HTTP request completed', {
@@ -198,7 +239,7 @@ async function fetchWithRetry(args: {
         studyId: args.studyId,
         attempt,
         willRetry: attempt < VIP_MAX_ATTEMPTS,
-        error,
+        error: serializeError(error),
       })
     }
   }
@@ -221,7 +262,29 @@ export function createVipClient() {
     context: vip,
 
     async readContext(args: ReadVipContextArgs) {
-      return readContext(args)
+      if (vip.availability !== 'available' || !vip.baseUrl) {
+        throw new Error(vip.reason ?? 'VIP is unavailable')
+      }
+
+      const response = await fetchWithRetry({
+        url: `${vip.baseUrl}/api/read-context`,
+        traceId: args.traceId,
+        operation: 'readContext',
+        organizationId: args.organizationId,
+        studyId: args.studyId,
+        init: {
+          method: 'POST',
+          headers: vipHeaders(apiKey),
+          body: JSON.stringify({
+            tenant_id: args.organizationId,
+            subject: 'vilo-os-system',
+            organization_id: args.organizationId,
+            study_id: args.studyId,
+            trace_id: args.traceId,
+          }),
+        },
+      })
+      return response.json().catch(() => ({}))
     },
 
     async generateDraft(args: GenerateVipDraftArgs) {
@@ -242,7 +305,7 @@ export function createVipClient() {
       }
 
       const response = await fetchWithRetry({
-        url: `${vip.baseUrl}/drafts/source-documents`,
+        url: `${vip.baseUrl}/api/generate-draft`,
         traceId: args.traceId,
         operation: 'generateDraft',
         organizationId: args.context.organizationId,
@@ -253,6 +316,9 @@ export function createVipClient() {
           body: JSON.stringify({
             use_case: args.useCase,
             trace_id: args.traceId,
+            tenant_id: args.context.organizationId,
+            subject: 'vilo-os-system',
+            artifactType: 'source-document',
             organization_id: args.context.organizationId,
             study_id: args.context.studyId,
             protocol_runtime_study: args.context.protocolRuntimeStudy,
@@ -276,7 +342,7 @@ export function createVipClient() {
       }
 
       const response = await fetchWithRetry({
-        url: `${vip.baseUrl}/drafts/source-documents/feedback`,
+        url: `${vip.baseUrl}/api/capture-feedback`,
         traceId: args.traceId,
         operation: 'captureFeedback',
         organizationId: args.organizationId,
@@ -285,6 +351,8 @@ export function createVipClient() {
           method: 'POST',
           headers: vipHeaders(apiKey),
           body: JSON.stringify({
+            tenant_id: args.organizationId,
+            subject: 'vilo-os-system',
             organization_id: args.organizationId,
             study_id: args.studyId,
             trace_id: args.traceId,
@@ -323,7 +391,7 @@ export async function generateDraft(args: GenerateVipDraftArgs): Promise<Generat
         ok: true,
         traceId,
         vip: client.context,
-        artifact: normalizeVipArtifact(vipResponse.artifact ?? vipResponse, context, traceId),
+        artifact: normalizeVipArtifact(vipResponse.draft ?? vipResponse.artifact ?? vipResponse, context, traceId),
         fallback: false,
       }
     } catch (error) {
@@ -333,7 +401,7 @@ export async function generateDraft(args: GenerateVipDraftArgs): Promise<Generat
         studyId: args.studyId,
         protocolRuntimeStudyId: args.protocolRuntimeStudyId,
         protocolVersionId: args.protocolVersionId,
-        error,
+        error: serializeError(error),
       })
     }
   } else {
@@ -397,7 +465,7 @@ export async function captureFeedback(
       studyId: args.studyId,
       artifactId: args.artifactId,
       disposition: args.feedback.disposition,
-      error,
+      error: serializeError(error),
     })
     return {
       ok: false,
