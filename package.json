@@ -144,6 +144,7 @@
     "protocol-runtime-generation:smoke": "npx tsx scripts/protocol-runtime-generation-phaseP3-smoke.ts",
     "protocol-runtime-generation:smoke:live": "npx tsx scripts/protocol-runtime-generation-phaseP3-smoke.ts --live",
     "protocol-to-vip-smoke": "npx tsx scripts/protocol-to-vip-smoke.ts",
+    "protocol-runtime:seed-smoke": "npx tsx scripts/seed-protocol-runtime-smoke.ts",
     "vip-adapter:smoke": "npx tsx scripts/vip-adapter-smoke.ts",
     "vip-adapter:smoke:live": "npx tsx scripts/vip-adapter-smoke.ts --live",
     "runtime-source-publication:smoke": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts",

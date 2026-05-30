@@ -16,22 +16,21 @@ export async function loadProtocolVersion(
   // Find version and its parent org by joining through protocol_runtime_studies.
   const { data: versionRow, error: versionError } = await supabase
     .from('protocol_runtime_versions')
-    .select(
-      `
-      *,
-      protocol_runtime_studies!inner (
-        organization_id
-      )
-    `,
-    )
+    .select('*')
     .eq('id', versionId)
     .maybeSingle()
 
   if (versionError) throw new Error(versionError.message)
   if (!versionRow) return null
 
-  const parent = versionRow.protocol_runtime_studies as { organization_id: string } | null
-  if (!parent || String(parent.organization_id) !== organizationId) return null
+  const { data: studyRow, error: studyError } = await supabase
+    .from('protocol_runtime_studies')
+    .select('organization_id')
+    .eq('id', versionRow.protocol_runtime_study_id)
+    .maybeSingle()
+
+  if (studyError) throw new Error(studyError.message)
+  if (!studyRow || String(studyRow.organization_id) !== organizationId) return null
 
   const version = mapProtocolRuntimeVersionRow(versionRow as Record<string, unknown>)
 
