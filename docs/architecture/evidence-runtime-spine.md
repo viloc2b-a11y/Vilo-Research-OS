@@ -33,6 +33,15 @@ approved reconciliation
 -> published runtime source
 ```
 
+### VIP Adapter Parallelism
+
+The VIP Adapter operates parallel to the Evidence Runtime Spine:
+
+- VIP adapter can generate draft source suggestions from protocol context
+- VIP adapter does not mutate evidence runtime truth
+- VIP adapter does not publish runtime source
+- Runtime truth remains: approved reconciliation → generated runtime → published source → visit execution
+
 Document Intelligence never becomes runtime truth directly.
 
 Search results, extracted chunks, evidence rows, lineage mappings, draft suggestions, and signoff records are supporting operational evidence. They may guide coordinator review and source package preparation, but they are not authoritative runtime state until the approved runtime source publication path has completed.

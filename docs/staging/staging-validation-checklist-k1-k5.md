@@ -47,9 +47,14 @@ npm run source-blueprint-signoff:smoke
 npm run operational-signature:smoke
 npm run coordinator-command-center:smoke
 npm run scan:protocol-safety
+npm run vip-adapter:smoke
+npm run vip-adapter:smoke:live
+npm run protocol-to-vip-smoke
 ```
 
 Expected result: all commands pass. Lint warnings are not part of this staging smoke set unless staging validation also runs the full local readiness suite.
+
+**Note:** If no protocol runtime study exists, `npm run protocol-to-vip-smoke` should fail gracefully with "No protocol runtime study found" and this is expected until a protocol is ingested or seeded.
 
 ## 3. Manual Coordinator Walkthrough
 

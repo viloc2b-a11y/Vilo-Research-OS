@@ -7,6 +7,12 @@
 | Checklist | [`staging-validation-checklist-k1-k5.md`](./staging-validation-checklist-k1-k5.md) |
 | **Merge decision** | **NO-GO** (coordinator UI walkthrough pending) |
 
+## Latest commits
+
+- `ed814fa` protocol-to-vip smoke flow
+- `1895735` live VIP client support
+- `bb3a653` document intake visible as first workspace step
+
 ## Status at a glance
 
 | Step | Status |
