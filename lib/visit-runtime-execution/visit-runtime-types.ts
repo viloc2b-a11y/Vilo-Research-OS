@@ -29,6 +29,7 @@ export const VISIT_RUNTIME_EVENT_TYPE = {
   VISIT_LOCKED: 'visit_locked',
   VISIT_SNAPSHOT_CREATED: 'visit_snapshot_created',
   VISIT_LOCK_ATTEMPT_FAILED: 'visit_lock_attempt_failed',
+  IP_ADMINISTRATION_EVENT: 'ip_administration_event',
 } as const
 
 export type VisitRuntimeEventType =
