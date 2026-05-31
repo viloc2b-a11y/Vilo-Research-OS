@@ -1,0 +1,44 @@
+{
+  "corpus_version": "1.0.0",
+  "generated_for": "Document Reader Program — reader validation, fidelity measurement, regression testing, extraction benchmarking",
+  "not_production": true,
+  "rules": {
+    "validation": "Reader testing must use ONLY sanitized corpus documents.",
+    "production": "Production runtime preserves real protocol name, sponsor, compound, amendment numbers, and study identifiers. No sanitization is allowed in production execution workflows."
+  },
+  "protocols": {
+    "PROTOCOL_A001": {
+      "original_source_reference": [
+        "fixtures/protocol-intake/para-oa-012-protocol-excerpt.txt",
+        "fixtures/protocol-intake/para-oa-012-schedule.csv"
+      ],
+      "mappings": {
+        "PARA-OA-012": "PROTOCOL_A001",
+        "PARA_OA_012": "PROTOCOL_A001",
+        "PARA OA-012": "PROTOCOL_A001",
+        "Example Pharma Inc.": "SPONSOR_A",
+        "Example CRO Services": "CRO_A",
+        "PARA-IP-012": "INVESTIGATIONAL_PRODUCT_A"
+      }
+    },
+    "PROTOCOL_A002": {
+      "original_source_reference": [
+        "fixtures/protocol-intake/mv40618-protocol-excerpt.txt"
+      ],
+      "mappings": {
+        "MV40618": "PROTOCOL_A002",
+        "Public Health Research Collaborative": "SPONSOR_B"
+      }
+    }
+  },
+  "reserved_identity_namespaces": {
+    "protocols": ["PROTOCOL_A001", "PROTOCOL_A002", "PROTOCOL_A003"],
+    "sponsors": ["SPONSOR_A", "SPONSOR_B", "SPONSOR_C"],
+    "investigational_products": ["INVESTIGATIONAL_PRODUCT_A", "INVESTIGATIONAL_PRODUCT_B"],
+    "studies": ["STUDY_A", "STUDY_B"],
+    "vendors": ["VENDOR_A", "VENDOR_B"],
+    "cros": ["CRO_A", "CRO_B"],
+    "sites": ["SITE_A", "SITE_B"],
+    "investigators": ["INVESTIGATOR_A", "INVESTIGATOR_B"]
+  }
+}

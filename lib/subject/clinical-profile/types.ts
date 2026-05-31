@@ -16,6 +16,13 @@ export type ProfileSection =
   | 'surgical_history'
   | 'lifestyle'
   | 'adverse_events'
+  | 'subject_status'
+  | 'progress_notes'
+  | 'subject_documents'
+  | 'document_reviews'
+  | 'subject_signatures'
+  | 'protocol_deviations'
+  | 'emergency_contacts'
 
 export type ClinicalProfileSectionTab = ProfileSection
 
@@ -148,8 +155,15 @@ export interface SubjectAllergy {
   reaction: string | null
   severity: ClinicalSeverityWithUnknown | null
   status: AllergyStatus
+  start_date: string | null
+  stop_date: string | null
+  ongoing: boolean
   onset_date: string | null
+  first_reaction_date: string | null
+  last_reaction_date: string | null
   approximate_onset: boolean
+  confirmed_allergy: boolean | null
+  suspected_allergy: boolean | null
   source_attribution: string | null
   source_document_ref: string | null
   comments: string | null
@@ -165,8 +179,15 @@ export type AllergyInput = {
   allergen_type?: AllergenType | null
   reaction?: string | null
   severity?: ClinicalSeverityWithUnknown | null
+  start_date?: string | null
+  stop_date?: string | null
+  ongoing?: boolean
   onset_date?: string | null
+  first_reaction_date?: string | null
+  last_reaction_date?: string | null
   approximate_onset?: boolean
+  confirmed_allergy?: boolean | null
+  suspected_allergy?: boolean | null
   source_attribution: string        // required
   source_document_ref?: string | null
   comments?: string | null
@@ -182,10 +203,24 @@ export interface SubjectSurgicalHistory {
   surgical_history_id: string
   organization_id: string
   study_subject_id: string
+  surgical_procedure_library_id: string | null
+  procedure_code: string | null
+  procedure_source_library: string | null
+  free_text_override: boolean
   procedure_name: string
   approximate_date: string | null
+  stop_date: string | null
+  ongoing: boolean
+  complication_ongoing: boolean
   date_precision: DatePrecision
   outcome: string | null
+  complications: string | null
+  cpt_code: string | null
+  surgeon_name: string | null
+  facility_name: string | null
+  anesthesia_type: string | null
+  post_op_complications: boolean | null
+  healing_status: string | null
   comments: string | null
   source_attribution: string | null
   source_document_ref: string | null
@@ -194,13 +229,33 @@ export interface SubjectSurgicalHistory {
   created_by: string | null
   created_at: string
   updated_at: string
+  surgical_procedure_library?: {
+    code: string
+    label: string
+    category: string | null
+    source: string | null
+  } | null
 }
 
 export type SurgicalHistoryInput = {
+  surgical_procedure_library_id?: string | null
+  procedure_code?: string | null
+  procedure_source_library?: string | null
+  free_text_override?: boolean
   procedure_name: string            // required
   approximate_date?: string | null
+  stop_date?: string | null
+  ongoing?: boolean
+  complication_ongoing?: boolean
   date_precision?: DatePrecision
   outcome?: string | null
+  complications?: string | null
+  cpt_code?: string | null
+  surgeon_name?: string | null
+  facility_name?: string | null
+  anesthesia_type?: string | null
+  post_op_complications?: boolean | null
+  healing_status?: string | null
   source_attribution: string        // required
   source_document_ref?: string | null
   comments?: string | null

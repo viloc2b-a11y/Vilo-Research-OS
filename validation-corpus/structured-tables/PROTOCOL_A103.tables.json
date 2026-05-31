@@ -1,0 +1,2571 @@
+{
+  "sanitized_id": "PROTOCOL_A103",
+  "document_class": "UNKNOWN",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A103_t0",
+      "page": 1,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t1",
+      "page": 1,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 12,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Version Number"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Date"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description"
+        },
+        {
+          "row": 0,
+          "col": 10,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 11,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.0"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "18OCT2024"
+        },
+        {
+          "row": 1,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Initial version"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t2",
+      "page": 2,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t3",
+      "page": 3,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t4",
+      "page": 3,
+      "section": "",
+      "caption": "",
+      "row_count": 7,
+      "column_count": 12,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Number"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CS-1573-01 Version 1.0"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Name"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A Clinical Study Conducted to Evaluate the Performance of the CareSuperb\u2122 COVID-19 Antigen Home Test"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Site Name"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Site Address"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Site Phone Number"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Name"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Title"
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Signature"
+        },
+        {
+          "row": 5,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 10,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Date"
+        },
+        {
+          "row": 5,
+          "col": 11,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t5",
+      "page": 4,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t6",
+      "page": 5,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t7",
+      "page": 5,
+      "section": "",
+      "caption": "",
+      "row_count": 18,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Term"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description"
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "AE"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Adverse Event - Any untoward medical event that occurs to a subject during the course of a study (with onset after first study-specific procedure), whether or not that event is considered study-related."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CI"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Confidence Interval"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CLIA"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Clinical Laboratory Improvement Amendments of 1988"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CFR"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Code of Federal Regulations"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CRF"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Case Report Form - A printed, optical, or electronic document designed to record all of the protocol required information to be reported to the Sponsor on each study subject."
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CLI"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "COVID-19 Like Illness"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CLIA"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Clinical Laboratory Improvement Amendments of 1988"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CV"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Curriculum Vitae"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eCRF"
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Electronic Case Report Form"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "EDC"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Electronic Data Capture"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enrolled Subject"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A fully screened subject who has completed the informed consent process and meets all eligibility criteria."
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FDA"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Food and Drug Administration - An agency of the US government responsible for promulgating regulations and guidelines that further define how to comply with the Food, Drug and Cosmetics Act of Congress. The FDA is authorized to grant marketing approval to new drugs and devices."
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "GCP"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Good Clinical Practice - A standard for the design, conduct, performance, monitoring, auditing, recording, analyses, and reporting of clinical trials that provides assurance that the data and reported results are credible and accurate, and that the rights, integrity, and confidentiality of the trial subjects are protected."
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "HCP"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Health Care Professional - Responsible for performing critical study-related procedures."
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IC"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent - A process by which a subject voluntarily confirms his/her willingness to participate in a particular trial, after having been informed of all aspects of the trial relevant to the subject\u2019s decision to participate. Informed consent is documented by means of a written, signed, and dated informed consent form."
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ICF"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent Form - The form prepared by the Investigator/Sponsor and approved by the IRB, which must be signed by a subject before entry in a clinical trial. It is the legal written record that the subject, or his/her representative, agrees to voluntarily participate in the investigation."
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IFU"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instructions for Use"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t8",
+      "page": 6,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t9",
+      "page": 6,
+      "section": "",
+      "caption": "",
+      "row_count": 20,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Term"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description"
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IRB"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Institutional Review Board - Any board, committee, or other group formally designated by an institution to review biomedical research involving subjects and established, operated, and functioning in conformance with 21 CFR Part 56. Can sometimes be referred to as an ethics committee (EC)."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ICH"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "International Conference on Harmonization - A committee consisting of US, EU, and Japanese members organized to develop guidelines for the conduct of clinical studies."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Investigator"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "One or more persons responsible for the practical performance of a trial and for the integrity, health, and we[INVESTIGATIONAL_PRODUCT_A]re of the subjects during the clinical study."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "LOD"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Limit of Detection"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IP"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Investigational Product"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "N/A"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not applicable"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Partially Completed Subject"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that was unable to complete all study procedures in full as detailed in the protocol."
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PHI"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protected Health Information - Any individually identifiable information, whether oral or recorded in any form or medium that: a.) is created or received by a HCP, health plan, public health authority, employer, life insurer, school or university, or healthcare clearinghouse; and b.) relates to the past, present, or future physical or mental health or condition of any individual, the provision of health care to an individual, or the past, present, or future payment for the provision of health care to an individual."
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "QC"
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Quality Control"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "QRI"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Quick Reference Instructions"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SAE"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Serious Adverse Event"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screened Subject"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject who meets eligibility criteria as defined in the protocol either before or after they complete the informed consent process. If it is discovered the subject does not meet one or more eligibility criteria, they are considered a screen fail."
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screen Fail"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A screened subject who does not meet all eligibility criteria. Patients who are not enrolled in the study cannot be enrolled, and enrolled subjects cannot finish study participation."
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SOC"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Standard of Care"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Subject Completion"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has completed all study procedures in full as detailed in the protocol."
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TETE IVD Solutions"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A part of TE Connectivity, the CRO for this study."
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unanticipated Adverse Device Effect (UADE):"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any serious adverse effect on health or safety or any life-threatening problem or death caused by, or associated with, a device, if that effect, problem, or death was not previously identified in nature, severity, or degree of incidence in the investigational plan or application (including a supplementary plan or application), or any other unanticipated serious problem associated with a device that relates to the rights, safety, or we[INVESTIGATIONAL_PRODUCT_A]re of subjects."
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "UNK"
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unknown"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Withdrawn Subject"
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has withdrawn his/her consent from the study either voluntarily or by aa Healthcare Professional."
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t10",
+      "page": 7,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t11",
+      "page": 7,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Name"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A Clinical Study Conducted to Evaluate the Performance of the CareSuperb\u2122 COVID-19 Antigen Home Test"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Number"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CS-1573-01 Version 1.0"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Intended Use"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The CareSuperb\u2122 COVID-19 Antigen Home Test is a lateral flow immunochromatographic assay intended for the qualitative detection of nucleocapsid protein antigen from SARS-CoV-2 in anterior nasal swab specimens directly collected from individuals aged 14 years or older or are collected by an adult from an individual aged 2 to 13 years of age. This test is intended for use in individuals with or without symptoms or other epidemiological reasons to suspect a COVID-19 infection. Results are for the identification of SARS-CoV-2 nucleocapsid protein antigen. The antigen is generally detectable in anterior nasal swab specimens during the acute phase of infection. Positive results indicate the presence of viral antigens, but clinical correlation with past medical history and other diagnostic information is necessary to determine infection status. Positive results do not rule out bacterial infection or co-infection with other viruses and the agent detected may not be the definite cause of disease. Individuals who test positive with the CareSuperb\u2122 COVID-19 Antigen Home Test should self-isolate and seek follow-up care with their physician or healthcare provider. Negative results should be treated as presumptive and confirmation with a molecular assay for patient management may be performed if necessary. Negative results do not rule out SARS-CoV-2 infection and should not be used as the sole basis for treatment or patient management decisions, including infection control decisions. Negative results should be considered in the context of an individual\u2019s recent exposures, history, and the presence of clinical signs and symptoms consistent with COVID-19. Additional confirmatory testing with a molecular test for positive results may also be necessary if there is a low likelihood of COVID-19 infection, such as in individuals without known exposure to COVID-19 or residing in communities with low prevalence of infection. Individuals who test negative and continue to experience COVID-like symptoms of fever, cough, and/or shortness of breath may still have SARS- CoV-2 infection and should seek follow-up care from their healthcare provider. Individuals should report their test result obtained with this product to their healthcare provider to receive appropriate medical care. All healthcare providers will report all test results they receive from individuals who use the authorized product to relevant public health authorities in accordance with local, state, and federal requirements using appropriate Logical Observation Identifiers Names and Codes (LOINC) and Systemized Nomenclature of Medicine (SNOMED) codes, as defined by the Laboratory In Vitro Diagnostics (LIVD) Test Code Mapping for SARS-CoV-2 Tests provided by the Centers for Disease Control and Prevention (CDC)."
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t12",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t13",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Number of Subjects"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Approximately 500 asymptomatic subjects will be enrolled into this study to obtain at least 15-20 RT-PCR confirmed SARS-CoV-2 positive asymptomatic subjects. The enrollment population for this study should represent different socioeconomic and educational backgrounds. Approximately 10% of the subjects enrolled will be from adults testing individuals aged 2-13 years of age (minimum 50 subjects)."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Number of Sites"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Approximately five (5) geographically distinct clinical sites in the U.S. will participate in this study. In an effort to enroll subjects from diverse populations, study sites may include outpatient clinics, physician offices, urgent care clinics, emergency departments, research clinics or COVID-19 testing centers. Each participating site will conduct this study in a simulated home use environment. All study activities will occur at the designated study sites and IUOs will run the test per the provided Access Bio QRI. An eQRI (i.e., video instruction) may be used as a supplementary means for visual or auditory assistance."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Duration"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enrollment in this study is anticipated to last approximately three (3) months depending on the prevalence of COVID-19."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Objectives of the Study"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The objective of this study is to evaluate the performance of the CareSuperb\u2122 COVID-19 Antigen Home Test in comparison to the FDA cleared Simplexa\u2122 COVID-19 Direct test (K212147) or another FDA cleared assay. This study will focus solely on Arm 2 of CS-1518-01, with the aim of consolidating the performance data from this study (CS-1573-01) with the data from CS-1518-01 to support an FDA 510(k) or de novo regulatory submission."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Subject Eligibility Criteria"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Inclusion Criteria 1. An Institutional Review Board (IRB) approved informed consent and assent (if applicable) is signed and dated prior to any study related activities. 2. Subjects of any gender 2 years of age and older. 3. Subject is willing to have nasal swabs collected for the RT-PCR comparator assay by a member of the study staff. 4. Asymptomatic subjects not experiencing COVID-19 like Illness (CLI) symptoms on the day of testing. 5. Subjects with known exposure to a COVID-19 positive individual. Exclusion Criteria 1. Subjects undergoing treatment, experimental or otherwise, currently and/or within the past 30 days of study enrollment with medication to"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t14",
+      "page": 9,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t15",
+      "page": 9,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "treat SARS-CoV-2 viral infections, which may include, but is not limited to Paxlovid (ritonavir-boosted nirmatrelvir), [INVESTIGATIONAL_PRODUCT_A] (Veklury), Actemra (Tocilizumab), Olumiant (baricitinib), Lagevrio (molnupiravir) and anti-SARS-CoV-2 monoclonal antibodies. 2. Subject is receiving convalescent plasma therapy for SARS-CoV-2. 3. Subject used a nasal wash or nasal aspirate treatment on enrollment day. 4. Subject is currently receiving or has received within the past 30 days of the study visit an experimental biologic treatment or therapy, or drug. 5. Subjects who report or whose clinical status or history indicates that they take biotin >10 mg per day. 6. Subjects who previously enrolled in a study for the CareSuperb\u2122 COVID-19 Antigen Home Test (CS-1518-01 or CS-1573-01) or any other study for this sponsor. 7. Subject has prior knowledge of their current COVID-19 infection status. 8. Subject with a history of frequent or difficult to control nosebleeds within the last 14 days. 9. Subject has received a positive COVID-19 test result within the past 60 days."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Procedures"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This is a prospective multi-center clinical performance study to evaluate the sensitivity and specificity of the CareSuperb\u2122 COVID-19 Antigen Home Test when a lay person conducts the test on themselves, or another study participant, as compared to an FDA cleared high sensitivity RT-PCR comparator test. A subject\u2019s participation in this study will consist of a single visit. Asymptomatic subjects seeking COVID-19 testing will be recruited by the site staff. Following completion of the informed consent process and a review of Inclusion/Exclusion criteria to determine eligibility for study participation, each subject will receive a unique study identification number. Subject responses to relevant medical history questions such as inquiries regarding the presence or absence of symptoms consistent with COVID-19 on the day of the visit and COVID-19 vaccination status (i.e., vaccine manufacturer, number of doses and date of last dose). Demographic questions (including age, sex, race, ethnicity, education level, and socioeconomic background) will be recorded. Pregnancy status and information on chronic health conditions will also be documented."
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t16",
+      "page": 10,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t17",
+      "page": 10,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any swab specimens required for standard of care (SOC) testing will be collected prior to the study swabs. There will be a minimum fifteen (15) minute wait period between SOC swabs and study swab collections. The reference sample (nasal swab) will be collected in a randomized fashion per the Site Operations Manual. Odd numbered subjects will perform the CareSuperb\u2122 COVID-19 Antigen Home Test nasal collection a minimum of 15 minutes after the SOC swab. The reference sample swab will then be collected a minimum 15 minutes after the CareSuperb\u2122 COVID-19 Antigen Home Test nasal collection. Even numbered subjects will have the reference swab collected by the study staff/HCP a minimum of 15 minutes after the SOC swab. The subject will wait a minimum 15 minutes and then perform the CareSuperb\u2122 COVID-19 Antigen Home Test nasal collection and run the test. Subjects or their parent will run the CareStart\u2122 COVID-19 Antigen Home Test unassisted and record their test interpretation on a result form. Each subject or parent/operator can either test themselves or one individual. For example, a parent may either enroll themselves or enroll and run the test on one (1) child if they come in with multiple children, but they cannot do both. All reference samples will be stored and delivered to a central laboratory for reference testing according to the Site Operations Manual. All subjects will be provided their SOC results (where applicable) after the completion of CareSuperb\u2122 COVID-19 Antigen Test testing and before leaving the site. The clinical study staff member will photograph each subject\u2019s test result, labeled with their corresponding subject ID number, at the time each subject interprets their result. Additionally, the study staff member will record whether or not they agree with the test result\u2019s interpretation by the subject, and if not, why, but this information will not be used in analysis or change any subject\u2019s interpretation of the test. It is included only for research purposes."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Laboratory Reference Method"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The reference test will be the FDA cleared DiaSorin Molecular Simplexa\u2122 COVID-19 Direct test (K212147) or similar FDA cleared assay. The reference sample will be tested according to the manufacturer\u2019s instructions for use. In the event the fully cleared Simplexa\u2122 COVID-19 Direct test is not commercially available a similar high sensitivity fully cleared RT-PCR method will be used. An equivalency in reagents letter will be provided"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t18",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t19",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "by DiaSorin Molecular. Discordant samples will be tested on the fully FDA cleared Roche cobas\u00ae SARS-CoV-2 Qualitative assay (K231306). Cycle threshold (Ct) results will also be recorded. Samples may also be sequenced if required by the FDA."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sample Type(s)"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Anterior nasal swab specimens for testing with the CareSuperb\u2122 COVID-19 Antigen Home Test will be self-collected by the subject (age 14+) or can be collected from the subject by a Parent or Legal Guardian, for child subjects ages 2 to 13. Anterior nasal swabs collected for testing on the Simplexa\u2122 COVID- 19 Direct test or similar FDA cleared assay will be collected by study staff."
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t20",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 6,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "John Hopkins University & Research. COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Hopkins University (JHU). Last updated 05 January 2022. https://coronavirus.jhu.edu/map.html. Accessed 27 October 2022."
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Mayo Clinic. Coronavirus disease 2019 (COVID-19), Symptoms & causes."
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "https://www.mayoclinic.org/diseases-"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "conditions/coronavirus/symptoms-causes/syc-20479963. Accessed 14 September 2021."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Hui DS, I Azhar E, Madani TA, et al. The continuing 2019-nCoV epidemic threat of novel coronaviruses to global health \u2013 The latest"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2019 novel coronavirus outbreak in Wuhan, China. Int J Infect Dis. 2020; 91:264-266."
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t21",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 9,
+      "column_count": 7,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "20"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "20. https://www.who.int/director-general/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "19---28-december-2020. Accessed"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14 September 2021."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Ma, Josephine. Coronavirus: China\u2019s first confirmed Covid-19 case traced back to November 17. South China Morning Post. Published"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "13 March 2020. https://www.scmp.com/news/china/society/article/3074991/coronavirus-chinas-first-confirmed-covid-19-case-traced-"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "back. Accessed 14 September 2021."
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Centers for Disease Control and Prevention. Symptoms of Coronavirus. Updated 22 December 2020."
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html. Accessed 14 September 2021."
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Centers for Disease Control and Prevention. What to Do If You Are Sick. Updated 31 December 2020."
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html. Accessed 14 September 2021."
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t22",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t23",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The FDA issued the first emergency use authorization for a point-of-care COVID-19 diagnostic test on 21 March"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2020. 13"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t24",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8 C"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "enters for Disease Control and Prevention. Interim Clinical Guidance for Management of Patients with Confirmed Coronavirus"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Disease (COVID-19). Updated 8 December 2020. https://www.cdc.gov/coronavirus/2019-ncov/hcp/clinical-guidance-management-"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "patients.html Accessed 14 September 2021."
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t25",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 6,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "U.S. Food and Drug Administration. COVID-19 Vaccines. Content current as of 28 December 2020."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "https://www.fda.gov/emergency-preparedness-and-response/coronavirus-disease-2019-covid-19/covid-19-vaccines. Accessed 03"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "January 2022"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "11"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Centers for Disease Control and Prevention. Treatments Your Healthcare Provider Might Recommend if You Are Sick. Updated 8"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "December 2020. https://www.cdc.gov/coronavirus/2019-ncov/your-health/treatments-for-severe-illness.html. Accessed 14 September"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2021."
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t26",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "13"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "U.S. Food and Drug Administration. Coronavirus (COVID-19) Update: FDA Issues first Emergency Use Authorization for Point of Care"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Diagnostic. Content current as of 21 March 2020. https://www.fda.gov/news-events/press-announcements/coronavirus-covid-19-"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "update-fda-issues-first-emergency-use-authorization-point-care-diagnostic. Accessed 14 September 2021."
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t27",
+      "page": 13,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t28",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t29",
+      "page": 15,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t30",
+      "page": 16,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t31",
+      "page": 17,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t32",
+      "page": 18,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t33",
+      "page": 19,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t34",
+      "page": 20,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t35",
+      "page": 21,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t36",
+      "page": 22,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t37",
+      "page": 23,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t38",
+      "page": 24,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t39",
+      "page": 25,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t40",
+      "page": 26,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t41",
+      "page": 27,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A103_t42",
+      "page": 28,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FORM CLINICAL PROTOCOL TEMPLATE"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "F150111 Rev: F"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

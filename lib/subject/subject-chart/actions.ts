@@ -14,6 +14,10 @@ import {
 import { STALE_WRITE_USER_MESSAGE } from '@/lib/concurrency/stale-write'
 import { resolveSubjectProtocolFields } from '@/lib/subject/subject-protocol-fields'
 import { assertSubjectCloseoutAllowed } from '@/lib/subject/closeout'
+import {
+  enforceConsentForEnrollment,
+  enforceConsentForScreening,
+} from '@/lib/subject/consent/enforcement'
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import {
   emitSubjectChartSpineEvent,
@@ -149,7 +153,31 @@ export async function updateSubjectGeneralAction(
     (status === 'enrolled' || status === 'randomized') &&
     prevStatus !== status
 
+  if (prevStatus !== status && status === 'screening') {
+    const consent = await enforceConsentForScreening({
+      supabase,
+      organizationId,
+      studyId: subject.study_id as string,
+      subjectId,
+      actorUserId: user.id,
+    })
+    if (!consent.ok) {
+      return { ok: false, message: consent.message }
+    }
+  }
+
   if (isExecutionTransition) {
+    const consent = await enforceConsentForEnrollment({
+      supabase,
+      organizationId,
+      studyId: subject.study_id as string,
+      subjectId,
+      actorUserId: user.id,
+    })
+    if (!consent.ok) {
+      return { ok: false, message: consent.message }
+    }
+
     const readiness = await canExecuteStudyRuntime({
       supabase,
       studyId: subject.study_id as string,
@@ -343,6 +371,17 @@ export async function recordExternalRandomizationAction(
       ok: false,
       message: `Subject not randomized. Study runtime is not ready for execution: ${formatStudyRuntimeBlockers(readiness)}`,
     }
+  }
+
+  const consent = await enforceConsentForEnrollment({
+    supabase,
+    organizationId,
+    studyId: subject.study_id as string,
+    subjectId,
+    actorUserId: user.id,
+  })
+  if (!consent.ok) {
+    return { ok: false, message: consent.message }
   }
 
   const randomizationIso = randomizationDateTime.toISOString()

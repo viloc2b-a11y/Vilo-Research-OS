@@ -1,0 +1,2605 @@
+{
+  "sanitized_id": "ECRF_GUIDE_A101",
+  "document_class": "UNKNOWN",
+  "extraction_method": "python-docx_native",
+  "tables": [
+    {
+      "table_id": "ECRF_GUIDE_A101_t0",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 26,
+      "column_count": 5,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Version"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Effective date"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Updated Section(s)"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Reason for Revision"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Revised by"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.00"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "16-MAY-2019"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "All"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Initial Version"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.1"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-May-2020"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.8 Onset of IP signs and symptoms (Screening)"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form and instruction added"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.1"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-May-2020"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.31 Adverse Events"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New instruction added"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.1"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-May-2020"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.17 Female Fertility Status (Screening) "
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New Screenshot and instruction added"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.1"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-May-2020"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.15\tResult from Local Testing (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New Screenshot added and instruction updated"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.0"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "25-May-2020"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " -"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Final version"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.2\tProtocol Informed Consent (Screening)Was the Household Contact eligible to participate in the full study? (Note: A full study HHC will participate in all required visits/assessment after screening ):"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New field added"
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.4\tHousehold Information (Screening)"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instuctions updated"
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.15 Vital signs"
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Note added"
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.17 Pregnancy Test Local"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Note added"
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.18\tSample Collection for Central Laboratory (Screening, Day 3, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instuctions updated"
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.19\tLocal Lab Assessments-Screening (Screening)"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form added"
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.20\tLocal Lab Assessments-At Visit & Unscheduled"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form added"
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.21\tInfluenza sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form"
+        },
+        {
+          "row": 14,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.22\tSample Collection for Local Laboratory (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instuction added"
+        },
+        {
+          "row": 15,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.23\tInfluenza test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Form name updated "
+        },
+        {
+          "row": 16,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.24\tSARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form"
+        },
+        {
+          "row": 17,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.25\tSARS-CoV-2 test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form"
+        },
+        {
+          "row": 18,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.26\tCombination influenza and SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)"
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form"
+        },
+        {
+          "row": 19,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.27\tBlinded Baloxavir Marboxil Administration - 12-64 year olds (Screening)      "
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Form Name updated and instruction updated"
+        },
+        {
+          "row": 20,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.28\tBlinded Baloxavir Marboxil Administration - 5-11 year olds (Screening) "
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New form added"
+        },
+        {
+          "row": 21,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.29\tWork Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit) "
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instuction added"
+        },
+        {
+          "row": 22,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.30\tEQ-5D-5L to Measure Quality of Life (Screening, Day 3, Day 9 and Unscheduled visits) "
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Instuction added"
+        },
+        {
+          "row": 23,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.1"
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14-Oct-2020"
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.38\tAdverse Events "
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New fields added"
+        },
+        {
+          "row": 24,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.0 "
+        },
+        {
+          "row": 25,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "28 Oct 2020"
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Final Version"
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Asha"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t1",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 18,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "DM"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Data Manager"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eCRF"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Electronic Case Report Form"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "EDC"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Electronic Data Capture"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "GMA"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Global Medical Affairs"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PDF"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Portable Document Format"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SDL"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Data Lead"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SMT"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Management Team"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TCS"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Tata Consultancy Services"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IP"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Index Patient"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "HHC"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Household Contact"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t2",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t3",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t4",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t5",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t6",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t7",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t8",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t9",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t10",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t11",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t12",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t13",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "      "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t14",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "    "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t15",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "   "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t16",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t17",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t18",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t19",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t20",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t21",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "    "
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " Note: For IP Subjects, Age- 5-11 years  Subject Disposition eCRF is to be entered at the Subject level.   Subject Disposition Period Comp/Early Discontinuation for IP \u2013     To be entered at the Subject level. The Date of Contact is to be entered at the Visit Date.  If any Adverse event was assessed or Conmed was provided to the Subject, please enter the details on respective eCRF. "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t22",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "    "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t23",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t24",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "          \t\t\t\t"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t25",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "                                                "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t26",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "                                                                                                                            "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t27",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "                                                      "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t28",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t29",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "     "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t30",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "   "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t31",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "     "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t32",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "          "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t33",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "   \t"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t34",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "                                                                        "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t35",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Note 1: There should be no recording of the same data in multiple locations of the eCRF for any assessment in the study.  Example: If local labs are performed at Screening and are not required to be repeated for Day 1.  The Screening data should not be re-entered in the Day 1 visit folder. If they are performed only once then they must only be recorded once at whichever visit is appropriate and the eCRF on the other visit should be marked as \u2018Not done\u2019."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t36",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t37",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t38",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t39",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t40",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t41",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t42",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t43",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t44",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t45",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t46",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t47",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t48",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t49",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t50",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t51",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t52",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t53",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t54",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t55",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t56",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t57",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t58",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t59",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t60",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t61",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t62",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t63",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t64",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t65",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": " "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t66",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t67",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t68",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t69",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t70",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "For HOUSEHOLD CONTACT:  "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t71",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "   "
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t72",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t73",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A101_t74",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 1,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

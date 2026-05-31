@@ -66,7 +66,7 @@ export interface PharmacyEvent {
 
   source_document_id: string;
   source_row: number;
-  source_evidence: Record<string, any>;
+  source_evidence: Record<string, unknown>;
   actor_id: string;
   delegation_assignment_id: string | null;
   approval_status: EventApprovalStatus;

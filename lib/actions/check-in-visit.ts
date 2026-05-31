@@ -7,6 +7,7 @@ import { ClinicalMutationGateway } from '@/lib/operations/clinical-mutation-gate
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import type { VisitLifecycleResult } from '@/lib/actions/visit-lifecycle.types'
 import { mapRuntimeDbErrorToCoordinatorMessage } from '@/lib/concurrency/db-errors'
+import { enforceConsentForVisitExecution } from '@/lib/subject/consent/enforcement'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -38,7 +39,7 @@ export async function checkInVisit(input: {
   // Read current status — idempotent guard
   const { data: visit, error: visitErr } = await supabase
     .from('visits')
-    .select('id, organization_id, study_id, visit_status')
+    .select('id, organization_id, study_id, study_subject_id, visit_status')
     .eq('id', visitId)
     .maybeSingle()
 
@@ -64,6 +65,18 @@ export async function checkInVisit(input: {
       ok: false,
       message: `Visit cannot be checked in from status «${currentStatus ?? 'unknown'}».`,
     }
+  }
+
+  const consent = await enforceConsentForVisitExecution({
+    supabase,
+    organizationId: visit.organization_id as string,
+    studyId: visit.study_id as string,
+    subjectId: visit.study_subject_id as string,
+    visitId,
+    actorUserId: user.id,
+  })
+  if (!consent.ok) {
+    return { ok: false, message: consent.message }
   }
 
   const now = new Date().toISOString()

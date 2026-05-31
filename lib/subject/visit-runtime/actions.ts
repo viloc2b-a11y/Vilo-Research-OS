@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { createVisitNote } from '@/lib/visit-runtime/createVisitNote'
 import { resolveProcedureContext } from '@/lib/visit-runtime/context'
-import { signProcedure } from '@/lib/visit-runtime/signProcedure'
-import { toggleFieldState } from '@/lib/visit-runtime/toggleFieldState'
+import { requestProcedureSignature, completeProcedureSignature } from '@/lib/visit-runtime/signProcedure'
+import { toggleFieldState, type ApplicabilityStatus } from '@/lib/visit-runtime/toggleFieldState'
 import { OPERATIONAL_EVENT_TYPES } from '@/lib/operations/event-types'
 import { logProcedureOperationalEvent } from '@/lib/operations/logOperationalEvent'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
@@ -19,10 +19,10 @@ function clean(value: FormDataEntryValue | null) {
   return text.length ? text : null
 }
 
-export async function signProcedureAction(
+export async function requestProcedureSignatureAction(
   _prev: VisitRuntimeActionState,
   formData: FormData,
-): Promise<VisitRuntimeActionState> {
+): Promise<VisitRuntimeActionState & { requestId?: string, validation?: Record<string, unknown> }> {
   const ctx = await resolveProcedureContext(
     clean(formData.get('procedure_execution_id')),
     clean(formData.get('organization_id')),
@@ -45,7 +45,7 @@ export async function signProcedureAction(
     }
   }
 
-  const result = await signProcedure({
+  const result = await requestProcedureSignature({
     supabase: ctx.supabase,
     procedureExecutionId: ctx.procedure.id,
     organizationId: ctx.procedure.organization_id,
@@ -56,15 +56,49 @@ export async function signProcedureAction(
     return {
       ok: false,
       message: coordinatorMessageFromError(new Error(result.error), {
-        context: 'sign_procedure_action',
+        context: 'request_procedure_signature_action',
+      }),
+    }
+  }
+
+  if ('idempotent' in result && result.idempotent) {
+    return { ok: true, message: `Procedure already signed.` }
+  }
+
+  return { ok: true, message: 'Signature requested.', requestId: result.requestId, validation: result.validation }
+}
+
+export async function completeProcedureSignatureAction(
+  _prev: VisitRuntimeActionState,
+  formData: FormData,
+): Promise<VisitRuntimeActionState> {
+  const ctx = await resolveProcedureContext(
+    clean(formData.get('procedure_execution_id')),
+    clean(formData.get('organization_id')),
+  )
+  if (!ctx.ok) return { ok: false, message: ctx.error }
+
+  const validationStr = clean(formData.get('validation'))
+  const validation = validationStr ? JSON.parse(validationStr) : undefined
+
+  const result = await completeProcedureSignature({
+    supabase: ctx.supabase,
+    procedureExecutionId: ctx.procedure.id,
+    organizationId: ctx.procedure.organization_id,
+    actorUserId: ctx.user.id,
+    validation
+  })
+
+  if (!result.ok) {
+    return {
+      ok: false,
+      message: coordinatorMessageFromError(new Error(result.error), {
+        context: 'complete_procedure_signature_action',
       }),
     }
   }
 
   revalidatePath(`/source/capture/${ctx.procedure.id}`)
-  if ('idempotent' in result && result.idempotent) {
-    return { ok: true, message: `Procedure already signed${result.signedAt ? ` at ${result.signedAt}` : ''}.` }
-  }
   return { ok: true, message: 'Procedure signed and fields locked.' }
 }
 
@@ -170,10 +204,21 @@ export async function disableSectionAction(
   return toggleProcedureState(formData, 'disable_section', 'Procedure section disabled.')
 }
 
+export async function setApplicabilityAction(
+  _prev: VisitRuntimeActionState,
+  formData: FormData,
+): Promise<VisitRuntimeActionState> {
+  const status = formData.get('applicability_status') as ApplicabilityStatus | null
+  if (!status) return { ok: false, message: 'Missing applicability status.' }
+  
+  return toggleProcedureState(formData, 'set_applicability', 'Applicability updated.', status)
+}
+
 async function toggleProcedureState(
   formData: FormData,
-  mode: 'disable_fields' | 'enable_fields' | 'disable_section',
+  mode: 'disable_fields' | 'enable_fields' | 'disable_section' | 'set_applicability',
   successMessage: string,
+  applicabilityStatus?: ApplicabilityStatus | null
 ): Promise<VisitRuntimeActionState> {
   const ctx = await resolveProcedureContext(
     clean(formData.get('procedure_execution_id')),
@@ -181,12 +226,19 @@ async function toggleProcedureState(
   )
   if (!ctx.ok) return { ok: false, message: ctx.error }
 
+  const reason = clean(formData.get('disable_reason')) || clean(formData.get('applicability_reason'))
+
+  if (mode === 'set_applicability' && !reason && applicabilityStatus !== 'applicable') {
+    return { ok: false, message: 'A reason is required when marking a procedure as not applicable or skipped.' }
+  }
+
   const result = await toggleFieldState({
     supabase: ctx.supabase,
     procedure: ctx.procedure,
     actorUserId: ctx.user.id,
     mode,
-    reason: clean(formData.get('disable_reason')),
+    reason,
+    applicabilityStatus: applicabilityStatus ?? undefined
   })
 
   if (!result.ok) {
@@ -200,3 +252,4 @@ async function toggleProcedureState(
   revalidatePath(`/source/capture/${ctx.procedure.id}`)
   return { ok: true, message: successMessage }
 }
+

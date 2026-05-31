@@ -1,0 +1,2972 @@
+{
+  "sanitized_id": "PROTOCOL_A012",
+  "document_class": "UNKNOWN",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A012_t0",
+      "page": 2,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Primary"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To evaluate the safety and reactogenicity of [PROTOCOL_A012] vaccine vs. placebo."
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Frequency of solicited local and systemic adverse events (AEs) through 7-days after each vaccination. Frequency of unsolicited AEs through 28 days after each vaccination. Frequency of SAEs, medically-attended AEs, and AESIs throughout the entire study period."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To describe the immune response to [PROTOCOL_A012] at baseline, 1 month after each vaccination (Month 1, Month 3, and Month 7), and 4 months after the second vaccination (Month 6)."
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Geometric mean titer (GMT) of serum neutralizing antibody (nAb) against epithelial cell infection at Day 1, Month 1, Month 3, Month 6, Month 7, and Month 10. GMT of serum nAb against fibroblast infection at Day 1, Month 1, Month 3, Month 6, Month 7, and Month 10. GMR of serum nAb titers against epithelial cell infection at Month 1, Month 3, Month 6, Month 7, and Month 10 over baseline (Day 1). GMR of serum nAb titers against fibroblast cell infection at Month 1, Month 3, Month 6, Month 7, and Month 10 over baseline (Day 1). GMT of antigen-specific antibody responses against gB and Pentamer as measured by enzyme-linked immunosorbent assay (ELISA) at Day 1, Month 1, Month 3, Month 6, Month 7, and Month 10. Proportion of subjects with a 4-fold increase in serum nAb against epithelial cell infection at Month 1, Month 3, Month 7 and Month 10 compared to Day 1. Proportion of subjects with a 4-fold increase in serum nAb against fibroblast infection at Month 1, Month 3, Month 7 and Month 10 compared to Day 1."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Secondary"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To evaluate the ability of [PROTOCOL_A012] to prevent primary CMV from 1 month after the 3rd vaccination."
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "At Visit Month 7 and thereafter, demonstration of serologic and virologic evidence of primary CMV infection, as defined by: 1) Demonstration of a 4-fold increase over baseline in serum [INVESTIGATIONAL_PRODUCT_A] to one or more CMV proteins not encoded by [PROTOCOL_A012] (pp150, pp28, pp52, pp38) and 2) Demonstration of CMV by PCR in at least one urine, blood, or saliva sample at seroconversion"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A012_t1",
+      "page": 3,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 5,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "or thereafter. Immunoblot analysis may be utilized to confirm primary infection if CMV is not detected. Subjects experiencing symptoms consistent with primary CMV infection (fever, rash, cervical lymphadenopathy) will be asked to present to the research site for further evaluation."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To describe the durability of the immune response to [PROTOCOL_A012] at 12 months and 24 months after the last vaccination (Month 18 and Month 30)."
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "GMT of serum nAb against epithelial cell infection at Month 18 and end of study (Month 30). GMT of serum nAb against fibroblast infection at Month 18 and end of study (Month 30). GMR of serum nAb titers against epithelial cell infection at Month 18 and Month 30 over baseline (Day 1). GMR of serum nAb titers against fibroblast cell infection at Month 18 and Month 30 over baseline over baseline (Day 1). GMT of antigen-specific antibody responses against gB and Pentamer as measured by ELISA at Month 18 and end of study (Month 30). Proportion of subjects with a 4-fold increase in serum neutralizing antibodies against epithelial cell infection at Month 18 and Month 30 (12 and 24 months after the third vaccination) compared to Day 1. Proportion of subjects with a 4-fold increase in serum neutralizing antibodies against fibroblast infection at Month 18 and Month 30 (12 and 24 months after the third vaccination) compared to Day 1. Reverse cumulative distribution of serum neutralizing antibody titers against epithelial cell infection and fibroblast infection at Day 1, Month 1, Month 3, Month 7, Month 10, ,Month 18, and end of study (Month 30)."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Exploratory"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "In subjects meeting the secondary endpoint of primary CMV infection, to compare duration and quantity of viral shedding in urine, blood, and saliva in subjects receiving [PROTOCOL_A012] vaccine vs. placebo."
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Quantitative CMV PCR of saliva, blood, and urine collected through the end of the study."
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A012_t2",
+      "page": 6,
+      "section": "",
+      "caption": "",
+      "row_count": 11,
+      "column_count": 52,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Day 1"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 1"
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 10,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 2"
+        },
+        {
+          "row": 0,
+          "col": 11,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 13,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 3"
+        },
+        {
+          "row": 0,
+          "col": 14,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 16,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 6"
+        },
+        {
+          "row": 0,
+          "col": 17,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 19,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 7"
+        },
+        {
+          "row": 0,
+          "col": 20,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 22,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 10"
+        },
+        {
+          "row": 0,
+          "col": 23,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 25,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 12"
+        },
+        {
+          "row": 0,
+          "col": 26,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 28,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 14"
+        },
+        {
+          "row": 0,
+          "col": 29,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 31,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 16"
+        },
+        {
+          "row": 0,
+          "col": 32,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 34,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 18"
+        },
+        {
+          "row": 0,
+          "col": 35,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 37,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 20"
+        },
+        {
+          "row": 0,
+          "col": 38,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 40,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 22"
+        },
+        {
+          "row": 0,
+          "col": 41,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 43,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 24"
+        },
+        {
+          "row": 0,
+          "col": 44,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 46,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 26"
+        },
+        {
+          "row": 0,
+          "col": 47,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 49,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 28"
+        },
+        {
+          "row": 0,
+          "col": 50,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 51,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 30"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Time Point"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Type of Visit"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Window Allowance (-/+ Days)"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "28/0"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "N/A"
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening Procedures \u2022 Informed consent \u2022 Blood draw: CMV [INVESTIGATIONAL_PRODUCT_A]/IgM, CBC, AST, ALT, HIV 1/2 antibody \u2022 Urine pregnancy test \u2022 Inclusion/exclusion criteria \u2022 Medical history/Con Meds"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Day 1 Procedures \u2022 Demographic data \u2022 Baseline vital signs and physical exam \u2022 Randomization"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Day 1, Month 2, and Month 6 Vaccination Procedures \u2022 Confirm eligibility \u2022 Urine pregnancy test \u2022 Administer vaccination \u2022 60-minute post-vaccination assessment \u2022 Training on Diary Card completion and distribution of Diary Card"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Blood draw: Immunogenicity"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Blood draw: Seroconversion"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "col_index": 5,
+            "label": "Day 1"
+          }
+        ],
+        "procedures": [
+          {
+            "row_index": 1,
+            "name": "Study Time Point",
+            "occurrences": []
+          },
+          {
+            "row_index": 2,
+            "name": "",
+            "occurrences": []
+          },
+          {
+            "row_index": 3,
+            "name": "Type of Visit",
+            "occurrences": []
+          },
+          {
+            "row_index": 4,
+            "name": "Window Allowance (-/+ Days)",
+            "occurrences": []
+          },
+          {
+            "row_index": 5,
+            "name": "",
+            "occurrences": []
+          },
+          {
+            "row_index": 6,
+            "name": "Screening Procedures \u2022 Informed consent \u2022 Blood draw: CMV [INVESTIGATIONAL_PRODUCT_A]/IgM, CBC, AST, ALT, HIV 1/2 antibody \u2022 Urine pregnancy test \u2022 Inclusion/exclusion criteria \u2022 Medical history/Con Meds",
+            "occurrences": []
+          },
+          {
+            "row_index": 7,
+            "name": "Day 1 Procedures \u2022 Demographic data \u2022 Baseline vital signs and physical exam \u2022 Randomization",
+            "occurrences": []
+          },
+          {
+            "row_index": 8,
+            "name": "Day 1, Month 2, and Month 6 Vaccination Procedures \u2022 Confirm eligibility \u2022 Urine pregnancy test \u2022 Administer vaccination \u2022 60-minute post-vaccination assessment \u2022 Training on Diary Card completion and distribution of Diary Card",
+            "occurrences": []
+          },
+          {
+            "row_index": 9,
+            "name": "Blood draw: Immunogenicity",
+            "occurrences": []
+          },
+          {
+            "row_index": 10,
+            "name": "Blood draw: Seroconversion",
+            "occurrences": []
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A012_t3",
+      "page": 7,
+      "section": "",
+      "caption": "",
+      "row_count": 11,
+      "column_count": 52,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Day 1"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 1"
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 10,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 2"
+        },
+        {
+          "row": 0,
+          "col": 11,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 13,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 3"
+        },
+        {
+          "row": 0,
+          "col": 14,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 16,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 6"
+        },
+        {
+          "row": 0,
+          "col": 17,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 19,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 7"
+        },
+        {
+          "row": 0,
+          "col": 20,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 22,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 10"
+        },
+        {
+          "row": 0,
+          "col": 23,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 25,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 12"
+        },
+        {
+          "row": 0,
+          "col": 26,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 28,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 14"
+        },
+        {
+          "row": 0,
+          "col": 29,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 31,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 16"
+        },
+        {
+          "row": 0,
+          "col": 32,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 34,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 18"
+        },
+        {
+          "row": 0,
+          "col": 35,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 37,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 20"
+        },
+        {
+          "row": 0,
+          "col": 38,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 40,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 22"
+        },
+        {
+          "row": 0,
+          "col": 41,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 43,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 24"
+        },
+        {
+          "row": 0,
+          "col": 44,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 46,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 26"
+        },
+        {
+          "row": 0,
+          "col": 47,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 49,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 28"
+        },
+        {
+          "row": 0,
+          "col": 50,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 51,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Month 30"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Time Point"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Type of Visit"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 3,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "C"
+        },
+        {
+          "row": 3,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "TC"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Window Allowance (-/+ Days)"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "28/0"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "N/A"
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7/7"
+        },
+        {
+          "row": 4,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 4,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14/14"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sample Collection for CMV PCR: Clinic visits \u2022 Saliva sample \u2022 Urine sample \u2022 Blood sample"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sample Collection for CMV PCR: Mail-in urine samples"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Return and review of Diary Card"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Assessment / Collection of Unsolicited AEs"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Assessment / Collection of SAEs & AEs of Special Interest (AESI)"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 9,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 12,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 15,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 18,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 21,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 24,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 27,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 30,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 33,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 36,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 39,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 42,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 45,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 48,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "col_index": 5,
+            "label": "Day 1"
+          }
+        ],
+        "procedures": [],
+        "conditional_count": 0
+      }
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

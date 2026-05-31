@@ -1,0 +1,30 @@
+{
+  "inventory_state": {
+    "total_received": 5,
+    "available": 1,
+    "dispensed": 1,
+    "returned": 1,
+    "quarantined": 2,
+    "unreconciled": 0,
+    "kit_states": {
+      "KIT001": "RETURNED",
+      "KIT002": "DISPENSED",
+      "KIT003": "AVAILABLE",
+      "KIT004": "QUARANTINED",
+      "KIT005": "QUARANTINED"
+    }
+  },
+  "accountability_equation_balanced": true,
+  "hard_stops_triggered": [
+    {
+      "event_id": "EVT-0011",
+      "kit_id": "KIT004",
+      "reason": "Cannot dispense a quarantined kit."
+    },
+    {
+      "event_id": "EVT-0012",
+      "kit_id": "KIT001",
+      "reason": "Cannot dispense an already dispensed kit."
+    }
+  ]
+}

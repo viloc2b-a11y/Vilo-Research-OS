@@ -9,6 +9,10 @@
     "deploy:build": "node scripts/deploy.mjs --skip-push",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit --pretty false",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "audit:prod": "npm audit --omit=dev",
     "scan:protocol-safety": "tsx scripts/scan-forbidden-protocol-tokens.ts",
     "protocol-safety:smoke": "tsx scripts/protocol-safety-smoke.ts",
     "protocol-vault:smoke": "tsx scripts/protocol-vault-smoke.ts",
@@ -173,14 +177,18 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "dotenv": "^16.4.7",
     "eslint": "^9",
     "eslint-config-next": "^16.2.6",
     "exceljs": "^4.4.0",
+    "jsdom": "^29.1.1",
     "playwright": "^1.51.0",
     "postgres": "^3.4.5",
     "tailwindcss": "^4",
     "tsx": "^4.22.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

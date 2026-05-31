@@ -5,8 +5,10 @@ import { useState, useTransition, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   reopenCoordinatorProgressNoteAction,
-  signCoordinatorProgressNoteAction,
+  requestCoordinatorCloseoutSignatureAction,
+  completeCoordinatorCloseoutSignatureAction
 } from '@/lib/subject/visits/progress-note/actions'
+import { ElectronicSignaturePanel } from '@/components/operations/ElectronicSignaturePanel'
 import type { VisitCloseoutGuards } from '@/lib/subject/visits/progress-note/guards'
 import type { VisitProgressNoteModel } from '@/lib/subject/visits/progress-note/types'
 
@@ -88,6 +90,7 @@ export function CoordinatorSignatureCard({
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = useState<string | null>(null)
   const [showReopenForm, setShowReopenForm] = useState(false)
+  const [signatureRequestId, setSignatureRequestId] = useState<string | null>(null)
 
   const isSigned = model.coordinatorSignatureStatus === 'signed'
   const canSign =
@@ -102,7 +105,7 @@ export function CoordinatorSignatureCard({
       || model.visitReviewStatus === 'investigator_signed'
       || model.visitReviewStatus === 'reopened')
 
-  const run = (fn: () => Promise<{ ok: boolean; error?: string }>) => {
+  const run = (fn: () => Promise<{ ok: boolean; error?: string; requestId?: string }>, isRequest = false) => {
     setMessage(null)
     startTransition(async () => {
       const result = await fn()
@@ -110,7 +113,12 @@ export function CoordinatorSignatureCard({
         setMessage(result.error ?? 'Action failed')
         return
       }
-      router.refresh()
+      if (isRequest && result.requestId) {
+        setSignatureRequestId(result.requestId)
+      } else {
+        setSignatureRequestId(null)
+        router.refresh()
+      }
     })
   }
 
@@ -131,7 +139,7 @@ export function CoordinatorSignatureCard({
       <div>
         <p className="text-sm font-medium">Coordinator signature</p>
         <p className="text-xs text-muted-foreground">
-          Operational attestation only — not a Part 11 electronic signature.
+          Part 11 compliant electronic signature.
         </p>
       </div>
 
@@ -159,23 +167,42 @@ export function CoordinatorSignatureCard({
       </dl>
 
       <div className="flex flex-wrap gap-2">
-        {canSign ? (
+        {canSign && !signatureRequestId ? (
           <Button
             type="button"
             size="sm"
             disabled={pending}
             onClick={() =>
               run(() =>
-                signCoordinatorProgressNoteAction({
+                requestCoordinatorCloseoutSignatureAction({
                   visitId: model.visitId,
                   organizationId: model.organizationId,
                   expectedUpdatedAt: model.updatedAt,
                 }),
+                true
               )
             }
           >
-            Sign progress note
+            Request Signature
           </Button>
+        ) : null}
+
+        {signatureRequestId ? (
+          <div className="w-full mt-4">
+            <ElectronicSignaturePanel
+              requestId={signatureRequestId}
+              requiredRole="coordinator"
+              signatureMeaning="I attest that all visit procedures are accurate and complete."
+              attestationText="I verify that I have reviewed the progress note and procedures."
+              status="pending"
+              onSigned={() => {
+                run(() => completeCoordinatorCloseoutSignatureAction({
+                  visitId: model.visitId,
+                  organizationId: model.organizationId
+                }))
+              }}
+            />
+          </div>
         ) : null}
 
         {/* F-05 fix: replaced window.prompt with inline form */}

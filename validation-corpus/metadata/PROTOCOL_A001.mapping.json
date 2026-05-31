@@ -1,0 +1,31 @@
+{
+  "corpus_id": "PROTOCOL_A001",
+  "original_source_reference": [
+    "fixtures/protocol-intake/para-oa-012-protocol-excerpt.txt",
+    "fixtures/protocol-intake/para-oa-012-schedule.csv"
+  ],
+  "sanitized_corpus_version": [
+    "validation-corpus/protocols/PROTOCOL_A001.txt",
+    "validation-corpus/protocols/PROTOCOL_A001-schedule.csv"
+  ],
+  "mappings": {
+    "PARA-OA-012": "PROTOCOL_A001",
+    "PARA_OA_012": "PROTOCOL_A001",
+    "PARA OA-012": "PROTOCOL_A001",
+    "Example Pharma Inc.": "SPONSOR_A",
+    "Example CRO Services": "CRO_A",
+    "PARA-IP-012": "INVESTIGATIONAL_PRODUCT_A"
+  },
+  "preserved_unchanged": [
+    "visit schedule",
+    "visit numbering",
+    "visit windows",
+    "SoA table",
+    "procedures",
+    "conditional logic",
+    "study arms (Arm A / Arm B)",
+    "visit modalities (site/phone/remote)",
+    "indication (clinical, not a commercial identity)",
+    "eligibility criteria"
+  ]
+}

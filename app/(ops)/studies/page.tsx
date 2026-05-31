@@ -62,7 +62,7 @@ function StudyCard({ study }: { study: StudyRow }) {
   const studyColor = COLORS[colorIdx]
 
   return (
-    <Link href={`/studies/${study.id}`} className="block vilo-card-interactive p-5 group">
+    <Link href={`/studies/${study.id}/workspace`} className="block vilo-card-interactive p-5 group">
       {/* Header */}
       <div className="flex items-start gap-3 mb-4">
         <div className="w-1.5 h-14 rounded-full flex-shrink-0" style={{ backgroundColor: studyColor }} />

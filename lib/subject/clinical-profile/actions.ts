@@ -75,6 +75,16 @@ async function revalidateProfilePaths(study_subject_id: string) {
   }
 }
 
+function assertOngoingStopRule(input: {
+  ongoing?: boolean | null
+  stopDate?: string | null
+  label: string
+}) {
+  if (input.ongoing && input.stopDate) {
+    throw new Error(`${input.label}: Stop Date must be empty when Ongoing is selected.`)
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Medical History
 // ---------------------------------------------------------------------------
@@ -84,6 +94,11 @@ export async function addMedicalHistory(
   input: MedicalHistoryInput,
 ): Promise<{ id: string }> {
   const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.end_date,
+    label: 'Medical history',
+  })
   const supabase = await createServerClient()
 
   const { data, error } = await supabase
@@ -118,6 +133,11 @@ export async function updateMedicalHistory(
   input: Partial<MedicalHistoryInput> & { change_reason: string },
 ): Promise<void> {
   await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.end_date,
+    label: 'Medical history',
+  })
   const supabase = await createServerClient()
 
   const { data: before, error: fetchError } = await supabase
@@ -247,6 +267,11 @@ export async function addConMed(
   input: ConMedInput,
 ): Promise<{ id: string }> {
   const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Concomitant medication',
+  })
   const supabase = await createServerClient()
 
   const { data, error } = await supabase
@@ -281,6 +306,11 @@ export async function updateConMed(
   input: Partial<ConMedInput> & { change_reason: string },
 ): Promise<void> {
   await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Concomitant medication',
+  })
   const supabase = await createServerClient()
 
   const { data: before, error: fetchError } = await supabase
@@ -358,6 +388,11 @@ export async function addAllergy(
   input: AllergyInput,
 ): Promise<{ id: string }> {
   const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Allergy',
+  })
   const supabase = await createServerClient()
   const payload: AllergyInput = {
     ...input,
@@ -396,6 +431,11 @@ export async function updateAllergy(
   input: Partial<AllergyInput> & { change_reason: string },
 ): Promise<void> {
   await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Allergy',
+  })
   const supabase = await createServerClient()
 
   const { data: before, error: fetchError } = await supabase
@@ -435,6 +475,11 @@ export async function addSurgicalHistory(
   input: SurgicalHistoryInput,
 ): Promise<{ id: string }> {
   const { userId, organizationId } = await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Surgical history',
+  })
   const supabase = await createServerClient()
 
   const { data, error } = await supabase
@@ -470,6 +515,11 @@ export async function updateSurgicalHistory(
   input: Partial<SurgicalHistoryInput> & { change_reason: string },
 ): Promise<void> {
   await resolveActorAndOrg(study_subject_id)
+  assertOngoingStopRule({
+    ongoing: input.ongoing,
+    stopDate: input.stop_date,
+    label: 'Surgical history',
+  })
   const supabase = await createServerClient()
 
   const { data: before, error: fetchError } = await supabase

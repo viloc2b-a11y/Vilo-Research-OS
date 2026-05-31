@@ -9,7 +9,21 @@ import { createServerClient } from '@/lib/supabase/server'
 import { listCompositionSnapshots } from '@/lib/runtime-source-package/load-composition-snapshot'
 import { RuntimeSourcePackageClient } from '@/components/runtime-source-package/runtime-source-package-client'
 
-export default async function RuntimeSourcePackagesPage() {
+function firstParam(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+type RuntimeSourcePackagesPageProps = {
+  searchParams?: Promise<{ study_id?: string | string[] }>
+}
+
+export default async function RuntimeSourcePackagesPage({
+  searchParams,
+}: RuntimeSourcePackagesPageProps) {
+  const params = (await searchParams) ?? {}
+  const initialStudyId = firstParam(params.study_id)
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -60,6 +74,7 @@ export default async function RuntimeSourcePackagesPage() {
         organizationId={organizationId}
         studies={studyList}
         snapshotsByStudy={snapshotsByStudy}
+        initialStudyId={initialStudyId}
       />
     </div>
   )

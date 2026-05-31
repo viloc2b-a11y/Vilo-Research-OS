@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import type { RuntimeSourcePackageRow } from '@/lib/runtime-source-package/source-package-types'
 import { RuntimeSourcePackageGenerator } from './runtime-source-package-generator'
 import { RuntimeSourcePackageList } from './runtime-source-package-list'
@@ -13,6 +14,7 @@ type RuntimeSourcePackageClientProps = {
   organizationId: string
   studies: StudyOption[]
   snapshotsByStudy: Record<string, SnapshotOption[]>
+  initialStudyId?: string | null
 }
 
 function PackageListLoader({
@@ -63,8 +65,11 @@ export function RuntimeSourcePackageClient({
   organizationId,
   studies,
   snapshotsByStudy,
+  initialStudyId,
 }: RuntimeSourcePackageClientProps) {
-  const [studyId, setStudyId] = useState(studies[0]?.id ?? '')
+  const preselected =
+    initialStudyId && studies.some((s) => s.id === initialStudyId) ? initialStudyId : null
+  const [studyId, setStudyId] = useState(preselected ?? studies[0]?.id ?? '')
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -118,6 +123,32 @@ export function RuntimeSourcePackageClient({
           <div className="rounded-md border border-dashed border-slate-200 p-8 text-sm text-slate-500">
             Select a source package to review visit and procedure shells.
           </div>
+        )}
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white p-4">
+        <div>
+          <p className="text-sm font-semibold text-slate-900">Publication</p>
+          <p className="mt-0.5 text-xs text-slate-500">
+            {selectedPackageId
+              ? 'Reviewed the package? Continue to publish an approved source version and generate signature placeholders.'
+              : 'Select a reviewed source package to continue to publication.'}
+          </p>
+        </div>
+        {selectedPackageId && studyId ? (
+          <Link
+            href={`/runtime-source-publication?study_id=${encodeURIComponent(studyId)}`}
+            className="inline-flex shrink-0 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Continue to Publication
+          </Link>
+        ) : (
+          <span
+            aria-disabled="true"
+            className="inline-flex shrink-0 cursor-not-allowed rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-400"
+          >
+            Continue to Publication
+          </span>
         )}
       </div>
     </div>

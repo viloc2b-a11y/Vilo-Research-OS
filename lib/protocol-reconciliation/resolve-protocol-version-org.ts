@@ -12,32 +12,28 @@ export async function resolveProtocolVersionOrg(
   organizationId: string,
   protocolVersionId: string,
 ): Promise<ProtocolVersionOrgContext | null> {
-  const { data, error } = await supabase
+  const { data: versionData, error: versionError } = await supabase
     .from('protocol_runtime_versions')
-    .select(
-      `
-      id,
-      version_label,
-      protocol_runtime_study_id,
-      protocol_runtime_studies!inner (
-        organization_id
-      )
-    `,
-    )
+    .select('id, version_label, protocol_runtime_study_id')
     .eq('id', protocolVersionId)
     .maybeSingle()
 
-  if (error) throw new Error(error.message)
-  if (!data) return null
+  if (versionError) throw new Error(versionError.message)
+  if (!versionData) return null
 
-  const studyRaw = data.protocol_runtime_studies
-  const study = (Array.isArray(studyRaw) ? studyRaw[0] : studyRaw) as { organization_id: string } | null
-  if (!study || String(study.organization_id) !== organizationId) return null
+  const { data: studyData, error: studyError } = await supabase
+    .from('protocol_runtime_studies')
+    .select('organization_id')
+    .eq('id', versionData.protocol_runtime_study_id)
+    .maybeSingle()
+
+  if (studyError) throw new Error(studyError.message)
+  if (!studyData || String(studyData.organization_id) !== organizationId) return null
 
   return {
-    protocolVersionId: String(data.id),
+    protocolVersionId: String(versionData.id),
     organizationId,
-    protocolRuntimeStudyId: String(data.protocol_runtime_study_id),
-    versionLabel: String(data.version_label),
+    protocolRuntimeStudyId: String(versionData.protocol_runtime_study_id),
+    versionLabel: String(versionData.version_label),
   }
 }

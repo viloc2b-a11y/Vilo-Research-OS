@@ -67,6 +67,10 @@ function normalizeInput(input: SubjectAdverseEventInput): SubjectAdverseEventInp
     visit_id: input.visit_id?.trim() || null,
     onset_date: input.onset_date?.trim() || null,
     resolution_date: input.resolution_date?.trim() || null,
+    ae_type: input.ae_type?.trim() || null,
+    expectedness: input.expectedness?.trim() || null,
+    action_taken: input.action_taken?.trim() || null,
+    outcome: input.outcome?.trim() || null,
     comments: input.comments?.trim() || null,
   }
 }
@@ -77,6 +81,12 @@ export async function addSubjectAdverseEvent(
 ): Promise<{ id: string }> {
   const payload = normalizeInput(input)
   if (!payload.event_term) throw new Error('AE term is required.')
+  if (payload.ongoing && payload.resolution_date) {
+    throw new Error('Adverse event: Stop Date must be empty when Ongoing is selected.')
+  }
+  if (payload.ongoing === false && !payload.resolution_date) {
+    throw new Error('Adverse event: Stop Date is required when Ongoing is not selected.')
+  }
 
   const { userId, organizationId, studyId, supabase } = await resolveActorAndOrg(study_subject_id)
 
@@ -89,9 +99,15 @@ export async function addSubjectAdverseEvent(
       visit_id: payload.visit_id,
       event_term: payload.event_term,
       preferred_term: payload.preferred_term,
+      ae_type: payload.ae_type,
       severity: payload.severity,
       seriousness: payload.seriousness ?? false,
       relationship_to_ip: payload.relationship_to_ip,
+      expectedness: payload.expectedness,
+      action_taken: payload.action_taken,
+      outcome: payload.outcome,
+      ongoing: payload.ongoing ?? !payload.resolution_date,
+      requires_pi_si_review: payload.requires_pi_si_review ?? false,
       lifecycle_status: payload.lifecycle_status ?? 'open',
       onset_date: payload.onset_date,
       resolution_date: payload.resolution_date,
@@ -157,6 +173,12 @@ export async function updateSubjectAdverseEvent(
   if (fetchError) throw new Error(`updateSubjectAdverseEvent fetch: ${fetchError.message}`)
 
   const { change_reason, ...rawFields } = input
+  if (rawFields.ongoing && rawFields.resolution_date) {
+    throw new Error('Adverse event: Stop Date must be empty when Ongoing is selected.')
+  }
+  if (rawFields.ongoing === false && !rawFields.resolution_date) {
+    throw new Error('Adverse event: Stop Date is required when Ongoing is not selected.')
+  }
   const fields: Record<string, unknown> = {}
   if (rawFields.event_term !== undefined) fields.event_term = rawFields.event_term.trim()
   if (rawFields.preferred_term !== undefined) {
@@ -164,8 +186,16 @@ export async function updateSubjectAdverseEvent(
   }
   if (rawFields.severity !== undefined) fields.severity = rawFields.severity
   if (rawFields.seriousness !== undefined) fields.seriousness = rawFields.seriousness
+  if (rawFields.ae_type !== undefined) fields.ae_type = rawFields.ae_type?.trim() || null
   if (rawFields.relationship_to_ip !== undefined) {
     fields.relationship_to_ip = rawFields.relationship_to_ip
+  }
+  if (rawFields.expectedness !== undefined) fields.expectedness = rawFields.expectedness?.trim() || null
+  if (rawFields.action_taken !== undefined) fields.action_taken = rawFields.action_taken?.trim() || null
+  if (rawFields.outcome !== undefined) fields.outcome = rawFields.outcome?.trim() || null
+  if (rawFields.ongoing !== undefined) fields.ongoing = rawFields.ongoing
+  if (rawFields.requires_pi_si_review !== undefined) {
+    fields.requires_pi_si_review = rawFields.requires_pi_si_review
   }
   if (rawFields.lifecycle_status !== undefined) {
     fields.lifecycle_status = rawFields.lifecycle_status

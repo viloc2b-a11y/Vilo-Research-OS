@@ -8,7 +8,21 @@ import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { RuntimeSourcePublicationClient } from '@/components/runtime-source-publication/runtime-source-publication-client'
 
-export default async function RuntimeSourcePublicationPage() {
+function firstParam(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+type RuntimeSourcePublicationPageProps = {
+  searchParams?: Promise<{ study_id?: string | string[] }>
+}
+
+export default async function RuntimeSourcePublicationPage({
+  searchParams,
+}: RuntimeSourcePublicationPageProps) {
+  const params = (await searchParams) ?? {}
+  const initialStudyId = firstParam(params.study_id)
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -50,7 +64,11 @@ export default async function RuntimeSourcePublicationPage() {
           This prepares the package for execution workflows.
         </p>
       </header>
-      <RuntimeSourcePublicationClient organizationId={organizationId} studies={studyList} />
+      <RuntimeSourcePublicationClient
+        organizationId={organizationId}
+        studies={studyList}
+        initialStudyId={initialStudyId}
+      />
     </div>
   )
 }

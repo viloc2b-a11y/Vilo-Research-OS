@@ -1,0 +1,13 @@
+{
+  "sanitized_id": "PROTOCOL_A004_AMEND_002",
+  "original_filename": "2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf",
+  "original_relative_path": "validation-corpus/inbox\\2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf",
+  "target_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_002.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN",
+  "processed_original_path": "validation-corpus/raw/processed-originals/2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf"
+}

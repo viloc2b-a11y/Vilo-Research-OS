@@ -1,0 +1,190 @@
+{
+  "version": "1.0.0",
+  "gold_standards": [
+    {
+      "id": "PROTOCOL_A001",
+      "status": "primary",
+      "description": "Highest structural coverage: arms, conditional labs, full windows, both prose + tabular SoA."
+    },
+    {
+      "id": "PROTOCOL_A002",
+      "status": "secondary",
+      "description": "Complements A001 with role-based branching, unscheduled visit, and an observational (no-IP) design."
+    }
+  ],
+  "documents": [
+    {
+      "gold_id": "ECRF_GUIDE_A001",
+      "sanitized_id": "ECRF_GUIDE_A001",
+      "path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A001.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "batch": "BATCH_1",
+      "usable_for_reader_validation": true,
+      "binary_redaction_status": "UNSAFE_BINARY_REDACTION"
+    },
+    {
+      "gold_id": "PROTOCOL_A004_AMEND_001",
+      "sanitized_id": "PROTOCOL_A004_AMEND_001",
+      "path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_001.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "batch": "BATCH_1",
+      "usable_for_reader_validation": true,
+      "binary_redaction_status": "UNSAFE_BINARY_REDACTION"
+    },
+    {
+      "gold_id": "PROTOCOL_A005",
+      "sanitized_id": "PROTOCOL_A005",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A005.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "batch": "BATCH_1",
+      "usable_for_reader_validation": true,
+      "binary_redaction_status": "UNSAFE_BINARY_REDACTION"
+    },
+    {
+      "gold_id": "PROTOCOL_A007",
+      "sanitized_id": "PROTOCOL_A007",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A007.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "batch": "BATCH_1",
+      "usable_for_reader_validation": true,
+      "binary_redaction_status": "UNSAFE_BINARY_REDACTION"
+    },
+    {
+      "gold_id": "PROTOCOL_A009",
+      "sanitized_id": "PROTOCOL_A009",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A009.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "batch": "BATCH_1",
+      "usable_for_reader_validation": true,
+      "binary_redaction_status": "UNSAFE_BINARY_REDACTION"
+    },
+    {
+      "gold_id": "ECRF_GUIDE_A002",
+      "sanitized_id": "ECRF_GUIDE_A002",
+      "path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A002.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "ECRF_GUIDE_A003",
+      "sanitized_id": "ECRF_GUIDE_A003",
+      "path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A003.md",
+      "status": "NEEDS_MANUAL_REVIEW",
+      "usable_for_reader_validation": false,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A004_AMEND_002",
+      "sanitized_id": "PROTOCOL_A004_AMEND_002",
+      "path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_002.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A004_AMEND_003",
+      "sanitized_id": "PROTOCOL_A004_AMEND_003",
+      "path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_003.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A010",
+      "sanitized_id": "PROTOCOL_A010",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A010.md",
+      "status": "NEEDS_MANUAL_REVIEW",
+      "usable_for_reader_validation": false,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A011",
+      "sanitized_id": "PROTOCOL_A011",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A011.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A012",
+      "sanitized_id": "PROTOCOL_A012",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A012.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A014",
+      "sanitized_id": "PROTOCOL_A014",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A014.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PROTOCOL_A003",
+      "sanitized_id": "PROTOCOL_A003",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A003.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "PHARMACY_MANUAL_A001",
+      "sanitized_id": "PHARMACY_MANUAL_A001",
+      "path": "validation-corpus/sanitized\\pharmacy-manuals\\PHARMACY_MANUAL_A001.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_2"
+    },
+    {
+      "gold_id": "ECRF_GUIDE_A101",
+      "sanitized_id": "ECRF_GUIDE_A101",
+      "path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A101.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    },
+    {
+      "gold_id": "AMENDMENT_A101",
+      "sanitized_id": "AMENDMENT_A101",
+      "path": "validation-corpus/sanitized\\amendments\\AMENDMENT_A101.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    },
+    {
+      "gold_id": "PROTOCOL_A101",
+      "sanitized_id": "PROTOCOL_A101",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A101.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    },
+    {
+      "gold_id": "LAB_MANUAL_A101",
+      "sanitized_id": "LAB_MANUAL_A101",
+      "path": "validation-corpus/sanitized\\lab-manuals\\LAB_MANUAL_A101.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    },
+    {
+      "gold_id": "PROTOCOL_A102",
+      "sanitized_id": "PROTOCOL_A102",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A102.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    },
+    {
+      "gold_id": "PROTOCOL_A103",
+      "sanitized_id": "PROTOCOL_A103",
+      "path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A103.md",
+      "status": "SAFE_TEXT_EXTRACTED",
+      "usable_for_reader_validation": true,
+      "batch": "BATCH_3"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -44,6 +45,13 @@ type AllergyFormState = {
   allergen_type: string
   reaction: string
   severity: string
+  start_date: string
+  stop_date: string
+  ongoing: boolean
+  first_reaction_date: string
+  last_reaction_date: string
+  confirmed_allergy: boolean
+  suspected_allergy: boolean
   source_attribution: string
   comments: string
 }
@@ -54,6 +62,13 @@ function emptyAllergyForm(): AllergyFormState {
     allergen_type: '',
     reaction: '',
     severity: '',
+    start_date: '',
+    stop_date: '',
+    ongoing: true,
+    first_reaction_date: '',
+    last_reaction_date: '',
+    confirmed_allergy: false,
+    suspected_allergy: false,
     source_attribution: DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
     comments: '',
   }
@@ -105,6 +120,13 @@ export function AllergiesSection({
       allergen_type: row.allergen_type ?? '',
       reaction: row.reaction ?? '',
       severity: row.severity ?? '',
+      start_date: row.start_date ?? row.onset_date ?? '',
+      stop_date: row.stop_date ?? '',
+      ongoing: row.ongoing,
+      first_reaction_date: row.first_reaction_date ?? '',
+      last_reaction_date: row.last_reaction_date ?? '',
+      confirmed_allergy: row.confirmed_allergy === true,
+      suspected_allergy: row.suspected_allergy === true,
       source_attribution: row.source_attribution ?? '',
       comments: row.comments ?? '',
     })
@@ -123,6 +145,8 @@ export function AllergiesSection({
 
   function handleSubmit() {
     if (!form.allergen.trim()) { setError('Allergen is required.'); return }
+    if (form.ongoing && form.stop_date) { setError('Stop Date must be empty when Ongoing is selected.'); return }
+    if (!form.ongoing && !form.stop_date) { setError('Stop Date is required when Ongoing is not selected.'); return }
     if (editingId && !changeReason.trim()) { setError('Change reason is required when editing.'); return }
 
     const source_attribution = resolveClinicalProfileSourceAttribution(
@@ -135,6 +159,14 @@ export function AllergiesSection({
       allergen_type: (form.allergen_type || null) as AllergyInput['allergen_type'],
       reaction: form.reaction || null,
       severity: (form.severity || null) as AllergyInput['severity'],
+      start_date: form.start_date || null,
+      onset_date: form.start_date || null,
+      stop_date: form.stop_date || null,
+      ongoing: form.ongoing,
+      first_reaction_date: form.first_reaction_date || null,
+      last_reaction_date: form.last_reaction_date || null,
+      confirmed_allergy: form.confirmed_allergy,
+      suspected_allergy: form.suspected_allergy,
       source_attribution,
       comments: form.comments || null,
     }
@@ -232,6 +264,52 @@ export function AllergiesSection({
                 onChange={(e) => setForm({ ...form, reaction: e.target.value })}
                 placeholder="Describe the reaction observed"
               />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="allergy-start" className="text-xs">Start Date</Label>
+              <Input
+                id="allergy-start"
+                type="date"
+                value={form.start_date}
+                onChange={(e) => setForm({ ...form, start_date: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="allergy-stop" className="text-xs">Stop Date</Label>
+              <Input
+                id="allergy-stop"
+                type="date"
+                value={form.stop_date}
+                disabled={form.ongoing}
+                onChange={(e) => setForm({ ...form, stop_date: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="allergy-first-reaction" className="text-xs">First Reaction Date</Label>
+              <Input id="allergy-first-reaction" type="date" value={form.first_reaction_date} onChange={(e) => setForm({ ...form, first_reaction_date: e.target.value })} />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="allergy-last-reaction" className="text-xs">Last Reaction Date</Label>
+              <Input id="allergy-last-reaction" type="date" value={form.last_reaction_date} onChange={(e) => setForm({ ...form, last_reaction_date: e.target.value })} />
+            </div>
+
+            <div className="sm:col-span-2 flex flex-wrap items-center gap-4">
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <Checkbox checked={form.ongoing} onCheckedChange={(v) => setForm({ ...form, ongoing: !!v, stop_date: v ? '' : form.stop_date })} />
+                Ongoing
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <Checkbox checked={form.confirmed_allergy} onCheckedChange={(v) => setForm({ ...form, confirmed_allergy: !!v })} />
+                Confirmed allergy
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <Checkbox checked={form.suspected_allergy} onCheckedChange={(v) => setForm({ ...form, suspected_allergy: !!v })} />
+                Suspected allergy
+              </label>
             </div>
 
             <div className="sm:col-span-2 space-y-1">
@@ -345,6 +423,11 @@ function AllergyRow({
             <p className="text-xs text-muted-foreground truncate">{row.reaction}</p>
           )}
           <div className="mt-1 flex flex-wrap gap-1.5">
+            {row.ongoing ? (
+              <Badge variant="outline" className="text-[10px] py-0 px-1.5">
+                Ongoing
+              </Badge>
+            ) : null}
             {row.allergen_type && (
               <Badge variant="outline" className="text-[10px] py-0 px-1.5">
                 {row.allergen_type}
@@ -366,6 +449,10 @@ function AllergyRow({
               </Badge>
             )}
           </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {row.start_date ? `Start ${row.start_date}` : 'Start Date not recorded'}
+            {row.stop_date ? ` · Stop ${row.stop_date}` : ''}
+          </p>
           {row.source_attribution && (
             <p className="mt-0.5 text-[10px] text-muted-foreground">
               Source: {row.source_attribution}

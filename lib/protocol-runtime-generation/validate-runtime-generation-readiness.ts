@@ -14,17 +14,7 @@ export async function validateRuntimeGenerationReadiness(args: {
 
   const { data: versionRow, error: versionError } = await args.supabase
     .from('protocol_runtime_versions')
-    .select(
-      `
-      id,
-      protocol_runtime_study_id,
-      protocol_runtime_studies!inner (
-        id,
-        organization_id,
-        study_id
-      )
-    `,
-    )
+    .select('id, protocol_runtime_study_id')
     .eq('id', args.protocolVersionId)
     .maybeSingle()
 
@@ -33,11 +23,13 @@ export async function validateRuntimeGenerationReadiness(args: {
     return { ok: false, errors: [{ code: 'version_not_found', message: 'Protocol version not found.' }], summary: {} }
   }
 
-  const join = versionRow.protocol_runtime_studies as
-    | { id: string; organization_id: string; study_id: string | null }
-    | { id: string; organization_id: string; study_id: string | null }[]
-    | null
-  const runtimeStudy = (Array.isArray(join) ? join[0] : join) ?? null
+  const { data: runtimeStudy, error: studyError } = await args.supabase
+    .from('protocol_runtime_studies')
+    .select('id, organization_id, study_id')
+    .eq('id', versionRow.protocol_runtime_study_id)
+    .maybeSingle()
+
+  if (studyError) throw new Error(studyError.message)
   if (!runtimeStudy || String(runtimeStudy.organization_id) !== args.organizationId) {
     return { ok: false, errors: [{ code: 'org_mismatch', message: 'Protocol version not found.' }], summary: {} }
   }

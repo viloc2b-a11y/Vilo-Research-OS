@@ -12,29 +12,20 @@ export async function loadApprovedReconciliation(args: {
 }): Promise<LoadedApprovedReconciliation | null> {
   const { data: versionRow, error: versionError } = await args.supabase
     .from('protocol_runtime_versions')
-    .select(
-      `
-      id,
-      protocol_runtime_study_id,
-      protocol_runtime_studies!inner (
-        id,
-        organization_id,
-        study_id
-      )
-    `,
-    )
+    .select('id, protocol_runtime_study_id')
     .eq('id', args.protocolVersionId)
     .maybeSingle()
 
   if (versionError) throw new Error(versionError.message)
   if (!versionRow) return null
 
-  const studyJoin = versionRow.protocol_runtime_studies as
-    | { id: string; organization_id: string; study_id: string | null }
-    | { id: string; organization_id: string; study_id: string | null }[]
-    | null
+  const { data: runtimeStudy, error: studyError } = await args.supabase
+    .from('protocol_runtime_studies')
+    .select('id, organization_id, study_id')
+    .eq('id', versionRow.protocol_runtime_study_id)
+    .maybeSingle()
 
-  const runtimeStudy = (Array.isArray(studyJoin) ? studyJoin[0] : studyJoin) ?? null
+  if (studyError) throw new Error(studyError.message)
   if (!runtimeStudy) return null
   if (String(runtimeStudy.organization_id) !== args.organizationId) return null
   if (!runtimeStudy.study_id) return null

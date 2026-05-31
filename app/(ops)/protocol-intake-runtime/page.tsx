@@ -3,7 +3,22 @@ import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } 
 import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import { ProtocolIntakeRuntimeClient } from '@/components/protocol-intake-runtime/protocol-intake-runtime-client'
 
-export default async function ProtocolIntakeRuntimePage() {
+function firstParam(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+type ProtocolIntakeRuntimePageProps = {
+  searchParams?: Promise<{ study_id?: string | string[]; source_document_id?: string | string[] }>
+}
+
+export default async function ProtocolIntakeRuntimePage({
+  searchParams,
+}: ProtocolIntakeRuntimePageProps) {
+  const params = (await searchParams) ?? {}
+  const initialStudyId = firstParam(params.study_id)
+  const initialSourceDocumentId = firstParam(params.source_document_id)
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -38,7 +53,11 @@ export default async function ProtocolIntakeRuntimePage() {
           produce structured sections and operational candidates for human reconciliation.
         </p>
       </header>
-      <ProtocolIntakeRuntimeClient organizationId={organizationId} />
+      <ProtocolIntakeRuntimeClient
+        organizationId={organizationId}
+        initialStudyId={initialStudyId}
+        initialSourceDocumentId={initialSourceDocumentId}
+      />
     </div>
   )
 }

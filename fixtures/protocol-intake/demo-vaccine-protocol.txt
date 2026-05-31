@@ -1,0 +1,40 @@
+Protocol Number: VACCINE_001
+Protocol Title: Phase 1 Safety and Immunogenicity of VACCINE_X
+Brief Title: VACCINE_X Phase 1
+Sponsor: VACCINE_SPONSOR
+Phase 1
+Indication: Healthy volunteers
+Investigational Product: VACCINE_X
+
+Study Design: Randomized, double-blind, placebo-controlled
+Enrollment target: 45
+Study Duration: 12 months
+
+Inclusion Criteria:
+1. Healthy adults aged 18-45 years.
+2. Willing to provide informed consent.
+
+Exclusion Criteria:
+1. Prior vaccination with similar investigational product.
+2. Immunocompromised.
+
+Schedule of Events:
+Visit 1: Screening (window -14 / 0) — site visit
+Visit 2: Day 1 / Vaccination 1 (window 0 / +1) — site visit
+Visit 3: Day 7 Safety Phone Call (window -1 / +2) — phone visit
+Visit 4: Day 28 / Vaccination 2 (window -3 / +3) — site visit
+Visit 5: Day 35 Safety Phone Call (window -1 / +2) — phone visit
+Visit 6: Month 6 Follow-up (window -14 / +14) — site visit
+Visit 7: Month 12 End of Study (window -14 / +28) — site visit
+
+Study Procedures:
+Procedure: Informed Consent (required)
+Procedure: Demographics (required)
+Procedure: Vital Signs (required)
+Procedure: IP Administration (required)
+Procedure: Injection Site Assessment (required)
+Procedure: PBMC Blood Collection (required)
+Procedure: Serology Blood Collection (required)
+Procedure: AE Assessment (required)
+Procedure: Concomitant Medications (required)
+Procedure: Pregnancy Test (conditional)

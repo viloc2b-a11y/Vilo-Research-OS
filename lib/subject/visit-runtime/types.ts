@@ -57,6 +57,8 @@ export type VisitRuntimeToolbarModel = {
 export type VisitRuntimeActionState = {
   ok: boolean
   message: string | null
+  requestId?: string
+  validation?: Record<string, unknown>
 }
 
 export const INITIAL_VISIT_RUNTIME_ACTION_STATE: VisitRuntimeActionState = {

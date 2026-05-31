@@ -178,6 +178,8 @@ export function ConMedsSection({ studySubjectId, rows, medicalHistory, canVerify
     const hasMed = form.custom_medication_name.trim() || form.medication_id
     if (!hasMed) { setError('Medication name is required.'); return }
     if (!form.source_attribution.trim()) { setError('Source attribution is required.'); return }
+    if (form.ongoing && form.stop_date) { setError('Stop Date must be empty when Ongoing is selected.'); return }
+    if (!form.ongoing && !form.stop_date) { setError('Stop Date is required when Ongoing is not selected.'); return }
     if (editingId && !changeReason.trim()) { setError('Reason for change is required.'); return }
 
     const input: ConMedInput = {
@@ -192,6 +194,7 @@ export function ConMedsSection({ studySubjectId, rows, medicalHistory, canVerify
       prn: form.prn,
       start_date: form.start_date || null,
       ongoing: form.ongoing,
+      stop_date: form.stop_date || null,
       source_attribution: form.source_attribution.trim(),
       comments: form.comments || null,
     }
@@ -330,13 +333,23 @@ export function ConMedsSection({ studySubjectId, rows, medicalHistory, canVerify
               <Input id="cm-frequency" value={form.frequency} onChange={(e) => setForm({ ...form, frequency: e.target.value })} placeholder="BID, QD, PRN…" />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="cm-start" className="text-xs">Start date</Label>
+              <Label htmlFor="cm-start" className="text-xs">Start Date</Label>
               <Input id="cm-start" type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="cm-stop" className="text-xs">Stop Date</Label>
+              <Input
+                id="cm-stop"
+                type="date"
+                value={form.stop_date}
+                disabled={form.ongoing}
+                onChange={(e) => setForm({ ...form, stop_date: e.target.value })}
+              />
             </div>
 
             <div className="flex items-center gap-4 pt-5">
               <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <Checkbox checked={form.ongoing} onCheckedChange={(v) => setForm({ ...form, ongoing: !!v })} />
+                <Checkbox checked={form.ongoing} onCheckedChange={(v) => setForm({ ...form, ongoing: !!v, stop_date: v ? '' : form.stop_date })} />
                 Ongoing
               </label>
               <label className="flex items-center gap-2 text-sm cursor-pointer">
@@ -453,7 +466,7 @@ export function ConMedsSection({ studySubjectId, rows, medicalHistory, canVerify
                 <p className="text-xs font-medium">Discontinue medication</p>
                 <div className="grid gap-2 sm:grid-cols-3">
                   <div className="space-y-1">
-                    <Label htmlFor={`disc-date-${row.conmed_id}`} className="text-xs">Stop date</Label>
+                    <Label htmlFor={`disc-date-${row.conmed_id}`} className="text-xs">Stop Date</Label>
                     <Input id={`disc-date-${row.conmed_id}`} type="date" value={discStopDate} onChange={(e) => setDiscStopDate(e.target.value)} />
                   </div>
                   <div className="space-y-1">

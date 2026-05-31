@@ -1,0 +1,15 @@
+{
+  "sanitized_id": "PROTOCOL_A010",
+  "original_filename": "GS-US-553-9020 Protocol 20200828.pdf",
+  "original_relative_path": "validation-corpus/inbox\\Budgets\\Pharma\\OLD Studies\\Gilead Remdesivir- Inhalation Study\\GS-US-553-9020 Protocol 20200828.pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A010.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "NEEDS_MANUAL_REVIEW",
+  "usable_for_reader_validation": false,
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [
+    "Extraction Error: document closed or encrypted"
+  ],
+  "risk_scan_result": "LEAKS_DETECTED",
+  "failed_extraction_path": "validation-corpus/raw/review-required/failed-extraction/GS-US-553-9020 Protocol 20200828.pdf"
+}

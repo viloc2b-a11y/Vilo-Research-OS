@@ -11,6 +11,8 @@ const eslintConfig = [
       ".venv/**",
       "out/**",
       "build/**",
+      "scripts/**",
+      "tests/**",
       "next-env.d.ts",
       "vilo-os UX/**",
       "Vilo Scientific Events/**",

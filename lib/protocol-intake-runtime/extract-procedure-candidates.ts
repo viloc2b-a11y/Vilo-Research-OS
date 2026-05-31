@@ -10,7 +10,7 @@ export type ExtractedProcedureCandidate = {
 }
 
 const PROCEDURE_BULLET_RE =
-  /^\s*(?:-|\*|\u2022|\d+\.)\s*([A-Za-z][A-Za-z0-9 /()-]{2,80})\s*$/gim
+  /^\s*(?:-|\*|\u2022|\d+\.|Procedure:|Note:|Footnote:|\[\d+\]|[a-z]\))\s*([A-Za-z][^\n]{2,120})/gim
 
 export function extractProcedureCandidatesFromSections(args: {
   sections: ProtocolRuntimeSectionRow[]
@@ -26,7 +26,7 @@ export function extractProcedureCandidatesFromSections(args: {
   }
 
   for (const section of args.sections) {
-    if (!['procedure_section', 'schedule_of_activities', 'other'].includes(section.sectionType)) continue
+    if (!['procedure_section', 'schedule_of_activities', 'other', 'visit_schedule'].includes(section.sectionType)) continue
 
     const text = section.extractedText
     for (const match of text.matchAll(PROCEDURE_BULLET_RE)) {

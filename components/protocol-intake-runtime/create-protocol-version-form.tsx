@@ -1,17 +1,68 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type RecentDocument = {
+  id: string
+  operationalDisplayName: string
+  originalFilename: string
+  documentClassification: string
+  createdAt: string
+}
+
+function formatDocumentDate(value: string): string {
+  const parsed = new Date(value)
+  if (Number.isNaN(parsed.getTime())) return value
+  return parsed.toLocaleDateString()
+}
+
+function documentLabel(doc: RecentDocument): string {
+  const name = doc.operationalDisplayName || doc.originalFilename || 'Untitled document'
+  const type = doc.documentClassification ? ` · ${doc.documentClassification}` : ''
+  const date = doc.createdAt ? ` · ${formatDocumentDate(doc.createdAt)}` : ''
+  return `${name}${type}${date}`
+}
 
 export function CreateProtocolVersionForm(props: {
   organizationId: string
   protocolRuntimeStudyId: string
+  initialSourceDocumentId?: string | null
   onCreated: (versionId: string) => void
 }) {
   const [versionLabel, setVersionLabel] = useState('v1.0')
-  const [sourceDocumentId, setSourceDocumentId] = useState('')
+  const [sourceDocumentId, setSourceDocumentId] = useState(props.initialSourceDocumentId ?? '')
   const [amendmentNumber, setAmendmentNumber] = useState('')
+  const [documents, setDocuments] = useState<RecentDocument[]>([])
+  const [documentsLoading, setDocumentsLoading] = useState(true)
+  const [documentsError, setDocumentsError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadDocuments() {
+      setDocumentsLoading(true)
+      setDocumentsError(null)
+      try {
+        const res = await fetch(
+          `/api/document-intake/recent?organization_id=${encodeURIComponent(props.organizationId)}`,
+        )
+        const data = (await res.json()) as { documents?: RecentDocument[]; error?: string }
+        if (!res.ok) throw new Error(data.error || 'Failed to load documents')
+        if (!cancelled) setDocuments(data.documents ?? [])
+      } catch (err) {
+        if (!cancelled) {
+          setDocumentsError(err instanceof Error ? err.message : 'Failed to load documents')
+        }
+      } finally {
+        if (!cancelled) setDocumentsLoading(false)
+      }
+    }
+    void loadDocuments()
+    return () => {
+      cancelled = true
+    }
+  }, [props.organizationId])
 
   async function create() {
     setLoading(true)
@@ -39,6 +90,9 @@ export function CreateProtocolVersionForm(props: {
     }
   }
 
+  const preselectedMissing =
+    sourceDocumentId.length > 0 && !documents.some((doc) => doc.id === sourceDocumentId)
+
   return (
     <div className="rounded-md border border-slate-200 bg-white p-4">
       <h3 className="text-sm font-semibold text-slate-800">Add protocol version</h3>
@@ -63,15 +117,36 @@ export function CreateProtocolVersionForm(props: {
         </label>
       </div>
       <label className="mt-3 block text-sm text-slate-600">
-        Source document id (`compliance_runtime_documents.id`)
-        <input
-          className="mt-1 w-full rounded border border-slate-300 px-2 py-1.5 font-mono text-xs"
+        Source document
+        <select
+          className="mt-1 w-full rounded border border-slate-300 px-2 py-1.5 text-sm disabled:bg-slate-50"
           value={sourceDocumentId}
-          disabled={loading}
+          disabled={loading || documentsLoading}
           onChange={(e) => setSourceDocumentId(e.target.value)}
-          placeholder="uuid"
-        />
+        >
+          <option value="">
+            {documentsLoading ? 'Loading documents…' : 'Select an uploaded document'}
+          </option>
+          {preselectedMissing ? (
+            <option value={sourceDocumentId}>
+              Preselected document ({sourceDocumentId.slice(0, 8)}…)
+            </option>
+          ) : null}
+          {documents.map((doc) => (
+            <option key={doc.id} value={doc.id}>
+              {documentLabel(doc)}
+            </option>
+          ))}
+        </select>
       </label>
+      {documentsError ? (
+        <p className="mt-2 text-sm text-red-600">{documentsError}</p>
+      ) : null}
+      {!documentsLoading && !documentsError && documents.length === 0 ? (
+        <p className="mt-2 text-xs text-slate-500">
+          No documents found for this organization. Upload the protocol in Document Intake first.
+        </p>
+      ) : null}
       <button
         type="button"
         className="mt-3 rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-50"
@@ -84,4 +159,3 @@ export function CreateProtocolVersionForm(props: {
     </div>
   )
 }
-

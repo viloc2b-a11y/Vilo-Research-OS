@@ -4,7 +4,8 @@ import type { createServerClient } from '@/lib/supabase/server'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
 
-type ToggleMode = 'disable_fields' | 'enable_fields' | 'disable_section'
+type ToggleMode = 'disable_fields' | 'enable_fields' | 'disable_section' | 'set_applicability'
+export type ApplicabilityStatus = 'applicable' | 'not_applicable' | 'skipped' | 'missed' | 'contraindicated' | 'protocol_exception' | 'medical_exception'
 
 export async function toggleFieldState(params: {
   supabase: Supabase
@@ -19,6 +20,7 @@ export async function toggleFieldState(params: {
   actorUserId: string
   mode: ToggleMode
   reason?: string | null
+  applicabilityStatus?: ApplicabilityStatus
 }) {
   const { data: current, error: readError } = await params.supabase
     .from('procedure_executions')
@@ -30,7 +32,8 @@ export async function toggleFieldState(params: {
       is_signed,
       is_locked,
       fields_disabled_at,
-      section_disabled_at
+      section_disabled_at,
+      applicability_status
     `)
     .eq('id', params.procedure.id)
     .eq('organization_id', params.procedure.organization_id)
@@ -46,22 +49,56 @@ export async function toggleFieldState(params: {
   const reason = params.reason?.trim() || null
   const hadSectionDisabled = Boolean(current.section_disabled_at)
   const hadFieldsDisabled = Boolean(current.fields_disabled_at)
+  const previousApplicability = current.applicability_status || 'applicable'
 
-  const update =
-    params.mode === 'disable_fields'
-      ? { fields_disabled_at: now, fields_disabled_by: params.actorUserId, fields_disabled_reason: reason }
-      : params.mode === 'enable_fields'
-        ? {
-            fields_disabled_at: null,
-            fields_disabled_by: null,
-            fields_disabled_reason: null,
-            section_disabled_at: null,
-            section_disabled_by: null,
-            section_disabled_reason: null,
-            reopened_at: now,
-            reopened_by: params.actorUserId,
-          }
-        : { section_disabled_at: now, section_disabled_by: params.actorUserId, section_disabled_reason: reason }
+  let update: Record<string, unknown> = {}
+  
+  if (params.mode === 'set_applicability' && params.applicabilityStatus) {
+    if (params.applicabilityStatus === 'applicable') {
+      update = {
+        applicability_status: 'applicable',
+        applicability_reason: null,
+        applicability_set_by: null,
+        applicability_set_at: null,
+        previous_applicability_status: previousApplicability,
+        fields_disabled_at: null,
+        fields_disabled_by: null,
+        fields_disabled_reason: null,
+        section_disabled_at: null,
+        section_disabled_by: null,
+        section_disabled_reason: null,
+        reopened_at: now,
+        reopened_by: params.actorUserId,
+      }
+    } else {
+      update = {
+        applicability_status: params.applicabilityStatus,
+        applicability_reason: reason,
+        applicability_set_by: params.actorUserId,
+        applicability_set_at: now,
+        previous_applicability_status: previousApplicability,
+      }
+    }
+  } else if (params.mode === 'disable_fields') {
+    update = { fields_disabled_at: now, fields_disabled_by: params.actorUserId, fields_disabled_reason: reason }
+  } else if (params.mode === 'enable_fields') {
+    update = {
+      fields_disabled_at: null,
+      fields_disabled_by: null,
+      fields_disabled_reason: null,
+      section_disabled_at: null,
+      section_disabled_by: null,
+      section_disabled_reason: null,
+      applicability_status: 'applicable',
+      applicability_reason: null,
+      applicability_set_by: null,
+      applicability_set_at: null,
+      reopened_at: now,
+      reopened_by: params.actorUserId,
+    }
+  } else if (params.mode === 'disable_section') {
+    update = { section_disabled_at: now, section_disabled_by: params.actorUserId, section_disabled_reason: reason }
+  }
 
   const { error } = await params.supabase
     .from('procedure_executions')
@@ -72,7 +109,23 @@ export async function toggleFieldState(params: {
   if (error) return { ok: false as const, error: error.message }
 
   const chronology: Array<{ type: string; payload?: Record<string, unknown> }> = []
-  if (params.mode === 'disable_fields') {
+  
+  if (params.mode === 'set_applicability' && params.applicabilityStatus) {
+    if (params.applicabilityStatus === 'applicable') {
+      chronology.push({ 
+        type: OPERATIONAL_EVENT_TYPES.APPLICABILITY_REVERTED, 
+        payload: { reason, previous_status: previousApplicability, new_status: 'applicable' } 
+      })
+      if (hadFieldsDisabled || hadSectionDisabled || previousApplicability !== 'applicable') {
+        chronology.push({ type: OPERATIONAL_EVENT_TYPES.PROCEDURE_REOPENED, payload: { reason } })
+      }
+    } else {
+      chronology.push({ 
+        type: OPERATIONAL_EVENT_TYPES.PROCEDURE_APPLICABILITY_CHANGED, 
+        payload: { reason, previous_status: previousApplicability, new_status: params.applicabilityStatus } 
+      })
+    }
+  } else if (params.mode === 'disable_fields') {
     chronology.push({ type: OPERATIONAL_EVENT_TYPES.FIELD_LOCKED, payload: { reason } })
   } else if (params.mode === 'disable_section') {
     chronology.push({ type: OPERATIONAL_EVENT_TYPES.SECTION_DISABLED, payload: { reason } })

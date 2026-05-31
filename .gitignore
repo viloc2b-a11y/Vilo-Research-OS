@@ -16,6 +16,7 @@
 .venv/
 __pycache__/
 *.pyc
+.tmp/
 
 # next.js
 /.next/
@@ -30,6 +31,7 @@ __pycache__/
 
 # misc
 .DS_Store
+desktop.ini
 *.pem
 /tmp/
 /vilo-os UX/
@@ -62,3 +64,14 @@ next-env.d.ts
 .phase12c-py-smoke-input/
 .tmp-phase12d-seed/
 .tmp-phase12d-seed-in/
+
+validation-corpus/raw/
+validation-corpus/inbox/
+
+# Validation Corpus - confidential raw documents
+validation-corpus/inbox/
+validation-corpus/raw/
+validation-corpus/non-reader-assets/
+*.pdf
+*.docx
+*.xlsx

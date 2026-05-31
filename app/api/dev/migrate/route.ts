@@ -8,6 +8,7 @@
 // Response: { ok: boolean, applied: string[], errors: string[] }
 
 import { NextRequest, NextResponse } from 'next/server'
+import { timingSafeEqual } from 'node:crypto'
 import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import postgres from 'postgres'
@@ -16,6 +17,19 @@ const MIGRATIONS_DIR = resolve(process.cwd(), 'supabase/migrations')
 
 function isProductionRuntime() {
   return process.env.NODE_ENV === 'production'
+}
+
+function isLocalRequest(req: NextRequest) {
+  const host = req.nextUrl.hostname.toLowerCase()
+  return host === 'localhost' || host === '127.0.0.1' || host === '::1'
+}
+
+function validSecret(actual: string | undefined, expected: string) {
+  if (!actual) return false
+  const actualBuffer = Buffer.from(actual)
+  const expectedBuffer = Buffer.from(expected)
+  return actualBuffer.length === expectedBuffer.length
+    && timingSafeEqual(actualBuffer, expectedBuffer)
 }
 
 function listMigrationFiles() {
@@ -38,6 +52,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Development migration endpoint is disabled in production' }, { status: 404 })
   }
 
+  if (!isLocalRequest(req)) {
+    return NextResponse.json({ ok: false, error: 'Development migration endpoint is local-only' }, { status: 404 })
+  }
+
   // Guard: require explicit opt-in — set MIGRATION_ALLOWED=1 in .env.local
   // This works in both dev and production-mode starts.
   if (process.env.MIGRATION_ALLOWED !== '1') {
@@ -49,6 +67,13 @@ export async function POST(req: NextRequest) {
 
   // Secret check — prevents accidental exposure
   const secret = process.env.MIGRATION_SECRET
+  if (!secret) {
+    return NextResponse.json(
+      { ok: false, error: 'MIGRATION_SECRET is required when migration endpoint is enabled' },
+      { status: 403 },
+    )
+  }
+
   let body: { secret?: string; files?: string[] } = {}
   try {
     body = await req.json()
@@ -56,7 +81,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  if (secret && body.secret !== secret) {
+  if (!validSecret(body.secret, secret)) {
     return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -69,6 +94,13 @@ export async function POST(req: NextRequest) {
   // Determine which files to apply
   const allMigrations = listMigrationFiles()
   const requestedFiles = body.files?.filter((file) => typeof file === 'string') ?? []
+  if (requestedFiles.length === 0) {
+    return NextResponse.json(
+      { ok: false, error: 'Explicit migration file list is required' },
+      { status: 400 },
+    )
+  }
+
   const unknownFiles = requestedFiles.filter((file) => !allMigrations.includes(file))
   if (unknownFiles.length > 0) {
     return NextResponse.json(
@@ -77,9 +109,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const filesToApply = requestedFiles.length > 0
-    ? allMigrations.filter((file) => requestedFiles.includes(file))
-    : allMigrations
+  const filesToApply = allMigrations.filter((file) => requestedFiles.includes(file))
 
   const sql = postgres(rawUrl, {
     ssl: 'require',
@@ -121,12 +151,10 @@ export async function GET() {
   if (process.env.MIGRATION_ALLOWED !== '1') {
     return NextResponse.json({ ok: false, error: 'Set MIGRATION_ALLOWED=1 in .env.local to enable this endpoint' }, { status: 403 })
   }
-  const allMigrations = listMigrationFiles()
   return NextResponse.json({
     ok: true,
-    available_migrations: allMigrations,
-    latest: allMigrations[allMigrations.length - 1] ?? null,
     database_url_set: !!process.env.DATABASE_URL,
-    secret_required: !!process.env.MIGRATION_SECRET,
+    secret_required: true,
+    secret_configured: !!process.env.MIGRATION_SECRET,
   })
 }

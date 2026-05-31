@@ -1,0 +1,22 @@
+{
+  "sanitized_id": "ECRF_GUIDE_A001",
+  "original_filename": "10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).docx",
+  "original_relative_path": "validation-corpus/inbox\\10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).docx",
+  "target_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A001.md",
+  "extraction_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A001.md",
+  "redaction_status": "UNSAFE_BINARY_REDACTION",
+  "redaction_method": "Deferred text-only parsing",
+  "unresolved_risks": [
+    "Embedded PHI in binary streams",
+    "Unscrubbed metadata (Author, Company)",
+    "Visual overlays hiding text"
+  ],
+  "manual_review_required": true,
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "unsafe_binary_path": "validation-corpus/raw/review-required/unsafe-binary-redaction\\ECRF_GUIDE_A001.docx",
+  "extraction_method": "python-docx",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN"
+}

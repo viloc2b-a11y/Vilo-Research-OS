@@ -124,6 +124,8 @@ export function MedicalHistorySection({ studySubjectId, rows, canVerify = false,
     const hasCondition = form.custom_condition_name.trim() || form.pathology_id
     if (!hasCondition) { setError('Condition name is required.'); return }
     if (!form.source_attribution.trim()) { setError('Source attribution is required.'); return }
+    if (form.ongoing && form.end_date) { setError('Stop Date must be empty when Ongoing is selected.'); return }
+    if (!form.ongoing && !form.end_date) { setError('Stop Date is required when Ongoing is not selected.'); return }
     if (editingId && !changeReason.trim()) { setError('Reason for change is required.'); return }
 
     const input: MedicalHistoryInput = {
@@ -219,12 +221,23 @@ export function MedicalHistorySection({ studySubjectId, rows, canVerify = false,
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="mh-onset" className="text-xs">Onset date</Label>
+              <Label htmlFor="mh-onset" className="text-xs">Start Date</Label>
               <Input
                 id="mh-onset"
                 type="date"
                 value={form.onset_date}
                 onChange={(e) => setForm({ ...form, onset_date: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="mh-stop" className="text-xs">Stop Date</Label>
+              <Input
+                id="mh-stop"
+                type="date"
+                value={form.end_date}
+                disabled={form.ongoing}
+                onChange={(e) => setForm({ ...form, end_date: e.target.value })}
               />
             </div>
 
@@ -245,7 +258,7 @@ export function MedicalHistorySection({ studySubjectId, rows, canVerify = false,
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <Checkbox
                   checked={form.ongoing}
-                  onCheckedChange={(v) => setForm({ ...form, ongoing: !!v })}
+                  onCheckedChange={(v) => setForm({ ...form, ongoing: !!v, end_date: v ? '' : form.end_date })}
                 />
                 Ongoing
               </label>
@@ -387,7 +400,7 @@ export function MedicalHistorySection({ studySubjectId, rows, canVerify = false,
                 <p className="text-xs font-medium">Mark as resolved</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <Label htmlFor={`resolve-date-${row.subject_history_id}`} className="text-xs">End date</Label>
+                    <Label htmlFor={`resolve-date-${row.subject_history_id}`} className="text-xs">Stop Date</Label>
                     <Input id={`resolve-date-${row.subject_history_id}`} type="date" value={resolveEndDate} onChange={(e) => setResolveEndDate(e.target.value)} />
                   </div>
                   <div className="space-y-1">

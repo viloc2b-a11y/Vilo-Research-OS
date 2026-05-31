@@ -1,0 +1,128 @@
+{
+  "sanitized_id": "PROTOCOL_A101",
+  "document_class": "UNKNOWN",
+  "extraction_method": "python-docx_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A101_t0",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Visita"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Semana"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Procedimientos clave"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "V0"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "0"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Consentimiento, criterios, historia cl\u00ednica, G6PD, signos vitales, marcaje de \u00e1rea \u00edndice (1 cm\u00b2), fotograf\u00eda estandarizada, tricoscop\u00eda basal (densidad/di\u00e1metro), aleatorizaci\u00f3n, Sesi\u00f3n 1 ([INVESTIGATIONAL_PRODUCT_A] + meso T/C)"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "V1\u2013V4"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1\u20134"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Revisi\u00f3n EA, signos vitales, Sesiones 2\u20135"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "V5\u2013V7"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5\u20137"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Revisi\u00f3n EA, Sesiones 6\u20138, tricoscop\u00eda intermedia (semana 4 opcional)"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "V8"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "12"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Evaluaci\u00f3n final: tricoscop\u00eda, fotograf\u00eda, PRO (Likert), recuento 60s, cierre y seguridad"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

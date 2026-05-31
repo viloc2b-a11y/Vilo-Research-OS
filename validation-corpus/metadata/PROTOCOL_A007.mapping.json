@@ -1,0 +1,22 @@
+{
+  "sanitized_id": "PROTOCOL_A007",
+  "original_filename": "RFP_DUB-001 version 0.2x_Clinical Study Protocol Synopsis Phase I and 2a_CLEAN (2).pdf",
+  "original_relative_path": "validation-corpus/inbox\\RFP_DUB-001 version 0.2x_Clinical Study Protocol Synopsis Phase I and 2a_CLEAN (2).pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A007.md",
+  "extraction_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A007.md",
+  "redaction_status": "UNSAFE_BINARY_REDACTION",
+  "redaction_method": "Deferred text-only parsing",
+  "unresolved_risks": [
+    "Embedded PHI in binary streams",
+    "Unscrubbed metadata (Author, Company)",
+    "Visual overlays hiding text"
+  ],
+  "manual_review_required": true,
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "unsafe_binary_path": "validation-corpus/raw/review-required/unsafe-binary-redaction\\PROTOCOL_A007.pdf",
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN"
+}

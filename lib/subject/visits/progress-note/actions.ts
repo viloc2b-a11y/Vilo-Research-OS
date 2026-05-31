@@ -22,6 +22,8 @@ import {
 } from '@/lib/rbac/permissions'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { mapRuntimeDbErrorToCoordinatorMessage } from '@/lib/concurrency/db-errors'
+import { requestOperationalSignature } from '@/lib/operations/signature-actions'
+
 
 const UUID_RE = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -250,11 +252,11 @@ export async function saveVisitProgressNoteAction(input: {
   return { ok: true }
 }
 
-export async function signCoordinatorProgressNoteAction(input: {
+export async function requestCoordinatorCloseoutSignatureAction(input: {
   visitId: string
   organizationId: string
   expectedUpdatedAt?: string | null
-}): Promise<VisitCloseoutActionResult> {
+}): Promise<VisitCloseoutActionResult & { requestId?: string }> {
   const { visitId, organizationId, expectedUpdatedAt } = input
   if (!UUID_RE.test(visitId)) return { ok: false, error: 'Invalid visit id.' }
 
@@ -305,13 +307,53 @@ export async function signCoordinatorProgressNoteAction(input: {
     return { ok: false, error: guards.coordinatorBlockReasons.join(' ') }
   }
 
+  const req = await requestOperationalSignature({
+    organizationId,
+    studyId: access.studyId,
+    subjectId: access.subjectId,
+    visitId,
+    artifactType: 'visit_closeout',
+    artifactId: visitId,
+    requiredRole: 'coordinator',
+    signatureMeaning: 'I attest that all visit procedures are accurate and complete.'
+  })
+
+  if (!req.ok || !req.requestId) return { ok: false, error: 'Failed to request signature.' }
+
+  const { error: updErr } = await supabase.from('visit_progress_notes').update({
+    coordinator_signature_request_id: req.requestId
+  }).eq('visit_id', visitId)
+
+  if (updErr) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(updErr, updErr.message) }
+
+  return { ok: true, requestId: req.requestId }
+}
+
+export async function completeCoordinatorCloseoutSignatureAction(input: {
+  visitId: string
+  organizationId: string
+}): Promise<VisitCloseoutActionResult> {
+  const access = await assertVisitWrite(input.visitId, input.organizationId)
+  if (!access.ok) return access
+
+  const user = await getSessionUser()
+  if (!user) return { ok: false, error: 'Sign in required.' }
+
+  const supabase = await createServerClient()
+  
+  const { data: note } = await supabase.from('visit_progress_notes').select('coordinator_signature_request_id').eq('visit_id', input.visitId).single()
+  if (!note?.coordinator_signature_request_id) return { ok: false, error: 'No signature request found.' }
+
+  const { data: req } = await supabase.from('operational_signature_requests').select('status').eq('id', note.coordinator_signature_request_id).single()
+  if (req?.status !== 'signed') return { ok: false, error: 'Signature is not signed yet.' }
+
   const signedName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(
     'sign_visit_coordinator_closeout',
     {
-      p_organization_id: organizationId,
-      p_visit_id: visitId,
+      p_organization_id: input.organizationId,
+      p_visit_id: input.visitId,
       p_actor_name: signedName,
     },
   )
@@ -326,7 +368,7 @@ export async function signCoordinatorProgressNoteAction(input: {
     }
   }
 
-  revalidateVisitPaths(access.studyId, access.subjectId, visitId)
+  revalidateVisitPaths(access.studyId, access.subjectId, input.visitId)
   return { ok: true }
 }
 
@@ -401,12 +443,12 @@ export async function reopenCoordinatorProgressNoteAction(input: {
   return { ok: true }
 }
 
-export async function signInvestigatorReviewAction(input: {
+export async function requestInvestigatorCloseoutSignatureAction(input: {
   visitId: string
   organizationId: string
   investigatorRole: InvestigatorRole
   expectedUpdatedAt?: string | null
-}): Promise<VisitCloseoutActionResult> {
+}): Promise<VisitCloseoutActionResult & { requestId?: string }> {
   const { visitId, organizationId, investigatorRole, expectedUpdatedAt } = input
   if (!UUID_RE.test(visitId)) return { ok: false, error: 'Invalid visit id.' }
   if (
@@ -422,8 +464,6 @@ export async function signInvestigatorReviewAction(input: {
   const user = await getSessionUser()
   if (!user) return { ok: false, error: 'Sign in required.' }
 
-  // F-07 fix: enforce investigator role server-side
-  // Only pi_sub_i, admin, or owner may sign as investigator.
   const memberships = await getOrganizationMemberships(user.id)
   const orgMembership = memberships.find((m) => m.organization_id === organizationId)
   const allRoles = orgMembership
@@ -483,14 +523,55 @@ export async function signInvestigatorReviewAction(input: {
     return { ok: false, error: guards.investigatorBlockReasons.join(' ') }
   }
 
+  const req = await requestOperationalSignature({
+    organizationId,
+    studyId: access.studyId,
+    subjectId: access.subjectId,
+    visitId,
+    artifactType: 'visit_closeout',
+    artifactId: visitId,
+    requiredRole: investigatorRole,
+    signatureMeaning: 'I attest that I have reviewed the visit and all procedures.'
+  })
+
+  if (!req.ok || !req.requestId) return { ok: false, error: 'Failed to request signature.' }
+
+  const { error: updErr } = await supabase.from('visit_progress_notes').update({
+    investigator_signature_request_id: req.requestId
+  }).eq('visit_id', visitId)
+
+  if (updErr) return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(updErr, updErr.message) }
+
+  return { ok: true, requestId: req.requestId }
+}
+
+export async function completeInvestigatorCloseoutSignatureAction(input: {
+  visitId: string
+  organizationId: string
+  investigatorRole: InvestigatorRole
+}): Promise<VisitCloseoutActionResult> {
+  const access = await assertVisitWrite(input.visitId, input.organizationId)
+  if (!access.ok) return access
+
+  const user = await getSessionUser()
+  if (!user) return { ok: false, error: 'Sign in required.' }
+
+  const supabase = await createServerClient()
+  
+  const { data: note } = await supabase.from('visit_progress_notes').select('investigator_signature_request_id').eq('visit_id', input.visitId).single()
+  if (!note?.investigator_signature_request_id) return { ok: false, error: 'No signature request found.' }
+
+  const { data: req } = await supabase.from('operational_signature_requests').select('status').eq('id', note.investigator_signature_request_id).single()
+  if (req?.status !== 'signed') return { ok: false, error: 'Signature is not signed yet.' }
+
   const signedName = await resolveSignerName(user.id)
 
   const { data: rpcResult, error: rpcError } = await supabase.rpc(
     'sign_visit_investigator_closeout',
     {
-      p_organization_id: organizationId,
-      p_visit_id: visitId,
-      p_investigator_role: investigatorRole,
+      p_organization_id: input.organizationId,
+      p_visit_id: input.visitId,
+      p_investigator_role: input.investigatorRole,
       p_actor_name: signedName,
     },
   )
@@ -501,9 +582,9 @@ export async function signInvestigatorReviewAction(input: {
     return { ok: false, error: mapRuntimeDbErrorToCoordinatorMessage(rpc?.error, 'Investigator sign-off failed.') }
   }
 
-  const coupling = await applyVisitCompletionCoupling(visitId, organizationId)
+  const coupling = await applyVisitCompletionCoupling(input.visitId, input.organizationId)
 
-  revalidateVisitPaths(access.studyId, access.subjectId, visitId)
+  revalidateVisitPaths(access.studyId, access.subjectId, input.visitId)
   return {
     ok: true,
     visitAutoCompleted: coupling.autoCompleted,

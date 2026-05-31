@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type {
   LoadedProtocolRuntimeStudy,
   ProtocolRuntimeStudyRow,
@@ -15,10 +15,12 @@ function StudyLoader(props: {
   organizationId: string
   refreshKey: number
   selectedId: string | null
+  preselectStudyId?: string | null
   onSelect: (id: string) => void
 }) {
   const [studies, setStudies] = useState<ProtocolRuntimeStudyRow[]>([])
   const [loading, setLoading] = useState(true)
+  const autoSelectedRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -29,7 +31,20 @@ function StudyLoader(props: {
           `/api/protocol-intake-runtime/studies?organization_id=${encodeURIComponent(props.organizationId)}`,
         )
         const data = (await res.json()) as { studies?: ProtocolRuntimeStudyRow[] }
-        if (!cancelled) setStudies(data.studies ?? [])
+        if (cancelled) return
+        const list = data.studies ?? []
+        setStudies(list)
+        // Preselect the protocol runtime study linked to the workspace study (studies.id),
+        // falling back to a direct protocol_runtime_studies.id match. Runs once; never auto-creates.
+        if (!autoSelectedRef.current && props.preselectStudyId && !props.selectedId) {
+          const match =
+            list.find((study) => study.studyId === props.preselectStudyId) ??
+            list.find((study) => study.id === props.preselectStudyId)
+          if (match) {
+            autoSelectedRef.current = true
+            props.onSelect(match.id)
+          }
+        }
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -38,7 +53,7 @@ function StudyLoader(props: {
     return () => {
       cancelled = true
     }
-  }, [props.organizationId, props.refreshKey])
+  }, [props.organizationId, props.refreshKey, props.preselectStudyId])
 
   if (loading) return <p className="text-sm text-slate-500">Loading protocol studies…</p>
   return <ProtocolRuntimeStudyList studies={studies} selectedId={props.selectedId} onSelect={props.onSelect} />
@@ -48,6 +63,7 @@ function StudyDetail(props: {
   organizationId: string
   studyRuntimeId: string
   refreshKey: number
+  initialSourceDocumentId?: string | null
   onRefresh: () => void
 }) {
   const [loaded, setLoaded] = useState<LoadedProtocolRuntimeStudy | null>(null)
@@ -105,6 +121,7 @@ function StudyDetail(props: {
       <CreateProtocolVersionForm
         organizationId={props.organizationId}
         protocolRuntimeStudyId={loaded.study.id}
+        initialSourceDocumentId={props.initialSourceDocumentId}
         onCreated={(versionId) => {
           setSelectedVersionId(versionId)
           props.onRefresh()
@@ -142,7 +159,11 @@ function StudyDetail(props: {
   )
 }
 
-export function ProtocolIntakeRuntimeClient(props: { organizationId: string }) {
+export function ProtocolIntakeRuntimeClient(props: {
+  organizationId: string
+  initialStudyId?: string | null
+  initialSourceDocumentId?: string | null
+}) {
   const [selectedStudyId, setSelectedStudyId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -161,6 +182,7 @@ export function ProtocolIntakeRuntimeClient(props: { organizationId: string }) {
           organizationId={props.organizationId}
           refreshKey={refreshKey}
           selectedId={selectedStudyId}
+          preselectStudyId={props.initialStudyId}
           onSelect={setSelectedStudyId}
         />
         {selectedStudyId ? (
@@ -168,6 +190,7 @@ export function ProtocolIntakeRuntimeClient(props: { organizationId: string }) {
             organizationId={props.organizationId}
             studyRuntimeId={selectedStudyId}
             refreshKey={refreshKey}
+            initialSourceDocumentId={props.initialSourceDocumentId}
             onRefresh={() => setRefreshKey((v) => v + 1)}
           />
         ) : (

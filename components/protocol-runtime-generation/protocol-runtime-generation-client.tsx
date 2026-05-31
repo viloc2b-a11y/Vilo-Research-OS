@@ -1,9 +1,11 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type {
-  ProtocolRuntimeGenerationRunRow,
-  ValidationError,
+import Link from 'next/link'
+import {
+  GENERATION_STATUS,
+  type ProtocolRuntimeGenerationRunRow,
+  type ValidationError,
 } from '@/lib/protocol-runtime-generation/protocol-runtime-generation-types'
 import { GenerationReadinessPanel } from './generation-readiness-panel'
 import { GenerationPreviewPanel } from './generation-preview-panel'
@@ -18,9 +20,15 @@ type ReadinessState = {
   summary: Record<string, unknown>
 } | null
 
-export function ProtocolRuntimeGenerationClient(props: { organizationId: string }) {
-  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
-  const [studyId, setStudyId] = useState<string>('')
+export function ProtocolRuntimeGenerationClient(props: {
+  organizationId: string
+  initialStudyId?: string | null
+  initialVersionId?: string | null
+}) {
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
+    props.initialVersionId ?? null,
+  )
+  const [studyId, setStudyId] = useState<string>(props.initialStudyId ?? '')
   const [runs, setRuns] = useState<ProtocolRuntimeGenerationRunRow[]>([])
   const [selectedRunId, setSelectedRunId] = useState<string | null>(null)
   const [readiness, setReadiness] = useState<ReadinessState>(null)
@@ -112,6 +120,8 @@ export function ProtocolRuntimeGenerationClient(props: { organizationId: string 
       <GenerationVersionSelector
         organizationId={props.organizationId}
         selectedVersionId={selectedVersionId}
+        preselectStudyId={props.initialStudyId}
+        preselectVersionId={props.initialVersionId}
         onSelect={(id) => {
           setSelectedVersionId(id)
           setReadiness(null)
@@ -166,11 +176,49 @@ export function ProtocolRuntimeGenerationClient(props: { organizationId: string 
 
       {latestRun ? <GenerationResultSummary run={latestRun} /> : null}
 
+      <SourcePackageHandoff
+        generated={latestRun?.generationStatus === GENERATION_STATUS.GENERATED}
+        studyId={studyId || latestRun?.studyId || ''}
+      />
+
       <section>
         <h2 className="mb-2 text-sm font-semibold text-slate-900">Generation runs</h2>
         {loading && !runs.length ? <p className="text-sm text-slate-500">Loading runs…</p> : null}
         <GenerationRunList runs={runs} selectedRunId={selectedRunId} onSelect={setSelectedRunId} />
       </section>
+    </div>
+  )
+}
+
+function SourcePackageHandoff(props: { generated: boolean; studyId: string }) {
+  const canContinue = props.generated && props.studyId.length > 0
+  const href = `/runtime-source-packages?study_id=${encodeURIComponent(props.studyId)}`
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white p-4">
+      <div>
+        <p className="text-sm font-semibold text-slate-900">Source packages</p>
+        <p className="mt-0.5 text-xs text-slate-500">
+          {canContinue
+            ? 'Runtime composition generated. Continue to build draft source packages from the compiled snapshot.'
+            : 'Generate runtime to produce a composition snapshot before building source packages.'}
+        </p>
+      </div>
+      {canContinue ? (
+        <Link
+          href={href}
+          className="inline-flex shrink-0 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Continue to Source Packages
+        </Link>
+      ) : (
+        <span
+          aria-disabled="true"
+          className="inline-flex shrink-0 cursor-not-allowed rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-400"
+        >
+          Continue to Source Packages
+        </span>
+      )}
     </div>
   )
 }

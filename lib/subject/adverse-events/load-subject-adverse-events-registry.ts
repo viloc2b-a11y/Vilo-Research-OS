@@ -36,7 +36,7 @@ export function mapRegistryRowToTimelineItem(
     registryId: row.ae_id,
     isEditable: true,
     eventTerm: row.event_term,
-    preferredTerm: row.preferred_term,
+    preferredTerm: row.preferred_term ?? row.ae_type,
     severity: row.severity,
     seriousness: row.seriousness,
     relationship: mapRelationship(row.relationship_to_ip),
@@ -53,7 +53,13 @@ export function mapRegistryRowToTimelineItem(
     href: visitId ? visitDetailPath(visitId) : null,
     captureHref: null,
     reviewHref: null,
-    registryComments: row.comments,
+    registryComments: [
+      row.comments,
+      row.expectedness ? `Expectedness: ${row.expectedness}` : null,
+      row.action_taken ? `Action taken: ${row.action_taken}` : null,
+      row.outcome ? `Outcome: ${row.outcome}` : null,
+      row.requires_pi_si_review ? 'Requires PI/SI review' : null,
+    ].filter(Boolean).join('\n') || null,
   }
 }
 
@@ -94,7 +100,7 @@ export async function loadSubjectAdverseEventsRegistry(input: {
   const { data, error } = await supabase
     .from('subject_adverse_events')
     .select(
-      'ae_id, organization_id, study_subject_id, visit_id, event_term, preferred_term, severity, seriousness, relationship_to_ip, lifecycle_status, onset_date, resolution_date, source_attribution, comments, created_at, updated_at',
+      'ae_id, organization_id, study_subject_id, visit_id, event_term, preferred_term, ae_type, severity, seriousness, relationship_to_ip, expectedness, action_taken, outcome, ongoing, requires_pi_si_review, lifecycle_status, onset_date, resolution_date, source_attribution, comments, created_at, updated_at',
     )
     .eq('study_subject_id', input.subjectId)
     .eq('organization_id', input.organizationId)
@@ -112,10 +118,16 @@ export async function loadSubjectAdverseEventsRegistry(input: {
     visit_id: (row.visit_id as string | null) ?? null,
     event_term: row.event_term as string,
     preferred_term: (row.preferred_term as string | null) ?? null,
+    ae_type: (row.ae_type as string | null) ?? null,
     severity: (row.severity as SubjectAdverseEventRecord['severity']) ?? null,
     seriousness: Boolean(row.seriousness),
     relationship_to_ip:
       (row.relationship_to_ip as SubjectAdverseEventRecord['relationship_to_ip']) ?? null,
+    expectedness: (row.expectedness as string | null) ?? null,
+    action_taken: (row.action_taken as string | null) ?? null,
+    outcome: (row.outcome as string | null) ?? null,
+    ongoing: Boolean(row.ongoing),
+    requires_pi_si_review: Boolean(row.requires_pi_si_review),
     lifecycle_status: row.lifecycle_status as SubjectAdverseEventRecord['lifecycle_status'],
     onset_date: (row.onset_date as string | null) ?? null,
     resolution_date: (row.resolution_date as string | null) ?? null,

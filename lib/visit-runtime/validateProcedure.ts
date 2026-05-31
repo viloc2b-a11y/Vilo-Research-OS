@@ -71,8 +71,17 @@ async function validateProcedureInner(params: {
     params.responseSetId ?? (setRow?.id as string | undefined) ?? null
   const responseSetStatus = (setRow?.status as string | undefined) ?? null
 
+  const { data: procRow } = await params.supabase
+    .from('procedure_executions')
+    .select('applicability_status, fields_disabled_at, section_disabled_at')
+    .eq('id', params.procedureExecutionId)
+    .single()
+
+  const applicabilityStatus = procRow?.applicability_status || 'applicable'
+  const isSkipStatus = ['not_applicable', 'skipped', 'contraindicated'].includes(applicabilityStatus) || procRow?.section_disabled_at != null
+
   const alerts: VisitRuntimeValidationAlert[] = []
-  if (!responseSetId) {
+  if (!responseSetId && !isSkipStatus) {
     alerts.push({
       id: 'no-response-set',
       severity: 'blocked',
@@ -105,15 +114,20 @@ async function validateProcedureInner(params: {
   }
 
   const fields = Array.isArray(detail.data.fields) ? detail.data.fields : []
+  const fieldsDisabled = procRow?.fields_disabled_at != null
+  const ignoreRequired = isSkipStatus || fieldsDisabled
+
   for (const field of fields) {
     const current = field.current_effective
     if (field.is_required && (!current || !hasValue(current.value))) {
-      alerts.push({
-        id: `required-${field.source_field_id}`,
-        severity: 'blocked',
-        fieldLabel: field.field_key,
-        message: `${field.field_key} is required.`,
-      })
+      if (!ignoreRequired) {
+        alerts.push({
+          id: `required-${field.source_field_id}`,
+          severity: 'blocked',
+          fieldLabel: field.field_key,
+          message: `${field.field_key} is required.`,
+        })
+      }
     }
     if (current?.value && typeof current.value === 'object') {
       const display = formatValuePayload(current.value)

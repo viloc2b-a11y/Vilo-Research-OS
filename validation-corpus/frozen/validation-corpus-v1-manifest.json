@@ -1,0 +1,186 @@
+{
+  "corpus_version": "v1",
+  "freeze_timestamp": "2026-05-30T20:06:08.258001Z",
+  "total_documents": 19,
+  "corpus_fingerprint": "2bbb2dcc8c9a9891e093cb64cbf2759913d5b210b54f0e412cda94f35e6aeff2",
+  "metrics": {
+    "PROTOCOL": 10,
+    "AMENDMENT": 4,
+    "ECRF_GUIDE": 3,
+    "LAB_MANUAL": 1,
+    "PHARMACY_MANUAL": 1
+  },
+  "documents": [
+    {
+      "sanitized_id": "ECRF_GUIDE_A001",
+      "document_class": "ECRF_GUIDE",
+      "safe_text_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A001.md",
+      "sha256": "70d0deb1f2855ca246c46fab33824581bf1641eeefb7e979ab8d06895c32bcd9",
+      "file_size": 707,
+      "extraction_batch": "BATCH_1",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A004_AMEND_001",
+      "document_class": "AMENDMENT",
+      "safe_text_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_001.md",
+      "sha256": "c4efe41e525f205cae7c46c5ed2689c00b93adcbe739761b53c5c65073f3fde9",
+      "file_size": 270628,
+      "extraction_batch": "BATCH_1",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A005",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A005.md",
+      "sha256": "e6e3c2e282745309f23b42f638c9b03a006df76c964e1c08cf62f0baa4292b74",
+      "file_size": 153223,
+      "extraction_batch": "BATCH_1",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A007",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A007.md",
+      "sha256": "d685c351a751edc26ddc4a0cad903304358f3e929bdb5d941659d3150cf31bfd",
+      "file_size": 177011,
+      "extraction_batch": "BATCH_1",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A009",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A009.md",
+      "sha256": "5b8f3b16528177c4fdcc7de8c7398389a697b6664cdf0e86ccb51650ba7144ef",
+      "file_size": 80402,
+      "extraction_batch": "BATCH_1",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "ECRF_GUIDE_A002",
+      "document_class": "ECRF_GUIDE",
+      "safe_text_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A002.md",
+      "sha256": "f0b602fef56f23805ed8862d5229644c90e1dc5baedfb9f2a7deca416269a65b",
+      "file_size": 1559,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A004_AMEND_002",
+      "document_class": "AMENDMENT",
+      "safe_text_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_002.md",
+      "sha256": "b4d33be68153737fd57044c870556fca98566552c88fd3a7e61870fac7b754b5",
+      "file_size": 256609,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A004_AMEND_003",
+      "document_class": "AMENDMENT",
+      "safe_text_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_003.md",
+      "sha256": "aec8dc3e591840182d43c33ffaf27c687ff9239dbfab341564bf572c709a48ab",
+      "file_size": 313756,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A011",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A011.md",
+      "sha256": "455db30d37ab5c4ab9a803ea2d61e2369e39e8742af620487da70a2d2917757a",
+      "file_size": 256189,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A012",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A012.md",
+      "sha256": "5799a2f6b5d19cf81a11fae19e88e2e033807c46ce990afd4cca010083492fca",
+      "file_size": 19836,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A014",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A014.md",
+      "sha256": "460dad45270818017499d2689e4383da0db262cb52122146c2e65bdfcccc5709",
+      "file_size": 87239,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A003",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A003.md",
+      "sha256": "1ed476856455d28b2a3b08861ca0ff0a0c221677683b634dfb487829f8ecac14",
+      "file_size": 1925,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PHARMACY_MANUAL_A001",
+      "document_class": "PHARMACY_MANUAL",
+      "safe_text_path": "validation-corpus/sanitized\\pharmacy-manuals\\PHARMACY_MANUAL_A001.md",
+      "sha256": "4a6ec89d26be7efce29112ccfa103374176d12934b8ad34706f285f6e9e4e5bd",
+      "file_size": 713,
+      "extraction_batch": "BATCH_2",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "ECRF_GUIDE_A101",
+      "document_class": "ECRF_GUIDE",
+      "safe_text_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A101.md",
+      "sha256": "8d399fc04751e235885272b107bf747299f7da27eb579a6bbf64340634c464d3",
+      "file_size": 103706,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "AMENDMENT_A101",
+      "document_class": "AMENDMENT",
+      "safe_text_path": "validation-corpus/sanitized\\amendments\\AMENDMENT_A101.md",
+      "sha256": "ad2bf47d83a0545ac62e17c2a223fb78f93ade28c20473edff7090dbe8d6a4f3",
+      "file_size": 574681,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A101",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A101.md",
+      "sha256": "90e6bb1772e02c45b737e64af15ef15156b634bbbb5855af14163eedb9b800ca",
+      "file_size": 9762,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "LAB_MANUAL_A101",
+      "document_class": "LAB_MANUAL",
+      "safe_text_path": "validation-corpus/sanitized\\lab-manuals\\LAB_MANUAL_A101.md",
+      "sha256": "3a8242599b9aa6282a6334268019d781f8bfd3654107bf3cd0c231f8e5cb643d",
+      "file_size": 2092,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A102",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A102.md",
+      "sha256": "e591f09891cb4ad14a4eaa9c49fb675f6580ed7c4a486ea383da5cf721adbd99",
+      "file_size": 28110,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A103",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A103.md",
+      "sha256": "36263d95baf8f4ecb6dcf4e03c1acb8d373b67e92a0616bd4a36c6a900fa204a",
+      "file_size": 81557,
+      "extraction_batch": "BATCH_3",
+      "extraction_status": "SAFE_TEXT_EXTRACTED"
+    }
+  ]
+}

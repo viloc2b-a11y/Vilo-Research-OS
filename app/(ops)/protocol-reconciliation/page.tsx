@@ -3,7 +3,22 @@ import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } 
 import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import { ProtocolReconciliationClient } from '@/components/protocol-reconciliation/protocol-reconciliation-client'
 
-export default async function ProtocolReconciliationPage() {
+function firstParam(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+type ProtocolReconciliationPageProps = {
+  searchParams?: Promise<{ study_id?: string | string[]; version_id?: string | string[] }>
+}
+
+export default async function ProtocolReconciliationPage({
+  searchParams,
+}: ProtocolReconciliationPageProps) {
+  const params = (await searchParams) ?? {}
+  const initialStudyId = firstParam(params.study_id)
+  const initialVersionId = firstParam(params.version_id)
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -37,7 +52,11 @@ export default async function ProtocolReconciliationPage() {
           candidates.
         </p>
       </header>
-      <ProtocolReconciliationClient organizationId={organizationId} />
+      <ProtocolReconciliationClient
+        organizationId={organizationId}
+        initialStudyId={initialStudyId}
+        initialVersionId={initialVersionId}
+      />
     </div>
   )
 }

@@ -27,6 +27,7 @@ export type StudyWorkspaceSubjectPreview = {
 
 export type StudyWorkspaceSectionId =
   | 'overview'
+  | 'study-setup'
   | 'subjects'
   | 'source-runtime'
   | 'published-source'

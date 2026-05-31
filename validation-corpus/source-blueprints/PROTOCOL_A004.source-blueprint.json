@@ -1,0 +1,172 @@
+{
+  "blueprint_id": "BP_A004_AMEND001_v1",
+  "protocol_id": "PROTOCOL_A004",
+  "protocol_version": "AMEND_001",
+  "source_blueprint_version": "1.0.0",
+  "generation_status": "COMPILED",
+  "source_modules": [
+    {
+      "module_name": "Screening & Eligibility",
+      "module_type": "MASTER_GATE",
+      "why_required": "Captures baseline diagnostics and confirms strictly 100% of inclusion/exclusion criteria.",
+      "criticality": "CRITICAL_TO_ELIGIBILITY",
+      "protocol_evidence": ["Section 4", "Section 5.1", "Section 5.2", "SoA Visit 1"],
+      "required_fields": ["Informed Consent Date/Time", "Demographics", "Prior OA Treatments", "Washout Dates"],
+      "required_timestamps": ["Informed Consent Timestamp", "Blood Draw Timestamp"],
+      "required_signatures": ["PI Signature on Eligibility", "CRC Signature"],
+      "required_attachments": ["Original signed ICF", "Local/Central Lab Reports", "Imaging Reports"],
+      "sequence_dependencies": ["MUST occur AFTER Informed Consent", "MUST occur BEFORE Visit 2"],
+      "window_dependencies": "Within 28 days of Visit 2",
+      "deviation_if_missing": "Major Deviation: Randomizing ineligible subject.",
+      "provenance": { "source": "Parser_Extraction_Result", "approval_state": "APPROVED" }
+    },
+    {
+      "module_name": "Pain Diary Training & Compliance",
+      "module_type": "ENDPOINT_VERIFICATION",
+      "why_required": "Validates the primary efficacy baseline.",
+      "criticality": "CRITICAL_TO_ENDPOINT",
+      "protocol_evidence": ["Section 4.1", "Section 5.1"],
+      "required_fields": ["Training Completion Status", "Run-in Start Date", "Run-in End Date", "Consecutive Days Count"],
+      "required_timestamps": ["Training Completion Time", "Diary Dispense Time"],
+      "required_signatures": ["CRC Signature", "PI Review"],
+      "required_attachments": ["ePRO Audit Trail / Paper Diary Log"],
+      "sequence_dependencies": ["Training MUST occur BEFORE Dispensing"],
+      "window_dependencies": "MUST cover exactly >= 14 consecutive days immediately prior to Visit 2",
+      "deviation_if_missing": "Major Deviation: Invalid primary endpoint baseline.",
+      "provenance": { "source": "Parser_Extraction_Result", "approval_state": "APPROVED" }
+    },
+    {
+      "module_name": "Ophthalmology / OCT",
+      "module_type": "SAFETY_GATE",
+      "why_required": "Excludes baseline macular edema and monitors longitudinal ocular toxicity.",
+      "criticality": "CRITICAL_TO_SAFETY",
+      "protocol_evidence": ["Section 8.2.4", "Section 5.2"],
+      "required_fields": ["OCT Performed (Y/N)", "Edema Present (Y/N)", "PI Review Status"],
+      "required_timestamps": [],
+      "required_signatures": ["Ophthalmologist Signature", "PI Signature"],
+      "required_attachments": ["OCT Report", "CFP Report"],
+      "sequence_dependencies": ["Baseline OCT MUST occur BEFORE Randomization"],
+      "window_dependencies": "Follows Visit Window",
+      "deviation_if_missing": "Major Deviation: Dosing subject with ocular risk.",
+      "provenance": { "source": "Operational_Intelligence", "approval_state": "APPROVED" }
+    },
+    {
+      "module_name": "Triplicate ECG Escalation",
+      "module_type": "CONDITIONAL_SAFETY_LOG",
+      "why_required": "Captures mandatory cascade if baseline QTcF > 500ms.",
+      "criticality": "CRITICAL_TO_SAFETY",
+      "protocol_evidence": ["Section 8.2.2"],
+      "required_fields": ["Triggering QTcF Value", "ECG 1 Time/Value", "ECG 2 Time/Value", "ECG 3 Time/Value"],
+      "required_timestamps": ["ECG 1 Timestamp", "ECG 2 Timestamp", "ECG 3 Timestamp"],
+      "required_signatures": ["PI Signature"],
+      "required_attachments": ["3x ECG Printouts"],
+      "sequence_dependencies": ["MUST occur immediately upon detection of >500ms QTcF"],
+      "window_dependencies": "Exactly 5 minutes apart",
+      "deviation_if_missing": "Major Deviation: Missed cardiac toxicity signal.",
+      "provenance": { "source": "Operational_Intelligence", "approval_state": "APPROVED" }
+    }
+  ],
+  "visit_worksheets": [
+    {
+      "visit_id": "V1",
+      "visit_label": "Visit 1 (Screening)",
+      "study_day": -28,
+      "window": "-28 to 0",
+      "worksheet_sections": ["Informed Consent", "Demographics", "MedHx", "Prior Meds Washout", "Physical Exam", "Vitals", "ECG", "Safety Labs", "Pregnancy Test", "Imaging Order", "OCT Order", "Pain Training"],
+      "procedures": ["X-Ray", "MRI", "Blood Draw"],
+      "required_logs": ["ConMed Log", "AE Log (if AEs start)"],
+      "required_attachments": ["ICF", "Lab Reports", "ECG Trace"],
+      "hard_stops": ["ICF must be signed first"],
+      "conditional_items": ["Pregnancy Test (WOCBP)", "FSH/Estradiol (Post-menopausal)"],
+      "provenance": "Approved_Reconciliation_Result"
+    },
+    {
+      "visit_id": "V2",
+      "visit_label": "Visit 2 (Randomization/Baseline)",
+      "study_day": 0,
+      "window": "0",
+      "worksheet_sections": ["Run-in Verification", "Pre-dose Vitals", "Eligibility Sign-off", "IRT Randomization", "IP Dispensing", "Dose Admin"],
+      "procedures": ["ConMed Review", "AE Review", "Dosing"],
+      "required_logs": ["Eligibility Checklist", "IP Accountability Log"],
+      "required_attachments": ["IRT Confirmation", "Negative Pregnancy Test (WOCBP)"],
+      "hard_stops": ["Must have >=14 days diary", "Must have PI signature on Eligibility", "Must have clean OCT"],
+      "conditional_items": [],
+      "provenance": "Approved_Reconciliation_Result"
+    }
+  ],
+  "dedicated_logs": [
+    "Master AE/SAE Log",
+    "Master Concomitant Medication Log",
+    "IP Accountability & Admin Log",
+    "Pregnancy & Contraception Log",
+    "Protocol Deviation Log",
+    "Subject Withdrawal / ET Log",
+    "Imaging Tracker",
+    "Triplicate ECG Escalation Form"
+  ],
+  "attachments_required": [
+    "Signed ICF",
+    "Lab Reports (Local/Central)",
+    "ECG Printouts",
+    "OCT/CFP Reports",
+    "X-Ray / MRI Radiology Reports",
+    "ePRO Data Export"
+  ],
+  "hard_stops": [
+    {
+      "id": "HS_001",
+      "description": "Informed Consent Timestamp MUST precede all other study procedures.",
+      "trigger": "Missing ICF or Timestamp mismatch"
+    },
+    {
+      "id": "HS_002",
+      "description": "PI must sign Master Eligibility Checklist before IP is dispensed.",
+      "trigger": "Missing Signature on Eligibility Form"
+    },
+    {
+      "id": "HS_003",
+      "description": "Pain Diary Run-in mathematically verified to be >= 14 days before randomization.",
+      "trigger": "Run-in days < 14"
+    },
+    {
+      "id": "HS_004",
+      "description": "Pregnancy test MUST be negative and within 24-48h prior to first dose for WOCBP.",
+      "trigger": "Positive or Expired Pregnancy Test"
+    },
+    {
+      "id": "HS_005",
+      "description": "OCT Report MUST indicate absence of macular edema before Randomization.",
+      "trigger": "Missing OCT Report or Positive finding"
+    }
+  ],
+  "conditional_warnings": [
+    {
+      "id": "CW_001",
+      "description": "If baseline ECG QTcF > 500ms, Triplicate ECG log MUST be activated.",
+      "type": "Safety Trigger"
+    },
+    {
+      "id": "CW_002",
+      "description": "If WOCBP, Contraception Counseling MUST be documented at every visit.",
+      "type": "Compliance Trigger"
+    },
+    {
+      "id": "CW_003",
+      "description": "If Rescreening due to K-L grade failure, verify >6 weeks elapsed.",
+      "type": "Eligibility Trigger"
+    }
+  ],
+  "deviation_risks": [
+    "Randomization without 14-day compliance.",
+    "Dispensing IP prior to PI signature.",
+    "Omission of Contraception Counseling.",
+    "Non-Index Knee Imaged.",
+    "Triplicate ECGs not exactly 5 mins apart."
+  ],
+  "provenance": {
+    "source_reconciliation_payload": "validation-corpus/parser-results/PROTOCOL_A004_AMEND_001.parser-result.json",
+    "approval_timestamp": "2026-05-30T16:00:00Z",
+    "approver": "Coordinator_Role"
+  },
+  "unresolved_items": 0
+}

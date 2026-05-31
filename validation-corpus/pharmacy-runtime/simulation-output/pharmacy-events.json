@@ -1,0 +1,124 @@
+[
+  {
+    "event_id": "EVT-0001",
+    "kit_id": "KIT001",
+    "lot_number": "LOT-A",
+    "event_type": "IP_RECEIVED",
+    "event_time": "2026-05-01T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0002",
+    "kit_id": "KIT002",
+    "lot_number": "LOT-A",
+    "event_type": "IP_RECEIVED",
+    "event_time": "2026-05-01T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0003",
+    "kit_id": "KIT003",
+    "lot_number": "LOT-A",
+    "event_type": "IP_RECEIVED",
+    "event_time": "2026-05-01T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0004",
+    "kit_id": "KIT004",
+    "lot_number": "LOT-B",
+    "event_type": "IP_RECEIVED",
+    "event_time": "2026-05-02T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0005",
+    "kit_id": "KIT005",
+    "lot_number": "LOT-B",
+    "event_type": "IP_RECEIVED",
+    "event_time": "2026-05-02T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0009",
+    "kit_id": "KIT001",
+    "lot_number": "LOT-A",
+    "subject_id": "SUBJ-01",
+    "event_type": "IP_DISPENSED",
+    "event_time": "2026-05-03T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0010",
+    "kit_id": "KIT002",
+    "lot_number": "LOT-A",
+    "subject_id": "SUBJ-02",
+    "event_type": "IP_DISPENSED",
+    "event_time": "2026-05-04T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0006",
+    "kit_id": null,
+    "lot_number": "LOT-B",
+    "event_type": "TEMP_EXCURSION",
+    "event_time": "2026-05-05T02:00:00Z",
+    "quantity": 0,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0007",
+    "kit_id": "KIT004",
+    "lot_number": "LOT-B",
+    "event_type": "IP_QUARANTINED",
+    "event_time": "2026-05-05T02:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0008",
+    "kit_id": "KIT005",
+    "lot_number": "LOT-B",
+    "event_type": "IP_QUARANTINED",
+    "event_time": "2026-05-05T02:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  },
+  {
+    "event_id": "EVT-0011",
+    "kit_id": "KIT004",
+    "lot_number": "LOT-B",
+    "subject_id": "SUBJ-03",
+    "event_type": "IP_DISPENSED",
+    "event_time": "2026-05-06T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "REJECTED"
+  },
+  {
+    "event_id": "EVT-0012",
+    "kit_id": "KIT001",
+    "lot_number": "LOT-A",
+    "subject_id": "SUBJ-04",
+    "event_type": "IP_DISPENSED",
+    "event_time": "2026-05-07T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "REJECTED"
+  },
+  {
+    "event_id": "EVT-0013",
+    "kit_id": "KIT001",
+    "lot_number": "UNKNOWN",
+    "subject_id": "SUBJ-01",
+    "event_type": "IP_RETURNED",
+    "event_time": "2026-05-10T10:00:00Z",
+    "quantity": 1,
+    "approval_status": "APPROVED"
+  }
+]

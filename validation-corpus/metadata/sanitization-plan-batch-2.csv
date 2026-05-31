@@ -1,0 +1,11 @@
+SanitizedID,CorpusID,DocumentClass,OriginalPath,RiskFlags,V1_Status
+ECRF_GUIDE_A002,VC_0002,ECRF_GUIDE,validation-corpus/inbox\10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).pdf,NONE,UNKNOWN
+ECRF_GUIDE_A003,VC_0074,ECRF_GUIDE,validation-corpus/inbox\MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx,NONE,UNKNOWN
+PROTOCOL_A004_AMEND_002,VC_0006,AMENDMENT,validation-corpus/inbox\2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf,PROTOCOL_NUMBER,UNKNOWN
+PROTOCOL_A004_AMEND_003,VC_1510,AMENDMENT,validation-corpus/inbox\PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf,PROTOCOL_NUMBER,UNKNOWN
+PROTOCOL_A010,VC_1233,PROTOCOL,validation-corpus/inbox\Budgets\Pharma\OLD Studies\Gilead Remdesivir- Inhalation Study\GS-US-553-9020 Protocol 20200828.pdf,SPONSOR_NAME,UNKNOWN
+PROTOCOL_A011,VC_0132,PROTOCOL,validation-corpus/inbox\12. Protocol and Protocol Amendments\12. Protocol and Protocol Amendments\Protocol Amendments\LIN-MD-64 Protocol 17Apr2019.pdf,NONE,UNKNOWN
+PROTOCOL_A012,VC_1081,PROTOCOL,validation-corpus/inbox\Budgets\Pharma\Moderna PPD\RenderSynopsis.pdf,NONE,UNKNOWN
+PROTOCOL_A014,VC_0037,PROTOCOL,validation-corpus/inbox\CGB001 Protocol_05May2025.pdf,NONE,UNKNOWN
+PROTOCOL_A003,VC_0247,PROTOCOL,validation-corpus/inbox\Abbott\Abbott\AL 23\Zepeda\eReg\4. Protocol\4.1 Protocol and Amendments\AL 23 Signed Protocol Version 2 7.5.17.pdf,PHI_STAFF_OR_SITE|SPONSOR_NAME,UNKNOWN
+LAB_MANUAL_A001,VC_0695,LAB_MANUAL,validation-corpus/inbox\Acasti\Acasti\ACA-CAP-002\Zepeda\Pt Specific Docs\241593 Cristina Ortuno\4.Labs & Imaging\V1 Screening\241593 Screening Labs tests.pdf,PHI_STAFF_OR_SITE|SPONSOR_NAME,UNKNOWN

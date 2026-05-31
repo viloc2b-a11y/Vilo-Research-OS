@@ -1,0 +1,15 @@
+{
+  "sanitized_id": "ECRF_GUIDE_A003",
+  "original_filename": "MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx",
+  "original_relative_path": "validation-corpus/inbox\\MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx",
+  "target_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A003.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "NEEDS_MANUAL_REVIEW",
+  "usable_for_reader_validation": false,
+  "extraction_method": "python-docx",
+  "extraction_warnings": [
+    "Extraction Error: 'dict' object has no attribute 'text'"
+  ],
+  "risk_scan_result": "LEAKS_DETECTED",
+  "failed_extraction_path": "validation-corpus/raw/review-required/failed-extraction/MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx"
+}

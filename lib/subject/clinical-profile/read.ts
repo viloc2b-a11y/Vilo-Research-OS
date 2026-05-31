@@ -74,7 +74,15 @@ export async function loadSubjectClinicalProfile(
     // Surgical history
     supabase
       .from('subject_surgical_history')
-      .select('*')
+      .select(`
+        *,
+        surgical_procedure_library (
+          code,
+          label,
+          category,
+          source
+        )
+      `)
       .eq('study_subject_id', study_subject_id)
       .order('approximate_date', { ascending: false, nullsFirst: false }),
 

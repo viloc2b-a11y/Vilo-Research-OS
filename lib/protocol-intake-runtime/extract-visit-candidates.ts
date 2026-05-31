@@ -13,7 +13,7 @@ export type ExtractedVisitCandidate = {
 }
 
 const VISIT_LINE_RE =
-  /^(V\d+|Week\s*\d+|Day\s*-?\d+|Screening|Baseline|Follow[- ]?up|EOS|ET)\s*[-:–]\s*([A-Za-z0-9][^\n]{2,80})/gim
+  /^(Visit\s*\d+|V\d+|Week\s*\d+|Day\s*-?\d+|Screening|Baseline|Follow[- ]?up|EOS|ET)\s*[-:–]\s*([A-Za-z0-9][^\n]{2,80})/gim
 
 export function extractVisitCandidatesFromSections(sections: ProtocolRuntimeSectionRow[]): ExtractedVisitCandidate[] {
   const candidates: ExtractedVisitCandidate[] = []

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { COMPLIANCE_STORAGE_BUCKET } from '@/lib/document-intake/upload-document-blob'
+import { extractTablesFromDocument } from '@/lib/protocol-intake/extractors/document-extraction-adapter'
 import { extractProtocolSectionsFromText } from './extract-protocol-sections'
 import { storeProtocolSections } from './store-protocol-sections'
 import { extractVisitCandidatesFromSections } from './extract-visit-candidates'
@@ -67,6 +68,95 @@ async function bestEffortExtractText(args: {
   return { ok: true, text }
 }
 
+type ExtractionProvenance = {
+  extraction_method: string
+  source_table: string
+  source_page: number | null
+  confidence: number | null
+}
+
+type RichExtractResult =
+  | {
+      ok: true
+      text: string
+      method: string
+      pageCount: number | null
+      tables: Array<{ markdown: string; page_no: number | null }>
+      provenance: ExtractionProvenance[]
+    }
+  | { ok: false; note: string }
+
+/**
+ * Canonical Reader Wiring (Phase 1): when lightweight text extraction is not
+ * possible (PDF/DOCX/XLSX/CSV), route through the EXISTING strong extraction
+ * stack (document-extraction-adapter -> docling/openpyxl) to obtain document
+ * text + tables. Output is candidate truth only; reconciliation approval remains
+ * the sole gate to runtime. Any reader failure degrades to review_required.
+ */
+async function richExtractDocument(args: {
+  supabase: SupabaseClient
+  bucket: string
+  path: string
+  mimeType: string
+  filename: string
+}): Promise<RichExtractResult> {
+  const lower = args.filename.toLowerCase()
+  const mime = args.mimeType.toLowerCase()
+  const isRich =
+    ['.pdf', '.docx', '.xlsx', '.csv'].some((ext) => lower.endsWith(ext)) ||
+    mime.includes('pdf') ||
+    mime.includes('word') ||
+    mime.includes('officedocument') ||
+    mime.includes('excel') ||
+    mime.includes('spreadsheet') ||
+    mime === 'text/csv'
+
+  if (!isRich) {
+    return { ok: false, note: `No rich reader available for ${args.mimeType} (${args.filename})` }
+  }
+
+  const { data, error } = await args.supabase.storage.from(args.bucket).download(args.path)
+  if (error || !data) {
+    return { ok: false, note: `Failed to download source document: ${error?.message ?? 'unknown error'}` }
+  }
+
+  const buffer = Buffer.from(await data.arrayBuffer())
+  const raw = await extractTablesFromDocument(buffer, args.filename)
+  if (raw.error) {
+    return { ok: false, note: `Reader error: ${raw.error}` }
+  }
+
+  const tables = raw.tables ?? []
+  const tableText = tables
+    .map(
+      (table, index) =>
+        `\n\n[Table ${index + 1}${table.page_no != null ? ` · p.${table.page_no}` : ''}]\n${table.table_markdown ?? ''}`,
+    )
+    .join('')
+  const text = `${raw.full_text ?? ''}${tableText}`.trim()
+
+  if (text.length === 0) {
+    return { ok: false, note: 'Reader returned no extractable text.' }
+  }
+
+  return {
+    ok: true,
+    text,
+    method: raw.extraction_method ?? 'docling',
+    pageCount: raw.page_count ?? null,
+    tables: tables.map((table) => ({
+      markdown: (table.table_markdown ?? '').slice(0, 4000),
+      page_no: table.page_no ?? null,
+    })),
+    provenance: tables.map((table, index) => ({
+      extraction_method: raw.extraction_method ?? 'docling',
+      source_table: `Table ${index + 1}`,
+      source_page: table.page_no ?? null,
+      confidence: null,
+    })),
+  }
+}
+
 export async function extractProtocolVersion(args: {
   supabase: SupabaseClient
   organizationId: string
@@ -122,6 +212,9 @@ export async function extractProtocolVersion(args: {
     extraction_note: 'Text extraction not available for this document type.',
   }
   let extractedText = `Protocol extraction requires review. (${doc.filename})`
+  let extractionMethod = 'unsupported'
+  let pageCount: number | null = null
+  let provenance: ExtractionProvenance[] = []
 
   const textResult = await bestEffortExtractText({
     supabase: args.supabase,
@@ -136,9 +229,11 @@ export async function extractProtocolVersion(args: {
   if (textResult.ok) {
     extractionStatus = 'ready'
     extractedText = textResult.text
+    extractionMethod = 'text'
     rawText = {
       source: 'text',
       text: extractedText.slice(0, 200000),
+      extraction_method: 'text',
       source_document: {
         id: doc.id,
         bucket: doc.bucket,
@@ -148,9 +243,43 @@ export async function extractProtocolVersion(args: {
       },
     }
   } else {
-    rawText = {
-      ...rawText,
-      extraction_note: textResult.note ?? rawText.extraction_note,
+    // Route PDF/DOCX/XLSX/CSV through the existing strong reader.
+    const rich = await richExtractDocument({
+      supabase: args.supabase,
+      bucket: doc.bucket || COMPLIANCE_STORAGE_BUCKET,
+      path: doc.path,
+      mimeType: doc.mimeType,
+      filename: doc.filename,
+    }).catch((err) => ({
+      ok: false as const,
+      note: err instanceof Error ? err.message : 'Rich extraction failed',
+    }))
+
+    if (rich.ok) {
+      extractionStatus = 'ready'
+      extractedText = rich.text
+      extractionMethod = rich.method
+      pageCount = rich.pageCount
+      provenance = rich.provenance
+      rawText = {
+        source: rich.method,
+        text: extractedText.slice(0, 200000),
+        extraction_method: rich.method,
+        page_count: rich.pageCount,
+        tables: rich.tables,
+        source_document: {
+          id: doc.id,
+          bucket: doc.bucket,
+          path: doc.path,
+          mime_type: doc.mimeType,
+          filename: doc.filename,
+        },
+      }
+    } else {
+      rawText = {
+        ...rawText,
+        extraction_note: rich.note ?? textResult.note ?? rawText.extraction_note,
+      }
     }
   }
 
@@ -246,6 +375,11 @@ export async function extractProtocolVersion(args: {
         section_count: sectionCount,
         visit_candidate_count: visitCandidateCount,
         procedure_candidate_count: procedureCandidateCount,
+        // Provenance (aligned with schemas/meta/Parser_Extraction_Result.schema.json)
+        extraction_method: extractionMethod,
+        page_count: pageCount,
+        source_table_count: provenance.length,
+        provenance,
       },
     })
     .eq('id', args.versionId)

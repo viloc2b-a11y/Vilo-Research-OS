@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { assertVisitUnlocked } from '@/lib/visit-runtime-locking/assert-visit-unlocked'
+import { enforceConsentForVisitExecution } from '@/lib/subject/consent/enforcement'
 import { appendVisitRuntimeEvent, buildStateSnapshot } from './append-visit-runtime-event'
 import { loadVisitInstanceProcedures } from './load-visit-workspace'
 import {
@@ -47,6 +48,16 @@ export async function startVisitInstance(
   if (existing.visit_status !== VISIT_STATUS.NOT_STARTED) {
     throw new Error(`Visit cannot be started from status "${existing.visit_status}".`)
   }
+
+  const consent = await enforceConsentForVisitExecution({
+    supabase: args.supabase,
+    organizationId: args.organizationId,
+    studyId: existing.study_id as string,
+    subjectId: existing.subject_id as string,
+    visitId: args.visitInstanceId,
+    actorUserId: args.actorId,
+  })
+  if (!consent.ok) throw new Error(consent.message)
 
   const startedAt = new Date().toISOString()
   const { data, error } = await args.supabase

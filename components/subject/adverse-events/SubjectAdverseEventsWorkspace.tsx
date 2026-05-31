@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -20,6 +20,8 @@ import {
   updateSubjectAdverseEvent,
 } from '@/lib/subject/adverse-events/actions'
 import { DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION } from '@/lib/subject/clinical-profile/defaults'
+import { searchAeControlledTerms } from '@/lib/subject/clinical-profile/library-search'
+import type { AeControlledTermResult } from '@/lib/subject/clinical-profile/library-search-types'
 import type { SubjectAdverseEventsTimelineModel } from '@/lib/subject/adverse-events/types'
 import type { AdverseEventLifecycleStatus } from '@/lib/subject/adverse-events/types'
 import type {
@@ -32,9 +34,15 @@ import type {
 type AeFormState = {
   event_term: string
   preferred_term: string
+  ae_type: string
   severity: string
   seriousness: boolean
   relationship_to_ip: string
+  expectedness: string
+  action_taken: string
+  outcome: string
+  ongoing: boolean
+  requires_pi_si_review: boolean
   lifecycle_status: AdverseEventLifecycleStatus
   visit_id: string
   onset_date: string
@@ -47,9 +55,15 @@ function emptyAeForm(): AeFormState {
   return {
     event_term: '',
     preferred_term: '',
+    ae_type: '',
     severity: '',
     seriousness: false,
     relationship_to_ip: '',
+    expectedness: '',
+    action_taken: '',
+    outcome: '',
+    ongoing: true,
+    requires_pi_si_review: false,
     lifecycle_status: 'open',
     visit_id: '',
     onset_date: '',
@@ -63,9 +77,15 @@ function formToInput(form: AeFormState): SubjectAdverseEventInput {
   return {
     event_term: form.event_term,
     preferred_term: form.preferred_term || null,
+    ae_type: form.ae_type || null,
     severity: (form.severity as SubjectAdverseEventSeverity) || null,
     seriousness: form.seriousness,
     relationship_to_ip: (form.relationship_to_ip as SubjectAdverseEventRelationship) || null,
+    expectedness: form.expectedness || null,
+    action_taken: form.action_taken || null,
+    outcome: form.outcome || null,
+    ongoing: form.ongoing,
+    requires_pi_si_review: form.requires_pi_si_review,
     lifecycle_status: form.lifecycle_status,
     visit_id: form.visit_id || null,
     onset_date: form.onset_date || null,
@@ -73,6 +93,63 @@ function formToInput(form: AeFormState): SubjectAdverseEventInput {
     source_attribution: form.source_attribution || DEFAULT_CLINICAL_PROFILE_SOURCE_ATTRIBUTION,
     comments: form.comments || null,
   }
+}
+
+function mapAeSeverityCode(code: string) {
+  const map: Record<string, string> = {
+    MILD: 'mild',
+    MODERATE: 'moderate',
+    SEVERE: 'severe',
+    LIFE_THREATENING: 'life-threatening',
+    UNKNOWN: 'unknown',
+  }
+  return map[code] ?? code.toLowerCase().replace(/_/g, '-')
+}
+
+function mapAeRelatednessCode(code: string) {
+  const map: Record<string, string> = {
+    RELATED: 'related',
+    POSSIBLY_RELATED: 'possibly_related',
+    POSSIBLE: 'possibly_related',
+    NOT_RELATED: 'not_related',
+    UNLIKELY: 'unlikely',
+    UNKNOWN: 'unknown',
+  }
+  return map[code] ?? code.toLowerCase()
+}
+
+function ControlledSelect({
+  value,
+  terms,
+  fallback = [],
+  mapCode = (code) => code,
+  onValueChange,
+}: {
+  value: string
+  terms?: AeControlledTermResult[]
+  fallback?: [string, string][]
+  mapCode?: (code: string) => string
+  onValueChange: (value: string) => void
+}) {
+  const options = terms?.length
+    ? terms.map((term) => [mapCode(term.code), term.label] as [string, string])
+    : fallback
+
+  return (
+    <Select value={value || '_none'} onValueChange={(v) => onValueChange(v === '_none' ? '' : v)}>
+      <SelectTrigger className="h-9">
+        <SelectValue placeholder="—" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="_none">—</SelectItem>
+        {options.map(([code, label]) => (
+          <SelectItem key={`${code}-${label}`} value={code}>
+            {label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
 }
 
 type SubjectAdverseEventsWorkspaceProps = {
@@ -90,8 +167,31 @@ export function SubjectAdverseEventsWorkspace({
   const [editingRegistryId, setEditingRegistryId] = useState<string | null>(null)
   const [changeReason, setChangeReason] = useState('')
   const [form, setForm] = useState<AeFormState>(emptyAeForm)
+  const [controlledTerms, setControlledTerms] = useState<Record<string, AeControlledTermResult[]>>({})
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const groups = [
+      'AE_TYPE',
+      'AE_SEVERITY',
+      'AE_RELATEDNESS',
+      'EXPECTEDNESS',
+      'AE_ACTION_TAKEN',
+      'AE_OUTCOME',
+    ]
+    let cancelled = false
+    Promise.all(groups.map(async (group) => [group, await searchAeControlledTerms(group)] as const))
+      .then((pairs) => {
+        if (!cancelled) setControlledTerms(Object.fromEntries(pairs))
+      })
+      .catch(() => {
+        if (!cancelled) setControlledTerms({})
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   function openAdd() {
     setEditingRegistryId(null)
@@ -111,9 +211,15 @@ export function SubjectAdverseEventsWorkspace({
     setForm({
       event_term: item.eventTerm,
       preferred_term: item.preferredTerm ?? '',
+      ae_type: '',
       severity: item.severity ?? '',
       seriousness: item.isSeriousAdverseEvent,
       relationship_to_ip: item.relationshipCode ?? '',
+      expectedness: '',
+      action_taken: '',
+      outcome: '',
+      ongoing: !item.resolutionDate,
+      requires_pi_si_review: false,
       lifecycle_status: item.lifecycleStatus,
       visit_id: item.visitId ?? '',
       onset_date: item.onsetDate ?? '',
@@ -130,6 +236,14 @@ export function SubjectAdverseEventsWorkspace({
     e.preventDefault()
     if (!form.event_term.trim()) {
       setError('AE term is required.')
+      return
+    }
+    if (form.ongoing && form.resolution_date) {
+      setError('Stop Date must be empty when Ongoing is selected.')
+      return
+    }
+    if (!form.ongoing && !form.resolution_date) {
+      setError('Stop Date is required when Ongoing is not selected.')
       return
     }
     if (editingRegistryId && !changeReason.trim()) {
@@ -205,25 +319,28 @@ export function SubjectAdverseEventsWorkspace({
               />
             </div>
             <div className="space-y-1">
+              <Label className="text-xs">AE type</Label>
+              <ControlledSelect
+                value={form.ae_type}
+                terms={controlledTerms.AE_TYPE}
+                onValueChange={(value) => setForm({ ...form, ae_type: value })}
+              />
+            </div>
+            <div className="space-y-1">
               <Label className="text-xs">Severity</Label>
-              <Select
-                value={form.severity || '_none'}
-                onValueChange={(v) =>
-                  setForm({ ...form, severity: v === '_none' ? '' : v })
-                }
-              >
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="—" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="_none">—</SelectItem>
-                  <SelectItem value="mild">Mild</SelectItem>
-                  <SelectItem value="moderate">Moderate</SelectItem>
-                  <SelectItem value="severe">Severe</SelectItem>
-                  <SelectItem value="life-threatening">Life-threatening</SelectItem>
-                  <SelectItem value="unknown">Unknown</SelectItem>
-                </SelectContent>
-              </Select>
+              <ControlledSelect
+                value={form.severity}
+                terms={controlledTerms.AE_SEVERITY}
+                fallback={[
+                  ['mild', 'Mild'],
+                  ['moderate', 'Moderate'],
+                  ['severe', 'Severe'],
+                  ['life-threatening', 'Life-threatening'],
+                  ['unknown', 'Unknown'],
+                ]}
+                mapCode={mapAeSeverityCode}
+                onValueChange={(value) => setForm({ ...form, severity: value })}
+              />
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Status</Label>
@@ -249,24 +366,43 @@ export function SubjectAdverseEventsWorkspace({
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Relationship to IP</Label>
-              <Select
-                value={form.relationship_to_ip || '_none'}
-                onValueChange={(v) =>
-                  setForm({ ...form, relationship_to_ip: v === '_none' ? '' : v })
-                }
-              >
-                <SelectTrigger className="h-9">
-                  <SelectValue placeholder="—" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="_none">—</SelectItem>
-                  <SelectItem value="related">Related</SelectItem>
-                  <SelectItem value="possibly_related">Possibly related</SelectItem>
-                  <SelectItem value="not_related">Not related</SelectItem>
-                  <SelectItem value="unlikely">Unlikely</SelectItem>
-                  <SelectItem value="unknown">Unknown</SelectItem>
-                </SelectContent>
-              </Select>
+              <ControlledSelect
+                value={form.relationship_to_ip}
+                terms={controlledTerms.AE_RELATEDNESS}
+                fallback={[
+                  ['related', 'Related'],
+                  ['possibly_related', 'Possibly related'],
+                  ['not_related', 'Not related'],
+                  ['unlikely', 'Unlikely'],
+                  ['unknown', 'Unknown'],
+                ]}
+                mapCode={mapAeRelatednessCode}
+                onValueChange={(value) => setForm({ ...form, relationship_to_ip: value })}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Expectedness</Label>
+              <ControlledSelect
+                value={form.expectedness}
+                terms={controlledTerms.EXPECTEDNESS}
+                onValueChange={(value) => setForm({ ...form, expectedness: value })}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Action taken</Label>
+              <ControlledSelect
+                value={form.action_taken}
+                terms={controlledTerms.AE_ACTION_TAKEN}
+                onValueChange={(value) => setForm({ ...form, action_taken: value })}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Outcome</Label>
+              <ControlledSelect
+                value={form.outcome}
+                terms={controlledTerms.AE_OUTCOME}
+                onValueChange={(value) => setForm({ ...form, outcome: value })}
+              />
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Linked visit</Label>
@@ -290,7 +426,7 @@ export function SubjectAdverseEventsWorkspace({
               </Select>
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Onset date</Label>
+              <Label className="text-xs">Start Date</Label>
               <Input
                 type="date"
                 value={form.onset_date}
@@ -298,10 +434,11 @@ export function SubjectAdverseEventsWorkspace({
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Resolution date</Label>
+              <Label className="text-xs">Stop Date</Label>
               <Input
                 type="date"
                 value={form.resolution_date}
+                disabled={form.ongoing}
                 onChange={(e) => setForm({ ...form, resolution_date: e.target.value })}
               />
             </div>
@@ -316,6 +453,26 @@ export function SubjectAdverseEventsWorkspace({
               <Label htmlFor="ae-serious" className="text-xs font-normal cursor-pointer">
                 Serious adverse event (SAE)
               </Label>
+            </div>
+            <div className="sm:col-span-2 flex flex-wrap gap-4 pt-1">
+              <label className="flex items-center gap-2 text-xs font-normal">
+                <input
+                  type="checkbox"
+                  checked={form.ongoing}
+                  onChange={(e) => setForm({ ...form, ongoing: e.target.checked, resolution_date: e.target.checked ? '' : form.resolution_date })}
+                  className="h-4 w-4 rounded border"
+                />
+                Ongoing
+              </label>
+              <label className="flex items-center gap-2 text-xs font-normal">
+                <input
+                  type="checkbox"
+                  checked={form.requires_pi_si_review}
+                  onChange={(e) => setForm({ ...form, requires_pi_si_review: e.target.checked })}
+                  className="h-4 w-4 rounded border"
+                />
+                Requires PI/SI review
+              </label>
             </div>
             <div className="sm:col-span-2 space-y-1">
               <Label className="text-xs">Source attribution</Label>

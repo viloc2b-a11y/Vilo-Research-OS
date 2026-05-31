@@ -1,0 +1,22 @@
+{
+  "sanitized_id": "PROTOCOL_A004_AMEND_001",
+  "original_filename": "2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf",
+  "original_relative_path": "validation-corpus/inbox\\2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf",
+  "target_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_001.md",
+  "extraction_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_001.md",
+  "redaction_status": "UNSAFE_BINARY_REDACTION",
+  "redaction_method": "Deferred text-only parsing",
+  "unresolved_risks": [
+    "Embedded PHI in binary streams",
+    "Unscrubbed metadata (Author, Company)",
+    "Visual overlays hiding text"
+  ],
+  "manual_review_required": true,
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "unsafe_binary_path": "validation-corpus/raw/review-required/unsafe-binary-redaction\\PROTOCOL_A004_AMEND_001.pdf",
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN"
+}

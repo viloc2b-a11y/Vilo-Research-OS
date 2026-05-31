@@ -9,8 +9,10 @@ import {
 } from '@/lib/subject/visits/progress-note/types'
 import {
   reopenInvestigatorReviewAction,
-  signInvestigatorReviewAction,
+  requestInvestigatorCloseoutSignatureAction,
+  completeInvestigatorCloseoutSignatureAction
 } from '@/lib/subject/visits/progress-note/actions'
+import { ElectronicSignaturePanel } from '@/components/operations/ElectronicSignaturePanel'
 import type { VisitCloseoutGuards } from '@/lib/subject/visits/progress-note/guards'
 import type {
   InvestigatorRole,
@@ -103,6 +105,7 @@ export function InvestigatorSignatureCard({
     model.investigatorRole ?? 'principal_investigator',
   )
   const [showReopenForm, setShowReopenForm] = useState(false)
+  const [signatureRequestId, setSignatureRequestId] = useState<string | null>(null)
 
   const coordinatorReady =
     model.visitReviewStatus === 'coordinator_signed'
@@ -120,7 +123,8 @@ export function InvestigatorSignatureCard({
   const canReopen = !disabled && model.visitReviewStatus === 'investigator_signed'
 
   const run = (
-    fn: () => Promise<{ ok: boolean; error?: string; visitAutoCompleted?: boolean }>,
+    fn: () => Promise<{ ok: boolean; error?: string; visitAutoCompleted?: boolean; requestId?: string }>,
+    isRequest = false
   ) => {
     setMessage(null)
     startTransition(async () => {
@@ -129,14 +133,19 @@ export function InvestigatorSignatureCard({
         setMessage(result.error ?? 'Action failed')
         return
       }
-      if (result.visitAutoCompleted) {
-        setMessage('Investigator signed. Visit marked completed.')
+      if (isRequest && result.requestId) {
+        setSignatureRequestId(result.requestId)
       } else {
-        setMessage(
-          'Investigator signed. Visit stays in progress until procedures and findings are resolved.',
-        )
+        setSignatureRequestId(null)
+        if (result.visitAutoCompleted) {
+          setMessage('Investigator signed. Visit marked completed.')
+        } else {
+          setMessage(
+            'Investigator signed. Visit stays in progress until procedures and findings are resolved.',
+          )
+        }
+        router.refresh()
       }
-      router.refresh()
     })
   }
 
@@ -157,7 +166,7 @@ export function InvestigatorSignatureCard({
       <div>
         <p className="text-sm font-medium">Investigator review &amp; signature</p>
         <p className="text-xs text-muted-foreground">
-          PI or Sub-I operational review after coordinator closeout. Not CFR Part 11.
+          PI or Sub-I operational review after coordinator closeout. Part 11 compliant electronic signature.
         </p>
       </div>
 
@@ -204,7 +213,7 @@ export function InvestigatorSignatureCard({
             </div>
           </dl>
 
-          {canSignNow ? (
+          {canSignNow && !signatureRequestId ? (
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
               <div className="flex-1">
                 <label
@@ -232,17 +241,37 @@ export function InvestigatorSignatureCard({
                 disabled={pending}
                 onClick={() =>
                   run(() =>
-                    signInvestigatorReviewAction({
+                    requestInvestigatorCloseoutSignatureAction({
                       visitId: model.visitId,
                       organizationId: model.organizationId,
                       investigatorRole: role,
                       expectedUpdatedAt: model.updatedAt,
                     }),
+                    true
                   )
                 }
               >
-                Review &amp; sign
+                Request Signature
               </Button>
+            </div>
+          ) : null}
+
+          {signatureRequestId ? (
+            <div className="w-full mt-4">
+              <ElectronicSignaturePanel
+                requestId={signatureRequestId}
+                requiredRole={role}
+                signatureMeaning="I attest that I have reviewed the visit and all procedures."
+                attestationText="I verify that I have reviewed the progress note, procedures, and findings."
+                status="pending"
+                onSigned={() => {
+                  run(() => completeInvestigatorCloseoutSignatureAction({
+                    visitId: model.visitId,
+                    organizationId: model.organizationId,
+                    investigatorRole: role
+                  }))
+                }}
+              />
             </div>
           ) : null}
 

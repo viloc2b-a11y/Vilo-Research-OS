@@ -9,6 +9,7 @@ export type StudyWorkspaceNavItem = {
 
 export const STUDY_WORKSPACE_NAV_ITEMS: StudyWorkspaceNavItem[] = [
   { id: 'overview', label: 'Overview' },
+  { id: 'study-setup', label: 'Study Setup' },
   { id: 'subjects', label: 'Subjects' },
   { id: 'source-runtime', label: 'Source Runtime' },
   { id: 'published-source', label: 'Published Source' },

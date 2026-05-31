@@ -10,6 +10,15 @@ import {
 } from '@/lib/operational-signatures/operational-signature-types'
 
 type StudyOption = { id: string; name: string }
+type AssignedReviewRequest = {
+  request_id: string
+  document_id: string
+  request_type: string
+  message: string | null
+  due_date: string | null
+  status: string
+  created_at: string
+}
 
 function displayValue(value: string | null) {
   return value ? value.slice(0, 8) : 'None'
@@ -27,6 +36,7 @@ export function OperationalSignaturesClient({
   const router = useRouter()
   const searchParams = useSearchParams()
   const [requests, setRequests] = useState<OperationalSignatureRequestRow[]>([])
+  const [reviewRequests, setReviewRequests] = useState<AssignedReviewRequest[]>([])
   const [events, setEvents] = useState<OperationalSignatureEventRow[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [confirmed, setConfirmed] = useState(false)
@@ -54,12 +64,15 @@ export function OperationalSignaturesClient({
       const res = await fetch(`/api/operational-signatures/pending?${params.toString()}`)
       const data = (await res.json()) as {
         requests?: OperationalSignatureRequestRow[]
+        reviewRequests?: AssignedReviewRequest[]
         error?: string
       }
       if (!res.ok) throw new Error(data.error || 'Failed to load pending signatures')
       setRequests(data.requests ?? [])
+      setReviewRequests(data.reviewRequests ?? [])
     } catch (err) {
       setRequests([])
+      setReviewRequests([])
       setError(err instanceof Error ? err.message : 'Failed to load pending signatures')
     } finally {
       setLoading(false)
@@ -146,6 +159,58 @@ export function OperationalSignaturesClient({
     }
   }
 
+  async function transitionSignature(requestId: string, action: 'reject' | 'rescind', reason: string) {
+    setActionLoading(true)
+    setError(null)
+    setMessage(null)
+    try {
+      const res = await fetch(`/api/operational-signatures/${requestId}/sign`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          action,
+          reason,
+        }),
+      })
+      const data = (await res.json()) as { error?: string }
+      if (!res.ok) throw new Error(data.error || 'Failed to update signature request')
+      setMessage(`Signature request ${action === 'reject' ? 'rejected' : 'rescinded'}.`)
+      setRefreshKey((value) => value + 1)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update signature request')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  async function transitionReview(requestId: string, status: string, reason?: string) {
+    setActionLoading(true)
+    setError(null)
+    setMessage(null)
+    try {
+      const res = await fetch('/api/operational-signatures/pending', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          request_id: requestId,
+          status,
+          reason,
+          notify_requester: status === 'Rejected',
+        }),
+      })
+      const data = (await res.json()) as { error?: string }
+      if (!res.ok) throw new Error(data.error || 'Failed to update review request')
+      setMessage(`Review request ${status.toLowerCase()}.`)
+      setRefreshKey((value) => value + 1)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update review request')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-6 p-6">
       <header className="max-w-3xl">
@@ -184,7 +249,8 @@ export function OperationalSignaturesClient({
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <section className="rounded-md border border-slate-200 bg-white">
+        <section className="space-y-4">
+        <div className="rounded-md border border-slate-200 bg-white">
           <div className="border-b border-slate-200 p-3">
             <h2 className="text-sm font-semibold text-slate-800">Pending Signatures</h2>
           </div>
@@ -218,6 +284,44 @@ export function OperationalSignaturesClient({
               ))}
             </ul>
           )}
+        </div>
+        <div className="rounded-md border border-slate-200 bg-white">
+          <div className="border-b border-slate-200 p-3">
+            <h2 className="text-sm font-semibold text-slate-800">Assigned Reviews</h2>
+          </div>
+          {reviewRequests.length === 0 ? (
+            <p className="p-4 text-sm text-slate-500">No assigned reviews found.</p>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {reviewRequests.map((request) => (
+                <li key={request.request_id} className="space-y-2 p-3 text-sm">
+                  <p className="font-medium text-slate-800">{request.request_type} · {request.status}</p>
+                  <p className="text-xs text-slate-500">{request.message ?? 'No message'}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <button className="rounded border px-2 py-1 text-xs" disabled={actionLoading} onClick={() => void transitionReview(request.request_id, 'Viewed')}>
+                      Mark viewed
+                    </button>
+                    <button className="rounded border px-2 py-1 text-xs" disabled={actionLoading} onClick={() => void transitionReview(request.request_id, 'Reviewed')}>
+                      Mark reviewed
+                    </button>
+                    <button className="rounded border px-2 py-1 text-xs" disabled={actionLoading} onClick={() => {
+                      const reason = window.prompt('Rejection reason')
+                      if (reason) void transitionReview(request.request_id, 'Rejected', reason)
+                    }}>
+                      Reject
+                    </button>
+                    <button className="rounded border px-2 py-1 text-xs" disabled={actionLoading} onClick={() => {
+                      const reason = window.prompt('Rescind reason')
+                      if (reason) void transitionReview(request.request_id, 'Rescinded', reason)
+                    }}>
+                      Rescind
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         </section>
 
         <section className="rounded-md border border-slate-200 bg-white p-4">
@@ -275,6 +379,30 @@ export function OperationalSignaturesClient({
                 >
                   {actionLoading ? 'Signing...' : 'Sign Electronically'}
                 </button>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    className="rounded border border-slate-300 px-3 py-2 text-sm"
+                    disabled={actionLoading}
+                    onClick={() => {
+                      const reason = window.prompt('Rejection reason')
+                      if (reason) void transitionSignature(selectedRequest.id, 'reject', reason)
+                    }}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded border border-slate-300 px-3 py-2 text-sm"
+                    disabled={actionLoading}
+                    onClick={() => {
+                      const reason = window.prompt('Rescind reason')
+                      if (reason) void transitionSignature(selectedRequest.id, 'rescind', reason)
+                    }}
+                  >
+                    Rescind
+                  </button>
+                </div>
               </div>
 
               <div>

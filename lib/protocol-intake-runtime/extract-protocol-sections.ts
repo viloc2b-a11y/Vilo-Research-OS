@@ -15,9 +15,23 @@ export type ExtractedSection = {
 const HEADING_RE = /^((\d+(\.\d+)*)|appendix\s+[a-z0-9]+)?\s*([A-Z][^\n]{3,120})\s*$/gim
 
 function classifySection(title: string): ProtocolSectionType {
+  // Priority 1: Explicit Procedure Lines
+  if (/^Procedure\s*[-:–]/i.test(title)) {
+    return SECTION_TYPE.PROCEDURE_SECTION
+  }
+
+  // Priority 2: Explicit Visit Lines
+  if (/^(Visit\s*\d+|V\d+|Week\s*\d+|Day\s*-?\d+|Screening|Baseline|Follow[- ]?up|EOS|ET)\b/i.test(title)) {
+    return SECTION_TYPE.VISIT_SCHEDULE
+  }
+
   const t = title.toLowerCase()
+  
+  // Prevent "Unscheduled" from triggering "schedule"
+  if ((t.includes('schedule') && !t.includes('unscheduled')) || t.includes('visit schedule')) {
+    return SECTION_TYPE.VISIT_SCHEDULE
+  }
   if (t.includes('schedule of activities') || t.includes('soa')) return SECTION_TYPE.SCHEDULE_OF_ACTIVITIES
-  if (t.includes('visit schedule') || t.includes('schedule')) return SECTION_TYPE.VISIT_SCHEDULE
   if (t.includes('procedure') || t.includes('assessment')) return SECTION_TYPE.PROCEDURE_SECTION
   if (t.includes('eligibility') || t.includes('inclusion') || t.includes('exclusion')) return SECTION_TYPE.ELIGIBILITY
   if (t.includes('safety') || t.includes('adverse')) return SECTION_TYPE.SAFETY

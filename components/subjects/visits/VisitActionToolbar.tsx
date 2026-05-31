@@ -7,10 +7,13 @@ import {
   addVisitRuntimeNoteAction,
   disablePendingFieldsAction,
   disableSectionAction,
+  setApplicabilityAction,
   enableFieldsAction,
-  signProcedureAction,
+  requestProcedureSignatureAction,
+  completeProcedureSignatureAction,
   validateProcedureAction,
 } from '@/lib/subject/visit-runtime/actions'
+import { ElectronicSignaturePanel } from '@/components/operations/ElectronicSignaturePanel'
 import {
   INITIAL_VISIT_RUNTIME_ACTION_STATE,
   type VisitRuntimeToolbarModel,
@@ -43,9 +46,13 @@ export function VisitActionToolbar({
   sectionDisabled,
 }: VisitActionToolbarProps) {
   const router = useRouter()
-  const [panel, setPanel] = useState<'note' | 'audit' | 'alerts' | null>(null)
+  const [panel, setPanel] = useState<'note' | 'audit' | 'alerts' | 'applicability' | null>(null)
   const [signState, signAction, signPending] = useActionState(
-    signProcedureAction,
+    requestProcedureSignatureAction,
+    INITIAL_VISIT_RUNTIME_ACTION_STATE,
+  )
+  const [completeSignState, completeSignAction, completeSignPending] = useActionState(
+    completeProcedureSignatureAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
   const [noteState, noteAction, notePending] = useActionState(
@@ -68,38 +75,70 @@ export function VisitActionToolbar({
     disableSectionAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
+  const [applicabilityState, applicabilityAction, applicabilityPending] = useActionState(
+    setApplicabilityAction,
+    INITIAL_VISIT_RUNTIME_ACTION_STATE,
+  )
 
   useEffect(() => {
     if (
       signState.ok ||
+      completeSignState.ok ||
       noteState.ok ||
       validationState.message ||
       disableFieldsState.ok ||
       enableFieldsState.ok ||
-      disableSectionState.ok
+      disableSectionState.ok ||
+      applicabilityState.ok
     ) {
       router.refresh()
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (applicabilityState.ok) setPanel(null)
     }
-  }, [disableFieldsState.ok, disableSectionState.ok, enableFieldsState.ok, noteState.ok, router, signState.ok, validationState.message])
+  }, [disableFieldsState.ok, disableSectionState.ok, enableFieldsState.ok, noteState.ok, router, signState.ok, completeSignState.ok, validationState.message, applicabilityState.ok])
 
   const actionMessages = [
     signState,
+    completeSignState,
     noteState,
     validationState,
     disableFieldsState,
     enableFieldsState,
     disableSectionState,
+    applicabilityState,
   ].filter((state) => state.message)
 
   return (
     <div className="sticky top-0 z-30 space-y-2 border-b bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="flex flex-wrap items-center gap-2">
-        <form action={signAction}>
-          <HiddenVisitRuntimeInputs toolbar={toolbar} />
-          <Button type="submit" size="sm" disabled={signPending || toolbar.isSigned || toolbar.isLocked || sectionDisabled}>
-            {toolbar.isSigned ? 'Signed' : signPending ? 'Signing…' : 'Sign Procedure'}
-          </Button>
-        </form>
+        {!signState.requestId ? (
+          <form action={signAction}>
+            <HiddenVisitRuntimeInputs toolbar={toolbar} />
+            <Button type="submit" size="sm" disabled={signPending || toolbar.isSigned || toolbar.isLocked || sectionDisabled}>
+              {toolbar.isSigned ? 'Signed' : signPending ? 'Requesting…' : 'Sign Procedure'}
+            </Button>
+          </form>
+        ) : null}
+
+        {signState.requestId ? (
+          <div className="w-full mt-2">
+            <ElectronicSignaturePanel
+              requestId={signState.requestId}
+              requiredRole="coordinator"
+              signatureMeaning="I attest that the procedure data is accurate and complete."
+              attestationText="I verify that I have reviewed the procedure execution."
+              status="pending"
+              onSigned={() => {
+                const formData = new FormData()
+                formData.set('procedure_execution_id', toolbar.procedureExecutionId)
+                formData.set('organization_id', toolbar.organizationId)
+                if (toolbar.responseSetId) formData.set('response_set_id', toolbar.responseSetId)
+                if (signState.validation) formData.set('validation', JSON.stringify(signState.validation))
+                completeSignAction(formData)
+              }}
+            />
+          </div>
+        ) : null}
 
         <a
           href={toolbar.pdfHref}
@@ -139,13 +178,15 @@ export function VisitActionToolbar({
             Enable Fields
           </Button>
         </form>
-        <form action={disableSectionActionState}>
-          <HiddenVisitRuntimeInputs toolbar={toolbar} />
-          <input type="hidden" name="disable_reason" value="Coordinator disabled procedure section from visit runtime toolbar." />
-          <Button type="submit" size="sm" variant="secondary" disabled={disableSectionPending || sectionDisabled || toolbar.isLocked}>
-            Disable Section
-          </Button>
-        </form>
+        <Button 
+          type="button" 
+          size="sm" 
+          variant="secondary" 
+          disabled={sectionDisabled || toolbar.isLocked} 
+          onClick={() => setPanel(panel === 'applicability' ? null : 'applicability')}
+        >
+          Mark Applicability
+        </Button>
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
           <StatusPill value={toolbar.validationStatus} />
@@ -248,6 +289,40 @@ export function VisitActionToolbar({
             <p className="mt-3 text-muted-foreground">No active validation alerts.</p>
           )}
         </div>
+      ) : null}
+
+      {panel === 'applicability' ? (
+        <form action={applicabilityAction} className="rounded-md border bg-muted/20 p-4 space-y-4">
+          <HiddenVisitRuntimeInputs toolbar={toolbar} />
+          <div>
+            <p className="font-medium mb-2">Mark Procedure Applicability</p>
+            <p className="text-sm text-muted-foreground mb-4">
+              Select an applicability status to omit this procedure from missing data validation. This will be recorded in the audit trail and must be signed.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Status</label>
+                <select name="applicability_status" className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" required>
+                  <option value="">Select status...</option>
+                  <option value="not_applicable">Not Applicable</option>
+                  <option value="skipped">Skipped (Intentional)</option>
+                  <option value="missed">Missed (Unintentional)</option>
+                  <option value="contraindicated">Medically Contraindicated</option>
+                  <option value="protocol_exception">Protocol Exception</option>
+                  <option value="medical_exception">Medical Exception</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Reason (Required)</label>
+                <input type="text" name="applicability_reason" className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" placeholder="Provide clinical justification" required />
+              </div>
+            </div>
+            <div className="mt-4 flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={() => setPanel(null)}>Cancel</Button>
+              <Button type="submit" disabled={applicabilityPending}>{applicabilityPending ? 'Saving...' : 'Save Applicability'}</Button>
+            </div>
+          </div>
+        </form>
       ) : null}
     </div>
   )

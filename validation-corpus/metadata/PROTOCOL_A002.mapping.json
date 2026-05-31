@@ -1,0 +1,25 @@
+{
+  "corpus_id": "PROTOCOL_A002",
+  "original_source_reference": [
+    "fixtures/protocol-intake/mv40618-protocol-excerpt.txt"
+  ],
+  "sanitized_corpus_version": [
+    "validation-corpus/protocols/PROTOCOL_A002.txt"
+  ],
+  "mappings": {
+    "MV40618": "PROTOCOL_A002",
+    "Public Health Research Collaborative": "SPONSOR_B"
+  },
+  "preserved_unchanged": [
+    "visit schedule",
+    "visit numbering",
+    "visit windows",
+    "procedures",
+    "conditional logic",
+    "unscheduled visit logic",
+    "subject roles (index patient / household contact)",
+    "visit modalities (site/home/phone/remote/off-site)",
+    "indication (clinical, not a commercial identity)",
+    "eligibility criteria"
+  ]
+}

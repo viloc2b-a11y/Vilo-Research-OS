@@ -16,6 +16,7 @@ import {
   Settings,
   FileStack,
   FileSearch,
+  ClipboardList,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -42,6 +43,7 @@ const navItems: NavItem[] = [
   { id: 'operations', label: 'Operations',  href: '/command-center', icon: Calendar, coordinatorWorkspace: true },
   { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar, coordinatorWorkspace: true },
   { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban, allMembers: true },
+  { id: 'study-setup', label: 'Study Setup', href: '/studies', icon: ClipboardList, coordinatorWorkspace: true },
   { id: 'source-builder', label: 'Source', href: '/source-builder', icon: FileStack, sourceWorkflow: true },
   {
     id: 'document-intelligence',

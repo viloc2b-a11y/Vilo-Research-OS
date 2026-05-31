@@ -1,0 +1,13 @@
+{
+  "sanitized_id": "PROTOCOL_A003",
+  "original_filename": "AL 23 Signed Protocol Version 2 7.5.17.pdf",
+  "original_relative_path": "validation-corpus/inbox\\Abbott\\Abbott\\AL 23\\Zepeda\\eReg\\4. Protocol\\4.1 Protocol and Amendments\\AL 23 Signed Protocol Version 2 7.5.17.pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A003.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN",
+  "processed_original_path": "validation-corpus/raw/processed-originals/AL 23 Signed Protocol Version 2 7.5.17.pdf"
+}

@@ -1,0 +1,3225 @@
+{
+  "sanitized_id": "PROTOCOL_A102",
+  "document_class": "UNKNOWN",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A102_t0",
+      "page": 2,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Objectives Efficacy Endpoints"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Primary Objective"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Primary Endpoint"
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To evaluate the safety, tolerability and efficacy of 12 \u2022 Change from baseline in 12-week SBM frequency weeks of linaclotide therapy in comparison with rate (SBMs/week) during the study intervention placebo in pediatric participants aged 6 to 17 years who period fulfill modified Rome III Criteria for Child/Adolescent FC"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Secondary Endpoint \u2022 Change from baseline in 12-week stool consistency during the study intervention period"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t1",
+      "page": 3,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 5,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening Period 14 to 28 days"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Preintervention Period 14 to 21 days"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Double-blind Study Intervention Period 12 weeks Week 2 Visit Week 8 Visit (Day 15\u00b12) (Day 57\u00b12) Week 4 Visit (Day 29\u00b12)"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "interventio Period 1 week"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "n"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t2",
+      "page": 4,
+      "section": "",
+      "caption": "",
+      "row_count": 25,
+      "column_count": 9,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Periods (Duration)"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening (14-28 Days)"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Preintervention (14-21 Days)"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Intervention Period (12 weeks)"
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Postintervention (1 week)"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Visit"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Preintervention"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Randomization"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 2"
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 4"
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 8"
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 12 Visit/ End of Treatment (EOT)a"
+        },
+        {
+          "row": 1,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "End of Study (EOS) Visit b"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Visit Number"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5"
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6"
+        },
+        {
+          "row": 2,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7"
+        },
+        {
+          "row": 2,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Day"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-49 to -22"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-21 to -14"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "15 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "29 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "57 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "85 (+3)c"
+        },
+        {
+          "row": 3,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "EOT +7 (+7)"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Parent/Caregiver Consent/Assentd"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Inclusion and Exclusion Criteria"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Assess Rome IV statuse"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IWRS"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Xf"
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 7,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Medical History"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Lifestyle Modification Information Given to Participant/Caregiverg"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Physical Examinationh"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 10,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Fecal Impaction Assessmenti"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Xj"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Height"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 12,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Vital Signs and Postural Vital Signsk"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 13,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ECG"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 14,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Clinical Laboratory Testsl"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 15,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 15,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Serum Pregnancy Testingm"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Urine Pregnancy Testingn"
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 17,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 17,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 17,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 17,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Urine Drug Screeno"
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "AE Evaluation"
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 19,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Prior and Concomitant Medications"
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 20,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Rescue Medication Dispensedp"
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 21,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eDiary and Instructions Given to Participant/Caregiverq"
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eDiary Complianceq"
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 23,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 23,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 23,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 23,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 23,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eDiary Eligibility Reportf"
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 24,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "col_index": 1,
+            "label": "Screening (14-28 Days)"
+          },
+          {
+            "col_index": 2,
+            "label": "Preintervention (14-21 Days)"
+          },
+          {
+            "col_index": 3,
+            "label": "Study Intervention Period (12 weeks)"
+          },
+          {
+            "col_index": 8,
+            "label": "Postintervention (1 week)"
+          }
+        ],
+        "procedures": [
+          {
+            "row_index": 4,
+            "name": "Parent/Caregiver Consent/Assentd",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 5,
+            "name": "Inclusion and Exclusion Criteria",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 6,
+            "name": "Assess Rome IV statuse",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 7,
+            "name": "IWRS",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 8,
+            "name": "Medical History",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 9,
+            "name": "Lifestyle Modification Information Given to Participant/Caregiverg",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 10,
+            "name": "Physical Examinationh",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 11,
+            "name": "Fecal Impaction Assessmenti",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 12,
+            "name": "Height",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 13,
+            "name": "Vital Signs and Postural Vital Signsk",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Postintervention (1 week)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 14,
+            "name": "ECG",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 15,
+            "name": "Clinical Laboratory Testsl",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 16,
+            "name": "Serum Pregnancy Testingm",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 17,
+            "name": "Urine Pregnancy Testingn",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 18,
+            "name": "Urine Drug Screeno",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 19,
+            "name": "AE Evaluation",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Postintervention (1 week)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 20,
+            "name": "Prior and Concomitant Medications",
+            "occurrences": [
+              {
+                "visit_label": "Screening (14-28 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Postintervention (1 week)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 21,
+            "name": "Rescue Medication Dispensedp",
+            "occurrences": [
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 22,
+            "name": "eDiary and Instructions Given to Participant/Caregiverq",
+            "occurrences": [
+              {
+                "visit_label": "Preintervention (14-21 Days)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 23,
+            "name": "eDiary Complianceq",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              },
+              {
+                "visit_label": "Postintervention (1 week)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 24,
+            "name": "eDiary Eligibility Reportf",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A102_t3",
+      "page": 5,
+      "section": "",
+      "caption": "",
+      "row_count": 7,
+      "column_count": 9,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Periods (Duration)"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening (14-28 Days)"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Preintervention (14-21 Days)"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Intervention Period (12 weeks)"
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Postintervention (1 week)"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Visit"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Preintervention"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Randomization"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 2"
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 4"
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 8"
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Week 12 Visit/ End of Treatment (EOT)a"
+        },
+        {
+          "row": 1,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "End of Study (EOS) Visit b"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Visit Number"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5"
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6"
+        },
+        {
+          "row": 2,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7"
+        },
+        {
+          "row": 2,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Day"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-49 to -22"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-21 to -14"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "15 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "29 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "57 (\u00b1 2)"
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "85 (+3)c"
+        },
+        {
+          "row": 3,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "EOT +7 (+7)"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Intervention Administered on Siter"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Intervention Dispensed"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Intervention and Rescue Medication Compliance and Accountability"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Xr"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X"
+        },
+        {
+          "row": 6,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Xs"
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "col_index": 1,
+            "label": "Screening (14-28 Days)"
+          },
+          {
+            "col_index": 2,
+            "label": "Preintervention (14-21 Days)"
+          },
+          {
+            "col_index": 3,
+            "label": "Study Intervention Period (12 weeks)"
+          },
+          {
+            "col_index": 8,
+            "label": "Postintervention (1 week)"
+          }
+        ],
+        "procedures": [
+          {
+            "row_index": 4,
+            "name": "Study Intervention Administered on Siter",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "row_index": 5,
+            "name": "Study Intervention Dispensed",
+            "occurrences": [
+              {
+                "visit_label": "Study Intervention Period (12 weeks)",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A102_t4",
+      "page": 7,
+      "section": "",
+      "caption": "",
+      "row_count": 8,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Age and Weight"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.01"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Male and female participants must be ages 6 to 17 years, (inclusive) at the time the participant provides assent for the study and parent/guardian/legally authorized representative (LAR) has provided signed consent"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.02"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant weighs \u226518 kg at the time the parent/guardian/LAR has provided signed consent"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2."
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Type of Participant and Disease Characteristics"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.01"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participants who meet the modified Rome III criteria for Child/Adolescent FC. For at least 2 months before the Screening Visit, the participant has had 2 or fewer defecations in the toilet per week and, in addition, meets 1 or more of the following criteria: a. History of retentive posturing or excessive volitional stool retention (at least once per week) b. History of painful or hard BMs (at least once per week) c. History of large diameter stools that may obstruct the toilet (at least once per week) d. Presence of a large fecal mass in the rectum e. At least 1 episode of fecal incontinence per week"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.02"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant is willing to discontinue any laxatives used before the Preintervention Visit in favor of the protocol- permitted rescue medicine."
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.03"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has an average of fewer than 3 SBMs per week during the 14 days before the randomization day and up to the randomization (including the morning eDiary assessments reported before administration of first dose of double-blind study intervention on the randomization day). An SBM is defined as a BM that occurs in the absence of laxative, enema, or suppository use on the calendar day of the BM or the calendar day before the BM"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.04"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant or parent/guardian/LAR or caregiver is compliant with eDiary requirements by completing both the morning and evening assessments for 10 out of the 14 days immediately preceding the Randomization Visit"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t5",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 8,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Contraceptives"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.01"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Female participants of childbearing potential must have a negative serum pregnancy test at the Screening Visit and a negative urine pregnancy test at the Randomization Visit prior to dosing"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.02"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Female participants who have had their first menstrual period and are sexually active must agree to use a reliable form of contraception. Reliable contraception is defined in Section 10.7 Appendix 7."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4."
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.01"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant must provide written or verbal informed assent and the parent/guardian/LAR and caregiver must provide written informed consent before the initiation of any study-specific procedures"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.02"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant is able to read and/or understand the assessments in the eDiary device. If the participant is 6 to 11 years of age and does not meet this criterion, the interviewer-administered version of the eDiary must be used and the parent/guardian/LAR or caregiver who will be administering the interviewer- administered version of the eDiary must undergo training"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5."
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Other"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5.01"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant must have acquired toilet training skills"
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "col_index": 1,
+            "label": "Col_1"
+          }
+        ],
+        "procedures": [
+          {
+            "row_index": 1,
+            "name": "3.01",
+            "occurrences": []
+          },
+          {
+            "row_index": 2,
+            "name": "3.02",
+            "occurrences": []
+          },
+          {
+            "row_index": 3,
+            "name": "4.",
+            "occurrences": []
+          },
+          {
+            "row_index": 4,
+            "name": "4.01",
+            "occurrences": []
+          },
+          {
+            "row_index": 5,
+            "name": "4.02",
+            "occurrences": []
+          },
+          {
+            "row_index": 6,
+            "name": "5.",
+            "occurrences": []
+          },
+          {
+            "row_index": 7,
+            "name": "5.01",
+            "occurrences": []
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A102_t6",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Medical Conditions"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.01"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant meets Rome III criteria for Child/Adolescent IBS: At least once per week for at least 2 months before the Screening Visit, the participant has experienced abdominal discomfort (an uncomfortable sensation not described as pain) or pain associated with 2 or more of the following at least 25% of the time: a. Improvement with defecation b. Onset associated with a change in frequency of stool c. Onset associated with a change in form (appearance) of stool"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.02"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant reports having more than 1 loose, mushy stool (eDiary-recorded stool consistency of 6 on the Pediatric Bristol Stool Form Scale [p-BSFS]) or any watery stool (eDiary-recorded stool consistency of 7 on the p-BSFS) with any SBM that occurred in the absence of laxative use on the calendar day of the BM or the"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t7",
+      "page": 9,
+      "section": "",
+      "caption": "",
+      "row_count": 8,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "calendar day before the BM during the 14 days before the randomization day and up to the randomization (including the morning eDiary assessments reported before administration of first dose of double-blind study intervention on the randomization day)"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.03"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has a history of non-retentive fecal incontinence"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.04"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has fecal impaction at Visit 2 and has failed outpatient clean-out during the Screening Period"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.05"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has required manual disimpaction any time prior to randomization or disimpaction during in-patient hospitalization within 1 year prior to randomization"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.06"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant currently has both unexplained and clinically significant alarm symptoms (lower GI bleeding [rectal bleeding or heme-positive stool], iron-deficiency anemia, or any unexplained anemia, or weight loss) and systemic signs of infection or colitis, or any neoplastic process"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.07"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has clinically significant findings on a physical examination, ECG, or clinical laboratory test as determined by the investigator based on consideration of whether the finding could represent a safety concern or a condition that would be exclusionary, could prevent the participant from performing any protocol assessments, or could confound study assessments."
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.08"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has a history of drug or alcohol abuse."
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.09"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has any of the following conditions: a. Celiac disease, or positive serological test for celiac disease and the condition has not been ruled out by endoscopic biopsy b. Cystic fibrosis c. Hypothyroidism that is untreated or treated with thyroid hormone at a dose that has not been stable for at least 3 months prior to the Screening Visit d. Down's syndrome or any other chromosomal disorder e. Active anal fissure (Note: History of anal fissure is not an exclusion) f. Anatomic malformations (eg, imperforate anus, anal stenosis, anterior displaced anus) g. Intestinal nerve or muscle disorders (eg, Hirschprung disease, visceral myopathies, visceral neuropathies) h. Neuropathic conditions (eg, spinal cord abnormalities, neurofibromatosis, tethered cord, spinal cord trauma) i. Lead toxicity, hypercalcemia"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t8",
+      "page": 10,
+      "section": "",
+      "caption": "",
+      "row_count": 6,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "j. Neurodevelopmental disabilities (early-onset, chronic disorders that share the essential feature of a predominant disturbance in the acquisition of cognitive, motor, language, or social skills, which has a significant and continuing impact on the developmental progress of an individual) producing a cognitive delay that precludes comprehension and completion of the daily eDiary or other study-related questionnaires (Note: Participants are excluded if the person who will be completing the daily eDiary or other study-related questionnaires meets this criterion.) k. Inflammatory bowel disease l. Childhood functional abdominal pain syndrome m. Childhood functional abdominal pain n. Poorly treated or poorly controlled psychiatric disorders that might influence his or her ability to participate in the study o. Lactose intolerance that is associated with abdominal pain or discomfort and could confound the assessments in this study p. History of cancer other than treated basal cell carcinoma of the skin. (Note: Participants with a history of cancer are allowed provided that the malignancy has been in a complete remission for at least 5 years before the Randomization Visit. A complete remission is defined as the disappearance of all signs of cancer in response to treatment.) q. History of diabetic neuropathy"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.10"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has an acute or chronic condition that, in the investigator's opinion, would limit the participants\u2019 ability to complete or participate in this clinical study."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.11"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has a mechanical bowel obstruction or pseudo-obstruction."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.12"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has a known allergy or sensitivity to the study intervention or its components or other medications in the same drug class."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.13"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant is receiving enteral tube feeding."
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.14"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has had surgery that meets any of the following criteria: a. Bariatric surgery for treatment of obesity, or surgery to remove a segment of the GI tract at any time before the Screening Visit b. Surgery of the abdomen, pelvis, or retroperitoneal structures during the 6 months before the Screening Visit c. An appendectomy or cholecystectomy during the 60 days before the Screening Visit d. Other major surgery during the 30 days before the Screening Visit"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A102_t9",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 11,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Prior/Concomitant Therapy"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.01"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant used a protocol-specified prohibited medicine before the start of the Preintervention Period or failed to meet the stable-dose requirements of certain medications."
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.02"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant used rescue medication on the calendar day before the Randomization Visit and on the day of the Randomization Visit until randomized."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3."
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Prior/Concurrent Clinical Study Experience"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.01"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant received a study intervention during the 30 days before the Screening Visit or is planning to receive a study intervention (other than that administered during this study)"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.02"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant has been randomized into any clinical study in which linaclotide was a study intervention."
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4."
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Other"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.01"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The participant has a condition or is in a situation which, in the investigator\u2019s opinion, may put the participant at significant risk, may confound the study results, or may interfere significantly with the participant\u2019s participation in the study."
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.02"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participants who have positive urine drug screen results for cocaine, barbiturates, opiates, or cannabinoids will be excluded from study participation"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.03"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Female participants who are currently pregnant or nursing, or plan to become pregnant or nurse during the clinical study. Details regarding pregnancy and contraception are provided in Section 10.7 Appendix 7."
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.04"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Participant\u2019s parent/guardian/LAR or caregiver has been directly or indirectly involved in the conduct and administration of this study as an investigator, study coordinator, or other study staff member. In addition, any participant, parent/guardian/LAR or caregiver who has a first-degree family member, significant other, or relative residing with him/her directly or indirectly who is involved in this study"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

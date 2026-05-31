@@ -1,0 +1,4562 @@
+{
+  "sanitized_id": "PROTOCOL_A005",
+  "document_class": "PROTOCOL",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A005_t0",
+      "page": 2,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 9,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Version",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Date",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Summary of Changes",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.0",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "25JAN2024",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Original Version",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.1",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "28FEB2024",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Updated information on external controls. Removed reference to an IFU. Corrected result interpretation table. Clarified number of serum samples to be obtained during venipuncture.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t1",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ASR, LLC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "16111 N. Brinson Street Suite 110 Nampa, ID 83687",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PI: Gary Gregerson, MD CPI OBGYN",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ClinTheory Healthcare Research, Miami",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Admin Office: 1590 NE 162ns St. Suite 400, North Miami Beach, FL 3 3162",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PI: Christ-Ann A.E. Magloire, MD, OBGYN",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ClinTheory Healthcare",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Admin Office: 760 Old Rosewell Road, Suite 211 Rosewell, GA 30076",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PI: Kevin Washington, MD",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Research, Atlanta",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t2",
+      "page": 10,
+      "section": "",
+      "caption": "",
+      "row_count": 8,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Name",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A Study to Evaluate the Performance of a Herpes Simplex Virus Type 1&2 (VIZI[INVESTIGATIONAL_PRODUCT_A] 1&2) [INVESTIGATIONAL_PRODUCT_A] Lateral Flow Assay ([INVESTIGATIONAL_PRODUCT_A]) Test in CLIA waived Point-of-Care (POC) Testing Sites",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protocol Number",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Viro-SP-003",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Type and Number of Sites",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The study will be conducted at three CLIA-waived Point-of-care (POC) locations (e.g., physician office laboratories, urgent care, emergency department and outpatient clinics) while the comparator for method comparison, discordant and or equivocal testing will be performed at a minimum of one reference lab.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Duration",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "It is estimated that the study will take about one to two months to complete. This study is expected to take place from March 2024 until August 2024 in the United States.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Purpose",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Results obtained with this protocol are for use by the Study Sponsor to collect data for submission of the [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test to regulatory agencies.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Objectives",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The objectives of this clinical study are as follows: Evaluate the performance of the [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test in fresh fingerstick whole blood samples from patients over 21 years old as compared with an FDA- cleared comparator method. Evaluate [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Test performance when the test is run by non- laboratory, untrained users in POC locations representative of intended users/sites who perform testing under a CLIA certificate of waiver. Performance data are intended to support an application to the FDA for CLIA-waived status for the [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test. Evaluate by use of a post-study questionnaire the ease of use of the simplified Quick reference instructions (QRI) and the robustness of the test in the hands of non-laboratory, untrained users in CLIA-waived POC locations.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Subject Eligibility Criteria",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Inclusion Criteria A subject must meet ALL of the following inclusion criteria to be enrolled in this study: (1) Adult 21 years or older (2) Individual seeking care for Sexually Transmitted Infection (STIs) or expectant mothers. (3) Proper written informed consent before enrollment. Exclusion Criteria (1) Younger than 21 years old (2) Known to be hemophiliac, anemic, or immunocompromised (3) Visiting the site solely for the purpose of participation in the clinical study. A subject\u2019s participation in this study will consist of a single visit.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Procedures",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This study is a prospective, multi-center study to evaluate the performance of the [INVESTIGATIONAL_PRODUCT_A] 1 & 2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test, designed to report rapid test results at CLIA- waived POC locations.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t3",
+      "page": 11,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Following completion of the informed consent process and a review of Inclusion/Exclusion criteria to determine eligibility, each enrolled subject will receive a unique study identification number. Study coordinator will ask subjects relevant medical history questions. Subject demographics including age, sex, and race/ethnicity, and trimester if pregnant will also be collected at this time. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test will be performed by untrained intended use operators, e.g., nurses, physician assistants, and medical assistants. Each site will have a minimum of three (3) untrained intended users who will perform the fingerstick and each step of the testing as described in this protocol and QRI. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test will be performed at the site on the same day as the date of collection for each subject enrolled. In addition, a serum sample (1-2 tubes) will be collected by a trained staff for comparator testing at a reference lab. A total of 150 subjects (at each OBGYN site, n=300) and 200 subjects (at STI site) are to be enrolled. An interim analysis may take place to ensure the predicted prevalence is met, after which a decision may be made to add sites to meet the prevalence. Once the clinical study is completed, each site will be required to perform Near LoD and reproducibility studies to assess the assay\u2019s accuracy and precision. Sample pools will be sent to sites, de-identified, for assessment. This testing is to be integrated as part of the normal testing workflow. At the conclusion of the study, the untrained operators will be asked to fill in a usability questionnaire to evaluate the instructions for use, the clarity of the information to collect a sample, how to perform the test and read the result.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Reference Method(s)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Focus Diagnostic HerpesSelect [INVESTIGATIONAL_PRODUCT_A] 1&2 Immunoblot [INVESTIGATIONAL_PRODUCT_A] Test (K000238)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sample Type(s)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Fingerstick whole blood and serum samples (comparator) from the same patient.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Statistical Methods",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive and Negative Percent Agreement (PPA and NPA; aka Sensitivity and Specificity) against the comparator Focus Diagnostic HerpesSelect [INVESTIGATIONAL_PRODUCT_A] 1&2 Immunoblot [INVESTIGATIONAL_PRODUCT_A] Test (K000238) will be estimated, along with their associated 2- sided Wilson Score with 95% Confidence Intervals. Equivocal results on the comparator device will be retested by a validated Western Blot method, and the results from that method will be used to either reclassify the comparator result as a positive or negative result, or to concur with the comparator result. Discordant results between Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] and the Focus [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Immunoblot will be resolved by retesting the remnant serum sample on a validated Western Blot method. These final results will be used in the calculation of PPA and NPA and presented as a footnote. If invalid results are obtained on the Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 test, another fingerstick will be performed and the testing will be repeated on another Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 test cassette. In the case of invalid results for the comparator, the leftover serum sample will be retested on the Focus [INVESTIGATIONAL_PRODUCT_A]1&2 [INVESTIGATIONAL_PRODUCT_A] immunoblot test. Only valid results will be used for the analysis. The results will be analyzed for individual as well as combined study sites.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "label": "Following completion of the informed consent process and a review of Inclusion/Exclusion criteria to determine eligibility, each enrolled subject will receive a unique study identification number. Study coordinator will ask subjects relevant medical history questions. Subject demographics including age, sex, and race/ethnicity, and trimester if pregnant will also be collected at this time. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test will be performed by untrained intended use operators, e.g., nurses, physician assistants, and medical assistants. Each site will have a minimum of three (3) untrained intended users who will perform the fingerstick and each step of the testing as described in this protocol and QRI. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test will be performed at the site on the same day as the date of collection for each subject enrolled. In addition, a serum sample (1-2 tubes) will be collected by a trained staff for comparator testing at a reference lab. A total of 150 subjects (at each OBGYN site, n=300) and 200 subjects (at STI site) are to be enrolled. An interim analysis may take place to ensure the predicted prevalence is met, after which a decision may be made to add sites to meet the prevalence. Once the clinical study is completed, each site will be required to perform Near LoD and reproducibility studies to assess the assay\u2019s accuracy and precision. Sample pools will be sent to sites, de-identified, for assessment. This testing is to be integrated as part of the normal testing workflow. At the conclusion of the study, the untrained operators will be asked to fill in a usability questionnaire to evaluate the instructions for use, the clarity of the information to collect a sample, how to perform the test and read the result.",
+            "col_index": 3
+          }
+        ],
+        "procedures": [
+          {
+            "name": "Sample Type(s)",
+            "row_index": 2,
+            "occurrences": [
+              {
+                "visit_label": "Following completion of the informed consent process and a review of Inclusion/Exclusion criteria to determine eligibility, each enrolled subject will receive a unique study identification number. Study coordinator will ask subjects relevant medical history questions. Subject demographics including age, sex, and race/ethnicity, and trimester if pregnant will also be collected at this time. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test will be performed by untrained intended use operators, e.g., nurses, physician assistants, and medical assistants. Each site will have a minimum of three (3) untrained intended users who will perform the fingerstick and each step of the testing as described in this protocol and QRI. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test will be performed at the site on the same day as the date of collection for each subject enrolled. In addition, a serum sample (1-2 tubes) will be collected by a trained staff for comparator testing at a reference lab. A total of 150 subjects (at each OBGYN site, n=300) and 200 subjects (at STI site) are to be enrolled. An interim analysis may take place to ensure the predicted prevalence is met, after which a decision may be made to add sites to meet the prevalence. Once the clinical study is completed, each site will be required to perform Near LoD and reproducibility studies to assess the assay\u2019s accuracy and precision. Sample pools will be sent to sites, de-identified, for assessment. This testing is to be integrated as part of the normal testing workflow. At the conclusion of the study, the untrained operators will be asked to fill in a usability questionnaire to evaluate the instructions for use, the clarity of the information to collect a sample, how to perform the test and read the result.",
+                "marker": "Fingerstick whole blood and serum samples (comparator) from the same patient.",
+                "conditional": true
+              }
+            ]
+          },
+          {
+            "name": "Statistical Methods",
+            "row_index": 3,
+            "occurrences": [
+              {
+                "visit_label": "Following completion of the informed consent process and a review of Inclusion/Exclusion criteria to determine eligibility, each enrolled subject will receive a unique study identification number. Study coordinator will ask subjects relevant medical history questions. Subject demographics including age, sex, and race/ethnicity, and trimester if pregnant will also be collected at this time. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test will be performed by untrained intended use operators, e.g., nurses, physician assistants, and medical assistants. Each site will have a minimum of three (3) untrained intended users who will perform the fingerstick and each step of the testing as described in this protocol and QRI. The [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] test will be performed at the site on the same day as the date of collection for each subject enrolled. In addition, a serum sample (1-2 tubes) will be collected by a trained staff for comparator testing at a reference lab. A total of 150 subjects (at each OBGYN site, n=300) and 200 subjects (at STI site) are to be enrolled. An interim analysis may take place to ensure the predicted prevalence is met, after which a decision may be made to add sites to meet the prevalence. Once the clinical study is completed, each site will be required to perform Near LoD and reproducibility studies to assess the assay\u2019s accuracy and precision. Sample pools will be sent to sites, de-identified, for assessment. This testing is to be integrated as part of the normal testing workflow. At the conclusion of the study, the untrained operators will be asked to fill in a usability questionnaire to evaluate the instructions for use, the clarity of the information to collect a sample, how to perform the test and read the result.",
+                "marker": "Positive and Negative Percent Agreement (PPA and NPA; aka Sensitivity and Specificity) against the comparator Focus Diagnostic HerpesSelect [INVESTIGATIONAL_PRODUCT_A] 1&2 Immunoblot [INVESTIGATIONAL_PRODUCT_A] Test (K000238) will be estimated, along with their associated 2- sided Wilson Score with 95% Confidence Intervals. Equivocal results on the comparator device will be retested by a validated Western Blot method, and the results from that method will be used to either reclassify the comparator result as a positive or negative result, or to concur with the comparator result. Discordant results between Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] and the Focus [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Immunoblot will be resolved by retesting the remnant serum sample on a validated Western Blot method. These final results will be used in the calculation of PPA and NPA and presented as a footnote. If invalid results are obtained on the Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 test, another fingerstick will be performed and the testing will be repeated on another Viro [INVESTIGATIONAL_PRODUCT_A] 1&2 test cassette. In the case of invalid results for the comparator, the leftover serum sample will be retested on the Focus [INVESTIGATIONAL_PRODUCT_A]1&2 [INVESTIGATIONAL_PRODUCT_A] immunoblot test. Only valid results will be used for the analysis. The results will be analyzed for individual as well as combined study sites.",
+                "conditional": true
+              }
+            ]
+          }
+        ],
+        "conditional_count": 2
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A005_t4",
+      "page": 12,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "For the Near LoD/Reproducibility study, the agreement between sites, operators, runs and days for each sample tested will be reported.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Endpoints",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To evaluate the safety and effectiveness of the [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] and demonstrate that this device can be used to detect [INVESTIGATIONAL_PRODUCT_A] 1&2 antibodies in fingerstick whole blood in POC CLIA waived settings.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "label": "For the Near LoD/Reproducibility study, the agreement between sites, operators, runs and days for each sample tested will be reported.",
+            "col_index": 1
+          }
+        ],
+        "procedures": [
+          {
+            "name": "Endpoints",
+            "row_index": 1,
+            "occurrences": [
+              {
+                "visit_label": "For the Near LoD/Reproducibility study, the agreement between sites, operators, runs and days for each sample tested will be reported.",
+                "marker": "To evaluate the safety and effectiveness of the [INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] and demonstrate that this device can be used to detect [INVESTIGATIONAL_PRODUCT_A] 1&2 antibodies in fingerstick whole blood in POC CLIA waived settings.",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A005_t5",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The Viro Research VIZI[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] is a visual read lateral flow chromatographic immunoassay which",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "can detect antibodies against [INVESTIGATIONAL_PRODUCT_A] proteins.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t6",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This lateral flow test works as a sandwich assay and is housed in a Cassette. The Test Cassette",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "consists of a Sample Pad, Conjugate Pad, Membrane, and Wick Pad. The purpose of each",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "component is:",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t7",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1. The patient sample is applied to the Sample Pad, which contains a blood cell separator",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "(Whatman MF1 bound glass fiber filter) that produces very fast coagulation of the",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "erythrocytes (red blood cells; RBC), with no appreciable hemolysis, to facilitate flow of",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "the sample fluid up the test strip;",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t8",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 6,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2. A Conjugate Pad containing [INVESTIGATIONAL_PRODUCT_A]-1 and [INVESTIGATIONAL_PRODUCT_A]-2 gG recombinant antigens that are",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "attached to biotin and that is complexed with Streptavidin conjugated to Red Colored",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Latex particles forming an [INVESTIGATIONAL_PRODUCT_A]-1, [INVESTIGATIONAL_PRODUCT_A]-2 (or both):gG-biotin:Streptavidin-Latex complex.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Chicken IgY protein conjugated to Red Latex particles also is incorporated with the gG-",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "biotin: Streptavidin-Latex complex solution and is sprayed on towards the bottom of the",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Conjugate Pad and placed into a Test Cassette;",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t9",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3. A nitrocellulose membrane strip containing a donkey anti-Chicken [INVESTIGATIONAL_PRODUCT_A] line (Control",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Line), and [INVESTIGATIONAL_PRODUCT_A]-1 gG and [INVESTIGATIONAL_PRODUCT_A]-2 gG recombinant antigen lines (Test Lines); and",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t10",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "When a volume of whole blood is dispensed into the Sample Pad of the Test Strip, the specimen fluid migrates",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "by capillary action along the Test Strip. Anti-[INVESTIGATIONAL_PRODUCT_A]-1 or [INVESTIGATIONAL_PRODUCT_A]-2 [INVESTIGATIONAL_PRODUCT_A], or both, if present in the specimen, will bind",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "to the [INVESTIGATIONAL_PRODUCT_A] gG-biotin:Streptavidin-Latex complex and further migrate to bind to the [INVESTIGATIONAL_PRODUCT_A]-1 and [INVESTIGATIONAL_PRODUCT_A]-2 [INVESTIGATIONAL_PRODUCT_A]",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "antigens (Test Lines) forming red-colored Test Lines, indicating an [INVESTIGATIONAL_PRODUCT_A]-1 [INVESTIGATIONAL_PRODUCT_A] positive, [INVESTIGATIONAL_PRODUCT_A]-2 [INVESTIGATIONAL_PRODUCT_A] positive, or",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "both, test result.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t11",
+      "page": 14,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "No visible Test Lines indicate a negative test result. The sample fluid will continue to migrate up",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "the membrane over the control line. The chicken IgY-Latex complex will bind to anti-Chicken",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A] protein on the Control Line and cause a red line to become visible regardless if the sample is",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "positive or negative for [INVESTIGATIONAL_PRODUCT_A]-1 or [INVESTIGATIONAL_PRODUCT_A]-2 [INVESTIGATIONAL_PRODUCT_A]. The results can be read within 10 \u2013 20 minutes",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "after the sample is added to the Sample Pad.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t12",
+      "page": 16,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The components required to perform a",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "test, including:",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t13",
+      "page": 20,
+      "section": "",
+      "caption": "",
+      "row_count": 6,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ASR, LLC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "16111 N. Brinson Street Suite 110",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Nampa, ID",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "83687",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ClinTheory Healthcare Research, Miami",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Admin Office: 1590 NE 162ns St. Suite 400, North Miami Beach, FL 3 3162",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PI: Christ-Ann A.E. Magloire, MD. OBGYN",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ClinTheory Healthcare",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Admin Office: 760 Old Rosewell Road, Suite 211 Rosewell, GA 30076",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PI: Kevin Washington, MD",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Research, Atlanta",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t14",
+      "page": 26,
+      "section": "",
+      "caption": "",
+      "row_count": 15,
+      "column_count": 7,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enrollment",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Specimen Collection",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Specimen Preparation",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Testing",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Reference Laboratory Shipment",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "--------------------------------------------------------Day 1------------------------------------------ --",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Individual seeking care for Sexually Transmitted Infection (STIs) or expectant mothers.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Obtain written informed consent",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Review Inclusion/Exclusion Criteria",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Assign subject number to eligible subjects",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Record demographics and baseline characteristics",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Record Relevant Medical/Medication History",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Collect one (1) venous whole blood and one (1) capillary whole blood specimen",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Prepare comparator method specimen",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Run POC test (method comparison, Near LoD, etc)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Ship comparator method specimen to reference laboratory",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Near LoD/ Reproducibility study",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Populate usability questionnaire",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Adverse Event/Serious Adverse Event Recording",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "---------------------------------------X----------------------------",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "label": "Screening",
+            "col_index": 1
+          },
+          {
+            "label": "Enrollment",
+            "col_index": 2
+          },
+          {
+            "label": "Specimen Collection",
+            "col_index": 3
+          },
+          {
+            "label": "Specimen Preparation",
+            "col_index": 4
+          },
+          {
+            "label": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Testing",
+            "col_index": 5
+          },
+          {
+            "label": "Reference Laboratory Shipment",
+            "col_index": 6
+          }
+        ],
+        "procedures": [
+          {
+            "name": "Individual seeking care for Sexually Transmitted Infection (STIs) or expectant mothers.",
+            "row_index": 2,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Obtain written informed consent",
+            "row_index": 3,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Review Inclusion/Exclusion Criteria",
+            "row_index": 4,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Assign subject number to eligible subjects",
+            "row_index": 5,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Record demographics and baseline characteristics",
+            "row_index": 6,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Record Relevant Medical/Medication History",
+            "row_index": 7,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Collect one (1) venous whole blood and one (1) capillary whole blood specimen",
+            "row_index": 8,
+            "occurrences": [
+              {
+                "visit_label": "Specimen Collection",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Prepare comparator method specimen",
+            "row_index": 9,
+            "occurrences": [
+              {
+                "visit_label": "Specimen Preparation",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Run POC test (method comparison, Near LoD, etc)",
+            "row_index": 10,
+            "occurrences": [
+              {
+                "visit_label": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Testing",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Ship comparator method specimen to reference laboratory",
+            "row_index": 11,
+            "occurrences": [
+              {
+                "visit_label": "Reference Laboratory Shipment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Near LoD/ Reproducibility study",
+            "row_index": 12,
+            "occurrences": [
+              {
+                "visit_label": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Testing",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Populate usability questionnaire",
+            "row_index": 13,
+            "occurrences": [
+              {
+                "visit_label": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] Testing",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Adverse Event/Serious Adverse Event Recording",
+            "row_index": 14,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "---------------------------------------X----------------------------",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A005_t15",
+      "page": 28,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ND",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Done",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "UNK",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unknown",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Applicable",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NAV",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Available",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t16",
+      "page": 31,
+      "section": "",
+      "caption": "",
+      "row_count": 5,
+      "column_count": 8,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "HerpeSelect [INVESTIGATIONAL_PRODUCT_A] Immunoblot",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Equivocal*",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Site Total",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "% Agreement**",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "95% CI**",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A] 1&2 [INVESTIGATIONAL_PRODUCT_A] [INVESTIGATIONAL_PRODUCT_A] Test",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "a",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "b",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PPA: a x100 (a+b)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "c",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "d",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NPA: d x100 (c+d)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Site Total",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t17",
+      "page": 32,
+      "section": "",
+      "caption": "",
+      "row_count": 11,
+      "column_count": 5,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A] Result",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Focus Herpes Result",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Interpretation",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Western Blot Result",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Resolved Interpretation",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Concordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "N/A",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Concordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "N/A",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Discordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Discordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Discordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Discordant",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Neg",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Equivocal",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Pos",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t18",
+      "page": 42,
+      "section": "",
+      "caption": "",
+      "row_count": 8,
+      "column_count": 9,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Report",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sent To",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Timing of Report",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 8,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unanticipated adverse device effect (UADE)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "UADE must be reported to the Sponsor and to the reviewing IRB as soon as possible, but in no event later than 10 working days after the investigator first learns of the effect.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Withdrawal of IRB approval",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Withdrawal of approval by the reviewing IRB must be reported to the Sponsor within 5 working days.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Progress reports",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "At regular intervals, but in no event less often than yearly.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Deviations from the Investigational Plan (Protocol Deviations)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A deviation to protect the life or physical well-being of a subject in an emergency must be reported to the Sponsor and the reviewing IRB as soon as possible, but in no event later than 5 working days after the emergency occurred. Deviations that may affect the scientific soundness of the investigational plan or the rights, safety, or we[INVESTIGATIONAL_PRODUCT_A]re of the subject (and are not an emergency) must receive prior approval by the Sponsor and be reported to the FDA and IRBs.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Device use without informed consent",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This deviation must be reported to the Sponsor and the reviewing IRB within 5 working days after the use occurs.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Final Report (Closeout Notification)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Sponsor, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This report must be submitted to the Sponsor and the reviewing IRB within 3 months after termination or completion of the investigation or the investigator\u2019s part of the investigation, and should include all required information per the IRB guidelines.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Other",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FDA, IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Upon request, accurate, complete, and current information about any aspect of the investigation must be reported.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t19",
+      "page": 44,
+      "section": "",
+      "caption": "",
+      "row_count": 13,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Term",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Adverse Event (AE)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any untoward medical event that occurs to a subject during a study (with onset after first study-specific procedure), whether or not that event is considered study-related.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Case Report Form (CRF)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A printed, optical, or electronic document designed to record all the information required by the protocol to be reported to the Sponsor on each study subject.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Food and Drug Administration (FDA)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "An agency of the US government responsible for promulgating regulations and guidelines that further define how to comply with the Food, Drug and Cosmetics Act of Congress. The FDA is authorized to grant marketing approval and/or clearance to new drugs and devices.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Good Clinical Practice (GCP)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A standard for the design, conduct, performance, monitoring, auditing, recording, analyses, and reporting of clinical trials that provides assurance that the data and reported results are credible and accurate, and that the rights, integrity, and confidentiality of the trial subjects are protected.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Healthcare Professional (HCP)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Person responsible for performing critical study-related procedures.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent (IC)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A process by which a subject voluntarily confirms his/her willingness to participate in a trial, after having been informed of all aspects of the trial relevant to the subject\u2019s decision to participate. Informed consent is documented by means of a written, signed, and dated informed consent form.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent Form (ICF)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The form prepared by the Investigator/Sponsor and approved by the IRB, which must be signed by a subject before entry in a clinical trial. It is the legal written record that the subject, or his/her representative, agrees to voluntarily participate in the investigation.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Institutional Review Board (IRB)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any board, committee, or other group formally designated by an institution to review biomedical research involving subjects and established, operated, and functioning in conformance with 21 CFR Part 56.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "International Conference on Harmonization (ICH)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A committee consisting of US, EU, and Japanese members organized to develop guidelines for the conduct of clinical studies.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Investigator",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "One or more persons responsible for the practical performance of a trial and for the integrity, health, and we[INVESTIGATIONAL_PRODUCT_A]re of the subjects during the clinical study.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Subject Completion",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has completed all study procedures in full as detailed in the protocol.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enrolled Subject",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has completed the ICF and meets all eligibility criteria as detailed in the protocol.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t20",
+      "page": 45,
+      "section": "",
+      "caption": "",
+      "row_count": 7,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Term",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Partially Completed Subject",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that was unable to complete all study procedures in full as detailed in the protocol.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screened Subject",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has completed the ICF but does not meet all eligibility criteria and/or meets one or more exclusion criteria as detailed in the protocol.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Standard of Care (SOC)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "The test or collection method a site routinely uses for patient care.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Withdrawn Subject",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A subject that has withdrawn his/her consent from the study either voluntarily or by the Healthcare Professional.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protected Health Information (PHI)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any individually identifiable information, whether oral or recorded in any form or medium that: a) is created or received by a HCP, health plan, public health authority, employer, life insurer, school or university, or healthcare clearinghouse; and b) relates to the past, present, or future physical or mental health or condition of any individual, the provision of health care to an individual, or the past, present, or future payment for the provision of health care to an individual.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unanticipated Adverse Device Effect (UADE)",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Any serious adverse effect on health or safety or any life-threatening problem or death caused by, or associated with, a device, if that effect, problem, or death was not previously identified in nature, severity, or degree of incidence in the investigational plan or application (including a supplementary plan or application), or any other unanticipated serious problem associated with a device that relates to the rights, safety, or we[INVESTIGATIONAL_PRODUCT_A]re of subjects.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t21",
+      "page": 45,
+      "section": "",
+      "caption": "",
+      "row_count": 17,
+      "column_count": 6,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Abbreviation",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Description",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "AE",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Adverse Event",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "\u00b0C",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Degrees Celsius",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "\u00b0F",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Degrees Fahrenheit",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CDC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Centers for Disease Control and Prevention",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CFR",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Code of Federal Regulations",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CI",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Confidence Interval",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CLIA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Clinical Laboratory Improvements Act and Amendments of 1988",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CLSI",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Clinical and Laboratory Standards Institute",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CRF",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Case Report Form",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "CV",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Curriculum Vitae",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ELISA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enzyme-linked Immunosorbent Assay",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "FDA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Food and Drug Administration",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "GCP",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Good Clinical Practice",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "gG",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Glycoprotein G",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "gp ELISA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Glycoprotein ELISA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A]1",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Herpes Simplex Virus Type 1",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A005_t22",
+      "page": 46,
+      "section": "",
+      "caption": "",
+      "row_count": 19,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A]2",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Herpes Simplex Virus Type 2",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ICF",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed Consent Form",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A]",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Immunoglobulin G",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Immunoblot",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A] 1&2 Immunoblot",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "IRB",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Institutional Review Board",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "[INVESTIGATIONAL_PRODUCT_A]",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Lateral Flow Assay",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Applicable",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NAV",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Available",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "ND",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Not Done",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NPA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Negative Percent Agreement",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "NSR",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Non-significant Risk",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PHI",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Protected Health Information",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "POC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Point-of-Care",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "PPA",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Positive Percent Agreement",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "QC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Quality Control",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "QRG",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Quick Reference Guide",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SAE",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Serious Adverse Event",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "UNK",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Unknown",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "VPC",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Venipuncture Procedure Card",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ]
+}

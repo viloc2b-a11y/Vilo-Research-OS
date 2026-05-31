@@ -36,6 +36,8 @@ import { resolveSubjectProtocolFields } from '@/lib/subject/subject-protocol-fie
 import { SubjectProtocolFields } from '@/components/subject/SubjectProtocolFields'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
+import { loadStudySubjectCommandCenter } from '@/lib/studies/load-study-subject-command-center'
+import { StudySubjectCommandCenter } from '@/components/coordinator-operations/StudySubjectCommandCenter'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 type StudyWorkspaceProps = {
@@ -1466,6 +1468,9 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
   const studyVisits = activeTab === 'visits' && organizationId
     ? await loadStudyVisits(studyId, organizationId)
     : null
+  const commandCenterModel = activeTab === 'subjects' && organizationId
+    ? await loadStudySubjectCommandCenter(studyId, organizationId)
+    : null
   const readiness = activeTab === 'overview'
     ? await loadExecutionReadinessModel({ supabase, studyId, organizationId })
     : null
@@ -1657,16 +1662,10 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
 
         {/* SUBJECTS */}
         {activeTab === 'subjects' && (
-          <div className="p-6">
-            <div className="vilo-card overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
-                <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Users className="w-4 h-4 text-primary" />
-                  All Subjects
-                  <span className="text-[10px] font-normal text-muted-foreground ml-1">{totalSubjects} total</span>
-                </h2>
-              </div>
-              <div className="border-b border-border/60 p-5">
+          <div className="p-6 h-[calc(100vh-140px)] flex flex-col">
+            <div className="vilo-card flex flex-col min-h-0 flex-1 p-5 space-y-4">
+              <div className="flex-shrink-0">
+                <h3 className="text-sm font-semibold text-foreground mb-3">Add New Subject</h3>
                 <AddSubjectForm
                   studyId={studyId}
                   organizationId={organizationId}
@@ -1674,18 +1673,12 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                   anchorOptions={anchorSubjectOptions}
                 />
               </div>
-              {subErr ? (
-                <div className="p-6 text-sm text-destructive">{subErr.message}</div>
-              ) : !subjects?.length ? (
-                <div className="p-10 text-center">
-                  <Users className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">No subjects have been created yet.</p>
-                </div>
-              ) : (
-                subjects.map(s => (
-                  <SubjectRow key={s.id} subject={s} studyId={studyId} />
-                ))
-              )}
+              
+              <div className="flex flex-col min-h-0 flex-1 mt-4 border-t border-border/60 pt-6">
+                {commandCenterModel && (
+                  <StudySubjectCommandCenter model={commandCenterModel} studyId={studyId} />
+                )}
+              </div>
             </div>
           </div>
         )}

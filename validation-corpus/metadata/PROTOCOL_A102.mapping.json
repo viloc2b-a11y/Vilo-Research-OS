@@ -1,0 +1,13 @@
+{
+  "sanitized_id": "PROTOCOL_A102",
+  "original_filename": "LIN-MD-64 Study Synopsis 17APR2019.pdf",
+  "original_relative_path": "validation-corpus/inbox/12. Protocol and Protocol Amendments/12. Protocol and Protocol Amendments/Protocol Amendments/LIN-MD-64 Study Synopsis 17APR2019.pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A102.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN",
+  "processed_original_path": "validation-corpus/raw/processed-originals/LIN-MD-64 Study Synopsis 17APR2019.pdf"
+}

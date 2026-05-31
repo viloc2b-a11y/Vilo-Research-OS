@@ -1,0 +1,1601 @@
+{
+  "source_package_id": "pkg_6cd8ae39",
+  "study_id": "test_study_001",
+  "document_id": "EXT-2039",
+  "source_version": "1.0-draft",
+  "generation_status": "DRAFT",
+  "visits": [
+    {
+      "id": "cand_1",
+      "visitLabel": "Preintervention (14-21 Days)",
+      "studyDay": null,
+      "window": null,
+      "confidence": 0.8,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Preintervention (14-21 Days)"
+      }
+    },
+    {
+      "id": "cand_2",
+      "visitLabel": "Study Intervention Period (12 weeks)",
+      "studyDay": null,
+      "window": null,
+      "confidence": 0.8,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Study Intervention Period (12 weeks)"
+      }
+    },
+    {
+      "id": "cand_3",
+      "visitLabel": "Postintervention (1 week)",
+      "studyDay": null,
+      "window": null,
+      "confidence": 0.8,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Postintervention (1 week)"
+      }
+    }
+  ],
+  "procedures": [
+    {
+      "id": "cand_4",
+      "procedureName": "Parent/Caregiver Consent/",
+      "category": null,
+      "canonicalProcedureId": "LIB_4",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Parent/Caregiver Consent/Assentd"
+      }
+    },
+    {
+      "id": "cand_6",
+      "procedureName": "Inclusion and Exclusion",
+      "category": null,
+      "canonicalProcedureId": "LIB_6",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Inclusion and Exclusion Criteria"
+      }
+    },
+    {
+      "id": "cand_10",
+      "procedureName": "Assess Rome IV",
+      "category": null,
+      "canonicalProcedureId": "LIB_10",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Assess Rome IV statuse"
+      }
+    },
+    {
+      "id": "cand_12",
+      "procedureName": "",
+      "category": null,
+      "canonicalProcedureId": "LIB_12",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "IWRS"
+      }
+    },
+    {
+      "id": "cand_15",
+      "procedureName": "Medical",
+      "category": null,
+      "canonicalProcedureId": "LIB_15",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Medical History"
+      }
+    },
+    {
+      "id": "cand_17",
+      "procedureName": "Lifestyle Modification Information Given to Participant/",
+      "category": null,
+      "canonicalProcedureId": "LIB_17",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Lifestyle Modification Information Given to Participant/Caregiverg"
+      }
+    },
+    {
+      "id": "cand_19",
+      "procedureName": "Physical",
+      "category": null,
+      "canonicalProcedureId": "LIB_19",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Physical Examinationh"
+      }
+    },
+    {
+      "id": "cand_21",
+      "procedureName": "Fecal Impaction",
+      "category": null,
+      "canonicalProcedureId": "LIB_21",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Fecal Impaction Assessmenti"
+      }
+    },
+    {
+      "id": "cand_23",
+      "procedureName": "",
+      "category": null,
+      "canonicalProcedureId": "LIB_23",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Height"
+      }
+    },
+    {
+      "id": "cand_25",
+      "procedureName": "Vital Signs and Postural Vital",
+      "category": null,
+      "canonicalProcedureId": "LIB_25",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Vital Signs and Postural Vital Signsk"
+      }
+    },
+    {
+      "id": "cand_30",
+      "procedureName": "",
+      "category": null,
+      "canonicalProcedureId": "LIB_30",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "ECG"
+      }
+    },
+    {
+      "id": "cand_32",
+      "procedureName": "Clinical Laboratory",
+      "category": null,
+      "canonicalProcedureId": "LIB_32",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Clinical Laboratory Testsl"
+      }
+    },
+    {
+      "id": "cand_35",
+      "procedureName": "Serum Pregnancy",
+      "category": null,
+      "canonicalProcedureId": "LIB_35",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Serum Pregnancy Testingm"
+      }
+    },
+    {
+      "id": "cand_37",
+      "procedureName": "Urine Pregnancy",
+      "category": null,
+      "canonicalProcedureId": "LIB_37",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Urine Pregnancy Testingn"
+      }
+    },
+    {
+      "id": "cand_39",
+      "procedureName": "Urine Drug",
+      "category": null,
+      "canonicalProcedureId": "LIB_39",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Urine Drug Screeno"
+      }
+    },
+    {
+      "id": "cand_41",
+      "procedureName": "AE",
+      "category": null,
+      "canonicalProcedureId": "LIB_41",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "AE Evaluation"
+      }
+    },
+    {
+      "id": "cand_46",
+      "procedureName": "Prior and Concomitant",
+      "category": null,
+      "canonicalProcedureId": "LIB_46",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Prior and Concomitant Medications"
+      }
+    },
+    {
+      "id": "cand_51",
+      "procedureName": "Rescue Medication",
+      "category": null,
+      "canonicalProcedureId": "LIB_51",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Rescue Medication Dispensedp"
+      }
+    },
+    {
+      "id": "cand_54",
+      "procedureName": "eDiary and Instructions Given to Participant/",
+      "category": null,
+      "canonicalProcedureId": "LIB_54",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "eDiary and Instructions Given to Participant/Caregiverq"
+      }
+    },
+    {
+      "id": "cand_56",
+      "procedureName": "eDiary",
+      "category": null,
+      "canonicalProcedureId": "LIB_56",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "eDiary Complianceq"
+      }
+    },
+    {
+      "id": "cand_59",
+      "procedureName": "eDiary Eligibility",
+      "category": null,
+      "canonicalProcedureId": "LIB_59",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "eDiary Eligibility Reportf"
+      }
+    },
+    {
+      "id": "cand_61",
+      "procedureName": "Study Intervention Administered on",
+      "category": null,
+      "canonicalProcedureId": "LIB_61",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Study Intervention Administered on Siter"
+      }
+    },
+    {
+      "id": "cand_63",
+      "procedureName": "Study Intervention",
+      "category": null,
+      "canonicalProcedureId": "LIB_63",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Study Intervention Dispensed"
+      }
+    },
+    {
+      "id": "cand_66",
+      "procedureName": "2.",
+      "category": null,
+      "canonicalProcedureId": "LIB_66",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "2.01"
+      }
+    },
+    {
+      "id": "cand_67",
+      "procedureName": "2.",
+      "category": null,
+      "canonicalProcedureId": "LIB_67",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "2.02"
+      }
+    },
+    {
+      "id": "cand_68",
+      "procedureName": "2.",
+      "category": null,
+      "canonicalProcedureId": "LIB_68",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "2.03"
+      }
+    },
+    {
+      "id": "cand_69",
+      "procedureName": "2.",
+      "category": null,
+      "canonicalProcedureId": "LIB_69",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "2.04"
+      }
+    },
+    {
+      "id": "cand_70",
+      "procedureName": "3.",
+      "category": null,
+      "canonicalProcedureId": "LIB_70",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "3."
+      }
+    },
+    {
+      "id": "cand_71",
+      "procedureName": "3.",
+      "category": null,
+      "canonicalProcedureId": "LIB_71",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "3.01"
+      }
+    },
+    {
+      "id": "cand_72",
+      "procedureName": "3.",
+      "category": null,
+      "canonicalProcedureId": "LIB_72",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "3.02"
+      }
+    },
+    {
+      "id": "cand_73",
+      "procedureName": "4.",
+      "category": null,
+      "canonicalProcedureId": "LIB_73",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "4."
+      }
+    },
+    {
+      "id": "cand_74",
+      "procedureName": "4.",
+      "category": null,
+      "canonicalProcedureId": "LIB_74",
+      "confidence": 0.9,
+      "status": "approved",
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t8",
+        "sourceText": "4.01"
+      }
+    }
+  ],
+  "worksheets": [
+    {
+      "worksheetId": "ws_cand_1",
+      "visitId": "cand_1",
+      "visitLabel": "Preintervention (14-21 Days)",
+      "procedures": [
+        {
+          "procedureId": "cand_4",
+          "procedureName": "Parent/Caregiver Consent/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Parent/Caregiver Consent/Assentd"
+          }
+        },
+        {
+          "procedureId": "cand_6",
+          "procedureName": "Inclusion and Exclusion",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Inclusion and Exclusion Criteria"
+          }
+        },
+        {
+          "procedureId": "cand_10",
+          "procedureName": "Assess Rome IV",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Assess Rome IV statuse"
+          }
+        },
+        {
+          "procedureId": "cand_12",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "IWRS"
+          }
+        },
+        {
+          "procedureId": "cand_15",
+          "procedureName": "Medical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Medical History"
+          }
+        },
+        {
+          "procedureId": "cand_17",
+          "procedureName": "Lifestyle Modification Information Given to Participant/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Lifestyle Modification Information Given to Participant/Caregiverg"
+          }
+        },
+        {
+          "procedureId": "cand_19",
+          "procedureName": "Physical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Physical Examinationh"
+          }
+        },
+        {
+          "procedureId": "cand_21",
+          "procedureName": "Fecal Impaction",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Fecal Impaction Assessmenti"
+          }
+        },
+        {
+          "procedureId": "cand_23",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Height"
+          }
+        },
+        {
+          "procedureId": "cand_25",
+          "procedureName": "Vital Signs and Postural Vital",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Vital Signs and Postural Vital Signsk"
+          }
+        },
+        {
+          "procedureId": "cand_30",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "ECG"
+          }
+        },
+        {
+          "procedureId": "cand_32",
+          "procedureName": "Clinical Laboratory",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Clinical Laboratory Testsl"
+          }
+        },
+        {
+          "procedureId": "cand_35",
+          "procedureName": "Serum Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Serum Pregnancy Testingm"
+          }
+        },
+        {
+          "procedureId": "cand_37",
+          "procedureName": "Urine Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Pregnancy Testingn"
+          }
+        },
+        {
+          "procedureId": "cand_39",
+          "procedureName": "Urine Drug",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Drug Screeno"
+          }
+        },
+        {
+          "procedureId": "cand_41",
+          "procedureName": "AE",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "AE Evaluation"
+          }
+        },
+        {
+          "procedureId": "cand_46",
+          "procedureName": "Prior and Concomitant",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Prior and Concomitant Medications"
+          }
+        },
+        {
+          "procedureId": "cand_51",
+          "procedureName": "Rescue Medication",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Rescue Medication Dispensedp"
+          }
+        },
+        {
+          "procedureId": "cand_54",
+          "procedureName": "eDiary and Instructions Given to Participant/",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary and Instructions Given to Participant/Caregiverq"
+          }
+        },
+        {
+          "procedureId": "cand_56",
+          "procedureName": "eDiary",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Complianceq"
+          }
+        },
+        {
+          "procedureId": "cand_59",
+          "procedureName": "eDiary Eligibility",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Eligibility Reportf"
+          }
+        },
+        {
+          "procedureId": "cand_61",
+          "procedureName": "Study Intervention Administered on",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Administered on Siter"
+          }
+        },
+        {
+          "procedureId": "cand_63",
+          "procedureName": "Study Intervention",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Dispensed"
+          }
+        },
+        {
+          "procedureId": "cand_66",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.01"
+          }
+        },
+        {
+          "procedureId": "cand_67",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.02"
+          }
+        },
+        {
+          "procedureId": "cand_68",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.03"
+          }
+        },
+        {
+          "procedureId": "cand_69",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.04"
+          }
+        },
+        {
+          "procedureId": "cand_70",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3."
+          }
+        },
+        {
+          "procedureId": "cand_71",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.01"
+          }
+        },
+        {
+          "procedureId": "cand_72",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.02"
+          }
+        },
+        {
+          "procedureId": "cand_73",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4."
+          }
+        },
+        {
+          "procedureId": "cand_74",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4.01"
+          }
+        }
+      ],
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Preintervention (14-21 Days)"
+      }
+    },
+    {
+      "worksheetId": "ws_cand_2",
+      "visitId": "cand_2",
+      "visitLabel": "Study Intervention Period (12 weeks)",
+      "procedures": [
+        {
+          "procedureId": "cand_4",
+          "procedureName": "Parent/Caregiver Consent/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Parent/Caregiver Consent/Assentd"
+          }
+        },
+        {
+          "procedureId": "cand_6",
+          "procedureName": "Inclusion and Exclusion",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Inclusion and Exclusion Criteria"
+          }
+        },
+        {
+          "procedureId": "cand_10",
+          "procedureName": "Assess Rome IV",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Assess Rome IV statuse"
+          }
+        },
+        {
+          "procedureId": "cand_12",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "IWRS"
+          }
+        },
+        {
+          "procedureId": "cand_15",
+          "procedureName": "Medical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Medical History"
+          }
+        },
+        {
+          "procedureId": "cand_17",
+          "procedureName": "Lifestyle Modification Information Given to Participant/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Lifestyle Modification Information Given to Participant/Caregiverg"
+          }
+        },
+        {
+          "procedureId": "cand_19",
+          "procedureName": "Physical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Physical Examinationh"
+          }
+        },
+        {
+          "procedureId": "cand_21",
+          "procedureName": "Fecal Impaction",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Fecal Impaction Assessmenti"
+          }
+        },
+        {
+          "procedureId": "cand_23",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Height"
+          }
+        },
+        {
+          "procedureId": "cand_25",
+          "procedureName": "Vital Signs and Postural Vital",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Vital Signs and Postural Vital Signsk"
+          }
+        },
+        {
+          "procedureId": "cand_30",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "ECG"
+          }
+        },
+        {
+          "procedureId": "cand_32",
+          "procedureName": "Clinical Laboratory",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Clinical Laboratory Testsl"
+          }
+        },
+        {
+          "procedureId": "cand_35",
+          "procedureName": "Serum Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Serum Pregnancy Testingm"
+          }
+        },
+        {
+          "procedureId": "cand_37",
+          "procedureName": "Urine Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Pregnancy Testingn"
+          }
+        },
+        {
+          "procedureId": "cand_39",
+          "procedureName": "Urine Drug",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Drug Screeno"
+          }
+        },
+        {
+          "procedureId": "cand_41",
+          "procedureName": "AE",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "AE Evaluation"
+          }
+        },
+        {
+          "procedureId": "cand_46",
+          "procedureName": "Prior and Concomitant",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Prior and Concomitant Medications"
+          }
+        },
+        {
+          "procedureId": "cand_51",
+          "procedureName": "Rescue Medication",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Rescue Medication Dispensedp"
+          }
+        },
+        {
+          "procedureId": "cand_54",
+          "procedureName": "eDiary and Instructions Given to Participant/",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary and Instructions Given to Participant/Caregiverq"
+          }
+        },
+        {
+          "procedureId": "cand_56",
+          "procedureName": "eDiary",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Complianceq"
+          }
+        },
+        {
+          "procedureId": "cand_59",
+          "procedureName": "eDiary Eligibility",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Eligibility Reportf"
+          }
+        },
+        {
+          "procedureId": "cand_61",
+          "procedureName": "Study Intervention Administered on",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Administered on Siter"
+          }
+        },
+        {
+          "procedureId": "cand_63",
+          "procedureName": "Study Intervention",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Dispensed"
+          }
+        },
+        {
+          "procedureId": "cand_66",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.01"
+          }
+        },
+        {
+          "procedureId": "cand_67",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.02"
+          }
+        },
+        {
+          "procedureId": "cand_68",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.03"
+          }
+        },
+        {
+          "procedureId": "cand_69",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.04"
+          }
+        },
+        {
+          "procedureId": "cand_70",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3."
+          }
+        },
+        {
+          "procedureId": "cand_71",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.01"
+          }
+        },
+        {
+          "procedureId": "cand_72",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.02"
+          }
+        },
+        {
+          "procedureId": "cand_73",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4."
+          }
+        },
+        {
+          "procedureId": "cand_74",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4.01"
+          }
+        }
+      ],
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Study Intervention Period (12 weeks)"
+      }
+    },
+    {
+      "worksheetId": "ws_cand_3",
+      "visitId": "cand_3",
+      "visitLabel": "Postintervention (1 week)",
+      "procedures": [
+        {
+          "procedureId": "cand_4",
+          "procedureName": "Parent/Caregiver Consent/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Parent/Caregiver Consent/Assentd"
+          }
+        },
+        {
+          "procedureId": "cand_6",
+          "procedureName": "Inclusion and Exclusion",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Inclusion and Exclusion Criteria"
+          }
+        },
+        {
+          "procedureId": "cand_10",
+          "procedureName": "Assess Rome IV",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Assess Rome IV statuse"
+          }
+        },
+        {
+          "procedureId": "cand_12",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "IWRS"
+          }
+        },
+        {
+          "procedureId": "cand_15",
+          "procedureName": "Medical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Medical History"
+          }
+        },
+        {
+          "procedureId": "cand_17",
+          "procedureName": "Lifestyle Modification Information Given to Participant/",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Lifestyle Modification Information Given to Participant/Caregiverg"
+          }
+        },
+        {
+          "procedureId": "cand_19",
+          "procedureName": "Physical",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Physical Examinationh"
+          }
+        },
+        {
+          "procedureId": "cand_21",
+          "procedureName": "Fecal Impaction",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Fecal Impaction Assessmenti"
+          }
+        },
+        {
+          "procedureId": "cand_23",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Height"
+          }
+        },
+        {
+          "procedureId": "cand_25",
+          "procedureName": "Vital Signs and Postural Vital",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Vital Signs and Postural Vital Signsk"
+          }
+        },
+        {
+          "procedureId": "cand_30",
+          "procedureName": "",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "ECG"
+          }
+        },
+        {
+          "procedureId": "cand_32",
+          "procedureName": "Clinical Laboratory",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Clinical Laboratory Testsl"
+          }
+        },
+        {
+          "procedureId": "cand_35",
+          "procedureName": "Serum Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Serum Pregnancy Testingm"
+          }
+        },
+        {
+          "procedureId": "cand_37",
+          "procedureName": "Urine Pregnancy",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Pregnancy Testingn"
+          }
+        },
+        {
+          "procedureId": "cand_39",
+          "procedureName": "Urine Drug",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Urine Drug Screeno"
+          }
+        },
+        {
+          "procedureId": "cand_41",
+          "procedureName": "AE",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "AE Evaluation"
+          }
+        },
+        {
+          "procedureId": "cand_46",
+          "procedureName": "Prior and Concomitant",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Prior and Concomitant Medications"
+          }
+        },
+        {
+          "procedureId": "cand_51",
+          "procedureName": "Rescue Medication",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Rescue Medication Dispensedp"
+          }
+        },
+        {
+          "procedureId": "cand_54",
+          "procedureName": "eDiary and Instructions Given to Participant/",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary and Instructions Given to Participant/Caregiverq"
+          }
+        },
+        {
+          "procedureId": "cand_56",
+          "procedureName": "eDiary",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Complianceq"
+          }
+        },
+        {
+          "procedureId": "cand_59",
+          "procedureName": "eDiary Eligibility",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "eDiary Eligibility Reportf"
+          }
+        },
+        {
+          "procedureId": "cand_61",
+          "procedureName": "Study Intervention Administered on",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Administered on Siter"
+          }
+        },
+        {
+          "procedureId": "cand_63",
+          "procedureName": "Study Intervention",
+          "isRequired": false,
+          "isConditional": true,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t3",
+            "sourceText": "Study Intervention Dispensed"
+          }
+        },
+        {
+          "procedureId": "cand_66",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.01"
+          }
+        },
+        {
+          "procedureId": "cand_67",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.02"
+          }
+        },
+        {
+          "procedureId": "cand_68",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.03"
+          }
+        },
+        {
+          "procedureId": "cand_69",
+          "procedureName": "2.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "2.04"
+          }
+        },
+        {
+          "procedureId": "cand_70",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3."
+          }
+        },
+        {
+          "procedureId": "cand_71",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.01"
+          }
+        },
+        {
+          "procedureId": "cand_72",
+          "procedureName": "3.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "3.02"
+          }
+        },
+        {
+          "procedureId": "cand_73",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4."
+          }
+        },
+        {
+          "procedureId": "cand_74",
+          "procedureName": "4.",
+          "isRequired": true,
+          "isConditional": false,
+          "provenance": {
+            "documentId": "EXT-2039",
+            "tableId": "PROTOCOL_A011_t8",
+            "sourceText": "4.01"
+          }
+        }
+      ],
+      "provenance": {
+        "documentId": "EXT-2039",
+        "tableId": "PROTOCOL_A011_t3",
+        "sourceText": "Postintervention (1 week)"
+      }
+    }
+  ],
+  "provenance": "PRESERVED_VIA_CANDIDATE_TRUTH",
+  "unresolved_items": 0,
+  "warnings": [
+    "Unresolved conditional logic for procedure:  on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Fecal Impaction on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure:  on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Vital Signs and Postural Vital on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure:  on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Serum Pregnancy on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Urine Pregnancy on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Prior and Concomitant on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: eDiary and Instructions Given to Participant/ on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: eDiary on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: eDiary Eligibility on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure: Study Intervention on visit Preintervention (14-21 Days)",
+    "Unresolved conditional logic for procedure:  on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Fecal Impaction on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure:  on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Vital Signs and Postural Vital on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure:  on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Serum Pregnancy on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Urine Pregnancy on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Prior and Concomitant on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: eDiary and Instructions Given to Participant/ on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: eDiary on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: eDiary Eligibility on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure: Study Intervention on visit Study Intervention Period (12 weeks)",
+    "Unresolved conditional logic for procedure:  on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Fecal Impaction on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure:  on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Vital Signs and Postural Vital on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure:  on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Serum Pregnancy on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Urine Pregnancy on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Prior and Concomitant on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: eDiary and Instructions Given to Participant/ on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: eDiary on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: eDiary Eligibility on visit Postintervention (1 week)",
+    "Unresolved conditional logic for procedure: Study Intervention on visit Postintervention (1 week)"
+  ],
+  "rejected_items_excluded": true
+}

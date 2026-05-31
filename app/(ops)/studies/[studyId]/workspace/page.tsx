@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import { StudyWorkspaceShell } from '@/components/study-workspace/study-workspace-shell'
+import { loadStudySetupDocuments } from '@/lib/study-workspace/load-study-setup-documents'
+import { studyHasProtocolRuntimeVersion } from '@/lib/study-workspace/study-has-protocol-draft'
 import {
   loadStudyWorkspaceSubjectPreviews,
   loadStudyWorkspaceSummary,
@@ -25,8 +27,23 @@ async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
     studyId,
     summary.study.organizationId,
   )
+  const setupDocuments = await loadStudySetupDocuments(
+    studyId,
+    summary.study.organizationId,
+  )
+  const hasProtocolDraft = await studyHasProtocolRuntimeVersion(
+    studyId,
+    summary.study.organizationId,
+  )
 
-  return <StudyWorkspaceShell summary={summary} subjects={subjects} />
+  return (
+    <StudyWorkspaceShell
+      summary={summary}
+      subjects={subjects}
+      setupDocuments={setupDocuments}
+      hasProtocolDraft={hasProtocolDraft}
+    />
+  )
 }
 
 export default async function StudyWorkspacePage({ params }: StudyWorkspacePageProps) {

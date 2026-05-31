@@ -3,7 +3,22 @@ import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } 
 import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import { ProtocolRuntimeGenerationClient } from '@/components/protocol-runtime-generation/protocol-runtime-generation-client'
 
-export default async function ProtocolRuntimeGenerationPage() {
+function firstParam(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+type ProtocolRuntimeGenerationPageProps = {
+  searchParams?: Promise<{ study_id?: string | string[]; version_id?: string | string[] }>
+}
+
+export default async function ProtocolRuntimeGenerationPage({
+  searchParams,
+}: ProtocolRuntimeGenerationPageProps) {
+  const params = (await searchParams) ?? {}
+  const initialStudyId = firstParam(params.study_id)
+  const initialVersionId = firstParam(params.version_id)
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -36,7 +51,11 @@ export default async function ProtocolRuntimeGenerationPage() {
           This phase reuses the existing study runtime composition spine (visits, procedures, graph compiler, snapshots).
         </p>
       </header>
-      <ProtocolRuntimeGenerationClient organizationId={organizationId} />
+      <ProtocolRuntimeGenerationClient
+        organizationId={organizationId}
+        initialStudyId={initialStudyId}
+        initialVersionId={initialVersionId}
+      />
     </div>
   )
 }

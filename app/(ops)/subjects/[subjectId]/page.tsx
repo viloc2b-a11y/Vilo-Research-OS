@@ -11,13 +11,21 @@ import { SubjectReturnToVisitBanner } from '@/components/subjects/subject-return
 import { SubjectChartHeader } from '@/components/subjects/subject-chart-header'
 import { SubjectChartNav } from '@/components/subjects/subject-chart-nav'
 import { subjectChartTabs } from '@/lib/subject/chart-tabs'
-import { SubjectWorkflowPanel } from '@/components/subjects/workflow/SubjectWorkflowPanel'
-import { ClinicalProfileConMedsPromo } from '@/components/subject/clinical-profile/ClinicalProfileConMedsPromo'
-import { ClinicalProfileTabs } from '@/components/subject/clinical-profile/ClinicalProfileTabs'
 import { SubjectConMedsSurface } from '@/components/subject/clinical-profile/SubjectConMedsSurface'
+import { MedicalHistorySection } from '@/components/subject/clinical-profile/MedicalHistorySection'
+import { AllergiesSection } from '@/components/subject/clinical-profile/AllergiesSection'
+import { SurgicalHistorySection } from '@/components/subject/clinical-profile/SurgicalHistorySection'
 import { SubjectAdverseEventsSurface } from '@/components/subject/adverse-events/SubjectAdverseEventsSurface'
-import { SubjectRegulatorySurface } from '@/components/subject/regulatory-signals/SubjectRegulatorySurface'
+import { SubjectConsentRuntimePanel } from '@/components/subject/consent/SubjectConsentRuntimePanel'
 import { ClinicalRiskPanel } from '@/components/subject/clinical-intelligence/ClinicalRiskPanel'
+import {
+  SubjectDocumentsSection,
+  SubjectEmergencyContactsSection,
+  SubjectProgressNotesSection,
+  SubjectProtocolDeviationsSection,
+  SubjectSignaturesSection,
+  SubjectStatusHistorySection,
+} from '@/components/subject/source-template/SubjectSourceTemplateSections'
 import {
   SubjectGeneralForm,
   type SubjectGeneralModel,
@@ -37,8 +45,10 @@ import type { LongitudinalClinicalProfile } from '@/lib/subject/clinical-intelli
 import type { SubjectChartHeaderModel } from '@/lib/subject/visits/types'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectAdverseEventsTimeline } from '@/lib/subject/adverse-events'
-import { loadSubjectRegulatorySignals } from '@/lib/subject/regulatory-signals'
+import { loadSubjectConsentRuntime } from '@/lib/subject/consent'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
+import { loadSubjectSourceTemplate } from '@/lib/subject/source-template/read'
+import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/types'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
@@ -62,11 +72,20 @@ const PLACEHOLDER_LABELS = new Map<string, string>(
         ![
           'general',
           'visits',
+          'consent',
           'workflow',
           'clinical-profile',
           'conmeds',
+          'medical-history',
+          'allergies',
+          'surgical-history',
           'adverse-events',
-          'deviations',
+          'subject-status',
+          'progress-notes',
+          'documents',
+          'signatures',
+          'protocol-deviations',
+          'emergency-contacts',
         ].includes(tab.key),
     )
     .map((tab) => [tab.key, tab.label]),
@@ -78,7 +97,12 @@ function one<T>(value: T | T[] | null | undefined): T | null {
 }
 
 function normalizeTab(tab: string | undefined) {
-  const normalized = tab === 'ae' ? 'adverse-events' : tab
+  const aliases: Record<string, string> = {
+    ae: 'adverse-events',
+    'clinical-profile': 'medical-history',
+    deviations: 'protocol-deviations',
+  }
+  const normalized = tab ? aliases[tab] ?? tab : tab
   return subjectChartTabs.some((item) => item.key === normalized) ? normalized! : 'general'
 }
 
@@ -212,7 +236,6 @@ export default async function SubjectDetailPage({
   const { canVerify, actorRole } = permissions
 
   // Operational intelligence (used by SubjectChartHeader)
-  const workflowActions = workflowResult.ok ? workflowResult.actions : []
   const operationalResult =
     chartStudyId && workflowResult.ok
       ? await loadSubjectOperationalIntelligence({
@@ -251,12 +274,18 @@ export default async function SubjectDetailPage({
   }
   let clinicalProfileLoadError: string | null = null
   let longitudinal: LongitudinalClinicalProfile | null = null
-  if (activeTab === 'clinical-profile' || activeTab === 'conmeds') {
+  const clinicalProfileTabs = new Set([
+    'medical-history',
+    'conmeds',
+    'allergies',
+    'surgical-history',
+  ])
+  if (clinicalProfileTabs.has(activeTab)) {
     const clinicalLoad = await loadSubjectClinicalProfileSafe(subjectId)
     clinicalProfile = clinicalLoad.profile
     if (!clinicalLoad.ok) {
       clinicalProfileLoadError = clinicalLoad.coordinatorMessage
-    } else if (activeTab === 'clinical-profile') {
+    } else if (activeTab === 'medical-history') {
       longitudinal = buildLongitudinalProfile(clinicalProfile)
     }
   }
@@ -271,14 +300,22 @@ export default async function SubjectDetailPage({
         })
       : null
 
-  const regulatorySignals =
-    activeTab === 'deviations' && chartStudyId
-      ? await loadSubjectRegulatorySignals({
-          subjectId,
-          studyId: chartStudyId,
-          organizationId,
-        })
+  const consentRuntime =
+    activeTab === 'consent' && chartStudyId
+      ? await loadSubjectConsentRuntime(subjectId)
       : null
+
+  const sourceTemplateTabs = new Set([
+    'subject-status',
+    'progress-notes',
+    'documents',
+    'signatures',
+    'protocol-deviations',
+    'emergency-contacts',
+  ])
+  const sourceTemplate: SubjectSourceTemplateModel | null = sourceTemplateTabs.has(activeTab)
+    ? await loadSubjectSourceTemplate({ subjectId, organizationId })
+    : null
 
   const anchorSubjectOptions =
     chartStudyId
@@ -400,16 +437,6 @@ export default async function SubjectDetailPage({
           ) : null}
 
           {/* Error banners */}
-          {!workflowResult.ok && activeTab === 'workflow' ? (
-            <CoordinatorSafeErrorPanel
-              title="Workflow unavailable"
-              detail={coordinatorMessageFromError(new Error(workflowResult.error), {
-                context: 'subject-workflow',
-              })}
-              retryHref={`${subjectChartPath(chartStudyId, subjectId)}?tab=workflow`}
-              backHref={subjectChartPath(chartStudyId, subjectId)}
-            />
-          ) : null}
           {!operationalResult.ok && activeTab === 'general' && chartStudyId ? (
             <CoordinatorSafeErrorPanel
               title="Operational summary unavailable"
@@ -456,26 +483,18 @@ export default async function SubjectDetailPage({
           {/* Visits — redirect handled above */}
           {activeTab === 'visits' ? <ComingSoon title="Visits" /> : null}
 
-          {/* Workflow */}
-          {activeTab === 'workflow' && chartStudyId ? (
-            canMutate ? (
-              <SubjectWorkflowPanel
-                organizationId={organizationId}
-                studyId={chartStudyId}
-                subjectId={subjectId}
-                actions={workflowActions}
-                operationalIntelligence={operationalIntelligence}
-              />
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Workflow actions are hidden in read-only review mode.
-              </p>
-            )
+          {activeTab === 'consent' && consentRuntime ? (
+            <SubjectConsentRuntimePanel model={consentRuntime} canMutate={canMutate} />
+          ) : null}
+          {activeTab === 'consent' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load the Consent Runtime.
+            </p>
           ) : null}
 
           {/* Clinical Profile */}
           {clinicalProfileLoadError &&
-          (activeTab === 'clinical-profile' || activeTab === 'conmeds') ? (
+          clinicalProfileTabs.has(activeTab) ? (
             <CoordinatorSafeErrorPanel
               title="Clinical profile unavailable"
               detail={clinicalProfileLoadError}
@@ -484,25 +503,44 @@ export default async function SubjectDetailPage({
             />
           ) : null}
 
-          {activeTab === 'clinical-profile' && !clinicalProfileLoadError ? (
+          {activeTab === 'medical-history' && !clinicalProfileLoadError ? (
             <div className="space-y-4">
               <div>
-                <h2 className="text-lg font-semibold" >Clinical Profile</h2>
+                <h2 className="text-lg font-semibold" >Medical Conditions / Medical History</h2>
                 <p className="text-sm" >
-                  Longitudinal clinical backbone — independent from visits. All entries are audit-logged (ALCOA+).
+                  Longitudinal medical history with controlled diagnosis/pathology terms.
                 </p>
               </div>
               {longitudinal ? (
                 <ClinicalRiskPanel longitudinal={longitudinal} />
               ) : null}
-              <ClinicalProfileConMedsPromo
-                rows={clinicalProfile.conmeds}
-                studyId={chartStudyId}
+              <div className="rounded-lg border bg-card p-4">
+                <MedicalHistorySection
+                  studySubjectId={subjectId}
+                  rows={clinicalProfile.medical_history}
+                  canVerify={canVerify}
+                  actorRole={actorRole}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          {activeTab === 'allergies' && !clinicalProfileLoadError ? (
+            <div className="rounded-lg border bg-card p-4">
+              <AllergiesSection
                 studySubjectId={subjectId}
+                rows={clinicalProfile.allergies}
+                canVerify={canVerify}
+                actorRole={actorRole}
               />
-              <ClinicalProfileTabs
-                profile={clinicalProfile}
+            </div>
+          ) : null}
+
+          {activeTab === 'surgical-history' && !clinicalProfileLoadError ? (
+            <div className="rounded-lg border bg-card p-4">
+              <SurgicalHistorySection
                 studySubjectId={subjectId}
+                rows={clinicalProfile.surgical_history}
                 canVerify={canVerify}
                 actorRole={actorRole}
               />
@@ -532,13 +570,28 @@ export default async function SubjectDetailPage({
             />
           ) : null}
 
-          {activeTab === 'deviations' && !chartStudyId ? (
-            <p className="text-sm text-muted-foreground">
-              Study context is required to load regulatory signals for this subject.
-            </p>
+          {activeTab === 'progress-notes' && sourceTemplate ? (
+            <SubjectProgressNotesSection studySubjectId={subjectId} model={sourceTemplate} />
           ) : null}
-          {activeTab === 'deviations' && regulatorySignals ? (
-            <SubjectRegulatorySurface model={regulatorySignals} />
+
+          {activeTab === 'subject-status' && sourceTemplate ? (
+            <SubjectStatusHistorySection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {activeTab === 'documents' && sourceTemplate ? (
+            <SubjectDocumentsSection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {activeTab === 'signatures' && sourceTemplate ? (
+            <SubjectSignaturesSection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {activeTab === 'protocol-deviations' && sourceTemplate ? (
+            <SubjectProtocolDeviationsSection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {activeTab === 'emergency-contacts' && sourceTemplate ? (
+            <SubjectEmergencyContactsSection studySubjectId={subjectId} model={sourceTemplate} />
           ) : null}
 
           {/* Placeholder tabs */}

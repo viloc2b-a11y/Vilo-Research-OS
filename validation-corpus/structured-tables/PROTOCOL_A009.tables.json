@@ -1,0 +1,895 @@
+{
+  "sanitized_id": "PROTOCOL_A009",
+  "document_class": "PROTOCOL",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A009_t0",
+      "page": 7,
+      "section": "",
+      "caption": "",
+      "row_count": 7,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study name",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Evaluation of MeMed BV Flex\u2122 Performance and Ease of Use in a CLIA-Waived Clinical Environment",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Design",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "This is a multi-center, prospective, sample collection study to evaluate the comparison between MeMed BV\u00ae test scores measured in a laboratory setting by trained operators using serum samples to MeMed BV Flex\u2122 test scores measured at CLIA- waived setting by untrained operators using either venous whole blood (VWB) or capillary whole blood (CWB) samples. The study will enroll patients over the age of 90 days who present with suspected acute bacterial or viral infection. Enrolled patients will be managed according to the current standard of care per institutional procedures. Study results will not influence patient management. Participation in the study requires the collection of up to 12 ml of blood.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study Population",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Patients over the age of 90 days, with clinical suspicion of acute bacterial or viral infection.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "No. of sites",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3-5 sites",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "No. of subjects",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "A total of approximately 220 patients will be enrolled in the study including approximately 40 pediatric patients.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study duration",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Approximately 6 months.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Eligibility Criteria",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Inclusion Criteria: 1. Written informed consent must be obtained from the patient or his/her legal guardian. For children under 18 years old, written informed consent from the legal guardian and assent from the patient (depending on the local requirements). 2. Over 90 days of age. 3. Clinical suspicion of acute bacterial or viral infection. 4. Symptoms of acute infectious disease < 7 days. 5. Tactile fever or measured temperature \u2265 37.8\u00b0C (100\u00b0F) (anybody site, any measurement device, including self- reported), either of them noted at least once within the last 7 days. 6. Collection of adequate volumes of capillary whole blood, venous whole blood and serum to support all required study assessments.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A009_t1",
+      "page": 8,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Exclusion Criteria: 1. HIV, HBV, active HCV, or active Tuberculosis infection (self-declared or known from medical records). 2. Suspicion and/or confirmed diagnosis of infectious gastroenteritis/ colitis. 3. Active inflammatory disease (e.g., IBD, SLE, JIA, RA, Kawasaki, other vasculitis). 4. Pregnancy- self-reported or medically confirmed. 5. Active malignancy - Cancer diagnosed within the previous six months, recurrent, regionally advanced or metastatic cancer, cancer for which treatment had been administered within six months, or hematological cancer that is not in complete remission. 6. Congenital or acquired immune deficiency (CID). 7. A proven or suspected infection on presentation with Mycobacterial (e.g., MAC, MABC), parasitic or fungal (e.g., Candida, Histoplasma, Aspergillus) pathogen. 8. Patients that have undergone major surgery, significant trauma or burns in the last 7 days. 9. Considered unsuitable for the study by the study team.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Primary Objective",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "To demonstrate method comparison between MeMed BV\u00ae scores obtained by trained operators in laboratory settings using serum samples and MeMed BV FlexTM scores obtained by untrained operators at CLIA-waived settings using VWB and CWB samples from patients suspected of acute bacterial or viral infection.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Secondary Objective",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Simulate the impact of the analytical performance of the MeMed BV FlexTM on the diagnostic accuracy of the data from the Apollo study (NCT04690569).",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Exploratory Objective",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1. To assess the usability of the MeMed BV FlexTM by untrained operators 2. To demonstrate method comparison between MeMed BV\u00ae scores and MeMed BV FlexTM scores using serum samples at laboratory conditions 3. Provide additional supportive information for the analytical equivalence between MeMed BV\u00ae score obtained using serum samples and MeMed BV Flex\u2122 scores obtained using VWB and CWB samples in pediatric participants enrolled at clinical sites outside the US.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "label": "Exclusion Criteria: 1. HIV, HBV, active HCV, or active Tuberculosis infection (self-declared or known from medical records). 2. Suspicion and/or confirmed diagnosis of infectious gastroenteritis/ colitis. 3. Active inflammatory disease (e.g., IBD, SLE, JIA, RA, Kawasaki, other vasculitis). 4. Pregnancy- self-reported or medically confirmed. 5. Active malignancy - Cancer diagnosed within the previous six months, recurrent, regionally advanced or metastatic cancer, cancer for which treatment had been administered within six months, or hematological cancer that is not in complete remission. 6. Congenital or acquired immune deficiency (CID). 7. A proven or suspected infection on presentation with Mycobacterial (e.g., MAC, MABC), parasitic or fungal (e.g., Candida, Histoplasma, Aspergillus) pathogen. 8. Patients that have undergone major surgery, significant trauma or burns in the last 7 days. 9. Considered unsuitable for the study by the study team.",
+            "col_index": 1
+          }
+        ],
+        "procedures": [
+          {
+            "name": "Primary Objective",
+            "row_index": 1,
+            "occurrences": [
+              {
+                "visit_label": "Exclusion Criteria: 1. HIV, HBV, active HCV, or active Tuberculosis infection (self-declared or known from medical records). 2. Suspicion and/or confirmed diagnosis of infectious gastroenteritis/ colitis. 3. Active inflammatory disease (e.g., IBD, SLE, JIA, RA, Kawasaki, other vasculitis). 4. Pregnancy- self-reported or medically confirmed. 5. Active malignancy - Cancer diagnosed within the previous six months, recurrent, regionally advanced or metastatic cancer, cancer for which treatment had been administered within six months, or hematological cancer that is not in complete remission. 6. Congenital or acquired immune deficiency (CID). 7. A proven or suspected infection on presentation with Mycobacterial (e.g., MAC, MABC), parasitic or fungal (e.g., Candida, Histoplasma, Aspergillus) pathogen. 8. Patients that have undergone major surgery, significant trauma or burns in the last 7 days. 9. Considered unsuitable for the study by the study team.",
+                "marker": "To demonstrate method comparison between MeMed BV\u00ae scores obtained by trained operators in laboratory settings using serum samples and MeMed BV FlexTM scores obtained by untrained operators at CLIA-waived settings using VWB and CWB samples from patients suspected of acute bacterial or viral infection.",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Secondary Objective",
+            "row_index": 2,
+            "occurrences": [
+              {
+                "visit_label": "Exclusion Criteria: 1. HIV, HBV, active HCV, or active Tuberculosis infection (self-declared or known from medical records). 2. Suspicion and/or confirmed diagnosis of infectious gastroenteritis/ colitis. 3. Active inflammatory disease (e.g., IBD, SLE, JIA, RA, Kawasaki, other vasculitis). 4. Pregnancy- self-reported or medically confirmed. 5. Active malignancy - Cancer diagnosed within the previous six months, recurrent, regionally advanced or metastatic cancer, cancer for which treatment had been administered within six months, or hematological cancer that is not in complete remission. 6. Congenital or acquired immune deficiency (CID). 7. A proven or suspected infection on presentation with Mycobacterial (e.g., MAC, MABC), parasitic or fungal (e.g., Candida, Histoplasma, Aspergillus) pathogen. 8. Patients that have undergone major surgery, significant trauma or burns in the last 7 days. 9. Considered unsuitable for the study by the study team.",
+                "marker": "Simulate the impact of the analytical performance of the MeMed BV FlexTM on the diagnostic accuracy of the data from the Apollo study (NCT04690569).",
+                "conditional": true
+              }
+            ]
+          },
+          {
+            "name": "Exploratory Objective",
+            "row_index": 3,
+            "occurrences": [
+              {
+                "visit_label": "Exclusion Criteria: 1. HIV, HBV, active HCV, or active Tuberculosis infection (self-declared or known from medical records). 2. Suspicion and/or confirmed diagnosis of infectious gastroenteritis/ colitis. 3. Active inflammatory disease (e.g., IBD, SLE, JIA, RA, Kawasaki, other vasculitis). 4. Pregnancy- self-reported or medically confirmed. 5. Active malignancy - Cancer diagnosed within the previous six months, recurrent, regionally advanced or metastatic cancer, cancer for which treatment had been administered within six months, or hematological cancer that is not in complete remission. 6. Congenital or acquired immune deficiency (CID). 7. A proven or suspected infection on presentation with Mycobacterial (e.g., MAC, MABC), parasitic or fungal (e.g., Candida, Histoplasma, Aspergillus) pathogen. 8. Patients that have undergone major surgery, significant trauma or burns in the last 7 days. 9. Considered unsuitable for the study by the study team.",
+                "marker": "1. To assess the usability of the MeMed BV FlexTM by untrained operators 2. To demonstrate method comparison between MeMed BV\u00ae scores and MeMed BV FlexTM scores using serum samples at laboratory conditions 3. Provide additional supportive information for the analytical equivalence between MeMed BV\u00ae score obtained using serum samples and MeMed BV Flex\u2122 scores obtained using VWB and CWB samples in pediatric participants enrolled at clinical sites outside the US.",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 1
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A009_t2",
+      "page": 9,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Primary Endpoint",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Demonstrate the correlation, across the study cohort between MeMed BV\u00ae score obtained by trained operators in laboratory settings using serum samples to: \u2022 MeMed BV Flex\u2122 score obtained by untrained operators in a CLIA-waived setting using VWB. \u2022 MeMed BV Flex\u2122 score obtained by untrained operators in a CLIA-waived setting using CWB. The acceptance criteria for both comparisons, plotted using Passing & Bablok regression, will be: \u2022 Slope in the range of 0.9-1.1 \u2022 Intercept in the range of (-5) to 5 In addition, no more than 5% of samples tested demonstrate a score deviation that causes a patient to be assigned to a nonadjacent bin.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Secondary Endpoint",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Demonstrate the clinical performance of BV FlexTM by applying the analytical performance attained in the current study by untrained operators on the data from the Apollo study (NCT04690569) using simulations and evaluate the clinical performance using the same acceptance criteria from the Apollo study. Namely: \u2022 The Cochran\u2013Armitage (CA) Test for trend with a two-sided 5% level of significance will be used to reject the null hypothesis that there is no trend of increasing probability of bacterial infection with higher test score for at least 95% of simulations. \u2022 Likelihood Ratio (LR) with 95% Confidence Interval (CI) should exclude 1 for some bins for at least 95% of simulations.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Exploratory Endpoint",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "\u2022 Ease of use questionnaire results from untrained operators participating in the study will be summarized to assess the usability of the MeMed BV FlexTM test. \u2022 Demonstrate the correlation between MeMed BV\u00ae scores and MeMed BV FlexTM scores using serum samples in laboratory conditions. \u2022 Demonstrate a correlation between MeMed BV\u00ae scores obtained from serum samples and MeMed BV Flex\u2122 scores obtained from VWB and CWB for pediatric patients supplemented with data outside of the US.",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A009_t3",
+      "page": 22,
+      "section": "",
+      "caption": "",
+      "row_count": 10,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Procedures",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Screening",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Enrollment",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Data processing",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Informed consent",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Review of inclusion / exclusion criteria",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Relevant medical History / Current medical conditions / Demographic data / Concomitant medications and procedures.",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Study-specific blood samples collection",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Subjects for whom a CBC was not taken within 6 hours of study-specific blood draw, CBC (including at least Hematocrit or Hemoglobin).",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Blood sample processing and testing",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "AE/SAE collection",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "eCRF processing post recruitment to the study",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Transfer of biological samples to central repository",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "X",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [],
+      "soa_matrix": {
+        "visits": [
+          {
+            "label": "Screening",
+            "col_index": 1
+          },
+          {
+            "label": "Enrollment",
+            "col_index": 2
+          },
+          {
+            "label": "Data processing",
+            "col_index": 3
+          }
+        ],
+        "procedures": [
+          {
+            "name": "Informed consent",
+            "row_index": 1,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Review of inclusion / exclusion criteria",
+            "row_index": 2,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Relevant medical History / Current medical conditions / Demographic data / Concomitant medications and procedures.",
+            "row_index": 3,
+            "occurrences": [
+              {
+                "visit_label": "Screening",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Study-specific blood samples collection",
+            "row_index": 4,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Subjects for whom a CBC was not taken within 6 hours of study-specific blood draw, CBC (including at least Hematocrit or Hemoglobin).",
+            "row_index": 5,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Blood sample processing and testing",
+            "row_index": 6,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "AE/SAE collection",
+            "row_index": 7,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "eCRF processing post recruitment to the study",
+            "row_index": 8,
+            "occurrences": [
+              {
+                "visit_label": "Data processing",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          },
+          {
+            "name": "Transfer of biological samples to central repository",
+            "row_index": 9,
+            "occurrences": [
+              {
+                "visit_label": "Enrollment",
+                "marker": "X",
+                "conditional": false
+              }
+            ]
+          }
+        ],
+        "conditional_count": 0
+      }
+    },
+    {
+      "table_id": "PROTOCOL_A009_t4",
+      "page": 36,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 3,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Version",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Date",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Significant Revisions",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.0",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "See sign off",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Original",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ]
+}

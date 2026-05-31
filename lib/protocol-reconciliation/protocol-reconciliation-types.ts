@@ -50,6 +50,24 @@ export const RECONCILIATION_EVENT_TYPE = {
 export type ReconciliationEventType =
   (typeof RECONCILIATION_EVENT_TYPE)[keyof typeof RECONCILIATION_EVENT_TYPE]
 
+/**
+ * Read-only extraction provenance for a reconciliation row, resolved by tracing
+ * the row back to its extraction candidate + source section. Never editable.
+ */
+export type ReconciliationVisitEvidence = {
+  sectionTitle: string | null
+  sectionType: string | null
+  extractedText: string | null
+  candidateConfidence: number | null
+}
+
+export type ReconciliationProcedureEvidence = {
+  extractedText: string | null
+  candidateConfidence: number | null
+  sectionTitle: string | null
+  sectionType: string | null
+}
+
 export type ProtocolVisitReconciliationRow = {
   id: string
   organizationId: string
@@ -69,6 +87,8 @@ export type ProtocolVisitReconciliationRow = {
   createdBy: string
   createdAt: string
   updatedAt: string
+  /** Read-only extraction provenance; populated by the workspace loader. */
+  evidence?: ReconciliationVisitEvidence | null
 }
 
 export type ProtocolProcedureReconciliationRow = {
@@ -94,6 +114,8 @@ export type ProtocolProcedureReconciliationRow = {
   createdBy: string
   createdAt: string
   updatedAt: string
+  /** Read-only extraction provenance; populated by the workspace loader. */
+  evidence?: ReconciliationProcedureEvidence | null
 }
 
 export type ProtocolReconciliationEventRow = {
@@ -153,6 +175,25 @@ export type CreateManualVisitInput = {
   study_day?: number | null
   window_before_days?: number | null
   window_after_days?: number | null
+}
+
+export type UpdateVisitReconciliationInput = {
+  organization_id: string
+  visit_code?: string
+  visit_name?: string
+  visit_type?: string | null
+  study_day?: number | null
+  window_before_days?: number | null
+  window_after_days?: number | null
+}
+
+export type UpdateProcedureReconciliationInput = {
+  organization_id: string
+  procedure_name?: string
+  procedure_category?: string | null
+  required?: boolean
+  procedure_order?: number | null
+  visit_reconciliation_id?: string | null
 }
 
 export type CreateManualProcedureInput = {

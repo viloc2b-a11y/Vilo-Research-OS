@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import Link from 'next/link'
 import type { LoadedReconciliationWorkspace } from '@/lib/protocol-reconciliation/protocol-reconciliation-types'
 import { ManualProcedureDialog } from './manual-procedure-dialog'
 import { ManualVisitDialog } from './manual-visit-dialog'
@@ -9,8 +10,14 @@ import { ReconciliationStatusSummary } from './reconciliation-status-summary'
 import { ReconciliationVersionSelector } from './reconciliation-version-selector'
 import { VisitReconciliationList } from './visit-reconciliation-list'
 
-export function ProtocolReconciliationClient(props: { organizationId: string }) {
-  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
+export function ProtocolReconciliationClient(props: {
+  organizationId: string
+  initialStudyId?: string | null
+  initialVersionId?: string | null
+}) {
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
+    props.initialVersionId ?? null,
+  )
   const [workspace, setWorkspace] = useState<LoadedReconciliationWorkspace | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -90,6 +97,8 @@ export function ProtocolReconciliationClient(props: { organizationId: string }) 
       <ReconciliationVersionSelector
         organizationId={props.organizationId}
         selectedVersionId={selectedVersionId}
+        preselectStudyId={props.initialStudyId}
+        preselectVersionId={props.initialVersionId}
         onSelect={setSelectedVersionId}
       />
 
@@ -120,6 +129,12 @@ export function ProtocolReconciliationClient(props: { organizationId: string }) 
         <>
           <ReconciliationStatusSummary summary={workspace.summary} versionLabel={workspace.versionLabel} />
 
+          <GenerationHandoff
+            ready={workspace.summary.readyForRuntimeGeneration}
+            versionId={workspace.protocolVersionId}
+            studyId={props.initialStudyId ?? null}
+          />
+
           <section className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-slate-900">Visit reconciliations</h2>
@@ -149,6 +164,7 @@ export function ProtocolReconciliationClient(props: { organizationId: string }) 
             <ProcedureReconciliationList
               organizationId={props.organizationId}
               procedures={workspace.procedureReconciliations}
+              visits={workspace.visitReconciliations}
               onUpdated={refresh}
             />
           </section>
@@ -171,6 +187,40 @@ export function ProtocolReconciliationClient(props: { organizationId: string }) 
           </section>
         </>
       ) : null}
+    </div>
+  )
+}
+
+function GenerationHandoff(props: { ready: boolean; versionId: string; studyId: string | null }) {
+  const params = new URLSearchParams({ version_id: props.versionId })
+  if (props.studyId) params.set('study_id', props.studyId)
+  const href = `/protocol-runtime-generation?${params.toString()}`
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white p-4">
+      <div>
+        <p className="text-sm font-semibold text-slate-900">Runtime generation</p>
+        <p className="mt-0.5 text-xs text-slate-500">
+          {props.ready
+            ? 'All items resolved. Continue to generate study runtime from this reconciliation.'
+            : 'Resolve all draft/needs-review items before generation.'}
+        </p>
+      </div>
+      {props.ready ? (
+        <Link
+          href={href}
+          className="inline-flex shrink-0 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Continue to Generation
+        </Link>
+      ) : (
+        <span
+          aria-disabled="true"
+          className="inline-flex shrink-0 cursor-not-allowed rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-400"
+        >
+          Continue to Generation
+        </span>
+      )}
     </div>
   )
 }

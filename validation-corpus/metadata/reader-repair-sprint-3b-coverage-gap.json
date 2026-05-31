@@ -1,0 +1,55 @@
+{
+  "missing_count": 5,
+  "gap_details": [
+    {
+      "sanitized_id": "ECRF_GUIDE_A001",
+      "document_class": "ECRF_GUIDE",
+      "safe_text_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A001.md",
+      "has_structured_tables_json": false,
+      "tables_detected": 0,
+      "soa_tables_detected": 0,
+      "reason_not_processed": "BUG",
+      "action": "NEEDS_REPAIR"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A004_AMEND_001",
+      "document_class": "AMENDMENT",
+      "safe_text_path": "validation-corpus/sanitized\\amendments\\PROTOCOL_A004_AMEND_001.md",
+      "has_structured_tables_json": false,
+      "tables_detected": 0,
+      "soa_tables_detected": 0,
+      "reason_not_processed": "BUG",
+      "action": "NEEDS_REPAIR"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A005",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A005.md",
+      "has_structured_tables_json": false,
+      "tables_detected": 0,
+      "soa_tables_detected": 0,
+      "reason_not_processed": "BUG",
+      "action": "NEEDS_REPAIR"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A007",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A007.md",
+      "has_structured_tables_json": false,
+      "tables_detected": 0,
+      "soa_tables_detected": 0,
+      "reason_not_processed": "BUG",
+      "action": "NEEDS_REPAIR"
+    },
+    {
+      "sanitized_id": "PROTOCOL_A009",
+      "document_class": "PROTOCOL",
+      "safe_text_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A009.md",
+      "has_structured_tables_json": false,
+      "tables_detected": 0,
+      "soa_tables_detected": 0,
+      "reason_not_processed": "BUG",
+      "action": "NEEDS_REPAIR"
+    }
+  ]
+}

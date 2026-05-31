@@ -23,3 +23,19 @@ export type MedicationLibrarySearchOutcome = {
 }
 
 export type AllergenResult = AllergenVocabularyEntry
+
+export interface SurgicalProcedureResult {
+  id: string
+  code: string
+  label: string
+  category: string | null
+  source: string | null
+}
+
+export interface AeControlledTermResult {
+  id: string
+  term_group: string
+  code: string
+  label: string
+  sort_order: number
+}

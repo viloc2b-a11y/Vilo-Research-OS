@@ -186,7 +186,13 @@ export type ScheduleMatrixIntersection = {
 }
 
 export type RawExtractionOutput = {
-  tables?: { table_html: string; table_markdown: string }[]
+  /** Full document text (markdown) so downstream section/candidate extractors can run. */
+  full_text?: string
+  /** Provenance: number of pages in the source document when the reader exposes it. */
+  page_count?: number | null
+  /** Provenance: which reader produced this output ('docling' | 'excel' | 'csv'). */
+  extraction_method?: string
+  tables?: { table_html: string; table_markdown: string; page_no?: number | null }[]
   error?: string
 }
 

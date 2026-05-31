@@ -5,6 +5,7 @@ import {
   canExecuteStudyRuntime,
   formatStudyRuntimeBlockers,
 } from '@/lib/studies/runtime-readiness'
+import { enforceConsentForEnrollment } from '@/lib/subject/consent/enforcement'
 import { calculateVisitWindows, todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { validateVisitWindow } from '@/lib/visits/validateVisitWindow'
 import type { GenerateScheduleResult } from '@/lib/visits/types'
@@ -111,6 +112,18 @@ export async function generateSubjectVisitSchedule(input: {
       ok: false,
       error: `Study runtime is not ready for execution: ${formatStudyRuntimeBlockers(readiness)}`,
     }
+  }
+
+  const user = await getSessionUser()
+  const consent = await enforceConsentForEnrollment({
+    supabase,
+    organizationId: subject.organization_id as string,
+    studyId: subject.study_id as string,
+    subjectId: studySubjectId,
+    actorUserId: user?.id ?? null,
+  })
+  if (!consent.ok) {
+    return { ok: false, error: consent.message }
   }
 
   const anchorForRpc =

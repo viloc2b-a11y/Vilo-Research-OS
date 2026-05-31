@@ -14,8 +14,16 @@ import { SourcePublicationList } from './source-publication-list'
 
 type StudyOption = { id: string; name: string }
 
-export function RuntimeSourcePublicationClient(props: { organizationId: string; studies: StudyOption[] }) {
-  const [studyId, setStudyId] = useState(props.studies[0]?.id ?? '')
+export function RuntimeSourcePublicationClient(props: {
+  organizationId: string
+  studies: StudyOption[]
+  initialStudyId?: string | null
+}) {
+  const preselected =
+    props.initialStudyId && props.studies.some((s) => s.id === props.initialStudyId)
+      ? props.initialStudyId
+      : null
+  const [studyId, setStudyId] = useState(preselected ?? props.studies[0]?.id ?? '')
   const [sourcePackageId, setSourcePackageId] = useState('')
   const [placeholders, setPlaceholders] = useState<RuntimeSourceSignaturePlaceholderRow[]>([])
   const [publications, setPublications] = useState<RuntimeSourcePackagePublicationRow[]>([])

@@ -11,6 +11,19 @@ type ReviewBlueprintPayload = {
   crcReviewNote?: string
 }
 
+type BlueprintDbRow = Record<string, unknown> & {
+  id: string
+  organization_id: string
+  study_id: string
+  site_id: string | null
+  status: string
+  source_document_id: string | null
+  document_reader_artifact_id: string | null
+  crc_reviewed_at: string | null
+  crc_reviewed_by: string | null
+  metadata?: Record<string, unknown> | null
+}
+
 export async function loadActivePharmacyBlueprint(
   studyId: string,
   siteId?: string | null,
@@ -149,7 +162,7 @@ async function loadBlueprintById(supabase: SupabaseClient, blueprintId: string) 
     .eq('id', blueprintId)
     .single()
   if (error || !data) throw new Error(error?.message ?? 'Pharmacy Runtime Blueprint not found')
-  return data as Record<string, any>
+  return data as BlueprintDbRow
 }
 
 function mapBlueprintRow(row: Record<string, unknown>): PharmacyRuntimeBlueprint {

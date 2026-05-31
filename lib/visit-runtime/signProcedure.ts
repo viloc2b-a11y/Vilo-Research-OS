@@ -10,10 +10,13 @@ import { isSourceCaptureSubmitted } from '@/lib/source/submitted-source-gate'
 import { coordinatorMessageFromError } from '@/lib/runtime-errors'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { createServerClient } from '@/lib/supabase/server'
+import { requestOperationalSignature } from '@/lib/operations/signature-actions'
+import { enforceConsentForProcedureExecution } from '@/lib/subject/consent/enforcement'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
+type ProcedureValidation = Awaited<ReturnType<typeof validateProcedure>>
 
-export async function signProcedure(params: {
+export async function requestProcedureSignature(params: {
   supabase: Supabase
   procedureExecutionId: string
   organizationId: string
@@ -22,7 +25,7 @@ export async function signProcedure(params: {
 }) {
   const { data: proc, error: procError } = await params.supabase
     .from('procedure_executions')
-    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at, visits!inner(visit_status, study_subject_id)')
+    .select('id, organization_id, study_id, visit_id, is_signed, signed_at, signed_by, is_locked, section_disabled_at, updated_at, visits!inner(visit_status, study_subject_id), procedure_definitions(code, label)')
     .eq('id', params.procedureExecutionId)
     .eq('organization_id', params.organizationId)
     .maybeSingle()
@@ -59,6 +62,28 @@ export async function signProcedure(params: {
   if (proc.section_disabled_at) {
     return { ok: false as const, error: 'Cannot sign: procedure section is disabled.' }
   }
+
+  // @ts-expect-error - PostgREST response shape is slightly tricky with inner joins
+  const studySubjectId = proc.visits?.study_subject_id as string | undefined
+  const procedureDefinition = Array.isArray(proc.procedure_definitions)
+    ? proc.procedure_definitions[0]
+    : proc.procedure_definitions
+  const consent = await enforceConsentForProcedureExecution(
+    {
+      supabase: params.supabase,
+      organizationId: params.organizationId,
+      studyId: proc.study_id as string,
+      subjectId: studySubjectId ?? '',
+      visitId: proc.visit_id as string,
+      procedureExecutionId: params.procedureExecutionId,
+      actorUserId: params.actorUserId,
+    },
+    {
+      code: typeof procedureDefinition?.code === 'string' ? procedureDefinition.code : null,
+      label: typeof procedureDefinition?.label === 'string' ? procedureDefinition.label : null,
+    },
+  )
+  if (!consent.ok) return { ok: false as const, error: consent.message }
 
   const validation = await validateProcedure({
     supabase: params.supabase,
@@ -114,6 +139,75 @@ export async function signProcedure(params: {
     }
   }
 
+  // Request the operational signature
+  const req = await requestOperationalSignature({
+    organizationId: params.organizationId,
+    studyId: proc.study_id as string,
+    subjectId: studySubjectId ?? '',
+    visitId: proc.visit_id as string,
+    artifactType: 'procedure_execution',
+    artifactId: params.procedureExecutionId,
+    requiredRole: 'coordinator', // For this iteration, we keep it generally generic based on earlier RBAC.
+    signatureMeaning: 'I attest that the procedure data is accurate and complete.',
+  })
+
+  if (!req.ok || !req.requestId) return { ok: false as const, error: 'Failed to request signature.' }
+
+  const { error: updErr } = await params.supabase.from('procedure_executions').update({
+    signature_request_id: req.requestId
+  }).eq('id', params.procedureExecutionId).eq('organization_id', params.organizationId)
+
+  if (updErr) return { ok: false as const, error: coordinatorMessageFromError(updErr, { context: 'sign_procedure_request', fallbackMessage: updErr.message }) }
+
+  return { ok: true as const, requestId: req.requestId, validation }
+}
+
+export async function completeProcedureSignature(params: {
+  supabase: Supabase
+  procedureExecutionId: string
+  organizationId: string
+  actorUserId: string
+  validation: ProcedureValidation
+}) {
+  const { data: proc } = await params.supabase
+    .from('procedure_executions')
+    .select('id, organization_id, signature_request_id, study_id, visit_id, visits!inner(study_subject_id), procedure_definitions(code, label)')
+    .eq('id', params.procedureExecutionId)
+    .eq('organization_id', params.organizationId)
+    .single()
+
+  if (!proc?.signature_request_id) return { ok: false as const, error: 'No signature request found.' }
+
+  const { data: req } = await params.supabase
+    .from('operational_signature_requests')
+    .select('status, required_role')
+    .eq('id', proc.signature_request_id)
+    .single()
+
+  if (req?.status !== 'signed') return { ok: false as const, error: 'Signature is not signed yet.' }
+
+  // @ts-expect-error - PostgREST response shape is slightly tricky with inner joins
+  const studySubjectId = proc.visits?.study_subject_id as string | undefined
+  const procedureDefinition = Array.isArray(proc.procedure_definitions)
+    ? proc.procedure_definitions[0]
+    : proc.procedure_definitions
+  const consent = await enforceConsentForProcedureExecution(
+    {
+      supabase: params.supabase,
+      organizationId: params.organizationId,
+      studyId: proc.study_id as string,
+      subjectId: studySubjectId ?? '',
+      visitId: proc.visit_id as string,
+      procedureExecutionId: params.procedureExecutionId,
+      actorUserId: params.actorUserId,
+    },
+    {
+      code: typeof procedureDefinition?.code === 'string' ? procedureDefinition.code : null,
+      label: typeof procedureDefinition?.label === 'string' ? procedureDefinition.label : null,
+    },
+  )
+  if (!consent.ok) return { ok: false as const, error: consent.message }
+
   const signedAt = new Date().toISOString()
   const { data: signedRow, error } = await params.supabase
     .from('procedure_executions')
@@ -123,7 +217,7 @@ export async function signProcedure(params: {
       signed_by: params.actorUserId,
       is_locked: true,
       execution_status: 'completed',
-      validation_status: validation.status,
+      validation_status: params.validation.status,
     })
     .eq('id', params.procedureExecutionId)
     .eq('organization_id', params.organizationId)
@@ -141,17 +235,9 @@ export async function signProcedure(params: {
     }
   }
   if (!signedRow) {
-    const { data: persisted } = await params.supabase
-      .from('procedure_executions')
-      .select('signed_at, signed_by')
-      .eq('id', params.procedureExecutionId)
-      .eq('organization_id', params.organizationId)
-      .maybeSingle()
     return {
       ok: true as const,
       idempotent: true as const,
-      signedAt: (persisted?.signed_at as string | null) ?? null,
-      signedBy: (persisted?.signed_by as string | null) ?? null,
     }
   }
 
@@ -161,15 +247,13 @@ export async function signProcedure(params: {
     actorUserId: params.actorUserId,
     eventType: OPERATIONAL_EVENT_TYPES.PROCEDURE_SIGNED,
     payload: {
-      response_set_id: validation.responseSetId,
+      response_set_id: params.validation.responseSetId,
       signed_at: signedAt,
-      validation_status: validation.status,
+      validation_status: params.validation.status,
     },
   })
 
-  if (validation.responseSetId) {
-    // @ts-expect-error - PostgREST nested visit shape
-    const studySubjectId = proc.visits?.study_subject_id as string | undefined
+  if (params.validation.responseSetId) {
     captureSourceSnapshotBestEffort({
       scope: {
         supabase: params.supabase,
@@ -178,12 +262,12 @@ export async function signProcedure(params: {
         studySubjectId: studySubjectId ?? null,
         visitId: proc.visit_id as string,
         procedureExecutionId: params.procedureExecutionId,
-        sourceResponseSetId: validation.responseSetId,
+        sourceResponseSetId: params.validation.responseSetId,
         actorUserId: params.actorUserId,
       },
       snapshotType: SOURCE_SNAPSHOT_TYPE.SIGN,
     })
   }
 
-  return { ok: true as const, validation }
+  return { ok: true as const, validation: params.validation }
 }

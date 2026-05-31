@@ -1,0 +1,2144 @@
+{
+  "metrics": {
+    "total_tables_extracted": 132,
+    "total_soa_tables_detected": 1,
+    "total_visits_reconstructed": 4,
+    "total_procedures_linked": 0,
+    "total_conditional_cells": 0,
+    "total_footnotes_retained": 0
+  },
+  "documents": [
+    {
+      "document_id": "ECRF_GUIDE_A001",
+      "sanitized_id": "ECRF_GUIDE_A001",
+      "tables": [
+        {
+          "table_id": "table_0",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_1",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            [],
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_2",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_3",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_4",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_5",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_6",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_7",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        }
+      ]
+    },
+    {
+      "document_id": "PROTOCOL_A004_AMEND_001",
+      "sanitized_id": "PROTOCOL_A004_AMEND_001",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A005",
+      "sanitized_id": "PROTOCOL_A005",
+      "tables": [
+        {
+          "table_id": "table_0",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  1",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_1",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  2",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_2",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  3",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_3",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "05-Mar-2024",
+              "09:32 EST"
+            ],
+            [
+              "05-Mar-2024",
+              "15:06 EST"
+            ],
+            [
+              "05-Mar-2024",
+              "09:32 EST"
+            ],
+            [
+              "05-Mar-2024",
+              "09:36 EST"
+            ],
+            [
+              "05-Mar-2024",
+              "09:58 EST"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_4",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  4",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_5",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  5",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_6",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  6",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_7",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  7",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_8",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  8",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_9",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  9",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_10",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  10",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_11",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  11",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_12",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  12",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_13",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  13",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_14",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  14",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_15",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  15",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_16",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  16",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_17",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  17",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_18",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  18",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_19",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  19",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_20",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  20",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_21",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  21",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_22",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  22",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_23",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  23",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_24",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  24",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_25",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  25",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_26",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  26",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_27",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  27",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_28",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  28",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_29",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  29",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_30",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  30",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_31",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  31",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_32",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  32",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_33",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  33",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_34",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  34",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_35",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  35",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_36",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  36",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_37",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  37",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_38",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  38",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_39",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  39",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_40",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  40",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_41",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  41",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_42",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  42",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_43",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  43",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_44",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  44",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_45",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  45",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_46",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "P a g e  46",
+              "46"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        }
+      ]
+    },
+    {
+      "document_id": "PROTOCOL_A007",
+      "sanitized_id": "PROTOCOL_A007",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A009",
+      "sanitized_id": "PROTOCOL_A009",
+      "tables": [
+        {
+          "table_id": "table_0",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "3. Threat Report 2013",
+              "Antimicrobial Resistance",
+              "CDC. Available at:"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        }
+      ]
+    },
+    {
+      "document_id": "ECRF_GUIDE_A002",
+      "sanitized_id": "ECRF_GUIDE_A002",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A004_AMEND_002",
+      "sanitized_id": "PROTOCOL_A004_AMEND_002",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A004_AMEND_003",
+      "sanitized_id": "PROTOCOL_A004_AMEND_003",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A011",
+      "sanitized_id": "PROTOCOL_A011",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A012",
+      "sanitized_id": "PROTOCOL_A012",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A014",
+      "sanitized_id": "PROTOCOL_A014",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A003",
+      "sanitized_id": "PROTOCOL_A003",
+      "tables": []
+    },
+    {
+      "document_id": "PHARMACY_MANUAL_A001",
+      "sanitized_id": "PHARMACY_MANUAL_A001",
+      "tables": []
+    },
+    {
+      "document_id": "ECRF_GUIDE_A101",
+      "sanitized_id": "ECRF_GUIDE_A101",
+      "tables": [
+        {
+          "table_id": "table_0",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "Version",
+              "Effective date",
+              "Updated Section(s)",
+              "Reason for Revision",
+              "Revised by"
+            ],
+            [
+              "1.00",
+              "16-MAY-2019",
+              "All",
+              "Initial Version",
+              "Asha"
+            ],
+            [
+              "1.1",
+              "14-May-2020",
+              "4.8 Onset of IP signs and symptoms (Screening)",
+              "New form and instruction added",
+              "Asha"
+            ],
+            [
+              "1.1",
+              "14-May-2020",
+              "4.31 Adverse Events",
+              "New instruction added",
+              "Asha"
+            ],
+            [
+              "1.1",
+              "14-May-2020",
+              "4.17 Female Fertility Status (Screening)",
+              "New Screenshot and instruction added",
+              "Asha"
+            ],
+            [
+              "1.1",
+              "14-May-2020",
+              "4.15\tResult from Local Testing (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "New Screenshot added and instruction updated",
+              "Asha"
+            ],
+            [
+              "2.0",
+              "25-May-2020",
+              "-",
+              "Final version",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.2\tProtocol Informed Consent (Screening)Was the Household Contact eligible to participate in the full study? (Note: A full study HHC will participate in all required visits/assessment after screening ):",
+              "New field added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.4\tHousehold Information (Screening)",
+              "Instuctions updated",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.15 Vital signs",
+              "Note added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.17 Pregnancy Test Local",
+              "Note added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.18\tSample Collection for Central Laboratory (Screening, Day 3, Day 5, Day 9 and Unscheduled visits)",
+              "Instuctions updated",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.19\tLocal Lab Assessments-Screening (Screening)",
+              "New form added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.20\tLocal Lab Assessments-At Visit & Unscheduled",
+              "New form added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.21\tInfluenza sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "New form",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.22\tSample Collection for Local Laboratory (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "Instuction added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.23\tInfluenza test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "Form name updated",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.24\tSARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "New form",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.25\tSARS-CoV-2 test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "New form",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.26\tCombination influenza and SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)",
+              "New form",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.27\tBlinded Baloxavir Marboxil Administration - 12-64 year olds (Screening)",
+              "Form Name updated and instruction updated",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.28\tBlinded Baloxavir Marboxil Administration - 5-11 year olds (Screening)",
+              "New form added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.29\tWork Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit)",
+              "Instuction added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.30\tEQ-5D-5L to Measure Quality of Life (Screening, Day 3, Day 9 and Unscheduled visits)",
+              "Instuction added",
+              "Asha"
+            ],
+            [
+              "2.1",
+              "14-Oct-2020",
+              "4.38\tAdverse Events",
+              "New fields added",
+              "Asha"
+            ],
+            [
+              "3.0",
+              "28 Oct 2020",
+              "Final Version",
+              "",
+              "Asha"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "MEDIUM",
+          "extraction_method": "markdown_heuristic",
+          "columns": 5,
+          "cells": 130,
+          "matrix": {
+            "visits": [
+              {
+                "col_index": 1,
+                "label": "Visit_1"
+              },
+              {
+                "col_index": 2,
+                "label": "Visit_2"
+              },
+              {
+                "col_index": 3,
+                "label": "Visit_3"
+              },
+              {
+                "col_index": 4,
+                "label": "Visit_4"
+              }
+            ],
+            "procedures": [],
+            "notes": []
+          }
+        },
+        {
+          "table_id": "table_1",
+          "caption": "3.0  | 28 Oct 2020 | Final Version |  | Asha",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "DM",
+              "Data Manager"
+            ],
+            [
+              "eCRF",
+              "Electronic Case Report Form"
+            ],
+            [
+              "EDC",
+              "Electronic Data Capture"
+            ],
+            [
+              "GMA",
+              "Global Medical Affairs"
+            ],
+            [
+              "PDF",
+              "Portable Document Format"
+            ],
+            [
+              "SDL",
+              "Study Data Lead"
+            ],
+            [
+              "SMT",
+              "Study Management Team"
+            ],
+            [
+              "TCS",
+              "Tata Consultancy Services"
+            ],
+            [
+              "IP",
+              "Index Patient"
+            ],
+            [
+              "HHC",
+              "Household Contact"
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_2",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_3",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_4",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_5",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_6",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_7",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_8",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_9",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_10",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_11",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_12",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_13",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_14",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_15",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_16",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_17",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_18",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_19",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_20",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_21",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_22",
+          "caption": "Note: For IP Subjects, Age- 5-11 years  Subject Disposition eCRF is to be entered at the Subject level.   Subject Disposition Period Comp/Early Discontinuation for IP \u2013     To be entered at the Subject level. The Date of Contact is to be entered at the Visit Date.  If any Adverse event was assessed or Conmed was provided to the Subject, please enter the details on respective eCRF.",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_23",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_24",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_25",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_26",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_27",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_28",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_29",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_30",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_31",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_32",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_33",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_34",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_35",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_36",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_37",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_38",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_39",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_40",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_41",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_42",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_43",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_44",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_45",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_46",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_47",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_48",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_49",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_50",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_51",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_52",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_53",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_54",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_55",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_56",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_57",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_58",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_59",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_60",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_61",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_62",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_63",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_64",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_65",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_66",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_67",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_68",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_69",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_70",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_71",
+          "caption": "For HOUSEHOLD CONTACT:",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_72",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_73",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        },
+        {
+          "table_id": "table_74",
+          "caption": "",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        }
+      ]
+    },
+    {
+      "document_id": "AMENDMENT_A101",
+      "sanitized_id": "AMENDMENT_A101",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A101",
+      "sanitized_id": "PROTOCOL_A101",
+      "tables": [
+        {
+          "table_id": "table_0",
+          "caption": "Con se\u00f1al favorable: dise\u00f1ar fase II: comparar vs [INVESTIGATIONAL_PRODUCT_A] solo o vs mesoterapia sin NMN, o a\u00f1adir brazo de est\u00e1ndar de cuidado.",
+          "page_start": 0,
+          "page_end": 0,
+          "section": "",
+          "rows": [
+            [
+              "Visita",
+              "Semana",
+              "Procedimientos clave"
+            ],
+            [
+              "V0",
+              "0",
+              "Consentimiento, criterios, historia cl\u00ednica, G6PD, signos vitales, marcaje de \u00e1rea \u00edndice (1 cm\u00b2), fotograf\u00eda estandarizada, tricoscop\u00eda basal (densidad/di\u00e1metro), aleatorizaci\u00f3n, Sesi\u00f3n 1 ([INVESTIGATIONAL_PRODUCT_A] + meso T/C)"
+            ],
+            [
+              "V1\u2013V4",
+              "1\u20134",
+              "Revisi\u00f3n EA, signos vitales, Sesiones 2\u20135"
+            ],
+            [
+              "V5\u2013V7",
+              "5\u20137",
+              "Revisi\u00f3n EA, Sesiones 6\u20138, tricoscop\u00eda intermedia (semana 4 opcional)"
+            ],
+            [
+              "V8",
+              "12",
+              "Evaluaci\u00f3n final: tricoscop\u00eda, fotograf\u00eda, PRO (Likert), recuento 60s, cierre y seguridad"
+            ]
+          ],
+          "footnotes": [],
+          "confidence": "LOW",
+          "extraction_method": "markdown_heuristic"
+        }
+      ]
+    },
+    {
+      "document_id": "LAB_MANUAL_A101",
+      "sanitized_id": "LAB_MANUAL_A101",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A102",
+      "sanitized_id": "PROTOCOL_A102",
+      "tables": []
+    },
+    {
+      "document_id": "PROTOCOL_A103",
+      "sanitized_id": "PROTOCOL_A103",
+      "tables": []
+    }
+  ]
+}

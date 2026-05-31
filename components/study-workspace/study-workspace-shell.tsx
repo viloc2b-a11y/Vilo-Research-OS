@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { buildStudyWorkspaceRuntimeLinks } from '@/lib/study-workspace/study-workspace-links'
+import type { StudySetupDocument } from '@/lib/study-workspace/load-study-setup-documents'
 import type {
   StudyWorkspaceSectionId,
   StudyWorkspaceSubjectPreview,
@@ -15,6 +16,7 @@ import { StudyMonitoringViewPanel } from './study-monitoring-view-panel'
 import { StudyOverviewPanel } from './study-overview-panel'
 import { StudyRegulatoryBinderPanel } from './study-regulatory-binder-panel'
 import { StudyRuntimeStatusCards } from './study-runtime-status-cards'
+import { StudySetupPanel } from './study-setup-panel'
 import { StudySourcePanel } from './study-source-panel'
 import { StudySubjectsPanel } from './study-subjects-panel'
 import { StudyTrainingPanel } from './study-training-panel'
@@ -32,9 +34,16 @@ function parseSection(value: string | null): StudyWorkspaceSectionId {
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
   subjects: StudyWorkspaceSubjectPreview[]
+  setupDocuments: StudySetupDocument[]
+  hasProtocolDraft: boolean
 }
 
-export function StudyWorkspaceShell({ summary, subjects }: StudyWorkspaceShellProps) {
+export function StudyWorkspaceShell({
+  summary,
+  subjects,
+  setupDocuments,
+  hasProtocolDraft,
+}: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const initialSection = parseSection(searchParams.get('section'))
@@ -92,6 +101,16 @@ export function StudyWorkspaceShell({ summary, subjects }: StudyWorkspaceShellPr
           </div>
         ) : null}
 
+        {activeSection === 'study-setup' ? (
+          <StudySetupPanel
+            documents={setupDocuments}
+            links={links}
+            studyId={summary.study.id}
+            hasProtocolDraft={hasProtocolDraft}
+            hasPublishedSource={(summary.counts.publishedSourceCount ?? 0) > 0}
+          />
+        ) : null}
+
         {activeSection === 'subjects' ? (
           <StudySubjectsPanel
             studyId={summary.study.id}
@@ -115,9 +134,13 @@ export function StudyWorkspaceShell({ summary, subjects }: StudyWorkspaceShellPr
           <StudyRegulatoryBinderPanel links={links} counts={summary.counts} />
         ) : null}
 
-        {activeSection === 'training' ? <StudyTrainingPanel links={links} /> : null}
+        {activeSection === 'training' ? (
+          <StudyTrainingPanel links={links} studyId={summary.study.id} />
+        ) : null}
 
-        {activeSection === 'delegation' ? <StudyDelegationPanel links={links} /> : null}
+        {activeSection === 'delegation' ? (
+          <StudyDelegationPanel links={links} studyId={summary.study.id} />
+        ) : null}
 
         {activeSection === 'documents' ? (
           <DocumentsComplianceSection links={links} counts={summary.counts} />

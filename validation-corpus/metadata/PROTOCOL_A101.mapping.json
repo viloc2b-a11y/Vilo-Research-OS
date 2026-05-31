@@ -1,0 +1,13 @@
+{
+  "sanitized_id": "PROTOCOL_A101",
+  "original_filename": "Protocolo Piloto Ozono + Nad Capilar (v1.docx",
+  "original_relative_path": "validation-corpus/inbox/Protocolo Piloto Ozono + Nad Capilar (v1.docx",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A101.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "extraction_method": "python-docx",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN",
+  "processed_original_path": "validation-corpus/raw/processed-originals/Protocolo Piloto Ozono + Nad Capilar (v1.docx"
+}

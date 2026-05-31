@@ -9,6 +9,7 @@ export async function listPendingOperationalSignatures(
   input: {
     organizationId: string
     studyId?: string | null
+    assignedUserId?: string | null
     limit?: number
   },
 ): Promise<OperationalSignatureRequestRow[]> {
@@ -25,7 +26,11 @@ export async function listPendingOperationalSignatures(
   const { data, error } = await query
   if (error) throw new Error(error.message)
 
-  return (data ?? []).map((row) =>
-    mapOperationalSignatureRequestRow(row as Record<string, unknown>),
-  )
+  return (data ?? [])
+    .filter((row) => {
+      if (!input.assignedUserId) return true
+      const metadata = (row.metadata as Record<string, unknown> | null) ?? {}
+      return !metadata.requested_to || metadata.requested_to === input.assignedUserId
+    })
+    .map((row) => mapOperationalSignatureRequestRow(row as Record<string, unknown>))
 }

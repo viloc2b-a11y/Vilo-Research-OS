@@ -1,0 +1,13 @@
+{
+  "sanitized_id": "LAB_MANUAL_A101",
+  "original_filename": "UDX CRF 3 Blood Collection Ver 27JAN21.pdf",
+  "original_relative_path": "validation-corpus/inbox/UDX CRF 3 Blood Collection Ver 27JAN21.pdf",
+  "target_path": "validation-corpus/sanitized\\lab-manuals\\LAB_MANUAL_A101.md",
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN",
+  "processed_original_path": "validation-corpus/raw/processed-originals/UDX CRF 3 Blood Collection Ver 27JAN21.pdf"
+}

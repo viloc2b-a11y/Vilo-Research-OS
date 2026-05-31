@@ -1,0 +1,22 @@
+{
+  "sanitized_id": "PROTOCOL_A005",
+  "original_filename": "004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf",
+  "original_relative_path": "validation-corpus/inbox\\Budgets\\IVD\\clinical gen bio\\004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A005.md",
+  "extraction_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A005.md",
+  "redaction_status": "UNSAFE_BINARY_REDACTION",
+  "redaction_method": "Deferred text-only parsing",
+  "unresolved_risks": [
+    "Embedded PHI in binary streams",
+    "Unscrubbed metadata (Author, Company)",
+    "Visual overlays hiding text"
+  ],
+  "manual_review_required": true,
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "unsafe_binary_path": "validation-corpus/raw/review-required/unsafe-binary-redaction\\PROTOCOL_A005.pdf",
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN"
+}

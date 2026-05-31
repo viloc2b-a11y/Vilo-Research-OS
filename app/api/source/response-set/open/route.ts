@@ -1,4 +1,5 @@
 import { errorEnvelope, fromRpcThrown } from '@/lib/api/source/envelope'
+import { consentBlockApiError, enforceConsentForProcedureExecution } from '@/lib/subject/consent/enforcement'
 import { requireOrganizationMember, requireSourceApiContext } from '@/lib/api/source/auth'
 import { enforceInternalSourceRoute } from '@/lib/api/source/runtime-isolation-enforcement'
 import { callSourceRpc } from '@/lib/api/source/call-rpc'
@@ -28,6 +29,22 @@ export async function POST(request: Request) {
 
   const body = parsed.data
   try {
+    const consent = await enforceConsentForProcedureExecution({
+      supabase: ctx.supabase,
+      organizationId: body.organization_id,
+      studyId: body.study_id,
+      subjectId: body.study_subject_id,
+      visitId: body.visit_id,
+      procedureExecutionId: body.procedure_execution_id,
+      actorUserId: ctx.user.id,
+    })
+    if (!consent.ok) {
+      return jsonEnvelope(
+        errorEnvelope(consent.code, [consentBlockApiError(consent)], { requestId: ctx.requestId }),
+        409,
+      )
+    }
+
     const envelope = await callSourceRpc(ctx.supabase, 'open_source_response_set', {
       p_organization_id: body.organization_id,
       p_study_id: body.study_id,

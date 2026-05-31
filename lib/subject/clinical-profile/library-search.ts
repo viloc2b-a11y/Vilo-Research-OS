@@ -9,9 +9,11 @@ import { filterAllergenVocabularyFallback } from '@/lib/subject/clinical-profile
 import type { SubjectClinicalProfileEvent } from './types'
 import type {
   AllergenResult,
+  AeControlledTermResult,
   MedicationLibrarySearchOutcome,
   MedicationResult,
   PathologyResult,
+  SurgicalProcedureResult,
 } from './library-search-types'
 
 // ---------------------------------------------------------------------------
@@ -173,6 +175,59 @@ export async function searchAllergenLibrary(query: string): Promise<AllergenResu
   }
 
   return merged.slice(0, 15)
+}
+
+// ---------------------------------------------------------------------------
+// Surgical procedure library search
+// ---------------------------------------------------------------------------
+
+export async function searchSurgicalProcedureLibrary(
+  query: string,
+): Promise<SurgicalProcedureResult[]> {
+  if (!query || query.trim().length < 2) return []
+
+  const q = query.trim()
+  const supabase = await createServerClient()
+  const { data, error } = await supabase
+    .from('surgical_procedure_library')
+    .select('id, code, label, category, source')
+    .or(`label.ilike.%${q}%,code.ilike.%${q}%,category.ilike.%${q}%`)
+    .eq('is_active', true)
+    .order('label')
+    .limit(15)
+
+  if (error) return []
+  return (data ?? []) as SurgicalProcedureResult[]
+}
+
+// ---------------------------------------------------------------------------
+// AE controlled terminology search
+// ---------------------------------------------------------------------------
+
+export async function searchAeControlledTerms(
+  termGroup: string,
+  query = '',
+): Promise<AeControlledTermResult[]> {
+  const group = termGroup.trim()
+  if (!group) return []
+
+  const supabase = await createServerClient()
+  let request = supabase
+    .from('ae_controlled_terms')
+    .select('id, term_group, code, label, sort_order')
+    .eq('term_group', group)
+    .eq('is_active', true)
+    .order('sort_order')
+    .limit(30)
+
+  const q = query.trim()
+  if (q.length >= 2) {
+    request = request.or(`label.ilike.%${q}%,code.ilike.%${q}%`)
+  }
+
+  const { data, error } = await request
+  if (error) return []
+  return (data ?? []) as AeControlledTermResult[]
 }
 
 // ---------------------------------------------------------------------------

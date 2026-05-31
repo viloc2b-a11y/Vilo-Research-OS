@@ -1,0 +1,22 @@
+{
+  "sanitized_id": "PROTOCOL_A009",
+  "original_filename": "Ingenuity Dual protocol 09Sep25 vus1.0final-signed.pdf",
+  "original_relative_path": "validation-corpus/inbox\\Ingenuity Dual protocol 09Sep25 vus1.0final-signed.pdf",
+  "target_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A009.md",
+  "extraction_path": "validation-corpus/sanitized\\protocols\\PROTOCOL_A009.md",
+  "redaction_status": "UNSAFE_BINARY_REDACTION",
+  "redaction_method": "Deferred text-only parsing",
+  "unresolved_risks": [
+    "Embedded PHI in binary streams",
+    "Unscrubbed metadata (Author, Company)",
+    "Visual overlays hiding text"
+  ],
+  "manual_review_required": true,
+  "binary_status": "RAW_REFERENCE_ONLY",
+  "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
+  "usable_for_reader_validation": true,
+  "unsafe_binary_path": "validation-corpus/raw/review-required/unsafe-binary-redaction\\PROTOCOL_A009.pdf",
+  "extraction_method": "PyMuPDF (fitz)",
+  "extraction_warnings": [],
+  "risk_scan_result": "CLEAN"
+}

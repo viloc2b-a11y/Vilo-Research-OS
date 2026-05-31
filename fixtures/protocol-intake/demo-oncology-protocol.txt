@@ -1,0 +1,42 @@
+Protocol Number: ONC_882
+Protocol Title: Open-label Phase 2 Study of DRUG_Y in Solid Tumors
+Brief Title: DRUG_Y Solid Tumors
+Sponsor: ONC_PHARMA
+Phase 2
+Indication: Solid Tumors
+Investigational Product: DRUG_Y Infusion
+
+Study Design: Open-label, single arm
+Enrollment target: 60
+Study Duration: Until disease progression
+
+Inclusion Criteria:
+1. Histologically confirmed solid tumors.
+2. Measurable disease per RECIST 1.1.
+
+Exclusion Criteria:
+1. Active brain metastases.
+2. Prior treatment with DRUG_Y class.
+
+Schedule of Events:
+Visit 1: Screening (window -28 / 0) — site visit
+Visit 2: Cycle 1 Day 1 (window 0 / +3) — site visit
+Visit 3: Cycle 1 Day 15 (window -1 / +1) — site visit
+Visit 4: Cycle 2 Day 1 (window -3 / +3) — site visit
+Visit 5: Cycle 2 Day 15 (window -1 / +1) — site visit
+Visit 6: Cycle 3+ Day 1 (window -3 / +3) — site visit
+Visit 7: End of Treatment (window 0 / +14) — site visit
+Visit 8: Safety Follow-up (window +30 / +35) — site visit
+
+Study Procedures:
+Procedure: Informed Consent (required)
+Procedure: ECOG Performance Status (required)
+Procedure: Vital Signs (required)
+Procedure: Physical Exam (required)
+Procedure: Hematology (required)
+Procedure: Chemistry (required)
+Procedure: Pharmacokinetics (required)
+Procedure: Tumor Imaging (CT/MRI) (required)
+Procedure: IP Administration (required)
+Procedure: AE Assessment (required)
+Procedure: Survival Follow-up Contact (conditional)

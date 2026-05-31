@@ -1,0 +1,697 @@
+{
+  "sanitized_id": "ECRF_GUIDE_A001",
+  "document_class": "ECRF_GUIDE",
+  "extraction_method": "python-docx",
+  "tables": [
+    {
+      "table_id": "ECRF_GUIDE_A001_t0",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t1",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 4,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t2",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 1,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t3",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t4",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t5",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 15,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t6",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "ECRF_GUIDE_A001_t7",
+      "page": 0,
+      "section": "",
+      "caption": "",
+      "row_count": 2,
+      "column_count": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "",
+          "bbox": null,
+          "confidence": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ]
+}

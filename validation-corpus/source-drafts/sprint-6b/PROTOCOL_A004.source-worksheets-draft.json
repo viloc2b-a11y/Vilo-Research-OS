@@ -1,0 +1,265 @@
+[
+  {
+    "worksheet_id": "WS_A004_001",
+    "worksheet_name": "Screening & Eligibility Worksheet",
+    "module_name": "Screening & Eligibility",
+    "visit_scope": ["V1", "V2"],
+    "sections": [
+      "Informed Consent",
+      "Demographics",
+      "Prior OA Treatments Washout",
+      "Investigator Eligibility Sign-off"
+    ],
+    "fields": [
+      {
+        "field_id": "F_ICF_01",
+        "label": "Informed Consent Signed (Y/N)",
+        "data_type": "BOOLEAN",
+        "required": true,
+        "source_reason": "Verifies ethical clearance before ANY procedure.",
+        "timestamp_required": true,
+        "signature_required": true,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "MUST be first timestamp of the study.",
+        "provenance": "BP_A004_AMEND001_v1"
+      },
+      {
+        "field_id": "F_WASHOUT_01",
+        "label": "Date of Last Intra-Articular Steroid Injection",
+        "data_type": "DATE",
+        "required": true,
+        "source_reason": "Verifies 30-day washout exclusion criteria.",
+        "timestamp_required": false,
+        "signature_required": false,
+        "attachment_required": false,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "MUST be >30 days prior to V1.",
+        "provenance": "BP_A004_AMEND001_v1"
+      },
+      {
+        "field_id": "F_ELIG_PI_01",
+        "label": "Investigator Confirmation of Eligibility",
+        "data_type": "SIGNATURE",
+        "required": true,
+        "source_reason": "Master gate preventing ineligible subjects from randomization.",
+        "timestamp_required": true,
+        "signature_required": true,
+        "attachment_required": false,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "MUST be signed prior to IP Dispensing timestamp.",
+        "provenance": "BP_A004_AMEND001_v1"
+      }
+    ],
+    "required_timestamps": ["Informed Consent Timestamp", "Eligibility PI Signature Timestamp"],
+    "required_signatures": ["Subject", "Coordinator", "Principal Investigator"],
+    "required_attachments": ["Original Signed ICF"],
+    "hard_stops": [
+      "HS_001: No procedure before consent.",
+      "HS_002: No randomization before eligibility approval."
+    ],
+    "conditional_warnings": [
+      "CW_003: If Rescreening due to K-L grade failure, verify >6 weeks elapsed."
+    ],
+    "deviation_risks": [
+      "Randomizing an unconsented subject.",
+      "Randomizing without PI signature on Eligibility."
+    ],
+    "provenance": "BP_A004_AMEND001_v1",
+    "review_status": "DRAFT_GENERATED"
+  },
+  {
+    "worksheet_id": "WS_A004_002",
+    "worksheet_name": "Ophthalmology / OCT Tracking Log",
+    "module_name": "Ophthalmology / OCT",
+    "visit_scope": ["V1", "UNSCHEDULED"],
+    "sections": [
+      "Specialist Referral",
+      "OCT Results Review"
+    ],
+    "fields": [
+      {
+        "field_id": "F_OCT_01",
+        "label": "Macular Edema Present on OCT? (Y/N)",
+        "data_type": "BOOLEAN",
+        "required": true,
+        "source_reason": "Excludes subjects with pre-existing ocular toxicity risks.",
+        "timestamp_required": false,
+        "signature_required": true,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "If YES, screen fail. If NO, attach specialist report.",
+        "provenance": "BP_A004_AMEND001_v1"
+      }
+    ],
+    "required_timestamps": [],
+    "required_signatures": ["Ophthalmologist Signature", "PI Review Signature"],
+    "required_attachments": ["OCT Machine Report", "Ophthalmologist Consult Note"],
+    "hard_stops": [
+      "HS_005: No randomization without clean OCT report."
+    ],
+    "conditional_warnings": [
+      "Missing OCT report triggers randomization block."
+    ],
+    "deviation_risks": [
+      "Randomizing without OCT validation."
+    ],
+    "provenance": "BP_A004_AMEND001_v1",
+    "review_status": "DRAFT_GENERATED"
+  },
+  {
+    "worksheet_id": "WS_A004_003",
+    "worksheet_name": "Pain Diary Training & Compliance Log",
+    "module_name": "Pain Diary / Endpoint",
+    "visit_scope": ["V1", "V2"],
+    "sections": [
+      "Pain & Placebo Training",
+      "Run-in Math Verification"
+    ],
+    "fields": [
+      {
+        "field_id": "F_TRAIN_01",
+        "label": "Subject Trained on eDiary and Placebo Response?",
+        "data_type": "BOOLEAN",
+        "required": true,
+        "source_reason": "Validates that subject understands 0-10 scale prior to data entry.",
+        "timestamp_required": true,
+        "signature_required": true,
+        "attachment_required": false,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "Training Timestamp MUST precede Diary Dispense Timestamp.",
+        "provenance": "BP_A004_AMEND001_v1"
+      },
+      {
+        "field_id": "F_RUNIN_01",
+        "label": "Consecutive Days of Diary Compliance",
+        "data_type": "NUMBER",
+        "required": true,
+        "source_reason": "Verifies primary endpoint baseline.",
+        "timestamp_required": false,
+        "signature_required": false,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "MUST be >= 14.",
+        "provenance": "BP_A004_AMEND001_v1"
+      }
+    ],
+    "required_timestamps": ["Training Completion Timestamp", "Diary Dispensing Timestamp"],
+    "required_signatures": ["Coordinator Signature"],
+    "required_attachments": ["ePRO Audit Trail Data"],
+    "hard_stops": [
+      "HS_003: No endpoint baseline without >= 14 days compliance."
+    ],
+    "conditional_warnings": [
+      "Missing pain diary days triggers randomization review."
+    ],
+    "deviation_risks": [
+      "Training documented after diary issuance.",
+      "Miscalculating 14 days and randomizing on day 13."
+    ],
+    "provenance": "BP_A004_AMEND001_v1",
+    "review_status": "DRAFT_GENERATED"
+  },
+  {
+    "worksheet_id": "WS_A004_004",
+    "worksheet_name": "Pregnancy / Contraception Log",
+    "module_name": "Pregnancy / Contraception",
+    "visit_scope": ["ALL"],
+    "sections": [
+      "Pre-Dose Pregnancy Test",
+      "Contraception Counseling"
+    ],
+    "fields": [
+      {
+        "field_id": "F_PREG_01",
+        "label": "Pregnancy Test Result (Pos/Neg)",
+        "data_type": "STRING",
+        "required": true,
+        "source_reason": "Teratogenic safety check.",
+        "timestamp_required": true,
+        "signature_required": true,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "MUST be NEGATIVE. MUST be <= 48h prior to dose.",
+        "provenance": "BP_A004_AMEND001_v1"
+      },
+      {
+        "field_id": "F_COUNSEL_01",
+        "label": "Contraception Counseling Provided? (Y/N)",
+        "data_type": "BOOLEAN",
+        "required": true,
+        "source_reason": "Mandatory inclusion criteria maintenance.",
+        "timestamp_required": false,
+        "signature_required": true,
+        "attachment_required": false,
+        "ALCOA_risk": "MEDIUM",
+        "validation_rule": "MUST be YES at every visit.",
+        "provenance": "BP_A004_AMEND001_v1"
+      }
+    ],
+    "required_timestamps": ["Pregnancy Test Collection Time"],
+    "required_signatures": ["PI Review Signature", "Subject Counseling Acknowledgement"],
+    "required_attachments": ["Lab Report"],
+    "hard_stops": [
+      "HS_004: No dosing before valid pregnancy test."
+    ],
+    "conditional_warnings": [
+      "Pregnancy positive triggers dosing block."
+    ],
+    "deviation_risks": [
+      "Dosing WOCBP with expired or missing pregnancy test."
+    ],
+    "provenance": "BP_A004_AMEND001_v1",
+    "review_status": "DRAFT_GENERATED"
+  },
+  {
+    "worksheet_id": "WS_A004_005",
+    "worksheet_name": "Triplicate ECG Escalation Form",
+    "module_name": "ECG / QTcF",
+    "visit_scope": ["UNSCHEDULED"],
+    "sections": [
+      "Triggering ECG",
+      "Triplicate Cascade"
+    ],
+    "fields": [
+      {
+        "field_id": "F_ECG_01",
+        "label": "Baseline QTcF Value (ms)",
+        "data_type": "NUMBER",
+        "required": true,
+        "source_reason": "Safety trigger identification.",
+        "timestamp_required": false,
+        "signature_required": false,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "If >500ms, unlock triplicate cascade.",
+        "provenance": "BP_A004_AMEND001_v1"
+      },
+      {
+        "field_id": "F_ECG_02",
+        "label": "Triplicate ECG 1, 2, 3 Timestamps",
+        "data_type": "ARRAY_TIMESTAMP",
+        "required": true,
+        "source_reason": "Verifies 5-minute spacing requirement.",
+        "timestamp_required": true,
+        "signature_required": false,
+        "attachment_required": true,
+        "ALCOA_risk": "HIGH",
+        "validation_rule": "Must be exactly 5 minutes apart.",
+        "provenance": "BP_A004_AMEND001_v1"
+      }
+    ],
+    "required_timestamps": ["ECG 1 Time", "ECG 2 Time", "ECG 3 Time"],
+    "required_signatures": ["PI Review Signature"],
+    "required_attachments": ["Original ECG 1", "Original ECG 2", "Original ECG 3"],
+    "hard_stops": [],
+    "conditional_warnings": [
+      "Abnormal QTcF > 500ms triggers triplicate ECG requirement."
+    ],
+    "deviation_risks": [
+      "Missing cardiac toxicity signal due to lack of follow-up."
+    ],
+    "provenance": "BP_A004_AMEND001_v1",
+    "review_status": "DRAFT_GENERATED"
+  }
+]

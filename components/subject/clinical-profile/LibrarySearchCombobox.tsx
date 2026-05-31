@@ -11,11 +11,13 @@ import {
   searchPathologyLibrary,
   searchMedicationLibrary,
   searchAllergenLibrary,
+  searchSurgicalProcedureLibrary,
 } from '@/lib/subject/clinical-profile/library-search'
 import type {
   AllergenResult,
   MedicationResult,
   PathologyResult,
+  SurgicalProcedureResult,
 } from '@/lib/subject/clinical-profile/library-search-types'
 
 // ---------------------------------------------------------------------------
@@ -145,6 +147,41 @@ export function AllergenCombobox({
       placeholder={placeholder}
       disabled={disabled}
       emptyHint="No library match. Keep typing to use a custom allergen name."
+    />
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Surgical procedure combobox
+// ---------------------------------------------------------------------------
+
+type SurgicalProcedureComboboxProps = {
+  value: { id: string; label: string } | null
+  onSelect: (result: SurgicalProcedureResult | null) => void
+  placeholder?: string
+  disabled?: boolean
+}
+
+export function SurgicalProcedureCombobox({
+  value,
+  onSelect,
+  placeholder = 'Search surgical procedure library…',
+  disabled,
+}: SurgicalProcedureComboboxProps) {
+  return (
+    <LibraryCombobox
+      value={value}
+      onSelect={onSelect}
+      searchFn={searchSurgicalProcedureLibrary}
+      renderResult={(r: SurgicalProcedureResult) => ({
+        id: r.id,
+        label: r.label,
+        sublabel: r.code,
+        badge: r.category ?? undefined,
+      })}
+      placeholder={placeholder}
+      disabled={disabled}
+      emptyHint="No procedure match. Use Other / Unlisted below."
     />
   )
 }

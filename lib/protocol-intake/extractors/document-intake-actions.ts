@@ -1,76 +1,58 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import {
   getOrganizationMemberships,
   getPrimaryOrganizationId,
   getSessionUser,
 } from '@/lib/auth/session'
 import { canManageSourceBuilder } from '@/lib/rbac/permissions'
-import { createServerClient } from '@/lib/supabase/server'
-import { extractScheduleMatrix } from './schedule-matrix-normalizer'
-import { extractTablesFromDocument } from './document-extraction-adapter'
 
-export async function processDocumentIntakeUploadAction(formData: FormData) {
+// Quarantine notice:
+// `source_builder_drafts` is the manual source-builder workspace (organization_id scoped only,
+// no study_id, outside the reconciliation/audit chain). Protocol/runtime extraction must NOT be
+// persisted there. The canonical runtime truth chain is:
+//   compliance_runtime_documents
+//     -> protocol_runtime_versions / protocol_runtime_*_candidates  (organization_id + study_id)
+//     -> protocol_*_reconciliations
+//     -> protocol_runtime_generation_runs
+//     -> study_runtime_* / runtime_source_*
+// Until extraction is wired into that canonical pipeline, this action refuses to persist and does
+// not write extracted runtime data to source_builder_drafts.
+const QUARANTINE_MESSAGE =
+  'Document intake extraction is quarantined: it no longer writes to source_builder_drafts. ' +
+  'Route protocol extraction through the canonical protocol intake runtime pipeline ' +
+  '(protocol_runtime_versions -> candidates -> reconciliation -> runtime generation), ' +
+  'scoped by organization_id + study_id.'
+
+export type ProcessDocumentIntakeUploadResult = {
+  ok: boolean
+  error?: string
+  quarantined: true
+  draftId?: undefined
+}
+
+export async function processDocumentIntakeUploadAction(
+  formData: FormData
+): Promise<ProcessDocumentIntakeUploadResult> {
   const user = await getSessionUser()
-  if (!user) return { ok: false, error: 'Unauthorized' }
+  if (!user) return { ok: false, error: 'Unauthorized', quarantined: true }
 
   const organizationId = await getPrimaryOrganizationId(user.id)
-  if (!organizationId) return { ok: false, error: 'No primary organization found' }
+  if (!organizationId) {
+    return { ok: false, error: 'No primary organization found', quarantined: true }
+  }
 
   const memberships = await getOrganizationMemberships(user.id)
   if (!canManageSourceBuilder(memberships, organizationId)) {
-    return { ok: false, error: 'Forbidden' }
+    return { ok: false, error: 'Forbidden', quarantined: true }
   }
 
   const file = formData.get('file') as File
   const studyId = formData.get('studyId') as string
-  if (!file || !studyId) return { ok: false, error: 'File and studyId required' }
-
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const supabase = await createServerClient()
-  
-  // Basic document vault insertion could go here. For MVP we skip robust vault integration
-  // and focus on draft creation.
-  const protocolDocumentId = crypto.randomUUID() 
-
-  const rawResult = await extractTablesFromDocument(buffer, file.name)
-  if (rawResult.error || !rawResult.tables || rawResult.tables.length === 0) {
-    return { ok: false, error: rawResult.error || 'No tables found in document.' }
+  if (!file || !studyId) {
+    return { ok: false, error: 'File and studyId required', quarantined: true }
   }
 
-  const result = await extractScheduleMatrix(rawResult, studyId, protocolDocumentId)
-  
-  if (!result.ok || !result.data) {
-    return { ok: false, error: result.error || 'Failed to extract schedule' }
-  }
-
-  // Save the result as a draft in source_builder_drafts
-  const { data: draftData, error: insertError } = await supabase
-    .from('source_builder_drafts')
-    .insert({
-      organization_id: organizationId,
-      draft_name: `Document Intake Extraction - ${file.name}`,
-      status: 'draft',
-      created_by: user.id,
-      updated_by: user.id,
-      draft_payload: {
-        type: 'document_extraction_run',
-        run_id: crypto.randomUUID(),
-        study_id: studyId,
-        document_name: file.name,
-        raw_extraction_output: rawResult,
-        schedule_matrix: result.data,
-        coordinator_selected_procedures: [],
-      }
-    })
-    .select('draft_id')
-    .single()
-
-  if (insertError) {
-    return { ok: false, error: 'Failed to save draft: ' + insertError.message }
-  }
-
-  revalidatePath('/source-builder/intake')
-  return { ok: true, draftId: draftData.draft_id }
+  // Non-canonical sink quarantined: do not extract-and-persist into source_builder_drafts.
+  return { ok: false, error: QUARANTINE_MESSAGE, quarantined: true }
 }

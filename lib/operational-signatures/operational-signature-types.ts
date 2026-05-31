@@ -19,6 +19,8 @@ export type OperationalSignatureRequestStatus =
   | 'signed'
   | 'cancelled'
   | 'superseded'
+  | 'rejected'
+  | 'rescinded'
 
 export type OperationalSignatureStatus = 'signed' | 'superseded'
 

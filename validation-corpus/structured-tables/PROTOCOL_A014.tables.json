@@ -1,0 +1,1622 @@
+{
+  "sanitized_id": "PROTOCOL_A014",
+  "document_class": "UNKNOWN",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [
+    {
+      "table_id": "PROTOCOL_A014_t0",
+      "page": 27,
+      "section": "",
+      "caption": "",
+      "row_count": 29,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SUBJECT\u2019S WEIGHT lbs"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SUBJECT\u2019S ESTIMATED TOTAL BLOOD VOL mL"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "MAXIMUM mL IN ONE BLOOD DRAW 2.5% of total blood vol"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "MAXIMUM mL in a 30- DAY PERIOD 5% of total blood vol"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.2"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "100"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2.5"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3.3"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "200"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4.4"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "240"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "12"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8.8"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "320"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "16"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "11"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "400"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "20"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "13.2"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "480"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "12"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "24"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "15.4"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "560"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "14"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "28"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "17.6"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "640"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "16"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "32"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "19.8"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "720"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "18"
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "36"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "22"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "800"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "20"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "40"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "24 thru 33"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "880-1200"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "22-30"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "44-60"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "35 thru 44"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1280-1600"
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "32-40"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "64-80"
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "46 thru 55"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1680-2000"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "42-50"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "84-100"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "57 thru 66"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2080-2400"
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "52-60"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "104-120"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "68 thru 77"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2480-2800"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "62-70"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "124-140"
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "79 thru 88"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2880-3200"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "72-80"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "144-160"
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "90 thru 99"
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3280-3600"
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "82-90"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "164-180"
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "101 thru 110"
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3680-4000"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "92-100"
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "184-200"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "112 thru 121"
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4080-4400"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "102-110"
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "204-220"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "123 thru 132"
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4480-4800"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "112-120"
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "224-240"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "134 thru 143"
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4880-5200"
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "122-130"
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "244-260"
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "145 thru 154"
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5280-5600"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "132-140"
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "264-280"
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "156 thru 165"
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5680-6000"
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "142-150"
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "284-300"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "167 thru 176"
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6080-6400"
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "152-160"
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "304-320"
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "178 thru 187"
+        },
+        {
+          "row": 25,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6480-6800"
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "162-170"
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "324-340"
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "189 thru 198"
+        },
+        {
+          "row": 26,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6880-7200"
+        },
+        {
+          "row": 26,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "172-180"
+        },
+        {
+          "row": 26,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "344-360"
+        },
+        {
+          "row": 27,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "200 thru 209"
+        },
+        {
+          "row": 27,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7280-7600"
+        },
+        {
+          "row": 27,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "182-190"
+        },
+        {
+          "row": 27,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "364-380"
+        },
+        {
+          "row": 28,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "211 thru 220"
+        },
+        {
+          "row": 28,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7680-8000"
+        },
+        {
+          "row": 28,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "192-200"
+        },
+        {
+          "row": 28,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "384-400"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A014_t1",
+      "page": 33,
+      "section": "",
+      "caption": "",
+      "row_count": 25,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Table 2. Maximum Allowable Blood Draw Volumes"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SUBJECT\u2019S WEIGHT lbs"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "SUBJECT\u2019S ESTIMATED TOTAL BLOOD VOL mL"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "MAXIMUM mL IN ONE BLOOD DRAW 2.5% of total blood vol"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "MAXIMUM mL in a 30- DAY PERIOD 5% of total blood vol"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "57 thru 66"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2080-2400"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "52-60"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "104-120"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "68 thru 77"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2480-2800"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "62-70"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "124-140"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "79 thru 88"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "2880-3200"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "72-80"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "144-160"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "90 thru 99"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3280-3600"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "82-90"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "164-180"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "101 thru 110"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3680-4000"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "92-100"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "184-200"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "112 thru 121"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4080-4400"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "102-110"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "204-220"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "123 thru 132"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4480-4800"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "112-120"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "224-240"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "134 thru 143"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "4880-5200"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "122-130"
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "244-260"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "145 thru 154"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5280-5600"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "132-140"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "264-280"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "156 thru 165"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "5680-6000"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "142-150"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "284-300"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "167 thru 176"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6080-6400"
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "152-160"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "304-320"
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "178 thru 187"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6480-6800"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "162-170"
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "324-340"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "189 thru 198"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "6880-7200"
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "172-180"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "344-360"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "200 thru 209"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7280-7600"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "182-190"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "364-380"
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "211 thru 220"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "7680-8000"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "192-200"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "384-400"
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "222 thru 231"
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8080-8400"
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "202-310"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "404-420"
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "233 thru 242"
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8480-8800"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "312-320"
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "424-440"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "244 thru 253"
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "8880-9200"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "322-330"
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "444-460"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "255 thru 264"
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "9280-9600"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "332-340"
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "464-480"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "266 thru 275"
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "9680-10000"
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "342-350"
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "484-500"
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "277 thru 286"
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10080-10400"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "352-360"
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "504-520"
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "288 thru 297"
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10480-10800"
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "362-370"
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "524-540"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "299 thru 308"
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "10880-11200"
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "372-380"
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "544-560"
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    },
+    {
+      "table_id": "PROTOCOL_A014_t2",
+      "page": 35,
+      "section": "",
+      "caption": "",
+      "row_count": 3,
+      "column_count": 4,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Version"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Modifications"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Approved by"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Date"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "1.0"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "New document"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "Melissa Farrell, BSN, RN, CCRC"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "3/21/2025"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": "-"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "rowspan": 1,
+          "colspan": 1,
+          "text": ""
+        }
+      ],
+      "footnotes": [],
+      "warnings": []
+    }
+  ],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

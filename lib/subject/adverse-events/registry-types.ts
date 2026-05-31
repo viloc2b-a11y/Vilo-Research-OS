@@ -21,9 +21,15 @@ export type SubjectAdverseEventRecord = {
   visit_id: string | null
   event_term: string
   preferred_term: string | null
+  ae_type: string | null
   severity: SubjectAdverseEventSeverity | null
   seriousness: boolean
   relationship_to_ip: SubjectAdverseEventRelationship | null
+  expectedness: string | null
+  action_taken: string | null
+  outcome: string | null
+  ongoing: boolean
+  requires_pi_si_review: boolean
   lifecycle_status: AdverseEventLifecycleStatus
   onset_date: string | null
   resolution_date: string | null
@@ -37,9 +43,15 @@ export type SubjectAdverseEventInput = {
   visit_id?: string | null
   event_term: string
   preferred_term?: string | null
+  ae_type?: string | null
   severity?: SubjectAdverseEventSeverity | null
   seriousness?: boolean
   relationship_to_ip?: SubjectAdverseEventRelationship | null
+  expectedness?: string | null
+  action_taken?: string | null
+  outcome?: string | null
+  ongoing?: boolean
+  requires_pi_si_review?: boolean
   lifecycle_status?: AdverseEventLifecycleStatus
   onset_date?: string | null
   resolution_date?: string | null

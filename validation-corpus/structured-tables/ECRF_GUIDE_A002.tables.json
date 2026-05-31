@@ -1,0 +1,10 @@
+{
+  "sanitized_id": "ECRF_GUIDE_A002",
+  "document_class": "UNKNOWN",
+  "extraction_method": "PyMuPDF_native",
+  "tables": [],
+  "leak_scan": {
+    "passed": true,
+    "flags": []
+  }
+}

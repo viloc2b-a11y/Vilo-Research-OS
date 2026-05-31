@@ -1,16 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ProtocolRuntimeVersionRow } from '@/lib/protocol-intake-runtime/protocol-intake-types'
+import {
+  resolveAutoSelectVersion,
+  type AutoSelectStudy,
+} from '@/lib/protocol-intake-runtime/resolve-auto-select-version'
 
 export function GenerationVersionSelector(props: {
   organizationId: string
   selectedVersionId: string | null
+  preselectStudyId?: string | null
+  preselectVersionId?: string | null
   onSelect: (versionId: string) => void
 }) {
-  const { organizationId, selectedVersionId, onSelect } = props
+  const { organizationId, selectedVersionId, preselectStudyId, preselectVersionId, onSelect } = props
   const [versions, setVersions] = useState<ProtocolRuntimeVersionRow[]>([])
   const [loading, setLoading] = useState(true)
+  const autoSelectedRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -20,20 +27,29 @@ export function GenerationVersionSelector(props: {
         const res = await fetch(
           `/api/protocol-intake-runtime/studies?organization_id=${encodeURIComponent(organizationId)}`,
         )
-        const data = (await res.json()) as { studies?: Array<{ id: string }> }
-        const studyIds = (data.studies ?? []).map((s) => s.id)
+        const data = (await res.json()) as { studies?: AutoSelectStudy[] }
+        const studies = data.studies ?? []
         const allVersions: ProtocolRuntimeVersionRow[] = []
-        for (const studyId of studyIds) {
+        for (const study of studies) {
           const studyRes = await fetch(
-            `/api/protocol-intake-runtime/studies/${encodeURIComponent(studyId)}?organization_id=${encodeURIComponent(organizationId)}`,
+            `/api/protocol-intake-runtime/studies/${encodeURIComponent(study.id)}?organization_id=${encodeURIComponent(organizationId)}`,
           )
           const studyData = (await studyRes.json()) as { versions?: ProtocolRuntimeVersionRow[] }
           allVersions.push(...(studyData.versions ?? []))
         }
-        if (!cancelled) {
-          setVersions(allVersions)
-          if (!selectedVersionId && allVersions[0]?.id) {
-            onSelect(allVersions[0].id)
+        if (cancelled) return
+        setVersions(allVersions)
+
+        if (!autoSelectedRef.current && !selectedVersionId) {
+          const target = resolveAutoSelectVersion({
+            allVersions,
+            studies,
+            preselectVersionId,
+            preselectStudyId,
+          })
+          if (target) {
+            autoSelectedRef.current = true
+            onSelect(target)
           }
         }
       } finally {
@@ -44,7 +60,7 @@ export function GenerationVersionSelector(props: {
     return () => {
       cancelled = true
     }
-  }, [organizationId, onSelect, selectedVersionId])
+  }, [organizationId, onSelect, selectedVersionId, preselectStudyId, preselectVersionId])
 
   if (loading) return <p className="text-sm text-slate-500">Loading protocol versions…</p>
 
