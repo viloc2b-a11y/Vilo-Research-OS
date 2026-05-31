@@ -37,6 +37,7 @@ See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 - Supabase SSR auth + `organization_id` tenancy
 - Visit, source, consent, training/delegation, and protocol runtime work is evolving incrementally
 - Pharmacy Runtime Phase 1 foundation is built with DB persistence, access gates, and transaction-hardened receipt/correction commits
+- Pharmacy Dispensing Runtime Phase 2 foundation is built with blueprint-derived subject assignment, visit-linked dispensing, administration events inside Visit Runtime, and Study Subject Command Center review actions
 
 ### Pharmacy Runtime Phase 1
 
@@ -61,6 +62,43 @@ npx tsx scripts/pharmacy-runtime-phase1-actions-smoke.ts
 ```
 
 Full repository TypeScript still has unrelated pre-existing diagnostics; targeted pharmacy-runtime checks did not surface pharmacy-runtime errors.
+
+### Pharmacy Dispensing Runtime Phase 2
+
+Pharmacy Dispensing Runtime v1 is implemented as an additive Phase 2 foundation on top of Phase 1. It does not modify Receipt Runtime, Inventory Foundation, Ledger Foundation, or transaction-hardening RPCs.
+
+Built scope:
+
+- Subject Assignment derived from the activated Pharmacy Runtime Blueprint
+- Visit-linked Dispensing from Subject -> Visit -> Procedure context
+- Administration Event execution inside Visit Runtime / Procedure Runtime
+- Dispensation Review Confirmation with protocol-derived execution modes:
+  - `real_time_required`
+  - `asynchronous_required`
+  - `optional`
+  - `not_required`
+- Study Subject Command Center integration using action-oriented work items:
+  - `Review Dispensation`
+  - `Review Due Today`
+  - `Review Overdue`
+  - `Waiver Requires Approval`
+- Dispensing audit trail via `pharmacy_dispensing_audit_events`
+
+Coordinator Simplicity First constraints:
+
+- No independent Pharmacy dashboard
+- No separate Pharmacy Review Queue
+- No standalone Administration screen
+- No global `user.is_unblinded`
+- Blinding remains study-aware, site-aware, delegation-aware, training-aware, and authorization-scope-aware
+- Inventory remains derived from immutable `ip_ledger_events`
+
+Validation most recently run locally:
+
+```bash
+npx supabase db reset --local
+npx tsx scripts/pharmacy-dispensing-runtime-smoke.ts
+```
 
 ## Architecture (planning docs)
 
@@ -105,6 +143,7 @@ npm run dev
 | `npm run phase1b` | migrate + provision + validate |
 | `npx tsx scripts/pharmacy-runtime-phase1-smoke.ts` | Pharmacy Phase 1 DB-free foundation smoke |
 | `npx tsx scripts/pharmacy-runtime-phase1-actions-smoke.ts` | Pharmacy Phase 1 server action smoke |
+| `npx tsx scripts/pharmacy-dispensing-runtime-smoke.ts` | Pharmacy Dispensing Runtime Phase 2 smoke |
 
 ## Out of scope (MVP scaffold)
 
