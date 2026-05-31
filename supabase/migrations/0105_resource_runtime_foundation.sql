@@ -34,17 +34,13 @@ ALTER TABLE runtime_resources ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view runtime_resources in their orgs" ON runtime_resources
   FOR SELECT
   USING (
-    organization_id IN (
-      SELECT organization_id FROM organization_memberships WHERE user_id = auth.uid()
-    )
+    organization_id IN (SELECT public.user_organization_ids())
   );
 
 CREATE POLICY "Users can insert runtime_resources in their orgs" ON runtime_resources
   FOR INSERT
   WITH CHECK (
-    organization_id IN (
-      SELECT organization_id FROM organization_memberships WHERE user_id = auth.uid()
-    )
+    organization_id IN (SELECT public.user_organization_ids())
   );
 
 -- RLS for runtime_resource_blocks
@@ -53,25 +49,19 @@ ALTER TABLE runtime_resource_blocks ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view runtime_resource_blocks in their orgs" ON runtime_resource_blocks
   FOR SELECT
   USING (
-    organization_id IN (
-      SELECT organization_id FROM organization_memberships WHERE user_id = auth.uid()
-    )
+    organization_id IN (SELECT public.user_organization_ids())
   );
 
 CREATE POLICY "Users can insert runtime_resource_blocks in their orgs" ON runtime_resource_blocks
   FOR INSERT
   WITH CHECK (
-    organization_id IN (
-      SELECT organization_id FROM organization_memberships WHERE user_id = auth.uid()
-    )
+    organization_id IN (SELECT public.user_organization_ids())
   );
 
 CREATE POLICY "Users can update runtime_resource_blocks in their orgs" ON runtime_resource_blocks
   FOR UPDATE
   USING (
-    organization_id IN (
-      SELECT organization_id FROM organization_memberships WHERE user_id = auth.uid()
-    )
+    organization_id IN (SELECT public.user_organization_ids())
   );
 
 -- Add to publications if needed

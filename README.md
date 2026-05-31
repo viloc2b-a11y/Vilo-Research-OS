@@ -30,12 +30,37 @@ npm run db:validate
 
 See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 
-## Phase 1 (current)
+## Current Runtime Status
 
-- Staff-only login (`/login`) — **no public signup**
+- Staff-only login (`/login`) - **no public signup**
 - Protected operations shell under `app/(ops)/`
 - Supabase SSR auth + `organization_id` tenancy
-- Migrations: `0001_auth_foundation`, `0002_audit_foundation` (prepared under `supabase/migrations/`)
+- Visit, source, consent, training/delegation, and protocol runtime work is evolving incrementally
+- Pharmacy Runtime Phase 1 foundation is built with DB persistence, access gates, and transaction-hardened receipt/correction commits
+
+### Pharmacy Runtime Phase 1
+
+Pharmacy / IP Accountability Runtime Phase 1 is implemented as a Coordinator Simplicity First foundation:
+
+- Study-aware Pharmacy Binder access gate using study/site membership, Delegation Log assignment, optional training requirement, and study-specific blinding scope
+- Document Center -> Document Reader -> Pharmacy Runtime Blueprint -> CRC Review -> Activation -> Receipt Runtime dependency chain
+- Immutable `ip_ledger_events` foundation; inventory is derived from ledger events, not mutable kit status
+- Receipt workflow foundation with evidence/document linkage and signed operational commit boundary
+- Correction/reversal model limited to Phase 1 receipt, inventory foundation, and accountability foundation events
+- Masked and unblinded inventory projections with hard blinding gates
+- Transaction-hardened RPCs:
+  - `commit_ip_receipt_with_signature(_payload jsonb)`
+  - `commit_ip_correction_with_signature(_payload jsonb)`
+
+Validation most recently run locally:
+
+```bash
+npx supabase db reset --local
+npx tsx scripts/pharmacy-runtime-phase1-smoke.ts
+npx tsx scripts/pharmacy-runtime-phase1-actions-smoke.ts
+```
+
+Full repository TypeScript still has unrelated pre-existing diagnostics; targeted pharmacy-runtime checks did not surface pharmacy-runtime errors.
 
 ## Architecture (planning docs)
 
@@ -46,6 +71,8 @@ See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 | [docs/ARCHITECTURE-VISIT-PDF-PACKET.md](./docs/ARCHITECTURE-VISIT-PDF-PACKET.md) | Visit PDF packet (**Phase 4C**, **no PDF generator yet**) |
 | [docs/FDA-ESOURCE-PART11-READINESS.md](./docs/FDA-ESOURCE-PART11-READINESS.md) | FDA / Part 11 (**§§A–M**), **ALCOA+ data integrity**, guardrails |
 | [docs/PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA.md](./docs/PHASE4A-VERSIONED-PROTOCOL-BUILDER-SCHEMA.md) | **Phase 4A** versioned Protocol Builder (**schema planning only**) |
+| [directivas/pharmacy_ip_runtime_architecture_v1.md](./directivas/pharmacy_ip_runtime_architecture_v1.md) | Pharmacy / IP Accountability Runtime frozen architecture |
+| [directivas/pharmacy_runtime_phase_1_build_plan.md](./directivas/pharmacy_runtime_phase_1_build_plan.md) | Pharmacy Runtime Phase 1 build plan |
 
 Portfolio roadmap + decisions: **`Clinical Research Operations OS eClinPro/projects/vilo-os`** (`status.md`, `10_DECISIONS/`).
 
@@ -76,6 +103,8 @@ npm run dev
 | `npm run db:validate-phase3b` | Phase 3B procedure-completion RPC |
 | `npm run db:validate-phase3c` | Phase 3C visit complete + lock RPCs |
 | `npm run phase1b` | migrate + provision + validate |
+| `npx tsx scripts/pharmacy-runtime-phase1-smoke.ts` | Pharmacy Phase 1 DB-free foundation smoke |
+| `npx tsx scripts/pharmacy-runtime-phase1-actions-smoke.ts` | Pharmacy Phase 1 server action smoke |
 
 ## Out of scope (MVP scaffold)
 
