@@ -1,5 +1,6 @@
 import { SignOutButton } from '@/components/shell/sign-out-button'
-import { Search, Bell } from 'lucide-react'
+import { GlobalSearch } from '@/components/shell/global-search'
+import { Bell } from 'lucide-react'
 
 type TopbarProps = {
   userEmail?: string | null
@@ -10,19 +11,7 @@ export function Topbar({ userEmail }: TopbarProps) {
     <header
       className="flex h-14 flex-shrink-0 items-center justify-between border-b border-border px-5"
     >
-      {/* Search */}
-      <div className="relative w-72">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5"
-          style={{ color: 'var(--muted-foreground)' }}
-        />
-        <input
-          type="text"
-          placeholder="Search subjects, studies, visits…"
-          className="w-full h-8 pl-9 pr-3 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--accent)', color: 'var(--foreground)' }}
-        />
-      </div>
+      <GlobalSearch />
 
       {/* Right side */}
       <div className="flex items-center gap-3">

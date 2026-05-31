@@ -39,10 +39,26 @@ type NavItem = {
   vpi?: boolean
 }
 
-const navItems: NavItem[] = [
+type NavSection = {
+  id: string
+  label: string
+  items: NavItem[]
+}
+
+const navSections: NavSection[] = [
+  {
+    id: 'work-today',
+    label: 'Work Today',
+    items: [
   { id: 'operations', label: 'Operations',  href: '/command-center', icon: Calendar, coordinatorWorkspace: true },
   { id: 'calendar',   label: 'Operational Calendar', href: '/operational-calendar', icon: Calendar, coordinatorWorkspace: true },
   { id: 'studies',    label: 'Studies',     href: '/studies',    icon: FolderKanban, allMembers: true },
+    ],
+  },
+  {
+    id: 'build-documents',
+    label: 'Build / Documents',
+    items: [
   { id: 'study-setup', label: 'Study Setup', href: '/studies', icon: ClipboardList, coordinatorWorkspace: true },
   { id: 'source-builder', label: 'Source', href: '/source-builder', icon: FileStack, sourceWorkflow: true },
   {
@@ -59,13 +75,27 @@ const navItems: NavItem[] = [
     icon: FileSearch,
     sourceWorkflow: true,
   },
+    ],
+  },
+  {
+    id: 'oversight',
+    label: 'Oversight',
+    items: [
+  { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
+    ],
+  },
+  {
+    id: 'planned',
+    label: 'Planned',
+    items: [
   { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true, availability: 'Planned for the next operational workflow release.' },
   { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true, availability: 'Planned after coordinator cockpit stabilization.' },
   { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true, availability: 'Regulatory workspace is planned for an upcoming release.' },
   { id: 'financial',  label: 'Financial',   href: '/financial',  icon: DollarSign, soon: true, availability: 'ClinIQ financial workspace is planned for a later internal release.' },
-  { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
   { id: 'academy',    label: 'Academy',     href: '/academy',    icon: GraduationCap, soon: true, availability: 'Training content is not enabled in this internal deployment.' },
   { id: 'reports',    label: 'Reports',     href: '/reports',    icon: BarChart3, soon: true, availability: 'Reports will follow the operational read-model hardening phase.' },
+    ],
+  },
 ]
 
 const adminNavItem: NavItem = {
@@ -110,17 +140,29 @@ export function SidebarNav({
   const inCommandCenter =
     pathname === '/performance' || pathname.startsWith('/performance/')
 
-  const roleVisibleNavItems = navItems.filter((item) => {
+  function canShowItem(item: NavItem) {
     if (item.id === 'financial') return canViewFinancial
     if (item.allMembers) return true
     if (item.coordinatorWorkspace && !canAccessCoordinatorWorkspace) return false
     if (item.sourceWorkflow && !canAccessSourceWorkflow) return false
     if (item.vpi && !canViewVpi) return false
     return true
-  })
-  const visibleNavItems = canAccessAdmin
-    ? [...roleVisibleNavItems, adminNavItem]
-    : roleVisibleNavItems
+  }
+
+  const visibleSections = navSections
+    .map((section) => ({
+      ...section,
+      items: section.items.filter(canShowItem),
+    }))
+    .filter((section) => section.items.length > 0)
+
+  if (canAccessAdmin) {
+    visibleSections.push({
+      id: 'admin',
+      label: 'Admin',
+      items: [adminNavItem],
+    })
+  }
 
   return (
     <aside
@@ -170,70 +212,78 @@ export function SidebarNav({
 
       {/* Nav items */}
       <nav className="flex-1 py-3 px-2.5 space-y-0.5 overflow-y-auto scrollbar-thin">
-        {visibleNavItems.map((item) => {
-          const Icon = item.icon
-          const active = isActive(item)
-          const isVpi = item.id === 'vpi'
+        {visibleSections.map((section) => (
+          <div key={section.id} className="space-y-0.5">
+            {!collapsed ? (
+              <p className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/30 first:pt-0">
+                {section.label}
+              </p>
+            ) : null}
+            {section.items.map((item) => {
+              const Icon = item.icon
+              const active = isActive(item)
+              const isVpi = item.id === 'vpi'
 
-          return (
-            <div key={item.id} title={item.soon ? item.availability : undefined}>
-              <Link
-                href={item.soon ? '#' : item.href}
-                className={cn(
-                  'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all',
-                  active
-                    ? 'bg-[#34a090]/15 text-[#34a090]'
-                    : 'text-white/60 hover:text-white hover:bg-white/5',
-                  item.soon && 'opacity-50 cursor-not-allowed pointer-events-none',
-                )}
-                aria-current={active ? 'page' : undefined}
-                tabIndex={item.soon ? -1 : undefined}
-              >
-                <Icon className="w-[18px] h-[18px] flex-shrink-0" />
-                {!collapsed && (
-                  <>
-                    <span className="flex-1 truncate">{item.label}</span>
-                    {item.soon && (
-                      <span className="text-[9px] font-semibold uppercase tracking-wide text-white/25">
-                        soon
-                      </span>
+              return (
+                <div key={item.id} title={item.soon ? item.availability : undefined}>
+                  <Link
+                    href={item.soon ? '#' : item.href}
+                    className={cn(
+                      'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all',
+                      active
+                        ? 'bg-[#34a090]/15 text-[#34a090]'
+                        : 'text-white/60 hover:text-white hover:bg-white/5',
+                      item.soon && 'opacity-45 cursor-not-allowed pointer-events-none',
                     )}
-                    {active && !item.soon && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#34a090] flex-shrink-0" />
-                    )}
-                  </>
-                )}
-              </Link>
-
-              {/* Phase 7E — Command Center sub-nav, expanded under VPI when active */}
-              {isVpi && inCommandCenter && !collapsed && (
-                <div className="ml-7 mt-0.5 mb-1 space-y-0.5">
-                  {commandSubNav.map((sub) => {
-                    const subActive =
-                      sub.href === '/performance'
-                        ? pathname === '/performance'
-                        : pathname === sub.href || pathname.startsWith(`${sub.href}/`)
-                    return (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        className={cn(
-                          'block px-3 py-1.5 rounded-md text-xs font-medium transition-colors',
-                          subActive
-                            ? 'text-[#34a090] bg-[#34a090]/10'
-                            : 'text-white/50 hover:text-white hover:bg-white/5',
+                    aria-current={active ? 'page' : undefined}
+                    tabIndex={item.soon ? -1 : undefined}
+                  >
+                    <Icon className="w-[18px] h-[18px] flex-shrink-0" />
+                    {!collapsed && (
+                      <>
+                        <span className="flex-1 truncate">{item.label}</span>
+                        {item.soon && (
+                          <span className="text-[9px] font-semibold uppercase tracking-wide text-white/25">
+                            soon
+                          </span>
                         )}
-                        aria-current={subActive ? 'page' : undefined}
-                      >
-                        {sub.label}
-                      </Link>
-                    )
-                  })}
+                        {active && !item.soon && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#34a090] flex-shrink-0" />
+                        )}
+                      </>
+                    )}
+                  </Link>
+
+                  {isVpi && inCommandCenter && !collapsed && (
+                    <div className="ml-7 mt-0.5 mb-1 space-y-0.5">
+                      {commandSubNav.map((sub) => {
+                        const subActive =
+                          sub.href === '/performance'
+                            ? pathname === '/performance'
+                            : pathname === sub.href || pathname.startsWith(`${sub.href}/`)
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            className={cn(
+                              'block px-3 py-1.5 rounded-md text-xs font-medium transition-colors',
+                              subActive
+                                ? 'text-[#34a090] bg-[#34a090]/10'
+                                : 'text-white/50 hover:text-white hover:bg-white/5',
+                            )}
+                            aria-current={subActive ? 'page' : undefined}
+                          >
+                            {sub.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          )
-        })}
+              )
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* Expand button (collapsed state) */}

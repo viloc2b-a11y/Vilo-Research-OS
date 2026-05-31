@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,6 +30,23 @@ function StatusPill({ value }: { value: string }) {
   return <span className="rounded bg-muted px-2 py-1 text-xs font-medium">{value}</span>
 }
 
+function ToolbarGroup({
+  label,
+  children,
+}: {
+  label: string
+  children: ReactNode
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-md border border-border/60 bg-card px-2.5 py-2">
+      <span className="mr-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </span>
+      {children}
+    </div>
+  )
+}
+
 function HiddenVisitRuntimeInputs({ toolbar }: { toolbar: VisitRuntimeToolbarModel }) {
   return (
     <>
@@ -51,7 +69,7 @@ export function VisitActionToolbar({
     requestProcedureSignatureAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
-  const [completeSignState, completeSignAction, completeSignPending] = useActionState(
+  const [completeSignState, completeSignAction] = useActionState(
     completeProcedureSignatureAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
@@ -71,7 +89,7 @@ export function VisitActionToolbar({
     enableFieldsAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
-  const [disableSectionState, disableSectionActionState, disableSectionPending] = useActionState(
+  const [disableSectionState] = useActionState(
     disableSectionAction,
     INITIAL_VISIT_RUNTIME_ACTION_STATE,
   )
@@ -111,14 +129,16 @@ export function VisitActionToolbar({
   return (
     <div className="sticky top-0 z-30 space-y-2 border-b bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="flex flex-wrap items-center gap-2">
-        {!signState.requestId ? (
-          <form action={signAction}>
-            <HiddenVisitRuntimeInputs toolbar={toolbar} />
-            <Button type="submit" size="sm" disabled={signPending || toolbar.isSigned || toolbar.isLocked || sectionDisabled}>
-              {toolbar.isSigned ? 'Signed' : signPending ? 'Requesting…' : 'Sign Procedure'}
-            </Button>
-          </form>
-        ) : null}
+        <ToolbarGroup label="Primary">
+          {!signState.requestId ? (
+            <form action={signAction}>
+              <HiddenVisitRuntimeInputs toolbar={toolbar} />
+              <Button type="submit" size="sm" disabled={signPending || toolbar.isSigned || toolbar.isLocked || sectionDisabled}>
+                {toolbar.isSigned ? 'Signed' : signPending ? 'Requesting…' : 'Sign Procedure'}
+              </Button>
+            </form>
+          ) : null}
+        </ToolbarGroup>
 
         {signState.requestId ? (
           <div className="w-full mt-2">
@@ -140,53 +160,60 @@ export function VisitActionToolbar({
           </div>
         ) : null}
 
-        <a
-          href={toolbar.pdfHref}
-          className="inline-flex h-8 items-center rounded-md border px-3 text-sm font-medium hover:bg-muted"
-        >
-          Download Procedure PDF
-        </a>
+        <ToolbarGroup label="Review">
+          <form action={validationAction}>
+            <HiddenVisitRuntimeInputs toolbar={toolbar} />
+            <Button
+              type="submit"
+              size="sm"
+              variant="outline"
+              disabled={validationPending}
+              onClick={() => setPanel('alerts')}
+            >
+              {validationPending ? 'Scanning…' : 'Validation Alerts'}
+            </Button>
+          </form>
+          <Button type="button" size="sm" variant="outline" onClick={() => setPanel(panel === 'audit' ? null : 'audit')}>
+            Audit Trail
+          </Button>
+        </ToolbarGroup>
 
-        <Button type="button" size="sm" variant="outline" onClick={() => setPanel(panel === 'note' ? null : 'note')}>
-          Add Note
-        </Button>
-        <Button type="button" size="sm" variant="outline" onClick={() => setPanel(panel === 'audit' ? null : 'audit')}>
-          Audit Trail
-        </Button>
-        <form action={validationAction}>
-          <HiddenVisitRuntimeInputs toolbar={toolbar} />
-          <Button
-            type="submit"
-            size="sm"
-            variant="outline"
-            disabled={validationPending}
-            onClick={() => setPanel('alerts')}
+        <ToolbarGroup label="Support">
+          <Button type="button" size="sm" variant="outline" onClick={() => setPanel(panel === 'note' ? null : 'note')}>
+            Add Note
+          </Button>
+          <a
+            href={toolbar.pdfHref}
+            className="inline-flex h-8 items-center rounded-md border px-3 text-sm font-medium hover:bg-muted"
           >
-            {validationPending ? 'Scanning…' : 'Validation Alerts'}
+            Download PDF
+          </a>
+        </ToolbarGroup>
+
+        <ToolbarGroup label="Advanced">
+          <form action={disableFieldsAction}>
+            <HiddenVisitRuntimeInputs toolbar={toolbar} />
+            <input type="hidden" name="disable_reason" value="Coordinator disabled pending fields from visit runtime toolbar." />
+            <Button type="submit" size="sm" variant="secondary" disabled={disableFieldsPending || fieldsDisabled || toolbar.isLocked}>
+              Disable Pending Fields
+            </Button>
+          </form>
+          <form action={enableFieldsActionState}>
+            <HiddenVisitRuntimeInputs toolbar={toolbar} />
+            <Button type="submit" size="sm" variant="secondary" disabled={enableFieldsPending || !fieldsDisabled || toolbar.isLocked}>
+              Enable Fields
+            </Button>
+          </form>
+          <Button 
+            type="button" 
+            size="sm" 
+            variant="secondary" 
+            disabled={sectionDisabled || toolbar.isLocked} 
+            onClick={() => setPanel(panel === 'applicability' ? null : 'applicability')}
+          >
+            Mark Applicability
           </Button>
-        </form>
-        <form action={disableFieldsAction}>
-          <HiddenVisitRuntimeInputs toolbar={toolbar} />
-          <input type="hidden" name="disable_reason" value="Coordinator disabled pending fields from visit runtime toolbar." />
-          <Button type="submit" size="sm" variant="secondary" disabled={disableFieldsPending || fieldsDisabled || toolbar.isLocked}>
-            Disable All Pending Fields
-          </Button>
-        </form>
-        <form action={enableFieldsActionState}>
-          <HiddenVisitRuntimeInputs toolbar={toolbar} />
-          <Button type="submit" size="sm" variant="secondary" disabled={enableFieldsPending || !fieldsDisabled || toolbar.isLocked}>
-            Enable Fields
-          </Button>
-        </form>
-        <Button 
-          type="button" 
-          size="sm" 
-          variant="secondary" 
-          disabled={sectionDisabled || toolbar.isLocked} 
-          onClick={() => setPanel(panel === 'applicability' ? null : 'applicability')}
-        >
-          Mark Applicability
-        </Button>
+        </ToolbarGroup>
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
           <StatusPill value={toolbar.validationStatus} />

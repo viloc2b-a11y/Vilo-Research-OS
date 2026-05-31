@@ -8,9 +8,7 @@ import {
   AlertTriangle,
   FileText,
   CalendarDays,
-  Timer,
   CheckCircle2,
-  Clock,
   Filter
 } from 'lucide-react'
 import { OperationalTableScroll } from '@/components/runtime-ui/OperationalTableScroll'
@@ -36,19 +34,33 @@ export function StudySubjectCommandCenter({
   const filteredRows = model.rows.filter(r => showInactive || !isInactive(r.enrollmentStatus))
 
   const { counters } = model
+  const actionStats = {
+    actionRequired: filteredRows.filter((row) => row.actionRequired !== 'None').length,
+    overdue: filteredRows.filter((row) =>
+      ['Visit Overdue', 'Review Overdue', 'Waiver Requires Approval'].includes(row.actionRequired)
+      || row.reconsentStatus === 'Overdue',
+    ).length,
+    dueToday: filteredRows.filter((row) =>
+      ['Review Due Today', 'Review Dispensation', 'Upload Consent Document'].includes(row.actionRequired),
+    ).length,
+  }
 
   return (
     <div className="flex flex-col h-full space-y-6">
-      {/* Smart Counters */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <Counter label="Action Required" value={actionStats.actionRequired} color="text-red-500" />
+        <Counter label="Overdue" value={actionStats.overdue} color="text-red-500" />
+        <Counter label="Due Today" value={actionStats.dueToday} color="text-amber-500" />
         <Counter label="Active Subjects" value={counters.activeSubjects} color="text-primary" />
-        <Counter label="Screening" value={counters.screening} color="text-blue-500" />
-        <Counter label="Randomized" value={counters.randomized} color="text-muted-foreground" />
-        <Counter label="Need Consent" value={counters.needConsent} color="text-amber-500" />
-        <Counter label="Need Reconsent" value={counters.needReconsent} color="text-orange-500" />
-        <Counter label="Overdue Reconsent" value={counters.overdueReconsent} color="text-red-500" />
-        <Counter label="Pending Upload" value={counters.pendingUpload} color="text-amber-500" />
-        <Counter label="Upcoming Visits" value={counters.upcomingVisits} color="text-blue-500" />
+      </div>
+
+      <div className="flex flex-wrap gap-x-5 gap-y-1 rounded-md border border-border/60 bg-card px-4 py-2 text-xs text-muted-foreground">
+        <span>Screening: {counters.screening}</span>
+        <span>Randomized: {counters.randomized}</span>
+        <span>Need consent: {counters.needConsent}</span>
+        <span>Need reconsent: {counters.needReconsent}</span>
+        <span>Pending upload: {counters.pendingUpload}</span>
+        <span>Upcoming visits: {counters.upcomingVisits}</span>
       </div>
 
       {/* Grid */}
@@ -74,7 +86,7 @@ export function StudySubjectCommandCenter({
         {filteredRows.length === 0 ? (
           <div className="p-10 text-center">
             <Users className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">No subjects found for the current filter.</p>
+            <p className="text-sm text-muted-foreground">No coordinator action required for this filter.</p>
           </div>
         ) : (
           <OperationalTableScroll>
