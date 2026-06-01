@@ -57,8 +57,8 @@ export const ADMIN_HUB_CARDS: AdminHubCard[] = [
   },
   {
     id: 'source-builder',
-    title: 'Templates / Source Builder',
-    description: 'Build and maintain study source document packages before publish.',
+    title: 'Builder Tools / Source Builder',
+    description: 'Internal tooling for source builders, templates, composition previews, and manual drafts.',
     href: '/source-builder',
     icon: FileStack,
     status: 'active',

@@ -35,9 +35,57 @@ See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 - Staff-only login (`/login`) - **no public signup**
 - Protected operations shell under `app/(ops)/`
 - Supabase SSR auth + `organization_id` tenancy
+- Document Center is now the platform-level coordinator entry point for document orchestration at `/document-center`
 - Visit, source, consent, training/delegation, and protocol runtime work is evolving incrementally
 - Pharmacy Runtime Phase 1 foundation is built with DB persistence, access gates, and transaction-hardened receipt/correction commits
 - Pharmacy Dispensing Runtime Phase 2 foundation is built with blueprint-derived subject assignment, visit-linked dispensing, administration events inside Visit Runtime, and Study Subject Command Center review actions
+
+### Document Center Navigation Phase 1
+
+Document Center Phase 1 introduces a non-breaking coordinator-facing hub at `/document-center`.
+It does not replace the validated backend pipeline and does not create studies.
+
+Ownership model:
+
+- Studies owns study creation: `Studies -> New Study`
+- Document Center owns document orchestration: upload, classify, select existing study, select destination, and route
+- Study Workspace owns study execution, source workflows, generated assets, subjects, visits, procedures, regulatory, and compliance work
+- Source is study-level; Source Builder remains internal/admin tooling
+
+Navigation changes:
+
+- Global sidebar now exposes `Document Center -> /document-center`
+- Global coordinator sidebar no longer exposes `Source -> /source-builder`
+- Global coordinator sidebar no longer exposes `Source Evidence -> /source-blueprint-evidence`
+- Existing Source routes remain alive for deep links and internal workflows:
+  - `/source-builder`
+  - `/source-builder/*`
+  - `/source-blueprint-evidence`
+  - `/source-blueprint-drafting`
+  - `/source-blueprint-signoff`
+  - `/runtime-source-packages`
+  - `/runtime-source-publication`
+- Admin now exposes `Builder Tools / Source Builder -> /source-builder`
+- Document Intelligence remains visible temporarily and is also reachable through Document Center
+
+Coordinator-facing Document Center sections:
+
+- Upload Documents
+- Recent Documents
+- Needs Review
+- Ready For Reconciliation
+- Ready For Source Generation
+- Generated Assets
+- Study-scoped routing destinations: Regulatory, Source, Subjects, Financial, Training, Documents, Compliance
+
+Validation most recently run locally:
+
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build
+npm test
+```
 
 ### Pharmacy Runtime Phase 1
 
