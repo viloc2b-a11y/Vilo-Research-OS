@@ -866,9 +866,12 @@
   --teal-700: #0f766e;
   --teal-50: #f0fdfa;
   --teal-100: #ccfbf1;
-  --slate-50: #f8fafc;
-  --slate-100: #f1f5f9;
-  --slate-200: #e2e8f0;
+  --clinical-canvas: #f6f7f8;
+  --clinical-table-header: #eef2f4;
+  --clinical-border: #dde3e8;
+  --slate-50: var(--clinical-canvas);
+  --slate-100: var(--clinical-table-header);
+  --slate-200: var(--clinical-border);
   --slate-300: #cbd5e1;
   --slate-400: #94a3b8;
   --slate-500: #64748b;
@@ -913,7 +916,7 @@
 .vilo-ops-shell header.flex.h-14 {
   background: white !important;
   border-bottom: 1px solid var(--slate-200) !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: none !important;
 }
 
 .vilo-ops-shell input[placeholder*='Search'] {
@@ -934,7 +937,12 @@
 
 .vilo-ops-shell .vilo-ops-scroll,
 .vilo-ops-shell .vilo-page-scroll {
-  background: var(--slate-50) !important;
+  background: var(--clinical-canvas) !important;
+}
+
+.vilo-ops-shell main > .bg-accent,
+.vilo-ops-shell main > * > .bg-accent {
+  background: var(--clinical-canvas) !important;
 }
 
 /* Portfolio / workspace cards (preserve overflow for wide tables) */
@@ -942,9 +950,9 @@
 .vilo-ops-shell .op-card {
   background: white !important;
   border-radius: 14px !important;
-  border: 1px solid var(--slate-200) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  border: 1px solid var(--clinical-border) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease !important;
 }
 
 .vilo-ops-shell .vilo-card-interactive,
@@ -952,9 +960,9 @@
 .vilo-ops-shell a.block.vilo-card-interactive {
   background: white !important;
   border-radius: 14px !important;
-  border: 1px solid var(--slate-200) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  border: 1px solid var(--clinical-border) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease !important;
   cursor: pointer !important;
   text-decoration: none !important;
   color: inherit !important;
@@ -963,9 +971,9 @@
 .vilo-ops-shell .vilo-card-interactive:hover,
 .vilo-ops-shell .op-card-interactive:hover,
 .vilo-ops-shell a.block.vilo-card-interactive:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: none !important;
   transform: translateY(-1px) !important;
-  border-color: rgba(20, 184, 166, 0.35) !important;
+  border-color: rgba(13, 148, 136, 0.45) !important;
 }
 
 .vilo-ops-shell .heading-serif {
@@ -1014,14 +1022,15 @@
 }
 
 .vilo-ops-shell main button.bg-primary {
-  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+  background: var(--teal-600) !important;
   border: none !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25) !important;
+  box-shadow: none !important;
 }
 
 .vilo-ops-shell main button.bg-primary:hover:not(:disabled) {
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35) !important;
+  background: var(--teal-700) !important;
+  box-shadow: none !important;
 }
 
 .vilo-ops-shell .bg-card.border-b {
@@ -1058,15 +1067,16 @@
 .vilo-ops-shell .group\/card {
   background: white !important;
   border-radius: 14px !important;
-  border: 1px solid var(--slate-200) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  border: 1px solid var(--clinical-border) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease !important;
   animation: viloFadeInUp 0.35s ease forwards !important;
 }
 
 .vilo-ops-shell .group\/card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: none !important;
   transform: translateY(-1px) !important;
+  border-color: rgba(13, 148, 136, 0.45) !important;
 }
 
 .vilo-ops-shell .group\/card-header {
@@ -1095,20 +1105,21 @@
 
 .vilo-ops-shell a.vilo-calendar-cta,
 .vilo-ops-shell a[href*='operational-calendar'].vilo-calendar-cta {
-  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%) !important;
+  background: var(--teal-600) !important;
   color: white !important;
   border-radius: 10px !important;
   padding: 10px 20px !important;
   font-weight: 600 !important;
   font-size: 13.5px !important;
   text-decoration: none !important;
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3) !important;
+  box-shadow: none !important;
   transition: all 0.2s ease !important;
   border: none !important;
 }
 
 .vilo-ops-shell a.vilo-calendar-cta:hover {
-  box-shadow: 0 6px 18px rgba(13, 148, 136, 0.42) !important;
+  background: var(--teal-700) !important;
+  box-shadow: none !important;
   transform: translateY(-1px) !important;
 }
 
@@ -1127,7 +1138,7 @@
 .vilo-ops-shell a[href*='#incomplete-source']:hover .group\/card,
 .vilo-ops-shell a[href*='#pending-signatures']:hover .group\/card {
   border-color: var(--teal-500) !important;
-  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.18) !important;
+  box-shadow: none !important;
   transform: translateY(-2px) !important;
 }
 
@@ -1212,7 +1223,7 @@
 }
 
 .vilo-ops-shell main table thead th {
-  background: var(--slate-50) !important;
+  background: var(--clinical-table-header) !important;
   color: var(--slate-500) !important;
   font-size: 10.5px !important;
   font-weight: 700 !important;

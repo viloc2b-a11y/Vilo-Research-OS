@@ -28,7 +28,10 @@ export function CoordinatorNextActionStrip({ model }: { model: VisitRuntimeUiMod
         </span>
       ) : null}
       {action.href ? (
-        <Link href={action.href} className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+        <Link
+          href={action.href}
+          className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
+        >
           Go
           <ArrowRight className="size-3" />
         </Link>
