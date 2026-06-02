@@ -45,6 +45,15 @@ export async function findReadyIntelligenceDocument(
 export async function createIntelligenceDocument(
   args: CreateIntelligenceDocumentArgs,
 ): Promise<DocumentIntelligenceDocumentRow> {
+  if (!args.organizationId) {
+    throw new Error('organization_id is required to create an intelligence document.')
+  }
+  if (!args.complianceDocumentId) {
+    throw new Error('compliance_document_id is required to create an intelligence document.')
+  }
+  if (!args.documentClassification) {
+    throw new Error('document_classification is required to create an intelligence document.')
+  }
   if (!args.studyId) {
     throw new Error('study_id is required for intelligence document creation.')
   }
@@ -84,6 +93,11 @@ export async function createIntelligenceDocument(
     .single()
 
   if (error || !data) {
+    if (error?.code === '42501' || error?.message?.includes('row-level security')) {
+      throw new Error(
+        'Access denied: You do not have permission to ingest documents for this study or organization.',
+      )
+    }
     throw new Error(`Failed to create intelligence document: ${error?.message ?? 'Unknown error'}`)
   }
 
