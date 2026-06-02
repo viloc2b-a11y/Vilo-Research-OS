@@ -62,7 +62,7 @@ const navSections: NavSection[] = [
   { id: 'document-center', label: 'Document Center', href: '/document-center', icon: FileSearch, coordinatorWorkspace: true },
   {
     id: 'document-intelligence',
-    label: 'Document Intelligence',
+    label: 'Study Copilot',
     href: '/document-intelligence',
     icon: FileSearch,
     coordinatorWorkspace: true,

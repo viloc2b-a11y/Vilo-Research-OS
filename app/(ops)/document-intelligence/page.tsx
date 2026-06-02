@@ -7,7 +7,7 @@ import {
 } from '@/lib/auth/session'
 import { canManageSourceDocuments } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
-import { DocumentIntelligenceClient } from '@/components/document-intelligence/document-intelligence-client'
+import { StudyCopilotClient } from '@/components/document-intelligence/study-copilot-client'
 
 type DocumentIntelligencePageProps = {
   searchParams: Promise<{ study_id?: string }>
@@ -35,7 +35,7 @@ async function DocumentIntelligenceContent({
   if (!organizationId) {
     return (
       <div className="space-y-4 p-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Document Intelligence</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Study Copilot</h1>
         <p className="text-sm text-muted-foreground">No organization access is available.</p>
       </div>
     )
@@ -45,7 +45,7 @@ async function DocumentIntelligenceContent({
   if (!canManageSourceDocuments(memberships, organizationId)) {
     return (
       <div className="space-y-4 p-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Document Intelligence</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Study Copilot</h1>
         <p className="text-sm text-muted-foreground">Access denied.</p>
       </div>
     )
@@ -69,7 +69,7 @@ async function DocumentIntelligenceContent({
       : null
 
   return (
-    <DocumentIntelligenceClient
+    <StudyCopilotClient
       organizationId={organizationId}
       studies={studyList}
       initialStudyId={validInitialStudyId}
