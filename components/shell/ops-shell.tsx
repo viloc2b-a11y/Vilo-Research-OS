@@ -32,10 +32,9 @@ export function OpsShell({
         canAccessSourceWorkflow={canAccessSourceWorkflow}
         canViewVpi={canViewVpi}
       />
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Topbar userEmail={userEmail} />
-        {/* overflow-hidden here — each workspace page controls its own scroll via flex-col h-full */}
-        <main className="flex-1 overflow-hidden">
+        <main className="min-h-0 flex-1 overflow-y-auto pb-24">
           {children}
         </main>
       </div>
