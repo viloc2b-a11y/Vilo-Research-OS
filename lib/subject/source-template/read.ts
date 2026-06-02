@@ -136,11 +136,41 @@ export async function loadSubjectSourceTemplate(input: {
     }
   })
 
-  const userOptions: SubjectUserOption[] = (members.data ?? []).map((row) => ({
-    id: row.user_id as string,
-    label: `${row.role ?? 'Staff'} · ${(row.user_id as string).slice(0, 8)}`,
-    role: (row.role as string | null) ?? null,
-  }))
+  const membersData = members.data ?? []
+  const userIds = membersData.map((m) => m.user_id as string)
+  const { data: profilesData } = userIds.length
+    ? await supabase.from('profiles').select('id, display_name').in('id', userIds)
+    : { data: [] }
+  const profilesMap = new Map(profilesData?.map((p) => [p.id, p.display_name]))
+
+  const formatRole = (role: string | null) => {
+    if (!role) return 'Staff'
+    const mapping: Record<string, string> = {
+      pi: 'PI',
+      si: 'Sub-Investigator',
+      crc: 'Research Coordinator',
+      unblinded_crc: 'Unblinded Coordinator',
+      pharmacist: 'Pharmacist',
+      monitor: 'Medical Monitor',
+      rn: 'RN',
+      owner: 'Owner',
+      admin: 'Admin',
+      member: 'Member',
+      read_only: 'Read Only',
+    }
+    return mapping[role.toLowerCase()] ?? role
+  }
+
+  const userOptions: SubjectUserOption[] = membersData.map((row) => {
+    const roleLabel = formatRole(row.role as string | null)
+    const name = profilesMap.get(row.user_id as string)
+    
+    return {
+      id: row.user_id as string,
+      label: name ? `${name} (${roleLabel})` : roleLabel,
+      role: (row.role as string | null) ?? null,
+    }
+  })
 
   const signatureRows = (signatureRequests.data ?? []).map((request) => {
     const metadata = (request.metadata ?? {}) as Record<string, unknown>

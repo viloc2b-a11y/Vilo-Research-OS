@@ -328,10 +328,34 @@ export function SubjectSignaturesSection({ studySubjectId, model }: SectionProps
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
             <Label className="text-xs">Signature type *</Label>
-            <Input name="signature_type" placeholder="PI review of AE" required />
+            <Select name="signature_type" required>
+              <SelectTrigger><SelectValue placeholder="Select signature type" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PI Review of AE">PI Review of AE</SelectItem>
+                <SelectItem value="PI Review of SAE">PI Review of SAE</SelectItem>
+                <SelectItem value="Eligibility Confirmation">Eligibility Confirmation</SelectItem>
+                <SelectItem value="Medical History Review">Medical History Review</SelectItem>
+                <SelectItem value="Protocol Deviation Review">Protocol Deviation Review</SelectItem>
+                <SelectItem value="Subject Eligibility Sign-off">Subject Eligibility Sign-off</SelectItem>
+                <SelectItem value="Source Review Sign-off">Source Review Sign-off</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <UserSelect model={model} name="requested_to" label="Requested to *" />
-          <InputBlock name="required_role" label="Required role" placeholder="pi, si, crc..." />
+          <div className="space-y-1">
+            <Label className="text-xs">Required role *</Label>
+            <Select name="required_role" required>
+              <SelectTrigger><SelectValue placeholder="Select role" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PI">PI</SelectItem>
+                <SelectItem value="Sub-Investigator">Sub-Investigator</SelectItem>
+                <SelectItem value="Research Coordinator">Research Coordinator</SelectItem>
+                <SelectItem value="Unblinded Coordinator">Unblinded Coordinator</SelectItem>
+                <SelectItem value="Pharmacist">Pharmacist</SelectItem>
+                <SelectItem value="Medical Monitor">Medical Monitor</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <div className="space-y-1">
             <Label className="text-xs">Related section *</Label>
             <Input name="related_section" placeholder="Adverse Events" required />
