@@ -54,15 +54,7 @@ type HubCard = {
   note?: string
 }
 
-type DestinationCard = {
-  title: string
-  description: string
-  href: string
-  icon: React.ElementType
-  enabled: boolean
-  actionLabel: string
-  note?: string
-}
+
 
 function HubCardView({ card }: { card: HubCard }) {
   const Icon = card.icon
@@ -161,35 +153,7 @@ function StudyContextBar({
   )
 }
 
-function DestinationCardView({ destination }: { destination: DestinationCard }) {
-  const Icon = destination.icon
-  const body = (
-    <>
-      <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-100">
-        <Icon className="h-4 w-4 text-slate-700" />
-      </div>
-      <h3 className="mt-3 text-sm font-semibold text-slate-900">{destination.title}</h3>
-      <p className="mt-1 text-xs leading-5 text-slate-600">{destination.description}</p>
-      {destination.note ? <p className="mt-2 text-xs text-slate-500">{destination.note}</p> : null}
-      <span className="vilo-hover-reveal mt-3 inline-flex text-xs font-semibold text-teal-700">
-        {destination.actionLabel}
-      </span>
-    </>
-  )
 
-  if (!destination.enabled) {
-    return <div className="rounded-md border border-slate-200 bg-slate-50 p-4 opacity-75">{body}</div>
-  }
-
-  return (
-    <Link
-      href={destination.href}
-      className="rounded-md border border-slate-200 bg-white p-4 transition-colors hover:border-teal-200 hover:bg-slate-50"
-    >
-      {body}
-    </Link>
-  )
-}
 
 export default async function DocumentCenterPage({ searchParams }: DocumentCenterPageProps) {
   const params = (await searchParams) ?? {}
@@ -310,77 +274,7 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
     },
   ]
 
-  const destinations: DestinationCard[] = [
-    {
-      title: 'Regulatory',
-      description: 'Route regulatory documents and inspection-ready records to the study binder.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=regulatory-binder`
-        : '/studies',
-      icon: Shield,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Regulatory Binder' : 'Select Study',
-    },
-    {
-      title: 'Source',
-      description: 'Continue source setup inside the selected study. No global Source Builder handoff.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=source-runtime`
-        : '/studies',
-      icon: FileSearch,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Study Source' : 'Select Study',
-    },
-    {
-      title: 'Subjects',
-      description: 'Route subject-level records to the study subject workspace.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=subjects`
-        : '/studies',
-      icon: Stethoscope,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Subjects' : 'Select Study',
-    },
-    {
-      title: 'Financial',
-      description: 'Upload finance documents with budget/contract classification for study-scoped review.',
-      href: uploadWithStudyHref,
-      icon: DollarSign,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Upload Finance Document' : 'Select Study',
-      note: 'Dedicated financial workspace is still planned.',
-    },
-    {
-      title: 'Training',
-      description: 'Route training materials to the selected study training context.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=training`
-        : '/studies',
-      icon: GraduationCap,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Training' : 'Select Study',
-    },
-    {
-      title: 'Documents',
-      description: 'Manage uploaded study documents, recent intake, and document intelligence handoff.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=documents`
-        : '/studies',
-      icon: ClipboardList,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Documents' : 'Select Study',
-    },
-    {
-      title: 'Compliance',
-      description: 'Review obligations, expiration alerts, and compliance document status.',
-      href: selectedStudyId
-        ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=documents`
-        : '/studies',
-      icon: CheckCircle2,
-      enabled: Boolean(selectedStudyId),
-      actionLabel: selectedStudyId ? 'Open Compliance' : 'Select Study',
-    },
-  ]
+
 
   return (
     <div className="space-y-6 p-6">
@@ -396,6 +290,12 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
 
       <StudyContextBar studies={studyList} selectedStudyId={selectedStudyId} />
 
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {cards.map((card) => (
+          <HubCardView key={card.title} card={card} />
+        ))}
+      </section>
+
       <section className="rounded-md border border-slate-200 bg-white p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -403,6 +303,9 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
             <p className="mt-1 text-sm text-slate-600">
               Choose an existing study, then route documents to the correct operational area inside
               that study. Document Center does not create studies.
+            </p>
+            <p className="mt-3 text-xs font-medium text-teal-700">
+              Route documents to: Regulatory Binder · Source Builder · Subject Workspace · Study Documents · Training · Finance · Compliance
             </p>
           </div>
           <Link
@@ -412,17 +315,6 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
             {selectedStudyId ? 'Open Study Workspace' : 'Go To Studies'}
           </Link>
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {destinations.map((destination) => (
-            <DestinationCardView key={destination.title} destination={destination} />
-          ))}
-        </div>
-      </section>
-
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {cards.map((card) => (
-          <HubCardView key={card.title} card={card} />
-        ))}
       </section>
 
       <RecentDocumentRuntimeEvents
