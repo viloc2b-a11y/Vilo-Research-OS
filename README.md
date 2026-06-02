@@ -65,8 +65,9 @@ Navigation changes:
   - `/source-blueprint-signoff`
   - `/runtime-source-packages`
   - `/runtime-source-publication`
-- Admin now exposes `Builder Tools / Source Builder -> /source-builder`
-- Document Intelligence remains visible temporarily and is also reachable through Document Center
+- Admin now exposes `Builder Tools / Source Builder -> /source-builder` and `Protocol Engineering -> /admin/protocol-engineering`
+- Technical Document Intelligence is now accessed via Admin -> Protocol Engineering
+- Coordinator-facing Document Intelligence has been replaced with `Study Copilot -> /document-intelligence`
 
 Coordinator-facing Document Center sections:
 
@@ -76,7 +77,7 @@ Coordinator-facing Document Center sections:
 - Ready For Reconciliation
 - Ready For Source Generation
 - Generated Assets
-- Study-scoped routing destinations: Regulatory, Source, Subjects, Financial, Training, Documents, Compliance
+- Study-scoped routing destinations: Regulatory, Source, Subjects, Financial, Training, Documents, Compliance, Study Copilot
 
 Validation most recently run locally:
 
