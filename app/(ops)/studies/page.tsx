@@ -109,6 +109,7 @@ export default async function StudiesPortfolioPage() {
   const studiesQuery = supabase
     .from('studies')
     .select('id, name, slug, status')
+    .neq('status', 'archived')
     .order('name', { ascending: true })
 
   const { data: studies, error } = organizationIds.length > 0
