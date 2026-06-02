@@ -100,9 +100,7 @@ export async function loadStudySubjectCommandCenter(
       last_name,
       date_of_birth,
       enrollment_status,
-      consented_at,
-      phone,
-      email
+      consented_at
     `)
     .eq('study_id', studyId)
     .eq('organization_id', organizationId)
@@ -250,8 +248,8 @@ export async function loadStudySubjectCommandCenter(
       subjectName: name,
       dob,
       age,
-      phone: s.phone || '—',
-      email: s.email || '—',
+      phone: '—',
+      email: '—',
       enrollmentStatus: s.enrollment_status,
       consentStatus,
       reconsentStatus,

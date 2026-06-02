@@ -50,6 +50,7 @@ type StudyWorkspaceProps = {
     publishReason?: string
     subject?: string
     subjectReason?: string
+    action?: string
   }>
 }
 
@@ -1424,7 +1425,7 @@ function SourcePublishContinuitySection({
 
 export default async function StudyWorkspacePage({ params, searchParams }: StudyWorkspaceProps) {
   const { studyId } = await params
-  const { tab: rawTab, binding, reason, publish, publishReason, subject, subjectReason } = await searchParams
+  const { tab: rawTab, binding, reason, publish, publishReason, subject, subjectReason, action } = await searchParams
   const activeTab = (TABS.some(t => t.id === rawTab) ? rawTab : 'overview') as TabId
 
   const supabase = await createServerClient()
@@ -1664,21 +1665,54 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
         {activeTab === 'subjects' && (
           <div className="p-6 h-[calc(100vh-140px)] flex flex-col">
             <div className="vilo-card flex flex-col min-h-0 flex-1 p-5 space-y-4">
-              <div className="flex-shrink-0">
-                <h3 className="text-sm font-semibold text-foreground mb-3">Add New Subject</h3>
-                <AddSubjectForm
-                  studyId={studyId}
-                  organizationId={organizationId}
-                  errorReason={subjectCreateError}
-                  anchorOptions={anchorSubjectOptions}
-                />
-              </div>
               
-              <div className="flex flex-col min-h-0 flex-1 mt-4 border-t border-border/60 pt-6">
-                {commandCenterModel && (
-                  <StudySubjectCommandCenter model={commandCenterModel} studyId={studyId} />
+              <div className="flex items-center justify-between flex-shrink-0 mb-2">
+                <h3 className="text-lg font-semibold text-foreground">Subjects</h3>
+                {action !== 'add-subject' ? (
+                  <Link
+                    href={`/studies/${studyId}?tab=subjects&action=add-subject`}
+                    className="rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90"
+                  >
+                    Add Subject
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/studies/${studyId}?tab=subjects`}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground"
+                  >
+                    Back to Subject List
+                  </Link>
                 )}
               </div>
+
+              {action === 'add-subject' ? (
+                <div className="flex-shrink-0">
+                  <h3 className="text-sm font-semibold text-foreground mb-3">Add New Subject</h3>
+                  <AddSubjectForm
+                    studyId={studyId}
+                    organizationId={organizationId}
+                    errorReason={subjectCreateError}
+                    anchorOptions={anchorSubjectOptions}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col min-h-0 flex-1 border-t border-border/60 pt-4">
+                  {!subjects?.length ? (
+                    <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-lg">
+                      <p className="text-sm font-medium text-muted-foreground mb-4">No subjects yet</p>
+                      <Link
+                        href={`/studies/${studyId}?tab=subjects&action=add-subject`}
+                        className="rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90"
+                      >
+                        Add Subject
+                      </Link>
+                    </div>
+                  ) : commandCenterModel ? (
+                    <StudySubjectCommandCenter model={commandCenterModel} studyId={studyId} />
+                  ) : null}
+                </div>
+              )}
+              
             </div>
           </div>
         )}
