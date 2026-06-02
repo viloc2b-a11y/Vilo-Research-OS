@@ -82,18 +82,34 @@ export function StudyWorkspaceShell({
     <div className="min-h-0 space-y-6 p-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Study Workspace</p>
+          <nav className="mb-2 flex items-center gap-2 text-xs font-medium text-slate-500">
+            <Link href="/studies" className="hover:text-slate-700 hover:underline">
+              Studies
+            </Link>
+            <span>/</span>
+            <span className="text-slate-400">{summary.study.name}</span>
+            <span>/</span>
+            <span className="text-slate-400">Workspace</span>
+          </nav>
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{summary.study.name}</h1>
           {summary.study.status ? (
             <p className="mt-1 text-sm text-slate-500">Status: {summary.study.status}</p>
           ) : null}
         </div>
-        <Link
-          href={links.studyDetail}
-          className="text-sm font-medium text-teal-700 hover:underline"
-        >
-          Study detail
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/document-intelligence?study_id=${summary.study.id}`}
+            className="text-sm font-medium text-teal-700 hover:underline flex items-center gap-1.5"
+          >
+            Study Copilot
+          </Link>
+          <Link
+            href={links.studyDetail}
+            className="text-sm font-medium text-slate-600 hover:text-slate-900 hover:underline"
+          >
+            Study detail
+          </Link>
+        </div>
       </header>
 
       <StudyWorkspaceNav activeSection={activeSection} onSelect={onSelectSection} />

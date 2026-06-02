@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft, ChevronRight } from 'lucide-react'
 import type { DocumentIntelligenceSearchResult } from '@/lib/document-intelligence/document-intelligence-types'
 
 type StudyOption = { id: string; name: string }
@@ -92,8 +94,28 @@ export function StudyCopilotClient({
     'Which procedures require PI signature?',
   ]
 
+  const backHref = studyId ? `/studies/${studyId}/workspace` : '/document-center'
+  const backLabel = studyId ? 'Back to Study Workspace' : 'Back to Document Center'
+
   return (
     <div className="mx-auto max-w-4xl space-y-6 p-6">
+      <div className="mb-4 flex flex-col space-y-4">
+        <Link 
+          href={backHref}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-800"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {backLabel}
+        </Link>
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <Link href={backHref} className="hover:text-slate-800 hover:underline">
+            {studyId ? 'Study Workspace' : 'Document Center'}
+          </Link>
+          <ChevronRight className="h-3.5 w-3.5" />
+          <span className="font-medium text-slate-800">Study Copilot</span>
+        </div>
+      </div>
+
       <header>
         <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
           Study Assistant
