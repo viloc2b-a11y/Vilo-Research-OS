@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { ArrowLeft, ChevronRight } from 'lucide-react'
 import { DocumentUploadRuntimeShell } from '@/components/document-intake/document-upload-runtime-shell'
 import { RecentDocumentRuntimeEvents } from '@/components/document-intake/recent-document-runtime-events'
 import { PendingObligationsPanel } from '@/components/document-intake/pending-obligations-panel'
@@ -15,8 +17,29 @@ export function DocumentIntakeClient({
 }) {
   const [refreshKey, setRefreshKey] = useState(0)
 
+  const backHref = initialStudyId 
+    ? `/document-center?study_id=${initialStudyId}` 
+    : '/document-center'
+
   return (
     <div className="space-y-6 p-6">
+      <div className="mb-4 flex flex-col space-y-4">
+        <Link 
+          href={backHref}
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-800"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Document Center
+        </Link>
+        <div className="flex items-center gap-2 text-sm text-slate-500">
+          <Link href={backHref} className="hover:text-slate-800 hover:underline">
+            Document Center
+          </Link>
+          <ChevronRight className="h-3.5 w-3.5" />
+          <span className="font-medium text-slate-800">Document Intake</span>
+        </div>
+      </div>
+
       <header className="mb-2 max-w-2xl">
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Document Intake</h1>
         <p className="mt-1 text-sm text-slate-500">
