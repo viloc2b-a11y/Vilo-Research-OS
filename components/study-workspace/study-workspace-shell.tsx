@@ -13,15 +13,14 @@ import type {
 import { StudyActivityFeed } from './study-activity-feed'
 import { StudyDelegationPanel } from './study-delegation-panel'
 import { StudyMonitoringViewPanel } from './study-monitoring-view-panel'
-import { StudyOverviewPanel } from './study-overview-panel'
-import { StudyRegulatoryBinderPanel } from './study-regulatory-binder-panel'
-import { StudyRuntimeStatusCards } from './study-runtime-status-cards'
+import { StudyRegulatoryBinderView } from './study-regulatory-binder-view'
+import { StudyDocumentsView } from './study-documents-view'
+import { StudyVisitMatrixView } from './study-visit-matrix-view'
 import { StudySetupPanel } from './study-setup-panel'
 import { StudySourcePanel } from './study-source-panel'
-import { StudySubjectsPanel } from './study-subjects-panel'
+import { StudySubjectRosterView } from './study-subject-roster-view'
 import { StudyTrainingPanel } from './study-training-panel'
-import { StudyDocumentIntakePanel } from './study-document-intake-panel'
-import { StudyDocumentIntelligencePanel } from './study-document-intelligence-panel'
+import { StudyCommandCenterView } from './study-command-center-view'
 import { STUDY_WORKSPACE_NAV_ITEMS, StudyWorkspaceNav } from './study-workspace-nav'
 
 const VALID_SECTIONS = new Set<string>(STUDY_WORKSPACE_NAV_ITEMS.map((item) => item.id))
@@ -31,11 +30,20 @@ function parseSection(value: string | null): StudyWorkspaceSectionId {
   return 'overview'
 }
 
+import type { ComplianceRuntimeDocument } from '@/lib/document-intake/compliance-types'
+import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
+import type { StudySubjectRosterRow } from '@/lib/study-workspace/load-study-subject-roster'
+import type { StudyCommandCenterMetrics } from '@/lib/study-workspace/load-study-command-center-metrics'
+
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
-  subjects: StudyWorkspaceSubjectPreview[]
+  subjects: StudySubjectRosterRow[]
   setupDocuments: StudySetupDocument[]
   hasProtocolDraft: boolean
+  regulatoryDocuments: ComplianceRuntimeDocument[]
+  studyDocuments: ComplianceRuntimeDocument[]
+  visits: StudyVisitRow[]
+  commandCenterMetrics: StudyCommandCenterMetrics
 }
 
 export function StudyWorkspaceShell({
@@ -43,6 +51,10 @@ export function StudyWorkspaceShell({
   subjects,
   setupDocuments,
   hasProtocolDraft,
+  regulatoryDocuments,
+  studyDocuments,
+  visits,
+  commandCenterMetrics,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -88,17 +100,12 @@ export function StudyWorkspaceShell({
 
       <div className="min-h-[320px] rounded-md border border-slate-200 bg-white p-5">
         {activeSection === 'overview' ? (
-          <div className="space-y-8">
-            <StudyOverviewPanel
-              studyName={summary.study.name}
-              studyStatus={summary.study.status}
-              links={links}
-              unavailable={summary.unavailable}
-            />
-            <StudyRuntimeStatusCards counts={summary.counts} links={links} />
-            <StudyDocumentIntakePanel links={links} />
-            <StudyDocumentIntelligencePanel links={links} />
-          </div>
+          <StudyCommandCenterView
+            studyName={summary.study.name}
+            studyStatus={summary.study.status}
+            links={links}
+            metrics={commandCenterMetrics}
+          />
         ) : null}
 
         {activeSection === 'study-setup' ? (
@@ -112,12 +119,7 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'subjects' ? (
-          <StudySubjectsPanel
-            studyId={summary.study.id}
-            links={links}
-            subjects={subjects}
-            subjectCount={summary.counts.subjectCount}
-          />
+          <StudySubjectRosterView subjects={subjects} />
         ) : null}
 
         {activeSection === 'source-runtime' ? <StudySourcePanel links={links} /> : null}
@@ -127,11 +129,11 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'visit-runtime' ? (
-          <VisitRuntimeSection links={links} lockedCount={summary.counts.lockedSnapshotCount} />
+          <StudyVisitMatrixView visits={visits} />
         ) : null}
 
         {activeSection === 'regulatory-binder' ? (
-          <StudyRegulatoryBinderPanel links={links} counts={summary.counts} />
+          <StudyRegulatoryBinderView links={links} documents={regulatoryDocuments} />
         ) : null}
 
         {activeSection === 'training' ? (
@@ -143,7 +145,7 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'documents' ? (
-          <DocumentsComplianceSection links={links} counts={summary.counts} />
+          <StudyDocumentsView links={links} documents={studyDocuments} />
         ) : null}
 
         {activeSection === 'monitoring' ? (
@@ -182,64 +184,4 @@ function PublishedSourceSection({
   )
 }
 
-function VisitRuntimeSection({
-  links,
-  lockedCount,
-}: {
-  links: ReturnType<typeof buildStudyWorkspaceRuntimeLinks>
-  lockedCount: number | null
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-sm font-semibold text-slate-800">Visit Execution</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Subject visit workspaces, procedure capture, locking, and immutable snapshots.
-          {lockedCount !== null ? ` ${lockedCount} locked snapshot(s) on study.` : ''}
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-3">
-        <Link
-          href={links.visitRuntime}
-          className="inline-flex rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
-        >
-          Open visit runtime
-        </Link>
-        <Link
-          href={links.operationalSignatures}
-          className="inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
-        >
-          Operational signatures
-        </Link>
-        <Link
-          href={links.operationalReview}
-          className="inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
-        >
-          Operational review
-        </Link>
-      </div>
-    </div>
-  )
-}
 
-function DocumentsComplianceSection({
-  links,
-  counts,
-}: {
-  links: ReturnType<typeof buildStudyWorkspaceRuntimeLinks>
-  counts: StudyWorkspaceSummary['counts']
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="text-sm font-semibold text-slate-800">Documents / Compliance</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Document intake, obligations, expiration alerts, and compliance runtime audit trail.
-        </p>
-      </div>
-      <StudyRegulatoryBinderPanel links={links} counts={counts} />
-      <StudyDocumentIntakePanel links={links} />
-      <StudyDocumentIntelligencePanel links={links} />
-    </div>
-  )
-}

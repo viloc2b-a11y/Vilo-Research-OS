@@ -3,9 +3,13 @@ import { StudyWorkspaceShell } from '@/components/study-workspace/study-workspac
 import { loadStudySetupDocuments } from '@/lib/study-workspace/load-study-setup-documents'
 import { studyHasProtocolRuntimeVersion } from '@/lib/study-workspace/study-has-protocol-draft'
 import {
-  loadStudyWorkspaceSubjectPreviews,
   loadStudyWorkspaceSummary,
 } from '@/lib/study-workspace/load-study-workspace-summary'
+import { loadStudySubjectRoster } from '@/lib/study-workspace/load-study-subject-roster'
+import { loadStudyCommandCenterMetrics } from '@/lib/study-workspace/load-study-command-center-metrics'
+import { loadStudyRegulatoryDocuments } from '@/lib/study-workspace/load-regulatory-documents'
+import { loadStudyOperationalDocuments } from '@/lib/study-workspace/load-study-documents'
+import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 
 type StudyWorkspacePageProps = {
   params: Promise<{ studyId: string }>
@@ -23,7 +27,7 @@ function WorkspaceLoadingFallback() {
 
 async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
   const summary = await loadStudyWorkspaceSummary(studyId)
-  const subjects = await loadStudyWorkspaceSubjectPreviews(
+  const subjects = await loadStudySubjectRoster(
     studyId,
     summary.study.organizationId,
   )
@@ -35,6 +39,22 @@ async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
     studyId,
     summary.study.organizationId,
   )
+  const regulatoryDocuments = await loadStudyRegulatoryDocuments(
+    studyId,
+    summary.study.organizationId,
+  )
+  const studyDocuments = await loadStudyOperationalDocuments(
+    studyId,
+    summary.study.organizationId,
+  )
+  const visitsResponse = await loadStudyVisits(
+    studyId,
+    summary.study.organizationId,
+  )
+  const commandCenterMetrics = await loadStudyCommandCenterMetrics(
+    studyId,
+    summary.study.organizationId,
+  )
 
   return (
     <StudyWorkspaceShell
@@ -42,6 +62,10 @@ async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
       subjects={subjects}
       setupDocuments={setupDocuments}
       hasProtocolDraft={hasProtocolDraft}
+      regulatoryDocuments={regulatoryDocuments}
+      studyDocuments={studyDocuments}
+      visits={visitsResponse.rows}
+      commandCenterMetrics={commandCenterMetrics}
     />
   )
 }
