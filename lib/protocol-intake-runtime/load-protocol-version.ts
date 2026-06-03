@@ -6,6 +6,7 @@ import {
   mapProtocolRuntimeVersionRow,
   mapProtocolRuntimeVisitCandidateRow,
   type LoadedProtocolVersion,
+  type ProtocolStatus,
 } from './protocol-intake-types'
 
 export async function loadProtocolVersion(
@@ -25,7 +26,7 @@ export async function loadProtocolVersion(
 
   const { data: studyRow, error: studyError } = await supabase
     .from('protocol_runtime_studies')
-    .select('organization_id')
+    .select('organization_id, protocol_status')
     .eq('id', versionRow.protocol_runtime_study_id)
     .maybeSingle()
 
@@ -63,6 +64,7 @@ export async function loadProtocolVersion(
   if (amendmentLinks.error) throw new Error(amendmentLinks.error.message)
 
   return {
+    studyProtocolStatus: (studyRow.protocol_status as ProtocolStatus) ?? 'under_review',
     version,
     sections: (sections.data ?? []).map((row) => mapProtocolRuntimeSectionRow(row as Record<string, unknown>)),
     visitCandidates: (visits.data ?? []).map((row) =>

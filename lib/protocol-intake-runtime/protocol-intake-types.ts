@@ -196,6 +196,7 @@ export type LoadedProtocolRuntimeStudy = {
 }
 
 export type LoadedProtocolVersion = {
+  studyProtocolStatus: ProtocolStatus
   version: ProtocolRuntimeVersionRow
   sections: ProtocolRuntimeSectionRow[]
   visitCandidates: ProtocolRuntimeVisitCandidateRow[]

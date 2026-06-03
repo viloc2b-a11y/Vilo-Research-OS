@@ -9,7 +9,9 @@ import { CoordinatorSignatureCard } from '@/components/subjects/visits/Coordinat
 import { InvestigatorSignatureCard } from '@/components/subjects/visits/InvestigatorSignatureCard'
 import { ProgressNoteEditor } from '@/components/subjects/visits/ProgressNoteEditor'
 import { VisitCloseoutTimeline } from '@/components/subjects/visits/VisitCloseoutTimeline'
+import { VisitGovernanceStateBadge } from '@/components/subjects/visits/VisitGovernanceStateBadge'
 import { VisitReviewStatusBadge } from '@/components/subjects/visits/VisitReviewStatusBadge'
+import { deriveVisitGovernanceState } from '@/lib/subject/visits/progress-note/governance-state'
 import type { VisitCloseoutBundle } from '@/lib/subject/visits/progress-note/types'
 
 type VisitCloseoutSectionProps = {
@@ -23,6 +25,7 @@ type VisitCloseoutSectionProps = {
 
 export function VisitCloseoutSection({ bundle, canInvestigatorSign = false }: VisitCloseoutSectionProps) {
   const { model, events, guards, noteLocked, closeoutLocked } = bundle
+  const governance = deriveVisitGovernanceState(model, events)
 
   return (
     <div className="space-y-4">
@@ -36,11 +39,18 @@ export function VisitCloseoutSection({ bundle, canInvestigatorSign = false }: Vi
                 only.
               </CardDescription>
             </div>
-            <VisitReviewStatusBadge status={model.visitReviewStatus} />
+            <div className="flex flex-wrap items-center gap-2">
+              <VisitReviewStatusBadge status={model.visitReviewStatus} />
+              <VisitGovernanceStateBadge state={governance.state} />
+            </div>
           </div>
           {closeoutLocked ? (
             <p className="text-xs font-medium text-emerald-800 dark:text-emerald-200">
               Closeout locked — investigator signature recorded.
+            </p>
+          ) : governance.state === 'needs_resign' ? (
+            <p className="text-xs font-medium text-amber-800 dark:text-amber-200">
+              {governance.detail}
             </p>
           ) : null}
         </CardHeader>

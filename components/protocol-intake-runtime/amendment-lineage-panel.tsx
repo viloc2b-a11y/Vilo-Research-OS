@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import type { ProtocolRuntimeAmendmentLinkRow } from '@/lib/protocol-intake-runtime/protocol-intake-types'
 
 export function AmendmentLineagePanel(props: { links: ProtocolRuntimeAmendmentLinkRow[] }) {
@@ -11,7 +12,12 @@ export function AmendmentLineagePanel(props: { links: ProtocolRuntimeAmendmentLi
     <ul className="space-y-2">
       {props.links.map((link) => (
         <li key={link.id} className="rounded border border-slate-200 bg-white p-3 text-sm">
-          <div className="font-medium text-slate-900">{link.amendmentType}</div>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="font-medium text-slate-900">{link.amendmentType}</div>
+            <Badge variant="outline" className="uppercase tracking-wide">
+              Supersedes
+            </Badge>
+          </div>
           <div className="mt-1 text-xs text-slate-500">
             {link.previousProtocolVersionId.slice(0, 8)}… → {link.newProtocolVersionId.slice(0, 8)}…
           </div>
