@@ -1,6 +1,5 @@
 import { EvidenceResolver } from './evidence-resolver'
 import { PrintableSourcePacketTemplate } from './renderers/printable-source-packet'
-import { renderToStaticMarkup } from 'react-dom/server'
 import { chromium } from 'playwright'
 import crypto from 'crypto'
 import { logDeliverableAuditEvent } from './audit'
@@ -10,6 +9,8 @@ import { SupabaseClient } from '@supabase/supabase-js'
 
 export async function generatePrintableSourcePacket(supabase: SupabaseClient, runId: string) {
   try {
+    const { renderToStaticMarkup } = await import('react-dom/server')
+
     // 1. Load run
     const { data: run, error: runError } = await supabase
       .from('deliverable_runs')
