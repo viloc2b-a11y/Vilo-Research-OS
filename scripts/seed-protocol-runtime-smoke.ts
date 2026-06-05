@@ -212,6 +212,7 @@ async function resolveStudy(
       name: `${PROTOCOL_RUNTIME_SMOKE_TITLE} Smoke Study`,
       status: 'active',
       slug: smokeSlug,
+      created_source: 'test_seed',
     })
     .select('id')
     .single()

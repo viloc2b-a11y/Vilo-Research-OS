@@ -8,6 +8,7 @@ import type { CreateStudyActionState } from '@/lib/studies/create-study-action-s
 import { isOrgAdminForOrganization } from '@/lib/studies/permissions'
 import { parseCreateStudyForm } from '@/lib/studies/validate-create-study'
 import { createServerClient } from '@/lib/supabase/server'
+import { logAuditEvent } from '@/lib/audit/log'
 
 export async function createStudy(
   _prev: CreateStudyActionState,
@@ -50,6 +51,8 @@ export async function createStudy(
       name: input.title,
       slug: input.studyCode,
       status: input.status,
+      created_by_user_id: user.id,
+      created_source: 'human_new_study',
     })
     .select('id')
     .single()
@@ -106,6 +109,17 @@ export async function createStudy(
       message: `Study was created but roster assignment failed: ${memberError.message}`,
     }
   }
+
+  await logAuditEvent({
+    organizationId: input.organizationId,
+    actorUserId: user.id,
+    action: 'create_study',
+    target: `study:${studyId}`,
+    metadata: {
+      source: 'human_new_study',
+      study_name: input.title,
+    },
+  })
 
   revalidatePath('/studies')
   revalidatePath(`/studies/${studyId}`)
