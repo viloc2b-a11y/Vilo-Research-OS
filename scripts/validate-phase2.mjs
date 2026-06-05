@@ -437,6 +437,7 @@ async function main() {
           slug: studySlug,
           name: 'Phase 2 Validation Study',
           status: 'active',
+          created_source: 'test_seed',
         })
         .select('id')
         .single()

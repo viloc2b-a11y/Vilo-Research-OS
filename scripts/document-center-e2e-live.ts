@@ -5,17 +5,13 @@ import { createClient } from '@supabase/supabase-js'
 import { ingestComplianceDocument } from '../lib/document-intake/ingest-document'
 import { createProtocolRuntimeStudy } from '../lib/protocol-intake-runtime/create-protocol-runtime-study'
 import { createProtocolVersion } from '../lib/protocol-intake-runtime/create-protocol-version'
-import { extractProtocolSectionsFromText } from '../lib/protocol-intake-runtime/extract-protocol-sections'
-import { extractVisitCandidatesFromSections } from '../lib/protocol-intake-runtime/extract-visit-candidates'
-import { extractProcedureCandidatesFromSections } from '../lib/protocol-intake-runtime/extract-procedure-candidates'
-import { storeProtocolSections } from '../lib/protocol-intake-runtime/store-protocol-sections'
-import { mapProtocolRuntimeSectionRow, mapProtocolRuntimeVisitCandidateRow } from '../lib/protocol-intake-runtime/protocol-intake-types'
 import {
   initializeReconciliationSession,
   updateVisitCandidateStatus,
   updateProcedureCandidateStatus,
   approveReconciliationSession
 } from '../lib/protocol-intake-reconciliation/reconciliation-actions'
+import { extractProtocolVersion } from '../lib/protocol-intake-runtime/run-extraction-pipeline'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
@@ -48,14 +44,32 @@ async function runE2E() {
   }
 
   const tests = [
-    { id: 'PARA_OA_012', file: 'para-oa-012-protocol-excerpt.txt', studyPrefix: 'PARA_E2E' },
-    { id: 'MV40618', file: 'mv40618-protocol-excerpt.txt', studyPrefix: 'MV_E2E' }
+    {
+      id: 'PARA_OA_012',
+      file: path.resolve(
+        __dirname,
+        '..',
+        'validation-corpus',
+        'raw',
+        'processed-originals',
+        '01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
+      ),
+      studyPrefix: 'PARA_E2E',
+    },
+    {
+      id: 'MV40618',
+      file: path.resolve(
+        __dirname,
+        '..',
+        'validation-corpus',
+        'inbox',
+        'MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf',
+      ),
+      studyPrefix: 'MV_E2E',
+    },
   ]
 
   for (const test of tests) {
-    console.log(`\n==============================================`)
-    console.log(`Running Live E2E for ${test.id}`)
-    console.log(`==============================================`)
 
     // Create a new study dynamically to avoid collisions
     const studySlug = `${test.studyPrefix.toLowerCase()}-${Date.now()}`
@@ -65,7 +79,8 @@ async function runE2E() {
         organization_id: orgId,
         name: `${test.studyPrefix} Live Study`,
         status: 'active',
-        slug: studySlug
+        slug: studySlug,
+        created_source: 'test_seed'
       })
       .select('id')
       .single()
@@ -74,9 +89,12 @@ async function runE2E() {
     console.log(`Created study: ${studyId}`)
 
     // 1. Upload through /document-intake (using ingest API directly like the route does)
-    const filepath = path.join(__dirname, '../fixtures/protocol-intake', test.file)
+    const filepath = test.file
+    if (!fs.existsSync(filepath)) {
+      throw new Error(`Corpus file not found: ${filepath}`)
+    }
     const fileBuffer = fs.readFileSync(filepath)
-    const file = new File([fileBuffer], test.file, { type: 'text/plain' })
+    const file = new File([fileBuffer], path.basename(filepath), { type: 'application/pdf' })
 
     console.log(`1. Uploading ${test.file}...`)
     const ingestResult = await ingestComplianceDocument({
@@ -103,8 +121,8 @@ async function runE2E() {
     if (!ingestResult.ok) throw new Error(`Upload failed: ${ingestResult.message}`)
     console.log(`   Document ID: ${ingestResult.documentId}`)
 
-    // 2 & 3. Simulate Extraction Job (creates candidates)
-    console.log(`2. Triggering Extraction Job...`)
+    // 2 & 3. Trigger canonical reader extraction against the persisted source document.
+    console.log(`2. Triggering canonical reader extraction...`)
     const runtimeStudy = await createProtocolRuntimeStudy({
       supabase,
       createdBy: actorId,
@@ -130,48 +148,33 @@ async function runE2E() {
     })
     const protocolVersionId = version.id
 
-    const sourceText = fileBuffer.toString('utf8')
-    const extractedSections = extractProtocolSectionsFromText(sourceText)
-    await storeProtocolSections(supabase, protocolVersionId, extractedSections)
+    const extraction = await extractProtocolVersion({
+      supabase,
+      organizationId: orgId,
+      versionId: protocolVersionId,
+      actorId,
+    })
+    console.log(
+      `   Extracted: ${extraction.sectionCount} sections, ${extraction.visitCandidateCount} visits, ${extraction.procedureCandidateCount} procedures`,
+    )
 
-    const { data: sectionRows } = await supabase.from('protocol_runtime_sections').select('*').eq('protocol_version_id', protocolVersionId).order('sequence_order')
-    const sections = (sectionRows ?? []).map(row => mapProtocolRuntimeSectionRow(row as any))
+    const { data: sectionRows } = await supabase
+      .from('protocol_runtime_sections')
+      .select('*')
+      .eq('protocol_version_id', protocolVersionId)
+      .order('sequence_order')
+    const { data: visitRows } = await supabase
+      .from('protocol_runtime_visit_candidates')
+      .select('*')
+      .eq('protocol_version_id', protocolVersionId)
+    const { data: procedureRows } = await supabase
+      .from('protocol_runtime_procedure_candidates')
+      .select('*')
+      .eq('protocol_version_id', protocolVersionId)
 
-    const visitCandidates = extractVisitCandidatesFromSections(sections)
-    if (visitCandidates.length > 0) {
-      await supabase.from('protocol_runtime_visit_candidates').insert(
-        visitCandidates.map(visit => ({
-          protocol_version_id: protocolVersionId,
-          visit_code: visit.visit_code,
-          visit_name: visit.visit_name,
-          visit_type: visit.visit_type,
-          study_day: visit.study_day,
-          reconciliation_status: 'unreviewed',
-          metadata: visit.metadata,
-        }))
-      )
-    }
-
-    const { data: visitRows } = await supabase.from('protocol_runtime_visit_candidates').select('*').eq('protocol_version_id', protocolVersionId)
-    const storedVisits = (visitRows ?? []).map(row => mapProtocolRuntimeVisitCandidateRow(row as any))
-    
-    const procedureCandidates = extractProcedureCandidatesFromSections({ sections, visits: storedVisits })
-    if (procedureCandidates.length > 0) {
-      await supabase.from('protocol_runtime_procedure_candidates').insert(
-        procedureCandidates.map(proc => ({
-          protocol_version_id: protocolVersionId,
-          visit_candidate_id: proc.visit_candidate_id,
-          procedure_name: proc.procedure_name,
-          procedure_category: proc.procedure_category,
-          extracted_text: proc.extracted_text,
-          reconciliation_status: 'unreviewed',
-          metadata: proc.metadata,
-        }))
-      )
-    }
-
-    await supabase.from('protocol_runtime_versions').update({ extraction_status: 'ready' }).eq('id', protocolVersionId)
-    console.log(`3. Candidates created: ${visitCandidates.length} visits, ${procedureCandidates.length} procedures`)
+    console.log(
+      `3. Candidate rows persisted: ${(sectionRows ?? []).length} sections, ${(visitRows ?? []).length} visits, ${(procedureRows ?? []).length} procedures`,
+    )
 
     // 4. initializeReconciliationSession
     console.log(`4. Initializing Reconciliation Session...`)
@@ -181,12 +184,12 @@ async function runE2E() {
     const { data: initVisits } = await supabase.from('protocol_visit_reconciliations').select('*').eq('protocol_version_id', protocolVersionId)
     const { data: initProcs } = await supabase.from('protocol_procedure_reconciliations').select('*').eq('protocol_version_id', protocolVersionId)
     
-    assert(initVisits!.length === visitCandidates.length, 'Visit candidate count mismatch')
-    assert(initProcs!.length === procedureCandidates.length, 'Procedure candidate count mismatch')
+    assert(initVisits!.length === (visitRows ?? []).length, 'Visit candidate count mismatch')
+    assert(initProcs!.length === (procedureRows ?? []).length, 'Procedure candidate count mismatch')
 
     // 12. Confirm provenance metadata survived
     const sampleProc = initProcs![0]
-    if (procedureCandidates[0].metadata && procedureCandidates[0].metadata.provenance) {
+    if ((procedureRows ?? [])[0]?.metadata && (procedureRows ?? [])[0].metadata.provenance) {
       assert(sampleProc.metadata?.provenance !== undefined, 'Provenance metadata lost during initialization')
     }
 

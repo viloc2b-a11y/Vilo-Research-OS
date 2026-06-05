@@ -68,7 +68,8 @@ async function runE2E() {
           organization_id: orgId,
           name: `${test.studyPrefix} Live Study`,
           status: 'active',
-          slug: studySlug
+          slug: studySlug,
+          created_source: 'test_seed',
         })
         .select('id')
         .single()
