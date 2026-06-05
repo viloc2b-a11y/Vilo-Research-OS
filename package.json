@@ -34,6 +34,7 @@
     "safety-net:service-role-audit": "npx tsx scripts/phase16a27-service-role-audit.ts",
     "runtime-api:hardening-smoke": "npx tsx scripts/phase16-runtime-api-hardening-smoke.ts",
     "coordinator-ops:smoke": "npx tsx scripts/phase16b-coordinator-operational-surface-smoke.ts",
+    "contact-runtime:smoke": "npx tsx scripts/contact-runtime-smoke.ts",
     "coordinator-usability:smoke": "node scripts/phase16h-coordinator-operational-usability-smoke.mjs",
     "sovereignty:smoke": "npx tsx scripts/runtime-protection-sovereignty-smoke.ts",
     "cra-access:smoke": "npx tsx scripts/phase16e-cra-access-boundary-smoke.ts",
@@ -134,6 +135,7 @@
     "study-workspace:smoke": "npx tsx scripts/study-workspace-shell-smoke.ts",
     "visit-runtime:smoke:study-scope": "npx tsx scripts/visit-runtime-study-scope-smoke.ts",
     "coordinator-command-center:smoke": "npx tsx scripts/coordinator-command-center-smoke.ts",
+    "coordinator-execution:ux:smoke": "npx tsx scripts/coordinator-execution-ux-readiness-smoke.ts",
     "document-intelligence:smoke": "npx tsx scripts/document-intelligence-k1-smoke.ts",
     "source-blueprint-evidence:smoke": "npx tsx scripts/source-blueprint-evidence-k2-smoke.ts",
     "source-blueprint-drafting:smoke": "npx tsx scripts/source-blueprint-drafting-k3-smoke.ts",
@@ -152,7 +154,11 @@
     "vip-adapter:smoke": "npx tsx scripts/vip-adapter-smoke.ts",
     "vip-adapter:smoke:live": "npx tsx scripts/vip-adapter-smoke.ts --live",
     "runtime-source-publication:smoke": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts",
-    "runtime-source-publication:smoke:live": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts --live"
+    "runtime-source-publication:smoke:live": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts --live",
+    "reader:closure:para": "npx tsx scripts/reader-closure-live.ts PARA_OA_012",
+    "reader:closure:mv": "npx tsx scripts/reader-closure-live.ts MV40618",
+    "cra-monitoring-workbook:smoke": "npx tsx scripts/cra-monitoring-workbook-smoke.ts",
+    "study-data-readiness:smoke": "npx tsx scripts/study-data-readiness-review-smoke.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

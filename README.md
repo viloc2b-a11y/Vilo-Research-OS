@@ -88,6 +88,29 @@ npm run build
 npm test
 ```
 
+## Latest Milestone — Deliverable Runtime Human Readiness
+
+- Deliverable Runtime Foundation implemented
+- Printable Source Packet PDF generated, stored, hashed, audited
+- Consent Evidence Package generated, stored, hashed, audited
+- CRA Monitoring Workbook generated with Study/Subject/Visit/Procedure data, Consent Summary, Signature Summary, Document Lineage Summary, and Version Used During Execution
+- Study Data Readiness Review available from Study Workspace
+- CRA Workbook Precheck blocks unsafe exports
+- Download audit now records `artifact_downloaded`
+- Status: `READY_FOR_HUMAN_TEST`
+
+Validation commands:
+
+```bash
+npx tsc --noEmit
+npm run lint
+npx tsx scripts/deliverable-runtime-foundation-smoke.ts
+npx tsx scripts/printable-source-packet-smoke.ts
+npx tsx scripts/consent-evidence-package-smoke.ts
+npx tsx scripts/cra-monitoring-workbook-smoke.ts
+npx tsx scripts/subject-deliverables-workspace-smoke.ts
+```
+
 ### Pharmacy Runtime Phase 1
 
 Pharmacy / IP Accountability Runtime Phase 1 is implemented as a Coordinator Simplicity First foundation:
