@@ -89,9 +89,12 @@ const navSections: NavSection[] = [
   {
     id: 'oversight',
     label: 'Oversight',
-  items: [
+    items: [
   { id: 'signatures', label: 'Signatures', href: '/operational-signatures', icon: ClipboardList, coordinatorWorkspace: true },
   { id: 'negotiation', label: 'Negotiation', href: '/negotiation', icon: Scale, financial: true },
+  { id: 'deliverables', label: 'Deliverables', href: '/deliverables', icon: ClipboardList, coordinatorWorkspace: true },
+  { id: 'scientific-events', label: 'Scientific Events', href: '/scientific-events', icon: Calendar, crm: true },
+  { id: 'governance', label: 'Governance', href: '/governance', icon: Shield, soon: true, availability: 'Governance is not wired into the live ops shell yet.' },
   { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
     ],
   },
