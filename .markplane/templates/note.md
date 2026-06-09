@@ -1,3 +1,0 @@
-# {TITLE}
-
-[Content goes here.]
