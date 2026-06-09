@@ -13,6 +13,7 @@ export type VisitFinancialContext = {
   windowStatus: string | null
   scheduledDate: string | null
   visitReviewStatus: string | null
+  subjectEnrollmentStatus: string | null
   procedures: Array<{
     id: string
     procedureDefinitionId: string
@@ -55,7 +56,7 @@ export async function loadVisitFinancialContext(input: {
   const { data: visit, error } = await input.supabase
     .from('visits')
     .select(
-      'id, organization_id, study_id, study_subject_id, visit_definition_id, visit_status, window_status, scheduled_date, visit_review_status',
+      'id, organization_id, study_id, study_subject_id, visit_definition_id, visit_status, window_status, scheduled_date, visit_review_status, study_subjects(enrollment_status)',
     )
     .eq('id', input.visitId)
     .eq('organization_id', input.organizationId)
@@ -171,6 +172,9 @@ export async function loadVisitFinancialContext(input: {
     windowStatus: (visit.window_status as string | null) ?? null,
     scheduledDate: (visit.scheduled_date as string | null) ?? null,
     visitReviewStatus: (visit.visit_review_status as string | null) ?? null,
+    subjectEnrollmentStatus:
+      (one(visit.study_subjects) as { enrollment_status?: string } | null)
+        ?.enrollment_status ?? null,
     procedures,
     protocolMaps: (mapResult.data ?? []).map((m) => ({
       mapId: m.id as string,

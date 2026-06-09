@@ -1,0 +1,58 @@
+{
+  "protocol": "PARA_OA_012",
+  "input": {
+    "pdf": "PARA_OA_012",
+    "version_id": "6a38f0e5-3da2-469f-8a83-1cf470048db6",
+    "study_id": "da428d54-6206-48c1-bea4-1efc854e0c1b",
+    "organization_id": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "extraction_status": "ready",
+    "extracted_visit_count": 19,
+    "extracted_procedure_count": 259,
+    "section_count": 3908
+  },
+  "reconciliation": {
+    "session_status": "approved",
+    "visits_reconciled": 19,
+    "procedures_reconciled": 259,
+    "visit_approvals": 19,
+    "procedure_approvals": 259,
+    "conflicts": [],
+    "unresolved_items": []
+  },
+  "runtime": {
+    "generation_run_id": "3b0a813b-5ab8-44df-9c67-b20d67bdf20a",
+    "generation_status": "generated",
+    "runtime_snapshot_id": "b433a534-000c-49c1-a923-387a0bae6733",
+    "runtime_visits_generated": 19,
+    "runtime_procedures_generated": 7,
+    "study_blueprints_generated": 1
+  },
+  "source": {
+    "source_package_id": "43b8b336-9700-48a9-b2ce-1adc85ac9090",
+    "source_package_version": 1,
+    "source_visit_shells": 19,
+    "source_procedure_shells": 7
+  },
+  "fidelity": {
+    "extracted_visits": 19,
+    "reconciled_visits": 19,
+    "runtime_visits": 19,
+    "source_visit_shells": 19,
+    "extracted_procedures": 259,
+    "reconciled_procedures": 259,
+    "runtime_procedures": 7,
+    "source_procedure_shells": 7
+  },
+  "passes": {
+    "extraction_persisted": true,
+    "reconciliation_pass": true,
+    "runtime_pass": true,
+    "source_pass": true
+  },
+  "ids": {
+    "generation_run_id": "3b0a813b-5ab8-44df-9c67-b20d67bdf20a",
+    "runtime_snapshot_id": "b433a534-000c-49c1-a923-387a0bae6733",
+    "source_package_id": "43b8b336-9700-48a9-b2ce-1adc85ac9090"
+  },
+  "remaining_blockers": []
+}

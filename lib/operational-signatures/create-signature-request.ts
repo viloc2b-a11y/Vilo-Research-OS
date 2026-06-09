@@ -6,6 +6,7 @@ import {
   type OperationalSignatureRequestRow,
 } from './operational-signature-types'
 import { appendOperationalSignatureEvent } from './append-signature-event'
+import { resolveSignaturePolicyCode } from './signature-policies'
 import { assertOperationalSignatureStudyScope } from './validate-org-study-scope'
 import { OperationalSignatureStateError } from './operational-signature-errors'
 
@@ -39,10 +40,19 @@ export async function createOperationalSignatureRequest(
       source_package_id: input.sourcePackageId ?? null,
       published_source_id: input.publishedSourceId ?? null,
       locked_snapshot_id: input.lockedSnapshotId ?? null,
+      module: input.module ?? input.artifactType.trim(),
+      entity_type: input.entityType ?? input.artifactType.trim(),
+      entity_id: input.entityId ?? input.artifactId,
       artifact_type: input.artifactType.trim(),
       artifact_id: input.artifactId,
       required_role: input.requiredRole.trim(),
       signature_meaning: input.signatureMeaning,
+      signature_policy_code: input.signaturePolicyCode ?? resolveSignaturePolicyCode({
+        artifactType: input.artifactType,
+        signatureMeaning: input.signatureMeaning,
+        module: input.module,
+      }),
+      requested_user_id: input.requestedUserId ?? input.requestedBy,
       status: 'pending',
       requested_by: input.requestedBy,
       metadata: input.metadata ?? {},
@@ -65,6 +75,7 @@ export async function createOperationalSignatureRequest(
       artifact_id: request.artifactId,
       required_role: request.requiredRole,
       signature_meaning: request.signatureMeaning,
+      signature_policy_code: request.signaturePolicyCode,
     },
     actorUserId: input.requestedBy,
   })

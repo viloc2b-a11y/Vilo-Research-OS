@@ -15,6 +15,7 @@ export const STUDY_WORKSPACE_NAV_ITEMS: StudyWorkspaceNavItem[] = [
   { id: 'published-source', label: 'Published Source' },
   { id: 'visit-runtime', label: 'Visit Runtime' },
   { id: 'regulatory-binder', label: 'Regulatory Binder' },
+  { id: 'governance', label: 'Governance' },
   { id: 'training', label: 'Training' },
   { id: 'delegation', label: 'Delegation Log' },
   { id: 'documents', label: 'Study Documents' },

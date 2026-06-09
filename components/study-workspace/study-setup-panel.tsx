@@ -54,6 +54,11 @@ function resolveAction(
       }
       return { href: buildProtocolIntakeHref(studyId, document.id), label: 'Continue Setup' }
     }
+    case 'consent_management':
+      return {
+        href: links.consentManagement,
+        label: document.actionLabel ?? 'Open Consent Management',
+      }
     case 'regulatory_binder':
       return {
         href: buildWorkspaceSectionHref(studyId, 'regulatory-binder'),

@@ -9,11 +9,27 @@ export function severityForReasonKind(kind: SubjectRiskReasonKind): SubjectRiskS
   switch (kind) {
     case 'missed_visit':
     case 'blocked_procedure':
+    case 'governance_blocker':
+    case 'reverted_payment':
+    case 'written_off_payment':
+    case 'earned_but_not_invoiced':
+    case 'invoiceable_missing':
+    case 'screen_failure_billable':
+    case 'pass_through_unreimbursed':
+    case 'stipend_unreconciled':
+    case 'overdue_financial':
+    case 'disputed_payment':
       return 'critical'
     case 'out_of_window':
     case 'overdue_action':
+    case 'open_query':
+    case 'needs_resign':
+    case 'governance_warning':
+    case 'revenue_leakage':
       return 'attention'
     case 'window_warning':
+      return 'warning'
+    default:
       return 'warning'
   }
 }

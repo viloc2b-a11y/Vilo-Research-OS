@@ -10,8 +10,30 @@ export const RISK_VISITS_QUERY_LIMIT = 30
 /** Rows fetched for overdue workflow actions. */
 export const OVERDUE_WORKFLOW_QUERY_LIMIT = 20
 
+/** Rows fetched for high-priority unresolved operational review queries. */
+export const SNAPSHOT_QUERY_RISK_LIMIT = 25
+
 /** Rows fetched for blocked procedure risk detail (joins). */
 export const BLOCKED_PROCEDURES_RISK_LIMIT = 15
+
+/** Rows fetched for visits whose protocol window closes today. */
+export const WINDOW_CLOSING_TODAY_LIMIT = 20
+
+/** Rows fetched for completed visits still unsigned after the operational threshold. */
+export const UNSIGNED_VISITS_48H_LIMIT = 20
+
+/** Rows fetched to build fallback owner workload when RPC mode is unavailable. */
+export const COORDINATOR_LOAD_WORKFLOW_LIMIT = 200
+
+/** Rows fetched for active governance blockers/warnings in the fallback VPI queue. */
+export const GOVERNANCE_SIGNALS_RISK_LIMIT = 30
+
+/** Rows fetched for high financial leakage in the fallback VPI queue. */
+export const FINANCIAL_LEAKAGE_RISK_LIMIT = 25
+
+/** Rows fetched for longitudinal lab runtime signals. */
+export const LAB_SIGNAL_SET_LIMIT = 250
+export const LAB_SIGNAL_RESPONSE_LIMIT = 1200
 
 /** Max items shown in the subject risk queue after sort/dedupe. */
 export const RISK_QUEUE_DISPLAY_LIMIT = 25

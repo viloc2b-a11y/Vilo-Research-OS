@@ -44,6 +44,7 @@ export function DocumentUploadRuntimeShell({
     'external_medical_record',
     'lab_result',
     'imaging',
+    'icf_consent',
   ].includes(classification)
 
   const needsEntityId = ['subject', 'visit', 'procedure'].includes(entityType)

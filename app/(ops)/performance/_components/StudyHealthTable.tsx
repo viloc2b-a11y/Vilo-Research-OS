@@ -117,6 +117,55 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
                 label="Enrolled"
                 value={String(card.enrolledCount ?? card.subjectCount)}
               />
+              <Detail label="Screening" value={String(card.screeningCount ?? 0)} />
+              <Detail label="Randomized" value={String(card.randomizedCount ?? 0)} />
+              <Detail
+                label="Source attributed"
+                value={String(card.attributedSubjectCount ?? 0)}
+              />
+              <Detail
+                label="Source missing"
+                value={String(card.unattributedSubjectCount ?? 0)}
+              />
+              <Detail
+                label="Enrollment target"
+                value={card.enrollmentTarget ? String(card.enrollmentTarget) : '—'}
+              />
+              <Detail
+                label="Enrollment closes"
+                value={card.enrollmentEndDate?.slice(0, 10) ?? '—'}
+              />
+              <Detail
+                label="Budget evidence"
+                value={String(card.budgetEvidenceDocumentCount ?? 0)}
+              />
+              <Detail
+                label="CTA evidence"
+                value={String(card.contractEvidenceDocumentCount ?? 0)}
+              />
+              <Detail
+                label="Active budget refs"
+                value={String(
+                  (card.activeBudgetReferenceCount ?? 0) +
+                    (card.activeContractReferenceCount ?? 0),
+                )}
+              />
+              <Detail
+                label="Financial leakage"
+                value={String(card.financialLeakageCount ?? 0)}
+              />
+              <Detail
+                label="Budget negotiation"
+                value={
+                  card.budgetNegotiationReadiness
+                    ? card.budgetNegotiationReadiness.replace('_', ' ')
+                    : '—'
+                }
+              />
+              <Detail
+                label="Negotiation next step"
+                value={card.budgetNegotiationNextStep ?? '—'}
+              />
               <Detail label="Active visits" value={String(card.activeVisitCount)} />
               <Detail label="Open queries" value={String(card.openQueryCount)} />
               <Detail

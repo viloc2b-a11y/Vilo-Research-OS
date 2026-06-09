@@ -12,6 +12,7 @@ import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
 import type { createServerClient } from '@/lib/supabase/server'
 import { requestOperationalSignature } from '@/lib/operations/signature-actions'
 import { enforceConsentForProcedureExecution } from '@/lib/subject/consent/enforcement'
+import { requestProcedureSignatureLink } from '@/lib/operations/clinical-record-mutations'
 
 type Supabase = Awaited<ReturnType<typeof createServerClient>>
 type ProcedureValidation = Awaited<ReturnType<typeof validateProcedure>>
@@ -153,11 +154,27 @@ export async function requestProcedureSignature(params: {
 
   if (!req.ok || !req.requestId) return { ok: false as const, error: 'Failed to request signature.' }
 
-  const { error: updErr } = await params.supabase.from('procedure_executions').update({
-    signature_request_id: req.requestId
-  }).eq('id', params.procedureExecutionId).eq('organization_id', params.organizationId)
-
-  if (updErr) return { ok: false as const, error: coordinatorMessageFromError(updErr, { context: 'sign_procedure_request', fallbackMessage: updErr.message }) }
+  try {
+    await requestProcedureSignatureLink({
+      supabase: params.supabase,
+      procedureExecutionId: params.procedureExecutionId,
+      organizationId: params.organizationId,
+      studyId: proc.study_id as string,
+      visitId: proc.visit_id as string,
+      subjectId: studySubjectId ?? '',
+      actorUserId: params.actorUserId,
+      requestId: req.requestId,
+    })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Could not request procedure signature.'
+    return {
+      ok: false as const,
+      error: coordinatorMessageFromError(new Error(message), {
+        context: 'sign_procedure_request',
+        fallbackMessage: message,
+      }),
+    }
+  }
 
   return { ok: true as const, requestId: req.requestId, validation }
 }

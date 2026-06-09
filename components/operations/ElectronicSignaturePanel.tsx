@@ -31,7 +31,8 @@ export function ElectronicSignaturePanel({
     setError(null)
     setIsLoading(true)
     try {
-      await signOperationalRequest(requestId, pin, attestationText)
+      const result = await signOperationalRequest(requestId, pin, attestationText)
+      if (!result.ok) throw new Error(result.error)
       if (onSigned) onSigned()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Signature failed')
@@ -68,7 +69,9 @@ export function ElectronicSignaturePanel({
           <label className="text-sm font-medium">Enter eSignature PIN</label>
           <Input 
             type="password" 
-            placeholder="****" 
+            inputMode="numeric"
+            maxLength={6}
+            placeholder="6 digits" 
             value={pin} 
             onChange={(e) => setPin(e.target.value)} 
           />

@@ -1,10 +1,11 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createServiceClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
 import type { VisitLifecycleResult, VisitLifecycleRpcPayload } from '@/lib/actions/visit-lifecycle.types'
 import { coordinatorMessageFromError, coordinatorMessageFromRpcFailure } from '@/lib/runtime-errors'
+import { createInvoiceDraftForVisit } from '@/lib/financial-runtime/invoicing'
 
 const UUID_REGEX = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i
 
@@ -71,6 +72,20 @@ export async function completeVisit(input: {
         study_id: row.study_id,
       },
     })
+  }
+
+  if (typeof row.organization_id === 'string' && typeof row.study_id === 'string') {
+    try {
+      const serviceSupabase = await createServiceClient()
+      await createInvoiceDraftForVisit({
+        supabase: serviceSupabase,
+        organizationId: row.organization_id,
+        studyId: row.study_id,
+        visitId,
+      })
+    } catch (invoiceErr) {
+      console.error('[completeVisit] invoice draft materialization failed', invoiceErr)
+    }
   }
 
   revalidatePath(visitPath)

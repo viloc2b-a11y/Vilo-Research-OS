@@ -9,13 +9,24 @@ export async function listSnapshotQueries(
   supabase: SupabaseClient,
   organizationId: string,
   snapshotId: string,
+  searchQuery?: string | null,
 ): Promise<VisitSnapshotQueryRow[]> {
-  const { data, error } = await supabase
+  const normalizedSearch = searchQuery?.trim() ?? ''
+
+  let query = supabase
     .from('visit_snapshot_queries')
     .select('*')
     .eq('organization_id', organizationId)
     .eq('snapshot_id', snapshotId)
     .order('opened_at', { ascending: true })
+
+  if (normalizedSearch) {
+    query = query.or(
+      `query_text.ilike.%${normalizedSearch}%,field_label.ilike.%${normalizedSearch}%,procedure_code.ilike.%${normalizedSearch}%,query_status.ilike.%${normalizedSearch}%,priority.ilike.%${normalizedSearch}%`,
+    )
+  }
+
+  const { data, error } = await query
 
   if (error) throw new Error(error.message)
 

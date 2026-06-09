@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import type { DocumentIntelligenceSearchResult } from '@/lib/document-intelligence/document-intelligence-types'
 import { SEARCH_AREA_OPTIONS } from './document-intelligence-domain-ui'
 import { IntelligenceSearchResults } from './intelligence-search-results'
@@ -8,21 +9,83 @@ import { IntelligenceSearchResults } from './intelligence-search-results'
 type IntelligenceSearchPanelProps = {
   organizationId: string
   studyId: string
+  initialQuery?: string
+  initialSearchArea?: string
+  initialIncludeSuperseded?: boolean
 }
 
 export function IntelligenceSearchPanel({
   organizationId,
   studyId,
+  initialQuery = '',
+  initialSearchArea = '',
+  initialIncludeSuperseded = false,
 }: IntelligenceSearchPanelProps) {
-  const [query, setQuery] = useState('')
-  const [searchArea, setSearchArea] = useState('')
-  const [includeSuperseded, setIncludeSuperseded] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const [query, setQuery] = useState(initialQuery)
+  const [searchArea, setSearchArea] = useState(initialSearchArea)
+  const [includeSuperseded, setIncludeSuperseded] = useState(initialIncludeSuperseded)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [results, setResults] = useState<DocumentIntelligenceSearchResult[]>([])
 
-  async function handleSearch() {
-    if (!query.trim() || !studyId) return
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setQuery(initialQuery)
+  }, [initialQuery])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearchArea(initialSearchArea)
+  }, [initialSearchArea])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIncludeSuperseded(initialIncludeSuperseded)
+  }, [initialIncludeSuperseded])
+
+  const hasActiveFilter = useMemo(
+    () => Boolean(query.trim()) || Boolean(searchArea) || includeSuperseded,
+    [includeSuperseded, query, searchArea],
+  )
+
+  const syncUrl = useCallback(
+    (nextQuery: string, nextSearchArea: string, nextIncludeSuperseded: boolean) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('study_id', studyId)
+      if (nextQuery.trim()) {
+        params.set('q', nextQuery.trim())
+      } else {
+        params.delete('q')
+      }
+      if (nextSearchArea) {
+        params.set('domain', nextSearchArea)
+      } else {
+        params.delete('domain')
+      }
+      if (nextIncludeSuperseded) {
+        params.set('history', '1')
+      } else {
+        params.delete('history')
+      }
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    },
+    [pathname, router, searchParams, studyId],
+  )
+
+  async function handleSearch(
+    nextQuery: string = query,
+    nextSearchArea: string = searchArea,
+    nextIncludeSuperseded: boolean = includeSuperseded,
+    persistUrl = true,
+  ) {
+    const sanitizedQuery = nextQuery.trim()
+    if (!sanitizedQuery || !studyId) return
+    if (persistUrl) {
+      syncUrl(sanitizedQuery, nextSearchArea, nextIncludeSuperseded)
+    }
     setLoading(true)
     setError(null)
     try {
@@ -32,9 +95,9 @@ export function IntelligenceSearchPanel({
         body: JSON.stringify({
           organization_id: organizationId,
           study_id: studyId,
-          query,
-          domain: searchArea || null,
-          include_superseded: includeSuperseded,
+          query: sanitizedQuery,
+          domain: nextSearchArea || null,
+          include_superseded: nextIncludeSuperseded,
           limit: 8,
         }),
       })
@@ -60,6 +123,44 @@ export function IntelligenceSearchPanel({
         document versions — enable history to include superseded versions. Never mixes versions
         silently.
       </p>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-slate-50/80 px-3 py-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-slate-600">
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+            Filter status
+          </span>
+          {hasActiveFilter ? (
+            <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+              Active: {query.trim() || 'search filters'}
+              {searchArea ? ` · ${searchArea}` : ''}
+              {includeSuperseded ? ' · history' : ''}
+            </span>
+          ) : (
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+              No active filter
+            </span>
+          )}
+        </div>
+        {hasActiveFilter ? (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('')
+              setSearchArea('')
+              setIncludeSuperseded(false)
+              setResults([])
+              const params = new URLSearchParams(searchParams.toString())
+              params.set('study_id', studyId)
+              params.delete('q')
+              params.delete('domain')
+              params.delete('history')
+              router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+            }}
+            className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Clear filter
+          </button>
+        ) : null}
+      </div>
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <label className="text-sm text-slate-600">
           Search area

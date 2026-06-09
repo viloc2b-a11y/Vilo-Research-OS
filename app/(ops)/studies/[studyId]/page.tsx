@@ -30,8 +30,10 @@ import { publishSourcePackageFromArtifacts } from '@/lib/source-publish/actions'
 import { ProtocolSetupPanel } from '@/components/studies/ProtocolSetupPanel'
 import { StudyVisitSourceContinuityPanel } from '@/components/coordinator-operations/StudyVisitSourceContinuityPanel'
 import { OperationalTableScroll } from '@/components/runtime-ui/OperationalTableScroll'
+import { StudyDataReadinessCard } from '@/components/studies/study-data-readiness-card'
 import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 import { loadProtocolSetupModel } from '@/lib/studies/load-protocol-setup'
+import { loadLatestStudyDataReadinessReview } from '@/lib/site-intelligence/study-data-readiness-actions'
 import { resolveSubjectProtocolFields } from '@/lib/subject/subject-protocol-fields'
 import { SubjectProtocolFields } from '@/components/subject/SubjectProtocolFields'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
@@ -63,6 +65,9 @@ const TABS = [
 ] as const
 
 type TabId = typeof TABS[number]['id']
+
+const SUBJECT_ANCHOR_OPTION_LIMIT = 100
+const SUBJECT_PREVIEW_LIMIT = 5
 
 type ReadinessSeverity = 'blocker' | 'warning' | 'info'
 
@@ -1447,24 +1452,62 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
   const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
-  // Load subjects (for Subjects tab + quick stats)
-  const { data: subjects, error: subErr } = await supabase
-    .from('study_subjects')
-    .select('id, subject_identifier, enrollment_status')
-    .eq('study_id', studyId)
-    .eq('organization_id', organizationId)
-    .order('subject_identifier', { ascending: true })
+  const [
+    subjectOptionsResult,
+    totalSubjectsResult,
+    screeningSubjectsResult,
+    enrolledSubjectsResult,
+    randomizedSubjectsResult,
+  ] = await Promise.all([
+    supabase
+      .from('study_subjects')
+      .select('id, subject_identifier, enrollment_status')
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .order('subject_identifier', { ascending: true })
+      .limit(SUBJECT_ANCHOR_OPTION_LIMIT),
+    supabase
+      .from('study_subjects')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId),
+    supabase
+      .from('study_subjects')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .eq('enrollment_status', 'screening'),
+    supabase
+      .from('study_subjects')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .eq('enrollment_status', 'enrolled'),
+    supabase
+      .from('study_subjects')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .eq('enrollment_status', 'randomized'),
+  ])
 
-  const screeningSubjects = subjects?.filter(s => s.enrollment_status === 'screening').length ?? 0
-  const enrolledSubjects = subjects?.filter(s => s.enrollment_status === 'enrolled').length ?? 0
-  const randomizedSubjects = subjects?.filter(s => s.enrollment_status === 'randomized').length ?? 0
-  const totalSubjects     = subjects?.length ?? 0
+  const subjects = subjectOptionsResult.data ?? []
+  const subErr =
+    subjectOptionsResult.error ??
+    totalSubjectsResult.error ??
+    screeningSubjectsResult.error ??
+    enrolledSubjectsResult.error ??
+    randomizedSubjectsResult.error
+  const screeningSubjects = screeningSubjectsResult.count ?? 0
+  const enrolledSubjects = enrolledSubjectsResult.count ?? 0
+  const randomizedSubjects = randomizedSubjectsResult.count ?? 0
+  const totalSubjects = totalSubjectsResult.count ?? 0
   const subjectCreateError = subject === 'error' ? subjectReason : undefined
   const anchorSubjectOptions =
-    (subjects ?? []).map((s) => ({
+    subjects.map((s) => ({
       id: s.id as string,
       label: s.subject_identifier as string,
-    })) ?? []
+    }))
 
   const studyVisits = activeTab === 'visits' && organizationId
     ? await loadStudyVisits(studyId, organizationId)
@@ -1484,6 +1527,13 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
   const sourceBindings = activeTab === 'overview'
     ? await loadSourceBindingModel({ supabase, studyId, organizationId })
     : null
+  const dataReadinessReview = activeTab === 'overview'
+    ? await loadLatestStudyDataReadinessReview({
+        studyId,
+        organizationId,
+        mode: 'internal_review',
+      })
+    : { readiness: null, createdAt: null }
 
   // Generate study color
   const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', 'var(--primary)']
@@ -1597,6 +1647,14 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                   bindingReason={reason}
                 />
               ) : null}
+              {dataReadinessReview ? (
+                <StudyDataReadinessCard
+                  studyId={studyId}
+                  organizationId={organizationId}
+                  initialReadiness={dataReadinessReview.readiness}
+                  initialCreatedAt={dataReadinessReview.createdAt}
+                />
+              ) : null}
 
               {/* Subject summary */}
               <div className="vilo-card p-5">
@@ -1614,7 +1672,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                 </div>
                 {subErr ? (
                   <p className="text-xs text-destructive">{subErr.message}</p>
-                ) : !subjects?.length ? (
+                ) : totalSubjects === 0 ? (
                   <AddSubjectForm
                     studyId={studyId}
                     organizationId={organizationId}
@@ -1623,15 +1681,15 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                   />
                 ) : (
                   <div className="rounded-xl overflow-hidden border border-border/60">
-                    {subjects.slice(0, 5).map(s => (
+                    {subjects.slice(0, SUBJECT_PREVIEW_LIMIT).map(s => (
                       <SubjectRow key={s.id} subject={s} studyId={studyId} />
                     ))}
-                    {subjects.length > 5 && (
+                    {totalSubjects > SUBJECT_PREVIEW_LIMIT && (
                       <Link
                         href={`/studies/${studyId}?tab=subjects`}
                         className="block text-center py-2 text-xs text-primary hover:bg-accent transition-colors"
                       >
-                        +{subjects.length - 5} more subjects →
+                        +{totalSubjects - SUBJECT_PREVIEW_LIMIT} more subjects →
                       </Link>
                     )}
                   </div>
@@ -1697,7 +1755,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                 </div>
               ) : (
                 <div className="flex flex-col min-h-0 flex-1 border-t border-border/60 pt-4">
-                  {!subjects?.length ? (
+                  {totalSubjects === 0 ? (
                     <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-lg">
                       <p className="text-sm font-medium text-muted-foreground mb-4">No subjects yet</p>
                       <Link

@@ -12,6 +12,9 @@ alter table public.organization_members
       'admin',
       'site_staff',
       'research_coordinator',
+      'data_coordinator',
+      'unblinded_coordinator',
+      'unblinded_cra',
       'pi_sub_i',
       'read_only',
       'member'

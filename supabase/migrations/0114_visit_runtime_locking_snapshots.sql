@@ -1,6 +1,6 @@
 -- Phase 6: Visit runtime locking + immutable visit snapshots
 
-CREATE TABLE visit_runtime_snapshots (
+CREATE TABLE IF NOT EXISTS visit_runtime_snapshots (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -22,31 +22,46 @@ CREATE TABLE visit_runtime_snapshots (
   CONSTRAINT visit_runtime_snapshots_visit_instance_unique UNIQUE (visit_instance_id)
 );
 
-CREATE INDEX idx_visit_runtime_snapshots_org ON visit_runtime_snapshots(organization_id);
-CREATE INDEX idx_visit_runtime_snapshots_study ON visit_runtime_snapshots(study_id);
-CREATE INDEX idx_visit_runtime_snapshots_subject ON visit_runtime_snapshots(subject_id);
-CREATE INDEX idx_visit_runtime_snapshots_visit ON visit_runtime_snapshots(visit_instance_id);
-CREATE INDEX idx_visit_runtime_snapshots_package ON visit_runtime_snapshots(source_package_id);
-CREATE INDEX idx_visit_runtime_snapshots_hash ON visit_runtime_snapshots(snapshot_hash);
-CREATE INDEX idx_visit_runtime_snapshots_locked_at ON visit_runtime_snapshots(locked_at);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_org ON visit_runtime_snapshots(organization_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_study ON visit_runtime_snapshots(study_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_subject ON visit_runtime_snapshots(subject_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_visit ON visit_runtime_snapshots(visit_instance_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_package ON visit_runtime_snapshots(source_package_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_hash ON visit_runtime_snapshots(snapshot_hash);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_snapshots_locked_at ON visit_runtime_snapshots(locked_at);
 
-ALTER TABLE visit_runtime_instances
-  ADD COLUMN lock_status text NOT NULL DEFAULT 'unlocked',
-  ADD COLUMN locked_snapshot_id uuid NULL,
-  ADD COLUMN locked_at timestamptz NULL,
-  ADD COLUMN locked_by uuid NULL;
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'visit_runtime_instances' AND column_name = 'lock_status') THEN
+    ALTER TABLE visit_runtime_instances
+      ADD COLUMN lock_status text NOT NULL DEFAULT 'unlocked',
+      ADD COLUMN locked_snapshot_id uuid NULL,
+      ADD COLUMN locked_at timestamptz NULL,
+      ADD COLUMN locked_by uuid NULL;
+  END IF;
+END $$;
 
-ALTER TABLE visit_runtime_instances
-  ADD CONSTRAINT visit_runtime_instances_lock_status_check CHECK (
-    lock_status IN ('unlocked', 'locked', 'voided')
-  );
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'visit_runtime_instances_lock_status_check') THEN
+    ALTER TABLE visit_runtime_instances
+      ADD CONSTRAINT visit_runtime_instances_lock_status_check CHECK (
+        lock_status IN ('unlocked', 'locked', 'voided')
+      );
+  END IF;
+END $$;
 
-ALTER TABLE visit_runtime_instances
-  ADD CONSTRAINT visit_runtime_instances_locked_snapshot_fkey
-  FOREIGN KEY (locked_snapshot_id) REFERENCES visit_runtime_snapshots(id);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'visit_runtime_instances_locked_snapshot_fkey') THEN
+    ALTER TABLE visit_runtime_instances
+      ADD CONSTRAINT visit_runtime_instances_locked_snapshot_fkey
+      FOREIGN KEY (locked_snapshot_id) REFERENCES visit_runtime_snapshots(id);
+  END IF;
+END $$;
 
-CREATE INDEX idx_visit_runtime_instances_lock_status ON visit_runtime_instances(lock_status);
-CREATE INDEX idx_visit_runtime_instances_locked_snapshot ON visit_runtime_instances(locked_snapshot_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_lock_status ON visit_runtime_instances(lock_status);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_locked_snapshot ON visit_runtime_instances(locked_snapshot_id);
 
 ALTER TABLE visit_runtime_events
   DROP CONSTRAINT IF EXISTS visit_runtime_events_type_check;
@@ -69,12 +84,14 @@ ALTER TABLE visit_runtime_events
 
 ALTER TABLE visit_runtime_snapshots ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS visit_runtime_snapshots_select ON visit_runtime_snapshots;
 CREATE POLICY visit_runtime_snapshots_select ON visit_runtime_snapshots
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS visit_runtime_snapshots_insert ON visit_runtime_snapshots;
 CREATE POLICY visit_runtime_snapshots_insert ON visit_runtime_snapshots
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)

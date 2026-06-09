@@ -312,6 +312,7 @@ alter table public.pharmacy_study_access_config enable row level security;
 alter table public.pharmacy_study_authorization_overrides enable row level security;
 alter table public.pharmacy_site_memberships enable row level security;
 
+drop policy if exists pharmacy_access_config_select on public.pharmacy_study_access_config;
 create policy pharmacy_access_config_select
   on public.pharmacy_study_access_config
   for select using (
@@ -319,6 +320,7 @@ create policy pharmacy_access_config_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists pharmacy_access_config_insert on public.pharmacy_study_access_config;
 create policy pharmacy_access_config_insert
   on public.pharmacy_study_access_config
   for insert with check (
@@ -326,6 +328,7 @@ create policy pharmacy_access_config_insert
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_access_config_update on public.pharmacy_study_access_config;
 create policy pharmacy_access_config_update
   on public.pharmacy_study_access_config
   for update using (
@@ -336,6 +339,7 @@ create policy pharmacy_access_config_update
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_auth_override_select on public.pharmacy_study_authorization_overrides;
 create policy pharmacy_auth_override_select
   on public.pharmacy_study_authorization_overrides
   for select using (
@@ -343,6 +347,7 @@ create policy pharmacy_auth_override_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists pharmacy_auth_override_insert on public.pharmacy_study_authorization_overrides;
 create policy pharmacy_auth_override_insert
   on public.pharmacy_study_authorization_overrides
   for insert with check (
@@ -350,6 +355,7 @@ create policy pharmacy_auth_override_insert
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_auth_override_update on public.pharmacy_study_authorization_overrides;
 create policy pharmacy_auth_override_update
   on public.pharmacy_study_authorization_overrides
   for update using (
@@ -360,6 +366,7 @@ create policy pharmacy_auth_override_update
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_site_memberships_select on public.pharmacy_site_memberships;
 create policy pharmacy_site_memberships_select
   on public.pharmacy_site_memberships
   for select using (
@@ -367,6 +374,7 @@ create policy pharmacy_site_memberships_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists pharmacy_site_memberships_insert on public.pharmacy_site_memberships;
 create policy pharmacy_site_memberships_insert
   on public.pharmacy_site_memberships
   for insert with check (
@@ -374,6 +382,7 @@ create policy pharmacy_site_memberships_insert
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_site_memberships_update on public.pharmacy_site_memberships;
 create policy pharmacy_site_memberships_update
   on public.pharmacy_site_memberships
   for update using (

@@ -8,6 +8,7 @@ type RouteContext = { params: Promise<{ snapshotId: string }> }
 export async function GET(req: NextRequest, context: RouteContext) {
   const { snapshotId } = await context.params
   const organizationId = req.nextUrl.searchParams.get('organization_id')
+  const searchQuery = req.nextUrl.searchParams.get('query_q')
 
   if (!organizationId) {
     return NextResponse.json({ error: 'organization_id is required' }, { status: 400 })
@@ -20,7 +21,12 @@ export async function GET(req: NextRequest, context: RouteContext) {
 
   const supabase = await createServerClient()
   try {
-    const workspace = await loadSnapshotReviewWorkspace(supabase, organizationId, snapshotId)
+    const workspace = await loadSnapshotReviewWorkspace(
+      supabase,
+      organizationId,
+      snapshotId,
+      searchQuery,
+    )
     if (!workspace) {
       return NextResponse.json({ error: 'Snapshot not found' }, { status: 404 })
     }

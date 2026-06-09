@@ -5,6 +5,7 @@ import { createOperationalSignatureRequest } from '@/lib/operational-signatures'
 import type { OperationalSignatureMeaning } from '@/lib/operational-signatures'
 import { getSessionUser } from '@/lib/auth/session'
 import { createServerClient, createServiceClient } from '@/lib/supabase/server'
+import { resolveSignaturePolicyCode } from '@/lib/operational-signatures/signature-policies'
 import type {
   ConsentStatus,
   ConsentType,
@@ -16,6 +17,10 @@ import type {
   SubjectConsentRuntimeModel,
 } from './types'
 import { createHash, randomBytes } from 'node:crypto'
+import {
+  syncLegacySubjectConsentMirror,
+  syncLegacySubjectPrivacyConsentMirror,
+} from '@/lib/operations/clinical-record-mutations'
 
 type SubjectContext = {
   subjectId: string
@@ -1272,19 +1277,27 @@ export async function requestConsentSignatureAction(input: RequestConsentSignatu
 
   const supabase = await createServerClient()
   const config = signatureConfig(input.signer)
+  const signaturePolicyCode = resolveConsentSignaturePolicyCode(artifact.row, input)
   const request = await createOperationalSignatureRequest(supabase, {
     organizationId: artifact.context.organizationId,
     studyId: artifact.context.studyId,
     subjectId: artifact.context.subjectId,
+    module: 'consent',
+    entityType: artifact.artifactType,
+    entityId: input.targetId,
     artifactType: artifact.artifactType,
     artifactId: input.targetId,
     requiredRole: config.requiredRole,
     signatureMeaning: config.meaning,
+    signaturePolicyCode,
     requestedBy: sessionUser.id,
+    requestedUserId: sessionUser.id,
     metadata: {
       workflow: 'subject_consent_runtime',
       target_type: input.targetType,
       signer: input.signer,
+      consent_type: String(artifact.row.consent_type ?? artifact.row.consentType ?? ''),
+      consent_policy_code: signaturePolicyCode,
     },
   })
 
@@ -1962,6 +1975,24 @@ function signatureConfig(signer: RequestConsentSignatureInput['signer']): {
   return { requiredRole: 'research_coordinator', meaning: 'completed_by' }
 }
 
+function resolveConsentSignaturePolicyCode(
+  row: Record<string, unknown>,
+  input: RequestConsentSignatureInput,
+) {
+  const consentType = String(row.consent_type ?? '').toLowerCase()
+  if (input.targetType === 'version') {
+    if (consentType === 're_consent' || consentType === 'amendment_consent') {
+      return 'reconsent'
+    }
+    return 'subject_consent'
+  }
+  return resolveSignaturePolicyCode({
+    artifactType: String(row.type ?? input.targetType),
+    signatureMeaning: signatureConfig(input.signer).meaning,
+    module: 'consent',
+  })
+}
+
 async function insertConsentEvent(input: {
   context: SubjectContext
   consentVersionId: string | null
@@ -2048,18 +2079,21 @@ async function appendConsentAuditWithClient(
 
 async function syncLegacyConsent(context: SubjectContext, consentVersionId: string, signedAt: string) {
   const supabase = await createServerClient()
-  await supabase
-    .from('study_subjects')
-    .update({ consent_signed_at: signedAt, consent_version_id: consentVersionId })
-    .eq('id', context.subjectId)
+  await syncLegacySubjectConsentMirror({
+    supabase,
+    subjectId: context.subjectId,
+    consentVersionId,
+    signedAt,
+  })
 }
 
 async function syncLegacyPrivacyConsent(context: SubjectContext, privacyConsent: boolean) {
   const supabase = await createServerClient()
-  await supabase
-    .from('study_subjects')
-    .update({ privacy_consent: privacyConsent })
-    .eq('id', context.subjectId)
+  await syncLegacySubjectPrivacyConsentMirror({
+    supabase,
+    subjectId: context.subjectId,
+    privacyConsent,
+  })
 }
 
 async function isRequestSigned(requestId: string | null) {

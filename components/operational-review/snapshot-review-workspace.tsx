@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import type { LoadedSnapshotReviewWorkspace } from '@/lib/operational-review/operational-review-types'
 import { CompleteReviewButton } from './complete-review-button'
 import { CreateReviewPanel } from './create-review-panel'
@@ -22,9 +23,23 @@ export function SnapshotReviewWorkspace({
   refreshKey,
   onUpdated,
 }: SnapshotReviewWorkspaceProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const currentSearchParams = useSearchParams()
   const [workspace, setWorkspace] = useState<LoadedSnapshotReviewWorkspace | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const querySearch = currentSearchParams.get('query_q') ?? ''
+  const hasActiveFilter = Boolean(querySearch.trim())
+
+  function updateQuerySearch(value: string) {
+    const nextValue = value.trim()
+    const params = new URLSearchParams(currentSearchParams.toString())
+    if (nextValue) params.set('query_q', nextValue)
+    else params.delete('query_q')
+    const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
+    router.replace(nextUrl, { scroll: false })
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -33,7 +48,7 @@ export function SnapshotReviewWorkspace({
       setError(null)
       try {
         const res = await fetch(
-          `/api/operational-review/workspace/${encodeURIComponent(snapshotId)}?organization_id=${encodeURIComponent(organizationId)}`,
+          `/api/operational-review/workspace/${encodeURIComponent(snapshotId)}?organization_id=${encodeURIComponent(organizationId)}&query_q=${encodeURIComponent(querySearch)}`,
         )
         const data = (await res.json()) as LoadedSnapshotReviewWorkspace & { error?: string }
         if (!res.ok) throw new Error(data.error || 'Failed to load workspace')
@@ -57,7 +72,7 @@ export function SnapshotReviewWorkspace({
     return () => {
       cancelled = true
     }
-  }, [organizationId, snapshotId, refreshKey])
+  }, [organizationId, snapshotId, querySearch, refreshKey])
 
   if (loading) return <p className="text-sm text-slate-500">Loading review workspace…</p>
   if (error) return <p className="text-sm text-red-600">{error}</p>
@@ -116,11 +131,46 @@ export function SnapshotReviewWorkspace({
             onOpened={onUpdated}
           />
           <section>
-            <h3 className="mb-2 text-sm font-semibold text-slate-800">Queries</h3>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-slate-800">Queries</h3>
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                  Filter status
+                </span>
+                {hasActiveFilter ? (
+                  <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+                    Active: {querySearch}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                    No active filter
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={querySearch}
+                  onChange={(e) => updateQuerySearch(e.target.value)}
+                  placeholder="Search queries..."
+                  className="h-9 w-[220px] rounded border border-slate-300 px-3 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                />
+                {querySearch ? (
+                  <button
+                    type="button"
+                    className="h-9 rounded border border-slate-300 px-3 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                    onClick={() => updateQuerySearch('')}
+                  >
+                    Clear
+                  </button>
+                ) : null}
+              </div>
+            </div>
             <QueryList
               queries={queries}
               organizationId={organizationId}
               onUpdated={onUpdated}
+              searchQuery={querySearch}
             />
           </section>
           {review?.id ? (

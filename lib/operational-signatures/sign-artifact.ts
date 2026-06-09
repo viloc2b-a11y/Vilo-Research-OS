@@ -1,7 +1,15 @@
+import crypto from 'node:crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { computeOperationalArtifactHash } from './artifact-hash'
 import { loadOperationalSignatureArtifactForHash } from './artifact-loader'
 import { appendOperationalSignatureEvent } from './append-signature-event'
+import {
+  loadSignatureCredential,
+  recordSignaturePinFailure,
+  resetSignatureCredentialFailures,
+  verifySignaturePin,
+} from './signature-credentials'
+import { loadActiveSignaturePolicies } from './signature-policies'
 import { validateSignerAuthorization } from './validate-signer-authorization'
 import {
   OPERATIONAL_SIGNATURE_WARNING,
@@ -46,6 +54,45 @@ export async function signOperationalArtifact(
     throw new OperationalSignatureStateError(authorization.reason)
   }
 
+  const { data: sessionUserResult } = await supabase.auth.getUser()
+  const sessionUser = sessionUserResult.user
+  if (!sessionUser || sessionUser.id !== input.signerUserId) {
+    throw new OperationalSignatureStateError('Current session does not match the signer.')
+  }
+
+  const policies = await loadActiveSignaturePolicies(supabase)
+  const policy =
+    policies.find((row) => row.policyCode === request.signaturePolicyCode) ??
+    policies.find((row) => row.policyCode === 'standard_signature') ??
+    null
+
+  const credential = await loadSignatureCredential(supabase, input.signerUserId)
+  if (!credential || !credential.active) {
+    throw new OperationalSignatureStateError('Create an active Signature PIN before signing.')
+  }
+  if (credential.lockedUntil && new Date(credential.lockedUntil).getTime() > Date.now()) {
+    throw new OperationalSignatureStateError('Signature PIN is temporarily locked. Please reset it later.')
+  }
+  if (credential.requiresReset) {
+    throw new OperationalSignatureStateError('Signature PIN requires reset before signing.')
+  }
+  const pinValid = await verifySignaturePin(input.signaturePin, credential.signaturePinHash)
+  if (!pinValid) {
+    const updated = await recordSignaturePinFailure(supabase, {
+      userId: input.signerUserId,
+      reason: 'Invalid signature PIN.',
+    })
+    throw new OperationalSignatureStateError(
+      updated?.lockedUntil && new Date(updated.lockedUntil).getTime() > Date.now()
+        ? 'Invalid PIN. Signature PIN has been temporarily locked.'
+        : 'Invalid signature PIN.',
+    )
+  }
+  await resetSignatureCredentialFailures(supabase, input.signerUserId)
+  if (policy?.mfaRequired && !input.mfaVerified) {
+    throw new OperationalSignatureStateError('MFA verification is required for this signature policy.')
+  }
+
   const loadedArtifact = await loadOperationalSignatureArtifactForHash(supabase, request)
   const signedArtifactHash = computeOperationalArtifactHash({
     artifact: loadedArtifact.payload,
@@ -60,6 +107,7 @@ export async function signOperationalArtifact(
     visit_id: request.visitId,
   })
   const signedAt = new Date().toISOString()
+  const auditTrailId = crypto.randomUUID()
 
   const signatureResult = await supabase
     .from('operational_signatures')
@@ -72,17 +120,29 @@ export async function signOperationalArtifact(
       source_package_id: request.sourcePackageId,
       published_source_id: request.publishedSourceId,
       locked_snapshot_id: request.lockedSnapshotId,
+      module: request.module ?? request.artifactType,
+      entity_type: request.entityType ?? request.artifactType,
+      entity_id: request.entityId ?? request.artifactId,
       artifact_type: request.artifactType,
       artifact_id: request.artifactId,
       required_role: authorization.requiredRole,
       signer_user_id: input.signerUserId,
+      signer_name_snapshot: sessionUser.user_metadata?.full_name
+        ? String(sessionUser.user_metadata.full_name)
+        : sessionUser.email ?? sessionUser.id,
+      signer_role_snapshot: authorization.signerRole,
       signer_role: authorization.signerRole,
       signature_meaning: request.signatureMeaning,
+      signature_policy_code: request.signaturePolicyCode,
       signed_artifact_hash: signedArtifactHash,
+      signed_content_version: String(input.metadata?.signed_content_version ?? '1'),
+      verification_method: policy?.mfaRequired ? 'signature_pin+mfa' : 'signature_pin',
       signed_at: signedAt,
       ip_address: input.ipAddress ?? null,
       user_agent: input.userAgent ?? null,
       status: 'signed',
+      session_id: input.metadata?.session_id ? String(input.metadata.session_id) : null,
+      audit_trail_id: auditTrailId,
       metadata: {
       ...(input.metadata ?? {}),
       explicit_user_action: true,
@@ -107,6 +167,7 @@ export async function signOperationalArtifact(
 
   if (updateResult.error) throw new Error(updateResult.error.message)
 
+  await finalizeGovernanceProtocolAcceptance(supabase, request, signature)
   await appendOperationalSignatureEvent(supabase, {
     organizationId: request.organizationId,
     studyId: request.studyId,
@@ -114,6 +175,7 @@ export async function signOperationalArtifact(
     signatureId: signature.id,
     eventType: 'signature_recorded',
     eventPayload: {
+      audit_trail_id: auditTrailId,
       signature_id: signature.id,
       request_id: request.id,
       artifact_type: signature.artifactType,
@@ -132,4 +194,30 @@ export async function signOperationalArtifact(
   })
 
   return signature
+}
+
+async function finalizeGovernanceProtocolAcceptance(
+  supabase: SupabaseClient,
+  request: ReturnType<typeof mapOperationalSignatureRequestRow>,
+  signature: OperationalSignatureRow,
+) {
+  if (request.module !== 'governance' || request.entityType !== 'protocol_version') return
+
+  const now = signature.signedAt
+  const { error } = await supabase
+    .from('protocol_runtime_versions')
+    .update({
+      pi_acceptance_signature_request_id: request.id,
+      pi_acceptance_signature_id: signature.id,
+      pi_acceptance_status: 'signed',
+      pi_accepted_at: now,
+      pi_accepted_by: signature.signerUserId,
+    })
+    .eq('id', request.entityId ?? request.artifactId)
+
+  if (error) {
+    throw new OperationalSignatureStateError(
+      `Failed to persist PI protocol acceptance: ${error.message}`,
+    )
+  }
 }

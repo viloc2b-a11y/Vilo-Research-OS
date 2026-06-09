@@ -148,30 +148,41 @@ alter table public.ip_inventory_locations enable row level security;
 alter table public.ip_shipments enable row level security;
 alter table public.ip_shipment_items enable row level security;
 
+drop policy if exists ip_lots_select on public.ip_lots;
 create policy ip_lots_select on public.ip_lots
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_lots_insert on public.ip_lots;
 create policy ip_lots_insert on public.ip_lots
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_kits_select on public.ip_kits;
 create policy ip_kits_select on public.ip_kits
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_kits_insert on public.ip_kits;
 create policy ip_kits_insert on public.ip_kits
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_locations_select on public.ip_inventory_locations;
 create policy ip_locations_select on public.ip_inventory_locations
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'inventory_review'));
+drop policy if exists ip_locations_insert on public.ip_inventory_locations;
 create policy ip_locations_insert on public.ip_inventory_locations
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_shipments_select on public.ip_shipments;
 create policy ip_shipments_select on public.ip_shipments
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
+drop policy if exists ip_shipments_insert on public.ip_shipments;
 create policy ip_shipments_insert on public.ip_shipments
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
+drop policy if exists ip_shipments_update on public.ip_shipments;
 create policy ip_shipments_update on public.ip_shipments
   for update using (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'))
   with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_shipment_items_select on public.ip_shipment_items;
 create policy ip_shipment_items_select on public.ip_shipment_items
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_shipment_items_insert on public.ip_shipment_items;
 create policy ip_shipment_items_insert on public.ip_shipment_items
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));

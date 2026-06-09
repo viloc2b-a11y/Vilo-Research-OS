@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import { StudyWorkspaceShell } from '@/components/study-workspace/study-workspace-shell'
+import { loadStudyOperationsSurface } from '@/lib/coordinator-operations/load-study-operations'
+import { loadProtocolSetupModel } from '@/lib/studies/load-protocol-setup'
 import { loadStudySetupDocuments } from '@/lib/study-workspace/load-study-setup-documents'
 import { studyHasProtocolRuntimeVersion } from '@/lib/study-workspace/study-has-protocol-draft'
 import {
@@ -9,10 +11,20 @@ import { loadStudySubjectRoster } from '@/lib/study-workspace/load-study-subject
 import { loadStudyCommandCenterMetrics } from '@/lib/study-workspace/load-study-command-center-metrics'
 import { loadStudyRegulatoryDocuments } from '@/lib/study-workspace/load-regulatory-documents'
 import { loadStudyOperationalDocuments } from '@/lib/study-workspace/load-study-documents'
+import { loadStudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
+import { loadStudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-patient-acquisition-summary'
+import { loadStudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
+import { loadStudyCloseoutSummary } from '@/lib/study-workspace/load-study-closeout-summary'
+import { loadStudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import { loadStudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
+import { loadProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/load-protocol-runtime-study'
+import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
+import { createServerClient } from '@/lib/supabase/server'
 
 type StudyWorkspacePageProps = {
   params: Promise<{ studyId: string }>
+  searchParams: Promise<{ section?: string; subject_q?: string; visit_q?: string; docs_q?: string; binder_q?: string }>
 }
 
 function WorkspaceLoadingFallback() {
@@ -25,16 +37,35 @@ function WorkspaceLoadingFallback() {
   )
 }
 
-async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
+async function StudyWorkspaceContent({
+  studyId,
+  subjectSearchQuery,
+  visitSearchQuery,
+  docsSearchQuery,
+  binderSearchQuery,
+}: {
+  studyId: string
+  subjectSearchQuery: string | null
+  visitSearchQuery: string | null
+  docsSearchQuery: string | null
+  binderSearchQuery: string | null
+}) {
   const summary = await loadStudyWorkspaceSummary(studyId)
+  const supabase = await createServerClient()
   const subjects = await loadStudySubjectRoster(
     studyId,
     summary.study.organizationId,
+    undefined,
+    subjectSearchQuery,
   )
   const setupDocuments = await loadStudySetupDocuments(
     studyId,
     summary.study.organizationId,
   )
+  const protocolSetup = await loadProtocolSetupModel({
+    studyId,
+    organizationId: summary.study.organizationId,
+  })
   const hasProtocolDraft = await studyHasProtocolRuntimeVersion(
     studyId,
     summary.study.organizationId,
@@ -42,40 +73,115 @@ async function StudyWorkspaceContent({ studyId }: { studyId: string }) {
   const regulatoryDocuments = await loadStudyRegulatoryDocuments(
     studyId,
     summary.study.organizationId,
+    binderSearchQuery,
   )
   const studyDocuments = await loadStudyOperationalDocuments(
     studyId,
     summary.study.organizationId,
+    docsSearchQuery,
   )
   const visitsResponse = await loadStudyVisits(
     studyId,
     summary.study.organizationId,
+    undefined,
+    visitSearchQuery,
   )
   const commandCenterMetrics = await loadStudyCommandCenterMetrics(
     studyId,
     summary.study.organizationId,
   )
+  const budgetEvidenceSummary = await loadStudyBudgetEvidenceSummary(
+    studyId,
+    summary.study.organizationId,
+    protocolSetup,
+  )
+  const patientAcquisitionSummary = await loadStudyPatientAcquisitionSummary(
+    studyId,
+    summary.study.organizationId,
+  )
+  const governanceSummary = await loadStudyGovernanceSummary(
+    studyId,
+    summary.study.organizationId,
+  )
+  const closeoutSummary = await loadStudyCloseoutSummary(
+    studyId,
+    summary.study.organizationId,
+  )
+  const financialRuntimeSummary = await loadStudyFinancialRuntimeSummary(
+    studyId,
+    summary.study.organizationId,
+  )
+  const workflowSummary = await loadStudyWorkflowSummary(
+    studyId,
+    summary.study.organizationId,
+  )
+  const studyOperationsSurface = await loadStudyOperationsSurface(studyId)
+  const { data: protocolRuntimeStudyRows } = await supabase
+    .from('protocol_runtime_studies')
+    .select('id')
+    .eq('study_id', studyId)
+    .eq('organization_id', summary.study.organizationId)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+  const protocolRuntimeStudyId = protocolRuntimeStudyRows?.[0]?.id ? String(protocolRuntimeStudyRows[0].id) : null
+  const protocolRuntimeStudy = protocolRuntimeStudyId
+    ? await loadProtocolRuntimeStudy(supabase, summary.study.organizationId, protocolRuntimeStudyId)
+    : null
+  const readiness = await canExecuteStudyRuntime({
+    supabase,
+    studyId,
+    organizationId: summary.study.organizationId,
+  })
 
   return (
     <StudyWorkspaceShell
       summary={summary}
       subjects={subjects}
+      subjectSearchQuery={subjectSearchQuery ?? ''}
+      visitSearchQuery={visitSearchQuery ?? ''}
+      docsSearchQuery={docsSearchQuery ?? ''}
+      binderSearchQuery={binderSearchQuery ?? ''}
       setupDocuments={setupDocuments}
       hasProtocolDraft={hasProtocolDraft}
       regulatoryDocuments={regulatoryDocuments}
       studyDocuments={studyDocuments}
       visits={visitsResponse.rows}
       commandCenterMetrics={commandCenterMetrics}
+      budgetEvidenceSummary={budgetEvidenceSummary}
+      patientAcquisitionSummary={patientAcquisitionSummary}
+      governanceSummary={governanceSummary}
+      closeoutSummary={closeoutSummary}
+      financialRuntimeSummary={financialRuntimeSummary}
+      workflowSummary={workflowSummary}
+      protocolRuntimeStudy={protocolRuntimeStudy}
+      studyOperationsSurface={studyOperationsSurface}
+      continuityRows={readiness.continuityRows}
     />
   )
 }
 
-export default async function StudyWorkspacePage({ params }: StudyWorkspacePageProps) {
+export default async function StudyWorkspacePage({ params, searchParams }: StudyWorkspacePageProps) {
   const { studyId } = await params
+  const {
+    subject_q: subjectSearchQueryParam,
+    visit_q: visitSearchQueryParam,
+    docs_q: docsSearchQueryParam,
+    binder_q: binderSearchQueryParam,
+  } = await searchParams
+  const subjectSearchQuery = subjectSearchQueryParam?.trim() || null
+  const visitSearchQuery = visitSearchQueryParam?.trim() || null
+  const docsSearchQuery = docsSearchQueryParam?.trim() || null
+  const binderSearchQuery = binderSearchQueryParam?.trim() || null
 
   return (
     <Suspense fallback={<WorkspaceLoadingFallback />}>
-      <StudyWorkspaceContent studyId={studyId} />
+      <StudyWorkspaceContent
+        studyId={studyId}
+        subjectSearchQuery={subjectSearchQuery}
+        visitSearchQuery={visitSearchQuery}
+        docsSearchQuery={docsSearchQuery}
+        binderSearchQuery={binderSearchQuery}
+      />
     </Suspense>
   )
 }

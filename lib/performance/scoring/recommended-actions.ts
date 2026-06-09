@@ -10,6 +10,14 @@ export const RECOMMENDED_ACTION_CODES = [
   'review_open_query',
   'triage_assignment',
   'review_stale_study',
+  'protect_enrollment',
+  'review_budget_evidence',
+  'review_financial_leakage',
+  'reconcile_invoice_status',
+  'recover_pass_through',
+  'reconcile_stipend',
+  'review_lab_signal',
+  'verify_lab_follow_up',
 ] as const
 
 export type RecommendedActionCode = (typeof RECOMMENDED_ACTION_CODES)[number]
@@ -22,6 +30,14 @@ const ACTION_LABELS: Record<RecommendedActionCode, string> = {
   review_open_query: 'Review open query',
   triage_assignment: 'Triage assignment',
   review_stale_study: 'Review stale study',
+  protect_enrollment: 'Protect enrollment',
+  review_budget_evidence: 'Review budget evidence',
+  review_financial_leakage: 'Review financial leakage',
+  reconcile_invoice_status: 'Reconcile invoice status',
+  recover_pass_through: 'Recover pass-through reimbursement',
+  reconcile_stipend: 'Reconcile stipend',
+  review_lab_signal: 'Review lab signal',
+  verify_lab_follow_up: 'Verify lab follow-up',
 }
 
 export function recommendedActionLabel(code: RecommendedActionCode): string {
@@ -37,10 +53,30 @@ const SUBJECT_SIGNAL_ACTION: Record<SubjectSignalKind, RecommendedActionCode> = 
   missed_visit: 'reschedule_visit',
   out_of_window: 'reschedule_visit',
   overdue_action: 'review_open_query',
+  open_query: 'review_open_query',
+  needs_resign: 'obtain_pi_signature',
   window_closing_today: 'contact_subject_today',
   unsigned_procedure_48h: 'obtain_pi_signature',
   window_warning: 'contact_subject_today',
   stale_subject: 'contact_subject_today',
+  governance_blocker: 'triage_assignment',
+  governance_warning: 'triage_assignment',
+  revenue_leakage: 'triage_assignment',
+  earned_but_not_invoiced: 'review_financial_leakage',
+  invoiceable_missing: 'review_financial_leakage',
+  screen_failure_billable: 'review_financial_leakage',
+  pass_through_unreimbursed: 'recover_pass_through',
+  stipend_unreconciled: 'reconcile_stipend',
+  overdue_financial: 'reconcile_invoice_status',
+  disputed_payment: 'reconcile_invoice_status',
+  reverted_payment: 'review_financial_leakage',
+  written_off_payment: 'review_financial_leakage',
+  lab_worsening: 'review_lab_signal',
+  lab_consecutive_worsening: 'review_lab_signal',
+  lab_consecutive_abnormal: 'review_lab_signal',
+  lab_missing_repeat: 'verify_lab_follow_up',
+  lab_follow_up_overdue: 'verify_lab_follow_up',
+  lab_safety_review: 'review_lab_signal',
 }
 
 const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
@@ -48,10 +84,30 @@ const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
   missed_visit: 39,
   out_of_window: 38,
   overdue_action: 30,
+  open_query: 31,
+  needs_resign: 35,
   window_closing_today: 29,
   unsigned_procedure_48h: 20,
   window_warning: 19,
   stale_subject: 18,
+  governance_blocker: 37,
+  governance_warning: 28,
+  revenue_leakage: 27,
+  earned_but_not_invoiced: 34,
+  invoiceable_missing: 33,
+  screen_failure_billable: 26,
+  pass_through_unreimbursed: 35,
+  stipend_unreconciled: 32,
+  overdue_financial: 36,
+  disputed_payment: 31,
+  reverted_payment: 39,
+  written_off_payment: 38,
+  lab_worsening: 79,
+  lab_consecutive_worsening: 93,
+  lab_consecutive_abnormal: 94,
+  lab_missing_repeat: 68,
+  lab_follow_up_overdue: 92,
+  lab_safety_review: 86,
 }
 
 export function recommendedActionForSubjectSignal(
@@ -81,8 +137,24 @@ export function recommendedActionForStudy(
 ): RecommendedActionCode | null {
   if (state === 'healthy') return null
 
+  if ((input.financialLeakageCount ?? 0) > 0) return 'review_financial_leakage'
   if (input.blockedProcedureCount > 0) return 'resolve_blocked_validation'
   if (input.missedVisitCount > 2) return 'reschedule_visit'
+  if (
+    (input.financialLeakageCount ?? 0) > 0 &&
+    ((input.budgetEvidenceDocumentCount ?? 0) + (input.contractEvidenceDocumentCount ?? 0) === 0 ||
+      (input.activeBudgetReferenceCount ?? 0) + (input.activeContractReferenceCount ?? 0) === 0)
+  ) {
+    return 'review_budget_evidence'
+  }
+  if (
+    input.enrollmentTarget !== null &&
+    input.enrollmentTarget !== undefined &&
+    input.enrollmentTarget > 0 &&
+    (input.randomizedCount ?? 0) < input.enrollmentTarget
+  ) {
+    return 'protect_enrollment'
+  }
   if (input.openQueryCount > 5) return 'review_open_query'
   if (input.openFindingsCount > 3) return 'triage_assignment'
   if (input.staleStudyFlag) return 'review_stale_study'

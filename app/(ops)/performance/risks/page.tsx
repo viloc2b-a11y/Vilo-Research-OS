@@ -20,6 +20,11 @@ export default async function PerformanceRisksPage({ searchParams }: RisksPagePr
     'risk_visits',
     'overdue_workflow',
     'blocked_detail',
+    'window_closing_today',
+    'unsigned_visits_48h',
+    'governance_signals',
+    'snapshot_query_risk',
+    'financial_leakage',
     'vpi_rpc',
   ])
 

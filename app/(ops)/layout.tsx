@@ -9,6 +9,9 @@ import {
 } from '@/lib/auth/session'
 import {
   canAccessCoordinatorWorkspace,
+  canAccessBusinessDevelopmentCRM,
+  canAccessCommunications,
+  canAccessPatientCRM,
   canPrepareSourceDrafts,
   canReviewSourceDocuments,
   canViewFinancialData,
@@ -36,6 +39,8 @@ export default async function OpsLayout({
   const canAccessAdmin = canAccessAdminSection(memberships)
   const canViewFinancial = canViewFinancialData(memberships)
   const canAccessCoordinator = canAccessCoordinatorWorkspace(memberships)
+  const canAccessCRM = canAccessPatientCRM(memberships) || canAccessBusinessDevelopmentCRM(memberships)
+  const canAccessComms = canAccessCommunications(memberships)
   const canAccessSourceWorkflow =
     canPrepareSourceDrafts(memberships) || canReviewSourceDocuments(memberships)
   const canViewVpiNav = canViewVpi(memberships)
@@ -47,6 +52,8 @@ export default async function OpsLayout({
       canAccessAdmin={canAccessAdmin}
       canViewFinancial={canViewFinancial}
       canAccessCoordinatorWorkspace={canAccessCoordinator}
+      canAccessCRM={canAccessCRM}
+      canAccessCommunications={canAccessComms}
       canAccessSourceWorkflow={canAccessSourceWorkflow}
       canViewVpi={canViewVpiNav}
     >

@@ -157,6 +157,25 @@ const artifactLoaders: Record<string, ArtifactLoader> = {
       payload: data as Record<string, unknown>,
     }
   },
+  protocol_version: async (supabase, request) => {
+    const { data, error } = await supabase
+      .from('protocol_runtime_versions')
+      .select(
+        'id, protocol_runtime_study_id, version_label, amendment_number, version_date, source_document_id, extraction_status, extraction_metadata, previous_version_id, pi_acceptance_signature_request_id, pi_acceptance_signature_id, pi_acceptance_status, pi_accepted_at, pi_accepted_by, created_at',
+      )
+      .eq('id', request.artifactId)
+      .maybeSingle()
+
+    if (error || !data) {
+      throw new OperationalSignatureStateError('Protocol version artifact was not found.')
+    }
+
+    return {
+      artifactType: request.artifactType,
+      artifactId: request.artifactId,
+      payload: data as Record<string, unknown>,
+    }
+  },
   [OPERATIONAL_SIGNATURE_TEST_FIXTURE_ARTIFACT_TYPE]: async (_supabase, request) => {
     const fixture = request.metadata.operational_signature_test_fixture
     if (!fixture || typeof fixture !== 'object' || Array.isArray(fixture)) {

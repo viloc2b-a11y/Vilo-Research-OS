@@ -12,7 +12,12 @@ import {
   canPrepareSourceDrafts,
 } from '@/lib/rbac/permissions'
 
-export default async function SourceBuilderCompositionPage() {
+type PageProps = {
+  searchParams: Promise<{ template?: string }>
+}
+
+export default async function SourceBuilderCompositionPage({ searchParams }: PageProps) {
+  const params = await searchParams
   const user = await getSessionUser()
   const organizationId = user ? await getPrimaryOrganizationId(user.id) : null
   const memberships = user ? await getOrganizationMemberships(user.id) : []
@@ -44,7 +49,7 @@ export default async function SourceBuilderCompositionPage() {
           documents.
         </p>
       </header>
-      <CompositionPreviewPanel />
+      <CompositionPreviewPanel initialTemplateKey={params.template?.trim() ?? ''} />
     </div>
   )
 }

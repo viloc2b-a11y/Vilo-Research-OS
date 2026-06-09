@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import type {
   DocumentIntelligenceChunkRow,
   DocumentIntelligenceDocumentRow,
@@ -27,6 +28,10 @@ export function IntelligenceDocumentDetail({
   const [chunks, setChunks] = useState<DocumentIntelligenceChunkRow[]>([])
   const [loading, setLoading] = useState(false)
   const [localRefresh, setLocalRefresh] = useState(0)
+  const canPromoteToProtocolRuntime =
+    document?.intelligenceStatus === 'ready' &&
+    (document.documentClassification === 'protocol' ||
+      document.documentClassification === 'protocol_amendment')
 
   useEffect(() => {
     let cancelled = false
@@ -120,6 +125,22 @@ export function IntelligenceDocumentDetail({
         <div>Chunks: {chunks.length}</div>
         <div className="font-mono text-slate-400">Hash: {document.sourceHash.slice(0, 16)}…</div>
       </dl>
+
+      {canPromoteToProtocolRuntime ? (
+        <div className="mt-4 rounded border border-teal-200 bg-teal-50/60 p-3 text-xs text-teal-900">
+          <p className="font-medium">Protocol runtime handoff</p>
+          <p className="mt-1 text-teal-800">
+            Open this source in Protocol Runtime to create or attach a protocol runtime study and
+            continue extraction from the canonical protocol pipeline.
+          </p>
+          <Link
+            href={`/protocol-intake-runtime?study_id=${encodeURIComponent(studyId)}&source_document_id=${encodeURIComponent(document.complianceDocumentId)}`}
+            className="mt-2 inline-flex rounded bg-teal-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-800"
+          >
+            Open Protocol Runtime
+          </Link>
+        </div>
+      ) : null}
 
       {document.intelligenceStatus === 'quarantine' ? (
         <DocumentQuarantinePanel

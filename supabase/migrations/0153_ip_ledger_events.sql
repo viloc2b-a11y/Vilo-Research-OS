@@ -148,10 +148,12 @@ group by e.organization_id, e.study_id, e.site_id;
 
 alter table public.ip_ledger_events enable row level security;
 
+drop policy if exists ip_ledger_events_select_unblinded on public.ip_ledger_events;
 create policy ip_ledger_events_select_unblinded
   on public.ip_ledger_events
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
 
+drop policy if exists ip_ledger_events_insert on public.ip_ledger_events;
 create policy ip_ledger_events_insert
   on public.ip_ledger_events
   for insert with check (

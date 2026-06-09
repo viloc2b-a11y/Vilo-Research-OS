@@ -163,29 +163,38 @@ alter table public.ip_receipt_items enable row level security;
 alter table public.ip_corrections enable row level security;
 alter table public.ip_document_links enable row level security;
 
+drop policy if exists ip_receipts_select on public.ip_receipts;
 create policy ip_receipts_select on public.ip_receipts
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
+drop policy if exists ip_receipts_insert on public.ip_receipts;
 create policy ip_receipts_insert on public.ip_receipts
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
+drop policy if exists ip_receipts_update on public.ip_receipts;
 create policy ip_receipts_update on public.ip_receipts
   for update using (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'))
   with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_receipt_items_select_unblinded on public.ip_receipt_items;
 create policy ip_receipt_items_select_unblinded on public.ip_receipt_items
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_receipt_items_insert on public.ip_receipt_items;
 create policy ip_receipt_items_insert on public.ip_receipt_items
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'receipt'));
 
+drop policy if exists ip_corrections_select on public.ip_corrections;
 create policy ip_corrections_select on public.ip_corrections
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_corrections_insert on public.ip_corrections;
 create policy ip_corrections_insert on public.ip_corrections
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'correction'));
 
+drop policy if exists ip_document_links_select on public.ip_document_links;
 create policy ip_document_links_select on public.ip_document_links
   for select using (
     public.pharmacy_user_can_access_action(study_id, site_id, 'receipt')
     or public.pharmacy_user_can_access_action(study_id, site_id, 'correction')
   );
+drop policy if exists ip_document_links_insert on public.ip_document_links;
 create policy ip_document_links_insert on public.ip_document_links
   for insert with check (
     public.pharmacy_user_can_access_action(study_id, site_id, 'receipt')

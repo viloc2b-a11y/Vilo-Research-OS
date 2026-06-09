@@ -296,48 +296,60 @@ alter table public.ip_administration_events enable row level security;
 alter table public.ip_dispensation_review_confirmations enable row level security;
 alter table public.pharmacy_dispensing_audit_events enable row level security;
 
+drop policy if exists pharmacy_subject_assignments_select on public.pharmacy_subject_assignments;
 create policy pharmacy_subject_assignments_select
   on public.pharmacy_subject_assignments
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
+drop policy if exists pharmacy_subject_assignments_insert on public.pharmacy_subject_assignments;
 create policy pharmacy_subject_assignments_insert
   on public.pharmacy_subject_assignments
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
+drop policy if exists pharmacy_subject_assignments_update on public.pharmacy_subject_assignments;
 create policy pharmacy_subject_assignments_update
   on public.pharmacy_subject_assignments
   for update using (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'))
   with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
 
+drop policy if exists ip_dispensations_select_unblinded on public.ip_dispensations;
 create policy ip_dispensations_select_unblinded
   on public.ip_dispensations
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_dispensations_insert on public.ip_dispensations;
 create policy ip_dispensations_insert
   on public.ip_dispensations
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
 
+drop policy if exists ip_administration_events_select_unblinded on public.ip_administration_events;
 create policy ip_administration_events_select_unblinded
   on public.ip_administration_events
   for select using (public.pharmacy_user_can_view_unblinded_ip(study_id, site_id));
+drop policy if exists ip_administration_events_insert on public.ip_administration_events;
 create policy ip_administration_events_insert
   on public.ip_administration_events
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
 
+drop policy if exists ip_disp_review_select on public.ip_dispensation_review_confirmations;
 create policy ip_disp_review_select
   on public.ip_dispensation_review_confirmations
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'dispensation_review'));
+drop policy if exists ip_disp_review_insert on public.ip_dispensation_review_confirmations;
 create policy ip_disp_review_insert
   on public.ip_dispensation_review_confirmations
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispense'));
+drop policy if exists ip_disp_review_update on public.ip_dispensation_review_confirmations;
 create policy ip_disp_review_update
   on public.ip_dispensation_review_confirmations
   for update using (public.pharmacy_user_can_access_action(study_id, site_id, 'dispensation_review'))
   with check (public.pharmacy_user_can_access_action(study_id, site_id, 'dispensation_review'));
 
+drop policy if exists pharmacy_dispensing_audit_select on public.pharmacy_dispensing_audit_events;
 create policy pharmacy_dispensing_audit_select
   on public.pharmacy_dispensing_audit_events
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
+drop policy if exists pharmacy_dispensing_audit_insert on public.pharmacy_dispensing_audit_events;
 create policy pharmacy_dispensing_audit_insert
   on public.pharmacy_dispensing_audit_events
   for insert with check (

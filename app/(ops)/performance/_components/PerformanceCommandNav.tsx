@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const commandSubNav = [
-  { href: '/performance', label: 'Portfolio', exact: true },
   { href: '/performance/today', label: 'Today', exact: false },
   { href: '/performance/risks', label: 'Risks', exact: false },
+  { href: '/performance', label: 'Portfolio', exact: true },
 ] as const
 
 export function PerformanceCommandNav() {

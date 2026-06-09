@@ -54,6 +54,44 @@ export type RevenueLeakageKind =
   | 'repeat_procedure'
   | 'not_graph_compliant'
 
+export type PaymentLifecycleStatus =
+  | 'expected'
+  | 'earned'
+  | 'invoiced'
+  | 'paid'
+  | 'reverted'
+  | 'disputed'
+  | 'written_off'
+
+export type FinancialRevenueComponentType =
+  | 'visit_payment'
+  | 'procedure_payment'
+  | 'pass_through_cost'
+  | 'patient_stipend'
+
+export type FinancialRevenueComponent = {
+  id: string
+  componentType: FinancialRevenueComponentType
+  lifecycleStatus: PaymentLifecycleStatus
+  eligible: boolean
+  quantity: number
+  label: string
+  detail: string
+  procedureExecutionId?: string | null
+  exclusionReason?: string | null
+}
+
+export type FinancialPaymentLifecycle = {
+  subjectEnrollmentStatus: string | null
+  screenFailure: boolean
+  visitPaymentEligible: boolean
+  visitPaymentExclusionReason: string | null
+  expectedComponentCount: number
+  earnedComponentCount: number
+  invoiceableComponentCount: number
+  components: FinancialRevenueComponent[]
+}
+
 export type RevenueLeakageItem = {
   id: string
   kind: RevenueLeakageKind
@@ -126,6 +164,7 @@ export type VisitFinancialRuntime = {
   coordinatorEconomics: CoordinatorBurdenEconomics
   unscheduledBurden: UnscheduledRuntimeBurden
   amendmentImpact: AmendmentOperationalImpact
+  paymentLifecycle: FinancialPaymentLifecycle
   visitFinancialBurdenScore: number
   leakageScore: number
   earnedRateBasisPoints: number

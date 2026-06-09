@@ -8,6 +8,7 @@ import {
   FolderKanban,
   CheckSquare,
   Users,
+  Mail,
   Shield,
   DollarSign,
   Activity,
@@ -16,6 +17,7 @@ import {
   Settings,
   FileSearch,
   ClipboardList,
+  Scale,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -32,8 +34,14 @@ type NavItem = {
   allMembers?: boolean
   /** Coordinator / data-coordinator workspace items. */
   coordinatorWorkspace?: boolean
+  /** CRM workspaces. */
+  crm?: boolean
+  /** Communications / mail shell. */
+  communications?: boolean
   /** Source builder and eSource draft workflows. */
   sourceWorkflow?: boolean
+  /** Financial workspaces. */
+  financial?: boolean
   /** VPI command center — hidden from data_coordinator and read-only personas. */
   vpi?: boolean
 }
@@ -70,9 +78,20 @@ const navSections: NavSection[] = [
     ],
   },
   {
+    id: 'crm-communications',
+    label: 'CRM / Communications',
+    items: [
+  { id: 'contacts', label: 'Contacts', href: '/contacts', icon: Users, crm: true },
+  { id: 'crm', label: 'CRM', href: '/crm', icon: Users, crm: true },
+  { id: 'communications', label: 'Communications', href: '/communications', icon: Mail, communications: true },
+    ],
+  },
+  {
     id: 'oversight',
     label: 'Oversight',
-    items: [
+  items: [
+  { id: 'signatures', label: 'Signatures', href: '/operational-signatures', icon: ClipboardList, coordinatorWorkspace: true },
+  { id: 'negotiation', label: 'Negotiation', href: '/negotiation', icon: Scale, financial: true },
   { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
     ],
   },
@@ -109,6 +128,8 @@ type SidebarNavProps = {
   canAccessAdmin?: boolean
   canViewFinancial?: boolean
   canAccessCoordinatorWorkspace?: boolean
+  canAccessCRM?: boolean
+  canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
 }
@@ -118,6 +139,8 @@ export function SidebarNav({
   canAccessAdmin = false,
   canViewFinancial = false,
   canAccessCoordinatorWorkspace = false,
+  canAccessCRM = false,
+  canAccessCommunications = false,
   canAccessSourceWorkflow = false,
   canViewVpi = false,
 }: SidebarNavProps) {
@@ -136,7 +159,10 @@ export function SidebarNav({
     if (item.id === 'financial') return canViewFinancial
     if (item.allMembers) return true
     if (item.coordinatorWorkspace && !canAccessCoordinatorWorkspace) return false
+    if (item.crm && !canAccessCRM) return false
+    if (item.communications && !canAccessCommunications) return false
     if (item.sourceWorkflow && !canAccessSourceWorkflow) return false
+    if (item.financial && !canViewFinancial) return false
     if (item.vpi && !canViewVpi) return false
     return true
   }

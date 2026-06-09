@@ -2,11 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { subjectChartRevalidatePaths } from '@/lib/ops/paths'
-import { getOrganizationMemberships } from '@/lib/auth/session'
 import { createOperationalSignatureRequest } from '@/lib/operational-signatures/create-signature-request'
-import { signOperationalArtifact } from '@/lib/operational-signatures/sign-artifact'
 import {
-  OPERATIONAL_SIGNATURE_WARNING,
   type OperationalSignatureMeaning,
 } from '@/lib/operational-signatures/operational-signature-types'
 import { writeProfileEvent } from '@/lib/subject/clinical-profile/audit'
@@ -605,27 +602,34 @@ export async function completeSubjectSignature(
   if (!ctx.ok) return { ok: false, message: ctx.error }
   const requestId = clean(formData.get('request_id')) ?? clean(formData.get('signature_id'))
   if (!requestId) return { ok: false, message: 'Missing signature.' }
-  const memberships = await getOrganizationMemberships(ctx.userId)
-  const signature = await signOperationalArtifact(ctx.supabase, {
-    requestId,
-    signerUserId: ctx.userId,
-    signerMemberships: memberships,
-    explicitUserAction: true,
-    confirmationStatement: OPERATIONAL_SIGNATURE_WARNING,
-    metadata: { signed_from: 'Subject Runtime' },
-  })
   const { data: request } = await ctx.supabase
     .from('operational_signature_requests')
-    .select('artifact_type, artifact_id')
+    .select('status, artifact_type, artifact_id')
     .eq('id', requestId)
     .maybeSingle()
+  if (request?.status !== 'signed') {
+    return { ok: false, message: 'Signature is not signed yet.' }
+  }
   if (request?.artifact_type === 'subject_document') {
     await ctx.supabase
       .from('subject_documents')
       .update({ status: 'Signed' })
       .eq('document_id', request.artifact_id)
   }
-  await audit({ subjectId: ctx.subjectId, section: 'subject_signatures', recordId: requestId, action: 'status_changed', after: signature })
+  await audit({
+    subjectId: ctx.subjectId,
+    section: 'subject_signatures',
+    recordId: requestId,
+    action: 'status_changed',
+    after: {
+      request_id: requestId,
+      artifact_type: request?.artifact_type ?? null,
+      artifact_id: request?.artifact_id ?? null,
+      status: 'Signed',
+      signed_from: 'Subject Runtime',
+      completed_at: new Date().toISOString(),
+    },
+  })
   await revalidateSubject(ctx.subjectId, ctx.studyId)
   return { ok: true, message: 'Subject signature completed.' }
 }

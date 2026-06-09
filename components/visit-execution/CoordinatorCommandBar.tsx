@@ -6,11 +6,27 @@ interface Props {
   selectedVisitId: string;
   progressPercent: number;
   saveStatus: "SAVED" | "SAVING" | "UNSAVED";
+  isReadOnly?: boolean;
   onSubjectChange: (id: string) => void;
   onVisitChange: (id: string) => void;
+  onGenerateDeliverable?: () => void;
+  isGeneratingDeliverable?: boolean;
+  deliverableUrl?: string;
 }
 
-export function CoordinatorCommandBar({ studyName, selectedSubjectId, selectedVisitId, progressPercent, saveStatus, onSubjectChange, onVisitChange }: Props) {
+export function CoordinatorCommandBar({ 
+  studyName, 
+  selectedSubjectId, 
+  selectedVisitId, 
+  progressPercent, 
+  saveStatus, 
+  isReadOnly,
+  onSubjectChange, 
+  onVisitChange,
+  onGenerateDeliverable,
+  isGeneratingDeliverable,
+  deliverableUrl
+}: Props) {
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 text-white px-4 py-3 shadow-md">
       <div className="flex items-center gap-6">
@@ -54,6 +70,30 @@ export function CoordinatorCommandBar({ studyName, selectedSubjectId, selectedVi
           {saveStatus === "SAVED" && <span className="text-green-400">✓ Saved</span>}
           {saveStatus === "UNSAVED" && <span className="text-yellow-400">Unsaved Changes</span>}
         </div>
+        
+        {isReadOnly && (
+          <div className="border-l border-blue-700 pl-4 ml-2">
+            {deliverableUrl ? (
+              <a 
+                href={deliverableUrl} 
+                download
+                target="_blank"
+                rel="noreferrer"
+                className="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors"
+              >
+                Download Source Packet
+              </a>
+            ) : (
+              <button
+                onClick={onGenerateDeliverable}
+                disabled={isGeneratingDeliverable}
+                className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors"
+              >
+                {isGeneratingDeliverable ? 'Generating...' : 'Generate Source Packet'}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

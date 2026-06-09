@@ -2,6 +2,10 @@
 
 import { createServerClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/auth/session'
+import {
+  createStudySubjectRecord,
+  updateStudySubjectRecord,
+} from '@/lib/operations/clinical-record-mutations'
 
 export async function validateSubjectIdentifiers(studyId: string, identifiers: { screeningNumber?: string, subjectNumber?: string }) {
   const supabase = await createServerClient()
@@ -31,12 +35,11 @@ export async function createStudySubject(studyId: string, payload: Record<string
 
   const supabase = await createServerClient()
   
-  const { data: subject, error } = await supabase.from('study_subjects').insert({
-    ...payload,
-    study_id: studyId
-  }).select('id').single()
-
-  if (error) throw new Error(error.message)
+  const subject = await createStudySubjectRecord({
+    supabase,
+    studyId,
+    payload,
+  })
 
   // Write audit
   await supabase.from('operational_events').insert({
@@ -79,8 +82,11 @@ export async function updateStudySubject(subjectId: string, payload: Record<stri
   const sessionUser = await getSessionUser()
   const supabase = await createServerClient()
   
-  const { error } = await supabase.from('study_subjects').update(payload).eq('id', subjectId)
-  if (error) throw new Error(error.message)
+  await updateStudySubjectRecord({
+    supabase,
+    subjectId,
+    payload,
+  })
   
   await supabase.from('operational_events').insert({
     entity_id: subjectId,

@@ -94,5 +94,8 @@ on conflict (term_group, code) do nothing;
 alter table public.surgical_procedure_library enable row level security;
 alter table public.ae_controlled_terms enable row level security;
 
+drop policy if exists surgical_procedure_library_select_auth on public.surgical_procedure_library;
 create policy surgical_procedure_library_select_auth on public.surgical_procedure_library for select to authenticated using (is_active = true);
+
+drop policy if exists ae_controlled_terms_select_auth on public.ae_controlled_terms;
 create policy ae_controlled_terms_select_auth on public.ae_controlled_terms for select to authenticated using (is_active = true);

@@ -2,18 +2,13 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import {
   CheckCircle2,
-  ClipboardList,
-  DollarSign,
+  FolderKanban,
   FileSearch,
   FileUp,
-  FolderKanban,
   GitPullRequest,
-  GraduationCap,
   PackageCheck,
   Route,
   SearchCheck,
-  Shield,
-  Stethoscope,
 } from 'lucide-react'
 import { RecentDocumentRuntimeEvents } from '@/components/document-intake/recent-document-runtime-events'
 import {
@@ -43,6 +38,8 @@ type StudyOption = {
   id: string
   name: string
 }
+
+const STUDY_SELECTOR_LIMIT = 100
 
 type HubCard = {
   title: string
@@ -112,8 +109,8 @@ function StudyContextBar({
         <div>
           <h2 className="text-sm font-semibold text-slate-900">Study context</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Select an existing study before routing protocol, source, finance, regulatory, or
-            compliance documents. Study creation stays in Studies.
+            Select an existing study before routing documents into the Runtime Engine, Financial
+            Engine, Compliance Engine, or repository surfaces. Study creation stays in Studies.
           </p>
         </div>
         {selectedStudyId ? (
@@ -189,6 +186,7 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
     .select('id, name')
     .eq('organization_id', organizationId)
     .order('name', { ascending: true })
+    .limit(STUDY_SELECTOR_LIMIT)
 
   const studyList: StudyOption[] = (studies ?? []).map((study) => ({
     id: String(study.id),
@@ -201,6 +199,7 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
 
   const uploadHref = withStudy('/document-intake', selectedStudyId)
   const intelligenceHref = withStudy('/document-intelligence', selectedStudyId)
+  const consentManagementHref = withStudy('/document-center/consent-management', selectedStudyId)
   const studyRoutingHref = selectedStudyId
     ? `/studies/${encodeURIComponent(selectedStudyId)}/workspace?section=study-setup`
     : '/studies'
@@ -212,7 +211,8 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
   const cards: HubCard[] = [
     {
       title: 'Upload Documents',
-      description: 'Register protocols, amendments, regulatory files, source evidence, finance documents, and supporting study records.',
+      description:
+        'Register protocol, lab manual, ICF / consent, budget, CTA, regulatory, source, and supporting study records.',
       href: uploadWithStudyHref,
       label: 'Open upload',
       icon: FileUp,
@@ -230,6 +230,14 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
       href: intelligenceHref,
       label: 'Open review',
       icon: SearchCheck,
+    },
+    {
+      title: 'Consent Management',
+      description:
+        'Manage approved consent templates, subject consent records, evidence uploads, and reconsent action queues.',
+      href: consentManagementHref,
+      label: selectedStudyId ? 'Open consent management' : 'Select a study',
+      icon: PackageCheck,
     },
     {
       title: 'Ready For Reconciliation',
@@ -260,7 +268,8 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
     },
     {
       title: 'Study Setup Routing',
-      description: 'Route protocol, regulatory, source, pharmacy, finance, and evidence documents from the study workspace.',
+      description:
+        'Route runtime, financial, compliance, and repository documents from the study workspace.',
       href: studyRoutingHref,
       label: selectedStudyId ? 'Open study routing' : 'Select a study',
       icon: Route,
@@ -301,11 +310,11 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
           <div>
             <h2 className="text-sm font-semibold text-slate-900">Document routing destinations</h2>
             <p className="mt-1 text-sm text-slate-600">
-              Choose an existing study, then route documents to the correct operational area inside
-              that study. Document Center does not create studies.
+              Choose an existing study, then route documents to the correct engine or repository
+              area inside that study. Document Center does not create studies.
             </p>
             <p className="mt-3 text-xs font-medium text-teal-700">
-              Route documents to: Regulatory Binder · Source Builder · Subject Workspace · Study Documents · Training · Finance · Compliance
+              Runtime Engine · Consent Management · Financial Engine · Compliance Engine · Repository
             </p>
           </div>
           <Link

@@ -8,11 +8,24 @@ type QueryListProps = {
   organizationId: string
   disabled?: boolean
   onUpdated: () => void
+  searchQuery?: string
 }
 
-export function QueryList({ queries, organizationId, disabled, onUpdated }: QueryListProps) {
+export function QueryList({
+  queries,
+  organizationId,
+  disabled,
+  onUpdated,
+  searchQuery,
+}: QueryListProps) {
   if (queries.length === 0) {
-    return <p className="text-sm text-slate-500">No operational queries open for this snapshot.</p>
+    return (
+      <p className="text-sm text-slate-500">
+        {searchQuery
+          ? 'No queries match this search.'
+          : 'No operational queries open for this snapshot.'}
+      </p>
+    )
   }
 
   return (

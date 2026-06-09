@@ -183,6 +183,7 @@ alter table public.operational_signature_requests enable row level security;
 alter table public.operational_signatures enable row level security;
 alter table public.operational_signature_events enable row level security;
 
+drop policy if exists operational_signature_requests_select on public.operational_signature_requests;
 create policy operational_signature_requests_select
   on public.operational_signature_requests
   for select using (
@@ -190,6 +191,7 @@ create policy operational_signature_requests_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signature_requests_insert on public.operational_signature_requests;
 create policy operational_signature_requests_insert
   on public.operational_signature_requests
   for insert with check (
@@ -197,6 +199,7 @@ create policy operational_signature_requests_insert
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signature_requests_update on public.operational_signature_requests;
 create policy operational_signature_requests_update
   on public.operational_signature_requests
   for update using (
@@ -204,6 +207,7 @@ create policy operational_signature_requests_update
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signatures_select on public.operational_signatures;
 create policy operational_signatures_select
   on public.operational_signatures
   for select using (
@@ -211,6 +215,7 @@ create policy operational_signatures_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signatures_insert on public.operational_signatures;
 create policy operational_signatures_insert
   on public.operational_signatures
   for insert with check (
@@ -218,6 +223,7 @@ create policy operational_signatures_insert
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signature_events_select on public.operational_signature_events;
 create policy operational_signature_events_select
   on public.operational_signature_events
   for select using (
@@ -225,6 +231,7 @@ create policy operational_signature_events_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists operational_signature_events_insert on public.operational_signature_events;
 create policy operational_signature_events_insert
   on public.operational_signature_events
   for insert with check (

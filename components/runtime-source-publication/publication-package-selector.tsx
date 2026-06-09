@@ -78,7 +78,12 @@ export function PublicationPackageSelector(props: {
       {loading ? <p className="mt-2 text-xs text-slate-500">Loading approved packages…</p> : null}
       {props.selectedPackageId ? (
         <p className="mt-2 text-xs text-slate-500">
-          Selected package {props.selectedPackageId.slice(0, 8)}…
+          Selected source version:{' '}
+          {(() => {
+            const selected = packages.find((pkg) => pkg.id === props.selectedPackageId)
+            if (!selected) return 'selected'
+            return `v${selected.packageVersion} · ${selected.packageName}`
+          })()}
         </p>
       ) : (
         <p className="mt-2 text-xs text-slate-500">

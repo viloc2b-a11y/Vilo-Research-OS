@@ -32,21 +32,26 @@ async function logProjectionRefresh(
     error?: string | null
   },
 ): Promise<void> {
-  const startedAt = new Date().toISOString()
-  const { error } = await supabase.from('runtime_projection_refresh_log').insert({
-    organization_id: input.organizationId,
-    scope: input.scope,
-    scope_id: input.scopeId,
-    projection_kind: input.projectionKind,
-    refresh_mode: input.refreshMode,
-    projection_version: RUNTIME_PROJECTION_VERSION,
-    rows_affected: input.rowsAffected,
-    started_at: startedAt,
-    completed_at: new Date().toISOString(),
-    error: input.error ?? null,
-  })
-  if (error) {
-    console.warn('[projections] refresh log insert failed', error.message)
+  try {
+    const startedAt = new Date().toISOString()
+    const { error } = await supabase.from('runtime_projection_refresh_log').insert({
+      organization_id: input.organizationId,
+      scope: input.scope,
+      scope_id: input.scopeId,
+      projection_kind: input.projectionKind,
+      refresh_mode: input.refreshMode,
+      projection_version: RUNTIME_PROJECTION_VERSION,
+      rows_affected: input.rowsAffected,
+      started_at: startedAt,
+      completed_at: new Date().toISOString(),
+      error: input.error ?? null,
+    })
+    if (error) {
+      console.warn('[projections] refresh log insert failed', error.message)
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.warn('[projections] refresh log insert failed', message)
   }
 }
 

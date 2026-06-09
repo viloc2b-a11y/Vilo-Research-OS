@@ -2,8 +2,10 @@ export type DocumentClassification =
   | 'source_document'
   | 'external_medical_record'
   | 'lab_result'
+  | 'lab_manual'
   | 'imaging'
   | 'regulatory_document'
+  | 'icf_consent'
   | 'protocol'
   | 'protocol_amendment'
   | 'investigator_brochure'
@@ -19,6 +21,7 @@ export type DocumentClassification =
 
 export type DestinationDomain =
   | 'source_builder'
+  | 'consent_management'
   | 'regulatory_binder'
   | 'budget_contract'
   | 'study_documents'

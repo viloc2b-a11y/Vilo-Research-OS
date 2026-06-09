@@ -3,7 +3,7 @@
 -- ---------------------------------------------------------------------------
 -- procedure_library
 -- ---------------------------------------------------------------------------
-CREATE TABLE procedure_library (
+CREATE TABLE IF NOT EXISTS procedure_library (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NULL,
   library_scope text NOT NULL DEFAULT 'global',
@@ -42,22 +42,22 @@ CREATE TABLE procedure_library (
   )
 );
 
-CREATE UNIQUE INDEX idx_procedure_library_code_global ON procedure_library(procedure_code)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_procedure_library_code_global ON procedure_library(procedure_code)
   WHERE library_scope = 'global';
 
-CREATE UNIQUE INDEX idx_procedure_library_code_org ON procedure_library(organization_id, procedure_code)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_procedure_library_code_org ON procedure_library(organization_id, procedure_code)
   WHERE library_scope = 'organization';
 
-CREATE INDEX idx_procedure_library_code ON procedure_library(procedure_code);
-CREATE INDEX idx_procedure_library_name ON procedure_library(procedure_name);
-CREATE INDEX idx_procedure_library_category ON procedure_library(procedure_category);
-CREATE INDEX idx_procedure_library_scope ON procedure_library(library_scope);
-CREATE INDEX idx_procedure_library_status ON procedure_library(status);
+CREATE INDEX IF NOT EXISTS idx_procedure_library_code ON procedure_library(procedure_code);
+CREATE INDEX IF NOT EXISTS idx_procedure_library_name ON procedure_library(procedure_name);
+CREATE INDEX IF NOT EXISTS idx_procedure_library_category ON procedure_library(procedure_category);
+CREATE INDEX IF NOT EXISTS idx_procedure_library_scope ON procedure_library(library_scope);
+CREATE INDEX IF NOT EXISTS idx_procedure_library_status ON procedure_library(status);
 
 -- ---------------------------------------------------------------------------
 -- procedure_blueprint_versions (immutable)
 -- ---------------------------------------------------------------------------
-CREATE TABLE procedure_blueprint_versions (
+CREATE TABLE IF NOT EXISTS procedure_blueprint_versions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   procedure_id uuid NOT NULL REFERENCES procedure_library(id) ON DELETE CASCADE,
   version_number integer NOT NULL,
@@ -76,17 +76,24 @@ CREATE TABLE procedure_blueprint_versions (
   CONSTRAINT procedure_blueprint_versions_unique_version UNIQUE (procedure_id, version_number)
 );
 
-CREATE INDEX idx_procedure_blueprint_versions_procedure ON procedure_blueprint_versions(procedure_id);
-CREATE INDEX idx_procedure_blueprint_versions_status ON procedure_blueprint_versions(blueprint_status);
+CREATE INDEX IF NOT EXISTS idx_procedure_blueprint_versions_procedure ON procedure_blueprint_versions(procedure_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_blueprint_versions_status ON procedure_blueprint_versions(blueprint_status);
 
-ALTER TABLE procedure_library
-  ADD CONSTRAINT procedure_library_active_version_fk
-  FOREIGN KEY (active_version_id) REFERENCES procedure_blueprint_versions(id);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'procedure_library_active_version_fk'
+  ) THEN
+    ALTER TABLE procedure_library
+      ADD CONSTRAINT procedure_library_active_version_fk
+      FOREIGN KEY (active_version_id) REFERENCES procedure_blueprint_versions(id);
+  END IF;
+END $$;
 
 -- ---------------------------------------------------------------------------
 -- study_procedure_blueprints
 -- ---------------------------------------------------------------------------
-CREATE TABLE study_procedure_blueprints (
+CREATE TABLE IF NOT EXISTS study_procedure_blueprints (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -102,11 +109,11 @@ CREATE TABLE study_procedure_blueprints (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_study_procedure_blueprints_org ON study_procedure_blueprints(organization_id);
-CREATE INDEX idx_study_procedure_blueprints_study ON study_procedure_blueprints(study_id);
-CREATE INDEX idx_study_procedure_blueprints_procedure ON study_procedure_blueprints(procedure_id);
-CREATE INDEX idx_study_procedure_blueprints_version ON study_procedure_blueprints(blueprint_version_id);
-CREATE INDEX idx_study_procedure_blueprints_visit_code ON study_procedure_blueprints(visit_code);
+CREATE INDEX IF NOT EXISTS idx_study_procedure_blueprints_org ON study_procedure_blueprints(organization_id);
+CREATE INDEX IF NOT EXISTS idx_study_procedure_blueprints_study ON study_procedure_blueprints(study_id);
+CREATE INDEX IF NOT EXISTS idx_study_procedure_blueprints_procedure ON study_procedure_blueprints(procedure_id);
+CREATE INDEX IF NOT EXISTS idx_study_procedure_blueprints_version ON study_procedure_blueprints(blueprint_version_id);
+CREATE INDEX IF NOT EXISTS idx_study_procedure_blueprints_visit_code ON study_procedure_blueprints(visit_code);
 
 -- ---------------------------------------------------------------------------
 -- RLS
@@ -115,6 +122,7 @@ ALTER TABLE procedure_library ENABLE ROW LEVEL SECURITY;
 ALTER TABLE procedure_blueprint_versions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE study_procedure_blueprints ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS procedure_library_select ON procedure_library;
 CREATE POLICY procedure_library_select ON procedure_library
   FOR SELECT USING (
     library_scope = 'global'
@@ -124,6 +132,7 @@ CREATE POLICY procedure_library_select ON procedure_library
     )
   );
 
+DROP POLICY IF EXISTS procedure_library_insert ON procedure_library;
 CREATE POLICY procedure_library_insert ON procedure_library
   FOR INSERT WITH CHECK (
     (
@@ -137,6 +146,7 @@ CREATE POLICY procedure_library_insert ON procedure_library
     )
   );
 
+DROP POLICY IF EXISTS procedure_library_update ON procedure_library;
 CREATE POLICY procedure_library_update ON procedure_library
   FOR UPDATE USING (
     (
@@ -148,6 +158,7 @@ CREATE POLICY procedure_library_update ON procedure_library
     )
   );
 
+DROP POLICY IF EXISTS procedure_blueprint_versions_select ON procedure_blueprint_versions;
 CREATE POLICY procedure_blueprint_versions_select ON procedure_blueprint_versions
   FOR SELECT USING (
     EXISTS (
@@ -163,6 +174,7 @@ CREATE POLICY procedure_blueprint_versions_select ON procedure_blueprint_version
     )
   );
 
+DROP POLICY IF EXISTS procedure_blueprint_versions_insert ON procedure_blueprint_versions;
 CREATE POLICY procedure_blueprint_versions_insert ON procedure_blueprint_versions
   FOR INSERT WITH CHECK (
     EXISTS (
@@ -178,6 +190,7 @@ CREATE POLICY procedure_blueprint_versions_insert ON procedure_blueprint_version
     )
   );
 
+DROP POLICY IF EXISTS procedure_blueprint_versions_update ON procedure_blueprint_versions;
 CREATE POLICY procedure_blueprint_versions_update ON procedure_blueprint_versions
   FOR UPDATE USING (
     EXISTS (
@@ -214,18 +227,21 @@ BEGIN
 END;
 $$;
 
+DROP TRIGGER IF EXISTS procedure_blueprint_versions_immutable_content ON procedure_blueprint_versions;
 CREATE TRIGGER procedure_blueprint_versions_immutable_content
   BEFORE UPDATE ON procedure_blueprint_versions
   FOR EACH ROW EXECUTE FUNCTION prevent_blueprint_content_mutation();
 
 -- Blueprint versions: no DELETE policy (append-only lifecycle)
 
+DROP POLICY IF EXISTS study_procedure_blueprints_select ON study_procedure_blueprints;
 CREATE POLICY study_procedure_blueprints_select ON study_procedure_blueprints
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS study_procedure_blueprints_insert ON study_procedure_blueprints;
 CREATE POLICY study_procedure_blueprints_insert ON study_procedure_blueprints
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)

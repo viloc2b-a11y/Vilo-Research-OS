@@ -1,7 +1,7 @@
 -- Migration 0106: Document Intake & Compliance Runtime Layer
 -- Establishes immutable, Part-11 ready audit ledger and runtime documents.
 
-CREATE TABLE compliance_runtime_documents (
+CREATE TABLE IF NOT EXISTS compliance_runtime_documents (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null,
   study_id uuid null,
@@ -41,18 +41,18 @@ CREATE TABLE compliance_runtime_documents (
   constraint compliance_runtime_documents_hash_check check (length(cryptographic_hash) > 0)
 );
 
-CREATE INDEX idx_compliance_docs_org ON compliance_runtime_documents(organization_id);
-CREATE INDEX idx_compliance_docs_study ON compliance_runtime_documents(study_id);
-CREATE INDEX idx_compliance_docs_subject ON compliance_runtime_documents(subject_id);
-CREATE INDEX idx_compliance_docs_visit ON compliance_runtime_documents(visit_id);
-CREATE INDEX idx_compliance_docs_procedure ON compliance_runtime_documents(procedure_execution_id);
-CREATE INDEX idx_compliance_docs_class ON compliance_runtime_documents(document_classification);
-CREATE INDEX idx_compliance_docs_status ON compliance_runtime_documents(status);
-CREATE INDEX idx_compliance_docs_expiration ON compliance_runtime_documents(expiration_date);
-CREATE INDEX idx_compliance_docs_hash ON compliance_runtime_documents(cryptographic_hash);
-CREATE INDEX idx_compliance_docs_supersedes ON compliance_runtime_documents(supersedes_document_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_org ON compliance_runtime_documents(organization_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_study ON compliance_runtime_documents(study_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_subject ON compliance_runtime_documents(subject_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_visit ON compliance_runtime_documents(visit_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_procedure ON compliance_runtime_documents(procedure_execution_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_class ON compliance_runtime_documents(document_classification);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_status ON compliance_runtime_documents(status);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_expiration ON compliance_runtime_documents(expiration_date);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_hash ON compliance_runtime_documents(cryptographic_hash);
+CREATE INDEX IF NOT EXISTS idx_compliance_docs_supersedes ON compliance_runtime_documents(supersedes_document_id);
 
-CREATE TABLE compliance_audit_ledger (
+CREATE TABLE IF NOT EXISTS compliance_audit_ledger (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null,
   document_id uuid not null references compliance_runtime_documents(id),
@@ -67,35 +67,40 @@ CREATE TABLE compliance_audit_ledger (
   constraint compliance_audit_ledger_event_check check (event_type in ('document_ingested', 'certified_copy_attested', 'document_updated', 'document_superseded', 'document_archived', 'expiration_metadata_set'))
 );
 
-CREATE INDEX idx_compliance_audit_ledger_doc ON compliance_audit_ledger(document_id);
-CREATE INDEX idx_compliance_audit_ledger_org ON compliance_audit_ledger(organization_id);
-CREATE INDEX idx_compliance_audit_ledger_event ON compliance_audit_ledger(event_type);
+CREATE INDEX IF NOT EXISTS idx_compliance_audit_ledger_doc ON compliance_audit_ledger(document_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_audit_ledger_org ON compliance_audit_ledger(organization_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_audit_ledger_event ON compliance_audit_ledger(event_type);
 
 -- Basic RLS setup based on organization
 ALTER TABLE compliance_runtime_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE compliance_audit_ledger ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Enable read access for organization users" ON compliance_runtime_documents;
 CREATE POLICY "Enable read access for organization users" ON compliance_runtime_documents
   FOR SELECT USING (organization_id IN (
     SELECT organization_id FROM organization_members WHERE user_id = auth.uid()
   ));
 
+DROP POLICY IF EXISTS "Enable insert for organization users" ON compliance_runtime_documents;
 CREATE POLICY "Enable insert for organization users" ON compliance_runtime_documents
   FOR INSERT WITH CHECK (organization_id IN (
     SELECT organization_id FROM organization_members WHERE user_id = auth.uid()
   ));
 
+DROP POLICY IF EXISTS "Enable update for organization users" ON compliance_runtime_documents;
 CREATE POLICY "Enable update for organization users" ON compliance_runtime_documents
   FOR UPDATE USING (organization_id IN (
     SELECT organization_id FROM organization_members WHERE user_id = auth.uid()
   ));
 
 -- Audit ledger is append-only
+DROP POLICY IF EXISTS "Enable read access for organization users" ON compliance_audit_ledger;
 CREATE POLICY "Enable read access for organization users" ON compliance_audit_ledger
   FOR SELECT USING (organization_id IN (
     SELECT organization_id FROM organization_members WHERE user_id = auth.uid()
   ));
 
+DROP POLICY IF EXISTS "Enable insert for organization users" ON compliance_audit_ledger;
 CREATE POLICY "Enable insert for organization users" ON compliance_audit_ledger
   FOR INSERT WITH CHECK (organization_id IN (
     SELECT organization_id FROM organization_members WHERE user_id = auth.uid()

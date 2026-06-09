@@ -85,13 +85,18 @@ create table if not exists public.document_intelligence_active_references (
       'procedure_library',
       'general_library'
     )
-  ),
-  constraint document_intelligence_active_references_family_study_domain_unique unique (
+  )
+);
+
+alter table public.document_intelligence_active_references
+  drop constraint if exists document_intelligence_active_references_family_study_domain_unique;
+
+alter table public.document_intelligence_active_references
+  add constraint document_intelligence_active_references_family_study_domain_unique unique (
     document_family_id,
     study_id,
     domain
-  )
-);
+  );
 
 create index if not exists document_intelligence_active_references_org_idx
   on public.document_intelligence_active_references (organization_id);
@@ -146,6 +151,7 @@ for each row execute function public.document_intelligence_active_reference_even
 alter table public.document_intelligence_active_references enable row level security;
 alter table public.document_intelligence_active_reference_events enable row level security;
 
+drop policy if exists document_intelligence_active_references_select on public.document_intelligence_active_references;
 create policy document_intelligence_active_references_select
   on public.document_intelligence_active_references
   for select using (
@@ -153,6 +159,7 @@ create policy document_intelligence_active_references_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_active_references_insert on public.document_intelligence_active_references;
 create policy document_intelligence_active_references_insert
   on public.document_intelligence_active_references
   for insert with check (
@@ -160,6 +167,7 @@ create policy document_intelligence_active_references_insert
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_active_references_update on public.document_intelligence_active_references;
 create policy document_intelligence_active_references_update
   on public.document_intelligence_active_references
   for update using (
@@ -167,6 +175,7 @@ create policy document_intelligence_active_references_update
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_active_references_delete on public.document_intelligence_active_references;
 create policy document_intelligence_active_references_delete
   on public.document_intelligence_active_references
   for delete using (
@@ -174,6 +183,7 @@ create policy document_intelligence_active_references_delete
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_active_reference_events_select on public.document_intelligence_active_reference_events;
 create policy document_intelligence_active_reference_events_select
   on public.document_intelligence_active_reference_events
   for select using (
@@ -181,6 +191,7 @@ create policy document_intelligence_active_reference_events_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_active_reference_events_insert on public.document_intelligence_active_reference_events;
 create policy document_intelligence_active_reference_events_insert
   on public.document_intelligence_active_reference_events
   for insert with check (

@@ -88,6 +88,7 @@ $$;
 
 alter table public.pharmacy_runtime_blueprints enable row level security;
 
+drop policy if exists pharmacy_blueprints_select on public.pharmacy_runtime_blueprints;
 create policy pharmacy_blueprints_select
   on public.pharmacy_runtime_blueprints
   for select using (
@@ -96,6 +97,7 @@ create policy pharmacy_blueprints_select
     and public.pharmacy_user_can_access_action(study_id, site_id, 'inventory_review')
   );
 
+drop policy if exists pharmacy_blueprints_insert on public.pharmacy_runtime_blueprints;
 create policy pharmacy_blueprints_insert
   on public.pharmacy_runtime_blueprints
   for insert with check (
@@ -103,6 +105,7 @@ create policy pharmacy_blueprints_insert
     and public.user_can_manage_study_roster(study_id)
   );
 
+drop policy if exists pharmacy_blueprints_update on public.pharmacy_runtime_blueprints;
 create policy pharmacy_blueprints_update
   on public.pharmacy_runtime_blueprints
   for update using (

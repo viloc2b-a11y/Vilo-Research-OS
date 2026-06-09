@@ -1,6 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
-import { refreshVisitOperationalFields } from '@/lib/visits/refreshVisitOperationalState'
 
 export type StudyCommandCenterMetrics = {
   actionRequired: {
@@ -31,104 +30,44 @@ export async function loadStudyCommandCenterMetrics(
 ): Promise<StudyCommandCenterMetrics> {
   const supabase = await createServerClient()
   const refDate = todayIsoDate()
+  const next7Date = addDaysIso(refDate, 7)
+  const next14Date = addDaysIso(refDate, 14)
 
-  // 1. Action Required
-  const { count: pendingSignatures } = await supabase
-    .from('compliance_obligations')
-    .select('id, compliance_runtime_documents!inner(study_id)', { count: 'exact', head: true })
-    .eq('organization_id', organizationId)
-    .eq('compliance_runtime_documents.study_id', studyId)
-    .in('status', ['pending', 'overdue', 'escalated'])
+  const [
+    pendingSignatures,
+    regulatoryExpirations,
+    next7Days,
+    next14Days,
+    overdueVisits,
+    activeAeRecords,
+  ] = await Promise.all([
+    countComplianceObligations(studyId, organizationId),
+    countRegulatoryExpirations(studyId, organizationId),
+    countVisitsBetween(studyId, organizationId, refDate, next7Date),
+    countVisitsBetween(studyId, organizationId, refDate, next14Date),
+    countOverdueVisits(studyId, organizationId),
+    countActiveAeRecords(studyId, organizationId),
+  ])
 
-  const { count: regulatoryExpirations } = await supabase
-    .from('compliance_expiration_alerts')
-    .select('id, compliance_runtime_documents!inner(study_id)', { count: 'exact', head: true })
-    .eq('organization_id', organizationId)
-    .eq('compliance_runtime_documents.study_id', studyId)
-    .in('status', ['pending', 'escalated'])
+  const recentEvents: StudyCommandCenterMetrics['recentActivity'] = []
 
-  // 2. Visits & Subjects
-  const { data: subjects } = await supabase
-    .from('study_subjects')
-    .select(`
-      id,
-      subject_adverse_events ( id, lifecycle_status ),
-      visits (
-        id,
-        scheduled_date,
-        target_date,
-        window_start,
-        window_end,
-        actual_date,
-        visit_status,
-        updated_at
-      )
-    `)
+  const { data: recentVisits } = await supabase
+    .from('visits')
+    .select('id, updated_at')
     .eq('study_id', studyId)
     .eq('organization_id', organizationId)
+    .eq('visit_status', 'completed')
+    .order('updated_at', { ascending: false })
+    .limit(5)
 
-  let next7Days = 0
-  let next14Days = 0
-  let overdueVisits = 0
-  let subjectsWithActiveAEs = 0
-  let subjectsWithOverdueVisits = 0
-
-  const recentEvents: any[] = []
-
-  if (subjects) {
-    const todayTime = new Date(refDate).getTime()
-    const dayMs = 1000 * 60 * 60 * 24
-
-    for (const sub of subjects) {
-      const aes = sub.subject_adverse_events || []
-      const hasAe = aes.some((ae: any) => ae.lifecycle_status === 'open')
-      if (hasAe) subjectsWithActiveAEs++
-
-      let subHasOverdue = false
-
-      const visits = sub.visits || []
-      for (const v of visits) {
-        const refreshed = refreshVisitOperationalFields({
-          visitStatus: v.visit_status,
-          scheduledDate: v.scheduled_date,
-          targetDate: v.target_date,
-          windowStartDate: v.window_start,
-          windowEndDate: v.window_end,
-          actualDate: v.actual_date,
-          completedAt: null,
-          referenceDate: refDate
-        })
-
-        if (refreshed.visitStatus === 'completed') {
-          recentEvents.push({
-            id: v.id,
-            type: 'visit_completed',
-            description: 'Visit completed',
-            date: v.updated_at
-          })
-        }
-
-        if (refreshed.windowStatus === 'outside_window' || refreshed.visitStatus === 'missed') {
-          overdueVisits++
-          subHasOverdue = true
-        } else if (['scheduled', 'expected', 'pending'].includes(refreshed.visitStatus)) {
-          const activeDate = v.scheduled_date || v.target_date
-          if (activeDate) {
-            const timeDiff = new Date(activeDate).getTime() - todayTime
-            const daysDiff = Math.ceil(timeDiff / dayMs)
-            
-            if (daysDiff >= 0 && daysDiff <= 7) {
-              next7Days++
-              next14Days++
-            } else if (daysDiff > 7 && daysDiff <= 14) {
-              next14Days++
-            }
-          }
-        }
-      }
-
-      if (subHasOverdue) subjectsWithOverdueVisits++
-    }
+  for (const visit of recentVisits ?? []) {
+    if (!visit.updated_at) continue
+    recentEvents.push({
+      id: String(visit.id),
+      type: 'visit_completed',
+      description: 'Visit completed',
+      date: String(visit.updated_at),
+    })
   }
 
   // Fetch recent documents
@@ -178,8 +117,8 @@ export async function loadStudyCommandCenterMetrics(
 
   return {
     actionRequired: {
-      pendingSignatures: pendingSignatures || 0,
-      regulatoryExpirations: regulatoryExpirations || 0
+      pendingSignatures,
+      regulatoryExpirations
     },
     visitHorizon: {
       next7Days,
@@ -187,10 +126,84 @@ export async function loadStudyCommandCenterMetrics(
       overdue: overdueVisits
     },
     subjectAttention: {
-      withActiveAEs: subjectsWithActiveAEs,
-      withOverdueVisits: subjectsWithOverdueVisits,
-      requiringReview: pendingSignatures || 0
+      withActiveAEs: activeAeRecords,
+      withOverdueVisits: overdueVisits,
+      requiringReview: pendingSignatures
     },
     recentActivity: recentEvents.slice(0, 5)
   }
+}
+
+function addDaysIso(date: string, days: number) {
+  const value = new Date(date)
+  value.setDate(value.getDate() + days)
+  return value.toISOString().slice(0, 10)
+}
+
+async function countComplianceObligations(studyId: string, organizationId: string) {
+  const supabase = await createServerClient()
+  const { count } = await supabase
+    .from('compliance_obligations')
+    .select('id, compliance_runtime_documents!inner(study_id)', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .eq('compliance_runtime_documents.study_id', studyId)
+    .in('status', ['pending', 'overdue', 'escalated'])
+
+  return count ?? 0
+}
+
+async function countRegulatoryExpirations(studyId: string, organizationId: string) {
+  const supabase = await createServerClient()
+  const { count } = await supabase
+    .from('compliance_expiration_alerts')
+    .select('id, compliance_runtime_documents!inner(study_id)', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .eq('compliance_runtime_documents.study_id', studyId)
+    .in('status', ['pending', 'escalated'])
+
+  return count ?? 0
+}
+
+async function countVisitsBetween(
+  studyId: string,
+  organizationId: string,
+  startDate: string,
+  endDate: string,
+) {
+  const supabase = await createServerClient()
+  const { count } = await supabase
+    .from('visits')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .eq('study_id', studyId)
+    .not('scheduled_date', 'is', null)
+    .gte('scheduled_date', startDate)
+    .lte('scheduled_date', endDate)
+    .in('visit_status', ['scheduled', 'checked_in', 'in_progress'])
+
+  return count ?? 0
+}
+
+async function countOverdueVisits(studyId: string, organizationId: string) {
+  const supabase = await createServerClient()
+  const { count } = await supabase
+    .from('visits')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .eq('study_id', studyId)
+    .or('visit_status.in.(missed,out_of_window),window_status.eq.outside_window')
+
+  return count ?? 0
+}
+
+async function countActiveAeRecords(studyId: string, organizationId: string) {
+  const supabase = await createServerClient()
+  const { count } = await supabase
+    .from('subject_adverse_events')
+    .select('ae_id, study_subjects!inner(study_id)', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .eq('study_subjects.study_id', studyId)
+    .eq('lifecycle_status', 'open')
+
+  return count ?? 0
 }

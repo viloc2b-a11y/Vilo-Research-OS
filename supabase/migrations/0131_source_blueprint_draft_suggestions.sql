@@ -56,6 +56,7 @@ create index if not exists source_blueprint_draft_suggestions_study_status_idx
 
 alter table public.source_blueprint_draft_suggestions enable row level security;
 
+drop policy if exists source_blueprint_draft_suggestions_select on public.source_blueprint_draft_suggestions;
 create policy source_blueprint_draft_suggestions_select
   on public.source_blueprint_draft_suggestions
   for select using (
@@ -63,6 +64,7 @@ create policy source_blueprint_draft_suggestions_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_draft_suggestions_insert on public.source_blueprint_draft_suggestions;
 create policy source_blueprint_draft_suggestions_insert
   on public.source_blueprint_draft_suggestions
   for insert with check (
@@ -70,6 +72,7 @@ create policy source_blueprint_draft_suggestions_insert
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_draft_suggestions_update on public.source_blueprint_draft_suggestions;
 create policy source_blueprint_draft_suggestions_update
   on public.source_blueprint_draft_suggestions
   for update using (

@@ -155,6 +155,7 @@ alter table public.protocol_visit_reconciliations enable row level security;
 alter table public.protocol_procedure_reconciliations enable row level security;
 alter table public.protocol_reconciliation_events enable row level security;
 
+drop policy if exists protocol_visit_reconciliations_select on public.protocol_visit_reconciliations;
 create policy protocol_visit_reconciliations_select on public.protocol_visit_reconciliations
   for select using (
     public.user_has_active_organization_membership(organization_id)
@@ -168,6 +169,7 @@ create policy protocol_visit_reconciliations_select on public.protocol_visit_rec
     )
   );
 
+drop policy if exists protocol_visit_reconciliations_insert on public.protocol_visit_reconciliations;
 create policy protocol_visit_reconciliations_insert on public.protocol_visit_reconciliations
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
@@ -181,6 +183,7 @@ create policy protocol_visit_reconciliations_insert on public.protocol_visit_rec
     )
   );
 
+drop policy if exists protocol_visit_reconciliations_update on public.protocol_visit_reconciliations;
 create policy protocol_visit_reconciliations_update on public.protocol_visit_reconciliations
   for update using (
     public.user_has_active_organization_membership(organization_id)
@@ -194,6 +197,7 @@ create policy protocol_visit_reconciliations_update on public.protocol_visit_rec
     )
   );
 
+drop policy if exists protocol_procedure_reconciliations_select on public.protocol_procedure_reconciliations;
 create policy protocol_procedure_reconciliations_select on public.protocol_procedure_reconciliations
   for select using (
     public.user_has_active_organization_membership(organization_id)
@@ -207,6 +211,7 @@ create policy protocol_procedure_reconciliations_select on public.protocol_proce
     )
   );
 
+drop policy if exists protocol_procedure_reconciliations_insert on public.protocol_procedure_reconciliations;
 create policy protocol_procedure_reconciliations_insert on public.protocol_procedure_reconciliations
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
@@ -220,6 +225,7 @@ create policy protocol_procedure_reconciliations_insert on public.protocol_proce
     )
   );
 
+drop policy if exists protocol_procedure_reconciliations_update on public.protocol_procedure_reconciliations;
 create policy protocol_procedure_reconciliations_update on public.protocol_procedure_reconciliations
   for update using (
     public.user_has_active_organization_membership(organization_id)
@@ -233,6 +239,7 @@ create policy protocol_procedure_reconciliations_update on public.protocol_proce
     )
   );
 
+drop policy if exists protocol_reconciliation_events_select on public.protocol_reconciliation_events;
 create policy protocol_reconciliation_events_select on public.protocol_reconciliation_events
   for select using (
     public.user_has_active_organization_membership(organization_id)
@@ -246,6 +253,7 @@ create policy protocol_reconciliation_events_select on public.protocol_reconcili
     )
   );
 
+drop policy if exists protocol_reconciliation_events_insert on public.protocol_reconciliation_events;
 create policy protocol_reconciliation_events_insert on public.protocol_reconciliation_events
   for insert with check (
     public.user_has_active_organization_membership(organization_id)

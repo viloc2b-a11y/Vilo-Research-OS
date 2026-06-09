@@ -7,7 +7,6 @@ import { buildStudyWorkspaceRuntimeLinks } from '@/lib/study-workspace/study-wor
 import type { StudySetupDocument } from '@/lib/study-workspace/load-study-setup-documents'
 import type {
   StudyWorkspaceSectionId,
-  StudyWorkspaceSubjectPreview,
   StudyWorkspaceSummary,
 } from '@/lib/study-workspace/study-workspace-types'
 import { StudyActivityFeed } from './study-activity-feed'
@@ -20,8 +19,13 @@ import { StudySetupPanel } from './study-setup-panel'
 import { StudySourcePanel } from './study-source-panel'
 import { StudySubjectRosterView } from './study-subject-roster-view'
 import { StudyTrainingPanel } from './study-training-panel'
+import { StudyGovernancePanel } from './study-governance-panel'
 import { StudyCommandCenterView } from './study-command-center-view'
+import { StudyOperationsPanel } from '@/components/coordinator-operations/StudyOperationsPanel'
+import { StudyVisitSourceContinuityPanel } from '@/components/coordinator-operations/StudyVisitSourceContinuityPanel'
 import { STUDY_WORKSPACE_NAV_ITEMS, StudyWorkspaceNav } from './study-workspace-nav'
+import type { RuntimeReadinessContinuityRow } from '@/lib/studies/runtime-readiness'
+import type { StudyOperationsSurface } from '@/lib/coordinator-operations/types'
 
 const VALID_SECTIONS = new Set<string>(STUDY_WORKSPACE_NAV_ITEMS.map((item) => item.id))
 
@@ -34,27 +38,60 @@ import type { ComplianceRuntimeDocument } from '@/lib/document-intake/compliance
 import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
 import type { StudySubjectRosterRow } from '@/lib/study-workspace/load-study-subject-roster'
 import type { StudyCommandCenterMetrics } from '@/lib/study-workspace/load-study-command-center-metrics'
+import type { StudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
+import type { StudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-patient-acquisition-summary'
+import type { StudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
+import type { StudyCloseoutSummary } from '@/lib/study-workspace/load-study-closeout-summary'
+import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
+import type { LoadedProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/protocol-intake-types'
 
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
   subjects: StudySubjectRosterRow[]
+  subjectSearchQuery: string
+  visitSearchQuery: string
+  docsSearchQuery: string
+  binderSearchQuery: string
   setupDocuments: StudySetupDocument[]
   hasProtocolDraft: boolean
   regulatoryDocuments: ComplianceRuntimeDocument[]
   studyDocuments: ComplianceRuntimeDocument[]
   visits: StudyVisitRow[]
   commandCenterMetrics: StudyCommandCenterMetrics
+  budgetEvidenceSummary: StudyBudgetEvidenceSummary
+  patientAcquisitionSummary: StudyPatientAcquisitionSummary
+  governanceSummary: StudyGovernanceSummary
+  closeoutSummary: StudyCloseoutSummary
+  financialRuntimeSummary: StudyFinancialRuntimeSummary
+  workflowSummary: StudyWorkflowSummary
+  protocolRuntimeStudy: LoadedProtocolRuntimeStudy | null
+  studyOperationsSurface: StudyOperationsSurface
+  continuityRows: RuntimeReadinessContinuityRow[]
 }
 
 export function StudyWorkspaceShell({
   summary,
   subjects,
+  subjectSearchQuery,
+  visitSearchQuery,
+  docsSearchQuery,
+  binderSearchQuery,
   setupDocuments,
   hasProtocolDraft,
   regulatoryDocuments,
   studyDocuments,
   visits,
   commandCenterMetrics,
+  budgetEvidenceSummary,
+  patientAcquisitionSummary,
+  governanceSummary,
+  closeoutSummary,
+  financialRuntimeSummary,
+  workflowSummary,
+  protocolRuntimeStudy,
+  studyOperationsSurface,
+  continuityRows,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -116,12 +153,22 @@ export function StudyWorkspaceShell({
 
       <div className="min-h-[320px] rounded-md border border-slate-200 bg-white p-5">
         {activeSection === 'overview' ? (
-          <StudyCommandCenterView
-            studyName={summary.study.name}
-            studyStatus={summary.study.status}
-            links={links}
-            metrics={commandCenterMetrics}
-          />
+          <div className="space-y-6">
+            <StudyOperationsPanel surface={studyOperationsSurface} />
+            <StudyCommandCenterView
+              studyId={summary.study.id}
+              studyName={summary.study.name}
+              studyStatus={summary.study.status}
+              links={links}
+              metrics={commandCenterMetrics}
+              budgetEvidenceSummary={budgetEvidenceSummary}
+              patientAcquisitionSummary={patientAcquisitionSummary}
+              governanceSummary={governanceSummary}
+              financialRuntimeSummary={financialRuntimeSummary}
+              workflowSummary={workflowSummary}
+            />
+            <StudyVisitSourceContinuityPanel rows={continuityRows} embedded />
+          </div>
         ) : null}
 
         {activeSection === 'study-setup' ? (
@@ -135,7 +182,11 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'subjects' ? (
-          <StudySubjectRosterView subjects={subjects} />
+          <StudySubjectRosterView
+            studyId={summary.study.id}
+            subjects={subjects}
+            searchQuery={subjectSearchQuery}
+          />
         ) : null}
 
         {activeSection === 'source-runtime' ? <StudySourcePanel links={links} /> : null}
@@ -145,11 +196,30 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'visit-runtime' ? (
-          <StudyVisitMatrixView visits={visits} />
+          <StudyVisitMatrixView
+            studyId={summary.study.id}
+            visits={visits}
+            searchQuery={visitSearchQuery}
+          />
         ) : null}
 
         {activeSection === 'regulatory-binder' ? (
-          <StudyRegulatoryBinderView links={links} documents={regulatoryDocuments} />
+          <StudyRegulatoryBinderView
+            studyId={summary.study.id}
+            links={links}
+            documents={regulatoryDocuments}
+            searchQuery={binderSearchQuery}
+          />
+        ) : null}
+
+        {activeSection === 'governance' ? (
+          <StudyGovernancePanel
+            studyId={summary.study.id}
+            links={links}
+            governanceSummary={governanceSummary}
+            closeoutSummary={closeoutSummary}
+            protocolRuntimeStudy={protocolRuntimeStudy}
+          />
         ) : null}
 
         {activeSection === 'training' ? (
@@ -161,7 +231,12 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'documents' ? (
-          <StudyDocumentsView links={links} documents={studyDocuments} />
+          <StudyDocumentsView
+            studyId={summary.study.id}
+            links={links}
+            documents={studyDocuments}
+            searchQuery={docsSearchQuery}
+          />
         ) : null}
 
         {activeSection === 'monitoring' ? (

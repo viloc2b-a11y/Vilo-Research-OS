@@ -85,20 +85,35 @@ export async function runLivePilotValidation(input: {
   await refreshSubjectRuntimeProjection(supabase, scope.studySubjectId, scope.organizationId)
 
   if (!refresh.ok) {
+    const refreshError = refresh.error ?? 'refreshVisitReadinessProjection failed'
+    const fetchFailed = /fetch failed/i.test(refreshError)
     failures.push(
       failure(
         'events-refresh-projections',
-        'blocker',
-        refresh.error ?? 'refreshVisitReadinessProjection failed',
+        fetchFailed ? 'warning' : 'blocker',
+        refreshError,
+        fetchFailed
+          ? 'Live refresh hit a transient Supabase fetch failure. Continue with cached projections if available.'
+          : 'Inspect the refresh chain before rerunning the pilot.',
       ),
     )
     checks.push({
       id: 'events-refresh-projections-live',
       goal: 2,
       label: 'Events / compute refresh derived projections',
-      status: 'fail',
-      detail: refresh.error ?? 'refreshVisitReadinessProjection failed',
+      status: fetchFailed ? 'warn' : 'fail',
+      detail: refreshError,
     })
+    if (fetchFailed) {
+      return {
+        checks,
+        failures,
+        integrityReport: null,
+        replaySummary: null,
+        projectionSummary: null,
+        uiModelSummary: null,
+      }
+    }
     return { checks, failures, integrityReport: null, replaySummary: null, projectionSummary: null, uiModelSummary: null }
   }
 

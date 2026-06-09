@@ -159,24 +159,28 @@ for each row execute function public.source_blueprint_evidence_review_events_den
 alter table public.source_blueprint_evidence enable row level security;
 alter table public.source_blueprint_evidence_review_events enable row level security;
 
+drop policy if exists source_blueprint_evidence_select on public.source_blueprint_evidence;
 create policy source_blueprint_evidence_select on public.source_blueprint_evidence
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_insert on public.source_blueprint_evidence;
 create policy source_blueprint_evidence_insert on public.source_blueprint_evidence
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_update on public.source_blueprint_evidence;
 create policy source_blueprint_evidence_update on public.source_blueprint_evidence
   for update using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_review_events_select on public.source_blueprint_evidence_review_events;
 create policy source_blueprint_evidence_review_events_select
   on public.source_blueprint_evidence_review_events
   for select using (
@@ -184,6 +188,7 @@ create policy source_blueprint_evidence_review_events_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_review_events_insert on public.source_blueprint_evidence_review_events;
 create policy source_blueprint_evidence_review_events_insert
   on public.source_blueprint_evidence_review_events
   for insert with check (

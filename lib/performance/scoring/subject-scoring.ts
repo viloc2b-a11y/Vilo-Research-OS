@@ -11,9 +11,32 @@ const CRITICAL_KINDS: readonly SubjectSignalKind[] = [
   'blocked_procedure',
   'missed_visit',
   'out_of_window',
+  'governance_blocker',
+  'reverted_payment',
+  'written_off_payment',
+  'earned_but_not_invoiced',
+  'invoiceable_missing',
+  'pass_through_unreimbursed',
+  'stipend_unreconciled',
+  'overdue_financial',
+  'disputed_payment',
+  'screen_failure_billable',
+  'lab_consecutive_worsening',
+  'lab_consecutive_abnormal',
+  'lab_follow_up_overdue',
 ]
 
-const RISK_KINDS: readonly SubjectSignalKind[] = ['overdue_action', 'window_closing_today']
+const RISK_KINDS: readonly SubjectSignalKind[] = [
+  'overdue_action',
+  'open_query',
+  'needs_resign',
+  'window_closing_today',
+  'governance_warning',
+  'revenue_leakage',
+  'lab_worsening',
+  'lab_missing_repeat',
+  'lab_safety_review',
+]
 
 const WATCH_KINDS: readonly SubjectSignalKind[] = [
   'unsigned_procedure_48h',

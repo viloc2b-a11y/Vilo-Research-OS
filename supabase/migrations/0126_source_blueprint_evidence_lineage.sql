@@ -62,24 +62,28 @@ create index if not exists source_blueprint_evidence_lineage_study_evidence_idx
 
 alter table public.source_blueprint_evidence_lineage enable row level security;
 
+drop policy if exists source_blueprint_evidence_lineage_select on public.source_blueprint_evidence_lineage;
 create policy source_blueprint_evidence_lineage_select on public.source_blueprint_evidence_lineage
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_lineage_insert on public.source_blueprint_evidence_lineage;
 create policy source_blueprint_evidence_lineage_insert on public.source_blueprint_evidence_lineage
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_lineage_update on public.source_blueprint_evidence_lineage;
 create policy source_blueprint_evidence_lineage_update on public.source_blueprint_evidence_lineage
   for update using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_evidence_lineage_delete on public.source_blueprint_evidence_lineage;
 create policy source_blueprint_evidence_lineage_delete on public.source_blueprint_evidence_lineage
   for delete using (
     public.user_has_active_organization_membership(organization_id)

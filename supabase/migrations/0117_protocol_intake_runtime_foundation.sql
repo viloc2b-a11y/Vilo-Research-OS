@@ -70,9 +70,14 @@ create table if not exists public.protocol_runtime_versions (
   )
 );
 
-alter table public.protocol_runtime_studies
-  add constraint protocol_runtime_studies_current_version_fkey
-  foreign key (current_protocol_version_id) references public.protocol_runtime_versions (id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'protocol_runtime_studies_current_version_fkey') THEN
+    alter table public.protocol_runtime_studies
+      add constraint protocol_runtime_studies_current_version_fkey
+      foreign key (current_protocol_version_id) references public.protocol_runtime_versions (id);
+  END IF;
+END $$;
 
 create index if not exists protocol_runtime_versions_study_idx
   on public.protocol_runtime_versions (protocol_runtime_study_id);
@@ -271,18 +276,21 @@ alter table public.protocol_runtime_procedure_candidates enable row level securi
 alter table public.protocol_runtime_amendment_links enable row level security;
 
 -- Studies: org membership; if study_id is set, require study access.
+drop policy if exists protocol_runtime_studies_select on public.protocol_runtime_studies;
 create policy protocol_runtime_studies_select on public.protocol_runtime_studies
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and (study_id is null or public.user_has_study_access(study_id))
   );
 
+drop policy if exists protocol_runtime_studies_insert on public.protocol_runtime_studies;
 create policy protocol_runtime_studies_insert on public.protocol_runtime_studies
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and (study_id is null or public.user_has_study_access(study_id))
   );
 
+drop policy if exists protocol_runtime_studies_update on public.protocol_runtime_studies;
 create policy protocol_runtime_studies_update on public.protocol_runtime_studies
   for update using (
     public.user_has_active_organization_membership(organization_id)
@@ -290,6 +298,7 @@ create policy protocol_runtime_studies_update on public.protocol_runtime_studies
   );
 
 -- Child tables: access via parent protocol_runtime_studies join.
+drop policy if exists protocol_runtime_versions_select on public.protocol_runtime_versions;
 create policy protocol_runtime_versions_select on public.protocol_runtime_versions
   for select using (
     exists (
@@ -301,6 +310,7 @@ create policy protocol_runtime_versions_select on public.protocol_runtime_versio
     )
   );
 
+drop policy if exists protocol_runtime_versions_insert on public.protocol_runtime_versions;
 create policy protocol_runtime_versions_insert on public.protocol_runtime_versions
   for insert with check (
     exists (
@@ -312,6 +322,7 @@ create policy protocol_runtime_versions_insert on public.protocol_runtime_versio
     )
   );
 
+drop policy if exists protocol_runtime_versions_update on public.protocol_runtime_versions;
 create policy protocol_runtime_versions_update on public.protocol_runtime_versions
   for update using (
     exists (
@@ -323,6 +334,7 @@ create policy protocol_runtime_versions_update on public.protocol_runtime_versio
     )
   );
 
+drop policy if exists protocol_runtime_sections_select on public.protocol_runtime_sections;
 create policy protocol_runtime_sections_select on public.protocol_runtime_sections
   for select using (
     exists (
@@ -335,6 +347,7 @@ create policy protocol_runtime_sections_select on public.protocol_runtime_sectio
     )
   );
 
+drop policy if exists protocol_runtime_sections_insert on public.protocol_runtime_sections;
 create policy protocol_runtime_sections_insert on public.protocol_runtime_sections
   for insert with check (
     exists (
@@ -347,6 +360,7 @@ create policy protocol_runtime_sections_insert on public.protocol_runtime_sectio
     )
   );
 
+drop policy if exists protocol_runtime_sections_delete on public.protocol_runtime_sections;
 create policy protocol_runtime_sections_delete on public.protocol_runtime_sections
   for delete using (
     exists (
@@ -359,6 +373,7 @@ create policy protocol_runtime_sections_delete on public.protocol_runtime_sectio
     )
   );
 
+drop policy if exists protocol_runtime_visit_candidates_select on public.protocol_runtime_visit_candidates;
 create policy protocol_runtime_visit_candidates_select on public.protocol_runtime_visit_candidates
   for select using (
     exists (
@@ -371,6 +386,7 @@ create policy protocol_runtime_visit_candidates_select on public.protocol_runtim
     )
   );
 
+drop policy if exists protocol_runtime_visit_candidates_insert on public.protocol_runtime_visit_candidates;
 create policy protocol_runtime_visit_candidates_insert on public.protocol_runtime_visit_candidates
   for insert with check (
     exists (
@@ -383,6 +399,7 @@ create policy protocol_runtime_visit_candidates_insert on public.protocol_runtim
     )
   );
 
+drop policy if exists protocol_runtime_visit_candidates_delete on public.protocol_runtime_visit_candidates;
 create policy protocol_runtime_visit_candidates_delete on public.protocol_runtime_visit_candidates
   for delete using (
     exists (
@@ -395,6 +412,7 @@ create policy protocol_runtime_visit_candidates_delete on public.protocol_runtim
     )
   );
 
+drop policy if exists protocol_runtime_procedure_candidates_select on public.protocol_runtime_procedure_candidates;
 create policy protocol_runtime_procedure_candidates_select on public.protocol_runtime_procedure_candidates
   for select using (
     exists (
@@ -407,6 +425,7 @@ create policy protocol_runtime_procedure_candidates_select on public.protocol_ru
     )
   );
 
+drop policy if exists protocol_runtime_procedure_candidates_insert on public.protocol_runtime_procedure_candidates;
 create policy protocol_runtime_procedure_candidates_insert on public.protocol_runtime_procedure_candidates
   for insert with check (
     exists (
@@ -419,6 +438,7 @@ create policy protocol_runtime_procedure_candidates_insert on public.protocol_ru
     )
   );
 
+drop policy if exists protocol_runtime_procedure_candidates_delete on public.protocol_runtime_procedure_candidates;
 create policy protocol_runtime_procedure_candidates_delete on public.protocol_runtime_procedure_candidates
   for delete using (
     exists (
@@ -431,6 +451,7 @@ create policy protocol_runtime_procedure_candidates_delete on public.protocol_ru
     )
   );
 
+drop policy if exists protocol_runtime_amendment_links_select on public.protocol_runtime_amendment_links;
 create policy protocol_runtime_amendment_links_select on public.protocol_runtime_amendment_links
   for select using (
     exists (
@@ -442,6 +463,7 @@ create policy protocol_runtime_amendment_links_select on public.protocol_runtime
     )
   );
 
+drop policy if exists protocol_runtime_amendment_links_insert on public.protocol_runtime_amendment_links;
 create policy protocol_runtime_amendment_links_insert on public.protocol_runtime_amendment_links
   for insert with check (
     exists (

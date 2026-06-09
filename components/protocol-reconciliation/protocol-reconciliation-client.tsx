@@ -205,22 +205,25 @@ function GenerationHandoff(props: { ready: boolean; versionId: string; studyId: 
             ? 'All items resolved. Continue to generate study runtime from this reconciliation.'
             : 'Resolve all draft/needs-review items before generation.'}
         </p>
+        <p className="mt-1 font-mono text-[11px] text-slate-400">
+          version_id: {props.versionId.slice(0, 8)}…
+          {props.studyId ? ` · study_id: ${props.studyId.slice(0, 8)}…` : ''}
+        </p>
       </div>
-      {props.ready ? (
+      <div className="flex flex-wrap items-center gap-2">
         <Link
           href={href}
-          className="inline-flex shrink-0 rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          className={`inline-flex shrink-0 rounded-md px-3 py-2 text-sm font-medium ${
+            props.ready
+              ? 'bg-slate-900 text-white hover:bg-slate-800'
+              : 'cursor-not-allowed border border-slate-200 bg-slate-50 text-slate-400'
+          }`}
+          aria-disabled={!props.ready}
+          tabIndex={props.ready ? 0 : -1}
         >
           Continue to Generation
         </Link>
-      ) : (
-        <span
-          aria-disabled="true"
-          className="inline-flex shrink-0 cursor-not-allowed rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-400"
-        >
-          Continue to Generation
-        </span>
-      )}
+      </div>
     </div>
   )
 }

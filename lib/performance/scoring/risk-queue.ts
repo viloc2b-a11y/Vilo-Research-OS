@@ -23,11 +23,31 @@ const KNOWN_SIGNAL_KINDS: readonly SubjectSignalKind[] = [
   'missed_visit',
   'out_of_window',
   'overdue_action',
+  'open_query',
   'blocked_procedure',
+  'needs_resign',
   'window_warning',
   'unsigned_procedure_48h',
   'window_closing_today',
   'stale_subject',
+  'governance_blocker',
+  'governance_warning',
+  'revenue_leakage',
+  'earned_but_not_invoiced',
+  'invoiceable_missing',
+  'screen_failure_billable',
+  'pass_through_unreimbursed',
+  'stipend_unreconciled',
+  'overdue_financial',
+  'disputed_payment',
+  'reverted_payment',
+  'written_off_payment',
+  'lab_worsening',
+  'lab_consecutive_worsening',
+  'lab_consecutive_abnormal',
+  'lab_missing_repeat',
+  'lab_follow_up_overdue',
+  'lab_safety_review',
 ]
 
 function isSubjectSignalKind(value: string): value is SubjectSignalKind {
@@ -74,11 +94,124 @@ const SIGNAL_TO_REASON: Record<SubjectSignalKind, SubjectRiskReasonKind> = {
   missed_visit: 'missed_visit',
   out_of_window: 'out_of_window',
   overdue_action: 'overdue_action',
+  open_query: 'open_query',
   blocked_procedure: 'blocked_procedure',
+  needs_resign: 'needs_resign',
   window_warning: 'window_warning',
   unsigned_procedure_48h: 'window_warning',
   window_closing_today: 'window_warning',
   stale_subject: 'window_warning',
+  governance_blocker: 'governance_blocker',
+  governance_warning: 'governance_warning',
+  revenue_leakage: 'revenue_leakage',
+  earned_but_not_invoiced: 'earned_but_not_invoiced',
+  invoiceable_missing: 'invoiceable_missing',
+  screen_failure_billable: 'screen_failure_billable',
+  pass_through_unreimbursed: 'pass_through_unreimbursed',
+  stipend_unreconciled: 'stipend_unreconciled',
+  overdue_financial: 'overdue_financial',
+  disputed_payment: 'disputed_payment',
+  reverted_payment: 'reverted_payment',
+  written_off_payment: 'written_off_payment',
+  lab_worsening: 'lab_worsening',
+  lab_consecutive_worsening: 'lab_consecutive_worsening',
+  lab_consecutive_abnormal: 'lab_consecutive_abnormal',
+  lab_missing_repeat: 'lab_missing_repeat',
+  lab_follow_up_overdue: 'lab_follow_up_overdue',
+  lab_safety_review: 'lab_safety_review',
+}
+
+const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
+  missed_visit: 'Protect visit window',
+  out_of_window: 'Protect visit window',
+  overdue_action: 'Complete overdue action',
+  open_query: 'Resolve open query',
+  blocked_procedure: 'Unblock procedure execution',
+  needs_resign: 'Re-sign visit closeout',
+  window_warning: 'Protect visit window',
+  unsigned_procedure_48h: 'Obtain PI signature',
+  window_closing_today: 'Protect visit window',
+  stale_subject: 'Refresh subject follow-up',
+  governance_blocker: 'Triage governance blocker',
+  governance_warning: 'Review governance warning',
+  revenue_leakage: 'Review financial leakage',
+  earned_but_not_invoiced: 'Earned but not invoiced',
+  invoiceable_missing: 'Invoiceable missing',
+  screen_failure_billable: 'Screen-fail billable at risk',
+  pass_through_unreimbursed: 'Recover pass-through',
+  stipend_unreconciled: 'Reconcile stipend',
+  overdue_financial: 'Overdue invoice/payment',
+  disputed_payment: 'Disputed payment',
+  reverted_payment: 'Reverted payment',
+  written_off_payment: 'Write-off visibility',
+  lab_worsening: 'Lab trend worsening',
+  lab_consecutive_worsening: 'Lab worsening over multiple visits',
+  lab_consecutive_abnormal: 'Consecutive abnormal lab values',
+  lab_missing_repeat: 'Missing repeat lab',
+  lab_follow_up_overdue: 'Lab follow-up overdue',
+  lab_safety_review: 'Lab safety review recommended',
+}
+
+const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
+  missed_visit: 'Site Coordinator',
+  out_of_window: 'Site Coordinator',
+  overdue_action: 'Data Coordinator',
+  open_query: 'Data Coordinator',
+  blocked_procedure: 'Site Coordinator',
+  needs_resign: 'PI',
+  window_warning: 'Site Coordinator',
+  unsigned_procedure_48h: 'PI',
+  window_closing_today: 'Site Coordinator',
+  stale_subject: 'Site Coordinator',
+  governance_blocker: 'PI',
+  governance_warning: 'Site Coordinator',
+  revenue_leakage: 'Finance Ops',
+  earned_but_not_invoiced: 'Finance Ops',
+  invoiceable_missing: 'Finance Ops',
+  screen_failure_billable: 'Site Coordinator',
+  pass_through_unreimbursed: 'Finance Ops',
+  stipend_unreconciled: 'Finance Ops',
+  overdue_financial: 'Finance Ops',
+  disputed_payment: 'Finance Ops',
+  reverted_payment: 'Finance Ops',
+  written_off_payment: 'Finance Ops',
+  lab_worsening: 'Site Coordinator',
+  lab_consecutive_worsening: 'PI',
+  lab_consecutive_abnormal: 'PI',
+  lab_missing_repeat: 'Site Coordinator',
+  lab_follow_up_overdue: 'PI',
+  lab_safety_review: 'PI',
+}
+
+const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
+  missed_visit: 92,
+  out_of_window: 90,
+  overdue_action: 72,
+  open_query: 70,
+  blocked_procedure: 95,
+  needs_resign: 88,
+  window_warning: 55,
+  unsigned_procedure_48h: 84,
+  window_closing_today: 62,
+  stale_subject: 45,
+  governance_blocker: 86,
+  governance_warning: 60,
+  revenue_leakage: 78,
+  earned_but_not_invoiced: 81,
+  invoiceable_missing: 82,
+  screen_failure_billable: 50,
+  pass_through_unreimbursed: 85,
+  stipend_unreconciled: 74,
+  overdue_financial: 88,
+  disputed_payment: 76,
+  reverted_payment: 94,
+  written_off_payment: 92,
+  lab_worsening: 79,
+  lab_consecutive_worsening: 93,
+  lab_consecutive_abnormal: 94,
+  lab_missing_repeat: 68,
+  lab_follow_up_overdue: 92,
+  lab_safety_review: 86,
 }
 
 function operationalStateToLegacySeverity(
@@ -101,23 +234,57 @@ function contextLinks(
   subjectId: string,
   signalSource: string,
   entityId: string | null,
-): { contextHref: string; contextLabel: string } {
+): { contextHref: string; contextLabel: string; linkedObjectLabel: string } {
   if (signalSource.startsWith('visits:') && entityId) {
-    return { contextHref: performanceVisitHref(entityId), contextLabel: 'Open visit' }
+    return { contextHref: performanceVisitHref(entityId), contextLabel: 'Open visit', linkedObjectLabel: 'Visit' }
   }
   if (signalSource.startsWith('subject_workflow_actions:')) {
     return {
       contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=workflow`,
       contextLabel: 'Open workflow',
+      linkedObjectLabel: 'Workflow action',
     }
   }
   if (signalSource.startsWith('procedure_executions:')) {
     return {
       contextHref: performanceSubjectVisitsHref(studyId, subjectId),
       contextLabel: 'Subject visits',
+      linkedObjectLabel: 'Procedure execution',
     }
   }
-  return { contextHref: performanceSubjectHref(studyId, subjectId), contextLabel: 'Subject chart' }
+  if (signalSource.startsWith('visit_snapshot_queries:')) {
+    return {
+      contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=workflow`,
+      contextLabel: 'Open query context',
+      linkedObjectLabel: 'Query',
+    }
+  }
+  if (signalSource.startsWith('governance_signals:')) {
+    return {
+      contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=protocol-deviations`,
+      contextLabel: 'Open governance context',
+      linkedObjectLabel: 'Governance signal',
+    }
+  }
+  if (signalSource.startsWith('visit_financial_runtime_projections:')) {
+    return {
+      contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=visits`,
+      contextLabel: 'Open financial context',
+      linkedObjectLabel: 'Financial projection',
+    }
+  }
+  if (signalSource.startsWith('longitudinal_labs:')) {
+    return {
+      contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=documents`,
+      contextLabel: 'Open lab context',
+      linkedObjectLabel: 'Lab result',
+    }
+  }
+  return {
+    contextHref: performanceSubjectHref(studyId, subjectId),
+    contextLabel: 'Subject chart',
+    linkedObjectLabel: 'Subject',
+  }
 }
 
 export function scoredSubjectToQueueItem(row: ScoredSubject): SubjectRiskQueueItem {
@@ -125,12 +292,15 @@ export function scoredSubjectToQueueItem(row: ScoredSubject): SubjectRiskQueueIt
   const actionCode = recommendedActionForSubjectSignal(row.primarySignalKind)
   const actionLabel = recommendedActionLabel(actionCode)
   const entityId = row.primarySignalEntityId
-  const { contextHref, contextLabel } = contextLinks(
+  const { contextHref, contextLabel, linkedObjectLabel } = contextLinks(
     row.studyId,
     row.subjectId,
     row.primarySignalSource,
     entityId,
   )
+  const title = SIGNAL_TITLES[row.primarySignalKind]
+  const ownerRole = SIGNAL_OWNER_ROLES[row.primarySignalKind]
+  const priority = SIGNAL_PRIORITIES[row.primarySignalKind]
 
   const detailLines: string[] = []
   if (row.signalAgeHours > 0) detailLines.push(`Age: ${row.signalAgeHours}h`)
@@ -138,6 +308,9 @@ export function scoredSubjectToQueueItem(row: ScoredSubject): SubjectRiskQueueIt
 
   return {
     id: `subject-${row.subjectId}`,
+    title,
+    priority,
+    ownerRole,
     subjectId: row.subjectId,
     studyId: row.studyId,
     subjectIdentifier: row.subjectIdentifier,
@@ -145,12 +318,16 @@ export function scoredSubjectToQueueItem(row: ScoredSubject): SubjectRiskQueueIt
     severity: operationalStateToLegacySeverity(row.operationalState),
     reasonKind,
     reasonLabel: SUBJECT_RISK_REASON_LABELS[reasonKind],
+    reason: row.detailText || actionLabel,
     detail: row.detailText || actionLabel,
+    recommendedNextStep: actionLabel,
     sortDate: row.sortDate,
     detailLines,
     subjectHref: performanceSubjectHref(row.studyId, row.subjectId),
     contextHref,
     contextLabel,
+    linkedObjectLabel,
+    linkedObjectHref: contextHref,
     operationalState: row.operationalState,
     recommendedAction: actionCode,
   }
@@ -232,8 +409,36 @@ function legacyReasonToSignalKind(reason: SubjectRiskReasonKind): SubjectSignalK
       return 'out_of_window'
     case 'overdue_action':
       return 'overdue_action'
+    case 'open_query':
+      return 'open_query'
     case 'blocked_procedure':
       return 'blocked_procedure'
+    case 'needs_resign':
+      return 'needs_resign'
+    case 'governance_blocker':
+      return 'governance_blocker'
+    case 'governance_warning':
+      return 'governance_warning'
+    case 'revenue_leakage':
+      return 'revenue_leakage'
+    case 'earned_but_not_invoiced':
+      return 'earned_but_not_invoiced'
+    case 'invoiceable_missing':
+      return 'invoiceable_missing'
+    case 'screen_failure_billable':
+      return 'screen_failure_billable'
+    case 'pass_through_unreimbursed':
+      return 'pass_through_unreimbursed'
+    case 'stipend_unreconciled':
+      return 'stipend_unreconciled'
+    case 'overdue_financial':
+      return 'overdue_financial'
+    case 'disputed_payment':
+      return 'disputed_payment'
+    case 'reverted_payment':
+      return 'reverted_payment'
+    case 'written_off_payment':
+      return 'written_off_payment'
     default:
       return 'window_warning'
   }

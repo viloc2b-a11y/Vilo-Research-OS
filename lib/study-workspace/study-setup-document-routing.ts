@@ -7,8 +7,9 @@
 //
 // Enabled destinations only ever point at routes/surfaces that already exist:
 //   - Protocol / Amendment      -> Protocol runtime + Source Runtime / Published Source
-//   - Regulatory / ICF          -> Regulatory Binder workspace section
-//   - Source / eCRF             -> Source Evidence / Source Builder
+//   - Lab Manual                 -> Protocol runtime + Source Runtime / Published Source
+//   - ICF / Consent              -> Consent Management workspace section + consent runtime
+//   - Source / eCRF              -> Source Evidence / Source Builder
 //   - Lab / Pharmacy / Imaging / Budget / CTA -> Document Intelligence (indexed evidence)
 //
 // Everything else stays "Queued / Not wired yet" (no structured parser exists)
@@ -20,6 +21,7 @@ export type StudySetupRouteStatus = 'enabled' | 'queued' | 'needs_classification
 
 export type StudySetupDestinationKind =
   | 'protocol'
+  | 'consent_management'
   | 'regulatory_binder'
   | 'source_evidence'
   | 'document_intelligence'
@@ -37,12 +39,14 @@ export type StudySetupDestination = {
 const CLASSIFICATION_LABELS: Record<string, string> = {
   protocol: 'Protocol',
   protocol_amendment: 'Protocol Amendment',
-  lab_result: 'Lab / Lab Manual',
+  lab_result: 'Lab Result',
+  lab_manual: 'Lab Manual',
   imaging: 'Imaging',
   pharmacy_document: 'Pharmacy',
   source_document: 'Source / eCRF',
   financial_document: 'Budget / CTA',
   regulatory_document: 'Regulatory / ICF',
+  icf_consent: 'ICF / Consent',
   investigator_brochure: 'Investigator Brochure',
   training_material: 'Training Material',
   delegation_document: 'Delegation',
@@ -69,12 +73,21 @@ export function resolveDocumentDestination(
   switch (classification) {
     case 'protocol':
     case 'protocol_amendment':
+    case 'lab_manual':
       return {
         destinationLabel: 'Source Runtime / Published Source',
         outputLabel: 'Runtime / Source workflow',
         routeStatus: 'enabled',
         destinationKind: 'protocol',
         actionLabel: 'Continue Setup',
+      }
+    case 'icf_consent':
+      return {
+        destinationLabel: 'Consent Management / ICF Governance',
+        outputLabel: 'Consent template library / subject consent workflow',
+        routeStatus: 'enabled',
+        destinationKind: 'consent_management',
+        actionLabel: 'Open Consent Management',
       }
     case 'regulatory_document':
       return {

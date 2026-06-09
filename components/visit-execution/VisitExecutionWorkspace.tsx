@@ -10,6 +10,7 @@ import { StudySubjectRail } from "./StudySubjectRail";
 import { SubjectTimelineNavigator } from "./SubjectTimelineNavigator";
 import { VisitProcedureNavigator } from "./VisitProcedureNavigator";
 import { RuntimeAlertsPanel } from "./RuntimeAlertsPanel";
+import { generateDeliverableAction, getDeliverableDownloadUrl } from "../../lib/deliverables/actions";
 
 type VisitFieldValue = string | number | boolean | null;
 type RuntimeAlert = {
@@ -31,6 +32,8 @@ export function VisitExecutionWorkspace({ visitId, publishedBlueprint }: Props) 
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeProcedureId, setActiveProcedureId] = useState<string>(publishedBlueprint.procedures[0]?.id || "");
   const [alerts, setAlerts] = useState<RuntimeAlert[]>([]);
+  const [isGeneratingDeliverable, setIsGeneratingDeliverable] = useState(false);
+  const [deliverableUrl, setDeliverableUrl] = useState<string | undefined>();
 
   useEffect(() => {
     async function loadData() {
@@ -61,6 +64,35 @@ export function VisitExecutionWorkspace({ visitId, publishedBlueprint }: Props) 
 
   const isReadOnly = state === "READY_FOR_REVIEW" || state === "FINALIZED";
 
+  const handleGenerateSourcePacket = async () => {
+    try {
+      setIsGeneratingDeliverable(true);
+      const res = await generateDeliverableAction({
+        systemCode: 'printable_source_packet',
+        organizationId: '00000000-0000-0000-0000-000000000000', // Mock for workspace
+        userId: '00000000-0000-0000-0000-000000000000',
+        audience: 'cra',
+        scope: 'visit',
+        filters: { studyId: publishedBlueprint.study_id, subjectId: 'SUBJ-1', visitInstanceId: visitId }
+      });
+
+      if (res.success && 'storagePath' in res && res.storagePath) {
+        const urlRes = await getDeliverableDownloadUrl(res.storagePath);
+        if (urlRes.success && urlRes.signedUrl) {
+          setDeliverableUrl(urlRes.signedUrl);
+        } else {
+          alert('Failed to get download link: ' + urlRes.error);
+        }
+      } else {
+        alert('Generation failed: ' + ('error' in res ? res.error : 'Unknown error'));
+      }
+    } catch (e) {
+      alert('Generation error: ' + (e instanceof Error ? e.message : 'Unknown error'));
+    } finally {
+      setIsGeneratingDeliverable(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-100 overflow-hidden">
       <CoordinatorCommandBar 
@@ -69,8 +101,12 @@ export function VisitExecutionWorkspace({ visitId, publishedBlueprint }: Props) 
         selectedVisitId={visitId}
         progressPercent={45}
         saveStatus={isSaving ? "SAVING" : "SAVED"}
+        isReadOnly={isReadOnly}
         onSubjectChange={() => {}}
         onVisitChange={() => {}}
+        onGenerateDeliverable={handleGenerateSourcePacket}
+        isGeneratingDeliverable={isGeneratingDeliverable}
+        deliverableUrl={deliverableUrl}
       />
       
       <div className="flex flex-1 overflow-hidden">

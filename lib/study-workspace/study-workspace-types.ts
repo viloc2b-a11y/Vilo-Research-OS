@@ -33,6 +33,7 @@ export type StudyWorkspaceSectionId =
   | 'published-source'
   | 'visit-runtime'
   | 'regulatory-binder'
+  | 'governance'
   | 'training'
   | 'delegation'
   | 'documents'

@@ -12,7 +12,6 @@ import {
   hasCriticalRisks,
   performanceScopeDescription,
 } from '@/app/(ops)/performance/_lib/performance-risk'
-import { recommendedActionLabel } from '@/lib/performance/scoring/recommended-actions'
 import type {
   PerformanceLoadStatus,
   SubjectRiskQueueItem,
@@ -35,8 +34,28 @@ const reasonTone: Record<SubjectRiskQueueItem['reasonKind'], string> = {
   missed_visit: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
   out_of_window: 'bg-orange-100 text-orange-900 dark:bg-orange-950 dark:text-orange-200',
   overdue_action: 'bg-violet-100 text-violet-900 dark:bg-violet-950 dark:text-violet-200',
+  open_query: 'bg-violet-100 text-violet-900 dark:bg-violet-950 dark:text-violet-200',
   blocked_procedure: 'bg-red-100 text-red-900 dark:bg-red-950 dark:text-red-200',
+  needs_resign: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
   window_warning: 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200',
+  governance_blocker: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  governance_warning: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  revenue_leakage: 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200',
+  earned_but_not_invoiced: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  invoiceable_missing: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  screen_failure_billable: 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200',
+  pass_through_unreimbursed: 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200',
+  stipend_unreconciled: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  overdue_financial: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  disputed_payment: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  reverted_payment: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  written_off_payment: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  lab_worsening: 'bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-200',
+  lab_consecutive_worsening: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  lab_consecutive_abnormal: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  lab_missing_repeat: 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200',
+  lab_follow_up_overdue: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  lab_safety_review: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
 }
 
 export function SubjectRiskQueue({
@@ -53,7 +72,7 @@ export function SubjectRiskQueue({
       <CardHeader>
         <CardTitle>Subject risk queue</CardTitle>
         <CardDescription>
-          Prioritized coordinator actions — critical items first, then by oldest urgency date.{' '}
+          Prioritized subject actions with the signal, explanation, and runtime context.{' '}
           {performanceScopeDescription(selectedStudyName)}
         </CardDescription>
       </CardHeader>
@@ -108,14 +127,20 @@ function RiskRow({
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="font-medium">
-          <Link href={item.subjectHref} className="hover:underline">
-            {item.subjectIdentifier}
-          </Link>
-          {showStudyOnRow ? (
-            <span className="font-normal text-muted-foreground"> · {item.studyName}</span>
-          ) : null}
-        </p>
+        <div className="min-w-0">
+          <p className="font-semibold text-foreground">{item.title}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            Priority {item.priority} · Owner {item.ownerRole}
+          </p>
+          <p className="mt-1 font-medium">
+            <Link href={item.subjectHref} className="hover:underline">
+              {item.subjectIdentifier}
+            </Link>
+            {showStudyOnRow ? (
+              <span className="font-normal text-muted-foreground"> · {item.studyName}</span>
+            ) : null}
+          </p>
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           {item.operationalState ? (
             <OperationalStateBadge state={item.operationalState} />
@@ -130,12 +155,18 @@ function RiskRow({
           </span>
         </div>
       </div>
-      <p className="mt-1 text-muted-foreground">{item.detail}</p>
-      {item.recommendedAction ? (
+      <p className="mt-1 text-muted-foreground">
+        <span className="font-medium text-foreground">Reason: </span>
+        {item.reason}
+      </p>
+      {item.recommendedNextStep ? (
         <p className="mt-1 text-xs font-medium text-foreground">
-          Next: {recommendedActionLabel(item.recommendedAction)}
+          Recommended next step: {item.recommendedNextStep}
         </p>
       ) : null}
+      <p className="mt-1 text-xs text-muted-foreground">
+        Linked object: {item.linkedObjectLabel}
+      </p>
       {item.detailLines.length > 0 ? (
         <ul className="mt-1.5 space-y-0.5 text-xs text-muted-foreground">
           {item.detailLines.map((line) => (
@@ -148,7 +179,7 @@ function RiskRow({
           Subject chart
         </Link>
         <Link href={item.contextHref} className="font-medium text-primary hover:underline">
-          {item.contextLabel}
+          Open context: {item.contextLabel}
         </Link>
       </p>
     </>

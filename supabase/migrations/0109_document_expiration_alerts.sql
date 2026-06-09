@@ -22,7 +22,7 @@ ALTER TABLE compliance_audit_ledger
     )
   );
 
-CREATE TABLE compliance_expiration_alerts (
+CREATE TABLE IF NOT EXISTS compliance_expiration_alerts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   document_id uuid NOT NULL REFERENCES compliance_runtime_documents(id),
@@ -54,16 +54,17 @@ CREATE TABLE compliance_expiration_alerts (
   )
 );
 
-CREATE INDEX idx_compliance_expiration_alerts_org ON compliance_expiration_alerts(organization_id);
-CREATE INDEX idx_compliance_expiration_alerts_doc ON compliance_expiration_alerts(document_id);
-CREATE INDEX idx_compliance_expiration_alerts_type ON compliance_expiration_alerts(alert_type);
-CREATE INDEX idx_compliance_expiration_alerts_status ON compliance_expiration_alerts(status);
-CREATE INDEX idx_compliance_expiration_alerts_days ON compliance_expiration_alerts(days_before_expiration);
-CREATE INDEX idx_compliance_expiration_alerts_assigned_role ON compliance_expiration_alerts(assigned_role);
-CREATE INDEX idx_compliance_expiration_alerts_assigned_user ON compliance_expiration_alerts(assigned_user_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_org ON compliance_expiration_alerts(organization_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_doc ON compliance_expiration_alerts(document_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_type ON compliance_expiration_alerts(alert_type);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_status ON compliance_expiration_alerts(status);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_days ON compliance_expiration_alerts(days_before_expiration);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_assigned_role ON compliance_expiration_alerts(assigned_role);
+CREATE INDEX IF NOT EXISTS idx_compliance_expiration_alerts_assigned_user ON compliance_expiration_alerts(assigned_user_id);
 
 ALTER TABLE compliance_expiration_alerts ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "compliance_expiration_alerts_select_org" ON compliance_expiration_alerts;
 CREATE POLICY "compliance_expiration_alerts_select_org" ON compliance_expiration_alerts
   FOR SELECT USING (
     organization_id IN (
@@ -71,6 +72,7 @@ CREATE POLICY "compliance_expiration_alerts_select_org" ON compliance_expiration
     )
   );
 
+DROP POLICY IF EXISTS "compliance_expiration_alerts_insert_org" ON compliance_expiration_alerts;
 CREATE POLICY "compliance_expiration_alerts_insert_org" ON compliance_expiration_alerts
   FOR INSERT WITH CHECK (
     organization_id IN (
@@ -78,6 +80,7 @@ CREATE POLICY "compliance_expiration_alerts_insert_org" ON compliance_expiration
     )
   );
 
+DROP POLICY IF EXISTS "compliance_expiration_alerts_update_org" ON compliance_expiration_alerts;
 CREATE POLICY "compliance_expiration_alerts_update_org" ON compliance_expiration_alerts
   FOR UPDATE USING (
     organization_id IN (

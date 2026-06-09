@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ChevronRight } from 'lucide-react'
@@ -12,15 +12,16 @@ export function StudyCopilotClient({
   organizationId,
   studies,
   initialStudyId = null,
+  initialQuery = '',
 }: {
   organizationId: string
   studies: StudyOption[]
   initialStudyId?: string | null
+  initialQuery?: string
 }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [studyId, setStudyId] = useState('')
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(initialQuery)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [results, setResults] = useState<DocumentIntelligenceSearchResult[]>([])
@@ -33,13 +34,12 @@ export function StudyCopilotClient({
     return ''
   }, [initialStudyId, searchParams, studyIds])
 
-  useEffect(() => {
-    setStudyId(resolveStudyFromUrl())
-  }, [resolveStudyFromUrl])
+  const resolvedStudyId = useMemo(() => resolveStudyFromUrl(), [resolveStudyFromUrl])
+  const studyId = resolvedStudyId
+  const hasActiveQuery = Boolean(query.trim())
 
   const onStudyChange = useCallback(
     (nextStudyId: string) => {
-      setStudyId(nextStudyId)
       setResults([])
       setQuery('')
       const params = new URLSearchParams(searchParams.toString())
@@ -48,6 +48,7 @@ export function StudyCopilotClient({
       } else {
         params.delete('study_id')
       }
+      params.delete('q')
       const newQuery = params.toString()
       router.replace(newQuery ? `/document-intelligence?${newQuery}` : '/document-intelligence', {
         scroll: false,
@@ -57,8 +58,13 @@ export function StudyCopilotClient({
   )
 
   const handleSearch = async (searchQuery: string = query) => {
-    if (!searchQuery.trim() || !studyId) return
-    setQuery(searchQuery)
+    const nextQuery = searchQuery.trim()
+    if (!nextQuery || !studyId) return
+    setQuery(nextQuery)
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('study_id', studyId)
+    params.set('q', nextQuery)
+    router.replace(`/document-intelligence?${params.toString()}`, { scroll: false })
     setLoading(true)
     setError(null)
     try {
@@ -68,7 +74,7 @@ export function StudyCopilotClient({
         body: JSON.stringify({
           organization_id: organizationId,
           study_id: studyId,
-          query: searchQuery,
+          query: nextQuery,
           limit: 8,
         }),
       })
@@ -86,12 +92,27 @@ export function StudyCopilotClient({
     }
   }
 
-  const SUGGESTED_QUESTIONS = [
-    'What procedures are required at Visit 4?',
-    'What is the visit window for V7?',
-    'Is metformin allowed?',
-    'When should an SAE be reported?',
-    'Which procedures require PI signature?',
+  const suggestedQuestionGroups = [
+    {
+      label: 'Execution',
+      questions: [
+        'What procedures are required at Visit 4?',
+        'What is the visit window for V7?',
+        'Is metformin allowed?',
+        'When should an SAE be reported?',
+        'Which procedures require PI signature?',
+      ],
+    },
+    {
+      label: 'Budget / CTA',
+      questions: [
+        'Which procedures appear invoiceable or reimbursable?',
+        'What payment terms or invoice due dates are mentioned?',
+        'Which pass-through costs are described?',
+        'Are screen failure payments or reimbursements described?',
+        'What budget items should be reviewed before negotiation?',
+      ],
+    },
   ]
 
   const backHref = studyId ? `/studies/${studyId}/workspace` : '/document-center'
@@ -122,7 +143,7 @@ export function StudyCopilotClient({
         </p>
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Study Copilot</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Ask questions about the protocol, lab manuals, or operational guidelines.
+          Ask questions about the protocol, lab manuals, operational guidelines, budget, or CTA.
         </p>
       </header>
 
@@ -142,6 +163,39 @@ export function StudyCopilotClient({
             ))}
           </select>
         </label>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+        <div className="flex items-center gap-2 text-slate-600">
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+            Filter status
+          </span>
+          {hasActiveQuery ? (
+            <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+              Active: {query}
+            </span>
+          ) : (
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+              No active filter
+            </span>
+          )}
+        </div>
+        {hasActiveQuery ? (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('')
+              const params = new URLSearchParams(searchParams.toString())
+              params.delete('q')
+              params.set('study_id', studyId)
+              router.replace(`/document-intelligence?${params.toString()}`, { scroll: false })
+              setResults([])
+            }}
+            className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Clear filter
+          </button>
+        ) : null}
       </div>
 
       {!studyId ? (
@@ -174,16 +228,25 @@ export function StudyCopilotClient({
 
             {results.length === 0 && !loading && !error && (
               <div className="mt-6 border-t border-slate-100 pt-6">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Suggested Questions</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {SUGGESTED_QUESTIONS.map((q) => (
-                    <button
-                      key={q}
-                      onClick={() => handleSearch(q)}
-                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
-                    >
-                      {q}
-                    </button>
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                  Suggested Questions
+                </p>
+                <div className="mt-3 space-y-4">
+                  {suggestedQuestionGroups.map((group) => (
+                    <div key={group.label}>
+                      <p className="text-xs font-medium text-slate-600">{group.label}</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {group.questions.map((q) => (
+                          <button
+                            key={q}
+                            onClick={() => handleSearch(q)}
+                            className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-100"
+                          >
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>

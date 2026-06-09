@@ -155,19 +155,23 @@ $$;
 alter table public.ip_accountability_exceptions enable row level security;
 alter table public.ip_access_audit enable row level security;
 
+drop policy if exists ip_accountability_exceptions_select on public.ip_accountability_exceptions;
 create policy ip_accountability_exceptions_select
   on public.ip_accountability_exceptions
   for select using (public.pharmacy_user_can_access_action(study_id, site_id, 'correction'));
 
+drop policy if exists ip_accountability_exceptions_insert on public.ip_accountability_exceptions;
 create policy ip_accountability_exceptions_insert
   on public.ip_accountability_exceptions
   for insert with check (public.pharmacy_user_can_access_action(study_id, site_id, 'correction'));
 
+drop policy if exists ip_accountability_exceptions_update on public.ip_accountability_exceptions;
 create policy ip_accountability_exceptions_update
   on public.ip_accountability_exceptions
   for update using (public.pharmacy_user_can_access_action(study_id, site_id, 'correction'))
   with check (public.pharmacy_user_can_access_action(study_id, site_id, 'correction'));
 
+drop policy if exists ip_access_audit_select on public.ip_access_audit;
 create policy ip_access_audit_select
   on public.ip_access_audit
   for select using (
@@ -175,6 +179,7 @@ create policy ip_access_audit_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists ip_access_audit_insert on public.ip_access_audit;
 create policy ip_access_audit_insert
   on public.ip_access_audit
   for insert with check (

@@ -53,6 +53,19 @@ export default async function ProtocolIntakeRuntimePage({
           produce structured sections and operational candidates for human reconciliation.
         </p>
       </header>
+      {initialSourceDocumentId ? (
+        <div className="rounded-md border border-teal-200 bg-teal-50/70 p-4 text-sm text-teal-900">
+          <p className="font-medium">Document Intelligence handoff detected</p>
+          <p className="mt-1 text-teal-800">
+            The selected source document is already preloaded for this session. Create or select a
+            protocol runtime study, then use this source document to create the next protocol version
+            in the canonical runtime pipeline.
+          </p>
+          <p className="mt-2 font-mono text-xs text-teal-700">
+            source_document_id: {initialSourceDocumentId}
+          </p>
+        </div>
+      ) : null}
       <ProtocolIntakeRuntimeClient
         organizationId={organizationId}
         initialStudyId={initialStudyId}

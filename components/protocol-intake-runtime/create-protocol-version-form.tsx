@@ -37,6 +37,7 @@ export function CreateProtocolVersionForm(props: {
   const [documentsError, setDocumentsError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [infoMessage, setInfoMessage] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -67,6 +68,7 @@ export function CreateProtocolVersionForm(props: {
   async function create() {
     setLoading(true)
     setError(null)
+    setInfoMessage(null)
     try {
       const res = await fetch('/api/protocol-intake-runtime/versions', {
         method: 'POST',
@@ -77,11 +79,26 @@ export function CreateProtocolVersionForm(props: {
           version_label: versionLabel,
           source_document_id: sourceDocumentId,
           amendment_number: amendmentNumber || null,
+          run_extraction_after_create: true,
         }),
       })
-      const data = (await res.json()) as { version?: { id: string }; error?: string }
+      const data = (await res.json()) as {
+        version?: { id: string }
+        extraction?: { extractionStatus?: string; runStatus?: string }
+        extraction_error?: string
+        error?: string
+      }
       if (!res.ok) throw new Error(data.error || 'Failed to create protocol version')
       if (data.version?.id) props.onCreated(data.version.id)
+      if (data.extraction_error) {
+        setInfoMessage(`Version created. Extraction note: ${data.extraction_error}`)
+      } else if (data.extraction?.extractionStatus) {
+        setInfoMessage(
+          `Version created and extraction completed with status ${data.extraction.extractionStatus}.`,
+        )
+      } else {
+        setInfoMessage('Version created.')
+      }
       setSourceDocumentId('')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create version')
@@ -96,6 +113,17 @@ export function CreateProtocolVersionForm(props: {
   return (
     <div className="rounded-md border border-slate-200 bg-white p-4">
       <h3 className="text-sm font-semibold text-slate-800">Add protocol version</h3>
+      {props.initialSourceDocumentId ? (
+        <div className="mt-2 rounded border border-teal-200 bg-teal-50/60 p-3 text-xs text-teal-900">
+          <p className="font-medium">Preselected source document</p>
+          <p className="mt-1 text-teal-800">
+            This version will be created from the document handed off from Document Intelligence.
+          </p>
+          <p className="mt-1 font-mono text-teal-700">
+            source_document_id: {props.initialSourceDocumentId}
+          </p>
+        </div>
+      ) : null}
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <label className="text-sm text-slate-600">
           Version label
@@ -118,6 +146,11 @@ export function CreateProtocolVersionForm(props: {
       </div>
       <label className="mt-3 block text-sm text-slate-600">
         Source document
+        {props.initialSourceDocumentId ? (
+          <span className="ml-2 rounded bg-teal-100 px-2 py-0.5 text-xs text-teal-800">
+            Preloaded from Document Intelligence
+          </span>
+        ) : null}
         <select
           className="mt-1 w-full rounded border border-slate-300 px-2 py-1.5 text-sm disabled:bg-slate-50"
           value={sourceDocumentId}
@@ -153,9 +186,10 @@ export function CreateProtocolVersionForm(props: {
         disabled={loading || !versionLabel.trim() || !sourceDocumentId.trim()}
         onClick={() => void create()}
       >
-        {loading ? 'Creating…' : 'Create version'}
+        {loading ? 'Creating…' : 'Create version and extract'}
       </button>
       {error ? <p className="mt-2 text-sm text-red-600">{error}</p> : null}
+      {infoMessage ? <p className="mt-2 text-sm text-teal-700">{infoMessage}</p> : null}
     </div>
   )
 }

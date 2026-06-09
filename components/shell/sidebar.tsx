@@ -5,6 +5,8 @@ type SidebarProps = {
   canAccessAdmin?: boolean
   canViewFinancial?: boolean
   canAccessCoordinatorWorkspace?: boolean
+  canAccessCRM?: boolean
+  canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
 }
@@ -14,6 +16,8 @@ export function Sidebar({
   canAccessAdmin,
   canViewFinancial,
   canAccessCoordinatorWorkspace,
+  canAccessCRM,
+  canAccessCommunications,
   canAccessSourceWorkflow,
   canViewVpi,
 }: SidebarProps) {
@@ -23,6 +27,8 @@ export function Sidebar({
       canAccessAdmin={canAccessAdmin}
       canViewFinancial={canViewFinancial}
       canAccessCoordinatorWorkspace={canAccessCoordinatorWorkspace}
+      canAccessCRM={canAccessCRM}
+      canAccessCommunications={canAccessCommunications}
       canAccessSourceWorkflow={canAccessSourceWorkflow}
       canViewVpi={canViewVpi}
     />

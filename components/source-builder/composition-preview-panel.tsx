@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   Card,
   CardContent,
@@ -15,8 +16,18 @@ import {
 } from '@/lib/source-engine/source-composition'
 import { SourceCompositionResolveError } from '@/lib/source-engine/source-composition-resolver'
 
-export function CompositionPreviewPanel() {
-  const [templateKey, setTemplateKey] = useState(SOURCE_COMPOSITION_TEMPLATE_KEYS[0] ?? '')
+export function CompositionPreviewPanel({
+  initialTemplateKey = '',
+}: {
+  initialTemplateKey?: string
+}) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const templateKey =
+    initialTemplateKey && SOURCE_COMPOSITION_TEMPLATE_KEYS.includes(initialTemplateKey)
+      ? initialTemplateKey
+      : SOURCE_COMPOSITION_TEMPLATE_KEYS[0] ?? ''
 
   const preview = useMemo(() => {
     const manifest = getCompositionManifest(templateKey)
@@ -37,6 +48,18 @@ export function CompositionPreviewPanel() {
 
   const resolved = preview.resolved
 
+  function updateUrl(nextTemplateKey: string) {
+    const params = new URLSearchParams(searchParams.toString())
+    if (nextTemplateKey) {
+      params.set('template', nextTemplateKey)
+    } else {
+      params.delete('template')
+    }
+    router.replace(params.toString() ? `${pathname}?${params.toString()}` : pathname, {
+      scroll: false,
+    })
+  }
+
   return (
     <div className="space-y-4">
       <Card>
@@ -53,7 +76,7 @@ export function CompositionPreviewPanel() {
             <select
               className="rounded-md border border-input bg-background px-3 py-2"
               value={templateKey}
-              onChange={(e) => setTemplateKey(e.target.value)}
+              onChange={(e) => updateUrl(e.target.value)}
             >
               {SOURCE_COMPOSITION_TEMPLATE_KEYS.map((key) => (
                 <option key={key} value={key}>

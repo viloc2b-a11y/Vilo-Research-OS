@@ -15,6 +15,10 @@ type VisitRuntimePageProps = {
   searchParams: Promise<{ study_id?: string }>
 }
 
+const VISIT_RUNTIME_SUBJECT_OPTION_LIMIT = 100
+const VISIT_RUNTIME_PUBLICATION_LIMIT = 5
+const VISIT_RUNTIME_STUDY_LIMIT = 100
+
 function VisitRuntimeLoading() {
   return (
     <div className="space-y-6 p-6">
@@ -55,6 +59,7 @@ async function VisitRuntimeContent({ queryStudyId }: { queryStudyId: string | nu
     .select('id, name')
     .eq('organization_id', organizationId)
     .order('name', { ascending: true })
+    .limit(VISIT_RUNTIME_STUDY_LIMIT)
 
   const studyList = (studies ?? []).map((study) => ({
     id: String(study.id),
@@ -89,6 +94,7 @@ async function VisitRuntimeContent({ queryStudyId }: { queryStudyId: string | nu
       .eq('organization_id', organizationId)
       .eq('study_id', study.id)
       .order('subject_identifier', { ascending: true })
+      .limit(VISIT_RUNTIME_SUBJECT_OPTION_LIMIT)
 
     subjectsByStudy[study.id] = (subjects ?? []).map((subject) => ({
       id: String(subject.id),
@@ -102,6 +108,7 @@ async function VisitRuntimeContent({ queryStudyId }: { queryStudyId: string | nu
       .eq('study_id', study.id)
       .eq('publication_status', PUBLICATION_STATUS.PUBLISHED)
       .order('publication_version', { ascending: false })
+      .limit(VISIT_RUNTIME_PUBLICATION_LIMIT)
 
     publishedSourcesByStudy[study.id] = (pubs ?? []).map((pub) => ({
       publicationId: String(pub.id),

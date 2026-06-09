@@ -75,3 +75,5 @@ validation-corpus/non-reader-assets/
 *.pdf
 *.docx
 *.xlsx
+# Local AI runtime state
+.atl/

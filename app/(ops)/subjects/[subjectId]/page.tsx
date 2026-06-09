@@ -46,6 +46,7 @@ import type { SubjectChartHeaderModel } from '@/lib/subject/visits/types'
 import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectAdverseEventsTimeline } from '@/lib/subject/adverse-events'
 import { loadSubjectConsentRuntime } from '@/lib/subject/consent'
+import { loadSubjectLongitudinalLabs } from '@/lib/subject/lab-timeline/load-subject-longitudinal-labs'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { loadSubjectSourceTemplate } from '@/lib/subject/source-template/read'
 import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/types'
@@ -56,8 +57,12 @@ import { canViewUnblindedData, canMutateOrganizationData } from '@/lib/rbac/perm
 import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
+import { StudyDataReadinessCard } from '@/components/studies/study-data-readiness-card'
 import { OperationalAuditPanel } from '@/components/operations/OperationalAuditPanel'
 import { loadOperationalChronology } from '@/lib/operations/loadOperationalChronology'
+import { SubjectDeliverablesSection } from '@/components/subject/deliverables/SubjectDeliverablesSection'
+import { loadSubjectDeliverables } from '@/lib/subject/deliverables/load-subject-deliverables'
+import { loadLatestStudyDataReadinessReview } from '@/lib/site-intelligence/study-data-readiness-actions'
 
 type SubjectDetailPageProps = {
   params: Promise<{ subjectId: string; studyId?: string }>
@@ -86,6 +91,7 @@ const PLACEHOLDER_LABELS = new Map<string, string>(
           'signatures',
           'protocol-deviations',
           'emergency-contacts',
+          'deliverables',
         ].includes(tab.key),
     )
     .map((tab) => [tab.key, tab.label]),
@@ -300,6 +306,28 @@ export default async function SubjectDetailPage({
         })
       : null
 
+  const labRuntime =
+    activeTab === 'documents' && chartStudyId
+      ? await loadSubjectLongitudinalLabs({
+          studySubjectId: subjectId,
+          organizationId,
+          studyId: chartStudyId,
+        })
+      : null
+
+  const deliverablesResult = 
+    activeTab === 'deliverables' && chartStudyId
+      ? await loadSubjectDeliverables(supabase, subjectId, organizationId)
+      : null
+  const studyDataReadiness =
+    activeTab === 'general' && chartStudyId
+      ? await loadLatestStudyDataReadinessReview({
+          studyId: chartStudyId,
+          organizationId,
+          mode: 'internal_review',
+        })
+      : { readiness: null, createdAt: null }
+
   const consentRuntime =
     activeTab === 'consent' && chartStudyId
       ? await loadSubjectConsentRuntime(subjectId)
@@ -479,6 +507,14 @@ export default async function SubjectDetailPage({
               readiness={closeoutReadiness}
             />
           ) : null}
+          {activeTab === 'general' && chartStudyId ? (
+            <StudyDataReadinessCard
+              studyId={chartStudyId}
+              organizationId={organizationId}
+              initialReadiness={studyDataReadiness.readiness}
+              initialCreatedAt={studyDataReadiness.createdAt}
+            />
+          ) : null}
 
           {/* Visits — redirect handled above */}
           {activeTab === 'visits' ? <ComingSoon title="Visits" /> : null}
@@ -592,6 +628,34 @@ export default async function SubjectDetailPage({
 
           {activeTab === 'emergency-contacts' && sourceTemplate ? (
             <SubjectEmergencyContactsSection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {/* Deliverables Tab */}
+          {activeTab === 'deliverables' && chartStudyId ? (
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">Deliverables</h2>
+                <p className="text-sm text-muted-foreground">
+                  Generate regulatory deliverables and print-ready source packets.
+                </p>
+              </div>
+              {deliverablesResult?.ok ? (
+                <SubjectDeliverablesSection 
+                  model={deliverablesResult.model} 
+                  subjectId={subjectId}
+                  studyId={chartStudyId}
+                  organizationId={organizationId}
+                  userId={user.id}
+                />
+              ) : (
+                <CoordinatorSafeErrorPanel
+                  title="Deliverables unavailable"
+                  detail={deliverablesResult?.error ?? 'Unknown error'}
+                  retryHref={`${subjectChartPath(chartStudyId, subjectId)}?tab=deliverables`}
+                  backHref={subjectChartPath(chartStudyId, subjectId)}
+                />
+              )}
+            </div>
           ) : null}
 
           {/* Placeholder tabs */}

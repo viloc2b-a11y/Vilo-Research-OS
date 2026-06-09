@@ -8,6 +8,10 @@ import { canAccessSubjectVisitWorkspace } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { OperationalReviewClient } from '@/components/operational-review/operational-review-client'
 
+const OPERATIONAL_REVIEW_SUBJECT_OPTION_LIMIT = 100
+const OPERATIONAL_REVIEW_LOCKED_SNAPSHOT_LIMIT = 100
+const OPERATIONAL_REVIEW_STUDY_LIMIT = 100
+
 export default async function OperationalReviewPage() {
   const user = await getSessionUser()
   if (!user) redirect('/login')
@@ -39,6 +43,7 @@ export default async function OperationalReviewPage() {
     .select('id, name')
     .eq('organization_id', organizationId)
     .order('name', { ascending: true })
+    .limit(OPERATIONAL_REVIEW_STUDY_LIMIT)
 
   const studyList = (studies ?? []).map((study) => ({
     id: String(study.id),
@@ -65,6 +70,7 @@ export default async function OperationalReviewPage() {
       .eq('organization_id', organizationId)
       .eq('study_id', study.id)
       .order('subject_identifier', { ascending: true })
+      .limit(OPERATIONAL_REVIEW_SUBJECT_OPTION_LIMIT)
 
     subjectsByStudy[study.id] = (subjects ?? []).map((subject) => ({
       id: String(subject.id),
@@ -78,6 +84,7 @@ export default async function OperationalReviewPage() {
       .eq('study_id', study.id)
       .eq('snapshot_status', 'locked')
       .order('locked_at', { ascending: false })
+      .limit(OPERATIONAL_REVIEW_LOCKED_SNAPSHOT_LIMIT)
 
     snapshotsByStudy[study.id] = (snapshots ?? []).map((snapshot) => {
       const json = snapshot.snapshot_json as {

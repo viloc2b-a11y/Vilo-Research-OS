@@ -89,24 +89,28 @@ create index if not exists protocol_runtime_generation_events_timestamp_idx
 alter table public.protocol_runtime_generation_runs enable row level security;
 alter table public.protocol_runtime_generation_events enable row level security;
 
+drop policy if exists protocol_runtime_generation_runs_select on public.protocol_runtime_generation_runs;
 create policy protocol_runtime_generation_runs_select on public.protocol_runtime_generation_runs
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists protocol_runtime_generation_runs_insert on public.protocol_runtime_generation_runs;
 create policy protocol_runtime_generation_runs_insert on public.protocol_runtime_generation_runs
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists protocol_runtime_generation_runs_update on public.protocol_runtime_generation_runs;
 create policy protocol_runtime_generation_runs_update on public.protocol_runtime_generation_runs
   for update using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists protocol_runtime_generation_events_select on public.protocol_runtime_generation_events;
 create policy protocol_runtime_generation_events_select on public.protocol_runtime_generation_events
   for select using (
     public.user_has_active_organization_membership(organization_id)
@@ -119,6 +123,7 @@ create policy protocol_runtime_generation_events_select on public.protocol_runti
     )
   );
 
+drop policy if exists protocol_runtime_generation_events_insert on public.protocol_runtime_generation_events;
 create policy protocol_runtime_generation_events_insert on public.protocol_runtime_generation_events
   for insert with check (
     public.user_has_active_organization_membership(organization_id)

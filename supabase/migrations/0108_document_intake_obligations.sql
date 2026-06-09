@@ -19,7 +19,7 @@ ALTER TABLE compliance_audit_ledger
     )
   );
 
-CREATE TABLE compliance_obligations (
+CREATE TABLE IF NOT EXISTS compliance_obligations (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   document_id uuid NOT NULL REFERENCES compliance_runtime_documents(id),
@@ -60,17 +60,18 @@ CREATE TABLE compliance_obligations (
   )
 );
 
-CREATE INDEX idx_compliance_obligations_org ON compliance_obligations(organization_id);
-CREATE INDEX idx_compliance_obligations_doc ON compliance_obligations(document_id);
-CREATE INDEX idx_compliance_obligations_type ON compliance_obligations(obligation_type);
-CREATE INDEX idx_compliance_obligations_status ON compliance_obligations(status);
-CREATE INDEX idx_compliance_obligations_assigned_user ON compliance_obligations(assigned_user_id);
-CREATE INDEX idx_compliance_obligations_assigned_role ON compliance_obligations(assigned_role);
-CREATE INDEX idx_compliance_obligations_due_date ON compliance_obligations(due_date);
-CREATE INDEX idx_compliance_obligations_requested_by ON compliance_obligations(requested_by);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_org ON compliance_obligations(organization_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_doc ON compliance_obligations(document_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_type ON compliance_obligations(obligation_type);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_status ON compliance_obligations(status);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_assigned_user ON compliance_obligations(assigned_user_id);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_assigned_role ON compliance_obligations(assigned_role);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_due_date ON compliance_obligations(due_date);
+CREATE INDEX IF NOT EXISTS idx_compliance_obligations_requested_by ON compliance_obligations(requested_by);
 
 ALTER TABLE compliance_obligations ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "compliance_obligations_select_org" ON compliance_obligations;
 CREATE POLICY "compliance_obligations_select_org" ON compliance_obligations
   FOR SELECT USING (
     organization_id IN (
@@ -78,6 +79,7 @@ CREATE POLICY "compliance_obligations_select_org" ON compliance_obligations
     )
   );
 
+DROP POLICY IF EXISTS "compliance_obligations_insert_org" ON compliance_obligations;
 CREATE POLICY "compliance_obligations_insert_org" ON compliance_obligations
   FOR INSERT WITH CHECK (
     organization_id IN (
@@ -85,6 +87,7 @@ CREATE POLICY "compliance_obligations_insert_org" ON compliance_obligations
     )
   );
 
+DROP POLICY IF EXISTS "compliance_obligations_update_org" ON compliance_obligations;
 CREATE POLICY "compliance_obligations_update_org" ON compliance_obligations
   FOR UPDATE USING (
     organization_id IN (

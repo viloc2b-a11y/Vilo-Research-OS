@@ -4,13 +4,13 @@
 
 -- 1. Update Protocol Delegation Log
 ALTER TABLE public.study_delegation_log
-  DROP COLUMN staff_signed_at,
-  DROP COLUMN pi_signed_at,
-  ADD COLUMN staff_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
-  ADD COLUMN pi_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL;
+  DROP COLUMN IF EXISTS staff_signed_at,
+  DROP COLUMN IF EXISTS pi_signed_at,
+  ADD COLUMN IF NOT EXISTS staff_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS pi_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL;
 
-CREATE INDEX idx_delegation_staff_sig_req ON public.study_delegation_log(staff_signature_request_id);
-CREATE INDEX idx_delegation_pi_sig_req ON public.study_delegation_log(pi_signature_request_id);
+CREATE INDEX IF NOT EXISTS idx_delegation_staff_sig_req ON public.study_delegation_log(staff_signature_request_id);
+CREATE INDEX IF NOT EXISTS idx_delegation_pi_sig_req ON public.study_delegation_log(pi_signature_request_id);
 
 
 -- 2. Update Protocol Training Assignments Log
@@ -19,19 +19,19 @@ CREATE INDEX idx_delegation_pi_sig_req ON public.study_delegation_log(pi_signatu
 DROP VIEW IF EXISTS public.vw_study_training_matrix;
 
 ALTER TABLE public.study_protocol_training_assignments
-  DROP COLUMN trainee_signature,
-  DROP COLUMN trainee_signed_at,
-  DROP COLUMN trainer_signature,
-  DROP COLUMN trainer_signed_at,
-  DROP COLUMN pi_signature,
-  DROP COLUMN pi_signed_at,
-  ADD COLUMN trainee_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
-  ADD COLUMN trainer_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
-  ADD COLUMN pi_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL;
+  DROP COLUMN IF EXISTS trainee_signature,
+  DROP COLUMN IF EXISTS trainee_signed_at,
+  DROP COLUMN IF EXISTS trainer_signature,
+  DROP COLUMN IF EXISTS trainer_signed_at,
+  DROP COLUMN IF EXISTS pi_signature,
+  DROP COLUMN IF EXISTS pi_signed_at,
+  ADD COLUMN IF NOT EXISTS trainee_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS trainer_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS pi_signature_request_id uuid REFERENCES public.operational_signature_requests(id) ON DELETE SET NULL;
 
-CREATE INDEX idx_ptraining_trainee_sig_req ON public.study_protocol_training_assignments(trainee_signature_request_id);
-CREATE INDEX idx_ptraining_trainer_sig_req ON public.study_protocol_training_assignments(trainer_signature_request_id);
-CREATE INDEX idx_ptraining_pi_sig_req ON public.study_protocol_training_assignments(pi_signature_request_id);
+CREATE INDEX IF NOT EXISTS idx_ptraining_trainee_sig_req ON public.study_protocol_training_assignments(trainee_signature_request_id);
+CREATE INDEX IF NOT EXISTS idx_ptraining_trainer_sig_req ON public.study_protocol_training_assignments(trainer_signature_request_id);
+CREATE INDEX IF NOT EXISTS idx_ptraining_pi_sig_req ON public.study_protocol_training_assignments(pi_signature_request_id);
 
 CREATE OR REPLACE VIEW public.vw_study_training_matrix AS
 SELECT

@@ -4,6 +4,7 @@ import {
   OperationalSignatureStateError,
   createOperationalSignatureRequest,
   isOperationalSignatureMeaning,
+  type SignaturePolicyCode,
 } from '@/lib/operational-signatures'
 import { authorizeOperationalSignatureWrite } from '@/lib/operational-signatures/operational-signature-auth'
 
@@ -16,10 +17,15 @@ export async function POST(req: NextRequest) {
     source_package_id?: string | null
     published_source_id?: string | null
     locked_snapshot_id?: string | null
+    module?: string | null
+    entity_type?: string | null
+    entity_id?: string | null
     artifact_type?: string
     artifact_id?: string
     required_role?: string
     signature_meaning?: string
+    signature_policy_code?: string | null
+    requested_user_id?: string | null
     metadata?: Record<string, unknown>
   }
 
@@ -62,11 +68,16 @@ export async function POST(req: NextRequest) {
       sourcePackageId: body.source_package_id ?? null,
       publishedSourceId: body.published_source_id ?? null,
       lockedSnapshotId: body.locked_snapshot_id ?? null,
+      module: body.module ?? null,
+      entityType: body.entity_type ?? null,
+      entityId: body.entity_id ?? null,
       artifactType: body.artifact_type,
       artifactId: body.artifact_id,
       requiredRole: body.required_role,
       signatureMeaning: body.signature_meaning,
+      signaturePolicyCode: body.signature_policy_code as SignaturePolicyCode | undefined,
       requestedBy: auth.userId,
+      requestedUserId: body.requested_user_id ?? null,
       metadata: body.metadata,
     })
     return NextResponse.json({ ok: true, request })

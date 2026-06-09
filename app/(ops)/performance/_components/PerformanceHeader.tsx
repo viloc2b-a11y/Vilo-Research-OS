@@ -9,10 +9,10 @@ export function PerformanceHeader({
 }: PerformanceHeaderProps) {
   return (
     <header className="space-y-1">
-      <h1 className="text-2xl font-semibold tracking-tight">Command</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">VPI Command</h1>
       <p className="text-sm text-muted-foreground">
-        VPI operational command center — what requires attention now across your
-        portfolio.
+        What needs attention now to protect enrollment, compliance, revenue, and
+        sponsor visibility.
       </p>
       {organizationCount > 0 ? (
         <p className="text-xs text-muted-foreground">

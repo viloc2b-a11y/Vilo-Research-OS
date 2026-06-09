@@ -44,11 +44,10 @@ async function bestEffortExtractText(args: {
   mimeType: string
   filename: string
 }): Promise<{ ok: boolean; text: string; note?: string }> {
-  // Only handle plaintext-like inputs in P1. PDF/DOCX parsing is explicitly out-of-scope.
   const isTextLike =
-    args.mimeType.startsWith('text/')
-    || args.filename.toLowerCase().endsWith('.txt')
-    || args.filename.toLowerCase().endsWith('.md')
+    args.mimeType.startsWith('text/') ||
+    args.filename.toLowerCase().endsWith('.txt') ||
+    args.filename.toLowerCase().endsWith('.md')
 
   if (!isTextLike) {
     return {
@@ -86,13 +85,6 @@ type RichExtractResult =
     }
   | { ok: false; note: string }
 
-/**
- * Canonical Reader Wiring (Phase 1): when lightweight text extraction is not
- * possible (PDF/DOCX/XLSX/CSV), route through the EXISTING strong extraction
- * stack (document-extraction-adapter -> docling/openpyxl) to obtain document
- * text + tables. Output is candidate truth only; reconciliation approval remains
- * the sole gate to runtime. Any reader failure degrades to review_required.
- */
 async function richExtractDocument(args: {
   supabase: SupabaseClient
   bucket: string
@@ -167,28 +159,24 @@ export async function extractProtocolVersion(args: {
 
   const { data: versionRow, error: versionError } = await args.supabase
     .from('protocol_runtime_versions')
-    .select(
-      `
-      *,
-      protocol_runtime_studies!inner (
-        id,
-        organization_id,
-        study_id
-      )
-    `,
-    )
+    .select('*')
     .eq('id', args.versionId)
     .maybeSingle()
 
   if (versionError) throw new Error(versionError.message)
   if (!versionRow) throw new Error('Protocol version not found.')
 
-  const parent = versionRow.protocol_runtime_studies as { organization_id: string } | null
+  const { data: parent, error: parentError } = await args.supabase
+    .from('protocol_runtime_studies')
+    .select('id, organization_id, study_id')
+    .eq('id', String(versionRow.protocol_runtime_study_id))
+    .maybeSingle()
+
+  if (parentError) throw new Error(parentError.message)
   if (!parent || String(parent.organization_id) !== args.organizationId) {
     throw new Error('Protocol version not found for this organization.')
   }
 
-  // Mark extracting.
   await args.supabase
     .from('protocol_runtime_versions')
     .update({ extraction_status: 'extracting', extraction_metadata: { started_at: now } })
@@ -200,7 +188,6 @@ export async function extractProtocolVersion(args: {
     sourceDocumentId: String(versionRow.source_document_id),
   })
 
-  // Default extraction payload even when unsupported.
   let extractionStatus: ProtocolRuntimeVersionRow['extractionStatus'] = 'review_required'
   let rawText: Record<string, unknown> = {
     source_document: {
@@ -215,58 +202,34 @@ export async function extractProtocolVersion(args: {
   let extractionMethod = 'unsupported'
   let pageCount: number | null = null
   let provenance: ExtractionProvenance[] = []
+  let sectionCount = 0
+  let visitCandidateCount = 0
+  let procedureCandidateCount = 0
+  let attemptedReader: string | null = null
+  let failureStage: string | null = null
+  let failureMessage: string | null = null
 
-  const textResult = await bestEffortExtractText({
-    supabase: args.supabase,
-    bucket: doc.bucket || COMPLIANCE_STORAGE_BUCKET,
-    path: doc.path,
-    mimeType: doc.mimeType,
-    filename: doc.filename,
-  }).catch((err) => {
-    return { ok: false, text: '', note: err instanceof Error ? err.message : 'Download failed' }
-  })
-
-  if (textResult.ok) {
-    extractionStatus = 'ready'
-    extractedText = textResult.text
-    extractionMethod = 'text'
-    rawText = {
-      source: 'text',
-      text: extractedText.slice(0, 200000),
-      extraction_method: 'text',
-      source_document: {
-        id: doc.id,
-        bucket: doc.bucket,
-        path: doc.path,
-        mime_type: doc.mimeType,
-        filename: doc.filename,
-      },
-    }
-  } else {
-    // Route PDF/DOCX/XLSX/CSV through the existing strong reader.
-    const rich = await richExtractDocument({
+  try {
+    const textResult = await bestEffortExtractText({
       supabase: args.supabase,
       bucket: doc.bucket || COMPLIANCE_STORAGE_BUCKET,
       path: doc.path,
       mimeType: doc.mimeType,
       filename: doc.filename,
-    }).catch((err) => ({
-      ok: false as const,
-      note: err instanceof Error ? err.message : 'Rich extraction failed',
-    }))
+    }).catch((err) => {
+      return { ok: false, text: '', note: err instanceof Error ? err.message : 'Download failed' }
+    })
 
-    if (rich.ok) {
+    if (textResult.ok) {
       extractionStatus = 'ready'
-      extractedText = rich.text
-      extractionMethod = rich.method
-      pageCount = rich.pageCount
-      provenance = rich.provenance
+      extractedText = textResult.text
+      extractionMethod = 'text'
+      attemptedReader = 'text'
       rawText = {
-        source: rich.method,
+        source: 'text',
         text: extractedText.slice(0, 200000),
-        extraction_method: rich.method,
-        page_count: rich.pageCount,
-        tables: rich.tables,
+        extraction_method: 'text',
+        attempted_reader: 'text',
         source_document: {
           id: doc.id,
           bucket: doc.bucket,
@@ -276,125 +239,200 @@ export async function extractProtocolVersion(args: {
         },
       }
     } else {
-      rawText = {
-        ...rawText,
-        extraction_note: rich.note ?? textResult.note ?? rawText.extraction_note,
+      const rich = await richExtractDocument({
+        supabase: args.supabase,
+        bucket: doc.bucket || COMPLIANCE_STORAGE_BUCKET,
+        path: doc.path,
+        mimeType: doc.mimeType,
+        filename: doc.filename,
+      }).catch((err) => ({
+        ok: false as const,
+        note: err instanceof Error ? err.message : 'Rich extraction failed',
+      }))
+
+      if (rich.ok) {
+        extractionStatus = 'ready'
+        extractedText = rich.text
+        extractionMethod = rich.method
+        attemptedReader = rich.method
+        pageCount = rich.pageCount
+        provenance = rich.provenance
+        rawText = {
+          source: rich.method,
+          text: extractedText.slice(0, 200000),
+          extraction_method: rich.method,
+          attempted_reader: rich.method,
+          attempted_readers: [rich.method],
+          page_count: pageCount,
+          tables: rich.tables,
+          source_document: {
+            id: doc.id,
+            bucket: doc.bucket,
+            path: doc.path,
+            mime_type: doc.mimeType,
+            filename: doc.filename,
+          },
+        }
+      } else {
+        failureStage = 'reader'
+        failureMessage = rich.note ?? textResult.note ?? 'Rich extraction failed'
+        extractionStatus = failureMessage.toLowerCase().includes('unsupported') ? 'review_required' : 'failed'
+        attemptedReader = 'docling'
+        rawText = {
+          ...rawText,
+          extraction_note: failureMessage,
+          attempted_reader: attemptedReader,
+          failure_stage: failureStage,
+          error_message: failureMessage,
+        }
       }
     }
-  }
 
-  // Extract and store sections.
-  const extractedSections = extractProtocolSectionsFromText(extractedText)
-  // Clear previous extraction artifacts (safe because they are derived, not canonical).
-  await Promise.all([
-    args.supabase.from('protocol_runtime_sections').delete().eq('protocol_version_id', args.versionId),
-    args.supabase.from('protocol_runtime_visit_candidates').delete().eq('protocol_version_id', args.versionId),
-    args.supabase
-      .from('protocol_runtime_procedure_candidates')
-      .delete()
-      .eq('protocol_version_id', args.versionId),
-  ])
+    const extractedSections = extractProtocolSectionsFromText(extractedText)
+    await Promise.all([
+      args.supabase.from('protocol_runtime_sections').delete().eq('protocol_version_id', args.versionId),
+      args.supabase.from('protocol_runtime_visit_candidates').delete().eq('protocol_version_id', args.versionId),
+      args.supabase
+        .from('protocol_runtime_procedure_candidates')
+        .delete()
+        .eq('protocol_version_id', args.versionId),
+    ])
 
-  const sectionCount = await storeProtocolSections(args.supabase, args.versionId, extractedSections)
+    sectionCount = await storeProtocolSections(args.supabase, args.versionId, extractedSections)
 
-  const { data: storedSectionRows, error: storedSectionErr } = await args.supabase
-    .from('protocol_runtime_sections')
-    .select('*')
-    .eq('protocol_version_id', args.versionId)
-    .order('sequence_order', { ascending: true })
+    const { data: storedSectionRows, error: storedSectionErr } = await args.supabase
+      .from('protocol_runtime_sections')
+      .select('*')
+      .eq('protocol_version_id', args.versionId)
+      .order('sequence_order', { ascending: true })
 
-  if (storedSectionErr) throw new Error(storedSectionErr.message)
-  const sections = (storedSectionRows ?? []).map((row) =>
-    mapProtocolRuntimeSectionRow(row as Record<string, unknown>),
-  )
-
-  const visitCandidates = extractVisitCandidatesFromSections(sections)
-  let visitCandidateCount = 0
-  if (visitCandidates.length > 0) {
-    const { error } = await args.supabase.from('protocol_runtime_visit_candidates').insert(
-      visitCandidates.map((visit) => ({
-        protocol_version_id: args.versionId,
-        visit_code: visit.visit_code,
-        visit_name: visit.visit_name,
-        visit_type: visit.visit_type,
-        study_day: visit.study_day,
-        window_before_days: visit.window_before_days,
-        window_after_days: visit.window_after_days,
-        extracted_from_section_id: visit.extracted_from_section_id,
-        confidence_score: visit.confidence_score,
-        reconciliation_status: 'unreviewed',
-        metadata: visit.metadata ?? {},
-      })),
+    if (storedSectionErr) throw new Error(storedSectionErr.message)
+    const sections = (storedSectionRows ?? []).map((row) =>
+      mapProtocolRuntimeSectionRow(row as Record<string, unknown>),
     )
-    if (error) throw new Error(error.message)
-    visitCandidateCount = visitCandidates.length
-  }
 
-  const { data: visitRows, error: visitErr } = await args.supabase
-    .from('protocol_runtime_visit_candidates')
-    .select('*')
-    .eq('protocol_version_id', args.versionId)
+    const visitCandidates = extractVisitCandidatesFromSections(sections)
+    if (visitCandidates.length > 0) {
+      const { error } = await args.supabase.from('protocol_runtime_visit_candidates').insert(
+        visitCandidates.map((visit) => ({
+          protocol_version_id: args.versionId,
+          visit_code: visit.visit_code,
+          visit_name: visit.visit_name,
+          visit_type: visit.visit_type,
+          study_day: visit.study_day,
+          window_before_days: visit.window_before_days,
+          window_after_days: visit.window_after_days,
+          extracted_from_section_id: visit.extracted_from_section_id,
+          confidence_score: visit.confidence_score,
+          reconciliation_status: 'unreviewed',
+          metadata: visit.metadata ?? {},
+        })),
+      )
+      if (error) throw new Error(error.message)
+      visitCandidateCount = visitCandidates.length
+    }
 
-  if (visitErr) throw new Error(visitErr.message)
-  const storedVisits = (visitRows ?? []).map((row) =>
-    mapProtocolRuntimeVisitCandidateRow(row as Record<string, unknown>),
-  )
+    const { data: visitRows, error: visitErr } = await args.supabase
+      .from('protocol_runtime_visit_candidates')
+      .select('*')
+      .eq('protocol_version_id', args.versionId)
 
-  const procedureCandidates = extractProcedureCandidatesFromSections({
-    sections,
-    visits: storedVisits,
-  })
-
-  let procedureCandidateCount = 0
-  if (procedureCandidates.length > 0) {
-    const { error } = await args.supabase.from('protocol_runtime_procedure_candidates').insert(
-      procedureCandidates.map((proc) => ({
-        protocol_version_id: args.versionId,
-        visit_candidate_id: proc.visit_candidate_id,
-        procedure_name: proc.procedure_name,
-        procedure_category: proc.procedure_category,
-        extracted_text: proc.extracted_text,
-        confidence_score: proc.confidence_score,
-        matched_procedure_library_id: null,
-        matched_blueprint_version_id: null,
-        reconciliation_status: 'unreviewed',
-        metadata: proc.metadata ?? {},
-      })),
+    if (visitErr) throw new Error(visitErr.message)
+    const storedVisits = (visitRows ?? []).map((row) =>
+      mapProtocolRuntimeVisitCandidateRow(row as Record<string, unknown>),
     )
-    if (error) throw new Error(error.message)
-    procedureCandidateCount = procedureCandidates.length
-  }
 
-  const { data: updated, error: updateErr } = await args.supabase
-    .from('protocol_runtime_versions')
-    .update({
-      raw_text: rawText,
-      extraction_status: extractionStatus,
-      extraction_metadata: {
-        finished_at: now,
-        section_count: sectionCount,
-        visit_candidate_count: visitCandidateCount,
-        procedure_candidate_count: procedureCandidateCount,
-        // Provenance (aligned with schemas/meta/Parser_Extraction_Result.schema.json)
-        extraction_method: extractionMethod,
-        page_count: pageCount,
-        source_table_count: provenance.length,
-        provenance,
-      },
+    const procedureCandidates = extractProcedureCandidatesFromSections({
+      sections,
+      visits: storedVisits,
     })
-    .eq('id', args.versionId)
-    .select('*')
-    .single()
 
-  if (updateErr || !updated) {
-    throw new Error(`Failed to update protocol version extraction status: ${updateErr?.message ?? 'Unknown error'}`)
-  }
+    if (procedureCandidates.length > 0) {
+      const { error } = await args.supabase.from('protocol_runtime_procedure_candidates').insert(
+        procedureCandidates.map((proc) => ({
+          protocol_version_id: args.versionId,
+          visit_candidate_id: proc.visit_candidate_id,
+          procedure_name: proc.procedure_name,
+          procedure_category: proc.procedure_category,
+          extracted_text: proc.extracted_text,
+          confidence_score: proc.confidence_score,
+          matched_procedure_library_id: null,
+          matched_blueprint_version_id: null,
+          reconciliation_status: 'unreviewed',
+          metadata: proc.metadata ?? {},
+        })),
+      )
+      if (error) throw new Error(error.message)
+      procedureCandidateCount = procedureCandidates.length
+    }
 
-  return {
-    version: mapProtocolRuntimeVersionRow(updated as Record<string, unknown>),
-    sectionCount,
-    visitCandidateCount,
-    procedureCandidateCount,
+    const { data: updated, error: updateErr } = await args.supabase
+      .from('protocol_runtime_versions')
+      .update({
+        raw_text: rawText,
+        extraction_status: extractionStatus,
+        extraction_metadata: {
+          finished_at: now,
+          section_count: sectionCount,
+          visit_candidate_count: visitCandidateCount,
+          procedure_candidate_count: procedureCandidateCount,
+          extraction_method: extractionMethod,
+          attempted_reader: attemptedReader,
+          page_count: pageCount,
+          source_table_count: provenance.length,
+          provenance,
+        },
+      })
+      .eq('id', args.versionId)
+      .select('*')
+      .single()
+
+    if (updateErr || !updated) {
+      throw new Error(`Failed to update protocol version extraction status: ${updateErr?.message ?? 'Unknown error'}`)
+    }
+
+    return {
+      version: mapProtocolRuntimeVersionRow(updated as Record<string, unknown>),
+      sectionCount,
+      visitCandidateCount,
+      procedureCandidateCount,
+    }
+  } catch (error) {
+    failureStage = failureStage ?? 'pipeline'
+    failureMessage = failureMessage ?? (error instanceof Error ? error.message : 'Unknown extraction error')
+    const failureStatus: ProtocolRuntimeVersionRow['extractionStatus'] =
+      failureMessage.toLowerCase().includes('unsupported') ? 'review_required' : 'failed'
+
+    const failureRawText = {
+      ...rawText,
+      attempted_reader: attemptedReader ?? 'unknown',
+      failure_stage: failureStage,
+      error_message: failureMessage,
+      partial_text: extractedText.slice(0, 200000),
+    }
+
+    await args.supabase
+      .from('protocol_runtime_versions')
+      .update({
+        raw_text: failureRawText,
+        extraction_status: failureStatus,
+        extraction_metadata: {
+          finished_at: now,
+          failed_at: new Date().toISOString(),
+          section_count: sectionCount,
+          visit_candidate_count: visitCandidateCount,
+          procedure_candidate_count: procedureCandidateCount,
+          attempted_reader: attemptedReader,
+          failure_stage: failureStage,
+          error_message: failureMessage,
+          extraction_method: extractionMethod,
+          page_count: pageCount,
+          source_table_count: provenance.length,
+          provenance,
+        },
+      })
+      .eq('id', args.versionId)
+
+    throw error instanceof Error ? error : new Error(failureMessage)
   }
 }
-

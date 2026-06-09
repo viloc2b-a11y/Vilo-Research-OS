@@ -22,6 +22,10 @@ export function DocumentDestinationSelector({
   return (
     <div className="space-y-4 rounded-md border border-slate-200 bg-slate-50 p-4">
       <h3 className="text-sm font-semibold text-slate-800">Operational Destination</h3>
+      <p className="text-xs text-slate-500">
+        Route the document into the engine that will actually use it: runtime, financial,
+        compliance, or repository.
+      </p>
       
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
@@ -32,13 +36,14 @@ export function DocumentDestinationSelector({
             className="w-full rounded-md border border-slate-300 p-2 text-sm"
           >
             <option value="" disabled>Select Domain</option>
-            <option value="source_builder">Source Builder</option>
-            <option value="regulatory_binder">Regulatory Binder</option>
-            <option value="budget_contract">Budget / Contract</option>
-            <option value="study_documents">Study Documents</option>
-            <option value="subject_chart">Subject Chart</option>
-            <option value="visit_workspace">Visit Workspace</option>
-            <option value="procedure_execution">Procedure Execution Evidence</option>
+            <option value="source_builder">Runtime Engine - Protocol / Lab Manual / Source</option>
+            <option value="consent_management">Runtime Engine - Consent Management</option>
+            <option value="regulatory_binder">Compliance Engine - Regulatory Binder</option>
+            <option value="budget_contract">Financial Engine - Budget / CTA</option>
+            <option value="study_documents">Repository - Study Documents</option>
+            <option value="subject_chart">Repository - Subject Chart</option>
+            <option value="visit_workspace">Repository - Visit Workspace</option>
+            <option value="procedure_execution">Repository - Procedure Execution Evidence</option>
           </select>
         </div>
 
@@ -50,10 +55,10 @@ export function DocumentDestinationSelector({
             className="w-full rounded-md border border-slate-300 p-2 text-sm"
           >
             <option value="" disabled>Select Target</option>
-            <option value="study">Study Level</option>
-            <option value="subject">Subject Level</option>
-            <option value="visit">Visit Level</option>
-            <option value="procedure">Procedure Level</option>
+            <option value="study">Study Runtime Level</option>
+            <option value="subject">Subject Runtime Level</option>
+            <option value="visit">Visit Runtime Level</option>
+            <option value="procedure">Procedure Runtime Level</option>
           </select>
         </div>
       </div>
@@ -66,7 +71,7 @@ export function DocumentDestinationSelector({
             value={destinationEntityId}
             onChange={(e) => onDestinationEntityIdChange(e.target.value)}
             className="w-full rounded-md border border-slate-300 p-2 font-mono text-sm"
-            placeholder="UUID for subject, visit, or procedure"
+            placeholder="UUID for subject, visit, or procedure runtime object"
             required
           />
         </div>

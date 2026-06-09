@@ -1,7 +1,8 @@
 ﻿{
-  "version": "1.0.0",
-  "updated": "2026-05-21",
+  "version": "1.1.0",
+  "updated": "2026-06-04",
   "skills": [
+    {"name":"vilo-os-context","status":"active","trigger":"coding, migration, spec, refactor, UI copy, alert design, AI governance, architecture decision, vilo-os"},
     {"name":"similarweb-analytics","status":"active","trigger":"dominio, tráfico, ranking, canales, geografía"},
     {"name":"stock-analysis","status":"active","trigger":"acción, ticker, análisis técnico, perfil, SEC, comparativa"},
     {"name":"video-generator","status":"active","trigger":"video, IA, guion, keyframes, BGM, TTS, producción"},

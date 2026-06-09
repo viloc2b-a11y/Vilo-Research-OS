@@ -2,11 +2,14 @@
 
 import { useState, Fragment } from 'react'
 import Link from 'next/link'
-import { ChevronDown, ChevronRight, CheckCircle2, Clock, AlertCircle } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ChevronDown, ChevronRight, CheckCircle2, AlertCircle } from 'lucide-react'
 import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
 
 type StudyVisitMatrixViewProps = {
+  studyId: string
   visits: StudyVisitRow[]
+  searchQuery: string
 }
 
 type MatrixRow = {
@@ -21,8 +24,11 @@ type MatrixRow = {
   subjects: StudyVisitRow[]
 }
 
-export function StudyVisitMatrixView({ visits }: StudyVisitMatrixViewProps) {
+export function StudyVisitMatrixView({ studyId, visits, searchQuery }: StudyVisitMatrixViewProps) {
+  const router = useRouter()
+  const currentSearchParams = useSearchParams()
   const [expandedCodes, setExpandedCodes] = useState<Set<string>>(new Set())
+  const hasActiveFilter = Boolean(searchQuery.trim())
 
   function toggleCode(code: string) {
     setExpandedCodes((prev) => {
@@ -31,6 +37,14 @@ export function StudyVisitMatrixView({ visits }: StudyVisitMatrixViewProps) {
       else next.add(code)
       return next
     })
+  }
+
+  function updateSearchQuery(value: string) {
+    const params = new URLSearchParams(currentSearchParams.toString())
+    if (value.trim()) params.set('visit_q', value.trim())
+    else params.delete('visit_q')
+    router.replace(`/studies/${studyId}/workspace?${params.toString()}`, { scroll: false })
+    setExpandedCodes(new Set())
   }
 
   // Aggregate into matrix
@@ -73,11 +87,36 @@ export function StudyVisitMatrixView({ visits }: StudyVisitMatrixViewProps) {
 
   if (matrix.length === 0) {
     return (
-      <div className="rounded-md border border-slate-200 bg-white p-8 text-center shadow-sm">
-        <h3 className="text-sm font-medium text-slate-900">No visits available</h3>
-        <p className="mt-1 text-sm text-slate-500">
-          Enrolled subjects will appear in the visit matrix once execution schedules are generated.
-        </p>
+      <div className="space-y-4">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-lg font-semibold text-slate-900">Study Visit Matrix</h2>
+          <p className="text-sm text-slate-500">
+            Visit execution tracking across all active subjects. Click a visit to drill down.
+          </p>
+        </div>
+        <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-sm font-medium text-slate-900">
+                {searchQuery ? 'No visits match this search' : 'No visits available'}
+              </h3>
+              <p className="mt-1 text-sm text-slate-500">
+                {searchQuery
+                  ? 'Try a different visit code, visit name, or subject identifier.'
+                  : 'Enrolled subjects will appear in the visit matrix once execution schedules are generated.'}
+              </p>
+            </div>
+            {searchQuery ? (
+              <button
+                type="button"
+                onClick={() => updateSearchQuery('')}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Clear search
+              </button>
+            ) : null}
+          </div>
+        </div>
       </div>
     )
   }
@@ -89,6 +128,60 @@ export function StudyVisitMatrixView({ visits }: StudyVisitMatrixViewProps) {
         <p className="text-sm text-slate-500">
           Visit execution tracking across all active subjects. Click a visit to drill down.
         </p>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+        <div className="flex items-center gap-2 text-slate-600">
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+            Filter status
+          </span>
+          {hasActiveFilter ? (
+            <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+              Active: {searchQuery}
+            </span>
+          ) : (
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+              No active filter
+            </span>
+          )}
+        </div>
+        {hasActiveFilter ? (
+          <button
+            type="button"
+            onClick={() => updateSearchQuery('')}
+            className="rounded-md border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Clear filter
+          </button>
+        ) : null}
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3 shadow-sm">
+        <div className="text-sm text-slate-600">
+          {searchQuery ? (
+            <span>
+              Showing matches for <span className="font-medium text-slate-900">{searchQuery}</span>
+            </span>
+          ) : (
+            <span>Use search to narrow the visit matrix before loading more records.</span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => updateSearchQuery(e.target.value)}
+            placeholder="Search visit or subject"
+            className="h-9 w-[240px] rounded-md border border-slate-300 px-3 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+          />
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => updateSearchQuery('')}
+              className="h-9 rounded-md border border-slate-300 px-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">

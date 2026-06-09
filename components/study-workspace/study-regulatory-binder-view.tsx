@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ChevronDown, ChevronRight, FileText, Search, ExternalLink, Info, BrainCircuit } from 'lucide-react'
 import type { StudyWorkspaceRuntimeLinks } from '@/lib/study-workspace/study-workspace-links'
 import type { ComplianceRuntimeDocument } from '@/lib/document-intake/compliance-types'
@@ -128,12 +129,28 @@ function SectionFolder({
 }
 
 type StudyRegulatoryBinderViewProps = {
+  studyId: string
   links: StudyWorkspaceRuntimeLinks
   documents: ComplianceRuntimeDocument[]
+  searchQuery: string
 }
 
-export function StudyRegulatoryBinderView({ links, documents }: StudyRegulatoryBinderViewProps) {
-  const [searchQuery, setSearchQuery] = useState('')
+export function StudyRegulatoryBinderView({
+  studyId,
+  links,
+  documents,
+  searchQuery,
+}: StudyRegulatoryBinderViewProps) {
+  const router = useRouter()
+  const currentSearchParams = useSearchParams()
+  const hasActiveFilter = Boolean(searchQuery.trim())
+
+  function updateSearchQuery(value: string) {
+    const params = new URLSearchParams(currentSearchParams.toString())
+    if (value.trim()) params.set('binder_q', value.trim())
+    else params.delete('binder_q')
+    router.replace(`/studies/${studyId}/workspace?${params.toString()}`, { scroll: false })
+  }
 
   if (!documents || documents.length === 0) {
     return (
@@ -141,15 +158,19 @@ export function StudyRegulatoryBinderView({ links, documents }: StudyRegulatoryB
         <div>
           <h2 className="text-lg font-semibold text-slate-800">Regulatory Binder</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Investigator Site File (ISF) populated by the document compliance engine.
+            Latest Investigator Site File (ISF) documents populated by the document compliance engine.
           </p>
         </div>
         
         <div className="rounded-md border border-dashed border-slate-300 p-12 text-center bg-slate-50">
           <FileText className="mx-auto h-8 w-8 text-slate-400 mb-3" />
-          <h3 className="text-sm font-medium text-slate-900">No regulatory documents found</h3>
+          <h3 className="text-sm font-medium text-slate-900">
+            {searchQuery ? 'No documents match your search' : 'No regulatory documents found'}
+          </h3>
           <p className="mt-1 text-sm text-slate-500 mb-6">
-            No regulatory documents have been routed to this study.
+            {searchQuery
+              ? 'Try a different document name, filename, classification, or binder section.'
+              : 'No regulatory documents have been routed to this study.'}
           </p>
           <Link
             href={links.documentIntake}
@@ -202,7 +223,7 @@ export function StudyRegulatoryBinderView({ links, documents }: StudyRegulatoryB
         <div>
           <h2 className="text-lg font-semibold text-slate-800">Regulatory Binder</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Investigator Site File (ISF) populated by the document compliance engine.
+            Latest Investigator Site File (ISF) documents populated by the document compliance engine.
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
@@ -212,7 +233,7 @@ export function StudyRegulatoryBinderView({ links, documents }: StudyRegulatoryB
               type="text"
               placeholder="Search documents..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => updateSearchQuery(e.target.value)}
               className="h-9 w-[200px] rounded-md border border-slate-300 pl-9 pr-3 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
           </div>
@@ -226,6 +247,51 @@ export function StudyRegulatoryBinderView({ links, documents }: StudyRegulatoryB
       </div>
 
       <div className="bg-slate-50/50 p-2 rounded-lg border">
+        <div className="mb-2 flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+          <div className="flex items-center gap-2 text-slate-600">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+              Filter status
+            </span>
+            {hasActiveFilter ? (
+              <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+                Active: {searchQuery}
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                No active filter
+              </span>
+            )}
+          </div>
+          {hasActiveFilter ? (
+            <button
+              type="button"
+              onClick={() => updateSearchQuery('')}
+              className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Clear filter
+            </button>
+          ) : null}
+        </div>
+        <div className="mb-2 flex items-center justify-between gap-3 rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+          <span>
+            {searchQuery ? (
+              <>
+                Showing matches for <span className="font-medium text-slate-900">{searchQuery}</span>
+              </>
+            ) : (
+              'Use search to narrow the binder before expanding sections.'
+            )}
+          </span>
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => updateSearchQuery('')}
+              className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
         {filteredSections.map((sectionName) => (
           <SectionFolder
             key={sectionName}

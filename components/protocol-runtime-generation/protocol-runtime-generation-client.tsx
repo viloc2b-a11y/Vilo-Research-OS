@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import {
   GENERATION_STATUS,
@@ -34,6 +34,7 @@ export function ProtocolRuntimeGenerationClient(props: {
   const [readiness, setReadiness] = useState<ReadinessState>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const autoValidatedRef = useRef(false)
 
   const refreshKeyState = useState(0)
   const refreshKey = refreshKeyState[0]
@@ -80,7 +81,7 @@ export function ProtocolRuntimeGenerationClient(props: {
     }
   }, [readiness])
 
-  async function validateReadiness() {
+  const validateReadiness = useCallback(async () => {
     if (!selectedVersionId) return
     setLoading(true)
     setError(null)
@@ -113,10 +114,28 @@ export function ProtocolRuntimeGenerationClient(props: {
     } finally {
       setLoading(false)
     }
-  }
+  }, [props.organizationId, selectedVersionId, studyId])
+
+  useEffect(() => {
+    if (!selectedVersionId) return
+    if (!props.initialVersionId) return
+    if (autoValidatedRef.current) return
+    autoValidatedRef.current = true
+    void validateReadiness()
+  }, [props.initialVersionId, selectedVersionId, validateReadiness])
 
   return (
     <div className="space-y-6">
+      {props.initialVersionId ? (
+        <div className="rounded-md border border-teal-200 bg-teal-50/70 p-4 text-sm text-teal-900">
+          <p className="font-medium">Reconciliation handoff detected</p>
+          <p className="mt-1 text-teal-800">
+            The selected protocol version came from the reconciliation workspace. Validate readiness,
+            generate runtime, then continue to source package snapshots.
+          </p>
+        </div>
+      ) : null}
+
       <GenerationVersionSelector
         organizationId={props.organizationId}
         selectedVersionId={selectedVersionId}
@@ -133,6 +152,11 @@ export function ProtocolRuntimeGenerationClient(props: {
       {selectedVersionId ? (
         <div className="rounded-md border border-slate-200 bg-white p-4 text-sm">
           <p className="text-sm font-medium text-slate-900">Generation inputs</p>
+          {readiness?.ready ? (
+            <p className="mt-1 text-xs text-teal-700">
+              Ready for runtime generation. The approved reconciliation set can now be compiled.
+            </p>
+          ) : null}
           <label className="mt-2 block text-xs text-slate-600">
             Study ID (must match protocol runtime study link)
             <input

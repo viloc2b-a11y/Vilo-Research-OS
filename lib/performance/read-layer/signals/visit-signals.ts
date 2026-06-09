@@ -107,10 +107,12 @@ export async function loadRiskVisits(
     .select(
       `
       id,
+      organization_id,
       study_id,
       study_subject_id,
       visit_status,
       window_status,
+      review_status,
       scheduled_date,
       target_date,
       window_end,
@@ -121,7 +123,7 @@ export async function loadRiskVisits(
     )
     .in('organization_id', scope.organizationIds)
     .in('study_id', scope.studyIds)
-    .or('visit_status.in.(missed,out_of_window),window_status.in.(outside_window,warning)')
+    .or('visit_status.in.(missed,out_of_window),window_status.in.(outside_window,warning),review_status.eq.reopened')
     .order('scheduled_date', { ascending: true, nullsFirst: false })
     .limit(RISK_VISITS_QUERY_LIMIT)
 

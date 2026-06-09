@@ -5,6 +5,7 @@ import { computeEarnedFinancialState } from '@/lib/financial-runtime/compute/ear
 import { computeExecutedFinancialState } from '@/lib/financial-runtime/compute/executed'
 import { computeExpectedFinancialState } from '@/lib/financial-runtime/compute/expected'
 import { detectRevenueLeakage, scoreLeakage } from '@/lib/financial-runtime/compute/leakage'
+import { computePaymentLifecycle } from '@/lib/financial-runtime/compute/payment-lifecycle'
 import { buildProcedureFinancialAttributions } from '@/lib/financial-runtime/compute/procedure-attribution'
 import { computeUnscheduledRuntimeBurden } from '@/lib/financial-runtime/compute/unscheduled-burden'
 import { EARNED_RATE_BASIS, FINANCIAL_RUNTIME_VERSION } from '@/lib/financial-runtime/constants'
@@ -66,6 +67,10 @@ export async function computeVisitFinancialRuntime(input: {
     earned,
     leakage,
   })
+  const paymentLifecycle = computePaymentLifecycle({
+    ctx,
+    earned,
+  })
 
   const coordinatorEconomics = await computeCoordinatorBurdenEconomics({
     supabase: input.supabase,
@@ -115,6 +120,7 @@ export async function computeVisitFinancialRuntime(input: {
     coordinatorEconomics,
     unscheduledBurden,
     amendmentImpact,
+    paymentLifecycle,
     visitFinancialBurdenScore,
     leakageScore,
     earnedRateBasisPoints,
@@ -123,6 +129,7 @@ export async function computeVisitFinancialRuntime(input: {
       graphPublicationId: graph.publicationId,
       graphRevision: graph.graphRevision,
       readinessStatus: ctx.readiness?.readinessStatus ?? null,
+      paymentLifecycle,
     },
   }
 }

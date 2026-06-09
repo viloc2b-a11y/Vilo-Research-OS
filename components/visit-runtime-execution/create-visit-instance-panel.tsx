@@ -71,6 +71,9 @@ export function CreateVisitInstancePanel({
   return (
     <div className="rounded-md border border-slate-200 bg-white p-4">
       <h2 className="text-sm font-semibold text-slate-800">Create visit workspace</h2>
+      <p className="mt-1 text-xs text-slate-500">
+        Create the visit from an approved source version, then open the generated procedure list.
+      </p>
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <label className="text-sm text-slate-600">
           Published source version
@@ -113,8 +116,16 @@ export function CreateVisitInstancePanel({
         </button>
       </div>
       <div className="mt-2 text-xs text-slate-500">
-        <span className="font-medium text-slate-600">Source package hash</span>{' '}
-        {selected?.packageHash ? <span className="font-mono">{selected.packageHash}</span> : '—'}
+        <span className="font-medium text-slate-600">Selected source</span>{' '}
+        {selected ? (
+          <span>
+            v{selected.publicationVersion}
+            {' · '}
+            <span className="font-mono">{selected.packageHash.slice(0, 12)}…</span>
+          </span>
+        ) : (
+          '—'
+        )}
       </div>
       {error ? <p className="mt-2 text-sm text-red-600">{error}</p> : null}
     </div>

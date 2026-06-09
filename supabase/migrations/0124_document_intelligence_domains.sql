@@ -59,18 +59,21 @@ create index if not exists document_intelligence_domains_doc_domain_active_idx
 
 alter table public.document_intelligence_domains enable row level security;
 
+drop policy if exists document_intelligence_domains_select on public.document_intelligence_domains;
 create policy document_intelligence_domains_select on public.document_intelligence_domains
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and (study_id is null or public.user_has_study_access(study_id))
   );
 
+drop policy if exists document_intelligence_domains_insert on public.document_intelligence_domains;
 create policy document_intelligence_domains_insert on public.document_intelligence_domains
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and (study_id is null or public.user_has_study_access(study_id))
   );
 
+drop policy if exists document_intelligence_domains_update on public.document_intelligence_domains;
 create policy document_intelligence_domains_update on public.document_intelligence_domains
   for update using (
     public.user_has_active_organization_membership(organization_id)

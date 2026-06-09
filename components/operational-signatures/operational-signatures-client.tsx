@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { SignatureCredentialCard } from './signature-credential-card'
 import {
   OPERATIONAL_SIGNATURE_WARNING,
   type OperationalSignatureEventRow,
   type OperationalSignatureRequestRow,
   type OperationalSignatureRow,
 } from '@/lib/operational-signatures/operational-signature-types'
+import { signaturePolicySummary } from '@/lib/operational-signatures/signature-policies'
 
 type StudyOption = { id: string; name: string }
 type AssignedReviewRequest = {
@@ -22,6 +24,21 @@ type AssignedReviewRequest = {
 
 function displayValue(value: string | null) {
   return value ? value.slice(0, 8) : 'None'
+}
+
+function labelFromPolicyCode(code: string) {
+  switch (code) {
+    case 'critical_signature':
+      return 'Critical signature policy'
+    case 'subject_consent':
+      return 'Subject consent policy'
+    case 'reconsent':
+      return 'Re-consent policy'
+    case 'co_signature':
+      return 'Co-signature policy'
+    default:
+      return 'Standard signature policy'
+  }
 }
 
 export function OperationalSignaturesClient({
@@ -40,6 +57,8 @@ export function OperationalSignaturesClient({
   const [events, setEvents] = useState<OperationalSignatureEventRow[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [confirmed, setConfirmed] = useState(false)
+  const [signaturePin, setSignaturePin] = useState('')
+  const [mfaVerified, setMfaVerified] = useState(false)
   const [lastSignature, setLastSignature] = useState<OperationalSignatureRow | null>(null)
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
@@ -54,6 +73,19 @@ export function OperationalSignaturesClient({
   }, [initialStudyId, searchParams, studyIds])
 
   const selectedRequest = requests.find((request) => request.id === selectedId) ?? requests[0] ?? null
+  const selectedPolicySummary = selectedRequest
+    ? signaturePolicySummary({
+        policyCode: selectedRequest.signaturePolicyCode,
+        policyName: labelFromPolicyCode(selectedRequest.signaturePolicyCode),
+        description: null,
+        allowedRoles: [],
+        mfaRequired: selectedRequest.signaturePolicyCode === 'critical_signature',
+        coSignatureRequired: selectedRequest.signaturePolicyCode === 'co_signature',
+        signatureMeaningRequired: true,
+        subjectInvolvementRequired: selectedRequest.signaturePolicyCode === 'subject_consent',
+        active: true,
+      })
+    : null
 
   const loadPending = useCallback(async () => {
     setLoading(true)
@@ -115,6 +147,8 @@ export function OperationalSignaturesClient({
   function onStudyChange(nextStudyId: string) {
     setSelectedId(null)
     setConfirmed(false)
+    setSignaturePin('')
+    setMfaVerified(false)
     setLastSignature(null)
     const params = new URLSearchParams(searchParams.toString())
     if (nextStudyId) params.set('study_id', nextStudyId)
@@ -141,6 +175,8 @@ export function OperationalSignaturesClient({
           organization_id: organizationId,
           explicit_user_action: true,
           confirmation_statement: OPERATIONAL_SIGNATURE_WARNING,
+          signature_pin: signaturePin,
+          mfa_verified: mfaVerified,
         }),
       })
       const data = (await res.json()) as {
@@ -151,6 +187,8 @@ export function OperationalSignaturesClient({
       setLastSignature(data.signature ?? null)
       setMessage('Electronic signature recorded in the audit trail.')
       setConfirmed(false)
+      setSignaturePin('')
+      setMfaVerified(false)
       setRefreshKey((value) => value + 1)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Signature failed')
@@ -158,6 +196,9 @@ export function OperationalSignaturesClient({
       setActionLoading(false)
     }
   }
+
+  const selectedPolicyRequiresMfa =
+    selectedRequest?.signaturePolicyCode === 'critical_signature'
 
   async function transitionSignature(requestId: string, action: 'reject' | 'rescind', reason: string) {
     setActionLoading(true)
@@ -230,6 +271,8 @@ export function OperationalSignaturesClient({
         </p>
       </header>
 
+      <SignatureCredentialCard />
+
       <section className="rounded-md border border-slate-200 bg-slate-50 p-4">
         <label className="block text-sm font-medium text-slate-700">
           Study scope
@@ -270,6 +313,8 @@ export function OperationalSignaturesClient({
                     onClick={() => {
                       setSelectedId(request.id)
                       setConfirmed(false)
+                      setSignaturePin('')
+                      setMfaVerified(false)
                       setLastSignature(null)
                     }}
                   >
@@ -348,6 +393,12 @@ export function OperationalSignaturesClient({
                   </div>
                   <div>
                     <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                      Signature Policy
+                    </dt>
+                    <dd className="mt-1 text-slate-800">{selectedPolicySummary}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">
                       Required role
                     </dt>
                     <dd className="mt-1 text-slate-800">{selectedRequest.requiredRole}</dd>
@@ -371,10 +422,49 @@ export function OperationalSignaturesClient({
                   />
                   <span>{OPERATIONAL_SIGNATURE_WARNING}</span>
                 </label>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <label className="space-y-1 text-sm">
+                    <span className="block text-xs font-medium uppercase tracking-wide text-slate-500">
+                      Signature PIN
+                    </span>
+                    <input
+                      type="password"
+                      inputMode="numeric"
+                      maxLength={6}
+                      placeholder="6 digits"
+                      value={signaturePin}
+                      onChange={(event) =>
+                        setSignaturePin(event.target.value.replace(/\s+/g, '').trim())
+                      }
+                      className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm"
+                    />
+                  </label>
+                  <label className="space-y-1 text-sm">
+                    <span className="block text-xs font-medium uppercase tracking-wide text-slate-500">
+                      MFA Verified
+                    </span>
+                    <div className="flex h-10 items-center rounded border border-slate-300 bg-white px-3">
+                      <label className="flex items-center gap-2 text-sm text-slate-700">
+                        <input
+                          type="checkbox"
+                          checked={mfaVerified}
+                          onChange={(event) => setMfaVerified(event.target.checked)}
+                          disabled={!selectedPolicyRequiresMfa}
+                        />
+                        <span>{selectedPolicyRequiresMfa ? 'Required by policy' : 'Not required'}</span>
+                      </label>
+                    </div>
+                  </label>
+                </div>
                 <button
                   type="button"
                   className="mt-3 rounded bg-teal-700 px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
-                  disabled={actionLoading || !confirmed}
+                  disabled={
+                    actionLoading ||
+                    !confirmed ||
+                    signaturePin.replace(/\s+/g, '').trim().length !== 6 ||
+                    (selectedPolicyRequiresMfa && !mfaVerified)
+                  }
                   onClick={() => void signSelected()}
                 >
                   {actionLoading ? 'Signing...' : 'Sign Electronically'}

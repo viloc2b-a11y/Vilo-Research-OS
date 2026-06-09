@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 $base = "$PWD\vilo-skills"
 
 # 1. Estructura de carpetas
-$skills = "similarweb-analytics","stock-analysis","video-generator","vilo-ecosystem","skill-creator"
+$skills = "vilo-os-context","similarweb-analytics","stock-analysis","video-generator","vilo-ecosystem","skill-creator"
 foreach ($s in $skills) {
     New-Item -ItemType Directory -Force -Path "$base\$s\{references,scripts,templates}" | Out-Null
 }
@@ -11,9 +11,10 @@ New-Item -ItemType Directory -Force -Path "$base\template\{references,scripts,te
 # 2. registry.json
 @'
 {
-  "version": "1.0.0",
-  "updated": "2026-05-21",
+  "version": "1.1.0",
+  "updated": "2026-06-04",
   "skills": [
+    {"name":"vilo-os-context","status":"active","trigger":"coding, migration, spec, refactor, UI copy, alert design, AI governance, architecture decision, vilo-os"},
     {"name":"similarweb-analytics","status":"active","trigger":"dominio, tráfico, ranking, canales, geografía"},
     {"name":"stock-analysis","status":"active","trigger":"acción, ticker, análisis técnico, perfil, SEC, comparativa"},
     {"name":"video-generator","status":"active","trigger":"video, IA, guion, keyframes, BGM, TTS, producción"},
@@ -25,6 +26,113 @@ New-Item -ItemType Directory -Force -Path "$base\template\{references,scripts,te
 '@ | Set-Content -Path "$base\registry.json" -Encoding UTF8 -Force
 
 # 3. SKILL.md (Estándar Vilo, <500 líneas, triggers claros)
+@'
+---
+name: vilo-os-context
+description: Mandatory Vilo OS governance, architecture, and execution context. Load before any coding, migration, spec, refactor, UI copy, or AI/governance work on the vilo-os clinical research platform.
+---
+# Vilo OS Context
+
+## Trigger
+Load for: any code, migration, spec, plan, refactor, UI copy, alert/notification design, new feature, or AI/governance decision in this repo.
+Activation phrase: `load skill: vilo-os-context`
+
+## Platform identity
+Vilo OS is a **Site Execution Operating System** and **Coordinator Survival OS**.
+Primary beneficiary order: **Coordinator → Site → PI/Sub-I**.
+Sponsors, CROs, and monitors are NOT primary beneficiaries.
+
+## Workflow
+1. Identify the work domain (code / migration / UI / AI / spec / refactor).
+2. Apply the matching hard rules below before producing any output.
+3. If a request violates a rule → **STOP** and surface the conflict first.
+4. Use site-first vocabulary in all artifacts (see vocabulary table below).
+5. Verify new modules/layers against the architecture gates before writing code.
+
+---
+
+## Hard rules
+
+### 1 — Site-first
+- Runtime exists for: finding prevention, deviation prevention, coordinator simplification, revenue protection.
+- No feature may prioritize external visibility over coordinator protection.
+- Sponsor/CRO/monitor-first dashboards → **forbidden**. See `docs/FUTURE_IMPLEMENTATION_GUARDRAIL.md`.
+
+### 2 — Coordinator protection (STOP if requested)
+Never implement:
+- Coordinator scoring, ranking, or productivity metrics
+- Behavioral export of coordinator actions to external analytics
+- Automated performance alerts to sponsors/CROs
+- Dashboards whose primary consumer is sponsor, CRO, or CRA/monitor
+- Time-on-task or click tracking for external audiences
+
+Visibility class default: `site_only`. Changing to `derived_external` requires explicit policy review.
+Copy note: "Investigator review needed" — not "coordinator failed to sign."
+
+### 3 — Coordinator-facing language
+Forbidden in UI copy, labels, helper text:
+`violation`, `failure`, `enforcement`, `noncompliance`, `escalation triggered`, `monitoring issue`, `audit problem`, `coordinator score`, `productivity`, `ranking`, `surveillance`, `you must`, `non-compliant`, `failed audit`
+
+Use `toCoordinatorSafeOperationalLanguage()` from `lib/coordinator-calm/language.ts` for dynamic strings.
+
+Key substitutions: "Audit finding likely" → "Prevention focus" | "Deviation detected" → "Chronology needs review" | "Blocked by policy" → "Completion blocked" | "Monitor will reject" → "Stabilize before SDV"
+
+### 4 — External visibility
+- Vilo OS does not emit operational truth to external actors by default.
+- External visibility requires: site-controlled + derived + scoped + delayed + operationally justified.
+- All new features start with `DEFAULT_DENY_EXPOSURE_POLICY`.
+- Before shipping: call `validateExposurePolicy()` + `rejectsSurveillancePolicy()`.
+- Forbidden as default external outputs: raw projection rows, runtime_traces, execution_spans, work queue JSON with coordinator IDs, live projection feeds.
+
+### 5 — VIP / AI authority (GOV-1)
+- AI is ASSISTIVE only. Never mutate truth layers directly.
+- AI may suggest, summarize, route — never confirm eligibility, randomize, sign source, lock visits, adjudicate deviations.
+- Use `WORKFLOW_AUTHORITY_LEVEL` constants only — no free-text authority strings in runtime, traces, or observability.
+- New AI-assisted workflows must be registered in `workflow_decision_authorities` before shipping.
+- `workflow_key` is immutable once referenced. Deprecate with `active = false`; never rename.
+- Hard-stop: `ACTIVE_DELEGATION + evidence_status=MISSING` → `BLOCK_ACTION`. Advisory alerts cannot bypass this.
+
+### 6 — PHI in logs, alerts, and copy
+- No subject names, coordinator names, or emails in external payloads, alert bodies, or log fields.
+- Call `validateMetadataNonPhi()` from `lib/ai-governance/risk-tier.ts` at every alert/governance creation boundary.
+- ALCOA+: timestamps must be server-generated — DB `now()` in RPC or trigger, not `new Date().toISOString()`.
+
+### 7 — Architecture gates
+- Does an existing module own this concern? Check `lib/document-intake/`, `lib/governance-fabric/`, `lib/delegation-runtime/`, `lib/performance/` first.
+- No parallel detection logic — adapters only; delegate to existing detectors.
+- New migration: confirm latest number via `ls supabase/migrations/ | tail -5`.
+- No new layer without clear single-responsibility justification.
+
+### 8 — Coordinator UX Gate
+Before approving any feature, answer all five:
+- Can the coordinator complete the workflow with fewer clicks?
+- Does this remove work or add work?
+- Does this reduce context switching?
+- Can this be executed from the workspace where the coordinator already works?
+- Does this eliminate a manual export, copy/paste, or duplicate entry?
+
+If the answer to any is no → STOP and justify the feature.
+
+Preferred outcome: Coordinator workload down | Operational clarity up | Navigation complexity down
+
+---
+
+## Site-first vocabulary
+
+Use → Instead of:
+Inspection Readiness Workspace → CRA Workspace
+Controlled External Visibility → Sponsor Oversight
+Finding Prevention Runtime → Oversight Engine
+Coordinator operational survival prioritization → Task management
+Site self-defense telemetry → Monitor visibility / oversight telemetry
+
+## Prohibited patterns — STOP if proposed
+Sponsor surveillance surfaces | coordinator scoring/metrics for external audiences | monitor-first dashboards | real-time sponsor feeds | raw runtime export APIs | default exportable:true policies
+
+## Key source files
+docs/SITE_FIRST_RUNTIME_PRINCIPLES.md | docs/PRODUCT_GUARDRAILS.md | docs/FUTURE_IMPLEMENTATION_GUARDRAIL.md | docs/COORDINATOR_PROTECTION_RULES.md | docs/OPERATIONAL_CALM_LANGUAGE_GUIDE.md | docs/EXTERNAL_VISIBILITY_POLICY.md | docs/GOV-1-WORKFLOW-DECISION-AUTHORITY.md | docs/ARCHITECTURE_NON_GOALS.md
+'@ | Set-Content -Path "$base\vilo-os-context\SKILL.md" -Encoding UTF8 -Force
+
 @'
 ---
 name: similarweb-analytics

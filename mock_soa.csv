@@ -1,0 +1,16 @@
+study_id,visit_name,activity_id,activity_type,quantity,unit_cost,billable_to
+STUDY-001,Screening Visit,ACT-001,lab_draw,1,250.00,sponsor
+STUDY-001,Screening Visit,ACT-002,ecg,1,175.00,sponsor
+STUDY-001,Screening Visit,ACT-003,physician_review,1,400.00,sponsor
+STUDY-001,Baseline Visit,ACT-004,lab_draw,2,250.00,sponsor
+STUDY-001,Baseline Visit,ACT-005,mri_scan,1,1200.00,sponsor
+STUDY-001,Baseline Visit,ACT-006,study_drug_dispensing,1,0.00,sponsor
+STUDY-001,Week 4 Visit,ACT-007,lab_draw,1,250.00,sponsor
+STUDY-001,Week 4 Visit,ACT-008,vital_signs,1,75.00,sponsor
+STUDY-001,Week 4 Visit,ACT-009,patient_diary_review,1,50.00,site
+STUDY-001,Week 8 Visit,ACT-010,lab_draw,1,250.00,sponsor
+STUDY-001,Week 8 Visit,ACT-011,ecg,1,175.00,sponsor
+STUDY-001,Week 8 Visit,ACT-012,physician_review,1,400.00,sponsor
+STUDY-001,End of Study,ACT-013,lab_draw,3,250.00,sponsor
+STUDY-001,End of Study,ACT-014,mri_scan,1,1200.00,sponsor
+STUDY-001,End of Study,ACT-015,final_assessment,1,600.00,sponsor

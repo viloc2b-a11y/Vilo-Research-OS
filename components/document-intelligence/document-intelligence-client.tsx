@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { IngestDocumentPanel } from './ingest-document-panel'
 import { IntelligenceDocumentList } from './intelligence-document-list'
 import { IntelligenceSearchPanel } from './intelligence-search-panel'
@@ -21,14 +21,20 @@ export function DocumentIntelligenceClient({
   organizationId,
   studies,
   initialStudyId = null,
+  initialQuery = '',
+  initialSearchArea = '',
+  initialIncludeSuperseded = false,
 }: {
   organizationId: string
   studies: StudyOption[]
   initialStudyId?: string | null
+  initialQuery?: string
+  initialSearchArea?: string
+  initialIncludeSuperseded?: boolean
 }) {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [studyId, setStudyId] = useState('')
   const [refreshKey, setRefreshKey] = useState(0)
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null)
 
@@ -39,17 +45,12 @@ export function DocumentIntelligenceClient({
     if (fromQuery && studyIds.has(fromQuery)) return fromQuery
     return ''
   }, [initialStudyId, searchParams, studyIds])
-
-  useEffect(() => {
-    setStudyId(resolveStudyFromUrl())
-  }, [resolveStudyFromUrl])
-
+  const studyId = resolveStudyFromUrl()
   const selectedStudy = studies.find((study) => study.id === studyId)
   const hasStudyScope = Boolean(studyId)
 
   const onStudyChange = useCallback(
     (nextStudyId: string) => {
-      setStudyId(nextStudyId)
       setSelectedDocumentId(null)
 
       const params = new URLSearchParams(searchParams.toString())
@@ -58,12 +59,13 @@ export function DocumentIntelligenceClient({
       } else {
         params.delete('study_id')
       }
+      params.delete('q')
+      params.delete('domain')
+      params.delete('history')
       const query = params.toString()
-      router.replace(query ? `/document-intelligence?${query}` : '/document-intelligence', {
-        scroll: false,
-      })
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
     },
-    [router, searchParams],
+    [pathname, router, searchParams],
   )
 
   return (
@@ -153,7 +155,13 @@ export function DocumentIntelligenceClient({
                 setRefreshKey((value) => value + 1)
               }}
             />
-            <IntelligenceSearchPanel organizationId={organizationId} studyId={studyId} />
+            <IntelligenceSearchPanel
+              organizationId={organizationId}
+              studyId={studyId}
+              initialQuery={initialQuery}
+              initialSearchArea={initialSearchArea}
+              initialIncludeSuperseded={initialIncludeSuperseded}
+            />
             <IntelligenceDocumentList
               organizationId={organizationId}
               studyId={studyId}

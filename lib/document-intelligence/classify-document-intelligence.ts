@@ -55,6 +55,13 @@ const RULES: Rule[] = [
     baseConfidence: 0.84,
   },
   {
+    id: 'consent',
+    classification: 'icf_consent',
+    filenamePatterns: [/icf/i, /consent/i, /informed consent/i],
+    textPatterns: [/informed consent/i, /subject consent/i, /re-consent/i],
+    baseConfidence: 0.83,
+  },
+  {
     id: 'budget',
     classification: 'budget',
     filenamePatterns: [/budget/i, /cost/i, /invoice/i],

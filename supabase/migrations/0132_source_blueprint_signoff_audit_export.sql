@@ -85,6 +85,7 @@ for each row execute function public.source_blueprint_audit_exports_deny_mutatio
 alter table public.source_blueprint_draft_signoffs enable row level security;
 alter table public.source_blueprint_audit_exports enable row level security;
 
+drop policy if exists source_blueprint_draft_signoffs_select on public.source_blueprint_draft_signoffs;
 create policy source_blueprint_draft_signoffs_select
   on public.source_blueprint_draft_signoffs
   for select using (
@@ -92,6 +93,7 @@ create policy source_blueprint_draft_signoffs_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_draft_signoffs_insert on public.source_blueprint_draft_signoffs;
 create policy source_blueprint_draft_signoffs_insert
   on public.source_blueprint_draft_signoffs
   for insert with check (
@@ -99,6 +101,7 @@ create policy source_blueprint_draft_signoffs_insert
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_draft_signoffs_update on public.source_blueprint_draft_signoffs;
 create policy source_blueprint_draft_signoffs_update
   on public.source_blueprint_draft_signoffs
   for update using (
@@ -106,6 +109,7 @@ create policy source_blueprint_draft_signoffs_update
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_audit_exports_select on public.source_blueprint_audit_exports;
 create policy source_blueprint_audit_exports_select
   on public.source_blueprint_audit_exports
   for select using (
@@ -113,6 +117,7 @@ create policy source_blueprint_audit_exports_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists source_blueprint_audit_exports_insert on public.source_blueprint_audit_exports;
 create policy source_blueprint_audit_exports_insert
   on public.source_blueprint_audit_exports
   for insert with check (

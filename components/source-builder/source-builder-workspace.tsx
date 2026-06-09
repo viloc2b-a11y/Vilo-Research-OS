@@ -168,6 +168,8 @@ export function SourceBuilderWorkspace({
     return <p className="text-sm text-muted-foreground">Loading workspace…</p>
   }
 
+  const hasActiveDraft = Boolean(draft.id)
+
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
@@ -179,6 +181,28 @@ export function SourceBuilderWorkspace({
         </span>
         <span className="text-foreground">Manual draft</span>
       </p>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
+          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+            Draft status
+          </span>
+          {hasActiveDraft ? (
+            <span className="inline-flex items-center rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800 ring-1 ring-inset ring-teal-200">
+              Active: {draft.id}
+            </span>
+          ) : (
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+              No active draft
+            </span>
+          )}
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {organizationId
+            ? 'Organization persistence enabled.'
+            : 'Browser persistence only until you sign in.'}
+        </p>
+      </div>
 
       <DraftHeader draft={draft} onChange={patchDraft} />
 

@@ -10,7 +10,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { DocumentIntelligenceClient } from '@/components/document-intelligence/document-intelligence-client'
 
 type DocumentIntelligencePageProps = {
-  searchParams: Promise<{ study_id?: string }>
+  searchParams: Promise<{ study_id?: string; q?: string; domain?: string; history?: string }>
 }
 
 function DocumentIntelligenceLoading() {
@@ -25,8 +25,14 @@ function DocumentIntelligenceLoading() {
 
 async function DocumentIntelligenceContent({
   initialStudyId,
+  initialQuery,
+  initialSearchArea,
+  initialIncludeSuperseded,
 }: {
   initialStudyId: string | null
+  initialQuery: string
+  initialSearchArea: string
+  initialIncludeSuperseded: boolean
 }) {
   const user = await getSessionUser()
   if (!user) redirect('/login')
@@ -73,6 +79,9 @@ async function DocumentIntelligenceContent({
       organizationId={organizationId}
       studies={studyList}
       initialStudyId={validInitialStudyId}
+      initialQuery={initialQuery}
+      initialSearchArea={initialSearchArea}
+      initialIncludeSuperseded={initialIncludeSuperseded}
     />
   )
 }
@@ -82,10 +91,18 @@ export default async function DocumentIntelligencePage({
 }: DocumentIntelligencePageProps) {
   const params = await searchParams
   const initialStudyId = params.study_id?.trim() || null
+  const initialQuery = params.q?.trim() || ''
+  const initialSearchArea = params.domain?.trim() || ''
+  const initialIncludeSuperseded = params.history === '1' || params.history === 'true'
 
   return (
     <Suspense fallback={<DocumentIntelligenceLoading />}>
-      <DocumentIntelligenceContent initialStudyId={initialStudyId} />
+      <DocumentIntelligenceContent
+        initialStudyId={initialStudyId}
+        initialQuery={initialQuery}
+        initialSearchArea={initialSearchArea}
+        initialIncludeSuperseded={initialIncludeSuperseded}
+      />
     </Suspense>
   )
 }

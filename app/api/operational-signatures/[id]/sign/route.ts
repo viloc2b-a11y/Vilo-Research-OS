@@ -20,6 +20,8 @@ export async function POST(req: NextRequest, context: RouteContext) {
     reason?: string
     explicit_user_action?: boolean
     confirmation_statement?: string
+    signature_pin?: string
+    mfa_verified?: boolean
     metadata?: Record<string, unknown>
   }
 
@@ -70,6 +72,17 @@ export async function POST(req: NextRequest, context: RouteContext) {
         .update({ status: displayStatus })
         .eq('document_id', before.artifact_id)
     }
+    if (before.module === 'governance' && before.entity_type === 'protocol_version') {
+      await supabase
+        .from('protocol_runtime_versions')
+        .update({
+          pi_acceptance_status: 'voided',
+          pi_acceptance_signature_id: null,
+          pi_accepted_at: null,
+          pi_accepted_by: null,
+        })
+        .eq('id', before.entity_id ?? before.artifact_id)
+    }
     if (before.subject_id) {
       await writeProfileEvent({
         study_subject_id: before.subject_id,
@@ -86,6 +99,9 @@ export async function POST(req: NextRequest, context: RouteContext) {
   }
   if (!body.explicit_user_action || body.confirmation_statement !== OPERATIONAL_SIGNATURE_WARNING) {
     return NextResponse.json({ error: 'Explicit signature confirmation is required' }, { status: 400 })
+  }
+  if (!body.signature_pin?.trim()) {
+    return NextResponse.json({ error: 'signature_pin is required' }, { status: 400 })
   }
 
   const auth = await authorizeOperationalSignatureWrite(body.organization_id)
@@ -107,6 +123,8 @@ export async function POST(req: NextRequest, context: RouteContext) {
       signerMemberships: auth.memberships,
       explicitUserAction: body.explicit_user_action,
       confirmationStatement: body.confirmation_statement,
+      signaturePin: body.signature_pin,
+      mfaVerified: body.mfa_verified ?? false,
       ipAddress,
       userAgent,
       metadata: body.metadata,

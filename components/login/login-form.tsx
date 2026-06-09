@@ -14,6 +14,14 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
+function getAuthErrorMessage(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error ?? '')
+  if (/failed to fetch|fetch failed|network/i.test(message)) {
+    return 'Unable to reach the authentication service. Check your network connection or DNS settings, then try again.'
+  }
+  return message || 'Unable to sign in. Please try again.'
+}
+
 export function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -30,17 +38,22 @@ export function LoginForm() {
     setError(null)
     setLoading(true)
 
-    const supabase = createClient()
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-    setLoading(false)
-
-    if (signInError) {
-      setError(signInError.message)
+      if (signInError) {
+        setError(getAuthErrorMessage(signInError))
+        return
+      }
+    } catch (signInError) {
+      setError(getAuthErrorMessage(signInError))
       return
+    } finally {
+      setLoading(false)
     }
 
     const target = redirectedFrom.startsWith('/') ? redirectedFrom : '/command-center'
@@ -77,7 +90,12 @@ export function LoginForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <a href="/forgot-password" className="text-xs font-medium text-primary hover:underline">
+                Forgot password?
+              </a>
+            </div>
             <Input
               id="password"
               type="password"

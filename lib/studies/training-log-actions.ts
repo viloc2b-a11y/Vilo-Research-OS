@@ -59,6 +59,7 @@ export type CreateTrainingAssignmentInput = {
   trainingType: string
   trainingTopic: string
   trainingMaterialTitle: string
+  trainingMaterialDocumentId?: string | null
   dueDate?: string | null
   trainerUserId?: string | null
   trainerName?: string | null
@@ -180,32 +181,59 @@ export async function createTrainingAssignment(studyId: string, input: CreateTra
   if (!orgId) throw new Error('No organization')
 
   const supabase = await createServerClient()
-  const { data: item, error: itemError } = await supabase
+  const itemDocumentId = input.trainingMaterialDocumentId || null
+  const { data: existingItem } = await supabase
     .from('study_training_items')
-    .insert({
-      organization_id: orgId,
-      study_id: studyId,
-      training_type: input.trainingType,
-      training_topic: input.trainingTopic,
-      training_material_title: input.trainingMaterialTitle.trim() || input.trainingTopic,
-      trainer_user_id: input.trainerUserId || null,
-      trainer_name: input.trainerName || null,
-      trainer_initials: input.trainerInitials || null,
-      requires_trainer_signature: input.requiresTrainerSignature,
-      requires_pi_acknowledgment: input.requiresPiAcknowledgment,
-      certificate_expected: input.certificateExpected,
-      created_by: sessionUser.id,
-    })
     .select('id')
-    .single()
-  if (itemError || !item) throw new Error(itemError?.message ?? 'Training item was not created')
+    .eq('organization_id', orgId)
+    .eq('study_id', studyId)
+    .eq('training_type', input.trainingType)
+    .eq('training_topic', input.trainingTopic)
+    .eq('training_material_document_id', itemDocumentId)
+    .maybeSingle()
+
+  let itemId = existingItem?.id ? String(existingItem.id) : null
+  if (!itemId) {
+    const { data: item, error: itemError } = await supabase
+      .from('study_training_items')
+      .insert({
+        organization_id: orgId,
+        study_id: studyId,
+        training_type: input.trainingType,
+        training_topic: input.trainingTopic,
+        training_material_title: input.trainingMaterialTitle.trim() || input.trainingTopic,
+        training_material_document_id: itemDocumentId,
+        trainer_user_id: input.trainerUserId || null,
+        trainer_name: input.trainerName || null,
+        trainer_initials: input.trainerInitials || null,
+        requires_trainer_signature: input.requiresTrainerSignature,
+        requires_pi_acknowledgment: input.requiresPiAcknowledgment,
+        certificate_expected: input.certificateExpected,
+        created_by: sessionUser.id,
+      })
+      .select('id')
+      .single()
+    if (itemError || !item) throw new Error(itemError?.message ?? 'Training item was not created')
+    itemId = String(item.id)
+  }
+
+  const { data: existingAssignment } = await supabase
+    .from('study_training_assignments')
+    .select('id')
+    .eq('study_id', studyId)
+    .eq('training_item_id', itemId)
+    .eq('trainee_user_id', input.traineeUserId)
+    .maybeSingle()
+  if (existingAssignment?.id) {
+    return { ok: true, assignmentId: String(existingAssignment.id) }
+  }
 
   const { data: assignment, error: assignmentError } = await supabase
     .from('study_training_assignments')
     .insert({
       organization_id: orgId,
       study_id: studyId,
-      training_item_id: item.id,
+      training_item_id: itemId,
       trainee_user_id: input.traineeUserId,
       trainee_name: input.traineeName.trim(),
       trainee_role: input.traineeRole,

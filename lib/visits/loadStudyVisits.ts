@@ -52,6 +52,7 @@ export async function loadStudyVisits(
   studyId: string,
   organizationId: string,
   limit = 200,
+  searchQuery?: string | null,
 ): Promise<{
   rows: StudyVisitRow[]
   today: StudyVisitRow[]
@@ -67,11 +68,11 @@ export async function loadStudyVisits(
   const supabase = await createServerClient()
   const ref = todayIsoDate()
 
-  const { data: visitsData, error } = await supabase
-    .from('visits')
-    .select(`
+  const normalizedSearch = searchQuery?.trim() ?? ''
+  const visitSelect = `
       id,
       study_subject_id,
+      visit_definition_id,
       scheduled_date,
       target_date,
       window_start,
@@ -81,19 +82,119 @@ export async function loadStudyVisits(
       window_status,
       study_subjects(subject_identifier),
       visit_definitions(code, label)
-    `)
-    .eq('study_id', studyId)
-    .eq('organization_id', organizationId)
-    .not('visit_status', 'in', '("cancelled")')
-    .order('scheduled_date', { ascending: true, nullsFirst: false })
-    .order('target_date', { ascending: true, nullsFirst: false })
-    .limit(limit)
+    `
 
-  if (error) return { ...empty, error: error.message }
-  if (!visitsData?.length) return empty
+  let visitsData: Array<Record<string, unknown>> = []
+  let errorMessage: string | null = null
+
+  if (!normalizedSearch) {
+    const { data, error } = await supabase
+      .from('visits')
+      .select(visitSelect)
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .not('visit_status', 'in', '("cancelled")')
+      .order('scheduled_date', { ascending: true, nullsFirst: false })
+      .order('target_date', { ascending: true, nullsFirst: false })
+      .limit(limit)
+
+    visitsData = (data ?? []) as Array<Record<string, unknown>>
+    errorMessage = error?.message ?? null
+  } else {
+    const [subjectMatches, definitionMatches] = await Promise.all([
+      supabase
+        .from('study_subjects')
+        .select('id')
+        .eq('study_id', studyId)
+        .eq('organization_id', organizationId)
+        .ilike('subject_identifier', `%${normalizedSearch}%`)
+        .order('subject_identifier', { ascending: true })
+        .limit(limit),
+      supabase
+        .from('visit_definitions')
+        .select('id')
+        .eq('study_id', studyId)
+        .eq('organization_id', organizationId)
+        .or(`code.ilike.%${normalizedSearch}%,label.ilike.%${normalizedSearch}%`)
+        .order('code', { ascending: true })
+        .limit(limit),
+    ])
+
+    if (subjectMatches.error) return { ...empty, error: subjectMatches.error.message }
+    if (definitionMatches.error) return { ...empty, error: definitionMatches.error.message }
+
+    const subjectIds = (subjectMatches.data ?? []).map((row) => String(row.id))
+    const visitDefinitionIds = (definitionMatches.data ?? []).map((row) => String(row.id))
+
+    const queryBlocks = []
+
+    if (subjectIds.length > 0) {
+      queryBlocks.push(
+        supabase
+          .from('visits')
+          .select(visitSelect)
+          .eq('study_id', studyId)
+          .eq('organization_id', organizationId)
+          .not('visit_status', 'in', '("cancelled")')
+          .in('study_subject_id', subjectIds)
+          .order('scheduled_date', { ascending: true, nullsFirst: false })
+          .order('target_date', { ascending: true, nullsFirst: false })
+          .limit(limit),
+      )
+    }
+
+    if (visitDefinitionIds.length > 0) {
+      queryBlocks.push(
+        supabase
+          .from('visits')
+          .select(visitSelect)
+          .eq('study_id', studyId)
+          .eq('organization_id', organizationId)
+          .not('visit_status', 'in', '("cancelled")')
+          .in('visit_definition_id', visitDefinitionIds)
+          .order('scheduled_date', { ascending: true, nullsFirst: false })
+          .order('target_date', { ascending: true, nullsFirst: false })
+          .limit(limit),
+      )
+    }
+
+    if (queryBlocks.length === 0) return empty
+
+    const results = await Promise.all(queryBlocks)
+    const errors = results.map((result) => result.error?.message).filter(Boolean)
+    if (errors.length > 0) return { ...empty, error: errors[0] ?? 'Unable to load visits.' }
+
+    const uniqueRows = new Map<string, Record<string, unknown>>()
+    for (const result of results) {
+      for (const row of result.data ?? []) {
+        const visitId = String(row.id ?? '')
+        if (!visitId || uniqueRows.has(visitId)) continue
+        uniqueRows.set(visitId, row)
+      }
+    }
+
+    visitsData = Array.from(uniqueRows.values()).sort((left, right) => {
+      const leftScheduled = String(left.scheduled_date ?? '')
+      const rightScheduled = String(right.scheduled_date ?? '')
+      if (leftScheduled !== rightScheduled) {
+        return leftScheduled.localeCompare(rightScheduled)
+      }
+
+      const leftTarget = String(left.target_date ?? '')
+      const rightTarget = String(right.target_date ?? '')
+      if (leftTarget !== rightTarget) {
+        return leftTarget.localeCompare(rightTarget)
+      }
+
+      return String(left.id ?? '').localeCompare(String(right.id ?? ''))
+    }).slice(0, limit)
+  }
+
+  if (errorMessage) return { ...empty, error: errorMessage }
+  if (!visitsData.length) return empty
 
   // Batch-load procedure counts
-  const visitIds = visitsData.map(v => v.id as string)
+  const visitIds = visitsData.map((v) => String(v.id))
   const { data: procData } = visitIds.length > 0
     ? await supabase
         .from('procedure_executions')
@@ -116,14 +217,14 @@ export async function loadStudyVisits(
     }
   }
 
-  const rows: StudyVisitRow[] = visitsData.map(visit => {
+  const rows: StudyVisitRow[] = visitsData.map((visit) => {
     const subject = one(visit.study_subjects) as { subject_identifier?: string } | null
     const def     = one(visit.visit_definitions) as { code?: string; label?: string } | null
-    const visitId  = visit.id as string
-    const subjectId = visit.study_subject_id as string
+    const visitId  = String(visit.id)
+    const subjectId = String(visit.study_subject_id)
 
     const refreshed = refreshVisitOperationalFields({
-      visitStatus:    visit.visit_status as string,
+      visitStatus:    String(visit.visit_status),
       scheduledDate:  (visit.scheduled_date as string | null) ?? null,
       targetDate:     (visit.target_date as string | null) ?? null,
       windowStartDate:(visit.window_start as string | null) ?? null,

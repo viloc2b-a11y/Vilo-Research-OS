@@ -13,15 +13,55 @@ export type SubjectRiskReasonKind =
   | 'missed_visit'
   | 'out_of_window'
   | 'overdue_action'
+  | 'open_query'
   | 'blocked_procedure'
+  | 'needs_resign'
   | 'window_warning'
+  | 'governance_blocker'
+  | 'governance_warning'
+  | 'revenue_leakage'
+  | 'earned_but_not_invoiced'
+  | 'invoiceable_missing'
+  | 'screen_failure_billable'
+  | 'pass_through_unreimbursed'
+  | 'stipend_unreconciled'
+  | 'overdue_financial'
+  | 'disputed_payment'
+  | 'reverted_payment'
+  | 'written_off_payment'
+  | 'lab_worsening'
+  | 'lab_consecutive_worsening'
+  | 'lab_consecutive_abnormal'
+  | 'lab_missing_repeat'
+  | 'lab_follow_up_overdue'
+  | 'lab_safety_review'
 
 export const SUBJECT_RISK_REASON_LABELS: Record<SubjectRiskReasonKind, string> = {
   missed_visit: 'Missed visit',
   out_of_window: 'Out of window',
   overdue_action: 'Overdue action',
+  open_query: 'Open query',
   blocked_procedure: 'Blocked procedure',
+  needs_resign: 'Needs re-sign',
   window_warning: 'Window warning',
+  governance_blocker: 'Governance blocker',
+  governance_warning: 'Governance warning',
+  revenue_leakage: 'Revenue risk',
+  earned_but_not_invoiced: 'Earned not invoiced',
+  invoiceable_missing: 'Invoiceable missing',
+  screen_failure_billable: 'Screen-fail billable',
+  pass_through_unreimbursed: 'Pass-through risk',
+  stipend_unreconciled: 'Stipend unreconciled',
+  overdue_financial: 'Overdue invoice/payment',
+  disputed_payment: 'Disputed payment',
+  reverted_payment: 'Reverted payment',
+  written_off_payment: 'Write-off visibility',
+  lab_worsening: 'Lab worsening',
+  lab_consecutive_worsening: 'Consecutive lab worsening',
+  lab_consecutive_abnormal: 'Consecutive abnormal labs',
+  lab_missing_repeat: 'Missing repeat lab',
+  lab_follow_up_overdue: 'Lab follow-up overdue',
+  lab_safety_review: 'Lab safety review',
 }
 
 export type StudyPerformanceCard = {
@@ -30,6 +70,21 @@ export type StudyPerformanceCard = {
   studyStatus: string
   subjectCount: number
   enrolledCount?: number
+  screeningCount?: number
+  randomizedCount?: number
+  screenFailedCount?: number
+  attributedSubjectCount?: number
+  unattributedSubjectCount?: number
+  enrollmentTarget?: number | null
+  enrollmentEndDate?: string | null
+  budgetEvidenceDocumentCount?: number
+  contractEvidenceDocumentCount?: number
+  activeBudgetReferenceCount?: number
+  activeContractReferenceCount?: number
+  financialLeakageCount?: number
+  budgetNegotiationReadiness?: 'ready' | 'review_needed' | 'blocked'
+  budgetNegotiationReason?: string
+  budgetNegotiationNextStep?: string
   activeVisitCount: number
   missedVisitCount: number
   openQueryCount: number
@@ -63,6 +118,9 @@ export type CoordinatorLoadItem = {
 
 export type SubjectRiskQueueItem = {
   id: string
+  title: string
+  priority: number
+  ownerRole: string
   subjectId: string
   studyId: string
   subjectIdentifier: string
@@ -70,13 +128,17 @@ export type SubjectRiskQueueItem = {
   severity: SubjectRiskSeverity
   reasonKind: SubjectRiskReasonKind
   reasonLabel: string
+  reason: string
   detail: string
+  recommendedNextStep: string
   /** ISO date (YYYY-MM-DD) for coordinator urgency sort — oldest first. */
   sortDate: string
   detailLines: string[]
   subjectHref: string
   contextHref: string
   contextLabel: string
+  linkedObjectLabel: string
+  linkedObjectHref: string
   /** Phase 7C — optional scoring fields (not rendered in UI yet). */
   operationalState?: OperationalState
   recommendedAction?: RecommendedActionCode

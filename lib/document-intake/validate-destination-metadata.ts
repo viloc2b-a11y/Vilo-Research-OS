@@ -22,6 +22,7 @@ export function validateDestinationMetadata(input: {
 
   const allowedDomains: DestinationDomain[] = [
     'source_builder',
+    'consent_management',
     'regulatory_binder',
     'budget_contract',
     'study_documents',

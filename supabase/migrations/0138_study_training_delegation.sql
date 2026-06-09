@@ -1,7 +1,7 @@
 -- Phase 18: Protocol Training Log & Protocol Delegation Log
 
 -- 1. Dynamic Duty Library (Organization scope, used by studies)
-CREATE TABLE public.study_delegation_duties (
+CREATE TABLE IF NOT EXISTS public.study_delegation_duties (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   duty_code text NOT NULL,
@@ -17,10 +17,10 @@ CREATE TABLE public.study_delegation_duties (
   CONSTRAINT duty_code_org_unique UNIQUE (organization_id, duty_code)
 );
 
-CREATE INDEX idx_study_delegation_duties_org ON public.study_delegation_duties(organization_id);
+CREATE INDEX IF NOT EXISTS idx_study_delegation_duties_org ON public.study_delegation_duties(organization_id);
 
 -- 2. Protocol Delegation Log
-CREATE TABLE public.study_delegation_log (
+CREATE TABLE IF NOT EXISTS public.study_delegation_log (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   study_id uuid NOT NULL REFERENCES public.studies(id) ON DELETE CASCADE,
@@ -50,17 +50,17 @@ CREATE TABLE public.study_delegation_log (
   )
 );
 
-CREATE INDEX idx_study_delegation_log_study ON public.study_delegation_log(study_id);
-CREATE INDEX idx_study_delegation_log_staff ON public.study_delegation_log(staff_user_id);
+CREATE INDEX IF NOT EXISTS idx_study_delegation_log_study ON public.study_delegation_log(study_id);
+CREATE INDEX IF NOT EXISTS idx_study_delegation_log_staff ON public.study_delegation_log(staff_user_id);
 
-CREATE TABLE public.study_delegation_log_duties (
+CREATE TABLE IF NOT EXISTS public.study_delegation_log_duties (
   delegation_log_id uuid NOT NULL REFERENCES public.study_delegation_log(id) ON DELETE CASCADE,
   duty_id uuid NOT NULL REFERENCES public.study_delegation_duties(id),
   PRIMARY KEY (delegation_log_id, duty_id)
 );
 
 -- 3. Protocol-Related Staff Training Log
-CREATE TABLE public.study_protocol_trainings (
+CREATE TABLE IF NOT EXISTS public.study_protocol_trainings (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   study_id uuid NOT NULL REFERENCES public.studies(id) ON DELETE CASCADE,
@@ -82,9 +82,9 @@ CREATE TABLE public.study_protocol_trainings (
   )
 );
 
-CREATE INDEX idx_study_protocol_trainings_study ON public.study_protocol_trainings(study_id);
+CREATE INDEX IF NOT EXISTS idx_study_protocol_trainings_study ON public.study_protocol_trainings(study_id);
 
-CREATE TABLE public.study_protocol_training_assignments (
+CREATE TABLE IF NOT EXISTS public.study_protocol_training_assignments (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   training_id uuid NOT NULL REFERENCES public.study_protocol_trainings(id) ON DELETE CASCADE,
@@ -116,8 +116,8 @@ CREATE TABLE public.study_protocol_training_assignments (
   CONSTRAINT unique_training_assignment UNIQUE (training_id, trainee_user_id)
 );
 
-CREATE INDEX idx_training_assignments_trainee ON public.study_protocol_training_assignments(trainee_user_id);
-CREATE INDEX idx_training_assignments_training ON public.study_protocol_training_assignments(training_id);
+CREATE INDEX IF NOT EXISTS idx_training_assignments_trainee ON public.study_protocol_training_assignments(trainee_user_id);
+CREATE INDEX IF NOT EXISTS idx_training_assignments_training ON public.study_protocol_training_assignments(training_id);
 
 -- RLS
 ALTER TABLE public.study_delegation_duties ENABLE ROW LEVEL SECURITY;
@@ -127,10 +127,19 @@ ALTER TABLE public.study_protocol_trainings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.study_protocol_training_assignments ENABLE ROW LEVEL SECURITY;
 
 -- Read policies for organization members
+DROP POLICY IF EXISTS duty_select ON public.study_delegation_duties;
 CREATE POLICY duty_select ON public.study_delegation_duties FOR SELECT USING (organization_id IN (SELECT public.user_organization_ids()));
+
+DROP POLICY IF EXISTS del_log_select ON public.study_delegation_log;
 CREATE POLICY del_log_select ON public.study_delegation_log FOR SELECT USING (organization_id IN (SELECT public.user_organization_ids()) AND public.user_has_study_access(study_id));
+
+DROP POLICY IF EXISTS del_duty_select ON public.study_delegation_log_duties;
 CREATE POLICY del_duty_select ON public.study_delegation_log_duties FOR SELECT USING (EXISTS (SELECT 1 FROM public.study_delegation_log l WHERE l.id = delegation_log_id AND l.organization_id IN (SELECT public.user_organization_ids()) AND public.user_has_study_access(l.study_id)));
+
+DROP POLICY IF EXISTS ptrain_select ON public.study_protocol_trainings;
 CREATE POLICY ptrain_select ON public.study_protocol_trainings FOR SELECT USING (organization_id IN (SELECT public.user_organization_ids()) AND public.user_has_study_access(study_id));
+
+DROP POLICY IF EXISTS passign_select ON public.study_protocol_training_assignments;
 CREATE POLICY passign_select ON public.study_protocol_training_assignments FOR SELECT USING (organization_id IN (SELECT public.user_organization_ids()) AND EXISTS (SELECT 1 FROM public.study_protocol_trainings t WHERE t.id = training_id AND public.user_has_study_access(t.study_id)));
 
 -- We bypass strict INSERT/UPDATE RLS here for brevity, assume application logic enforcement via server actions.

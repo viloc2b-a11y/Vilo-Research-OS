@@ -144,6 +144,134 @@ export function canAccessCoordinatorWorkspace(
   )
 }
 
+// ---------------------------------------------------------------------------
+// CRM & communications
+// ---------------------------------------------------------------------------
+
+export function canAccessPatientCRMForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+  )
+}
+
+export function canAccessPatientCRM(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canAccessPatientCRMForRole(role),
+    organizationId,
+  )
+}
+
+export function canManagePatientCRMForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+  )
+}
+
+export function canManagePatientCRM(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManagePatientCRMForRole(role),
+    organizationId,
+  )
+}
+
+export function canAccessBusinessDevelopmentCRMForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+  )
+}
+
+export function canAccessBusinessDevelopmentCRM(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canAccessBusinessDevelopmentCRMForRole(role),
+    organizationId,
+  )
+}
+
+export function canManageBusinessDevelopmentCRMForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+  )
+}
+
+export function canManageBusinessDevelopmentCRM(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManageBusinessDevelopmentCRMForRole(role),
+    organizationId,
+  )
+}
+
+export function canAccessCommunicationsForRole(role: string): boolean {
+  return canAccessPatientCRMForRole(role) || canAccessBusinessDevelopmentCRMForRole(role)
+}
+
+export function canAccessCommunications(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canAccessCommunicationsForRole(role),
+    organizationId,
+  )
+}
+
+export function canManageCommunicationsForRole(role: string): boolean {
+  return canManagePatientCRMForRole(role) || canManageBusinessDevelopmentCRMForRole(role)
+}
+
+export function canManageCommunications(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManageCommunicationsForRole(role),
+    organizationId,
+  )
+}
+
 /** Schedule/reschedule visits and calendar visit mutations (not source-only visit read). */
 export function canManageSubjectVisitsForRole(role: string): boolean {
   const normalized = normalizeOrganizationRole(role)
@@ -484,6 +612,12 @@ export type SitePermissionSnapshot = {
   canManageUsers: boolean
   canManageStudies: boolean
   canAccessCoordinatorWorkspace: boolean
+  canAccessPatientCRM: boolean
+  canManagePatientCRM: boolean
+  canAccessBusinessDevelopmentCRM: boolean
+  canManageBusinessDevelopmentCRM: boolean
+  canAccessCommunications: boolean
+  canManageCommunications: boolean
   canAccessSubjectVisitWorkspace: boolean
   canManageSubjectVisits: boolean
   canManageSourceDocuments: boolean
@@ -517,6 +651,12 @@ export function resolveSitePermissions(
     canManageUsers: canManageUsers(memberships, organizationId),
     canManageStudies: canManageStudies(memberships, organizationId),
     canAccessCoordinatorWorkspace: canAccessCoordinatorWorkspace(memberships, organizationId),
+    canAccessPatientCRM: canAccessPatientCRM(memberships, organizationId),
+    canManagePatientCRM: canManagePatientCRM(memberships, organizationId),
+    canAccessBusinessDevelopmentCRM: canAccessBusinessDevelopmentCRM(memberships, organizationId),
+    canManageBusinessDevelopmentCRM: canManageBusinessDevelopmentCRM(memberships, organizationId),
+    canAccessCommunications: canAccessCommunications(memberships, organizationId),
+    canManageCommunications: canManageCommunications(memberships, organizationId),
     canAccessSubjectVisitWorkspace: canAccessSubjectVisitWorkspace(memberships, organizationId),
     canManageSubjectVisits: canManageSubjectVisits(memberships, organizationId),
     canManageSourceDocuments: canManageSourceDocuments(memberships, organizationId),

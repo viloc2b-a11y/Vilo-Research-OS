@@ -92,6 +92,7 @@ async function runChecks() {
   const migration = [
     read('supabase/migrations/0133_operational_signature_runtime.sql'),
     read('supabase/migrations/0134_operational_signature_runtime_hardening.sql'),
+    read('supabase/migrations/0162_signature_engine_unification.sql'),
   ].join('\n')
   assertContainsAll(
     migration,
@@ -99,6 +100,8 @@ async function runChecks() {
       'operational_signature_requests',
       'operational_signatures',
       'operational_signature_events',
+      'signature_credentials',
+      'signature_policies',
       'organization_id',
       'study_id',
       'subject_id',
@@ -112,6 +115,11 @@ async function runChecks() {
       'signer_user_id',
       'signer_role',
       'signature_meaning',
+      'signature_policy_code',
+      'signature_pin_hash',
+      'failed_attempts',
+      'locked_until',
+      'requires_reset',
       'signed_artifact_hash',
       'signed_at',
       'ip_address',
@@ -134,6 +142,25 @@ async function runChecks() {
       'lock_approval',
     ],
     'signature meanings',
+  )
+  assertContainsAll(
+    migration,
+    [
+      'standard_signature',
+      'critical_signature',
+      'subject_consent',
+      'reconsent',
+      'co_signature',
+      'Standard Signature',
+      'Critical Signature',
+      'Subject Consent',
+      'Reconsent',
+      'Co-signature',
+      'mfa_required',
+      'co_signature_required',
+      'subject_involvement_required',
+    ],
+    'signature policy registry',
   )
   assert(
     migration.includes('operational_signatures_deny_completed_mutation'),
@@ -167,6 +194,10 @@ async function runChecks() {
     createRequest.includes('assertOperationalSignatureStudyScope'),
     'service rejects cross-org/study mismatch before insert',
   )
+  assert(
+    createRequest.includes('resolveSignaturePolicyCode'),
+    'request creation derives signature policy code when not provided',
+  )
 
   const signSource = read('lib/operational-signatures/sign-artifact.ts')
   assert(
@@ -178,6 +209,10 @@ async function runChecks() {
     signSource.includes('loadOperationalSignatureArtifactForHash'),
     'signing loads artifact server-side',
   )
+  assert(signSource.includes('loadSignatureCredential'), 'signing loads credential hash')
+  assert(signSource.includes('verifySignaturePin'), 'signing validates the signature PIN')
+  assert(signSource.includes('mfaRequired'), 'critical policy can require MFA')
+  assert(signSource.includes('signature_pin+mfa') || signSource.includes('signature_pin'), 'signing stores verification method')
   assert(signSource.includes('computeOperationalArtifactHash'), 'signing hashes artifact before record')
   assert(signSource.includes("from('operational_signatures')"), 'signing writes signature record')
   assert(signSource.includes('signature_recorded'), 'signing appends audit event')
@@ -205,8 +240,12 @@ async function runChecks() {
   for (const relativePath of [
     'lib/operational-signatures/create-signature-request.ts',
     'lib/operational-signatures/sign-artifact.ts',
+    'lib/operations/signature-actions.ts',
+    'lib/operational-signatures/signature-credentials.ts',
+    'lib/operational-signatures/signature-policies.ts',
     'app/api/operational-signatures/request/route.ts',
     'app/api/operational-signatures/[id]/sign/route.ts',
+    'app/api/signature-credentials/route.ts',
   ]) {
     assertNoForbiddenMutation(relativePath)
   }
@@ -265,13 +304,26 @@ async function runChecks() {
     [
       'Pending Signatures',
       'Signature Meaning',
+      'Signature Policy',
       'Review Before Signing',
+      'Signature PIN',
+      'MFA Verified',
       'Sign Electronically',
       'Signature Audit Trail',
       'OPERATIONAL_SIGNATURE_WARNING',
     ],
     'UI',
   )
+  const credentialCard = read('components/operational-signatures/signature-credential-card.tsx')
+  assertContainsAll(
+    credentialCard,
+    ['Signature PIN', 'Current PIN', 'Confirm PIN', 'The PIN is hashed server-side'],
+    'credential card',
+  )
+  assert(ui.includes('SignatureCredentialCard'), 'queue UI renders the credential card')
+
+  const sidebar = read('components/shell/sidebar-nav.tsx')
+  assert(sidebar.includes('/operational-signatures'), 'sidebar exposes the global signature queue')
   assert(!ui.includes('artifact_snapshot'), 'client does not send signed hash payload')
   for (const forbidden of [
     ['Part 11', ' certified'].join(''),

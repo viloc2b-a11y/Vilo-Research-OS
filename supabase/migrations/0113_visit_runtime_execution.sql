@@ -1,6 +1,6 @@
 -- Phase 5: Visit runtime execution layer (subject visit workspaces from source package shells)
 
-CREATE TABLE visit_runtime_instances (
+CREATE TABLE IF NOT EXISTS visit_runtime_instances (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -31,15 +31,15 @@ CREATE TABLE visit_runtime_instances (
   CONSTRAINT visit_runtime_instances_subject_shell_unique UNIQUE (subject_id, visit_shell_id)
 );
 
-CREATE INDEX idx_visit_runtime_instances_org ON visit_runtime_instances(organization_id);
-CREATE INDEX idx_visit_runtime_instances_study ON visit_runtime_instances(study_id);
-CREATE INDEX idx_visit_runtime_instances_subject ON visit_runtime_instances(subject_id);
-CREATE INDEX idx_visit_runtime_instances_package ON visit_runtime_instances(source_package_id);
-CREATE INDEX idx_visit_runtime_instances_shell ON visit_runtime_instances(visit_shell_id);
-CREATE INDEX idx_visit_runtime_instances_status ON visit_runtime_instances(visit_status);
-CREATE INDEX idx_visit_runtime_instances_scheduled ON visit_runtime_instances(scheduled_at);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_org ON visit_runtime_instances(organization_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_study ON visit_runtime_instances(study_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_subject ON visit_runtime_instances(subject_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_package ON visit_runtime_instances(source_package_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_shell ON visit_runtime_instances(visit_shell_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_status ON visit_runtime_instances(visit_status);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_instances_scheduled ON visit_runtime_instances(scheduled_at);
 
-CREATE TABLE procedure_runtime_instances (
+CREATE TABLE IF NOT EXISTS procedure_runtime_instances (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -69,15 +69,15 @@ CREATE TABLE procedure_runtime_instances (
   CONSTRAINT procedure_runtime_instances_unique_shell UNIQUE (visit_instance_id, procedure_shell_id)
 );
 
-CREATE INDEX idx_procedure_runtime_instances_org ON procedure_runtime_instances(organization_id);
-CREATE INDEX idx_procedure_runtime_instances_study ON procedure_runtime_instances(study_id);
-CREATE INDEX idx_procedure_runtime_instances_subject ON procedure_runtime_instances(subject_id);
-CREATE INDEX idx_procedure_runtime_instances_visit ON procedure_runtime_instances(visit_instance_id);
-CREATE INDEX idx_procedure_runtime_instances_shell ON procedure_runtime_instances(procedure_shell_id);
-CREATE INDEX idx_procedure_runtime_instances_status ON procedure_runtime_instances(procedure_status);
-CREATE INDEX idx_procedure_runtime_instances_order ON procedure_runtime_instances(procedure_order);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_org ON procedure_runtime_instances(organization_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_study ON procedure_runtime_instances(study_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_subject ON procedure_runtime_instances(subject_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_visit ON procedure_runtime_instances(visit_instance_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_shell ON procedure_runtime_instances(procedure_shell_id);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_status ON procedure_runtime_instances(procedure_status);
+CREATE INDEX IF NOT EXISTS idx_procedure_runtime_instances_order ON procedure_runtime_instances(procedure_order);
 
-CREATE TABLE visit_runtime_events (
+CREATE TABLE IF NOT EXISTS visit_runtime_events (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -104,60 +104,68 @@ CREATE TABLE visit_runtime_events (
   )
 );
 
-CREATE INDEX idx_visit_runtime_events_org ON visit_runtime_events(organization_id);
-CREATE INDEX idx_visit_runtime_events_study ON visit_runtime_events(study_id);
-CREATE INDEX idx_visit_runtime_events_subject ON visit_runtime_events(subject_id);
-CREATE INDEX idx_visit_runtime_events_visit ON visit_runtime_events(visit_instance_id);
-CREATE INDEX idx_visit_runtime_events_procedure ON visit_runtime_events(procedure_instance_id);
-CREATE INDEX idx_visit_runtime_events_type ON visit_runtime_events(event_type);
-CREATE INDEX idx_visit_runtime_events_timestamp ON visit_runtime_events(event_timestamp);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_org ON visit_runtime_events(organization_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_study ON visit_runtime_events(study_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_subject ON visit_runtime_events(subject_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_visit ON visit_runtime_events(visit_instance_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_procedure ON visit_runtime_events(procedure_instance_id);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_type ON visit_runtime_events(event_type);
+CREATE INDEX IF NOT EXISTS idx_visit_runtime_events_timestamp ON visit_runtime_events(event_timestamp);
 
 ALTER TABLE visit_runtime_instances ENABLE ROW LEVEL SECURITY;
 ALTER TABLE procedure_runtime_instances ENABLE ROW LEVEL SECURITY;
 ALTER TABLE visit_runtime_events ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS visit_runtime_instances_select ON visit_runtime_instances;
 CREATE POLICY visit_runtime_instances_select ON visit_runtime_instances
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS visit_runtime_instances_insert ON visit_runtime_instances;
 CREATE POLICY visit_runtime_instances_insert ON visit_runtime_instances
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS visit_runtime_instances_update ON visit_runtime_instances;
 CREATE POLICY visit_runtime_instances_update ON visit_runtime_instances
   FOR UPDATE USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS procedure_runtime_instances_select ON procedure_runtime_instances;
 CREATE POLICY procedure_runtime_instances_select ON procedure_runtime_instances
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS procedure_runtime_instances_insert ON procedure_runtime_instances;
 CREATE POLICY procedure_runtime_instances_insert ON procedure_runtime_instances
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS procedure_runtime_instances_update ON procedure_runtime_instances;
 CREATE POLICY procedure_runtime_instances_update ON procedure_runtime_instances
   FOR UPDATE USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS visit_runtime_events_select ON visit_runtime_events;
 CREATE POLICY visit_runtime_events_select ON visit_runtime_events
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS visit_runtime_events_insert ON visit_runtime_events;
 CREATE POLICY visit_runtime_events_insert ON visit_runtime_events
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)

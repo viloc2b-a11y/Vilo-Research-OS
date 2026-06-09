@@ -1,9 +1,10 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createServiceClient } from '@/lib/supabase/server'
 import { logAuditEvent } from '@/lib/audit/log'
 import { validateProcedure } from '@/lib/visit-runtime/validateProcedure'
+import { materializeInvoiceableLineItemsForVisit } from '@/lib/financial-runtime/invoiceable'
 import type {
   CompleteProcedureResult,
   CompleteProcedureRpcPayload,
@@ -162,6 +163,20 @@ async function completeProcedureExecutionInner(input: {
         visit_id: row.visit_id,
       },
     })
+  }
+
+  if (typeof row.organization_id === 'string' && typeof row.study_id === 'string' && typeof row.visit_id === 'string') {
+    try {
+      const serviceSupabase = await createServiceClient()
+      await materializeInvoiceableLineItemsForVisit({
+        supabase: serviceSupabase,
+        organizationId: row.organization_id,
+        studyId: row.study_id,
+        visitId: row.visit_id,
+      })
+    } catch (closureErr) {
+      console.error('[completeProcedureExecution] invoiceable materialization failed', closureErr)
+    }
   }
 
   revalidatePath(revalidateVisitPath)

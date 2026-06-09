@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const publicPaths = ['/login', '/auth/callback']
+const publicPaths = ['/login', '/forgot-password', '/reset-password', '/auth/callback']
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE'])
 const RATE_LIMIT_WINDOW_MS = 60_000
 const RATE_LIMIT_MAX = 120

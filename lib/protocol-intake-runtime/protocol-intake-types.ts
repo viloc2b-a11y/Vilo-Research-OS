@@ -84,6 +84,11 @@ export type ProtocolRuntimeVersionRow = {
   extractionStatus: ExtractionStatus
   extractionMetadata: Record<string, unknown>
   previousVersionId: string | null
+  piAcceptanceSignatureRequestId: string | null
+  piAcceptanceSignatureId: string | null
+  piAcceptanceStatus: 'not_requested' | 'pending' | 'signed' | 'voided' | 'superseded'
+  piAcceptedAt: string | null
+  piAcceptedBy: string | null
   createdBy: string
   createdAt: string
 }
@@ -239,6 +244,21 @@ export function mapProtocolRuntimeVersionRow(row: Record<string, unknown>): Prot
     extractionStatus: row.extraction_status as ExtractionStatus,
     extractionMetadata: (row.extraction_metadata as Record<string, unknown>) ?? {},
     previousVersionId: row.previous_version_id ? String(row.previous_version_id) : null,
+    piAcceptanceSignatureRequestId: row.pi_acceptance_signature_request_id
+      ? String(row.pi_acceptance_signature_request_id)
+      : null,
+    piAcceptanceSignatureId: row.pi_acceptance_signature_id
+      ? String(row.pi_acceptance_signature_id)
+      : null,
+    piAcceptanceStatus:
+      row.pi_acceptance_status === 'pending' ||
+      row.pi_acceptance_status === 'signed' ||
+      row.pi_acceptance_status === 'voided' ||
+      row.pi_acceptance_status === 'superseded'
+        ? row.pi_acceptance_status
+        : 'not_requested',
+    piAcceptedAt: row.pi_accepted_at ? String(row.pi_accepted_at) : null,
+    piAcceptedBy: row.pi_accepted_by ? String(row.pi_accepted_by) : null,
     createdBy: String(row.created_by),
     createdAt: String(row.created_at),
   }

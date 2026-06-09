@@ -98,10 +98,15 @@ function smokeNewStudyPageScroll() {
 
 function smokeStudyWorkspaceTableScroll() {
   const workspace = read('app/(ops)/studies/[studyId]/workspace/page.tsx')
+  const shell = read('components/study-workspace/study-workspace-shell.tsx')
   const panel = read('components/coordinator-operations/StudyVisitSourceContinuityPanel.tsx')
   const scroll = read('components/runtime-ui/OperationalTableScroll.tsx')
 
-  assert.ok(workspace.includes('StudyVisitSourceContinuityPanel'), 'study workspace needs continuity panel')
+  assert.ok(
+    workspace.includes('loadStudyOperationsSurface'),
+    'study workspace needs operations surface loader',
+  )
+  assert.ok(shell.includes('StudyVisitSourceContinuityPanel'), 'study workspace shell needs continuity panel')
   assert.ok(panel.includes('study-visit-source-continuity-scroll'), 'continuity scroll container required')
   assert.ok(panel.includes('min-w-[960px]'), 'continuity table min width required')
   assert.ok(scroll.includes('overflow-x-auto'), 'operational table scroll wrapper required')
@@ -192,7 +197,7 @@ function smokePilotGuardrails() {
 
 function smokePagesWired() {
   assert.ok(read('app/(ops)/command-center/page.tsx').includes('loadSiteOperationsSurface'))
-  assert.ok(read('app/(ops)/studies/[studyId]/workspace/page.tsx').includes('StudyOperationsPanel'))
+  assert.ok(read('components/study-workspace/study-workspace-shell.tsx').includes('StudyOperationsPanel'))
   assert.ok(read('app/(ops)/subjects/[subjectId]/workspace/page.tsx').includes('SubjectOperationsPanel'))
   assert.ok(read('app/(ops)/visits/[visitId]/page.tsx').includes('VisitRuntimeActionPanel'))
 }

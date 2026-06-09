@@ -21,11 +21,31 @@ export type SubjectSignalKind =
   | 'missed_visit'
   | 'out_of_window'
   | 'overdue_action'
+  | 'open_query'
   | 'blocked_procedure'
+  | 'needs_resign'
   | 'window_warning'
   | 'unsigned_procedure_48h'
   | 'window_closing_today'
   | 'stale_subject'
+  | 'governance_blocker'
+  | 'governance_warning'
+  | 'revenue_leakage'
+  | 'earned_but_not_invoiced'
+  | 'invoiceable_missing'
+  | 'screen_failure_billable'
+  | 'pass_through_unreimbursed'
+  | 'stipend_unreconciled'
+  | 'overdue_financial'
+  | 'disputed_payment'
+  | 'reverted_payment'
+  | 'written_off_payment'
+  | 'lab_worsening'
+  | 'lab_consecutive_worsening'
+  | 'lab_consecutive_abnormal'
+  | 'lab_missing_repeat'
+  | 'lab_follow_up_overdue'
+  | 'lab_safety_review'
 
 export type SubjectSignalInput = {
   organizationId: string
@@ -49,6 +69,14 @@ export type StudyHealthInput = {
   openFindingsCount: number
   unsignedOver48hCount: number
   visitsClosingWindowToday: number
+  enrollmentTarget?: number | null
+  randomizedCount?: number
+  enrollmentEndDate?: string | null
+  budgetEvidenceDocumentCount?: number
+  contractEvidenceDocumentCount?: number
+  activeBudgetReferenceCount?: number
+  activeContractReferenceCount?: number
+  financialLeakageCount?: number
   staleStudyFlag: boolean
 }
 

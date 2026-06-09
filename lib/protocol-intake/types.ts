@@ -192,6 +192,18 @@ export type RawExtractionOutput = {
   page_count?: number | null
   /** Provenance: which reader produced this output ('docling' | 'excel' | 'csv'). */
   extraction_method?: string
+  /** Reader actually attempted/used, including fallback variants. */
+  attempted_reader?: string
+  /** Ordered list of attempted readers, if available. */
+  attempted_readers?: string[]
+  /** Stage at which extraction failed, if any. */
+  failure_stage?: string
+  /** Human-readable extraction error, if any. */
+  error_message?: string
+  /** Page range used for chunked or targeted fallback extraction, if any. */
+  page_range?: string | null
+  /** Partial text captured before failure, if any. */
+  partial_text?: string
   tables?: { table_html: string; table_markdown: string; page_no?: number | null }[]
   error?: string
 }

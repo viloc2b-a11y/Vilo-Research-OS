@@ -1,93 +1,141 @@
 'use server'
 
 import { createServerClient } from '@/lib/supabase/server'
-import { getSessionUser } from '@/lib/auth/session'
+import {
+  OPERATIONAL_SIGNATURE_WARNING,
+  createOperationalSignatureRequest,
+  isOperationalSignatureMeaning,
+  signOperationalArtifact,
+  type OperationalSignatureRow,
+  type OperationalSignatureRequestRow,
+  type OperationalSignatureMeaning,
+  type SignaturePolicyCode,
+} from '@/lib/operational-signatures'
+import { authorizeOperationalSignatureWrite } from '@/lib/operational-signatures/operational-signature-auth'
+import { OperationalSignatureStateError } from '@/lib/operational-signatures/operational-signature-errors'
+import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 
-export async function requestOperationalSignature(payload: {
+type RequestOperationalSignatureSuccess = {
+  ok: true
+  requestId: string
+  request: OperationalSignatureRequestRow
+}
+
+type RequestOperationalSignatureFailure = {
+  ok: false
+  error: string
+}
+
+type SignOperationalRequestSuccess = {
+  ok: true
+  signature: OperationalSignatureRow
+}
+
+type SignOperationalRequestFailure = {
+  ok: false
+  error: string
+}
+
+function resolveLegacySignatureMeaning(value: string): OperationalSignatureMeaning {
+  if (isOperationalSignatureMeaning(value)) return value
+  const normalized = value.toLowerCase()
+  if (normalized.includes('acknowledg')) return 'acknowledged_by'
+  if (normalized.includes('approve') || normalized.includes('approved')) return 'approved_by'
+  if (normalized.includes('pi') && normalized.includes('review')) return 'pi_review'
+  if (normalized.includes('investigator') && normalized.includes('review')) return 'si_review'
+  if (normalized.includes('review')) return 'reviewed_by'
+  if (normalized.includes('lock')) return 'lock_approval'
+  if (normalized.includes('complete') || normalized.includes('accurate')) return 'completed_by'
+  return 'reviewed_by'
+}
+
+export async function requestOperationalSignature(input: {
   organizationId: string
   studyId: string
-  subjectId?: string
-  visitId?: string
-  sourcePackageId?: string
-  publishedSourceId?: string
-  lockedSnapshotId?: string
+  subjectId?: string | null
+  visitId?: string | null
+  sourcePackageId?: string | null
+  publishedSourceId?: string | null
+  lockedSnapshotId?: string | null
+  module?: string | null
+  entityType?: string | null
+  entityId?: string | null
   artifactType: string
   artifactId: string
   requiredRole: string
   signatureMeaning: string
-}) {
-  const sessionUser = await getSessionUser()
-  if (!sessionUser) throw new Error('Unauthorized')
+  signaturePolicyCode?: string
+  requestedUserId?: string | null
+  metadata?: Record<string, unknown>
+}): Promise<RequestOperationalSignatureSuccess | RequestOperationalSignatureFailure> {
+  const auth = await authorizeOperationalSignatureWrite(input.organizationId)
+  if (!auth.ok) return { ok: false, error: auth.message }
 
   const supabase = await createServerClient()
-  
-  const { data, error } = await supabase.from('operational_signature_requests').insert({
-    ...payload,
-    requested_by: sessionUser.id
-  }).select('id').single()
 
-  if (error) throw new Error(error.message)
-  return { ok: true, requestId: data.id }
+  try {
+    const request = await createOperationalSignatureRequest(supabase, {
+      organizationId: input.organizationId,
+      studyId: input.studyId,
+      subjectId: input.subjectId ?? null,
+      visitId: input.visitId ?? null,
+      sourcePackageId: input.sourcePackageId ?? null,
+      publishedSourceId: input.publishedSourceId ?? null,
+      lockedSnapshotId: input.lockedSnapshotId ?? null,
+      module: input.module ?? null,
+      entityType: input.entityType ?? null,
+      entityId: input.entityId ?? null,
+      artifactType: input.artifactType,
+      artifactId: input.artifactId,
+      requiredRole: input.requiredRole,
+      signatureMeaning: resolveLegacySignatureMeaning(input.signatureMeaning),
+      signaturePolicyCode: input.signaturePolicyCode as SignaturePolicyCode | undefined,
+      requestedBy: auth.userId,
+      requestedUserId: input.requestedUserId ?? null,
+      metadata: input.metadata,
+    })
+
+    return { ok: true, requestId: request.id, request }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'Failed to create operational signature request'
+    return { ok: false, error: message }
+  }
 }
 
 export async function signOperationalRequest(
   requestId: string,
   pinCode: string,
   attestationText: string,
-  artifactHash: string = 'NO_HASH_PROVIDED'
-) {
-  const sessionUser = await getSessionUser()
-  if (!sessionUser) throw new Error('Unauthorized')
+  mfaVerified = false,
+): Promise<SignOperationalRequestSuccess | SignOperationalRequestFailure> {
+  const user = await getSessionUser()
+  if (!user) return { ok: false, error: 'Sign in required.' }
 
-  // Enforce Re-authentication (Mock implementation for PIN)
-  if (pinCode !== '1234') { // Assume '1234' is the mock eSignature PIN for validation
-    throw new Error('Authentication failed: Invalid PIN.')
-  }
-
+  const memberships = await getOrganizationMemberships(user.id)
   const supabase = await createServerClient()
 
-  const { data: req, error: reqErr } = await supabase.from('operational_signature_requests').select('*').eq('id', requestId).single()
-  if (reqErr || !req) throw new Error('Signature request not found')
+  try {
+    const signature = await signOperationalArtifact(supabase, {
+      requestId,
+      signerUserId: user.id,
+      signerMemberships: memberships,
+      explicitUserAction: true,
+      confirmationStatement: OPERATIONAL_SIGNATURE_WARNING,
+      signaturePin: pinCode,
+      mfaVerified,
+      metadata: {
+        attestation_text: attestationText,
+        signature_flow: 'legacy_wrapper',
+      },
+    })
 
-  if (req.status !== 'pending') {
-    throw new Error('Signature request is not pending.')
+    return { ok: true, signature }
+  } catch (error) {
+    if (error instanceof OperationalSignatureStateError) {
+      return { ok: false, error: error.message }
+    }
+    const message = error instanceof Error ? error.message : 'Signature failed'
+    return { ok: false, error: message }
   }
-
-  // Record Signature
-  const { data: sig, error: sigErr } = await supabase.from('operational_signatures').insert({
-    request_id: requestId,
-    organization_id: req.organization_id,
-    study_id: req.study_id,
-    subject_id: req.subject_id,
-    visit_id: req.visit_id,
-    source_package_id: req.source_package_id,
-    published_source_id: req.published_source_id,
-    locked_snapshot_id: req.locked_snapshot_id,
-    artifact_type: req.artifact_type,
-    artifact_id: req.artifact_id,
-    required_role: req.required_role,
-    signer_user_id: sessionUser.id,
-    signer_role: req.required_role, // simplified
-    signature_meaning: req.signature_meaning,
-    signed_artifact_hash: artifactHash,
-    metadata: { attestationText, authMethod: 'PIN' }
-  }).select('id').single()
-
-  if (sigErr) throw new Error(sigErr.message)
-
-  // Update request status
-  await supabase.from('operational_signature_requests').update({ status: 'signed' }).eq('id', requestId)
-
-  // Audit event
-  await supabase.from('operational_signature_events').insert({
-    organization_id: req.organization_id,
-    study_id: req.study_id,
-    request_id: requestId,
-    signature_id: sig.id,
-    event_type: 'signature_completed',
-    actor_user_id: sessionUser.id,
-    event_payload: { attestationText, authMethod: 'PIN' }
-  })
-
-  return { ok: true, signatureId: sig.id }
 }

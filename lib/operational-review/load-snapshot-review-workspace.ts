@@ -12,6 +12,7 @@ export async function loadSnapshotReviewWorkspace(
   supabase: SupabaseClient,
   organizationId: string,
   snapshotId: string,
+  searchQuery?: string | null,
 ): Promise<LoadedSnapshotReviewWorkspace | null> {
   const snapshot = await loadVisitSnapshotById(supabase, organizationId, snapshotId)
   if (!snapshot) return null
@@ -24,7 +25,7 @@ export async function loadSnapshotReviewWorkspace(
     .eq('review_type', REVIEW_TYPE.OPERATIONAL)
     .maybeSingle()
 
-  const queries = await listSnapshotQueries(supabase, organizationId, snapshotId)
+  const queries = await listSnapshotQueries(supabase, organizationId, snapshotId, searchQuery)
 
   const { data: eventRows, error: eventError } = await supabase
     .from('visit_snapshot_query_events')

@@ -1,5 +1,6 @@
 export const DOCUMENT_INTELLIGENCE_DOMAINS = [
   'source_creation',
+  'consent_management',
   'budget_analysis',
   'contract_analysis',
   'regulatory_binder',
@@ -42,6 +43,7 @@ export function resolveDefaultDomains(classification: string): DocumentIntellige
     ],
     crf_guideline: ['source_creation', 'training', 'general_library'],
     lab_manual: ['source_creation', 'budget_analysis', 'general_library'],
+    icf_consent: ['consent_management', 'source_creation', 'regulatory_binder'],
     imaging_manual: ['source_creation', 'budget_analysis', 'general_library'],
     pharmacy_manual: ['source_creation', 'budget_analysis', 'general_library'],
     sop: ['training', 'regulatory_binder', 'general_library'],
@@ -86,6 +88,7 @@ export function resolveAppliedDomains(
 
 export const DOCUMENT_INTELLIGENCE_DOMAIN_LABELS: Record<DocumentIntelligenceDomain, string> = {
   source_creation: 'Source Creation',
+  consent_management: 'Consent Management',
   budget_analysis: 'Budget Analysis',
   contract_analysis: 'Contract Analysis',
   regulatory_binder: 'Regulatory Binder',

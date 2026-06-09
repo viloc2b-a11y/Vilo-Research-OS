@@ -27,10 +27,14 @@ alter table public.document_intelligence_documents
   );
 
 alter table public.document_intelligence_documents
+  drop constraint if exists document_intelligence_documents_quarantine_reason_object;
+alter table public.document_intelligence_documents
   add constraint document_intelligence_documents_quarantine_reason_object check (
     jsonb_typeof (quarantine_reason) = 'object'
   );
 
+alter table public.document_intelligence_documents
+  drop constraint if exists document_intelligence_documents_classification_metadata_object;
 alter table public.document_intelligence_documents
   add constraint document_intelligence_documents_classification_metadata_object check (
     jsonb_typeof (classification_metadata) = 'object'
@@ -61,6 +65,7 @@ create index if not exists document_intelligence_phi_override_events_doc_idx
 
 alter table public.document_intelligence_phi_override_events enable row level security;
 
+drop policy if exists document_intelligence_phi_override_events_select on public.document_intelligence_phi_override_events;
 create policy document_intelligence_phi_override_events_select
   on public.document_intelligence_phi_override_events
   for select using (
@@ -68,6 +73,7 @@ create policy document_intelligence_phi_override_events_select
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists document_intelligence_phi_override_events_insert on public.document_intelligence_phi_override_events;
 create policy document_intelligence_phi_override_events_insert
   on public.document_intelligence_phi_override_events
   for insert with check (

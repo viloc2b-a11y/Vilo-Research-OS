@@ -1,0 +1,110 @@
+import os
+from datetime import datetime, timezone
+from supabase import create_client
+
+def _get_supabase():
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    if not url or not key:
+        raise ImportError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set")
+    return create_client(url, key)
+
+def append(event) -> None:
+    try:
+        db = _get_supabase()
+        db.table("cliniq_events").insert({
+            "id": str(event.id),
+            "event_type": str(event.event_type),
+            "payload": event.payload,
+            "created_at": event.created_at.isoformat() if hasattr(event.created_at, "isoformat") else str(event.created_at),
+        }).execute()
+    except Exception as e:
+        print(f"DB Error in append: {e}")
+
+def get_all() -> list:
+    try:
+        db = _get_supabase()
+        res = db.table("cliniq_events").select("*").order("created_at").execute()
+        from events.models import ClinIQEvent
+        return [ClinIQEvent(**r) for r in res.data]
+    except Exception as e:
+        print(f"DB Error in get_all: {e}")
+        return []
+
+def get_by_type(event_type: str) -> list:
+    try:
+        db = _get_supabase()
+        res = db.table("cliniq_events").select("*").eq("event_type", event_type).order("created_at").execute()
+        from events.models import ClinIQEvent
+        return [ClinIQEvent(**r) for r in res.data]
+    except Exception as e:
+        print(f"DB Error in get_by_type: {e}")
+        return []
+
+def count() -> int:
+    try:
+        db = _get_supabase()
+        res = db.table("cliniq_events").select("*", count="exact").execute()
+        return res.count if res.count is not None else 0
+    except Exception as e:
+        print(f"DB Error in count: {e}")
+        return 0
+
+def upsert_billable(billable) -> None:
+    try:
+        db = _get_supabase()
+        db.table("expected_billables").upsert({
+            "study_id": str(billable.study_id),
+            "visit_name": str(billable.visit_name),
+            "line_code": str(billable.line_code),
+            "description": str(billable.description),
+            "amount": float(billable.amount),
+            "status": "pending",
+        }, on_conflict="study_id,visit_name,line_code").execute()
+    except Exception as e:
+        print(f"DB Error in upsert_billable: {e}")
+
+def mark_billable_triggered(study_id: str, visit_name: str, line_code: str) -> None:
+    try:
+        db = _get_supabase()
+        db.table("expected_billables").update({
+            "status": "triggered",
+            "triggered_at": datetime.now(timezone.utc).isoformat(),
+        }).eq("study_id", study_id).eq("visit_name", visit_name).eq("line_code", line_code).execute()
+    except Exception as e:
+        print(f"DB Error in mark_billable_triggered: {e}")
+
+def get_pending_billables(study_id: str) -> list:
+    try:
+        db = _get_supabase()
+        res = db.table("expected_billables").select("*").eq("study_id", study_id).eq("status", "pending").execute()
+        from soa.models import ExpectedBillable
+        return [
+            ExpectedBillable(
+                visit_name=row["visit_name"],
+                line_code=row["line_code"],
+                description=row["description"],
+                amount=float(row["amount"]),
+                study_id=row.get("study_id", study_id),
+            )
+            for row in res.data
+        ]
+    except Exception as e:
+        print(f"DB Error in get_pending_billables: {e}")
+        return []
+
+def get_leakage_summary(study_id: str) -> list:
+    try:
+        db = _get_supabase()
+        res = db.table("leakage_summary").select("*").eq("study_id", study_id).execute()
+        return res.data if isinstance(res.data, list) else []
+    except Exception as e:
+        print(f"DB Error in get_leakage_summary: {e}")
+        return []
+
+def is_supabase_configured() -> bool:
+    return bool(os.environ.get("SUPABASE_URL")) and bool(os.environ.get("SUPABASE_SERVICE_ROLE_KEY"))
+
+def insert_event(event):
+    append(event)
+    return True

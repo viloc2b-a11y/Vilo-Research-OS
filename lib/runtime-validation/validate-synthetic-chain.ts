@@ -84,6 +84,7 @@ function mockFinancialContext(readiness: VisitReadinessProjection): VisitFinanci
     windowStatus: 'in_window',
     scheduledDate: '2020-01-01',
     visitReviewStatus: null,
+    subjectEnrollmentStatus: 'enrolled',
     procedures: [
       {
         id: 'pe1',

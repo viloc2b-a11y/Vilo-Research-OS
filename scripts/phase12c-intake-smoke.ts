@@ -122,11 +122,11 @@ function main() {
   )
 
   const mvText = loadFixture('mv40618-protocol-excerpt.txt')
-  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'STUDY-INF-001_Protocol.pdf', mvText)
-  const mv1 = runProtocolIntakePipeline({ protocol_id: 'STUDY-INF-001', corpus: mvCorpus })
+  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'MV40618_Protocol.pdf', mvText)
+  const mv1 = runProtocolIntakePipeline({ protocol_id: 'MV40618', corpus: mvCorpus })
 
   gates.push(
-    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'STUDY-INF-001'),
+    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'MV40618'),
     gate('MV title present', Boolean(mv1.draft.study_metadata.protocol_title.value)),
     gate(
       'MV index/contact roles in visits',

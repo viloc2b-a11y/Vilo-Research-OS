@@ -10,7 +10,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { StudyCopilotClient } from '@/components/document-intelligence/study-copilot-client'
 
 type DocumentIntelligencePageProps = {
-  searchParams: Promise<{ study_id?: string }>
+  searchParams: Promise<{ study_id?: string; q?: string }>
 }
 
 function DocumentIntelligenceLoading() {
@@ -25,8 +25,10 @@ function DocumentIntelligenceLoading() {
 
 async function DocumentIntelligenceContent({
   initialStudyId,
+  initialQuery,
 }: {
   initialStudyId: string | null
+  initialQuery: string
 }) {
   const user = await getSessionUser()
   if (!user) redirect('/login')
@@ -73,6 +75,7 @@ async function DocumentIntelligenceContent({
       organizationId={organizationId}
       studies={studyList}
       initialStudyId={validInitialStudyId}
+      initialQuery={initialQuery}
     />
   )
 }
@@ -82,10 +85,11 @@ export default async function DocumentIntelligencePage({
 }: DocumentIntelligencePageProps) {
   const params = await searchParams
   const initialStudyId = params.study_id?.trim() || null
+  const initialQuery = params.q?.trim() || ''
 
   return (
     <Suspense fallback={<DocumentIntelligenceLoading />}>
-      <DocumentIntelligenceContent initialStudyId={initialStudyId} />
+      <DocumentIntelligenceContent initialStudyId={initialStudyId} initialQuery={initialQuery} />
     </Suspense>
   )
 }

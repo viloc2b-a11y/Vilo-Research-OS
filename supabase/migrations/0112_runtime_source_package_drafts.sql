@@ -1,6 +1,6 @@
 -- Phase 4: Runtime source package drafts (visit/procedure shells from compiled graph)
 
-CREATE TABLE runtime_source_packages (
+CREATE TABLE IF NOT EXISTS runtime_source_packages (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -26,13 +26,13 @@ CREATE TABLE runtime_source_packages (
   CONSTRAINT runtime_source_packages_study_version_unique UNIQUE (study_id, package_version)
 );
 
-CREATE INDEX idx_runtime_source_packages_org ON runtime_source_packages(organization_id);
-CREATE INDEX idx_runtime_source_packages_study ON runtime_source_packages(study_id);
-CREATE INDEX idx_runtime_source_packages_snapshot ON runtime_source_packages(composition_snapshot_id);
-CREATE INDEX idx_runtime_source_packages_status ON runtime_source_packages(package_status);
-CREATE INDEX idx_runtime_source_packages_hash ON runtime_source_packages(package_hash);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_packages_org ON runtime_source_packages(organization_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_packages_study ON runtime_source_packages(study_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_packages_snapshot ON runtime_source_packages(composition_snapshot_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_packages_status ON runtime_source_packages(package_status);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_packages_hash ON runtime_source_packages(package_hash);
 
-CREATE TABLE runtime_source_visit_shells (
+CREATE TABLE IF NOT EXISTS runtime_source_visit_shells (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -54,14 +54,14 @@ CREATE TABLE runtime_source_visit_shells (
   CONSTRAINT runtime_source_visit_shells_unique_visit UNIQUE (source_package_id, runtime_visit_id)
 );
 
-CREATE INDEX idx_runtime_source_visit_shells_org ON runtime_source_visit_shells(organization_id);
-CREATE INDEX idx_runtime_source_visit_shells_study ON runtime_source_visit_shells(study_id);
-CREATE INDEX idx_runtime_source_visit_shells_package ON runtime_source_visit_shells(source_package_id);
-CREATE INDEX idx_runtime_source_visit_shells_runtime_visit ON runtime_source_visit_shells(runtime_visit_id);
-CREATE INDEX idx_runtime_source_visit_shells_code ON runtime_source_visit_shells(visit_code);
-CREATE INDEX idx_runtime_source_visit_shells_sequence ON runtime_source_visit_shells(sequence_order);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_org ON runtime_source_visit_shells(organization_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_study ON runtime_source_visit_shells(study_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_package ON runtime_source_visit_shells(source_package_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_runtime_visit ON runtime_source_visit_shells(runtime_visit_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_code ON runtime_source_visit_shells(visit_code);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_visit_shells_sequence ON runtime_source_visit_shells(sequence_order);
 
-CREATE TABLE runtime_source_procedure_shells (
+CREATE TABLE IF NOT EXISTS runtime_source_procedure_shells (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL,
   study_id uuid NOT NULL REFERENCES studies(id) ON DELETE CASCADE,
@@ -89,66 +89,75 @@ CREATE TABLE runtime_source_procedure_shells (
   )
 );
 
-CREATE INDEX idx_runtime_source_procedure_shells_org ON runtime_source_procedure_shells(organization_id);
-CREATE INDEX idx_runtime_source_procedure_shells_study ON runtime_source_procedure_shells(study_id);
-CREATE INDEX idx_runtime_source_procedure_shells_package ON runtime_source_procedure_shells(source_package_id);
-CREATE INDEX idx_runtime_source_procedure_shells_visit_shell ON runtime_source_procedure_shells(visit_shell_id);
-CREATE INDEX idx_runtime_source_procedure_shells_procedure ON runtime_source_procedure_shells(procedure_id);
-CREATE INDEX idx_runtime_source_procedure_shells_version ON runtime_source_procedure_shells(blueprint_version_id);
-CREATE INDEX idx_runtime_source_procedure_shells_order ON runtime_source_procedure_shells(procedure_order);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_org ON runtime_source_procedure_shells(organization_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_study ON runtime_source_procedure_shells(study_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_package ON runtime_source_procedure_shells(source_package_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_visit_shell ON runtime_source_procedure_shells(visit_shell_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_procedure ON runtime_source_procedure_shells(procedure_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_version ON runtime_source_procedure_shells(blueprint_version_id);
+CREATE INDEX IF NOT EXISTS idx_runtime_source_procedure_shells_order ON runtime_source_procedure_shells(procedure_order);
 
 ALTER TABLE runtime_source_packages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE runtime_source_visit_shells ENABLE ROW LEVEL SECURITY;
 ALTER TABLE runtime_source_procedure_shells ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS runtime_source_packages_select ON runtime_source_packages;
 CREATE POLICY runtime_source_packages_select ON runtime_source_packages
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_packages_insert ON runtime_source_packages;
 CREATE POLICY runtime_source_packages_insert ON runtime_source_packages
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_packages_update ON runtime_source_packages;
 CREATE POLICY runtime_source_packages_update ON runtime_source_packages
   FOR UPDATE USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_visit_shells_select ON runtime_source_visit_shells;
 CREATE POLICY runtime_source_visit_shells_select ON runtime_source_visit_shells
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_visit_shells_insert ON runtime_source_visit_shells;
 CREATE POLICY runtime_source_visit_shells_insert ON runtime_source_visit_shells
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_visit_shells_update ON runtime_source_visit_shells;
 CREATE POLICY runtime_source_visit_shells_update ON runtime_source_visit_shells
   FOR UPDATE USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_procedure_shells_select ON runtime_source_procedure_shells;
 CREATE POLICY runtime_source_procedure_shells_select ON runtime_source_procedure_shells
   FOR SELECT USING (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_procedure_shells_insert ON runtime_source_procedure_shells;
 CREATE POLICY runtime_source_procedure_shells_insert ON runtime_source_procedure_shells
   FOR INSERT WITH CHECK (
     public.user_has_active_organization_membership(organization_id)
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS runtime_source_procedure_shells_update ON runtime_source_procedure_shells;
 CREATE POLICY runtime_source_procedure_shells_update ON runtime_source_procedure_shells
   FOR UPDATE USING (
     public.user_has_active_organization_membership(organization_id)

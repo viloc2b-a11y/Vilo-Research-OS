@@ -25,17 +25,33 @@ export default async function PerformancePage({ searchParams }: PerformancePageP
     'visits_missed',
     'workflow_queries',
     'procedures_blocked',
+    'study_enrollment_configs',
+    'study_subjects_enrolled',
+    'study_subjects_screening',
+    'study_subjects_randomized',
+    'study_subjects_screen_failed',
+    'study_subjects_attributed',
+    'study_subjects_unattributed',
+    'budget_evidence_documents',
+    'contract_evidence_documents',
+    'active_budget_references',
+    'active_contract_references',
   ])
   const visitsFailed = sectionLoadFailed(model.errors, ['visits'])
   const riskFailed = sectionLoadFailed(model.errors, [
     'risk_visits',
     'overdue_workflow',
     'blocked_detail',
+    'window_closing_today',
+    'unsigned_visits_48h',
+    'governance_signals',
+    'snapshot_query_risk',
+    'financial_leakage',
   ])
 
   return (
     <div className="space-y-6">
-        <PerformanceHeader
+      <PerformanceHeader
         organizationCount={model.organizationCount}
         selectedStudyName={model.studyFilter.selectedStudyName}
       />
@@ -76,7 +92,7 @@ export default async function PerformancePage({ searchParams }: PerformancePageP
             selectedStudyName={model.studyFilter.selectedStudyName}
           />
         </div>
-        </details>
+      </details>
     </div>
   )
 }

@@ -16,6 +16,11 @@ export function sectionLoadFailed(
   sources: string[],
 ): boolean {
   return errors.some((e) =>
-    sources.some((source) => e.source === source || e.source.startsWith(`${source}_`)),
+    sources.some(
+      (source) =>
+        e.source === source ||
+        e.source.startsWith(`${source}_`) ||
+        e.source.startsWith(`${source}:`),
+    ),
   )
 }

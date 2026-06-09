@@ -3,22 +3,22 @@
 
 -- 1. Extend study_members for Delegation Log
 ALTER TABLE public.study_members
-  ADD COLUMN clinical_role text,
-  ADD COLUMN delegation_scope text,
-  ADD COLUMN can_perform boolean NOT NULL DEFAULT false,
-  ADD COLUMN can_review boolean NOT NULL DEFAULT false,
-  ADD COLUMN can_sign boolean NOT NULL DEFAULT false,
-  ADD COLUMN can_override boolean NOT NULL DEFAULT false,
-  ADD COLUMN is_unblinded boolean NOT NULL DEFAULT false,
-  ADD COLUMN delegation_start_date date,
-  ADD COLUMN delegation_end_date date,
-  ADD COLUMN is_active boolean NOT NULL DEFAULT true,
-  ADD COLUMN pi_approval_required boolean NOT NULL DEFAULT false,
-  ADD COLUMN pi_approved_by uuid REFERENCES auth.users(id),
-  ADD COLUMN pi_approved_at timestamptz;
+  ADD COLUMN IF NOT EXISTS clinical_role text,
+  ADD COLUMN IF NOT EXISTS delegation_scope text,
+  ADD COLUMN IF NOT EXISTS can_perform boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS can_review boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS can_sign boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS can_override boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS is_unblinded boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS delegation_start_date date,
+  ADD COLUMN IF NOT EXISTS delegation_end_date date,
+  ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS pi_approval_required boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS pi_approved_by uuid REFERENCES auth.users(id),
+  ADD COLUMN IF NOT EXISTS pi_approved_at timestamptz;
 
 -- 2. Create Study Enrollment Configs
-CREATE TABLE public.study_enrollment_configs (
+CREATE TABLE IF NOT EXISTS public.study_enrollment_configs (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   organization_id uuid NOT NULL REFERENCES public.organizations(id) ON DELETE CASCADE,
   study_id uuid NOT NULL REFERENCES public.studies(id) ON DELETE CASCADE UNIQUE,
@@ -42,22 +42,25 @@ CREATE TABLE public.study_enrollment_configs (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_study_enrollment_configs_org ON public.study_enrollment_configs(organization_id);
+CREATE INDEX IF NOT EXISTS idx_study_enrollment_configs_org ON public.study_enrollment_configs(organization_id);
 
 ALTER TABLE public.study_enrollment_configs ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS enrollment_configs_select ON public.study_enrollment_configs;
 CREATE POLICY enrollment_configs_select ON public.study_enrollment_configs
   FOR SELECT USING (
     organization_id IN (SELECT public.user_organization_ids())
     AND public.user_has_study_access(study_id)
   );
 
+DROP POLICY IF EXISTS enrollment_configs_insert ON public.study_enrollment_configs;
 CREATE POLICY enrollment_configs_insert ON public.study_enrollment_configs
   FOR INSERT WITH CHECK (
     organization_id IN (SELECT public.user_organization_ids())
     AND public.user_is_study_admin(study_id)
   );
 
+DROP POLICY IF EXISTS enrollment_configs_update ON public.study_enrollment_configs;
 CREATE POLICY enrollment_configs_update ON public.study_enrollment_configs
   FOR UPDATE USING (
     organization_id IN (SELECT public.user_organization_ids())
@@ -65,6 +68,7 @@ CREATE POLICY enrollment_configs_update ON public.study_enrollment_configs
   );
 
 -- 3. Trigger for updated_at
+DROP TRIGGER IF EXISTS set_study_enrollment_configs_updated_at ON public.study_enrollment_configs;
 CREATE TRIGGER set_study_enrollment_configs_updated_at
   BEFORE UPDATE ON public.study_enrollment_configs
   FOR EACH ROW EXECUTE FUNCTION public.studies_set_updated_at();
@@ -73,4 +77,4 @@ CREATE TRIGGER set_study_enrollment_configs_updated_at
 -- Actually, the constraint in 0003 is: check (status in ('draft', 'active', 'paused', 'closed'))
 -- We need to drop and recreate the constraint to allow setup_in_progress, ready_for_activation
 ALTER TABLE public.studies DROP CONSTRAINT IF EXISTS studies_status_check;
-ALTER TABLE public.studies ADD CONSTRAINT studies_status_check CHECK (status IN ('draft', 'setup_in_progress', 'ready_for_activation', 'active', 'paused', 'closed'));
+ALTER TABLE public.studies ADD CONSTRAINT studies_status_check CHECK (status IN ('draft', 'setup_in_progress', 'ready_for_activation', 'active', 'paused', 'closed', 'archived'));

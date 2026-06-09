@@ -138,48 +138,56 @@ alter table public.runtime_source_signature_placeholders enable row level securi
 alter table public.runtime_source_package_publications enable row level security;
 alter table public.runtime_source_publication_events enable row level security;
 
+drop policy if exists runtime_source_signature_placeholders_select on public.runtime_source_signature_placeholders;
 create policy runtime_source_signature_placeholders_select on public.runtime_source_signature_placeholders
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_signature_placeholders_insert on public.runtime_source_signature_placeholders;
 create policy runtime_source_signature_placeholders_insert on public.runtime_source_signature_placeholders
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_signature_placeholders_update on public.runtime_source_signature_placeholders;
 create policy runtime_source_signature_placeholders_update on public.runtime_source_signature_placeholders
   for update using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_package_publications_select on public.runtime_source_package_publications;
 create policy runtime_source_package_publications_select on public.runtime_source_package_publications
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_package_publications_insert on public.runtime_source_package_publications;
 create policy runtime_source_package_publications_insert on public.runtime_source_package_publications
   for insert with check (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_package_publications_update on public.runtime_source_package_publications;
 create policy runtime_source_package_publications_update on public.runtime_source_package_publications
   for update using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_publication_events_select on public.runtime_source_publication_events;
 create policy runtime_source_publication_events_select on public.runtime_source_publication_events
   for select using (
     public.user_has_active_organization_membership(organization_id)
     and public.user_has_study_access(study_id)
   );
 
+drop policy if exists runtime_source_publication_events_insert on public.runtime_source_publication_events;
 create policy runtime_source_publication_events_insert on public.runtime_source_publication_events
   for insert with check (
     public.user_has_active_organization_membership(organization_id)

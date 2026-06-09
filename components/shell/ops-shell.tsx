@@ -8,6 +8,8 @@ type OpsShellProps = {
   canAccessAdmin?: boolean
   canViewFinancial?: boolean
   canAccessCoordinatorWorkspace?: boolean
+  canAccessCRM?: boolean
+  canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
 }
@@ -19,6 +21,8 @@ export function OpsShell({
   canAccessAdmin = false,
   canViewFinancial = false,
   canAccessCoordinatorWorkspace = false,
+  canAccessCRM = false,
+  canAccessCommunications = false,
   canAccessSourceWorkflow = false,
   canViewVpi = false,
 }: OpsShellProps) {
@@ -29,6 +33,8 @@ export function OpsShell({
         canAccessAdmin={canAccessAdmin}
         canViewFinancial={canViewFinancial}
         canAccessCoordinatorWorkspace={canAccessCoordinatorWorkspace}
+        canAccessCRM={canAccessCRM}
+        canAccessCommunications={canAccessCommunications}
         canAccessSourceWorkflow={canAccessSourceWorkflow}
         canViewVpi={canViewVpi}
       />

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 2,
+  "sddMode": "quick",
+  "sddPhase": "archive",
+  "phase": "plan",
+  "goal": "E2E Phase 2 checklist",
+  "lastPlan": "",
+  "lastExecutionOutput": "",
+  "lastReview": "# SDD Archive\n\nDate: 2026-06-07\nGoal: E2E archive via proxy\nSDD mode: quick\nLast run: run-ae374ba1-22fd-4af5-9e45-d9d092050d5c\n\n## Verify summary\nproxy archive test\n\n## Files changed (git)\n- .env.example\n- .gitignore\n- .runtime-validation/phase11-report.json\n- .runtime-validation/phase11-report.md\n- app/(ops)/admin/page.tsx\n- app/(ops)/admin/protocol-engineering/document-intelligence/page.tsx\n- app/(ops)/document-center/page.tsx\n- app/(ops)/document-intelligence/page.tsx\n- app/(ops)/layout.tsx\n-…",
+  "lastRunId": "run-ae374ba1-22fd-4af5-9e45-d9d092050d5c",
+  "sddArtifacts": null,
+  "conversationHistory": [],
+  "updatedAt": "2026-06-07T19:37:04.724Z"
+}
