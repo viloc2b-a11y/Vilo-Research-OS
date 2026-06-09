@@ -77,3 +77,7 @@ validation-corpus/non-reader-assets/
 *.xlsx
 # Local AI runtime state
 .atl/
+# Local AI/dev tooling artifacts
+.atlas/
+.markplane/
+outputs/
