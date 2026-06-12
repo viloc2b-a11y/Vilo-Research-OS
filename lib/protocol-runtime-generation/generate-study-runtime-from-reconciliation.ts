@@ -16,7 +16,7 @@ import { buildGenerationRunStateSnapshot } from './generation-state-hash'
 import { loadApprovedReconciliation } from './load-approved-reconciliation'
 import { validateRuntimeGenerationReadiness } from './validate-runtime-generation-readiness'
 
-function coerceVisitType(value: string | null): VisitType {
+export function coerceVisitType(value: string | null): VisitType {
   const allowed: VisitType[] = [
     'screening',
     'baseline',
