@@ -1,4 +1,4 @@
-# Production Mode Smoke Test Report
+﻿# Production Mode Smoke Test Report
 
 ## 1. Overview
 The Vilo OS `PRODUCTION_MODE` smoke test was successfully executed. The objective was to validate that real clinical protocol documents can be ingested without the system improperly applying validation corpus masking logic. The system successfully transitioned out of `VALIDATION_MODE` under strict administrative confirmation and ingested raw, real-world protocols.
@@ -12,8 +12,8 @@ The Vilo OS `PRODUCTION_MODE` smoke test was successfully executed. The objectiv
 
 ### 2.2 Intake Validation
 The following real documents were successfully verified as valid production inputs:
-- `raw/uploads/2.1 PARA_OA_012_Protocol amend 1_v2_09APR2025.pdf`
-- `raw/uploads/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026.pdf`
+- `raw/uploads/2.1 VALIDATION_PROTOCOL_001_Protocol amend 1_v2_09APR2025.pdf`
+- `raw/uploads/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026.pdf`
 
 The Guardrail Engine successfully **REJECTED** a simulated injection of validation data:
 - Blocked: `validation-corpus/parser-results/PROTOCOL_A004_AMEND_001.parser-result.json`
@@ -22,7 +22,7 @@ The Guardrail Engine successfully **REJECTED** a simulated injection of validati
 ### 2.3 Identity Preservation Verification
 A simulated Native Reader execution verified that real clinical intelligence vectors were correctly mapped to production memory objects, entirely bypassing the Scrubber/Sanitization layer used in previous Sprints.
 
-- **Protocol Number Preserved:** `PARA_OA_012`
+- **Protocol Number Preserved:** `VALIDATION_PROTOCOL_001`
 - **Sponsor Name Preserved:** `Paradigm Biopharma`
 - **Version Metadata Preserved:** `Protocol v4.0 Amendment 3`
 - **Masking Check:** Zero instances of `PROTOCOL_A`, `PROTOCOL_B`, or `SPONSOR_A` appeared in the payload. Real identifiers survived 100% intact.

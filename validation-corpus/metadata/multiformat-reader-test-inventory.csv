@@ -1,9 +1,9 @@
-TestID,OriginalPath,SanitizedID,Extension,DocumentClass,ReasonSelected,ExpectedReaderPath,RiskFlags,TestStatus
+﻿TestID,OriginalPath,SanitizedID,Extension,DocumentClass,ReasonSelected,ExpectedReaderPath,RiskFlags,TestStatus
 TEST-PDF-1,validation-corpus/raw/processed-originals/AL 23 Signed Protocol Version 2 7.5.17.pdf,PROTOCOL_A014,.pdf,PROTOCOL,Reader relevant,native table extraction via PyMuPDF,None,PENDING
 TEST-PDF-2,validation-corpus/raw/processed-originals/CGB001 Protocol_05May2025.pdf,PROTOCOL_A011,.pdf,PROTOCOL,Reader relevant,native table extraction via PyMuPDF,None,PENDING
 TEST-PDF-3,validation-corpus/raw/processed-originals/Pharmacy Manual_Ver1.0_2017-12-14.pdf,PHARMACY_MANUAL_A001,.pdf,PHARMACY_MANUAL,Reader relevant,native table extraction via PyMuPDF,None,PENDING
 TEST-DOCX-1,validation-corpus/raw/processed-originals/10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).docx,ECRF_GUIDE_A001,.docx,ECRF_GUIDE,Reader relevant,python-docx table extraction,None,PENDING
-TEST-DOCX-2,validation-corpus/raw/processed-originals/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx,ECRF_GUIDE_A002,.docx,ECRF_GUIDE,Reader relevant,python-docx table extraction,None,PENDING
+TEST-DOCX-2,validation-corpus/raw/processed-originals/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx,ECRF_GUIDE_A002,.docx,ECRF_GUIDE,Reader relevant,python-docx table extraction,None,PENDING
 TEST-DOCX-3,validation-corpus/raw/processed-originals/Protocolo Piloto Ozono + Nad Capilar (v1.docx,PROTOCOL_A101,.docx,PROTOCOL,Reader relevant,python-docx table extraction,None,PENDING
 TEST-XLSX-1,validation-corpus/non-reader-assets/finance/Payment Details Report_mRNA-1647-P301 United States US060 Zepeda_11May2026.xlsx,N/A,.xlsx,FINANCE,Format testing,openpyxl parser preserving sheets/rows/cols,None,PENDING
 TEST-XLSX-2,validation-corpus/non-reader-assets/budgets/_AbbVie_M16-066_US_Exhibit A_Budget Template_12Jan2018.xlsx,N/A,.xlsx,BUDGET,Format testing,openpyxl parser preserving sheets/rows/cols,None,PENDING

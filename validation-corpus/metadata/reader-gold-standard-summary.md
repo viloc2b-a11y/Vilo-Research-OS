@@ -1,4 +1,4 @@
-# Reader Gold Standard Summary
+﻿# Reader Gold Standard Summary
 
 **Total Selected:** 20
 
@@ -23,11 +23,11 @@
   *Reason:* High Priority Structural Validation: PROTOCOL (HIGH)
 - **GOLD_005 (12. Protocol and Protocol Amendments.zip)** - AMENDMENT / HIGH (2.23 MB)
   *Reason:* High Priority Structural Validation: AMENDMENT (HIGH)
-- **GOLD_006 (2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf)** - AMENDMENT / HIGH (2.02 MB)
+- **GOLD_006 (2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf)** - AMENDMENT / HIGH (2.02 MB)
   *Reason:* High Priority Structural Validation: AMENDMENT (HIGH)
 - **GOLD_007 (mRNA-1647-P301-protocol_amendment_7-final.pdf)** - AMENDMENT / MEDIUM (1.47 MB)
   *Reason:* High Priority Structural Validation: AMENDMENT (MEDIUM)
-- **GOLD_008 (MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx)** - ECRF_GUIDE / HIGH (11.97 MB)
+- **GOLD_008 (VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx)** - ECRF_GUIDE / HIGH (11.97 MB)
   *Reason:* High Priority Structural Validation: ECRF_GUIDE (HIGH)
 - **GOLD_009 (IMVT-1401-3203 Unique CRFs (1).pdf)** - ECRF_GUIDE / MEDIUM (1.13 MB)
   *Reason:* High Priority Structural Validation: ECRF_GUIDE (MEDIUM)

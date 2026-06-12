@@ -1,7 +1,7 @@
-{
+﻿{
   "sanitized_id": "ECRF_GUIDE_A101",
-  "original_filename": "MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx",
-  "original_relative_path": "validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx",
+  "original_filename": "VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx",
+  "original_relative_path": "validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx",
   "target_path": "validation-corpus/sanitized\\ecrf-guides\\ECRF_GUIDE_A101.md",
   "binary_status": "RAW_REFERENCE_ONLY",
   "sanitized_artifact_status": "SAFE_TEXT_EXTRACTED",
@@ -9,5 +9,5 @@
   "extraction_method": "python-docx",
   "extraction_warnings": [],
   "risk_scan_result": "CLEAN",
-  "processed_original_path": "validation-corpus/raw/processed-originals/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx"
+  "processed_original_path": "validation-corpus/raw/processed-originals/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx"
 }

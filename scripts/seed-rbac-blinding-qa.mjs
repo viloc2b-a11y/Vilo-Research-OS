@@ -6,6 +6,7 @@
  */
 import { createClient } from '@supabase/supabase-js'
 import { loadEnvFiles, requireEnv } from './lib/env.mjs'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 const DEFAULT_STUDY_ID = '6bae715a-8536-4000-8d24-22b6a3dbb8c9'
 const QA_PASSWORD = 'RbacBlindingQa!2026'
@@ -157,6 +158,7 @@ async function resolveOrganization(admin) {
 async function main() {
   requireEnv(['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'])
   loadEnvFiles()
+  assertProductionSeedAllowed('seed-rbac-blinding-qa')
 
   const admin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,

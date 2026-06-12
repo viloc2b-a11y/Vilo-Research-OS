@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+﻿import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 import { generatePrintableSourcePacket } from '../lib/deliverables/generate-printable-source-packet'
 import { createDeliverableRun } from '../lib/deliverables/create-deliverable-run'
@@ -17,7 +17,7 @@ async function runSmokeTest() {
   console.log('\nStarting Printable Source Packet Smoke Test...\n')
 
   try {
-    // 1. Find a completed visit instance for PARA_OA_012 or MV40618
+    // 1. Find a completed visit instance for VALIDATION_PROTOCOL_001 or VALIDATION_PROTOCOL_002
     console.log('Fetching eligible visit instance...')
     let visitInstanceId: string | null = null
     let studyId: string | null = null

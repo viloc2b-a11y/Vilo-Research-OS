@@ -1,4 +1,4 @@
-# Atlas Architecture Card — Vilo Research OS
+﻿# Atlas Architecture Card — Vilo Research OS
 
 **Project:** Vilo Research OS  
 **Repository inspected:** `C:\dev\vilo-os`  
@@ -14,7 +14,7 @@ Vilo Research OS is a private, site-first clinical research execution operating 
 
 The system is built as a Next.js / React / Supabase application with a large runtime spine: protected operations shell, Supabase SSR auth, organization tenancy, document intake/intelligence, protocol intake and reconciliation, runtime generation, source package publication, visit execution, operational signatures, governance signals, financial projections, performance/VPI risk queues, CRM/communications, consent, deliverables, pharmacy/IP accountability, and a separate early ClinIQ financial engine.
 
-Current maturity is **advanced prototype / pre-pilot operational platform**, not production-ready clinical infrastructure. Several runtime chains have strong smoke evidence, especially protocol-to-source closure for `PARA_OA_012` and `MV40618`, coordinator execution UX readiness, deliverable generation, governance runtime, and financial/payment lifecycle foundations. The repo contains many migrations, runtime validation artifacts, and implementation reports showing real execution work.
+Current maturity is **advanced prototype / pre-pilot operational platform**, not production-ready clinical infrastructure. Several runtime chains have strong smoke evidence, especially protocol-to-source closure for `VALIDATION_PROTOCOL_001` and `VALIDATION_PROTOCOL_002`, coordinator execution UX readiness, deliverable generation, governance runtime, and financial/payment lifecycle foundations. The repo contains many migrations, runtime validation artifacts, and implementation reports showing real execution work.
 
 Execution status is **high-velocity active development with significant uncommitted work**. `git status --short` shows **281 changed paths**: **168 modified** and **113 untracked**. Recent activity clusters around Document Center generalization, protocol reader closure, coordinator execution readiness, deliverables, organization/admin hardening, financial runtime, CRM/communications, governance, contact runtime, and study creation provenance.
 
@@ -144,7 +144,7 @@ Evidence from `git status`, latest files, runtime-validation artifacts, and late
    - Modified pages: `app/(ops)/document-center/page.tsx`, document intelligence/admin protocol engineering pages.
 
 2. **Coordinator execution UX readiness**
-   - Artifacts: `.runtime-validation/coordinator-execution-ux-readiness-para_oa_012.md`, `.runtime-validation/coordinator-execution-ux-readiness-mv40618.md`.
+   - Artifacts: `.runtime-validation/coordinator-execution-ux-readiness-VALIDATION_PROTOCOL_001.md`, `.runtime-validation/coordinator-execution-ux-readiness-VALIDATION_PROTOCOL_002.md`.
    - Both show source package reviewed, visit instance created/completed, workspace loaded before/after, and no remaining blockers.
 
 3. **Financial runtime expansion**
@@ -172,8 +172,8 @@ Evidence from `git status`, latest files, runtime-validation artifacts, and late
 
 ### Recently completed or strongly validated
 
-- Protocol-to-source closure for `PARA_OA_012`: 19 visits extracted/reconciled/runtime/source; 259 procedures extracted/reconciled; runtime/source generated with no remaining blockers.
-- Protocol-to-source closure for `MV40618`: 6 visits extracted/reconciled/runtime/source; 131 procedures extracted/reconciled; runtime/source generated with no remaining blockers.
+- Protocol-to-source closure for `VALIDATION_PROTOCOL_001`: 19 visits extracted/reconciled/runtime/source; 259 procedures extracted/reconciled; runtime/source generated with no remaining blockers.
+- Protocol-to-source closure for `VALIDATION_PROTOCOL_002`: 6 visits extracted/reconciled/runtime/source; 131 procedures extracted/reconciled; runtime/source generated with no remaining blockers.
 - Coordinator execution UX readiness for PARA and MV: visit created/completed, procedure completed, workspace renderable, no remaining blockers.
 - Phase 11 offline runtime E2E: pass across operational events, protocol graph blockers, safety/governance blockers, replay, financial leakage, coordinator next action, supervised automation, UI model, and projection refresh chain.
 - Governance runtime smoke, governance closeout smoke, operational signature K5 smoke, VPI validation, and TypeScript were reported as passing in docs.
@@ -230,15 +230,15 @@ Confidence: High
 ### Seed 06
 Project: Vilo Research OS  
 Type: Runtime  
-Summary: Protocol-to-source closure is validated for PARA_OA_012 with extraction, reconciliation, runtime generation, and source package generation passing.  
-Evidence: `.runtime-validation/protocol-to-source-closure-para-oa-012.md`.  
+Summary: Protocol-to-source closure is validated for VALIDATION_PROTOCOL_001 with extraction, reconciliation, runtime generation, and source package generation passing.  
+Evidence: `.runtime-validation/protocol-to-source-closure-VALIDATION_PROTOCOL_001.md`.  
 Confidence: High
 
 ### Seed 07
 Project: Vilo Research OS  
 Type: Runtime  
-Summary: Protocol-to-source closure is validated for MV40618 with extraction, reconciliation, runtime generation, and source package generation passing.  
-Evidence: `.runtime-validation/protocol-to-source-closure-mv40618.md`.  
+Summary: Protocol-to-source closure is validated for VALIDATION_PROTOCOL_002 with extraction, reconciliation, runtime generation, and source package generation passing.  
+Evidence: `.runtime-validation/protocol-to-source-closure-VALIDATION_PROTOCOL_002.md`.  
 Confidence: High
 
 ### Seed 08
@@ -252,7 +252,7 @@ Confidence: Medium
 Project: Vilo Research OS  
 Type: Runtime  
 Summary: Coordinator execution readiness has concrete smoke evidence for PARA and MV: visits created, procedures completed, visit completed, workspace renderable, no remaining blockers.  
-Evidence: `.runtime-validation/coordinator-execution-ux-readiness-para_oa_012.md`; `.runtime-validation/coordinator-execution-ux-readiness-mv40618.md`.  
+Evidence: `.runtime-validation/coordinator-execution-ux-readiness-VALIDATION_PROTOCOL_001.md`; `.runtime-validation/coordinator-execution-ux-readiness-VALIDATION_PROTOCOL_002.md`.  
 Confidence: High
 
 ### Seed 10

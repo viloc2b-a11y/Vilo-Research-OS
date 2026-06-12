@@ -1,4 +1,4 @@
-# Reader Gold Standard Summary v3 (Deduplicated)
+﻿# Reader Gold Standard Summary v3 (Deduplicated)
 
 **Total Selected:** 30
 
@@ -17,11 +17,11 @@
 ### Top 10 Highest-Value Documents
 - **GOLD_V3_006 (AL 23 Signed Protocol Version 2 7.5.17.pdf)** - PROTOCOL / HIGH (3.57 MB)
   *Reason:* Core Protocol Analysis
-- **GOLD_V3_007 (2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf)** - AMENDMENT / HIGH (2.02 MB)
+- **GOLD_V3_007 (2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf)** - AMENDMENT / HIGH (2.02 MB)
   *Reason:* Core Protocol Analysis
-- **GOLD_V3_015 (2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf)** - AMENDMENT / MEDIUM (2.00 MB)
+- **GOLD_V3_015 (2.1 VALIDATION_PROTOCOL_001-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf)** - AMENDMENT / MEDIUM (2.00 MB)
   *Reason:* Core Protocol Analysis
-- **GOLD_V3_016 (01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf)** - AMENDMENT / MEDIUM (1.73 MB)
+- **GOLD_V3_016 (01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf)** - AMENDMENT / MEDIUM (1.73 MB)
   *Reason:* Core Protocol Analysis
 - **GOLD_V3_017 (004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf)** - PROTOCOL / MEDIUM (1.58 MB)
   *Reason:* Core Protocol Analysis
@@ -42,7 +42,7 @@
 
 ### Recommended Sanitization Batch 1
 1. `validation-corpus/inbox\Abbott\Abbott\AL 23\Zepeda\eReg\4. Protocol\4.1 Protocol and Amendments\AL 23 Signed Protocol Version 2 7.5.17.pdf` (PROTOCOL)
-1. `validation-corpus/inbox\2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf` (AMENDMENT)
-1. `validation-corpus/inbox\2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf` (AMENDMENT)
-1. `validation-corpus/inbox\PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf` (AMENDMENT)
+1. `validation-corpus/inbox\2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf` (AMENDMENT)
+1. `validation-corpus/inbox\2.1 VALIDATION_PROTOCOL_001-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf` (AMENDMENT)
+1. `validation-corpus/inbox\VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf` (AMENDMENT)
 1. `validation-corpus/inbox\Budgets\IVD\clinical gen bio\004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf` (PROTOCOL)

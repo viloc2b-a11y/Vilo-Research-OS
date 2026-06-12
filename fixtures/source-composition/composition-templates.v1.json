@@ -100,7 +100,7 @@
       "manifest_version": "12B.1.0",
       "template_key": "MV_HOUSEHOLD_SICK_VISIT_V1",
       "library_version": "12A.1.0",
-      "label": "MV40618 household sick visit",
+      "label": "VALIDATION_PROTOCOL_002 household sick visit",
       "sections": [
         {
           "section_key": "mv_symptoms",

@@ -1,16 +1,16 @@
-{
+﻿{
   "corpus_id": "PROTOCOL_A001",
   "original_source_reference": [
-    "fixtures/protocol-intake/para-oa-012-protocol-excerpt.txt",
-    "fixtures/protocol-intake/para-oa-012-schedule.csv"
+    "fixtures/protocol-intake/VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+    "fixtures/protocol-intake/VALIDATION_PROTOCOL_001-schedule.csv"
   ],
   "sanitized_corpus_version": [
     "validation-corpus/protocols/PROTOCOL_A001.txt",
     "validation-corpus/protocols/PROTOCOL_A001-schedule.csv"
   ],
   "mappings": {
-    "PARA-OA-012": "PROTOCOL_A001",
-    "PARA_OA_012": "PROTOCOL_A001",
+    "VALIDATION_PROTOCOL_001": "PROTOCOL_A001",
+    "VALIDATION_PROTOCOL_001": "PROTOCOL_A001",
     "PARA OA-012": "PROTOCOL_A001",
     "Example Pharma Inc.": "SPONSOR_A",
     "Example CRO Services": "CRO_A",

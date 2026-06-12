@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+﻿import fs from 'node:fs'
 import path from 'node:path'
 import { config as loadEnv } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
@@ -19,11 +19,11 @@ import { createRuntimeSourcePackage } from '../lib/runtime-source-package/create
 loadEnv({ path: '.env.local' })
 loadEnv()
 
-type ProtocolKey = 'PARA_OA_012' | 'MV40618'
+type ProtocolKey = 'VALIDATION_PROTOCOL_001' | 'VALIDATION_PROTOCOL_002'
 
 const TARGETS: Record<ProtocolKey, { reportStem: string }> = {
-  PARA_OA_012: { reportStem: 'protocol-to-source-closure-para-oa-012' },
-  MV40618: { reportStem: 'protocol-to-source-closure-mv40618' },
+  VALIDATION_PROTOCOL_001: { reportStem: 'protocol-to-source-closure-VALIDATION_PROTOCOL_001' },
+  VALIDATION_PROTOCOL_002: { reportStem: 'protocol-to-source-closure-VALIDATION_PROTOCOL_002' },
 }
 
 function assert(condition: boolean, message: string): asserts condition {
@@ -32,8 +32,8 @@ function assert(condition: boolean, message: string): asserts condition {
 
 function getProtocolKey(): ProtocolKey {
   const raw = (process.argv[2] || '').trim().toUpperCase() as ProtocolKey
-  if (raw === 'PARA_OA_012' || raw === 'MV40618') return raw
-  throw new Error('Usage: npx tsx scripts/protocol-to-source-closure-live.ts PARA_OA_012|MV40618')
+  if (raw === 'VALIDATION_PROTOCOL_001' || raw === 'VALIDATION_PROTOCOL_002') return raw
+  throw new Error('Usage: npx tsx scripts/protocol-to-source-closure-live.ts VALIDATION_PROTOCOL_001|VALIDATION_PROTOCOL_002')
 }
 
 function writeReport(reportStem: string, payload: unknown) {

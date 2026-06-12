@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+﻿import fs from 'node:fs'
 import path from 'node:path'
 import { config as loadEnv } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
@@ -12,6 +12,7 @@ import {
   approveReconciliationSession
 } from '../lib/protocol-intake-reconciliation/reconciliation-actions'
 import { extractProtocolVersion } from '../lib/protocol-intake-runtime/run-extraction-pipeline'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
@@ -21,6 +22,7 @@ function assert(condition: boolean, message: string) {
 }
 
 async function runE2E() {
+  assertProductionSeedAllowed('document-center-e2e-live')
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {
@@ -45,25 +47,25 @@ async function runE2E() {
 
   const tests = [
     {
-      id: 'PARA_OA_012',
+      id: 'VALIDATION_PROTOCOL_001',
       file: path.resolve(
         __dirname,
         '..',
         'validation-corpus',
         'raw',
         'processed-originals',
-        '01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
+        '01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
       ),
       studyPrefix: 'PARA_E2E',
     },
     {
-      id: 'MV40618',
+      id: 'VALIDATION_PROTOCOL_002',
       file: path.resolve(
         __dirname,
         '..',
         'validation-corpus',
         'inbox',
-        'MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf',
+        'VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf',
       ),
       studyPrefix: 'MV_E2E',
     },

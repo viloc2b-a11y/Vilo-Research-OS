@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Seed minimal Protocol Intake runtime data for Protocol → VIP smoke tests.
  *
  * Usage:
@@ -27,12 +27,13 @@ import {
   mapProtocolRuntimeVisitCandidateRow,
 } from '../lib/protocol-intake-runtime/protocol-intake-types'
 import { storeProtocolSections } from '../lib/protocol-intake-runtime/store-protocol-sections'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
 
-export const PROTOCOL_RUNTIME_SMOKE_PROTOCOL_NUMBER = 'PARA-OA-012-SMOKE'
-export const PROTOCOL_RUNTIME_SMOKE_TITLE = 'PARA_OA_012 Screening Visit'
+export const PROTOCOL_RUNTIME_SMOKE_PROTOCOL_NUMBER = 'VALIDATION_PROTOCOL_001-SMOKE'
+export const PROTOCOL_RUNTIME_SMOKE_TITLE = 'VALIDATION_PROTOCOL_001 Screening Visit'
 export const PROTOCOL_RUNTIME_SMOKE_CONTENT =
   'Screening visit includes informed consent, medical history, concomitant medications, inclusion/exclusion criteria, ADP NRS pain score, physical exam, vitals, ECG, labs, knee X-ray, MRI, pregnancy testing if applicable, ophthalmology exam, AE assessment, and eDiary training.'
 
@@ -195,7 +196,7 @@ async function resolveStudy(
     return { id: studyId, created: false }
   }
 
-  const smokeSlug = 'para-oa-012-smoke'
+  const smokeSlug = 'VALIDATION_PROTOCOL_001-smoke'
   const { data: existing, error: existingError } = await supabase
     .from('studies')
     .select('id')
@@ -267,7 +268,7 @@ async function ensureSharedDocuments(args: {
       destinationDomain: 'study_documents',
       destinationEntityType: 'study',
       destinationEntityId: args.studyId,
-      originalFilename: 'para-oa-012-screening-smoke.txt',
+      originalFilename: 'VALIDATION_PROTOCOL_001-screening-smoke.txt',
       operationalDisplayName: PROTOCOL_RUNTIME_SMOKE_TITLE,
       mimeType: 'text/plain',
       storageBucket: COMPLIANCE_STORAGE_BUCKET,
@@ -304,7 +305,7 @@ async function ensureSharedDocuments(args: {
         extraction_status: 'extracted',
         embedding_status: 'skipped',
         source_hash: createHash('sha256').update(PROTOCOL_RUNTIME_SMOKE_CONTENT).digest('hex'),
-        source_filename: 'para-oa-012-screening-smoke.txt',
+        source_filename: 'VALIDATION_PROTOCOL_001-screening-smoke.txt',
         source_mime_type: 'text/plain',
         document_family_id: args.sharedDocumentId,
         version_number: 1,
@@ -442,6 +443,7 @@ async function seedExtractionArtifacts(args: {
 }
 
 async function seedLive(options: CliOptions): Promise<SeedResult> {
+  assertProductionSeedAllowed('seed-protocol-runtime-smoke --live')
   const supabase = requireSupabaseClient()
   const organization = await resolveOrganization(supabase, options.organizationId)
   const actorId = await resolveActorUserId(supabase, organization.id)

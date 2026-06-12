@@ -1,0 +1,202 @@
+{
+  "manifest_version": "1.0.0",
+  "protocol_id": "VALIDATION_PROTOCOL_001",
+  "description": "Thin-but-functional VALIDATION_PROTOCOL_001 operational runtime. Not full protocol completeness.",
+  "study": {
+    "host_study_id": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "organization_id": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "version_label": "VALIDATION_PROTOCOL_001-operational-thin-v1",
+    "legacy_visit_exclude_role": "__legacy_para_excluded__"
+  },
+  "source_bindings_by_visit_code": {
+    "SCR": "8e85ef58-140d-43a5-9a4b-05fac362c377",
+    "D1": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "FU": "fb9b101a-c718-4daf-85a3-11c91eb6d339",
+    "EOS": "f4c315c8-34a0-4de4-b383-a6ce97149bf6",
+    "ET": "4638a30a-faa3-46e3-bb3b-bc03d5f05021",
+    "LAB": "e0317385-5066-47af-b5dc-c0e4264f49d7"
+  },
+  "visit_definitions": [
+    {
+      "code": "PARA_SCR",
+      "label": "Screening",
+      "sort_order": 10,
+      "target_day": 1,
+      "window_min_offset": -7,
+      "window_max_offset": 0,
+      "modality": "site",
+      "source_visit_code": "SCR"
+    },
+    {
+      "code": "PARA_D1",
+      "label": "Day 1 / Randomization",
+      "sort_order": 20,
+      "target_day": 1,
+      "window_min_offset": -1,
+      "window_max_offset": 3,
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "PARA_D15",
+      "label": "Day 15 Treatment",
+      "sort_order": 30,
+      "target_day": 15,
+      "window_min_offset": -3,
+      "window_max_offset": 3,
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "PARA_D39",
+      "label": "Day 39 On-Treatment / Cortisol window",
+      "sort_order": 40,
+      "target_day": 39,
+      "window_min_offset": -3,
+      "window_max_offset": 3,
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "PARA_D56_FU",
+      "label": "Day 56 Follow-up (phone)",
+      "sort_order": 50,
+      "target_day": 56,
+      "window_min_offset": -3,
+      "window_max_offset": 3,
+      "modality": "phone",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "PARA_D84",
+      "label": "Day 84 On-Treatment",
+      "sort_order": 60,
+      "target_day": 84,
+      "window_min_offset": -7,
+      "window_max_offset": 7,
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "PARA_ARM_A_MON",
+      "label": "Arm A — phone monitoring",
+      "sort_order": 35,
+      "target_day": 30,
+      "window_min_offset": -2,
+      "window_max_offset": 2,
+      "eligible_arms": ["Arm A"],
+      "modality": "phone",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "PARA_ARM_B_MON",
+      "label": "Arm B — remote monitoring",
+      "sort_order": 36,
+      "target_day": 30,
+      "window_min_offset": -2,
+      "window_max_offset": 2,
+      "eligible_arms": ["Arm B"],
+      "modality": "remote",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "PARA_EOS",
+      "label": "End of Study",
+      "sort_order": 70,
+      "target_day": 168,
+      "window_min_offset": -14,
+      "window_max_offset": 14,
+      "modality": "site",
+      "source_visit_code": "EOS"
+    },
+    {
+      "code": "PARA_ET",
+      "label": "Early Termination",
+      "sort_order": 80,
+      "target_day": 200,
+      "window_min_offset": -14,
+      "window_max_offset": 14,
+      "modality": "off_site",
+      "source_visit_code": "ET"
+    }
+  ],
+  "procedure_definitions": [
+    { "code": "PROC_PARA_CONSENT", "label": "Informed Consent", "source_visit_code": "SCR" },
+    { "code": "PROC_PARA_ELIGIBILITY", "label": "Eligibility Review", "source_visit_code": "SCR" },
+    { "code": "PROC_PARA_MED_HIST", "label": "Medical History", "source_visit_code": "SCR" },
+    { "code": "PROC_PARA_CONMEDS", "label": "ConMeds Review", "source_visit_code": "SCR" },
+    { "code": "PROC_PARA_VITALS", "label": "Vital Signs", "source_visit_code": "D1" },
+    { "code": "PROC_PARA_HEMATOLOGY", "label": "Hematology / CBC", "source_visit_code": "LAB" },
+    { "code": "PROC_PARA_CHEMISTRY", "label": "Clinical Chemistry", "source_visit_code": "LAB" },
+    { "code": "PROC_PARA_MORNING_CORTISOL", "label": "Morning Cortisol", "source_visit_code": "LAB" },
+    { "code": "PROC_PARA_IP", "label": "IP Administration", "source_visit_code": "D1" },
+    { "code": "PROC_PARA_AE", "label": "AE Assessment", "source_visit_code": "D1" },
+    { "code": "PROC_PARA_REMOTE_CONTACT", "label": "Remote / Phone Contact", "source_visit_code": "FU" },
+    { "code": "PROC_PARA_ACTH_STIM", "label": "ACTH Stimulation Test", "source_visit_code": "D1" },
+    { "code": "PROC_PARA_HIT_PANEL", "label": "Platelet / HIT Panel", "source_visit_code": "LAB" },
+    { "code": "PROC_PARA_EOS_CLOSEOUT", "label": "EOS Visit Closeout", "source_visit_code": "EOS" }
+  ],
+  "visit_procedure_maps": [
+    { "visit_code": "PARA_SCR", "procedure_code": "PROC_PARA_CONSENT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_SCR", "procedure_code": "PROC_PARA_ELIGIBILITY", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_SCR", "procedure_code": "PROC_PARA_MED_HIST", "is_required": true, "sort_order": 3 },
+    { "visit_code": "PARA_SCR", "procedure_code": "PROC_PARA_CONMEDS", "is_required": true, "sort_order": 4 },
+    { "visit_code": "PARA_D1", "procedure_code": "PROC_PARA_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_D1", "procedure_code": "PROC_PARA_HEMATOLOGY", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_D1", "procedure_code": "PROC_PARA_CHEMISTRY", "is_required": true, "sort_order": 3 },
+    { "visit_code": "PARA_D1", "procedure_code": "PROC_PARA_IP", "is_required": true, "sort_order": 4 },
+    { "visit_code": "PARA_D1", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 5 },
+    { "visit_code": "PARA_D15", "procedure_code": "PROC_PARA_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_D15", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_D39", "procedure_code": "PROC_PARA_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_D39", "procedure_code": "PROC_PARA_MORNING_CORTISOL", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_D39", "procedure_code": "PROC_PARA_HEMATOLOGY", "is_required": true, "sort_order": 3 },
+    { "visit_code": "PARA_D39", "procedure_code": "PROC_PARA_CHEMISTRY", "is_required": true, "sort_order": 4 },
+    { "visit_code": "PARA_D39", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 5 },
+    {
+      "visit_code": "PARA_D39",
+      "procedure_code": "PROC_PARA_ACTH_STIM",
+      "is_required": false,
+      "is_conditional": true,
+      "condition_label": "ACTH stimulation if morning cortisol below site threshold",
+      "sort_order": 10
+    },
+    { "visit_code": "PARA_D56_FU", "procedure_code": "PROC_PARA_REMOTE_CONTACT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_D56_FU", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 2 },
+    {
+      "visit_code": "PARA_D56_FU",
+      "procedure_code": "PROC_PARA_HIT_PANEL",
+      "is_required": false,
+      "is_conditional": true,
+      "condition_label": "HIT / anti-PF4 workup if platelet drop suspected",
+      "sort_order": 10
+    },
+    { "visit_code": "PARA_D84", "procedure_code": "PROC_PARA_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_D84", "procedure_code": "PROC_PARA_HEMATOLOGY", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_D84", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 3 },
+    { "visit_code": "PARA_ARM_A_MON", "procedure_code": "PROC_PARA_REMOTE_CONTACT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_ARM_B_MON", "procedure_code": "PROC_PARA_REMOTE_CONTACT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_EOS", "procedure_code": "PROC_PARA_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_EOS", "procedure_code": "PROC_PARA_EOS_CLOSEOUT", "is_required": true, "sort_order": 2 },
+    { "visit_code": "PARA_EOS", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 3 },
+    { "visit_code": "PARA_ET", "procedure_code": "PROC_PARA_AE", "is_required": true, "sort_order": 1 },
+    { "visit_code": "PARA_ET", "procedure_code": "PROC_PARA_EOS_CLOSEOUT", "is_required": true, "sort_order": 2 }
+  ],
+  "workflow_checklist_templates": [
+    {
+      "key": "para_cortisol_review",
+      "title": "Review morning cortisol — consider ACTH stimulation",
+      "description": "If cortisol below threshold, instantiate conditional ACTH procedure on Day 39 visit and complete capture.",
+      "priority": "high",
+      "action_type": "follow_up"
+    },
+    {
+      "key": "para_hit_review",
+      "title": "Review platelet trend — consider HIT panel",
+      "description": "If platelet drop suspected, instantiate conditional HIT panel on Day 56 follow-up.",
+      "priority": "high",
+      "action_type": "follow_up"
+    }
+  ],
+  "pilot_subject_identifier": "PARA-OA012-PILOT-001"
+}

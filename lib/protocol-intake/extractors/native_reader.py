@@ -21,7 +21,7 @@ class NativeTableReader:
         self.mode = mode
         self.phi_keywords = ['zepeda', 'boynton', 'ojeas', 'missy']
         self.sponsor_keywords = ['abbvie', 'abbott', 'acasti', 'allergan', 'gilead', 'paradigm', 'adamis', 'ingenuity', 'coologics', 'boca bio', 'clinica gen bio', 'novartis', 'moderna', 'immunovant']
-        self.protocol_keywords = ['para-oa-012', 'para_oa_012', 'mrna-1647', 'imvt-1401', 'crsptl', 'm16-066', 'm14-533', 'udx', 'cgb001', 'app030', 'mv40618', 'rfp_dub-001', 'inception', 'gs-us-553-9020', 'lin-md-64', 'aca-cap-002', 'al 23']
+        self.protocol_keywords = ['validation-protocol-001', 'validation_protocol_001', 'mrna-1647', 'imvt-1401', 'crsptl', 'm16-066', 'm14-533', 'udx', 'cgb001', 'app030', 'validation-protocol-002', 'rfp_dub-001', 'inception', 'gs-us-553-9020', 'lin-md-64', 'aca-cap-002', 'al 23']
         self.compound_keywords = ['hsv', 'igg', 'lfa', 'ozono', 'nad capilar', 'remdesivir']
 
     def scrub_text(self, text, doc_id="REDACTED"):

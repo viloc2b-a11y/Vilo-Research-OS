@@ -1,7 +1,7 @@
-# Safe Text Extraction Batch 3 Report
+﻿# Safe Text Extraction Batch 3 Report
 
 ### ECRF_GUIDE_A101
-- **Source Binary:** `validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx`
+- **Source Binary:** `validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx`
 - **Method:** python-docx
 - **Pages Extracted:** N/A
 - **Tables Detected:** 75

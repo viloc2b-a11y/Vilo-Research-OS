@@ -1,4 +1,4 @@
-# Sanitization Plan - Batch 3
+﻿# Sanitization Plan - Batch 3
 
 ### Target Quotas
 - PROTOCOLS: 3 (Remaining needed: 0)
@@ -8,7 +8,7 @@
 
 ### Selected Candidates
 #### ECRF_GUIDE_A101 (ECRF_GUIDE)
-- **Original Path:** `validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx`
+- **Original Path:** `validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx`
 - **Risk Flags:** PROTOCOL_NUMBER
 - **Status:** SANITIZATION_READY
 
@@ -39,7 +39,7 @@
 
 ### Replacement Candidates (Backups)
 #### BACKUP (ECRF_GUIDE)
-- **Original Path:** `validation-corpus/inbox/MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf`
+- **Original Path:** `validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf`
 - **Risk Flags:** PROTOCOL_NUMBER
 
 #### BACKUP (AMENDMENT)

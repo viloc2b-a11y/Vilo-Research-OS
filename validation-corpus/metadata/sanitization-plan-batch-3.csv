@@ -1,11 +1,11 @@
-SanitizedID,CorpusID,DocumentClass,OriginalPath,RiskFlags,Status
-ECRF_GUIDE_A101,VC_0073,ECRF_GUIDE,validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx,PROTOCOL_NUMBER,SANITIZATION_READY
+﻿SanitizedID,CorpusID,DocumentClass,OriginalPath,RiskFlags,Status
+ECRF_GUIDE_A101,VC_0073,ECRF_GUIDE,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx,PROTOCOL_NUMBER,SANITIZATION_READY
 AMENDMENT_A101,VC_0070,AMENDMENT,validation-corpus/inbox/mRNA-1647-P301-protocol_amendment_7-final.pdf,PROTOCOL_NUMBER,SANITIZATION_READY
 PROTOCOL_A101,VC_0093,PROTOCOL,validation-corpus/inbox/Protocolo Piloto Ozono + Nad Capilar (v1.docx,NONE,SANITIZATION_READY
 LAB_MANUAL_A101,VC_0112,LAB_MANUAL,validation-corpus/inbox/UDX CRF 3 Blood Collection Ver 27JAN21.pdf,PROTOCOL_NUMBER,SANITIZATION_READY
 PROTOCOL_A102,VC_0133,PROTOCOL,validation-corpus/inbox/12. Protocol and Protocol Amendments/12. Protocol and Protocol Amendments/Protocol Amendments/LIN-MD-64 Study Synopsis 17APR2019.pdf,PROTOCOL_NUMBER,SANITIZATION_READY
 PROTOCOL_A103,VC_0189,PROTOCOL,validation-corpus/inbox/AA Toolbox 1573/AA Toolbox 1573/1573_Clinical Protocol_Ver 1.0_Final_20241018.pdf,NONE,SANITIZATION_READY
-REPLACEMENT,VC_0071,ECRF_GUIDE,validation-corpus/inbox/MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf,PROTOCOL_NUMBER,BACKUP
+REPLACEMENT,VC_0071,ECRF_GUIDE,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf,PROTOCOL_NUMBER,BACKUP
 REPLACEMENT,VC_0931,AMENDMENT,validation-corpus/inbox/Budgets/Pharma/Abbvie 533 Amendment 8/M14-533 protocol amendment 8.pdf,SPONSOR_NAME|PROTOCOL_NUMBER,BACKUP
 REPLACEMENT,VC_0113,LAB_MANUAL,validation-corpus/inbox/UDX CRF 4 Plasma Prep Ver 27JAN21.pdf,PROTOCOL_NUMBER,BACKUP
 REPLACEMENT,VC_0854,PROTOCOL,validation-corpus/inbox/Budgets/Biospecimen/Toolbox 1498 COVID Apr 2023/1498_Clinical Protocol_V1.0_Final_20230412.pdf,NONE,BACKUP

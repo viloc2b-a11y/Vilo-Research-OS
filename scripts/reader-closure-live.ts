@@ -6,35 +6,36 @@ import { ingestComplianceDocument } from '../lib/document-intake/ingest-document
 import { createProtocolRuntimeStudy } from '../lib/protocol-intake-runtime/create-protocol-runtime-study'
 import { createProtocolVersion } from '../lib/protocol-intake-runtime/create-protocol-version'
 import { extractProtocolVersion } from '../lib/protocol-intake-runtime/run-extraction-pipeline'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
 
-type ProtocolKey = 'PARA_OA_012' | 'MV40618'
+type ProtocolKey = 'VALIDATION_PROTOCOL_001' | 'VALIDATION_PROTOCOL_002'
 
 const TARGETS: Record<ProtocolKey, { file: string; reportStem: string; studyPrefix: string }> = {
-  PARA_OA_012: {
+  VALIDATION_PROTOCOL_001: {
     file: path.resolve(
       __dirname,
       '..',
       'validation-corpus',
       'raw',
       'processed-originals',
-      '01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
+      '01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
     ),
-    reportStem: 'reader-closure-para-oa-012',
-    studyPrefix: 'PARA_READER',
+    reportStem: 'reader-closure-validation-protocol-001',
+    studyPrefix: 'VALIDATION_READER_001',
   },
-  MV40618: {
+  VALIDATION_PROTOCOL_002: {
     file: path.resolve(
       __dirname,
       '..',
       'validation-corpus',
       'inbox',
-      'MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf',
+      'VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf',
     ),
-    reportStem: 'reader-closure-mv40618',
-    studyPrefix: 'MV_READER',
+    reportStem: 'reader-closure-validation-protocol-002',
+    studyPrefix: 'VALIDATION_READER_002',
   },
 }
 
@@ -44,8 +45,8 @@ function assert(condition: boolean, message: string): asserts condition {
 
 function getProtocolKey(): ProtocolKey {
   const raw = (process.argv[2] || '').trim().toUpperCase() as ProtocolKey
-  if (raw === 'PARA_OA_012' || raw === 'MV40618') return raw
-  throw new Error('Usage: npx tsx scripts/reader-closure-live.ts PARA_OA_012|MV40618')
+  if (raw === 'VALIDATION_PROTOCOL_001' || raw === 'VALIDATION_PROTOCOL_002') return raw
+  throw new Error('Usage: npx tsx scripts/reader-closure-live.ts VALIDATION_PROTOCOL_001|VALIDATION_PROTOCOL_002')
 }
 
 function writeReport(reportStem: string, payload: unknown) {
@@ -59,6 +60,7 @@ function writeReport(reportStem: string, payload: unknown) {
 }
 
 async function main() {
+  assertProductionSeedAllowed('reader-closure-live')
   const protocolKey = getProtocolKey()
   const target = TARGETS[protocolKey]
 

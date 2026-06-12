@@ -1,6 +1,6 @@
-SanitizedID,OriginalPath,CurrentStatus,RecommendedArchivePath,Action,Reason
+﻿SanitizedID,OriginalPath,CurrentStatus,RecommendedArchivePath,Action,Reason
 ECRF_GUIDE_A001,validation-corpus/inbox/10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).docx,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).docx,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
-PROTOCOL_A004_AMEND_001,validation-corpus/inbox/2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
+PROTOCOL_A004_AMEND_001,validation-corpus/inbox/2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
 PROTOCOL_A005,validation-corpus/inbox/Budgets/IVD/clinical gen bio/004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/004_Viro_HSV_IgG_LFA_Clinical Protocol_Final.pdf_V1.1 (1).pdf,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
 PROTOCOL_A007,validation-corpus/inbox/RFP_DUB-001 version 0.2x_Clinical Study Protocol Synopsis Phase I and 2a_CLEAN (2).pdf,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/RFP_DUB-001 version 0.2x_Clinical Study Protocol Synopsis Phase I and 2a_CLEAN (2).pdf,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
 PROTOCOL_A009,validation-corpus/inbox/Ingenuity Dual protocol 09Sep25 vus1.0final-signed.pdf,SAFE_TEXT_EXTRACTED,validation-corpus/raw/processed-originals/Ingenuity Dual protocol 09Sep25 vus1.0final-signed.pdf,ARCHIVE_ORIGINAL,Mapped and extracted successfully in Batch 1
@@ -26,7 +26,7 @@ N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000019.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Toolbox 1573.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Sanchez Guillen/NIDA GCP Training certificate exp 2021.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/1rs response/First response email to sponsor.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/1rs response/First response email to sponsor.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/16. Investigational Product/16.1 Proof of Receipts/20180626 Shipment Return.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/CTA and Budget/Final Budget/GS-US-685-6819_10773_ToSite9%_19Nov24.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/1. Financial/Abbott AL23 Pediatric  Site Feasibility Questionnaire_AL23  Template.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -37,7 +37,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Sourc
 N/A,validation-corpus/inbox/UDX CRF 5 FINDINGS Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Initial CTA and Budget/Copy of Milestone_NODE-303_GZA96048_Site Budget Template_US_for site review_17Apr2019.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/V7W12/V7W12 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment #2/MV40619-Zepeda, Luis-CRA-A2-Budget-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment #2/MV40619-Zepeda, Luis-CRA-A2-Budget-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.7 Subject Materials/Support Documents/Support Document_Formula Satisfaction Questionnaire_Ver1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/Screen Failure/Screen failure Coordinator   Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Sponsor 1rs Offert/Original Adamis_APC400-03 Budget Template_Protocol v 3_22Oct2021 to site - Copy.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -72,9 +72,9 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opi
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/37_OjeasHarry_Miscellaneous_20181001-115650-dhp9znldm.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/(GH Form) Clinical Trial Agreement (ALMANAC)_15JUL2021_Revised (2).doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SAO 1 ClinTheory HVT.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/03. PARA_OA_012_FDA 1572 Form_exp 30Sep2026_prefilled_updated central labs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/03. VALIDATION_PROTOCOL_001_FDA 1572 Form_exp 30Sep2026_prefilled_updated central labs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Con Med.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012_030_SIV_FUL_Boynton_29JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001_030_SIV_FUL_Boynton_29JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/Amendment 1/006 Amendment 1 Budget Highlighted-1 to sponsor.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Contract negotiation/Final Version/m-RNA-1647-P301_CTA_PIZepeda_tositeforsignatures.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241382 Sivestre Salas (SF)/7.Informed Consent/241382 Informed Consent.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -87,7 +87,7 @@ N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Su
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/17. ABBV-066_Screen a subject_Study tools.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/V9W26/V9W26 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Clinica Gen Bio (Missy)/AA Clinica Gen Bio (Missy)/Closed Studies/Viro-SP-007 Herpes Virus Main Study/Untrained Operator Qualification Questionnaire.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/1.0 PARA_OA_012_Unblinded Pharmacy Binder Table of Contents (NOT UNBLINDING)_v1.0_05Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/1.0 VALIDATION_PROTOCOL_001_Unblinded Pharmacy Binder Table of Contents (NOT UNBLINDING)_v1.0_05Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IONIS ISIS Tryglicerides/1rs Offert/ISIS8354CS6 USCSATemplate_20OCT2021 (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox TE 1498 Covid/Toolbox Site Team List.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/License's/Licences Victoria Rios  Exp 20193108.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -99,7 +99,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/17. Site-Specific NT
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/3.Concomitant Medications/Con Med Log (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241172 Rosalino Rojas/7.Informed Consent/Screening SMS email ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Site to sponsor 1 rs/VRG Anticipate Cost Abbvie.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/MV40618-Zepeda Luis-CRA-draft to sponsot sept 27.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VALIDATION_PROTOCOL_002-Zepeda Luis-CRA-draft to sponsot sept 27.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/Vilo Research Group_Ojeas_CLN-CVI-5794 Clinical Trial Budget_FINAL 2020.09.21.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox TE 1498 Covid/Sponsor 1rs offert/1498_Clinical Study Agreement with TE_Template_20230417.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/ObsEva 38178 US Amendment 2 Zepeda FINAL Version 1, 08Nov2018.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -127,7 +127,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/7. Regulatory/
 N/A,validation-corpus/inbox/MDC_ New Strep A Study Qualification/CSP-00021 _ Rev A _ Clinical Agreement Study Protocol for Fast PCR Strep A _ Final 10242025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/4. Labs & Imaging/V5 W4/241192 V5 W0 Labs Test 1.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/V9W26/V9W26 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/1rs response/MV40619-Zepeda, Luis-Budget Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/1rs response/MV40619-Zepeda, Luis-Budget Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V3/241391 V3 Labs Test.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/Visit 2/V2 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/SAE checklist.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -135,7 +135,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,"validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Amendment 2/388791 38437401 Adamis US CTA Amendment 02 Dr.Zepeda Draft Version 1, 23Aug2022.docx",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Signed CDA.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/3.2 Correspondence with Sponsor/Changes to EDC_2018-08-07.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012_030_SIV_Report_Boynton_29JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001_030_SIV_Report_Boynton_29JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/desktop.ini,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Vasquez_NODE-303 CTA Exhibit A US_from Site_26July2019_JMS.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/CS-13XX-01_LumiraUX_DRAFT_20220215-RZ edits.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -157,7 +157,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.7 Subject M
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opinions and Approvals/Approval_2019-02-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Agreed 1225DSC_Site Budget_Site Requests_Draft 7 (2).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/VRG Anticipate Cost ..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/Documentation of site specific fees.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/Documentation of site specific fees.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/~ICF~/Obsolete/AL23 ICF version 1 7-11-17 final.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/VRG_Dr Ojeas CV Nov 2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241152 Jaime E. Nunez (SF)/7. Informed Consent/Screening ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -194,7 +194,7 @@ N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox TE 1498 Covid/Toolbox ACH Payment Autorization.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/7. Regulatory/7.2 Site Specific Regulatory Documentation/Licences's/Dr Zepeda medical Lisence exp 2020.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/08. EDC_RAVE_ABBV-066_CD_STV Slides_May2018.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Roundcube Webmail __ PARA_OA_012_Important Study Update _Clarification on Screening Window Extension Request Guidelines.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Roundcube Webmail __ VALIDATION_PROTOCOL_001_Important Study Update _Clarification on Screening Window Extension Request Guidelines.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/4. Subject Information/4.1 Subject Screening and Enrollment log/Pre-Screening visit log (blank).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/RE_ Boca Bio- Execution Plan and Enrollment Structure – CRSPTL-00061 Wave II/Depression_Cohort_ECRF_DRAFT 2026.03.12.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V2/241391 Week 2.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -204,7 +204,7 @@ N/A,validation-corpus/inbox/AB30104_6_7-5151QRG-enUS v1.pdf,UNPROCESSED,,KEEP_IN
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/SAF_Mendez_signed_2018-03-23.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/AAAAA/Sponsor response to 2nd review/ObsEva_8399103_US_CTA_Zepeda_Draft V3.0_08May19_To Sponsor.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Version Apr 25/ObsEva_8399103_US_CTA_Zepeda_Draft V2.0_25Apr19_To Site.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.1 PARA_OA_012_Protocol amend 1_v2_09APR2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.1 VALIDATION_PROTOCOL_001_Protocol amend 1_v2_09APR2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/9. CVs and Licenses/9.1 CVs/Sanchez/CV_Sanchez_2018-05-18.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/V7W12/V7W12 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/TRILOGY 2 newsletter 2018-09.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -217,7 +217,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Sponsor Proposal/
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Sponsor to site 2/2018-08 Site Budget 24ul2019 for MSA - 183 Ojeas_26Aug2019.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Abbvie 533 Amendment 8/Site 1 rs response/VRG Overhead letter.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/RE_ Boca Bio- Execution Plan and Enrollment Structure – CRSPTL-00061 Wave II/NormalHealthy_Cohort_ECRF_DRAFT 2026.03.12.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_V1.0_23May2025_Signed.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_V1.0_23May2025_Signed.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/UDX CRF 2C Family History Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/AL23 Study Data/eMail study Data.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/Al23 study.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -230,10 +230,10 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/~ICF~/Obsolete/ICF_r
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/10. Training/10.2 Delegation Log/Delegation log 15Feb2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 Feb 22, 2018 All Site Conference Call - please file this email in your regulatory binder.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/~ICF/Spanish Version ICFs/Spanish ICF_Pre Screener_Ver1.0_2018-05-09.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment #2/MV40618-Zepeda, Luis-CRA-A2-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment #2/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-A2-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/VRG Overhead Letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Sponsor counter to 1rs site counter/VAC18193RSV3001_Amd1_Zepeda_Exhibit B1_To Site.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1c PARA_OA_012_Back-up Investigational Product (IP) Accountability Log - PLC_FINAL_v1_13Aug2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1c VALIDATION_PROTOCOL_001_Back-up Investigational Product (IP) Accountability Log - PLC_FINAL_v1_13Aug2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/1226DSC_Final Corrected Site Budget_UPDATE_20201006.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/00. Table of Contents/2.0_Investigator_Site_File-Structure.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000031.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -254,11 +254,11 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/7. Regulatory/
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Health Decisions Inc/CellMax Diagnostics/CellMax_Form_Clinical_Trial_Site_Agreement.DOCX,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Final CTA and Budget/Final Signed/Fully Execute CTA 20190607.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/VRG Anticipate Cost.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/MV40618-Zepeda, Luis-CRA-draft site to sponsor.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-draft site to sponsor.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000013.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/1rs Sponsor response/Vasquez_Milestone_NODE-303_GZA96048_Budget_from Site_20June2019_JMS.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/eBay_ Order details.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/3.1 PARA_OA_012_Unblinded Site Visit Log_v1_05Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/3.1 VALIDATION_PROTOCOL_001_Unblinded Site Visit Log_v1_05Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/Zepeda_Amd1_FE.1.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/11. Investigational Product/Pharmacy Manual ACA_CAP_002_US-CAN_v3.0_07Feb2019_Final_with Appendices.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/Vilo Research Crohn's Proposal.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -283,12 +283,12 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Edel
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/Budget.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V9W26 Early Term/V9W26 Coordinator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/0271_CDA_US.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/MV40618-Zepeda, Luis-CRA-A3-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-A3-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Subject Retention Materials - Study/32_OjeasHarry_SubjectMaterial(AnyFileFormat)_20190701-131251-ttisr4dzt.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 Zepeda Primary Clinical Label 17510RF 2007 English to US Spanish Certificate.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.7 PARA_OA_012_Site Initiation Visit Slide Deck_V4_24Sep25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.7 VALIDATION_PROTOCOL_001_Site Initiation Visit Slide Deck_V4_24Sep25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/Ojeas_AbbVie_M15-991_CSA Tripartite Template_01Oct18.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/Obsolete/4.4 PARA_OA_012_Temp Excursion or Complaint Form V2.0 22May2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/Obsolete/4.4 VALIDATION_PROTOCOL_001_Temp Excursion or Complaint Form V2.0 22May2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opinions and Approvals/Approval_2018-11-09.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/Roundcube Webmail __ Re_ [USOPTIVAL] Sponsored Colorectal Cancer Study - Inquiry for [Vilo Research Group].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/MDC_ New Strep A Study Qualification/AMDI Strep_MDC_Site_Budget Template_25Nov2025_sd.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -321,7 +321,7 @@ N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/CTA Signed page.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Budget and Contract amendment 1/Scout Payment_Amendment_Communication to Sites.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/9. CVs and Licenses/9.1 CVs/Gonzalez/CV Gonzalez VRG_signed_2017-06-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 - Site 030_ViloResearch - First Screenings.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 - Site 030_ViloResearch - First Screenings.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Shionogi 1/1602T0832_CTA_Zepeda-Kirkwood Clone_FINAL.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/6-241311 David Rojas Ortiz/DRO Screening Visit/Screening IWRS CONFIRMATION.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -334,7 +334,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/C
 N/A,validation-corpus/inbox/UDX CRF 5 Top Level Procedure and Findings Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/VRG Overhead letter.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SS of Hepatitis Infection_CRF Template.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_Summary of Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_Summary of Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/11. Investigational Product/Pharmacy Manual ACA_CAP_002 v4.0_26Jun2019_final_with Appendices.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/VRG Overhead letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opinions and Approvals/Approval_2018-10-16.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -388,7 +388,7 @@ N/A,validation-corpus/inbox/OneDrive_1_12-15-2025.zip,UNPROCESSED,,KEEP_IN_INBOX
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/Dr Ojeas Reimbursement/Dr Ali Payment - Copy.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/M16-066_EDC_CCGs_V1.00_Final.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SAO 2 Vilo Viro-SP-005 (1) Initial.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/4th Response/MV40618-Zepeda, Luis-CRA-draft to Sponsor.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/4th Response/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-draft to Sponsor.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 Notificaiton of Data Monitoring Committee Meeting 23Apr2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Initial CTA and Budget/Sponsor 1 response/Copy of Vasquez_Milestone_NODE-303_GZA96048_Budget_from Site_06June2019_JMS.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/ACM 2017 W-9.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -396,7 +396,7 @@ N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SAO 3 for SAA Medicus B
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/13. IP Preparation and Administration_ABBV-066_CD_STV Slides_May2018.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/CS-0614-02  CRF Worksheet_Final.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/Final Agreement & Budget/RE_ Novartis - VICTORIAN-INCEPTION STUDY (US-01) - Dr. Vasquez 1129.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01.a. PARA_OA_012_PSP_v4.0_Amendment 3_24Feb2026.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01.a. VALIDATION_PROTOCOL_001_PSP_v4.0_Amendment 3_24Feb2026.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/6.Medical Records/241593 Medical Records Labs Test.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/2. Site Visit log/2.1 Site Visit Log/Site Visit log as of 2018-06-29.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/V6W11/V6W11 Top Sheet (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -421,7 +421,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Fixed Study Fee list. OJO.docx,UNPROC
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Irs Site counter/VAC18193RSV3001_PA1.2_US_FIN EX_Site Home Visits_Zepeda.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox 1498 COVID Apr 2023/1498_Budget_20220417 -1rs Site Response.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/Vilo Research Crohn's.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/1.1 PARA_OA_012_Project Unblinded Contacts List (NOT UNBLINDING)_v2.0_13Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/1.1 VALIDATION_PROTOCOL_001_Project Unblinded Contacts List (NOT UNBLINDING)_v2.0_13Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/7. Lab Equipment/Scale Wheight Check Log.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/CTA Signature Page.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox 1498 COVID Apr 2023/1498_Budget.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -442,7 +442,7 @@ N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/38178 ObsEva US B
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/3. Monitoring Log/Monitor Letters/SIV Follow Up Letter_2018-02-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Initial CTA and Budget/Initial CTA and Budget contact email.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/ObsEva 38178 US Amendment 1 Zepeda FINAL Version 1, 23Mar2018_FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Contract initial email from sponsor.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Contract initial email from sponsor.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/VRG Overhead letter.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/Lisbet Suarez CV .pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IMVT-1401-3203 Unique CRFs (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -486,7 +486,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Commu
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241701 Reynaldo Garza/7. Informed Consent/241593 Informed Consent.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/3. Monitoring Log/Site Visit log as of 2018-05-29.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/1rs Site to sponsor/VRG Overhead letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 2/MV40619-Zepeda, Luis-CRA-A2-Budget-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 2/MV40619-Zepeda, Luis-CRA-A2-Budget-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/12. Sample CRFs/12.1 Sample CRFs/CRFs Forms 1-19 Reference Copy.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/UDX USOPTIVAL Budget Proposal_Vilo_18Jan21.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/Payment to Dr Zepeda/2018.10.08.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -500,7 +500,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Documen
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/4.Labs & Imaging/V1 Screening/241593 Screening Labs tests.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/V9W26/V9W26 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Abbott Enriched Protocol/Abbott Molecular_V560-02-20S07-02_Enriched_U.S. Budget Template_Final for Site Review_4Mar21.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Dr Zepeda Compensation/MV40618 Dr Zepeda Per visit Compensation.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Dr Zepeda Compensation/VALIDATION_PROTOCOL_002 Dr Zepeda Per visit Compensation.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AbbVie IBD Studies/Onsite IP Destruction Confirmation Form v3 (2).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241179 Antonio I Nunez/8. Source/Screening Visit/V1 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/Visit 2/V2 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -519,7 +519,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000286987 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/Ojeas_Abbvie_M16-066 CSA Final to sign (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox TE 1498 Covid/Site Counter offert/1498_Site counter (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Appendices_10Sep2025_signed 23Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Appendices_10Sep2025_signed 23Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/mRNA-1647-P301 Blank_04May.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/M24-221Covid 19/Sponsor response to 1rs counter/003_080123_AbbVie_M24_221 _IAB58392__Site061_Zepeda (4).xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/38_OjeasHarry_Miscellaneous_20190517-110039-efjxj4fxj.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -549,7 +549,7 @@ N/A,validation-corpus/inbox/Letter of Inventory.pdf,UNPROCESSED,,KEEP_IN_INBOX,N
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/AL23 Study Data/AL23_Site 3042_Queries and Replies to Queries.csv,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241382 Sivestre Salas (SF)/4. Labs & Imaging/V1 Screening/241382 V1 Sscreening Labs Test.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/006 Final Budget.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/2nd Response/Copy of MV40619-Zepeda, Luis-CRA-budget 3 counter to site w sponsor comments Aug 27 -version Aug 26 w stipends-.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/2nd Response/Copy of MV40619-Zepeda, Luis-CRA-budget 3 counter to site w sponsor comments Aug 27 -version Aug 26 w stipends-.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.5 Subject Advertisement/IRB Patient Material/Participant Material_Spanish approved on 2018-10-16.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/Katheryn Fernandez VRG CV.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/Dr Zepeda Signed CV 20180510.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -593,7 +593,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/1. Financial/2.1 CDA/AL23 Accurate Clinical Management CDA (executed) 10.16.17.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Final CTA and Budget/Final Signed/Signature page.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/Victoria Rios/VRG_ Victoria Rios CV 2019 (1).JPG,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Dr Zepeda Compensation/Zepeda 20190504.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Dr Zepeda Compensation/Zepeda 20190504.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/TRILOGY 2 newsletter 2018-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Clinica Gen Bio (Missy)/AA Clinica Gen Bio (Missy)/Closed Studies/Viro-SP-007 Herpes Virus Main Study/Medical history form Viro 007 Study - Pregnancy.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Fernandez Sanchez/CITI GCP Certificate.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -604,12 +604,12 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/5. Protocol an
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/Viro Research ClinicaGen Bio CTA FINAL.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Final CTA and Budget/Final Signed/ObsEva_8399103_US_FE LOI_Zepeda_Final Version 1.0_06 Jun 19 (2).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.1 IRB Approvals/Certificate of Translation_2017-10-20.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 1 Budget/MV40618-Zepeda Luis-CRA-A1-to site.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 1 Budget/VALIDATION_PROTOCOL_002-Zepeda Luis-CRA-A1-to site.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000286937 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Trilogy 2  Randomization Closure Notification dated 17 Jun 2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V9W26 Early Term/V9W26 Investigator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Irs Site counter/Study Start up fee..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Anticipate cost.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Anticipate cost.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Re_ MT Group Continuing Review for Protocol MTG-022.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/60+ Normal Healthy CRSPTL-00101_FINAL.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Novella/Contact email for bussiness with Novella..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -625,11 +625,11 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Budget and Contract amend
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/V5W4/V5W4 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/~ICF/English Version ICFs/English ICF_Main_Ver2.0_2018-07-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241382 Sivestre Salas (SF)/8.Source/Screening Visit/IWRS Confirmation.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_Unique eCRF_V4.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_Unique eCRF_V4.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/07. ePROeDiaries_CRFH_ABBV-066_CD_STV Slides_May2018.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Testing Plan LIAISON Calprotectin 3.0_Rev.A_30062025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000273364 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Clinical Supply Plan_04Jul2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Clinical Supply Plan_04Jul2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 Zepeda Primary Clinical Label 17511RF 2007 English to US Spanish Certficiate.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/067 Final Budget.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Victoria Rios/VR GCP training.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -637,7 +637,7 @@ N/A,validation-corpus/inbox/SAE checklist.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not map
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SAO 3 for SAA ASR Viro LoD Viro-004.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Greenphire ClinCard/ClinCard_Demo_Slides_Pricing.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/14. Safety and Reporting.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Overhead letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Overhead letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/9. CVs and Licenses/9.1 CVs/Gonzalez/Gonzalez CITI-GCP_exp 2019-10-03.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Payee BDF Signed.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Health Decisions Inc/CellMax Diagnostics/Protocol V01.00 2020 1009.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -655,7 +655,7 @@ N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/M14-234, M14-533 
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/8437401_Adamis Pharmaceuticals_APC400-03_US CTA Template_14June2021_study updates FINAL Clean.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/00100043.0_CSA_Ojeas_M16-000_CSA Template_04Sep18.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Fernandez Sanchez/IATA exp20210701.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 - Site 030_ViloResearch - First Screenings/12.2 PARA_OA_012_eCOA_Training Deck_v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 - Site 030_ViloResearch - First Screenings/12.2 VALIDATION_PROTOCOL_001_eCOA_Training Deck_v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Translated Document - Study/19_OjeasHarry_TranslatedDocument(Anyfiletype)_20191009-094305-ckf1jpmk3.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/14. Safety and Reporting/LIN-MD-64 SAE Form.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000286994 ICF .pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -673,15 +673,15 @@ N/A,validation-corpus/inbox/CRF Completion Guidelines_14 Nov 2022.pdf,UNPROCESSE
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/GA39925/GA39925-Ojeas, Harry-CRA-draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Monitor Letters/Confirmation Letter_2018-08-30.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Kerlo Research/CDA Kerlo Research.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Infant Formula ByHeart SS_101_181039/SS-101-18 Clinical Trial Agreement_Template_ByHeart_18Aug2020 1038 Uzquiano.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/Unscheduled Visit # 1/Unsch. Visit Coordinator  Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1)/[678354-CS6].[3681].[S604].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/VRG Anticipated costs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_Summary of Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_Summary of Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/26_OjeasHarry_CertificateofAction_20190927-131315-u5z4iolc6.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/184 Comp addendum MT1975.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1c PARA_OA_012_Back-up Investigational Product (IP) Accountability Log - PPS_FINAL_v1_13Aug2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1c VALIDATION_PROTOCOL_001_Back-up Investigational Product (IP) Accountability Log - PPS_FINAL_v1_13Aug2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP/[678354-CS6].[3681].[S604].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/IMVT-1401-3201,_3202,_and_3203_Site_Reference_Manual_V1_30Jan2023_Final.docx.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/VRG Overhead letter.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -692,7 +692,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/Investigators Comp
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/1rs Site to sponsor/Documentation of Site Specific fees.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Novella/Fully Executed CDA ViloResearchGroup_09Apr2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/8.Source/Screening Visit/V1 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01.a. PARA_OA_012_PSP_v4.0_Amendment 3_24Feb2026.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01.a. VALIDATION_PROTOCOL_001_PSP_v4.0_Amendment 3_24Feb2026.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/~ICF/Spanish Version ICFs/Spanish ICF_Main_Ver2.0_2018-07-06.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/ToolboxCOVID/Clinical Study Agreement without signature.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Greenphire ClinCard/Working ClinCard into Study Budgets.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -701,7 +701,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/C
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/Pending Approval Zepeda, Luis_SPINE CARE_AMENDMENT 1_05SEP2018_final-1.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/2. Site Operations Manual/Tab 19.0 LC Standard Drug and Ancillary Shipping Request TRACK_M14-234.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V4 Rando/V4 Investigator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/03. PARA_OA_012_FDA 1572 Form_exp 30Sep2026_prefilled_updated central labs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/03. VALIDATION_PROTOCOL_001_FDA 1572 Form_exp 30Sep2026_prefilled_updated central labs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000042.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/ACASTI PrescreeningTop Sheet.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1)/[678354-CS6].[3681].[S607].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -737,16 +737,16 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/Final Budget/CTA Negotiation/Universal DX Vilo Research CTA Rev 2021 02 08 (clean).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IMVT-1401-3203 (7039177A) – CTA & Budget – PI Ginsburg/IMVT-1401-3201 (7039175A) – CTA & Budget Templates – PI Ginsburg Site #1533/Site to sponsor 1/Additional fees explanation.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000008.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_eCRF Completion Guidelines_9.0_16Jun2022.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.7 Subject Materials/Support Documents/Support Document_Examples of Parent completed Forms_Ver1.0.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Gilead Remdesivir- Inhalation Study/RE_ Clinical Study Opportunity_ Gilead Remdesivir- Inhalation Study (Zepeda).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/12. Case Report Form/12.3 Data Clarification Forms/NTF ACA-CAP-002 IPclarification.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/03. Protocol Overview InExclusion_ABBV-066_CD_STV Slides_03Nov2017.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/4th Response/Documentation of costs..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/4th Response/Documentation of costs..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Abbvie 533 Amendment 8/Site 1 rs response/00110047.2_3way_CSA Amd2_Vilo Research Group Inc_Ojeas_M14-533.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Sponsor to site counter offert/RQ-01-001_US_PI Zepeda_Site 12_Budget PPD V2_11AUGL2023.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241701 Reynaldo Garza/4.Labs & Imaging/V2/241593 V2 ECG.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012_eCRF Completion Guidelines_Final V3.0_14MAY2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001_eCRF Completion Guidelines_Final V3.0_14MAY2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Allegra Relamorelin/02058818.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/~ICF~/Obsolete/ICF_revised_2017-11-08.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Site to Sponosor 1rst response/RedQueen_RQ-01-001_US_PI Zepeda_Site 12_Budget Template_02AUGL2023.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -756,7 +756,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/10. Training/10.3 Tr
 N/A,validation-corpus/inbox/Coologics_Protocol for IRB_FInal060624_Update042825_Clean.docx.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/VBVIR78315008_eCRF_Completion_Guidelines_Final.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/ABBVIE Budget Negociation/FINAL Contracts/Ojeas_Abbvie_M16-067 CSA final to sign.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 1 Budget/MV40619-Zepeda, Luis-CRA-A1-budget-draft-Final.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 1 Budget/MV40619-Zepeda, Luis-CRA-A1-budget-draft-Final.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/6. Safety Information/6.3 IB Receipt Page/IB Receipt_signed_2018-03-23.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241172 Rosalino Rojas/6. Medical Records/V1 Medical History.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/TRILOGY 2 newsletter 2019-09 (1).pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -768,7 +768,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/10. Site Staff Details/10.1 Study Personnel-Delegation log/Instructions PI And Site team.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/12. Case Report Form/12.1 Case Report Form Transmittal Forms/1572.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/iFind Key Terms  (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Final Contract/MV40618-Zepeda, Luis-CRA-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Final Contract/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000287029 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/6. Safety Information/6.3 IB Receipt Page/ACA-CAP-002_ IB Receipt_Zepeda.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/Protocol Deviation Report/Advarra Submission Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -779,10 +779,10 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Contract negotiation/mRNA
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/8.Source/Screening Visit/Medical Records from practice fusion.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/MT Group/MT1975 SOP – Crohn’s Disease/184 Comp addendum MT1975.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/2_OjeasHarry_CertificateofAction_20191204-155339-hj7r6eben.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 2.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 2.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/IQVIA Eli Lilly UC/New CDA for - Eli Lilly - I6T-MC-AMAM - Crohn's Disease Study for Dr. Ojeas.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Unscheduled Visit/Unsch. Visit Top Sheet.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/Sponsor to site 1rs response. UDX USOPTIVAL Budget Proposal_Vilo_26Jan21 (1).xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/CTA and Budget/1rs offert/GS-US-685-6819 USA Zepeda Luis CTA_1st Draft to Site_26Sep2024.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/M16  066 & 067/Dr_Ojeas Fee x Procedure. M16-067 .xls,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -799,7 +799,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/AL23 Study Data/AL23_Site 3042_Queries.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 updates!!.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/V9W26/V9W26 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.7 PARA_OA_012_Site Initiation Visit Slide Deck_V4_24Sep25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.7 VALIDATION_PROTOCOL_001_Site Initiation Visit Slide Deck_V4_24Sep25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/Visit 3/V3 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/ALMANAC_eCRF_Completion_Guidelines_1.0_2021_1202.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Coologics_ VVC Training Guide_FINAL_19JUN2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -833,7 +833,7 @@ N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Su
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Abbott Enriched Protocol/Roundcube Webmail __ V560-02-20S07-02 Enriched Protocol - Contract_Budget, PI_ Luis Zepea_ Site # 3641_Vilo Research Group Inc.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000287016 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/AAAAA/Sponsor response to 2nd review/ObsEva_8399103_US_CTA_Zepeda_Draft V3.0_08May19_To Site.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/Proposed/MV40618-Zepeda, Luis-CRA-Budget-A3-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/Proposed/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-Budget-A3-Draft.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Ojeas/GCP Certification 20180709.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/Vilo Research UC.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/New CRF Guidelines/New CRF Guidelines/UDX CRF 1 Demo Incl Excl Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -844,7 +844,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contr
 N/A,validation-corpus/inbox/AA Clinica Gen Bio (Missy)/AA Clinica Gen Bio (Missy)/Closed Studies/Viro-SP-007 Herpes Virus Main Study/Viro-SP-007 protocol_v1.0 22NOV24 FINAL - signed (no cover).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/14. Safety and Reporting/LIN-MD-64 Abnormal Liver Function Reporting Form.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/m-RNA-1647-P301CTA_17Aug20_final_.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/3rt Counter/Copy of MV40619-Zepeda, Luis-CRA-budget 3 counter to site w sponsor comments Aug 27 -version Aug 26 w stipends--1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/3rt Counter/Copy of MV40619-Zepeda, Luis-CRA-budget 3 counter to site w sponsor comments Aug 27 -version Aug 26 w stipends--1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Greenphire ClinCard/ClinCard pricing.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Irs Site counter/VAC18193RSV3001_Amd1_03May2021_Exhibit B1.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/Adamis_APC400-03 Budget Template_Protocol v 3_22Oct2021 to Sponsor.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -879,7 +879,7 @@ N/A,validation-corpus/inbox/Budgets/Biospecimen/MT Group/PI Earn Money/Darmati/D
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Roundcube Webmail __ Red Queen Therapeutics _ RQ-01-001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V1 Screening/241391 V1 Screening Coagulation.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/ObsEva 38178 US Amendment 1 Zepeda FINAL Version 1 FINAL 12Mar2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 1 Budget/MV40618-Zepeda, Luis-CRA-A1-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 1 Budget/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-A1-FE.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Medspace/Medspace CKD Feasibiliaty questionnarie..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/AL23/AL23 ACM Zepeda ISP AL23-041.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000028.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -891,7 +891,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,"validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Sponsor 3th response/8437401_Adamis Pharmaceuticals_APC400-03_US CTA Zepeda Draft 3, 17Dec2021.docx",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241172 Rosalino Rojas/8.Source/V1 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Sponsor 1rs Offert/Original 8437401_Adamis Pharmaceuticals_APC400-03_US CTA Template_14June2021_study updates FINAL Clean (2).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.1 PARA-OA-012 Protocol Amendment 2 V3.0 23Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.1 VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 23Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/Ojeas_AbbVie_M16-000_CSA Template Tripartite_01Oct18.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/07. ePROeDiaries_CRFH_ABBV-066_CRA Training.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M16  066 & 067/Ojeas_Abbvie_M16-066 CSA Final to sign (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -913,7 +913,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/IPP/[678354-CS6].[3681].[S606].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/Visit 4 Week 0/V4 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/ObsEva  19-OBE2109-005/ObsEva_E5_8417599_US_LOI_Zepeda_Draft_Version 1.0_For Review and Approval_27Apr2020docx.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Suresh Kumar Rajendran/Nida GCP Training Certificate exp 2021.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/066 Final Budget (1).xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Urine Stick.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -935,13 +935,13 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Irs Site counter/
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/13. Laboratory/13.6 Laboratory Sample Storage Records/Frozen Shipment Verification Aug Oct Nov.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Follow up Visit/Follow up Top Sheet.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/VRG _Boca Biolistics CTA (1) (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1)/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SAO 2 Vilo Viro-SP-005.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/CTA and Budget/1rs offert/GS-US-685-6819_32441_Luis Zepeda M.D._Sep-26-2024.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.6 PARA_OA_012 Blank eCRFs V2.000_17JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.6 VALIDATION_PROTOCOL_001 Blank eCRFs V2.000_17JUL2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.1 IRB Approvals/Initial Approval_2018-01-30.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000273359 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/Proposed/MV40618-Zepeda, Luis-CRA-A3-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/Proposed/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-A3-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/12. Protocol and Protocol Amendments/12. Protocol and Protocol Amendments/Protocol Amendments/LIN-MD-64 Protocol 17Apr2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/License's/Mendez Nursing License Verification exp 20201130..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V4 W0/241391 V4 W0 9 nov 2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -953,7 +953,7 @@ N/A,validation-corpus/inbox/12. Protocol and Protocol Amendments/12. Protocol an
 N/A,validation-corpus/inbox/InclusionExclusion CRF_ Rev 2 FINAL.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/Acasti_ACA-CAP-002_Zepeda_AMD1.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/AbbVie _Crohn's Disease_All Protocols_Referral Pre-Screening Questionnaire_20 Mar 2019.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_Unique eCRF_V3.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_Unique eCRF_V3.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/5. Protocol and Amendments/5.1 Final Protocol Amendment/Protocol Amendment_2018-05-22.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Initial Contact email.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Abbvie 533 Amendment 8/M14-533 protocol amendment 8.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -964,7 +964,7 @@ N/A,validation-corpus/inbox/UDX CRF 4 Plasma Prep Ver 27JAN21.pdf,UNPROCESSED,,K
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Unscheduled Visit/Unsch. Visit Investigator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000273362 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/8. 1572 Equivalent/8.1 FDA Form 1572/Unsigned/1572_unsigned.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 1 Budget/Copy of Zepeda_US_VIR-7831-5001_Amendment1_Budget_2020Dec03_toSite.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 1 Budget/Copy of Zepeda_US_VIR-7831-5001_Amendment1_Budget_2020Dec03_toSite.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Sponsor 1rs offert/Lumira_NDA_blank template.rtf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.5 Subject Advertisement/IRB Patient Material/Participant Material_Landing Page 2 Internal Code BI.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Initial CTA and Budget/Sponsor 1 response/1rs Response email.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -997,7 +997,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/RE- Acasti_ACA-CAP
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/Final Budget/CTA Negotiation/Universal DX Vilo Research CTA Rev 2021 02 08 (redline).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/Quidel Budget to SMO.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/~ICF/English Version ICFs/English ICF_SMS Text_Ver 1.0_2018-02-13.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.1_PARA-OA-012 Protocol Amendment 2 V3.0 PRT-0000074.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.1_VALIDATION_PROTOCOL_001 Protocol Amendment 2 V3.0 PRT-0000074.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/7. Regulatory/7.1 Notifications and Approvals/TRILOGY 2 newsletter 2019-09.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/VILO RESEARCH GROUP VRG_BIO_001 Final - Copy (3).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V7 W12/241391 V7 W12 ECG.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1012,9 +1012,9 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/7. Regulatory/
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/VRG_Mendez Signed CV Oct 2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/GA39925/Carlos/GA39925-Ojeas, Harry-CRA-Budget-draft (1).xlsx",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/Screening Visit/V1 Medical History.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/3.3 PARA_OA_012_Unblinded Site Re-Training Log_v1_05Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/3.3 VALIDATION_PROTOCOL_001_Unblinded Site Re-Training Log_v1_05Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Site to Sponosor 1rst response/Documentation of site specific fees.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 - Site 030_ViloResearch - First Screenings/12.2 PARA_OA_012_eCOA_Site User Manual v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 - Site 030_ViloResearch - First Screenings/12.2 VALIDATION_PROTOCOL_001_eCOA_Site User Manual v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/4. Protocol/4.1 Protocol and Amendments/AL 23 Signed Protocol Version 2 7.5.17.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/7. Informed Consent/241593 Informed Consent.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/New CRF Guidelines/New CRF Guidelines/UDX CRF 5 Procedure OTHER Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1027,7 +1027,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/EXTENSION Mileston
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/TRILOGY 2 newsletter 2018-05.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Abbott Enriched Protocol/Abbott Enriched Study/Site 1rs Counter/CSA Template_Alinity m HR HPV Study_V560-02-20S07-02_Final for Site 3622_29June21.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Vilo_Master Clinical Study Agreement_31Oct2025_final.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Start up fee.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Start up fee.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Sponsor 5th response/Adamis_APC400-03_COVID19_US_Site_018_Zepeda, Luis_ Budget_CTA templates.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/4. Labs & Imaging/V 8 W18/241391 Visit 8 Week 18.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/Trilogy 2_Weekly Randomization Newsletter_30 Apr 19-1.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1042,7 +1042,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Documen
 N/A,validation-corpus/inbox/New CRF Guidelines/New CRF Guidelines/UDX CRF 5 Prodecure SURG Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.7 Subject Materials/Support Documents/Support Document_Non Study Formula and Breast Milk feeding Parent Form_Ver1.0.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000032.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Clinical Supply Plan_04Jul2025_signed 23Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Clinical Supply Plan_04Jul2025_signed 23Oct2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000011.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Final Version full executed/Vasquez_Milestone NODE 303_GZA96048_CTA_FE_18Sept2019-1.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/1365DSC_CSA_Draft_20220222 (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1052,7 +1052,7 @@ N/A,validation-corpus/inbox/Budgets/Biospecimen/Sponsor 1rs offert/Site to spons
 N/A,validation-corpus/inbox/Protocolo Piloto Ozono + Nad Capilar (v1.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/ToolboxCOVID/1225DCS_IRB Subm_Initial Rev_20200819.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M16  066 & 067/_AbbVie_M16-066_US_Exhibit A_Budget Template_12Jan2018.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/InvPymtChecklistFor Legal CTA.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/InvPymtChecklistFor Legal CTA.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1)/9745ed96-da3c-483c-8b58-70947a81a2b5.xml,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.7 Subject Materials/Support Documents/Support Document_Parent Questionnaires_Ver1.0_2017-07-25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/6. Medical Records/Medical History Form.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1078,7 +1078,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/2nd to sponsor/ema
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/17FEB2020 Comp Ad VRGI MT0293.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Sponsor to site 1rs offert/2018-08 Site Budget 24ul2019 for MSA - 183 Ojeas.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1).zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 - Site 030_ViloResearch - First Screenings/2.6 PARA_OA_012_eCRF Completion Guidelines_FINAL V1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 - Site 030_ViloResearch - First Screenings/2.6 VALIDATION_PROTOCOL_001_eCRF Completion Guidelines_FINAL V1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/SMO Clinical Trial Agreement Final Master - Template.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/40_OjeasHarry_CertificateofAction_20190807-143243-laxhtvhj3.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/CTA and Budget/VRG W-9.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1102,7 +1102,7 @@ N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Re
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000014.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/16. Investigational Product/16.1 Proof of Receipts/Study Supply  Return.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Janseen VAC RSV3001/Investigator Compensation/Janssen Dr Zepeda Compensation..docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/1rs Site to sponsor/VRG Study Start-Up Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/Fernandez Sanchez/shipping.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/AAAAA/Sponsor response to 2nd review/Copy of ObsEva_8399103_US_Budget_Zepeda_Draft V7.0_08May19_To Sponsor - Copy.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1146,7 +1146,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/13. Laboratory
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000022.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.4 Progress Reports/Site Status Report_Zepeda.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/CTA and Budget/1 from site to sponsor/Signed submition/VRG Overhead letter.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.4_Paradigm Biopharma PARA_OA_012 eCRF Completion Guidelines v2.0_13-Feb-2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.4_Paradigm Biopharma VALIDATION_PROTOCOL_001 eCRF Completion Guidelines v2.0_13-Feb-2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/USOPTIMAL Colon cancer study/CTA Universal_DX_Vilo_Research_C.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/ODM1-2-0.html,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/Payments Breakdown/UCB Payment Docs/Payment Breakdown Request number 17984.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1156,7 +1156,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/0. Team Contact List
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000004.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/13. Laboratory/Lab Manual/Lab Manual ACA-CAP-002 V02 16Feb2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Training Certificates/LIN MD 64 Site. Training Form.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/Visit 4 Rando/V4 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/MDC_ New Strep A Study Qualification/AMDI_Strep A Clinical Agreement_Feasibility Questionnaire_v1_20251118.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/CTA and Budget/1 from site to sponsor/Signed submition/VRG Administrative fees.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1167,7 +1167,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/ObsE
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/M14-234, M14-533 and M14-675 Budget @ Contract/Final CTA and Budget/Final Signed/M14-675 Signed CTA.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241593 Cristina Ortuno/8.Source/Visit 2/V2 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/14. Safety and Reporting/AE of Interest Abnormal Liver Fax Cover Sheet.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 - Site 030_ViloResearch - First Screenings/12.2 PARA_OA_012_eCOA_Patient User Guide v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 - Site 030_ViloResearch - First Screenings/12.2 VALIDATION_PROTOCOL_001_eCOA_Patient User Guide v1.0.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Acasti/Acasti_ACA-CAP-002_ US_CTA Template _ 29Mar2018.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/CTA and Budget/Aditional Administrative Fees.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Blank Essential documents/Blank Essential documents/Financial Disclosure Form.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1177,8 +1177,8 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/IBDiscover_P
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V2 Template/V2 Coordinator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1)/[678354-CS6].[3681].[S606].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva/PRIMROSE 3 study/CTA and Budget/1 from site to sponsor/Signed submition/VRG Start up fee.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA-OA-012_Participant Journey Worksheet_PV 1.0_Screening and First Dose Visit_24Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Storage Temperature Ranges_28Oct2025_signed 04Nov2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001_Participant Journey Worksheet_PV 1.0_Screening and First Dose Visit_24Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Storage Temperature Ranges_28Oct2025_signed 04Nov2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Allegra Relamorelin/Relamorelin Background Summary Document_20Mar18_LK.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000286943 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/V7W12/V7W12 IWRS Confirmation.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1186,13 +1186,13 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Novella/VRG-Novella CDA.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Vilo_Master Clinical Study Agreement and SOW Template 25JUL2025 20OCT2025.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/4. Labs & Imaging/V2/241192 V2 Labs test.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/1rs response/MV40619-Zepeda, Luis-Budget Site to sponsor 1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/1rs response/MV40619-Zepeda, Luis-Budget Site to sponsor 1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/SIV All Studies Training Material Site # 9545/SIV All Studies Training Material Site # 9545/06. CR_CDAI Calculation Exercise_ABBV-066_CD_STV Slides_03Nov2017.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Gilead Remdesivir- Inhalation Study/GS-US-553-9020 Site FQs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/Comunications/Re Stanford SPINE _ Zapeda, Luis _ CTA for signatures.eml",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/9. Investigator Agreement/9.5 Financial Disclosure Forms/ACA-CAP-002_FDF.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V9W26 Early Term/V9W26 Top Sheet.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.1 PARA_OA_012_Protocol amend 1_v2_09APR2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.1 VALIDATION_PROTOCOL_001_Protocol amend 1_v2_09APR2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000286989 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/Protocol Amendment 2, Version 3.0 Signature Page.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/iPatientAxis/Reimbursement and Logo..docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1226,7 +1226,7 @@ N/A,"validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Comm
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/4. Monitoring Visit Forms/LIN MD 64 Site source doc record locator .pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/17FEB2020 Comp Ad VRGI MT0860.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opinions and Approvals/Approval_2018-09-05.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/4th Response/Copy of MV40619-Zepeda, Luis-CRA-budget 4- Sept 7 to Sponsor.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/4th Response/Copy of MV40619-Zepeda, Luis-CRA-budget 4- Sept 7 to Sponsor.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/4. Labs & Imaging/V4 W0/241192 V4 W0 Coagulation.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Monitor Letters/3866916.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/4. Subject Information/4.3 Blank SAE-Pregnant Report Forms/CS_TP_LS0269 Revision 1_Pregnancy.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1243,7 +1243,7 @@ N/A,validation-corpus/inbox/New CRF Guidelines/New CRF Guidelines/UDX CRF 5 FIND
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.2 Submission Forms/Initial Submission_AL23 Zepeda.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/3.1 Correspondence With IQVIA/Protocol deviation form..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/Visit 2/V2 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 1 Budget/MV40618-Zepeda Luis-CRA-A1-to site.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 1 Budget/VALIDATION_PROTOCOL_002-Zepeda Luis-CRA-A1-to site.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/Investigator Payment/NODE 303 Andres Vasquez Payment.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Milestone NODE 303/NODE-303 CTA Exhibit A US CAN_ draft_to sponsor 20July2019.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP (1)/[678354-CS6].[3681].[S601].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1270,7 +1270,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/M24-221Covid 19/1rs Response Site to 
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Site Approvals/27_OjeasHarry_CertificateofAction_20190919-094622-jd8mvhqzz.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/RE_ Boca Bio  Continued Collaboration – HBV Budget agreed.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Zepeda Emails/AL23 Accurate Clinical Management CDA (executed) 10.16.17.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment 2/MV40618-Zepeda, Luis-CRA-A2-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment 2/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-A2-Draft.doc",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/~ICF~/English ICF_Ver1.0_2018-01-30.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000287012 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/9. Investigator Agreement/9.4 Other Investigator Agreements/ACA-CAP-002_FDA1572_Central.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1285,7 +1285,7 @@ N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Re
 N/A,validation-corpus/inbox/Master Clinical Study Agreement and SOW Template 25JUL2025.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IMVT-1401-3203 (7039177A) – CTA & Budget – PI Ginsburg/IMVT-1401-3201 (7039175A) – CTA & Budget Templates – PI Ginsburg Site #1533/Part 2.eml,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Note_To_File_Blank_CRF_releases_corrected_10Sep2025b.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Anticipate Cost.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Anticipate Cost.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/Screening Visit/V1Top Sheet.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241701 Reynaldo Garza/4.Labs & Imaging/V2/241593 V2 Labs Test.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.5 Subject Advertisement/IRB Patient Material/Participant Material_Phone Screen_Feb2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1295,14 +1295,14 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Infant Formula ByHeart SS
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Roundcube Webmail __ Novartis - VICTORIAN-INCEPTION STUDY (US-01) - Dr. Vasquez 1129 _ CTA & Budget to Site.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/RE_ Boca Bio  Continued Collaboration – HBV Budget agreed/HBV Vaccination_Adult Cohort CRF_final.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/8. IRB-IEC Approvals/Subject Retention Materials - Study/22_OjeasHarry_SubjectMaterial(AnyFileFormat)_20190927-130539-l3ns995sv.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1a PARA_OA_012_e-Accountability instructions_v1_05Sep2025.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.1a VALIDATION_PROTOCOL_001_e-Accountability instructions_v1_05Sep2025.pptx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.5 Subject Advertisement/IRB Patient Material/Participant Material_Health Education Card.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000010.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.3 PARA_OA_012_Investigator Brochure v7.0_24-Oct-2024.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.3 VALIDATION_PROTOCOL_001_Investigator Brochure v7.0_24-Oct-2024.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AbbVie Covid Study/AbbVie Covid Study/M24-221 Canceled/M24-221Covid 19/Zepeda Routine Termination Notice Dec0723.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/12. Protocol and Protocol Amendments/12. Protocol and Protocol Amendments/Protocol Signature Page(s)/LIN MD 64 Signature page.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Clinica Gen Bio (Missy)/AA Clinica Gen Bio (Missy)/Closed Studies/Viro-SP-007 Herpes Virus Main Study/Accountability Logs/Shipping Manifest Blank.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/MV40618-Zepeda, Luis-CRA-Budget-A3-Draft-tosite 13July22 (4).xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-Budget-A3-Draft-tosite 13July22 (4).xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M15 991 & M16 000 & M16006/00100044.0_CSA_Ojeas_M16-006_CSA Template_04Sep18.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IONIS ISIS Tryglicerides/Sponsor response to 1rst Counter/Ionis Pharmaceuticals_ISIS 678354-CS6_US Schedule A_Zepeda.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.8 IRB Membership Lists/CGIRB Membership Roster Version 01JAN2018.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1317,7 +1317,7 @@ N/A,validation-corpus/inbox/AB30104_6_7-5150UG v5.pdf,UNPROCESSED,,KEEP_IN_INBOX
 N/A,validation-corpus/inbox/Coologics_Protocol+for+IRB_FInal060624_Update042825_Clean.docx.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Verified Copy - System Description.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Gilead Remdesivir- Inhalation Study/GS-US-553-9020 Protocol 20200828.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Study Start-Up Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Study Start-Up Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/UDX CRF 5 Prodecure SURG Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/6-241311 David Rojas Ortiz/DRO Screening Visit/Medical Records 2.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IMVT-1401-3201 Unique CRFs.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1345,7 +1345,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/1. Financial/2.2 CSA
 N/A,validation-corpus/inbox/Budgets/Biospecimen/MT Group/MT1975 SOP – Crohn’s Disease/MT1975 Compensation Addendum signed..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IONIS ISIS Tryglicerides/4th Counter/Ionis Pharmaceuticals_ISIS 678354-CS6_US Schedule A_Zepeda_5Dec23.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Stanford SPINE CARE Study/Invoices/Overdue Invoices 01-Nov-2018 The pain study.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Visit1 Screening template/V1 Coordinator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Abbvie 533 Amendment 8/Site 1 rs response/VRG Study Start-Up Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/Final Agreement & Budget/Vasquez 1129 SchA KJXA1US01 19June2022 ib.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1383,9 +1383,9 @@ N/A,validation-corpus/inbox/Blank Essential documents/Blank Essential documents/
 N/A,validation-corpus/inbox/Budgets/IVD/clinical gen bio/ClinicaGen Bio LLC_Clinical Trial Agreement_Savanna STI_20MAR2024 (QOLEGAL)_TEMPLATE.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Contract negotiation/Final Version/m-RNA-1647-P301_CTA_PIZepeda_FE executed.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Essential_Documents_for_Conduct_of_Clinical_Trial_Checklist (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Appendices_10Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Appendices_10Sep2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241391 Victor Steven Green 713 743 5791/8. Source/Visit 3/V3 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/VRG Documentation of cost Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/VRG Documentation of cost Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Final Agreement and Budget.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP/[678354-CS6].[3681].[S603].pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/Subject ICFs/D000287019 ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1393,7 +1393,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/VRG Anticip
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/13. Laboratory/Lab Manual/Lab Manual ACA-CAP-002 V02 16Feb2018- Spanish.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/IMVT-1401-3203 (7039177A) – CTA & Budget – PI Ginsburg/IMVT-1401-3201 (7039175A) – CTA & Budget Templates – PI Ginsburg Site #1533/Site to sponsor 1/Carlitos/Additional fees.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/OLD CVs/CV Mendez Signed.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.4 PARA_OA_012_Temp Excursion or Complaint Form V3.0 Sept 2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/4.4 VALIDATION_PROTOCOL_001_Temp Excursion or Complaint Form V3.0 Sept 2025.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Health Decisions Inc/Guardant Health Colorectal cancer/Proposal.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/V8W18/V8W18 Investigator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Moderna PPD/Contract negotiation/m-RNA-1647-P301CTA_17Aug20_final_.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1405,7 +1405,7 @@ N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Re
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/Supplemental Training Documents/Site Training Form.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Novartis - VICTORIAN-INCEPTION STUDY (US-01)/Budget Negociations/1rs Site to sponsor/Documentation of site specific fees..docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/2018-08 Site Budget 24ul2019 for MSA - 183 Ojeas.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/2nd Response/MV40618 V2 Home nursing service-Site to sponsor.1.xlsm,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/2nd Response/VALIDATION_PROTOCOL_002 V2 Home nursing service-Site to sponsor.1.xlsm,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Source Document/Unscheduled Visit/Unsch. Visit Top Sheet.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Boca Bio CRSPTL 00061/AA Boca Bio CRSPTL 00061/POC Beabis Medical History Form/POC Baebies Medical History Form2 (2).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1415,7 +1415,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Commu
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/9. CVs and Licenses/9.1 CVs/NTF Clarifiying Discrepancies in Liset Avalos name..pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/M24-221Covid 19/1rs Response Site to IQVIA/AbbVie_M24_221 _IAB58392__Site Budgets _USA__15June2023_Site Facing.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/Final CTA and Budget/Final Signed/Letter of Idennification.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Amendment # 3/Counter offert/MV40618-Zepeda, Luis-CRA-Budget-A3-Draft to Site 06OCT2022.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Amendment # 3/Counter offert/VALIDATION_PROTOCOL_002-Zepeda, Luis-CRA-Budget-A3-Draft to Site 06OCT2022.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/Advarra Submission Changes.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Clinical Affairs Ojeas Statement of Work 2018-08.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/IPP.zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1452,7 +1452,7 @@ N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/15. Correspondence/Z
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Screen failure/Screen failure Coordinator   Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Abbott/Abbott/AL 23/Zepeda/eReg/5. IRB/5.1 IRB Approvals/Approval_2018-02-13.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241192 Ernest Gamez/8. Source/V6W11/V6W11 Coordinator Source (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/2.1 VALIDATION_PROTOCOL_001-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/UDX CRF 5 Procedure COLO Ver 27JAN21.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/RedQueen_RQ-01-001_US_PI Zepeda_Site 12_PS Template_02AUG2023.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/VRG Study Start-Up Budget.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1462,7 +1462,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241382 Sivestre Salas (SF)/8.Source/Screening Visit/V1 Coordinator Source.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,"validation-corpus/inbox/EOS Download Media - mRNA-1647-P301 - US060-Vilo Research Group, L.L.C - Mar 10, 2026 02 05 58 831 PM GMT+0000/US06000030.pdf",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/~ICF/English Version ICFs/English ICF_Pre Screener_Ver1.0_2018-05-09.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1).zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents (1).zip,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Investigator Earned Money/Dr Zepeda Payments.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Final CTA and Budget/Complete_with_DocuSign_RQ-01-001_US_PI_Zeped.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/3.1 Correspondence With IQVIA/Changes to EDC_2018-08-07.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1473,7 +1473,7 @@ N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/24
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/FINAL Contracts/991 Final Budget.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/Pt Specific Docs/241179 Antonio I Nunez/7. Informed Consent/Text email reminder system ICF.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Obseva Endometriosis/VRG Anticipate Cost Edelweiss2&3.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.4 PARA_OA_012_Prohibited Medication List.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.4 VALIDATION_PROTOCOL_001_Prohibited Medication List.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/Follow up Visit/Follow up  Coordinator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ABBVIE Budget Negociation/M16  066 & 067/Copy of _AbbVie_M16-067_US_Exhibit A_Amd 2_Budget Template_19Mar2018.xlsx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/8. IRB/8.1 Opinions and Approvals/Approval_2019-03-20.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1485,7 +1485,7 @@ N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/ABBVIE/ABBVIE Budget Nego
 N/A,validation-corpus/inbox/Budgets/Pharma/Red Queen Therapeutics _ RQ 01 001 _ US _ PI Zepeda _ Site #12 _ Contract Documents.zip/Sponsor to site counter offert/RedQueen_RQ-01-001_US_PI Zepeda_Site12_PS Tempate_Revised_17AUG2023.doc,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox 1498 COVID Apr 2023/Site 1rs response/1498DSC_CSA Draft_Legal Edits_DSC Responses_TE Response.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/13. Laboratory/NTF ApoA5 multiple missed samples_Acasti Signed_24May2019.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 PARA_OA_012_Pharmacy Manual_NTF - Appendices_10Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,validation-corpus/inbox/OneDrive_1_12-15-2025/2.5 VALIDATION_PROTOCOL_001_Pharmacy Manual_NTF - Appendices_10Sep2025 (1).pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/5. Protocol and Amendments/5.2 Protocol Amendment Signature Page/PSP_signed_2018-03-23.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/OLD Studies/Exact Science/Sponsor to site 2/email.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Source Docs/Template Source Document/V2 Template/V2 Investigator Source.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
@@ -1521,7 +1521,7 @@ N/A,validation-corpus/inbox/AA Clinica Gen Bio (Missy)/AA Clinica Gen Bio (Missy
 N/A,validation-corpus/inbox/Budgets/Biospecimen/Toolbox 1498 COVID Apr 2023/Site 1rs response/1498DSC_CSA Draft (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Allergan/Allergan/Allergan LIN-MD-64/Dr Ojeas/eReg/5. Training Log and CV/CV's/OLD CVs/Jorge Mendez CV 2018 Oct.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Budgets/Pharma/ADAMIS APC400-03 Covance COVID 19/Initial Budget and Contract/Site 1rs Response/VRG Study Start Up Budget.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
-N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech MV40618 flu/Copy of MV40619-Zepeda, Luis-CRA-budget-sponsor to site Aug 15-1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
+N/A,"validation-corpus/inbox/Budgets/Pharma/OLD Studies/Genetech VALIDATION_PROTOCOL_002 flu/Copy of MV40619-Zepeda, Luis-CRA-budget-sponsor to site Aug 15-1.xlsm",UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/AA Toolbox 1573/AA Toolbox 1573/Subject Test Result Source Document V.1.0  18OCT2024 (1).docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/14. Safety and Reporting/Clinical Trial Pregnancy Form Fax Cover Sheet.docx,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet
 N/A,validation-corpus/inbox/Acasti/Acasti/ACA-CAP-002/Zepeda/eReg/3. Study Communications/Newsletters/TRILOGY 2 newsletter 2018-10.pdf,UNPROCESSED,,KEEP_IN_INBOX,Not mapped or processed yet

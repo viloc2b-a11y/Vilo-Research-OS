@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Phase 12C — protocol intake smoke tests.
  * Run: npx tsx scripts/phase12c-intake-smoke.ts
  */
@@ -35,9 +35,9 @@ function main() {
     gate('safety flags no runtime mutation', PROTOCOL_INTAKE_SAFETY.mutates_runtime === false),
   )
 
-  const paraText = loadFixture('para-oa-012-protocol-excerpt.txt')
-  const paraCorpus = adaptPdfExtractedText('para-doc-1', 'STUDY-KOA-001_Protocol.pdf', paraText)
-  const paraCsv = loadFixture('para-oa-012-schedule.csv')
+  const paraText = loadFixture('VALIDATION_PROTOCOL_001-protocol-excerpt.txt')
+  const paraCorpus = adaptPdfExtractedText('para-doc-1', 'STUDY-ALPHA-001_Protocol.pdf', paraText)
+  const paraCsv = loadFixture('VALIDATION_PROTOCOL_001-schedule.csv')
   const paraLines = paraCsv.trim().split('\n')
   const paraHeaders = paraLines[0].split(',')
   const paraRows = paraLines.slice(1).map((line) => {
@@ -57,13 +57,13 @@ function main() {
 
   const frozenAt = '2026-05-22T12:00:00.000Z'
   const para1 = runProtocolIntakePipeline({
-    protocol_id: 'STUDY-KOA-001',
-    protocol_id_hint: 'STUDY-KOA-001',
+    protocol_id: 'STUDY-ALPHA-001',
+    protocol_id_hint: 'STUDY-ALPHA-001',
     corpus: paraCorpus,
     created_at: frozenAt,
   })
   const para2 = runProtocolIntakePipeline({
-    protocol_id: 'STUDY-KOA-001',
+    protocol_id: 'STUDY-ALPHA-001',
     corpus: paraCorpus,
     created_at: frozenAt,
   })
@@ -91,7 +91,7 @@ function main() {
         para1.draft.study_metadata.protocol_number.requires_human_review,
     ),
     gate('draft JSON serializes', serializes),
-    gate('PARA protocol number', meta.protocol_number.value === 'PARA-OA-012'),
+    gate('PARA protocol number', meta.protocol_number.value === 'VALIDATION_PROTOCOL_001'),
     gate('PARA title present', Boolean(meta.protocol_title.value)),
     gate('PARA sponsor present', Boolean(meta.sponsor.value)),
     gate('PARA phase present', Boolean(meta.phase.value)),
@@ -121,12 +121,12 @@ function main() {
     ),
   )
 
-  const mvText = loadFixture('mv40618-protocol-excerpt.txt')
-  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'MV40618_Protocol.pdf', mvText)
-  const mv1 = runProtocolIntakePipeline({ protocol_id: 'MV40618', corpus: mvCorpus })
+  const mvText = loadFixture('VALIDATION_PROTOCOL_002-protocol-excerpt.txt')
+  const mvCorpus = adaptPdfExtractedText('mv-doc-1', 'VALIDATION_PROTOCOL_002_Protocol.pdf', mvText)
+  const mv1 = runProtocolIntakePipeline({ protocol_id: 'VALIDATION_PROTOCOL_002', corpus: mvCorpus })
 
   gates.push(
-    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'MV40618'),
+    gate('MV protocol number', mv1.draft.study_metadata.protocol_number.value === 'VALIDATION_PROTOCOL_002'),
     gate('MV title present', Boolean(mv1.draft.study_metadata.protocol_title.value)),
     gate(
       'MV index/contact roles in visits',

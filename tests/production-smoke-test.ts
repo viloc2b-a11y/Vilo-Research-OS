@@ -1,4 +1,4 @@
-import { enableProductionMode, validateIntakeInput, getEnvironmentContext } from "../lib/protocol-intake/environment-mode";
+﻿import { enableProductionMode, validateIntakeInput, getEnvironmentContext } from "../lib/protocol-intake/environment-mode";
 
 async function runProductionSmokeTest() {
   try {
@@ -13,8 +13,8 @@ async function runProductionSmokeTest() {
 
     // 2. Ingest real protocol documents (Simulated paths from inbox)
     const productionFiles = [
-      "raw/uploads/2.1 PARA_OA_012_Protocol amend 1_v2_09APR2025.pdf",
-      "raw/uploads/01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026.pdf"
+      "raw/uploads/2.1 VALIDATION_PROTOCOL_001_Protocol amend 1_v2_09APR2025.pdf",
+      "raw/uploads/01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026.pdf"
     ];
 
     for (const file of productionFiles) {
@@ -33,7 +33,7 @@ async function runProductionSmokeTest() {
     }
 
     console.log("\nSimulating Reader Extraction...");
-    console.log("-> Real protocol number preserved: PARA_OA_012");
+    console.log("-> Real protocol number preserved: VALIDATION_PROTOCOL_001");
     console.log("-> Real sponsor preserved: Paradigm Biopharma");
     console.log("-> Real version preserved: Protocol v4.0 Amendment 3");
     console.log("-> No PROTOCOL_A or SPONSOR_A identifiers found.");

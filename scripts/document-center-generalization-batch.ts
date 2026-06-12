@@ -16,6 +16,7 @@ import {
   updateProcedureCandidateStatus,
   approveReconciliationSession
 } from '../lib/protocol-intake-reconciliation/reconciliation-actions'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
@@ -25,6 +26,7 @@ function assert(condition: boolean, message: string) {
 }
 
 async function runE2E() {
+  assertProductionSeedAllowed('document-center-generalization-batch')
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {

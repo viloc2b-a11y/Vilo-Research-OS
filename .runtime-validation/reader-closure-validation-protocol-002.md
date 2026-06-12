@@ -1,0 +1,1963 @@
+﻿# reader-closure-VALIDATION_PROTOCOL_002
+
+```json
+{
+  "protocol": "VALIDATION_PROTOCOL_002",
+  "pdf": {
+    "path": "C:\\dev\\vilo-os\\validation-corpus\\inbox\\VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_9.0_16Jun2022.pdf",
+    "size_bytes": 11285890,
+    "page_count": 120,
+    "extraction_method": "docling",
+    "attempted_reader": "docling",
+    "fallback_used": "docling"
+  },
+  "extraction": {
+    "status": "ready",
+    "raw_text_length": 150933,
+    "section_count": 102,
+    "visit_candidate_count": 5,
+    "procedure_candidate_count": 214,
+    "raw_text_preview": "<!-- image -->\n\neCRF COMPLETION GUIDELINES [Template Version No. 6.0]\n\n## VALIDATION_PROTOCOL_002\n\n## eCRF Completion Guidelines\n\nA PHASE IIIB, MULTICENTER, RANDOMIZED, DOUBLE-BLIND, PLACEBOCONTROLLED, CLINICAL EFFICACY STUDY OF Investigational Product B FOR THE REDUCTION OF DIRECT TRANSMISSION OF INFLUENZA FROM OTHERWISE HEALTHY PATIENTS TO HOUSEHOLD CONTACTS\n\nReference WI: WI-PDMA-CDM-004, Annexure 11\n\n## Revision History\n\nThe following table describes the sequential changes made to this document.\n\n|   Version | Effective date   | Updated Section(s)                                                                                                                                                                                           | Reason for Revision                          | Revised by   |\n|-----------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|--------------|\n|      1.00 | 16-MAY-2019      | All                                                                                                                                                                                                          | Initial Version                              | Asha         |\n|       1.1 | 14-May-2020      | 4.8 Onset of IP signs and symptoms (Screening)                                                                                                                                                               | New form and instruction added               | Asha         |\n|       1.1 | 14-May-2020      | 4.31 Adverse Events                                                                                                                                                                                          | New instruction added                        | Asha         |\n|      ",
+    "failure_stage": null,
+    "error_message": null
+  },
+  "sections": [
+    {
+      "id": "e2e4b545-5b72-434c-b094-b56b06a995f9",
+      "title": "eCRF COMPLETION GUIDELINES [Template Version No. 6.0]",
+      "type": "other",
+      "sequence_order": 1
+    },
+    {
+      "id": "456cde60-286a-4f2c-a87d-4e06ff119f57",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 2
+    },
+    {
+      "id": "d30fb989-d77b-417a-9058-698473295fd0",
+      "title": "The following table describes the sequential changes made to this document.",
+      "type": "other",
+      "sequence_order": 3
+    },
+    {
+      "id": "12df7332-d21f-4544-a8be-ecf58bdf29c5",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 4
+    },
+    {
+      "id": "280b1528-564d-4af6-bb49-807e3bad7cf2",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 5
+    },
+    {
+      "id": "c2172c49-3f36-402c-a2df-ad1222e8b02d",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 6
+    },
+    {
+      "id": "f8f3c9ec-a7a2-4e1a-b1f3-7b324eed03b6",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 7
+    },
+    {
+      "id": "c1999856-11d7-486e-9864-c2843b1dc9af",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 8
+    },
+    {
+      "id": "9358a0af-ba53-4266-bba7-8020ee58d5c1",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 9
+    },
+    {
+      "id": "12097cd7-5bac-435c-9d04-3aadaa237824",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 10
+    },
+    {
+      "id": "c2cabc76-da35-4819-a666-2f52f58d261f",
+      "title": "REPORTING DEATH - WHICH ECRF? 118 4.38 INVESTIGATOR SIGNATURE (ADD EVENT) 119",
+      "type": "other",
+      "sequence_order": 11
+    },
+    {
+      "id": "d787413d-01b2-47f3-89f2-e05901e73d49",
+      "title": "To get the study access, please follow the following steps:",
+      "type": "other",
+      "sequence_order": 12
+    },
+    {
+      "id": "a808612d-6454-40d9-96bd-d8c24cd20ba2",
+      "title": "Figure 1: iMedidata account creation page",
+      "type": "other",
+      "sequence_order": 13
+    },
+    {
+      "id": "7c0aec25-9fd7-47dc-aa94-7a6d975c1ddb",
+      "title": "It will direct you to the iMedidata account creation page.",
+      "type": "other",
+      "sequence_order": 14
+    },
+    {
+      "id": "fa085004-4487-47fd-b0fe-f05205827875",
+      "title": "Page 13 of 120",
+      "type": "other",
+      "sequence_order": 15
+    },
+    {
+      "id": "ed558ec8-c9e3-4de9-976a-24aceeba8e94",
+      "title": "Then it will direct you to the iMedidata Sign In page. Please see the next step. 7) Please Log on to the new account.",
+      "type": "other",
+      "sequence_order": 16
+    },
+    {
+      "id": "a6f20c40-f343-4632-98c7-9b11548e5248",
+      "title": "Figure 3: iMedidata Sign In page",
+      "type": "other",
+      "sequence_order": 17
+    },
+    {
+      "id": "cc792ee3-5aae-4ee8-9bec-fea1264c4710",
+      "title": "Enter the username and password and click on Log in, then it will direct us to the below screen (Section 5).",
+      "type": "other",
+      "sequence_order": 18
+    },
+    {
+      "id": "04af6366-f6f8-4656-baa9-30b348711fdc",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 19
+    },
+    {
+      "id": "a59541d7-4e0c-422a-813f-2ffe26b0d634",
+      "title": "Figure 4: iMedidata Terms Of Use",
+      "type": "other",
+      "sequence_order": 20
+    },
+    {
+      "id": "0247cbc2-260d-49a7-93fe-c49049add84a",
+      "title": "Three steps to be followed here:",
+      "type": "other",
+      "sequence_order": 21
+    },
+    {
+      "id": "983708bc-7096-4564-a814-4033c2143d89",
+      "title": "After accepting the Terms and conditions, the account will be activated and the below screen will appear (Section 6).",
+      "type": "other",
+      "sequence_order": 22
+    },
+    {
+      "id": "915d92cc-512d-49ac-bb8c-25b6e33d9f56",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 23
+    },
+    {
+      "id": "86a2a0b4-674b-4578-a51c-bd92f36ce80e",
+      "title": "Figure 5: iMedidata Study invitation",
+      "type": "other",
+      "sequence_order": 24
+    },
+    {
+      "id": "08c0221d-e010-495b-b214-c14cdbb05050",
+      "title": "Figure 6: Study Rave Modules",
+      "type": "other",
+      "sequence_order": 25
+    },
+    {
+      "id": "cffca58c-4fbd-4955-9bcb-c2cd7c8420d6",
+      "title": "Figure 7: Linking Rave account to iMedidata",
+      "type": "other",
+      "sequence_order": 26
+    },
+    {
+      "id": "a45b9912-7f16-49f3-af3b-6dffa5fd3cd6",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 27
+    },
+    {
+      "id": "5915ffed-76ae-42aa-814f-b69d9b605e3b",
+      "title": "All dates must be entered in dd/MMM/yyyy format.",
+      "type": "other",
+      "sequence_order": 28
+    },
+    {
+      "id": "2660b813-4f98-47db-83ed-363980ed2b30",
+      "title": "Example:",
+      "type": "other",
+      "sequence_order": 29
+    },
+    {
+      "id": "d89857ea-fedb-41e9-9ab5-93e76e62d146",
+      "title": "If the date is:",
+      "type": "other",
+      "sequence_order": 30
+    },
+    {
+      "id": "cb129456-39a9-4cac-9bb6-f2c7987a2b04",
+      "title": "Enter:",
+      "type": "other",
+      "sequence_order": 31
+    },
+    {
+      "id": "274ab357-dcce-4241-bf8e-d6911c0017be",
+      "title": "Feb 28, 2013",
+      "type": "other",
+      "sequence_order": 32
+    },
+    {
+      "id": "6be0514f-630a-401c-97ca-ac56ad111e38",
+      "title": "Feb 2013",
+      "type": "other",
+      "sequence_order": 33
+    },
+    {
+      "id": "c55e381a-df8e-45f9-8bdc-be6145e4640f",
+      "title": "Unknown (day and month) in 2013",
+      "type": "other",
+      "sequence_order": 34
+    },
+    {
+      "id": "fe2681af-56d1-4aa3-9896-398e40405f59",
+      "title": "UN UNK 2013",
+      "type": "other",
+      "sequence_order": 35
+    },
+    {
+      "id": "4785ec17-4e61-4109-b3b7-e9afc32f628b",
+      "title": "Time should be recorded using the 24-hour clock (HH:nn).",
+      "type": "other",
+      "sequence_order": 36
+    },
+    {
+      "id": "948ca760-b189-47ac-962f-45d8d61d9d74",
+      "title": "Example:",
+      "type": "other",
+      "sequence_order": 37
+    },
+    {
+      "id": "6c837ba9-05ac-49d0-b7f4-6758a1687a53",
+      "title": "If the time is:",
+      "type": "other",
+      "sequence_order": 38
+    },
+    {
+      "id": "8b150258-cef2-4668-b3b1-4171b50d903d",
+      "title": "Enter:",
+      "type": "other",
+      "sequence_order": 39
+    },
+    {
+      "id": "5cac5573-6799-4536-b2da-b2bc309bab07",
+      "title": "Midnight (today)                       00:00 (next day)",
+      "type": "other",
+      "sequence_order": 40
+    },
+    {
+      "id": "b175e142-f896-4338-916f-bba5ba58fa6d",
+      "title": "asking the reason why the data is unavailable.",
+      "type": "labs",
+      "sequence_order": 41
+    },
+    {
+      "id": "71e5a284-83ee-4df7-9a95-80c60e33f4ed",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 42
+    },
+    {
+      "id": "f5f0a9b0-c2f4-40c2-82f8-6e6e8ff37c9f",
+      "title": "Note: To edit multiple fields in a form at one time, select the pencil icon at the top right of the form.",
+      "type": "other",
+      "sequence_order": 43
+    },
+    {
+      "id": "b9e54af1-3a10-4a25-a6a3-683ddbbb9464",
+      "title": "Figure 9: Date Modification",
+      "type": "other",
+      "sequence_order": 44
+    },
+    {
+      "id": "7189adc8-c696-4ee7-8cd2-1f52322f264e",
+      "title": "Data that has been saved can be changed or edited, by clicking on the Pencil Icon.",
+      "type": "other",
+      "sequence_order": 45
+    },
+    {
+      "id": "4349b2e7-ad4a-48fd-a099-1cd5bd436198",
+      "title": "Figure 8:Data Editing",
+      "type": "other",
+      "sequence_order": 46
+    },
+    {
+      "id": "c6eef948-9252-4c97-972b-2220e8437b88",
+      "title": "Figure 10: Delta Icon (Data Modified)",
+      "type": "other",
+      "sequence_order": 47
+    },
+    {
+      "id": "cfe92b7c-28a9-4f2a-bf20-8db84b3592da",
+      "title": "Keep the use of abbreviations to the minimum, since they are often ambiguous in the context of the rest of the CRF data.",
+      "type": "other",
+      "sequence_order": 48
+    },
+    {
+      "id": "df1f93fe-e3eb-4c5c-a850-4c0b42c7fff0",
+      "title": "Figure 11: Landscape Mode Log Form",
+      "type": "other",
+      "sequence_order": 49
+    },
+    {
+      "id": "29cefe19-90d4-4c9f-8914-29f631bc4dc3",
+      "title": "In Portrait mode log forms, data is entered for each log line on a standard vertical form.",
+      "type": "other",
+      "sequence_order": 50
+    },
+    {
+      "id": "faaa090d-388a-4cc0-a236-81107b334691",
+      "title": "Figure 12: Portrait mode log form",
+      "type": "other",
+      "sequence_order": 51
+    },
+    {
+      "id": "748cec85-2c28-472b-a36c-bfa2f3ad28e1",
+      "title": "If another entry is needed, click on the link 'Add a new Log line' and another log line is available for data entry.",
+      "type": "labs",
+      "sequence_order": 52
+    },
+    {
+      "id": "5440c16a-01cd-42e0-950b-a030eddb0273",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 53
+    },
+    {
+      "id": "20ee1f2a-1661-4692-aaaa-fa2c72ddf23f",
+      "title": "To inactivate the logline, follow the below steps-",
+      "type": "other",
+      "sequence_order": 54
+    },
+    {
+      "id": "73958350-1188-477c-822d-e1158e87bad3",
+      "title": "Please note, the Reason codes from 3 To 9 are only applicable for log lines on Adverse events eCRF.",
+      "type": "safety",
+      "sequence_order": 55
+    },
+    {
+      "id": "6d242a29-e583-4824-9c09-f53500a93112",
+      "title": "Figure 14: Inactivating log lines",
+      "type": "other",
+      "sequence_order": 56
+    },
+    {
+      "id": "f6b2ff00-bb99-4ae4-8b60-b2467dda5ce2",
+      "title": "Figure 15: Selecting the log line and reason for inactivation",
+      "type": "other",
+      "sequence_order": 57
+    },
+    {
+      "id": "cacc3754-a9e5-4c8b-a565-3a651968cc1a",
+      "title": "Figure 16: Inactivated Log line",
+      "type": "other",
+      "sequence_order": 58
+    },
+    {
+      "id": "2c4206ba-a7fb-4835-a990-8df23558cf80",
+      "title": "We can see the 'Inactivated Icon' in the right hand side corner in the same row i.e. 1 st Log line.",
+      "type": "other",
+      "sequence_order": 59
+    },
+    {
+      "id": "67724858-312b-4419-88be-2631abbe46c4",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 60
+    },
+    {
+      "id": "da3837a5-0cc8-4c9d-a9ce-854096ad3037",
+      "title": "To reactivate logline follow the steps below:",
+      "type": "other",
+      "sequence_order": 61
+    },
+    {
+      "id": "ce46fbb9-5a84-4a4c-8c3a-a0cc42d02cfb",
+      "title": "Figure 87: Reactivating Inactivated Log Lines",
+      "type": "other",
+      "sequence_order": 62
+    },
+    {
+      "id": "9fbee3ab-1288-4e32-b9d8-496894680160",
+      "title": "Figure 18: Selecting the Inactivated Log line for Reactivation",
+      "type": "other",
+      "sequence_order": 63
+    },
+    {
+      "id": "65652e03-43ed-42c5-877e-b470ff17ac31",
+      "title": "Figure 19 9: Reactivated Log line",
+      "type": "other",
+      "sequence_order": 64
+    },
+    {
+      "id": "b1e966eb-4974-4ca2-8261-31d4e5e4d641",
+      "title": "required for a subject during a study, they can be added using the 'Add Event' dropdown on the subject homepage.",
+      "type": "other",
+      "sequence_order": 65
+    },
+    {
+      "id": "bdc462ff-306c-4593-92db-1329cf1bd944",
+      "title": "The Add Event feature will be accessible only if:",
+      "type": "other",
+      "sequence_order": 66
+    },
+    {
+      "id": "42a8a9b1-30aa-45fd-8d09-f8dbb3d03061",
+      "title": "Below are the steps to add an additional folder or form:",
+      "type": "other",
+      "sequence_order": 67
+    },
+    {
+      "id": "d4dff657-e419-4d1b-9a8b-09f3f597adb1",
+      "title": "Figure 20: Selecting an Add Event",
+      "type": "other",
+      "sequence_order": 68
+    },
+    {
+      "id": "5225cfe9-1d81-43db-994a-c2c7167b07ec",
+      "title": "To view the current eCRF in PDF format please follow the following steps:",
+      "type": "other",
+      "sequence_order": 69
+    },
+    {
+      "id": "aa596bdd-de11-4533-99c8-54c5d5501dee",
+      "title": "Figure 210: Viewing a CRF in PDF",
+      "type": "other",
+      "sequence_order": 70
+    },
+    {
+      "id": "8ad65d17-8097-417d-8636-297c72f33190",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 71
+    },
+    {
+      "id": "e80c239f-a2d1-4705-8a38-96e83d308347",
+      "title": "Figure 20: New 'Add Event' added",
+      "type": "other",
+      "sequence_order": 72
+    },
+    {
+      "id": "9ef003d8-d746-4fc5-8413-f9425cb188de",
+      "title": "Figure 11: PDF open/save option",
+      "type": "other",
+      "sequence_order": 73
+    },
+    {
+      "id": "4dacba17-7281-4ed8-821d-f0fa982b17c2",
+      "title": "Figure 23: Patient level signature",
+      "type": "other",
+      "sequence_order": 74
+    },
+    {
+      "id": "215b1cce-d4a9-464a-9b09-076a1fc32100",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 75
+    },
+    {
+      "id": "e95e8926-0611-45a9-bcbc-3a48391a3c82",
+      "title": "Figure 24 : Patient level signature",
+      "type": "other",
+      "sequence_order": 76
+    },
+    {
+      "id": "097753d7-b2a9-4b77-a48b-7f49ea6e0b8f",
+      "title": "Figure 12: e-sign credentials",
+      "type": "other",
+      "sequence_order": 77
+    },
+    {
+      "id": "b1fe642b-06b5-4a9f-9b5a-969be94f9d29",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 78
+    },
+    {
+      "id": "984c627c-0dd4-433c-9894-dd76ca55e427",
+      "title": "For age group 5 to 11 years, IP Subjects - 'Blinded Investigational Product B Administration' form will be added.",
+      "type": "ip_management",
+      "sequence_order": 79
+    },
+    {
+      "id": "06862e74-c0db-4d1b-89df-a3fd6eec3e6f",
+      "title": "For age group 12 to 64 years IP Subjects - Study Drug Administration-Investigational Product B form will be added.",
+      "type": "ip_management",
+      "sequence_order": 80
+    },
+    {
+      "id": "be28365e-bddb-45e9-a155-13bfd5fff748",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 81
+    },
+    {
+      "id": "de95eb8e-4aa0-4818-90c0-fe3b44ff6874",
+      "title": "Screening",
+      "type": "visit_schedule",
+      "sequence_order": 82
+    },
+    {
+      "id": "984de400-9957-4265-b0bf-a1f4c9b9ec4a",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 83
+    },
+    {
+      "id": "4befe49f-1eda-4baf-94b2-c70e0f5c7657",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 84
+    },
+    {
+      "id": "c2e292dc-6df4-493c-8240-76c22ff15a28",
+      "title": "reported to the Sponsor immediately (i.e., no more than 24 hours after learning of the event; see Section 5.4.2",
+      "type": "other",
+      "sequence_order": 85
+    },
+    {
+      "id": "020d9e32-4213-4b83-8516-26023f1e320e",
+      "title": "The Outcome of AE should be updated once AE resolves or at the time of final assessment.",
+      "type": "procedure_section",
+      "sequence_order": 86
+    },
+    {
+      "id": "3f059c5f-2f43-442d-82be-88fc95028a83",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 87
+    },
+    {
+      "id": "a96621b5-9297-4536-b0d1-2613d624233b",
+      "title": "In the event that an SAE/AESI needs to be reported and the Rave database is unavailable for",
+      "type": "labs",
+      "sequence_order": 88
+    },
+    {
+      "id": "eff89667-fa7e-4ba6-ba5e-c0d9ab523596",
+      "title": "reporting, then the paper Clinical Trial Serious Adverse Event (SAE) / Adverse Event of Special Interest",
+      "type": "safety",
+      "sequence_order": 89
+    },
+    {
+      "id": "7ec77c81-d4b0-48ec-b3f4-bcbb15f755d8",
+      "title": "Inactivating an Adverse Event",
+      "type": "safety",
+      "sequence_order": 90
+    },
+    {
+      "id": "c1ec84b0-39d1-4267-906d-2ebeed0bdd79",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 91
+    },
+    {
+      "id": "a921e517-0d61-4dbe-bccd-5ef0af411510",
+      "title": "Page 114 of 120",
+      "type": "other",
+      "sequence_order": 92
+    },
+    {
+      "id": "4fb44f9e-d291-4d65-a477-c675457407bd",
+      "title": "Note: Point C to M is notapplicable for HHC",
+      "type": "other",
+      "sequence_order": 93
+    },
+    {
+      "id": "3702e051-eea6-4b98-a2cd-f9af67e08f5a",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 94
+    },
+    {
+      "id": "2cdd030d-df26-46ef-b54e-0f6a2cbe2b49",
+      "title": "If no relevant diagnostic tests or laboratory tests were performed, indicate 'None'.",
+      "type": "labs",
+      "sequence_order": 95
+    },
+    {
+      "id": "e313882f-cccb-47a4-9661-4add7a09039e",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 96
+    },
+    {
+      "id": "5ab6d634-fa33-4a30-ab45-b4ef99a9ef18",
+      "title": "Death should be reported as follow:",
+      "type": "other",
+      "sequence_order": 97
+    },
+    {
+      "id": "34d11b80-9855-4e1d-a3e3-a65c08844dc7",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 98
+    },
+    {
+      "id": "f4094295-4fb5-46d3-bf63-c82b84d4d602",
+      "title": "for the given subject.",
+      "type": "other",
+      "sequence_order": 99
+    },
+    {
+      "id": "9cde8b9b-605f-430d-8088-1095c3f556ad",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 100
+    },
+    {
+      "id": "08dd23d0-5c29-4bd6-96e3-1db01fc74975",
+      "title": "Select one of the option",
+      "type": "other",
+      "sequence_order": 101
+    },
+    {
+      "id": "fbe44499-660c-45be-9053-f363823bf014",
+      "title": "Reference WI: WI-PDMA-CDM-004, Annexure 11",
+      "type": "other",
+      "sequence_order": 102
+    }
+  ],
+  "visits": [
+    {
+      "id": "8c365083-981a-498d-bce6-a17482e8e0fa",
+      "code": null,
+      "name": "Screening",
+      "type": "screening"
+    },
+    {
+      "id": "1aa42d2f-bc82-4a20-bc50-6ee860d5d7f4",
+      "code": "DAY 5",
+      "name": "Day 5",
+      "type": "screening"
+    },
+    {
+      "id": "c4305977-80d0-4de9-b80e-dd3c5b3cc614",
+      "code": "DAY 9",
+      "name": "Day 9",
+      "type": "screening"
+    },
+    {
+      "id": "57e81f85-5e38-4a3e-b94f-4662261914bd",
+      "code": "DAY 3",
+      "name": "Day 3",
+      "type": "screening"
+    },
+    {
+      "id": "7382caa5-2bc0-48a3-88e7-317bd243f372",
+      "code": null,
+      "name": "Follow up",
+      "type": "follow-up"
+    }
+  ],
+  "procedures": [
+    {
+      "id": "2192b6c2-0df9-4938-b0e3-52d2cb6ca9ef",
+      "name": "|   4.0 | 11 Jan 2021   | 3.20 Local Lab Assessments-At Visit& Unscheduled | Instructions updated                                    | Samuel |",
+      "category": "laboratory",
+      "extracted_text": "|   4.0 | 11 Jan 2021   | 3.20 Local Lab Assessments-At Visit& Unscheduled | Instructions updated                                    | Samuel |"
+    },
+    {
+      "id": "df1a3163-d80e-4bee-9c09-5685a272c659",
+      "name": "|       1.1 | 14-May-2020      | 4.31 Adverse Events                                                                                                            ",
+      "category": "safety",
+      "extracted_text": "|       1.1 | 14-May-2020      | 4.31 Adverse Events                                                                                                                                                                                          | New instruction added                        | Asha         |"
+    },
+    {
+      "id": "707e7744-d312-48ac-9bf7-5c4d39e6b48d",
+      "name": "|       2.1 | 14-Oct-2020      | 4.2 Protocol Informed Consent (Screening) Was the Household Contact eligible to participate in the full study? (Note: A full st",
+      "category": "protocol",
+      "extracted_text": "|       2.1 | 14-Oct-2020      | 4.2 Protocol Informed Consent (Screening) Was the Household Contact eligible to participate in the full study? (Note: A full study HHC will participate in all required visits/assessment after screening ): | New field added                              | Asha         |"
+    },
+    {
+      "id": "4db1c12f-20f4-4533-8aa8-9b48be54d384",
+      "name": "|       2.1 | 14-Oct-2020      | 4.15 Vital signs                                                                                                               ",
+      "category": "clinical",
+      "extracted_text": "|       2.1 | 14-Oct-2020      | 4.15 Vital signs                                                                                                                                                                                             | Note added                                   | Asha         |"
+    },
+    {
+      "id": "7ad9e304-4362-4bdc-afc6-fcc274cc4657",
+      "name": "|       2.1 | 14-Oct-2020      | 4.17 Pregnancy Test Local                                                                                                      ",
+      "category": null,
+      "extracted_text": "|       2.1 | 14-Oct-2020      | 4.17 Pregnancy Test Local                                                                                                                                                                                    | Note added                                   | Asha         |"
+    },
+    {
+      "id": "0e7c885c-3024-4a7e-96a5-8779cba6b20c",
+      "name": "|   2.1 | 14-Oct-2020   | 4.18 Sample Collection for Central Laboratory (Screening, Day 3, Day 5, Day 9 and Unscheduled visits)   | Instructions updated   | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.18 Sample Collection for Central Laboratory (Screening, Day 3, Day 5, Day 9 and Unscheduled visits)   | Instructions updated   | Asha   |"
+    },
+    {
+      "id": "a042dac1-26f5-4008-8b3d-e44ab4706236",
+      "name": "|   2.1 | 14-Oct-2020   | 4.19 Local Lab Assessments-Screening (Screening)                                                        | New form added         | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.19 Local Lab Assessments-Screening (Screening)                                                        | New form added         | Asha   |"
+    },
+    {
+      "id": "7159d18e-cdc9-46da-b809-b987c82eac66",
+      "name": "|   2.1 | 14-Oct-2020   | 4.20 Local Lab Assessments-At Visit& Unscheduled                                                        | New form added         | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.20 Local Lab Assessments-At Visit& Unscheduled                                                        | New form added         | Asha   |"
+    },
+    {
+      "id": "39ebcb4c-aae5-47d0-8d49-c150abf0021b",
+      "name": "|   2.1 | 14-Oct-2020   | 4.21 Influenza sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)  | New form               | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.21 Influenza sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)  | New form               | Asha   |"
+    },
+    {
+      "id": "3487d6f2-0f59-4744-b6ab-60dd16ab414f",
+      "name": "|   2.1 | 14-Oct-2020   | 4.22 Sample Collection for Local Laboratory (Screening, Day 5, Day 9 and Unscheduled visits)            | Instuction added       | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.22 Sample Collection for Local Laboratory (Screening, Day 5, Day 9 and Unscheduled visits)            | Instuction added       | Asha   |"
+    },
+    {
+      "id": "7c7ce87d-da09-420c-8ca3-fa8e4da8717b",
+      "name": "|   2.1 | 14-Oct-2020   | 4.24 SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | New form               | Ash",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.24 SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | New form               | Asha   |"
+    },
+    {
+      "id": "499d02c2-759e-4504-a43c-9eb41afe194f",
+      "name": "|   2.1 | 14-Oct-2020   | 4.26 Combination influenza and SARS-CoV- 2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | N",
+      "category": "laboratory",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.26 Combination influenza and SARS-CoV- 2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | New form                                  | Asha   |"
+    },
+    {
+      "id": "5016f4ee-38c8-4d1d-a167-565119754c7b",
+      "name": "|   2.1 | 14-Oct-2020   | 4.29 Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit)                    | I",
+      "category": "questionnaire",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.29 Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit)                    | Instruction added                         | Asha   |"
+    },
+    {
+      "id": "e51116cc-32df-4714-bc33-64718ae8ef31",
+      "name": "|   2.1 | 14-Oct-2020   | 4.38 Adverse Events                                                                                                                | N",
+      "category": "safety",
+      "extracted_text": "|   2.1 | 14-Oct-2020   | 4.38 Adverse Events                                                                                                                | New fields added                          | Asha   |"
+    },
+    {
+      "id": "01a04659-701c-4dc1-8a02-8e760f60f03c",
+      "name": "Duplicate - already reported",
+      "category": null,
+      "extracted_text": "2. Duplicate - already reported"
+    },
+    {
+      "id": "64aa3b0b-a4c4-4e07-ac32-ee6ef6a7ec0b",
+      "name": "|   4.0 | 11 Jan 2021   | 3.19 Local Lab Assessments-Screening             | Instructions updated                                    | Samuel |",
+      "category": "laboratory",
+      "extracted_text": "|   4.0 | 11 Jan 2021   | 3.19 Local Lab Assessments-Screening             | Instructions updated                                    | Samuel |"
+    },
+    {
+      "id": "341965f9-7aa2-49f4-9856-771590dcbfe4",
+      "name": "|   4.0 | 27-Jan-2021   | 3.34 Concomitant Medications (Subject Level)     | SARS- COVID-19 Vaccination recording instructions added | Samuel |",
+      "category": "safety",
+      "extracted_text": "|   4.0 | 27-Jan-2021   | 3.34 Concomitant Medications (Subject Level)     | SARS- COVID-19 Vaccination recording instructions added | Samuel |"
+    },
+    {
+      "id": "41df39b4-b4ff-4eaa-8c16-9ae345e86f8c",
+      "name": "|   5.0 | 07-Apr-2021   | 3.19 Local Lab Assessments-Screening             | Instructions updated                                    | Asha   |",
+      "category": "laboratory",
+      "extracted_text": "|   5.0 | 07-Apr-2021   | 3.19 Local Lab Assessments-Screening             | Instructions updated                                    | Asha   |"
+    },
+    {
+      "id": "4e55b1bb-862e-49d1-b958-fb0f6d4716e4",
+      "name": "|   6.0 | 05-May-2021   | 3.20 Local Lab Assessments-At Visit& Unscheduled | Instructions updated                                    | Asha   |",
+      "category": "laboratory",
+      "extracted_text": "|   6.0 | 05-May-2021   | 3.20 Local Lab Assessments-At Visit& Unscheduled | Instructions updated                                    | Asha   |"
+    },
+    {
+      "id": "615b18bd-b3de-44a8-974c-acba91837454",
+      "name": "|   6.1 | 26-Jul-2021   | 3.19 Local Lab Assessments-Screening                         | Instructions updated                                 | Asha   |",
+      "category": "laboratory",
+      "extracted_text": "|   6.1 | 26-Jul-2021   | 3.19 Local Lab Assessments-Screening                         | Instructions updated                                 | Asha   |"
+    },
+    {
+      "id": "a1a83675-d942-427a-8f16-a399f51e7bdf",
+      "name": "|   7.0 | 05-Oct-2021   | 3.36 Adverse Event                                           | Updated Inactivating an Adverse Event                | Aman   |",
+      "category": "safety",
+      "extracted_text": "|   7.0 | 05-Oct-2021   | 3.36 Adverse Event                                           | Updated Inactivating an Adverse Event                | Aman   |"
+    },
+    {
+      "id": "a27f3d53-4d37-475c-9822-a59e79b5a2e0",
+      "name": "|   8.0 | 30-Nov-2021   | 3.19 Local Lab Assessments- Screening                        | Instructions and case scenarios updated              | Aman   |",
+      "category": "laboratory",
+      "extracted_text": "|   8.0 | 30-Nov-2021   | 3.19 Local Lab Assessments- Screening                        | Instructions and case scenarios updated              | Aman   |"
+    },
+    {
+      "id": "98552e82-397a-4b55-a94c-ba08c2d9f44b",
+      "name": "|   8.0 | 8-DEC-2021    | 3.20 Local Lab Assessments- At Visit and Unscheduled         | Instructions updated by adding a Note.               | Aman   |",
+      "category": "laboratory",
+      "extracted_text": "|   8.0 | 8-DEC-2021    | 3.20 Local Lab Assessments- At Visit and Unscheduled         | Instructions updated by adding a Note.               | Aman   |"
+    },
+    {
+      "id": "bfc14bd1-3b6e-47fc-84ba-5d941297d135",
+      "name": "|   9.0 | 01Jun2022     | 3.39 Palatability and Acceptability Assessment of Study Drug | Instructions and new eCRF added (Protocol version 4) | Aman   |",
+      "category": null,
+      "extracted_text": "|   9.0 | 01Jun2022     | 3.39 Palatability and Acceptability Assessment of Study Drug | Instructions and new eCRF added (Protocol version 4) | Aman   |"
+    },
+    {
+      "id": "c4058a92-26bc-403e-92bb-e216a304deec",
+      "name": "|   9.0 | 01Jun2022   | 2.6 NOTE-2 has been updated ( HHCs will measure their temperature daily at bedtime and any time they feel feverish. It has been clarifie",
+      "category": null,
+      "extracted_text": "|   9.0 | 01Jun2022   | 2.6 NOTE-2 has been updated ( HHCs will measure their temperature daily at bedtime and any time they feel feverish. It has been clarified that on the Day 9 (end of study) visit, body temperature must be measured during the visit either at the study site or at home as it would not be possible to take the bedtime measurement as HHCs would likely complete the Day 9 (end of study) visit earlier in the day.) | NOTE 2 has been updated                                                                                                                          | Aman   |"
+    },
+    {
+      "id": "b626e536-2257-42b5-ac3a-66ea1b2537d6",
+      "name": "|   9.0 | 01JUN2022   | 2.2 Observation period- III Day 9 B. Observatory period for HHC - II Day 9                                                              ",
+      "category": "safety",
+      "extracted_text": "|   9.0 | 01JUN2022   | 2.2 Observation period- III Day 9 B. Observatory period for HHC - II Day 9                                                                                                                                                                                                                                                                                                                                             | Note: Per protocol section 5.3.1 -D21 Safety Follow up Visit instruction has been updated Note: In scenarios where the Day 9 visit did not occur | Aman   |"
+    },
+    {
+      "id": "79f54d9a-7371-4dfa-a454-566358b6db92",
+      "name": "|     |           |                               | due to early discontinuation or any other reason, then the Subject disposition eCRF is expected to be record",
+      "category": null,
+      "extracted_text": "|     |           |                               | due to early discontinuation or any other reason, then the Subject disposition eCRF is expected to be recorded in the same folder i.e., Day 9 Visit/Early discontinuation Visit. _ on Page 43 and 53   |         |"
+    },
+    {
+      "id": "91f2c723-ce1e-4466-bbdf-8465d0cf6e19",
+      "name": "| 9.0 | 08Jun2022 | 4.31 Subject Disposition eCRF | A Note has been added for Index patient aged 5 to 11 regarding managing of 'Date Subject completed' for pati",
+      "category": "safety",
+      "extracted_text": "| 9.0 | 08Jun2022 | 4.31 Subject Disposition eCRF | A Note has been added for Index patient aged 5 to 11 regarding managing of 'Date Subject completed' for patients who complete 21Day Safety Follow up                                                   | Krishna |"
+    },
+    {
+      "id": "8d366586-70e5-48b7-9735-3778b2908d91",
+      "name": "| ●                                                                                           | Pregnancy Test Local                                            ",
+      "category": null,
+      "extracted_text": "| ●                                                                                           | Pregnancy Test Local                                                                        | 33                                         |                                            |"
+    },
+    {
+      "id": "5404f969-d81b-4e21-ac21-796e8cd00f79",
+      "name": "| ●                                                                                           | Symptom assessment (HHC > = 2 to less than 12 years old)        ",
+      "category": null,
+      "extracted_text": "| ●                                                                                           | Symptom assessment (HHC > = 2 to less than 12 years old)                                    | 35                                         |                                            |"
+    },
+    {
+      "id": "6f5666fb-8019-4327-b73b-631f7c5c2bc9",
+      "name": "| ● Symptom assessment (HHC > =12 years                                                       | ● Symptom assessment (HHC > =12 years                           ",
+      "category": null,
+      "extracted_text": "| ● Symptom assessment (HHC > =12 years                                                       | ● Symptom assessment (HHC > =12 years                                                       | 37                                         |                                            |"
+    },
+    {
+      "id": "5d2da537-fd4d-4439-ae09-28f95b490d78",
+      "name": "| I) Day 3 Visit                                                                              | I) Day 3 Visit                                                  ",
+      "category": null,
+      "extracted_text": "| I) Day 3 Visit                                                                              | I) Day 3 Visit                                                                              | I) Day 3 Visit                             |                                            |"
+    },
+    {
+      "id": "eb500600-284f-4798-adb0-cacfd5eac4ac",
+      "name": "| ● Sample Collection for Central Laboratory                                                  | ● Sample Collection for Central Laboratory                      ",
+      "category": "laboratory",
+      "extracted_text": "| ● Sample Collection for Central Laboratory                                                  | ● Sample Collection for Central Laboratory                                                  | 39                                         |                                            |"
+    },
+    {
+      "id": "235d7623-e014-4bc3-b25f-0acd5cd5e59f",
+      "name": "| ● EQ-5D-5L to Measure II) Day 5 Visit                                                       | ● EQ-5D-5L to Measure II) Day 5 Visit                           ",
+      "category": null,
+      "extracted_text": "| ● EQ-5D-5L to Measure II) Day 5 Visit                                                       | ● EQ-5D-5L to Measure II) Day 5 Visit                                                       | 40                                         |                                            |"
+    },
+    {
+      "id": "a0b6680d-3e6d-4106-89ab-b72ecf39218a",
+      "name": "| III) Day 9 Visit/Early Discontinuation Visit                                                | III) Day 9 Visit/Early Discontinuation Visit                    ",
+      "category": null,
+      "extracted_text": "| III) Day 9 Visit/Early Discontinuation Visit                                                | III) Day 9 Visit/Early Discontinuation Visit                                                | 41                                         |                                            |"
+    },
+    {
+      "id": "f9e258b4-15b0-44da-abdd-c19955d095b7",
+      "name": "| ● Sample Collection for Central                                                             | ● Sample Collection for Central                                 ",
+      "category": "laboratory",
+      "extracted_text": "| ● Sample Collection for Central                                                             | ● Sample Collection for Central                                                             | 42                                         |                                            |"
+    },
+    {
+      "id": "b24b3be3-d9f4-4d81-b29c-7138b001de33",
+      "name": "| Laboratory (All ● Work Productivity and Activity Impairment Questionnaire                   | Laboratory (All ● Work Productivity and Activity Impairment Ques",
+      "category": "laboratory",
+      "extracted_text": "| Laboratory (All ● Work Productivity and Activity Impairment Questionnaire                   | Laboratory (All ● Work Productivity and Activity Impairment Questionnaire                   | Questions 42                               |                                            |"
+    },
+    {
+      "id": "cd35df35-5820-4420-94f6-d11230dde99a",
+      "name": "| I) Day 5 Visit                                                                              | I) Day 5 Visit                                                  ",
+      "category": null,
+      "extracted_text": "| I) Day 5 Visit                                                                              | I) Day 5 Visit                                                                              | 47                                         |                                            |"
+    },
+    {
+      "id": "173a7ba2-e9f4-4a56-9d00-7a137dde4101",
+      "name": "| ● Symptom assessment (HHC > = 2 to less                                                     | ● Symptom assessment (HHC > = 2 to less                         ",
+      "category": null,
+      "extracted_text": "| ● Symptom assessment (HHC > = 2 to less                                                     | ● Symptom assessment (HHC > = 2 to less                                                     | 47                                         |                                            |"
+    },
+    {
+      "id": "1d0ff31c-6b6b-498d-a831-c138ad3378e0",
+      "name": "| ● Symptom assessment (HHC > = 12 ● Sample Collection for Central Laboratory                 | ● Symptom assessment (HHC > = 12 ● Sample Collection for Central",
+      "category": "laboratory",
+      "extracted_text": "| ● Symptom assessment (HHC > = 12 ● Sample Collection for Central Laboratory                 | ● Symptom assessment (HHC > = 12 ● Sample Collection for Central Laboratory                 | 47                                         |                                            |"
+    },
+    {
+      "id": "3824b49f-26b0-4319-84ed-9c554bd77531",
+      "name": "| II) Day 9 Visit/Early Discontinuation Visit ● Symptom assessment (HHC > = 2 to less than 12 | II) Day 9 Visit/Early Discontinuation Visit ● Symptom assessment",
+      "category": null,
+      "extracted_text": "| II) Day 9 Visit/Early Discontinuation Visit ● Symptom assessment (HHC > = 2 to less than 12 | II) Day 9 Visit/Early Discontinuation Visit ● Symptom assessment (HHC > = 2 to less than 12 | 49                                         |                                            |"
+    },
+    {
+      "id": "8b15fd20-e68a-42f4-9207-44b08c0182e1",
+      "name": "| years old)-At Visit & Unscheduled                                                           | years old)-At Visit & Unscheduled                               ",
+      "category": null,
+      "extracted_text": "| years old)-At Visit & Unscheduled                                                           | years old)-At Visit & Unscheduled                                                           | 50                                         |                                            |"
+    },
+    {
+      "id": "20a32333-ddf6-4eb7-98ac-9156738abd79",
+      "name": "| ●                                                                                                                                                             ",
+      "category": null,
+      "extracted_text": "| ●                                                                                                                                                                                                        | ●                                                                                                                                                                                                        | Symptom assessment (HHC > = 12 years old)-At Visit & Unscheduled                                                                                                                                         | 50      |"
+    },
+    {
+      "id": "e5dbdb1f-d608-4d83-8bd3-28e54e48525f",
+      "name": "| 2.3 ADVERSE EVENT                                                                                                                                             ",
+      "category": "laboratory",
+      "extracted_text": "| 2.3 ADVERSE EVENT                                                                                                                                                                                        | 2.3 ADVERSE EVENT                                                                                                                                                                                        | ● Sample Collection for Central Laboratory                                                                                                                                                               | 50 52   |"
+    },
+    {
+      "id": "c6ab6719-7e1b-440b-a325-68f6d18632f8",
+      "name": "| 2.4 CONCOMITANT MEDICATIONS                                                                                                                                   ",
+      "category": "safety",
+      "extracted_text": "| 2.4 CONCOMITANT MEDICATIONS                                                                                                                                                                              | 2.4 CONCOMITANT MEDICATIONS                                                                                                                                                                              | 2.4 CONCOMITANT MEDICATIONS                                                                                                                                                                              | 54      |"
+    },
+    {
+      "id": "e364aa0c-9af9-4ea3-a9c5-50293c3c00c7",
+      "name": "| 2.6 TEMPERATURE ASSESSMENT (HHC)                                                                                                                              ",
+      "category": null,
+      "extracted_text": "| 2.6 TEMPERATURE ASSESSMENT (HHC)                                                                                                                                                                         | 2.6 TEMPERATURE ASSESSMENT (HHC)                                                                                                                                                                         | 2.6 TEMPERATURE ASSESSMENT (HHC)                                                                                                                                                                         | 55      |"
+    },
+    {
+      "id": "59e458a6-20a2-44c5-ac5d-590e8469e1c6",
+      "name": "Site monitor should fill Account Request https://ravesupportportal.roche.com/ for the study access with all the required details",
+      "category": null,
+      "extracted_text": "1. Site monitor should fill Account Request https://ravesupportportal.roche.com/ for the study access with all the required details"
+    },
+    {
+      "id": "571fa70e-fa60-4584-a3b3-cc7c13a1b8c0",
+      "name": "Users will receive an invitation from the administrator (iMedidata-Notification@mdsol.com) to join the Study VALIDATION_PROTOCOL_002 on iMedidata.",
+      "category": null,
+      "extracted_text": "1. Users will receive an invitation from the administrator (iMedidata-Notification@mdsol.com) to join the Study VALIDATION_PROTOCOL_002 on iMedidata."
+    },
+    {
+      "id": "92439b7e-77a3-4ee6-94c1-e07be45ececc",
+      "name": "While activating the iMedidata account please follow the instructions that are provided in the activation page.",
+      "category": null,
+      "extracted_text": "2. While activating the iMedidata account please follow the instructions that are provided in the activation page."
+    },
+    {
+      "id": "1a72f29f-0a1b-4772-a88a-e4f3ad27af70",
+      "name": "Activation notifications expire after 30 days of email receipt.",
+      "category": null,
+      "extracted_text": "3. Activation notifications expire after 30 days of email receipt."
+    },
+    {
+      "id": "7e4b5faa-9973-437b-908d-edb5b3af3ae0",
+      "name": "Make sure this email is not in a Junk or Spam mailbox .",
+      "category": null,
+      "extracted_text": "4. Make sure this email is not in a Junk or Spam mailbox ."
+    },
+    {
+      "id": "f7a43f74-a968-4a00-9bfe-05c2b3c223da",
+      "name": "To activate the account, click on 'Take me to iMedidata to activate my account'.",
+      "category": null,
+      "extracted_text": "5. To activate the account, click on 'Take me to iMedidata to activate my account'."
+    },
+    {
+      "id": "65304170-706f-4bba-886f-941098a4d5d4",
+      "name": "Non-AE: Non-reportable per protocol - other",
+      "category": null,
+      "extracted_text": "3. Non-AE: Non-reportable per protocol - other"
+    },
+    {
+      "id": "c9f9eb5e-f130-48c2-94e3-f326e3374610",
+      "name": "Applicable for the users who do not have access to iMedidata before. For the users who already have access to Rave through iMedidata corresponding instructions.",
+      "category": null,
+      "extracted_text": "NOTE: Applicable for the users who do not have access to iMedidata before. For the users who already have access to Rave through iMedidata corresponding instructions."
+    },
+    {
+      "id": "e1ee36fe-c5a1-43c1-95f9-616692ae78b0",
+      "name": "a) Read the iMedidata 'Terms of Use'.",
+      "category": null,
+      "extracted_text": "- a) Read the iMedidata 'Terms of Use'."
+    },
+    {
+      "id": "2e8d5c99-947c-427e-81e8-5ff37eb05710",
+      "name": "b) Enter the Username and Password",
+      "category": null,
+      "extracted_text": "- b) Enter the Username and Password"
+    },
+    {
+      "id": "21df8cc3-5a09-4ae2-a27d-48a94348d471",
+      "name": "c) Then click on 'I Agree' button to activate the account.",
+      "category": null,
+      "extracted_text": "- c) Then click on 'I Agree' button to activate the account."
+    },
+    {
+      "id": "c7244e0c-d5e5-433a-8e8d-4db899ff4030",
+      "name": "Feb 2013",
+      "category": null,
+      "extracted_text": "28 Feb 2013"
+    },
+    {
+      "id": "1eb36ca9-0755-464e-86f5-95fba9cb8883",
+      "name": "When a date (Month or Day) is unknown, you may enter partial date by applying 'unknown codes' as shown in the example above. For unknown Days enter ' UN ' on the",
+      "category": null,
+      "extracted_text": "1. When a date (Month or Day) is unknown, you may enter partial date by applying 'unknown codes' as shown in the example above. For unknown Days enter ' UN ' on the"
+    },
+    {
+      "id": "97a87656-ca01-44d0-b00e-b2f7f3a3ad8c",
+      "name": "Click the 'Save' button.",
+      "category": null,
+      "extracted_text": "2. Click the 'Save' button."
+    },
+    {
+      "id": "734e9c6a-c94d-4bf0-ac40-d6048a780a06",
+      "name": "A date field where a full date is required, a user cannot enter 'UN' for day and select 'UNK' for month in the date field. Partial dates can be entered for histo",
+      "category": null,
+      "extracted_text": "Note: A date field where a full date is required, a user cannot enter 'UN' for day and select 'UNK' for month in the date field. Partial dates can be entered for histo"
+    },
+    {
+      "id": "59f21c6c-412e-466e-9df8-3c02049b19ca",
+      "name": "Note: A date field where a full date is required, a user cannot enter 'UN' for day and select 'UNK' for month in the date field. Partial dates can be entered fo",
+      "category": null,
+      "extracted_text": "Note: A date field where a full date is required, a user cannot enter 'UN' for day and select 'UNK' for month in the date field. Partial dates can be entered for historical dates (e.g. Medical history) and not for current dates (e.g. Visit date, AE start date)"
+    },
+    {
+      "id": "5fe240cf-98cd-4ccc-94f5-2c307f74f14c",
+      "name": "Enter  'UNK,  ND,  N/A,  NA'  into  the  field  that  requires  data  where  no  data  is  available. However texts like 'UNK1, UK, N.A., NA1' or text such as 'M",
+      "category": "laboratory",
+      "extracted_text": "1. Enter  'UNK,  ND,  N/A,  NA'  into  the  field  that  requires  data  where  no  data  is  available. However texts like 'UNK1, UK, N.A., NA1' or text such as 'M"
+    },
+    {
+      "id": "3cab2307-d1f0-442c-9ae5-e0237e14ca18",
+      "name": "Upon successfully saving the form, the field is displayed with the missing code. If the 'UNK, ND, N/A, NA' is entered in the mandatory field, the query will be i",
+      "category": null,
+      "extracted_text": "- Upon successfully saving the form, the field is displayed with the missing code. If the 'UNK, ND, N/A, NA' is entered in the mandatory field, the query will be i"
+    },
+    {
+      "id": "3bcf39f7-6d2d-4b73-9048-eba46a4ec4b9",
+      "name": "Open a form that has to be edited.",
+      "category": null,
+      "extracted_text": "1. Open a form that has to be edited."
+    },
+    {
+      "id": "407d2c3c-7359-4088-b11e-11d37cfd4eab",
+      "name": "Click on the Edit Pencil Icon on the right of the data field.",
+      "category": null,
+      "extracted_text": "2. Click on the Edit Pencil Icon on the right of the data field."
+    },
+    {
+      "id": "a1dd425a-8b71-4b67-9e8d-f24707e4c6c5",
+      "name": "To edit multiple fields in a form at one time, select the pencil icon at the top right of the form.",
+      "category": null,
+      "extracted_text": "Note: To edit multiple fields in a form at one time, select the pencil icon at the top right of the form."
+    },
+    {
+      "id": "54986a16-925b-4db3-bd87-04a0bbb2b7b3",
+      "name": "Modify the data and select the reason for data modification.",
+      "category": null,
+      "extracted_text": "3. Modify the data and select the reason for data modification."
+    },
+    {
+      "id": "2e278b88-e4cb-4dba-8d86-1ddf171d5cb1",
+      "name": "Click the 'Save' button to save changes.",
+      "category": null,
+      "extracted_text": "4. Click the 'Save' button to save changes."
+    },
+    {
+      "id": "e73c0dbc-2147-419d-bad2-1ab3e48654d4",
+      "name": "When a field is changed after Initial submission, a delta (small yellow triangle) icon appears at the data point to indicate that a change has been made.",
+      "category": null,
+      "extracted_text": "5. When a field is changed after Initial submission, a delta (small yellow triangle) icon appears at the data point to indicate that a change has been made."
+    },
+    {
+      "id": "355e7684-688c-4f9c-a241-c1bd66cf926e",
+      "name": "Enter data in the first row.",
+      "category": null,
+      "extracted_text": "1. Enter data in the first row."
+    },
+    {
+      "id": "4378a472-6097-49c1-8141-517be5949509",
+      "name": "As needed, enter additional log lines by clicking the 'Add a new log line' link.",
+      "category": null,
+      "extracted_text": "2. As needed, enter additional log lines by clicking the 'Add a new log line' link."
+    },
+    {
+      "id": "5ab6f8e8-b8e0-4173-ac2d-dfcbd706b906",
+      "name": "A new log line opens for data entry.",
+      "category": null,
+      "extracted_text": "3. A new log line opens for data entry."
+    },
+    {
+      "id": "50dc3309-2f1e-49b3-baa4-94746dce5f26",
+      "name": "Entered in error - patient did not have the data/ AE event",
+      "category": null,
+      "extracted_text": "1. Entered in error - patient did not have the data/ AE event"
+    },
+    {
+      "id": "37588ffd-5502-4e2a-8d5d-6f6ccca420df",
+      "name": "AE only: event deleted since it was replaced by final diagnosis",
+      "category": null,
+      "extracted_text": "4. AE only: event deleted since it was replaced by final diagnosis"
+    },
+    {
+      "id": "79794f6c-7fc7-4e79-a9e0-e64084cf1fb2",
+      "name": "AE only: non-reportable per protocol-event due to disease progression",
+      "category": null,
+      "extracted_text": "5. AE only: non-reportable per protocol-event due to disease progression"
+    },
+    {
+      "id": "32ce1f38-3c12-4d85-b2cf-e6c2079ba105",
+      "name": "AE only: non-reportable per protocol-event outside protocol reporting period",
+      "category": null,
+      "extracted_text": "6. AE only: non-reportable per protocol-event outside protocol reporting period"
+    },
+    {
+      "id": "4267dbaa-912d-425b-9fd9-5f06906b8944",
+      "name": "AE only: non-reportable per protocol-elective hospitalization",
+      "category": null,
+      "extracted_text": "7. AE only: non-reportable per protocol-elective hospitalization"
+    },
+    {
+      "id": "4ce09f06-87c0-4e54-b76f-ed03cc6a52d6",
+      "name": "AE only: Patient withdrew consent for the study",
+      "category": null,
+      "extracted_text": "8. AE only: Patient withdrew consent for the study"
+    },
+    {
+      "id": "d780ba1d-0b33-410b-8711-305985a410a9",
+      "name": "AE only: non-reportable per protocol-event prior to first dose of study medication.",
+      "category": null,
+      "extracted_text": "9. AE only: non-reportable per protocol-event prior to first dose of study medication."
+    },
+    {
+      "id": "b65b9221-cfaf-45e0-9f9d-8c49db91a7e0",
+      "name": "As a general rule, under no circumstances should CRAs (or any other representative of the sponsor, e.g. CDM) inactivate eCRFs which contain data. Any inactivatio",
+      "category": null,
+      "extracted_text": "Note: As a general rule, under no circumstances should CRAs (or any other representative of the sponsor, e.g. CDM) inactivate eCRFs which contain data. Any inactivatio"
+    },
+    {
+      "id": "f485d8b7-cfb7-4674-b07a-2c7cbca4af62",
+      "name": "Click the Reactivate Page link.",
+      "category": null,
+      "extracted_text": "1. Click the Reactivate Page link."
+    },
+    {
+      "id": "d1e6e35e-5a7a-472d-964b-d4053a1f833b",
+      "name": "Select the inactivated logline from the drop down and enter the reason as 'Act - Logline inactivated incorrectly'.",
+      "category": null,
+      "extracted_text": "2. Select the inactivated logline from the drop down and enter the reason as 'Act - Logline inactivated incorrectly'."
+    },
+    {
+      "id": "9376cf6c-2c36-4286-a725-7f1334a997ed",
+      "name": "Click the 'Reactivate' button and click on 'Save'. The page will reload with the selected line once again active.",
+      "category": null,
+      "extracted_text": "3. Click the 'Reactivate' button and click on 'Save'. The page will reload with the selected line once again active."
+    },
+    {
+      "id": "7e4f6ffc-9c98-4c51-ac82-bf493699f33b",
+      "name": "i. There are additional/optional matrixes to be added to the default matrix of the study",
+      "category": null,
+      "extracted_text": "- i. There are additional/optional matrixes to be added to the default matrix of the study"
+    },
+    {
+      "id": "72c9b5f8-96a9-47ee-b3c1-a702c22b8146",
+      "name": "ii. A set of folder/forms is required outside the realm of a typical study that are not contained within the default matrix; for example an unscheduled visit.",
+      "category": null,
+      "extracted_text": "- ii. A set of folder/forms is required outside the realm of a typical study that are not contained within the default matrix; for example an unscheduled visit."
+    },
+    {
+      "id": "566c4e4b-bce1-4e92-b232-90670951fd88",
+      "name": "- ii. A set of folder/forms is required outside the realm of a typical study that are not contained within the default matrix; for example an unscheduled visit.",
+      "category": null,
+      "extracted_text": "- ii. A set of folder/forms is required outside the realm of a typical study that are not contained within the default matrix; for example an unscheduled visit."
+    },
+    {
+      "id": "91409e0d-23ae-4adc-a2ba-c5c45c7ecf8a",
+      "name": "i. Select the matrix to be added from the Add Event dropdown menu, then click on 'Add' button.",
+      "category": null,
+      "extracted_text": "- i. Select the matrix to be added from the Add Event dropdown menu, then click on 'Add' button."
+    },
+    {
+      "id": "99107569-9cdf-4b54-bd45-33f08f6eac2f",
+      "name": "ii. Upon saving, the new matrix is added in the sidebar",
+      "category": null,
+      "extracted_text": "- ii. Upon saving, the new matrix is added in the sidebar"
+    },
+    {
+      "id": "d7ef2d40-9421-4eea-8bda-903d20b81ca9",
+      "name": "Open the required page in RAVE and scroll to the bottom of the page and locate a link for 'View PDF'",
+      "category": null,
+      "extracted_text": "1. Open the required page in RAVE and scroll to the bottom of the page and locate a link for 'View PDF'"
+    },
+    {
+      "id": "e149cc5c-e103-4638-902c-910ad0b50fc2",
+      "name": "Hold  the  control  (ctrl)  key  and  click  on  the  link.  (Please  hold  the  control  key  till  the  PDF  is displayed)",
+      "category": null,
+      "extracted_text": "2. Hold  the  control  (ctrl)  key  and  click  on  the  link.  (Please  hold  the  control  key  till  the  PDF  is displayed)"
+    },
+    {
+      "id": "774a8452-7607-464f-934b-c8695c883b45",
+      "name": "When presented with an option to Open or to save the PDF, please select an appropriate option",
+      "category": null,
+      "extracted_text": "3. When presented with an option to Open or to save the PDF, please select an appropriate option"
+    },
+    {
+      "id": "72c5da95-89ce-4017-89e1-7a066a96c49a",
+      "name": "Click on the 'Sign and Save' button at home page of subject's eCRF.",
+      "category": null,
+      "extracted_text": "1. Click on the 'Sign and Save' button at home page of subject's eCRF."
+    },
+    {
+      "id": "0cb63130-01f5-4194-b946-97bfcf1e404b",
+      "name": "Enter the Rave Password into 'Password' field.",
+      "category": null,
+      "extracted_text": "2. Enter the Rave Password into 'Password' field."
+    },
+    {
+      "id": "f0508de3-5c6a-41b0-a0a0-6ea36494711b",
+      "name": "Click on 'Sign and Save'.",
+      "category": null,
+      "extracted_text": "3. Click on 'Sign and Save'."
+    },
+    {
+      "id": "82af6ee9-ca5d-4f63-b6cd-db7d67379a6a",
+      "name": "Upon submission, the electronic signature is captured. The signature transaction can be viewed in the audit trail.",
+      "category": null,
+      "extracted_text": "4. Upon submission, the electronic signature is captured. The signature transaction can be viewed in the audit trail."
+    },
+    {
+      "id": "8f114a18-a6b9-4854-bc0d-1a9646433d74",
+      "name": "Click on the 'Sign and Save' button at bottom of eCRF.",
+      "category": null,
+      "extracted_text": "1. Click on the 'Sign and Save' button at bottom of eCRF."
+    },
+    {
+      "id": "bfdc52d4-0835-4ee5-a265-45c2107cb63d",
+      "name": "Screening",
+      "category": null,
+      "extracted_text": "- Screening"
+    },
+    {
+      "id": "3b6100bb-d8b6-42e5-8053-0a1c647a891f",
+      "name": "Adverse Events",
+      "category": "safety",
+      "extracted_text": "- Adverse Events"
+    },
+    {
+      "id": "4f58ca0c-90cf-4017-bf69-791d53d4d91c",
+      "name": "Concomitant Medications",
+      "category": "safety",
+      "extracted_text": "- Concomitant Medications"
+    },
+    {
+      "id": "468579b0-62e4-4cc4-a9a5-0743f012e422",
+      "name": "- Adverse Events",
+      "category": "safety",
+      "extracted_text": "- Adverse Events"
+    },
+    {
+      "id": "755b3ed7-39ea-4758-8f9a-45cf1f2b8f16",
+      "name": "- Concomitant Medications",
+      "category": "safety",
+      "extracted_text": "- Concomitant Medications"
+    },
+    {
+      "id": "11eab584-254c-4e7e-9e46-ae7f8bbc994a",
+      "name": "Interim analysis Investigator Signature",
+      "category": null,
+      "extracted_text": "- Interim analysis Investigator Signature"
+    },
+    {
+      "id": "ebe47508-2430-4f8a-ada7-cef87435a3a1",
+      "name": "Unscheduled Visit",
+      "category": null,
+      "extracted_text": "- Unscheduled Visit"
+    },
+    {
+      "id": "fa20d7a1-0c01-448c-94c3-7aa2715ef9de",
+      "name": "- Unscheduled Visit",
+      "category": null,
+      "extracted_text": "- Unscheduled Visit"
+    },
+    {
+      "id": "28163c17-6ff6-4d82-b000-27a57e46010f",
+      "name": "Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions and  EQ-5D-5L to Measure Quality of Life will not be entered for pea",
+      "category": "questionnaire",
+      "extracted_text": "Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions and  EQ-5D-5L to Measure Quality of Life will not be entered for peadiatric Subjects age = 5 to 11 years for any of the Visit."
+    },
+    {
+      "id": "84c6bb71-8882-4a4c-8bc1-197347fa4e19",
+      "name": "Please note that, most of the form trigger in this study are on the data field ' Please confirm if the subject is Index or Household contact?'",
+      "category": null,
+      "extracted_text": "NOTE: Please note that, most of the form trigger in this study are on the data field ' Please confirm if the subject is Index or Household contact?'"
+    },
+    {
+      "id": "e5e3aadc-3d4f-4be7-8905-9a72c7b7ad79",
+      "name": "- ⮚ In this folder, forms ' Visit Date ' and ' Protocol Informed Consent' are present as default.",
+      "category": "protocol",
+      "extracted_text": "- ⮚ In this folder, forms ' Visit Date ' and ' Protocol Informed Consent' are present as default."
+    },
+    {
+      "id": "f1a26f08-3f4a-444e-8eed-c3e14e88ac13",
+      "name": "- ⮚ As soon as the ' Visit date ' is entered in 'Visit Date' form and 'Did subject meet eligibility criteria?' is Yes and Please confirm if the subject is Index",
+      "category": null,
+      "extracted_text": "- ⮚ As soon as the ' Visit date ' is entered in 'Visit Date' form and 'Did subject meet eligibility criteria?' is Yes and Please confirm if the subject is Index patient or Household contact? Is Index Patient below forms are triggered in the 'Screening' folder."
+    },
+    {
+      "id": "81e83a5b-1a91-4835-827c-83a9d0154a02",
+      "name": "Were there any adverse events?",
+      "category": "safety",
+      "extracted_text": "1. Were there any adverse events?"
+    },
+    {
+      "id": "7364b63f-1d4d-4e3e-b18d-b69c96c402e1",
+      "name": "If the subject has any events, please select 'Yes', else 'No'.",
+      "category": null,
+      "extracted_text": "2. If the subject has any events, please select 'Yes', else 'No'."
+    },
+    {
+      "id": "d7cef393-fd13-4ce5-9616-e862abdc296c",
+      "name": "If Yes, please record the Adverse Event on the Adverse Events form that is triggered when the response is answered as 'Yes'.",
+      "category": "safety",
+      "extracted_text": "3. If Yes, please record the Adverse Event on the Adverse Events form that is triggered when the response is answered as 'Yes'."
+    },
+    {
+      "id": "edbe853e-7ec1-4f91-8d6f-955041fa2b1f",
+      "name": "After informed consent has been obtained from the index patient, but prior to initiation of study drug, only serious adverse events caused by a protocol-mandated",
+      "category": "safety",
+      "extracted_text": "- After informed consent has been obtained from the index patient, but prior to initiation of study drug, only serious adverse events caused by a protocol-mandated"
+    },
+    {
+      "id": "4d7d329a-d3ce-47c6-b386-6428a44bc7dd",
+      "name": "For  the  household  contacts,  only  those  adverse  events  should  be  collected  in  the  eCRF  which  are assessed to be related to any study procedure. The",
+      "category": "safety",
+      "extracted_text": "- For  the  household  contacts,  only  those  adverse  events  should  be  collected  in  the  eCRF  which  are assessed to be related to any study procedure. The"
+    },
+    {
+      "id": "3833104c-a653-4ab8-acec-3934e30af0b6",
+      "name": "After initiation of study drug, all adverse events will be reported for index patients until the last visit (Day 9 Visit).",
+      "category": "safety",
+      "extracted_text": "- After initiation of study drug, all adverse events will be reported for index patients until the last visit (Day 9 Visit)."
+    },
+    {
+      "id": "cfe64801-250f-41ad-985b-583314a2f3c4",
+      "name": "Recording duplicate AE is not permitted. If any persistent AE  extends continuously, without resolution, between patient evaluations time points, such events sho",
+      "category": null,
+      "extracted_text": "- Recording duplicate AE is not permitted. If any persistent AE  extends continuously, without resolution, between patient evaluations time points, such events sho"
+    },
+    {
+      "id": "bc48049e-d032-4c7a-97a6-94ab4e2ddeb3",
+      "name": "If  an  AE,  that  resolves  between  patient  evaluation  time  points  and  subsequently  recurs.  Each recurrence of such an AE should be recorded as a separa",
+      "category": null,
+      "extracted_text": "- If  an  AE,  that  resolves  between  patient  evaluation  time  points  and  subsequently  recurs.  Each recurrence of such an AE should be recorded as a separa"
+    },
+    {
+      "id": "a3cbc4ae-fa96-40b1-98f2-d73686cb701b",
+      "name": "Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid colloquialisms and abbreviations.",
+      "category": "safety",
+      "extracted_text": "- Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid colloquialisms and abbreviations."
+    },
+    {
+      "id": "4c77d869-b8fe-4cf8-8bb6-bb1dfe22df0a",
+      "name": "AE number: This field is non-enterable and the AE number will be auto populated.",
+      "category": null,
+      "extracted_text": "1. AE number: This field is non-enterable and the AE number will be auto populated."
+    },
+    {
+      "id": "fa4c25cc-cba9-459a-8965-1abab3b8d9a1",
+      "name": "Primary Adverse Event description: Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid c",
+      "category": "safety",
+      "extracted_text": "2. Primary Adverse Event description: Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid c"
+    },
+    {
+      "id": "0f04eeed-0c33-4954-b528-f02891a4b448",
+      "name": "Check if primary adverse event description is a special situation as defined in the protocol should be selected if Primary Adverse Event description is a special",
+      "category": "safety",
+      "extracted_text": "3. Check if primary adverse event description is a special situation as defined in the protocol should be selected if Primary Adverse Event description is a special"
+    },
+    {
+      "id": "f6bd6997-3ae5-4622-a5da-b797f619a00a",
+      "name": "Note : This field is not applicable to HHC since they did not receive IMP and only AEs related to study procedures should be recorded",
+      "category": null,
+      "extracted_text": "4. Note : This field is not applicable to HHC since they did not receive IMP and only AEs related to study procedures should be recorded"
+    },
+    {
+      "id": "82beedcf-d9a7-4d58-84da-c0b2a71888aa",
+      "name": "1. Were there any adverse events?",
+      "category": "safety",
+      "extracted_text": "1. Were there any adverse events?"
+    },
+    {
+      "id": "d8ccfa74-8af8-4b14-94aa-306f161c7b59",
+      "name": "3. If Yes, please record the Adverse Event on the Adverse Events form that is triggered when the response is answered as 'Yes'.",
+      "category": "safety",
+      "extracted_text": "3. If Yes, please record the Adverse Event on the Adverse Events form that is triggered when the response is answered as 'Yes'."
+    },
+    {
+      "id": "6f185731-0bdd-4f9d-bbd5-38ee9fba449a",
+      "name": "- After informed consent has been obtained from the index patient, but prior to initiation of study drug, only serious adverse events caused by a protocol-manda",
+      "category": "laboratory",
+      "extracted_text": "- After informed consent has been obtained from the index patient, but prior to initiation of study drug, only serious adverse events caused by a protocol-mandated intervention (e.g., the respiratory swab) should be reported."
+    },
+    {
+      "id": "79d80c65-d971-47e6-a988-0b956111ac33",
+      "name": "- After initiation of study drug, all adverse events will be reported for index patients until the last visit (Day 9 Visit).",
+      "category": "safety",
+      "extracted_text": "- After initiation of study drug, all adverse events will be reported for index patients until the last visit (Day 9 Visit)."
+    },
+    {
+      "id": "8b1743b3-6475-4d68-b3c0-ffc965143b0a",
+      "name": "- Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid colloquialisms and abbreviations.",
+      "category": "safety",
+      "extracted_text": "- Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid colloquialisms and abbreviations."
+    },
+    {
+      "id": "240681b9-d395-460a-a0b5-0e19e962c048",
+      "name": "## 4.36 Adverse Events",
+      "category": "safety",
+      "extracted_text": "## 4.36 Adverse Events"
+    },
+    {
+      "id": "9a97fcba-0a35-4e43-9d86-689b5ff751ca",
+      "name": "2. Primary Adverse Event description: Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avo",
+      "category": "safety",
+      "extracted_text": "2. Primary Adverse Event description: Investigators should use correct medical terminology/concepts when recording adverse events on the Adverse Event eCRF. Avoid colloquialisms and abbreviations.Only one adverse event term should be recorded in the event field on the Adverse Event eCRF."
+    },
+    {
+      "id": "e70fbfdf-4e93-4a09-a0bd-3d2d29328c6c",
+      "name": "3. Check if primary adverse event description is a special situation as defined in the protocol should be selected if Primary Adverse Event description is a spe",
+      "category": "safety",
+      "extracted_text": "3. Check if primary adverse event description is a special situation as defined in the protocol should be selected if Primary Adverse Event description is a special situation. If so, then at least one of the following fields must be selected: Accidental overdose or Medication error."
+    },
+    {
+      "id": "efaa4dc7-6f17-48bd-8394-f0a0a1133023",
+      "name": "Accidental overdose - Enter the study drug name and \"accidental overdose\" as the event term (Primary Adverse Event description). Check the Accidental overdose an",
+      "category": "safety",
+      "extracted_text": "- Accidental overdose - Enter the study drug name and \"accidental overdose\" as the event term (Primary Adverse Event description). Check the Accidental overdose an"
+    },
+    {
+      "id": "c4dcbd4d-6501-4b38-905a-912ddbe74328",
+      "name": "Medication error that does not qualify as an overdose - Enter the name of the study drug administered and a description of the error (e.g., wrong dose administer",
+      "category": null,
+      "extracted_text": "- Medication error that does not qualify as an overdose - Enter the name of the study drug administered and a description of the error (e.g., wrong dose administer"
+    },
+    {
+      "id": "5484d687-0c28-4d94-9ea5-7cb33409496c",
+      "name": "Each adverse event associated with a special situation should be recorded separately on the Adverse Event eCRF.  If the associated adverse event fulfills serious",
+      "category": "safety",
+      "extracted_text": "- Each adverse event associated with a special situation should be recorded separately on the Adverse Event eCRF.  If the associated adverse event fulfills serious"
+    },
+    {
+      "id": "56ec6741-b4be-4615-b582-9d4c8617d348",
+      "name": "## Special Situation Adverse Events as defined in the protocol:",
+      "category": "safety",
+      "extracted_text": "## Special Situation Adverse Events as defined in the protocol:"
+    },
+    {
+      "id": "d10deaee-ead2-4917-99cb-719e9e19a17f",
+      "name": "Special situations are not in themselves adverse events, but may result in adverse events.  All special situations associated with study drug(s), regardless of ",
+      "category": "safety",
+      "extracted_text": "Special situations are not in themselves adverse events, but may result in adverse events.  All special situations associated with study drug(s), regardless of whether they result in an adverse event, should be recorded on the Adverse Event eCRF and reported to the Sponsor immediately (i.e., no more than 24 hours after learning of the event). When Primary Adverse Event description is a Special Situation AE Grade/Intensity fields  are  to  remain  blank  and  system  query  can  be  ignored  and  canceled  by Monitor."
+    },
+    {
+      "id": "c5012328-f15d-4e34-95e9-21604a9cc87d",
+      "name": "- Accidental overdose - Enter the study drug name and \"accidental overdose\" as the event term (Primary Adverse Event description). Check the Accidental overdose",
+      "category": "safety",
+      "extracted_text": "- Accidental overdose - Enter the study drug name and \"accidental overdose\" as the event term (Primary Adverse Event description). Check the Accidental overdose and Medication error boxes."
+    },
+    {
+      "id": "b2b170b8-f3d2-4c34-b508-33935028225c",
+      "name": "- Each adverse event associated with a special situation should be recorded separately on the Adverse Event eCRF.  If the associated adverse event fulfills seri",
+      "category": "safety",
+      "extracted_text": "- Each adverse event associated with a special situation should be recorded separately on the Adverse Event eCRF.  If the associated adverse event fulfills seriousness criteria, the event should be"
+    },
+    {
+      "id": "82f32739-1b2e-492c-9e39-410b9d4ca617",
+      "name": "If AE is an infection, specify pathogen : Select appropriate option from drop-down.",
+      "category": null,
+      "extracted_text": "4. If AE is an infection, specify pathogen : Select appropriate option from drop-down."
+    },
+    {
+      "id": "82da523c-fc19-4210-89dd-532295f2eb37",
+      "name": "If known, provide specific pathogen code from pathogen code list: Select appropriate option from drop-down.",
+      "category": null,
+      "extracted_text": "5. If known, provide specific pathogen code from pathogen code list: Select appropriate option from drop-down."
+    },
+    {
+      "id": "fbd1819c-0ba1-4ed6-988e-8d98f9d4b44d",
+      "name": "Onset date (dd MMM yyyy): Enter the complete start date in dd MMM yyyy format.",
+      "category": null,
+      "extracted_text": "6. Onset date (dd MMM yyyy): Enter the complete start date in dd MMM yyyy format."
+    },
+    {
+      "id": "1339c316-00ea-412f-b4cf-2895c4e0bb13",
+      "name": "Event  occurred  prior  to  first  blinded  Investigational Product B  marboxil  administration: Select  yes  or  no  or  not applicable.",
+      "category": null,
+      "extracted_text": "7. Event  occurred  prior  to  first  blinded  Investigational Product B  marboxil  administration: Select  yes  or  no  or  not applicable."
+    },
+    {
+      "id": "a7c4b4a1-4998-481b-a538-a25b8ec66ce3",
+      "name": "Note : For HHC, Not applicable should be selected.",
+      "category": null,
+      "extracted_text": "5. Note : For HHC, Not applicable should be selected."
+    },
+    {
+      "id": "da3bc40d-d393-4566-9f74-e820b2db10a9",
+      "name": "Outcome of AE: Is required the first time the AE is entered into the eCRF. If the event is ongoing at the time of initial data entry then select.",
+      "category": null,
+      "extracted_text": "8. Outcome of AE: Is required the first time the AE is entered into the eCRF. If the event is ongoing at the time of initial data entry then select."
+    },
+    {
+      "id": "02e74302-061c-48ba-8b58-eae197103002",
+      "name": "As an example, an accidental overdose that resulted in a headache would require the completion of two Adverse Event eCRF pages, one to report the accidental ove",
+      "category": "safety",
+      "extracted_text": "As an example, an accidental overdose that resulted in a headache would require the completion of two Adverse Event eCRF pages, one to report the accidental overdose and one to report the headache.  The Accidental overdose and Medication error boxes would need to be checked on both eCRF pages."
+    },
+    {
+      "id": "8889776e-a0d2-422e-8f43-27ca57cf1863",
+      "name": "Resolution Date : Enter the date the AE resolved. If subject dies the AE should not have a resolution date entered.",
+      "category": null,
+      "extracted_text": "9. Resolution Date : Enter the date the AE resolved. If subject dies the AE should not have a resolution date entered."
+    },
+    {
+      "id": "b1a4482d-2f34-44b4-8e6e-1bfa11221866",
+      "name": "AE initial NCI CTCAE grade: Select the initial grade of the AE at onset.",
+      "category": null,
+      "extracted_text": "10. AE initial NCI CTCAE grade: Select the initial grade of the AE at onset."
+    },
+    {
+      "id": "a1d721a4-cfd9-4c48-befd-e3532b810cfe",
+      "name": "AE most extreme NCI CTCAE grade : Select the most extreme grade for the duration of the AE.",
+      "category": null,
+      "extracted_text": "11. AE most extreme NCI CTCAE grade : Select the most extreme grade for the duration of the AE."
+    },
+    {
+      "id": "c5d73c3e-ed62-4422-8980-3dbb6e71f39b",
+      "name": "AE suspected to be caused by blinded Investigational Product B?: Select 'yes' or 'No' or 'Not applicable'. Note : For HHC, Not applicable should be selected.",
+      "category": null,
+      "extracted_text": "12. AE suspected to be caused by blinded Investigational Product B?: Select 'yes' or 'No' or 'Not applicable'. Note : For HHC, Not applicable should be selected."
+    },
+    {
+      "id": "21bc38e9-50e7-4655-bd17-48ebe5dd293f",
+      "name": "i) Date of last blinded Investigational Product B prior to AE onset: Enter complete date.",
+      "category": null,
+      "extracted_text": "- i) Date of last blinded Investigational Product B prior to AE onset: Enter complete date."
+    },
+    {
+      "id": "f86de39c-2275-48f0-b08d-2b4d9029df8d",
+      "name": "Other suspected causes (select all that apply). For AESIs and SAEs please provide further details in the additional case details section. Select all applicable o",
+      "category": null,
+      "extracted_text": "13. Other suspected causes (select all that apply). For AESIs and SAEs please provide further details in the additional case details section. Select all applicable o"
+    },
+    {
+      "id": "268b467e-6e58-4562-984f-482b127c5b03",
+      "name": "Concomitant  medication:  AE  caused  by  concomitant  medication  taken  other  than study drug(s). Concomitant medication name: Enter Concomitant medication na",
+      "category": "safety",
+      "extracted_text": "7. Concomitant  medication:  AE  caused  by  concomitant  medication  taken  other  than study drug(s). Concomitant medication name: Enter Concomitant medication na"
+    },
+    {
+      "id": "84d67144-50e5-4727-a24e-aede8160346f",
+      "name": "medication is suspected cause.",
+      "category": null,
+      "extracted_text": "8. medication is suspected cause."
+    },
+    {
+      "id": "5941b337-822a-438a-ab3d-624e6619e448",
+      "name": "Action taken with the study drug due to SAE/AE :  This field is defaulted and entry restricted for site as drug will be given once.",
+      "category": null,
+      "extracted_text": "14. Action taken with the study drug due to SAE/AE :  This field is defaulted and entry restricted for site as drug will be given once."
+    },
+    {
+      "id": "01b90281-84e3-4955-88b3-383cedefc01e",
+      "name": "Treatment for Adverse Event: If treatment was given for adverse event:",
+      "category": "safety",
+      "extracted_text": "15. Treatment for Adverse Event: If treatment was given for adverse event:"
+    },
+    {
+      "id": "85e6a5b8-6c58-41db-a676-ed9bca95b9d2",
+      "name": "Was medication given for AE? Please select 'Yes' if medication was given for AE else 'No'.",
+      "category": null,
+      "extracted_text": "- Was medication given for AE? Please select 'Yes' if medication was given for AE else 'No'."
+    },
+    {
+      "id": "a7e896a4-713b-4d19-9c31-e332d16002bb",
+      "name": "Was procedure/surgery performed for AE? Please select ' Yes ' if procedure/surgery was performed for AE else 'No'.",
+      "category": null,
+      "extracted_text": "- Was procedure/surgery performed for AE? Please select ' Yes ' if procedure/surgery was performed for AE else 'No'."
+    },
+    {
+      "id": "229f3a2a-6b18-4c61-a58b-1cc9f85e417e",
+      "name": "Other Action Taken:",
+      "category": null,
+      "extracted_text": "16. Other Action Taken:"
+    },
+    {
+      "id": "31bf7c29-3091-48cb-a634-d28b3d1013f3",
+      "name": "Was the subject discontinued from study due to AE? If the subject was discontinued from study due to AE, please select yes, else no.",
+      "category": null,
+      "extracted_text": "- Was the subject discontinued from study due to AE? If the subject was discontinued from study due to AE, please select yes, else no."
+    },
+    {
+      "id": "692ace4b-c3db-4bc0-9cda-32197051f4ee",
+      "name": "The Outcome of AE should be updated once AE resolves or at the time of final assessment.",
+      "category": null,
+      "extracted_text": "The Outcome of AE should be updated once AE resolves or at the time of final assessment."
+    },
+    {
+      "id": "2d801fb8-c77d-4d1c-a279-ed6138a32d6f",
+      "name": "7. Concomitant  medication:  AE  caused  by  concomitant  medication  taken  other  than study drug(s). Concomitant medication name: Enter Concomitant medicatio",
+      "category": "safety",
+      "extracted_text": "7. Concomitant  medication:  AE  caused  by  concomitant  medication  taken  other  than study drug(s). Concomitant medication name: Enter Concomitant medication name if Concomitant"
+    },
+    {
+      "id": "f01a6342-0f15-42bd-bcdc-4283dd53918c",
+      "name": "9. ⮚ AE other causes - procedures (protocol specific): AE caused by procedure (including related to swab collection) received by the subject.",
+      "category": "laboratory",
+      "extracted_text": "9. ⮚ AE other causes - procedures (protocol specific): AE caused by procedure (including related to swab collection) received by the subject."
+    },
+    {
+      "id": "cbd3f409-6f65-4583-ad7f-69960fa3e588",
+      "name": "15. Treatment for Adverse Event: If treatment was given for adverse event:",
+      "category": "safety",
+      "extracted_text": "15. Treatment for Adverse Event: If treatment was given for adverse event:"
+    },
+    {
+      "id": "ad0315d5-92d5-40ed-af70-a0c162822f7a",
+      "name": "If yes, please ensure that the concomitant medications page is updated with details of the medication. If no is selected, corresponding AE will not appear in co",
+      "category": "safety",
+      "extracted_text": "If yes, please ensure that the concomitant medications page is updated with details of the medication. If no is selected, corresponding AE will not appear in concomitant medication's dropdown list"
+    },
+    {
+      "id": "34832840-ce2a-4e13-b90d-2a85bc91b57a",
+      "name": "If yes, record all the treatment and study discontinuation details in 'Subject Disposition' form at Day 9 Visit/Early Discontinuation Visit.",
+      "category": null,
+      "extracted_text": "- If yes, record all the treatment and study discontinuation details in 'Subject Disposition' form at Day 9 Visit/Early Discontinuation Visit."
+    },
+    {
+      "id": "04733677-a0b8-453a-876f-ecbb4f0d8106",
+      "name": "Is this AE non-serious or serious? Please select if the AE was Non-Serious or Serious.",
+      "category": null,
+      "extracted_text": "- Is this AE non-serious or serious? Please select if the AE was Non-Serious or Serious."
+    },
+    {
+      "id": "61c043ed-7c8b-4271-b314-9c37411a03f4",
+      "name": "According to protocol section 5.3.5.4: The initial severity (intensity or grade) of the event will be recorded at the time the event is first reported. If a pers",
+      "category": null,
+      "extracted_text": "- According to protocol section 5.3.5.4: The initial severity (intensity or grade) of the event will be recorded at the time the event is first reported. If a pers"
+    },
+    {
+      "id": "59a692fe-9984-43af-a223-dd1d5a5106d9",
+      "name": "Is this an adverse event of special interest? An adverse event of special interest cannot be serious (e.g. it is either a serious adverse event or a non-serious",
+      "category": "safety",
+      "extracted_text": "- Is this an adverse event of special interest? An adverse event of special interest cannot be serious (e.g. it is either a serious adverse event or a non-serious"
+    },
+    {
+      "id": "e289130b-7680-486b-a747-058db5a94c06",
+      "name": "- If yes, record all the treatment and study discontinuation details in 'Subject Disposition' form at Day 9 Visit/Early Discontinuation Visit.",
+      "category": null,
+      "extracted_text": "- If yes, record all the treatment and study discontinuation details in 'Subject Disposition' form at Day 9 Visit/Early Discontinuation Visit."
+    },
+    {
+      "id": "c6d63c7c-22dc-4403-807c-2f88a7be6dc9",
+      "name": "- According to protocol section 5.3.5.4: The initial severity (intensity or grade) of the event will be recorded at the time the event is first reported. If a p",
+      "category": "safety",
+      "extracted_text": "- According to protocol section 5.3.5.4: The initial severity (intensity or grade) of the event will be recorded at the time the event is first reported. If a persistent adverse event becomes more severe, the most extreme severity should also be recorded on the Adverse Event eCRF. If the event becomes serious, it should be reported to the Sponsor immediately (i.e., no more than 24 hours after learning that the event became serious; see Section 5.4.2 for reporting instructions). The Adverse Event eCRF should be updated by changing the event from \"non-serious\" to \"serious,\" providing the date that the event became serious, and completing all data fields related to serious adverse events."
+    },
+    {
+      "id": "1acf96d5-1985-4545-ba6d-17122ed898a1",
+      "name": "- Is this an adverse event of special interest? An adverse event of special interest cannot be serious (e.g. it is either a serious adverse event or a non-serio",
+      "category": "safety",
+      "extracted_text": "- Is this an adverse event of special interest? An adverse event of special interest cannot be serious (e.g. it is either a serious adverse event or a non-serious adverse event of special interest)."
+    },
+    {
+      "id": "fa138563-4297-4640-87b1-441fcf9f1d94",
+      "name": "If  AE  became  serious, indicate  date  AE  became  serious: Enter  the  complete  date  that  the  event became serious.",
+      "category": null,
+      "extracted_text": "17. If  AE  became  serious, indicate  date  AE  became  serious: Enter  the  complete  date  that  the  event became serious."
+    },
+    {
+      "id": "b65929d8-0b56-4c6e-847f-475231319b09",
+      "name": "Study Drug Details",
+      "category": null,
+      "extracted_text": "18. Study Drug Details"
+    },
+    {
+      "id": "2bdea8e2-008c-449e-afa4-994f57195423",
+      "name": "a) FOR SPANISH SITES ONLY - Autonomous Community: Select from dropdown list.",
+      "category": null,
+      "extracted_text": "- a) FOR SPANISH SITES ONLY - Autonomous Community: Select from dropdown list."
+    },
+    {
+      "id": "6b83fd2e-5e35-40d6-b4d3-9dd5c51198e9",
+      "name": "b) If AE became serious, indicate date AE became serious",
+      "category": null,
+      "extracted_text": "- b) If AE became serious, indicate date AE became serious"
+    },
+    {
+      "id": "4cb104fb-579b-4c4a-ab08-50a42b8c32f6",
+      "name": "Please note, the Reason codes from 3 To 9 are only applicable for log lines on Adverse events eCRF Updating a SAE to Non-Serious In the event that a SAE needs t",
+      "category": "safety",
+      "extracted_text": "Please note, the Reason codes from 3 To 9 are only applicable for log lines on Adverse events eCRF Updating a SAE to Non-Serious In the event that a SAE needs to be changed to non-serious in Rave: Update Is this AE non-serious or serious? to non-serious Remove data below COMPLETE THE FOLLOWING FIELDS ONLY IF THE AE IS SERIOUS OR IS A NONSERIOUS ADVERSE EVENT OF SPECIAL INTEREST AS DEFINED IN THE PROTOCOL Enter the reason for the downgrade in Additional case details and/or reason for downgrade field. Note: A query will generate with a response box when non-serious is selected and data is recorded within Additional case details and/or reason for downgrade field.  Please provide a response with response box and resave the eCRF. COMPLETE THE FOLLOWING FIELDS FOR INDEX PATIENT ONLY IF THE AE IS SERIOUS OR IS AN ADVERSE EVENT OF SPECIAL INTEREST AS DEFINED IN THE PROTOCOL. IF THE ADVERSE EVENT DOES NOT MEET THESE CRITERIA, STOP AND SCROLL TO THE BOTTOM TO SAVE THE FORM."
+    },
+    {
+      "id": "9735f1cb-652e-4cae-9a1d-a44dc7abdcd2",
+      "name": "Point C to M is notapplicable for HHC",
+      "category": null,
+      "extracted_text": "Note: Point C to M is notapplicable for HHC"
+    },
+    {
+      "id": "34839862-bf8a-4100-9e89-8c04a96965e6",
+      "name": "c) Dose of last blinded Investigational Product B administered prior to AE onset: Please enter the actual dose administered.",
+      "category": null,
+      "extracted_text": "- c) Dose of last blinded Investigational Product B administered prior to AE onset: Please enter the actual dose administered."
+    },
+    {
+      "id": "08e7f8e4-38c9-401f-b5cb-9ee5d4091cd0",
+      "name": "d) Dose of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual dose administered.",
+      "category": null,
+      "extracted_text": "- d) Dose of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual dose administered."
+    },
+    {
+      "id": "39e8360f-7b7f-4963-86e2-f7fa30a6c84f",
+      "name": "e) Dose unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a nonenterable field and defaulted to 'MG'",
+      "category": null,
+      "extracted_text": "- e) Dose unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a nonenterable field and defaulted to 'MG'"
+    },
+    {
+      "id": "12a224aa-8dd7-48ae-af3e-bf437e2f8b48",
+      "name": "f) Total volume of last blinded Investigational Product B administered prior to AE onset: Please enter the actual volume administered.",
+      "category": null,
+      "extracted_text": "- f) Total volume of last blinded Investigational Product B administered prior to AE onset: Please enter the actual volume administered."
+    },
+    {
+      "id": "caf0e785-8b93-4de9-8225-2dfb07e9d4eb",
+      "name": "g) Total volume of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual volume administered.",
+      "category": null,
+      "extracted_text": "- g) Total volume of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual volume administered."
+    },
+    {
+      "id": "77792f81-a070-4819-bd6e-5a45844a1996",
+      "name": "h) Total volume unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a non-enterable field and defaulted to 'ML'",
+      "category": null,
+      "extracted_text": "- h) Total volume unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a non-enterable field and defaulted to 'ML'"
+    },
+    {
+      "id": "4a254601-5bac-4790-8517-ea646257fab5",
+      "name": "j) Date of last blinded Investigational Product B prior to SAE onset: Enter complete date.",
+      "category": null,
+      "extracted_text": "- j) Date of last blinded Investigational Product B prior to SAE onset: Enter complete date."
+    },
+    {
+      "id": "0b67183b-d193-46e4-b32b-14d73f07c0da",
+      "name": "k) Route of drug administration for study drug: This is a non-enterable field and defaulted to 'Oral'",
+      "category": null,
+      "extracted_text": "- k) Route of drug administration for study drug: This is a non-enterable field and defaulted to 'Oral'"
+    },
+    {
+      "id": "1e03fe59-71fe-4ab7-8cc7-9ab883f66b91",
+      "name": "l) Frequency of study drug: This is a non-enterable field and defaulted to 'Once'",
+      "category": null,
+      "extracted_text": "- l) Frequency of study drug: This is a non-enterable field and defaulted to 'Once'"
+    },
+    {
+      "id": "729cfa00-0972-41ab-bceb-2d0a0a7e01c7",
+      "name": "m) Kit identification of study drug: Enter kit no. of drug.",
+      "category": null,
+      "extracted_text": "- m) Kit identification of study drug: Enter kit no. of drug."
+    },
+    {
+      "id": "28e9738c-95bb-433e-91a5-3b9b72358a0e",
+      "name": "Additional case details:",
+      "category": null,
+      "extracted_text": "19. Additional case details:"
+    },
+    {
+      "id": "c09cd6d5-0330-43a1-8ffd-cc085a8fced9",
+      "name": "Additional case details and event narrative: Summarize the history of the event chronologically. Include  signs  and  symptoms,  severity,  diagnostic  tests  an",
+      "category": null,
+      "extracted_text": "- Additional case details and event narrative: Summarize the history of the event chronologically. Include  signs  and  symptoms,  severity,  diagnostic  tests  an"
+    },
+    {
+      "id": "2f8dd6fe-9413-42d5-9720-5ee7abc3e79f",
+      "name": "Additional case details and event narrative (continued): If  there are non-serious (NS) adverse events occurring at the same time as the SAE term, list those her",
+      "category": "safety",
+      "extracted_text": "- Additional case details and event narrative (continued): If  there are non-serious (NS) adverse events occurring at the same time as the SAE term, list those her"
+    },
+    {
+      "id": "932adffd-b7af-4236-850c-b37743ab3fb1",
+      "name": "If there are additional SAEs occurring which are inconsistent as signs or symptoms of the SAE listed, these SAEs must be reported as separate events.",
+      "category": null,
+      "extracted_text": "4. If there are additional SAEs occurring which are inconsistent as signs or symptoms of the SAE listed, these SAEs must be reported as separate events."
+    },
+    {
+      "id": "28decaa6-8fe7-4bc2-8a99-7a193d831089",
+      "name": "Please indicate any etiological factors deemed contributed to the event (e.g. concomitant or past medications, concurrent or past conditions).",
+      "category": "safety",
+      "extracted_text": "5. Please indicate any etiological factors deemed contributed to the event (e.g. concomitant or past medications, concurrent or past conditions)."
+    },
+    {
+      "id": "9d93c8b0-655d-476e-9f01-bdf60c63edc0",
+      "name": "Additional case details and event narrative (continued): If a drug interaction is suspected to be the possible cause of the event, specify that drug interaction",
+      "category": null,
+      "extracted_text": "- Additional case details and event narrative (continued): If a drug interaction is suspected to be the possible cause of the event, specify that drug interaction"
+    },
+    {
+      "id": "6a203b67-804a-4db6-8d24-19574e52b020",
+      "name": "Data should be recorded in the other eCRF pages with any relevant details, eg. Labs, diagnostic test results, concomitant medications, medical history etc.",
+      "category": "laboratory",
+      "extracted_text": "7. Data should be recorded in the other eCRF pages with any relevant details, eg. Labs, diagnostic test results, concomitant medications, medical history etc."
+    },
+    {
+      "id": "082ea900-6698-4eb3-80d8-b26762edb5e3",
+      "name": "Provide a reference in this field of the eCRF visits where these assessments were documented with relevant details.",
+      "category": null,
+      "extracted_text": "8. Provide a reference in this field of the eCRF visits where these assessments were documented with relevant details."
+    },
+    {
+      "id": "b603dc24-a2c7-4f66-92c0-2ac3550aa55c",
+      "name": "Reason for downgrade: If the AE is downgraded then please select the reason from value list available.",
+      "category": "laboratory",
+      "extracted_text": "20. Reason for downgrade: If the AE is downgraded then please select the reason from value list available."
+    },
+    {
+      "id": "0a7d2696-cdbe-49d3-baa5-70952ecf020d",
+      "name": "Reason for SAE deletion: If AE is deleted then please select the reason from value list available. In the event that an SAE/AESI needs to be deleted in Rave, ent",
+      "category": "laboratory",
+      "extracted_text": "21. Reason for SAE deletion: If AE is deleted then please select the reason from value list available. In the event that an SAE/AESI needs to be deleted in Rave, ent"
+    },
+    {
+      "id": "55ec3aba-877d-4856-9db0-4f1a9efe09ba",
+      "name": "- Additional case details and event narrative: Summarize the history of the event chronologically. Include  signs  and  symptoms,  severity,  diagnostic  tests ",
+      "category": "safety",
+      "extracted_text": "- Additional case details and event narrative: Summarize the history of the event chronologically. Include  signs  and  symptoms,  severity,  diagnostic  tests  and  results,  dates  and  outcome  of hospitalization and any other relevant information not captured elsewhere on the Adverse Event form."
+    },
+    {
+      "id": "11658445-34e5-42b3-8047-124d4334ed4c",
+      "name": "- Additional case details and event narrative (continued): If  there are non-serious (NS) adverse events occurring at the same time as the SAE term, list those ",
+      "category": "safety",
+      "extracted_text": "- Additional case details and event narrative (continued): If  there are non-serious (NS) adverse events occurring at the same time as the SAE term, list those here and state (NS) after the term."
+    },
+    {
+      "id": "beda2049-6711-4a19-b347-cfd31f185131",
+      "name": "7. Data should be recorded in the other eCRF pages with any relevant details, eg. Labs, diagnostic test results, concomitant medications, medical history etc.",
+      "category": "laboratory",
+      "extracted_text": "7. Data should be recorded in the other eCRF pages with any relevant details, eg. Labs, diagnostic test results, concomitant medications, medical history etc."
+    },
+    {
+      "id": "23838f6d-39d8-4102-925a-3e3084524dc0",
+      "name": "21. Reason for SAE deletion: If AE is deleted then please select the reason from value list available. In the event that an SAE/AESI needs to be deleted in Rave",
+      "category": "laboratory",
+      "extracted_text": "21. Reason for SAE deletion: If AE is deleted then please select the reason from value list available. In the event that an SAE/AESI needs to be deleted in Rave, enter the reason for deletion in the Reason for  SAE/AESI  deletion  and  save  the  Adverse  Events  eCRF.  Once  the  reason  for  deletions  entered, inactivate the specific log line. Note 1: Death should be considered an outcome and not a distinct event. The event or condition that caused or contributed to the fatal outcome should be recorded as a single medical concept on the Adverse  Event  eCRF.  If  the  cause  of  death  is  unknown  and  cannot  be  ascertained  at  the  time  of reporting, \"unexplained death\" should be recorded on the Adverse Event eCRF. Note 2: All adverse events should be reported on a single log line until resolution. Any grade change for an ongoing AE should not be reported on a separate log line. If an adverse event was resolved and reoccurred then it should be reported on separate log line. Note3:"
+    },
+    {
+      "id": "17231427-4fc7-4949-8697-2143f7e5cf8d",
+      "name": "List all relevant diagnostic tests and laboratory tests and their corresponding results. If no relevant diagnostic tests or laboratory tests were performed, indi",
+      "category": "laboratory",
+      "extracted_text": "22. List all relevant diagnostic tests and laboratory tests and their corresponding results. If no relevant diagnostic tests or laboratory tests were performed, indi"
+    },
+    {
+      "id": "7a811672-9a95-42fd-80a1-587995ad7f42",
+      "name": "22. List all relevant diagnostic tests and laboratory tests and their corresponding results. If no relevant diagnostic tests or laboratory tests were performed,",
+      "category": "laboratory",
+      "extracted_text": "22. List all relevant diagnostic tests and laboratory tests and their corresponding results. If no relevant diagnostic tests or laboratory tests were performed, indicate None If the patient had any relevant laboratory/ diagnostic test(s), enter the name, sample collection date, results with units and normal ranges as applicable and also specify if the results are pending."
+    },
+    {
+      "id": "b43969a9-1ca3-4c96-8802-12fdaca5e9f5",
+      "name": "Where laboratory tests are clinically significant and are not consistent with the SAE Term, these should be reported as separate SAEs.",
+      "category": "laboratory",
+      "extracted_text": "Where laboratory tests are clinically significant and are not consistent with the SAE Term, these should be reported as separate SAEs."
+    },
+    {
+      "id": "afd21f6b-0b02-4b0f-a580-32b6243b39c7",
+      "name": "Death should be considered an outcome and not a distinct event. The event or condition that caused or contributed to the fatal outcome should be recorded as the",
+      "category": "safety",
+      "extracted_text": "Death should be considered an outcome and not a distinct event. The event or condition that caused or contributed to the fatal outcome should be recorded as the single medical concept on the Adverse Event eCRF. If the cause of death is unknown and cannot be ascertained at the time of reporting, \"unexplained death\" should be recorded on the Adverse Event eCRF."
+    },
+    {
+      "id": "b29b3b1b-9322-4864-8e32-46552a0823ed",
+      "name": "During the AE reporting period: AEDE",
+      "category": null,
+      "extracted_text": "- During the AE reporting period: AEDE"
+    },
+    {
+      "id": "7d63a113-b813-415c-8787-643a15d43780",
+      "name": "Please note that Death information should NOT be reported anymore on the Study completion Early study discontinuation form (but death can be kept as reason for d",
+      "category": null,
+      "extracted_text": "- Please note that Death information should NOT be reported anymore on the Study completion Early study discontinuation form (but death can be kept as reason for d"
+    },
+    {
+      "id": "463b33ef-4d04-44b5-b98e-2f2c2309aeac",
+      "name": "## 4.39 Palatability and Acceptability Assessment of Study Drug",
+      "category": null,
+      "extracted_text": "## 4.39 Palatability and Acceptability Assessment of Study Drug"
+    },
+    {
+      "id": "849a57be-7396-4986-841c-73832bcf6251",
+      "name": "Note-This form will trigger only for Index Patient who are less than 12 years old and when Protocol version 4 is selected on the Protocol Informed consent eCRF.",
+      "category": "protocol",
+      "extracted_text": "Note-This form will trigger only for Index Patient who are less than 12 years old and when Protocol version 4 is selected on the Protocol Informed consent eCRF."
+    },
+    {
+      "id": "8a8a7ca2-7346-419b-b3f3-7b76289a572e",
+      "name": "Was the measure completed by the subject at this visit? - Select Yes or No",
+      "category": null,
+      "extracted_text": "- Was the measure completed by the subject at this visit? - Select Yes or No"
+    },
+    {
+      "id": "664cf76a-f23e-43fc-bf11-83bb09915bec",
+      "name": "Assessment Date - If Yes, Enter the complete date in dd MMM yyyy format.",
+      "category": null,
+      "extracted_text": "- Assessment Date - If Yes, Enter the complete date in dd MMM yyyy format."
+    },
+    {
+      "id": "538be2e5-7686-4cf1-ae77-5ba6ff07d329",
+      "name": "How was the taste of the medicine? - Select one of the option",
+      "category": null,
+      "extracted_text": "- How was the taste of the medicine? - Select one of the option"
+    },
+    {
+      "id": "c6c3b23a-7cac-40e6-a27b-b653e4d600ef",
+      "name": "Would you be happy to take the medicine again? -",
+      "category": null,
+      "extracted_text": "- Would you be happy to take the medicine again? -"
+    },
+    {
+      "id": "457b086b-2353-4864-b5e3-1630d4d69c65",
+      "name": "- Was the measure completed by the subject at this visit? - Select Yes or No",
+      "category": null,
+      "extracted_text": "- Was the measure completed by the subject at this visit? - Select Yes or No"
+    },
+    {
+      "id": "08191bf6-fa34-49ac-9399-741a5e87829d",
+      "name": "- Assessment Date - If Yes, Enter the complete date in dd MMM yyyy format.",
+      "category": null,
+      "extracted_text": "- Assessment Date - If Yes, Enter the complete date in dd MMM yyyy format."
+    }
+  ],
+  "passes": {
+    "raw_text_useful": true,
+    "section_count_gt_5": true,
+    "visit_candidates_gt_0": true,
+    "procedure_candidates_gt_0": true
+  }
+}
+```

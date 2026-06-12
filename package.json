@@ -153,8 +153,8 @@
     "vip-adapter:smoke:live": "npx tsx scripts/vip-adapter-smoke.ts --live",
     "runtime-source-publication:smoke": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts",
     "runtime-source-publication:smoke:live": "npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts --live",
-    "reader:closure:para": "npx tsx scripts/reader-closure-live.ts PARA_OA_012",
-    "reader:closure:mv": "npx tsx scripts/reader-closure-live.ts MV40618",
+    "reader:closure:001": "npx tsx scripts/reader-closure-live.ts VALIDATION_PROTOCOL_001",
+    "reader:closure:002": "npx tsx scripts/reader-closure-live.ts VALIDATION_PROTOCOL_002",
     "cra-monitoring-workbook:smoke": "npx tsx scripts/cra-monitoring-workbook-smoke.ts",
     "study-data-readiness:smoke": "npx tsx scripts/study-data-readiness-review-smoke.ts"
   },

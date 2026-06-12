@@ -1,4 +1,4 @@
-# Safe Text Extraction Batch 2 Report
+﻿# Safe Text Extraction Batch 2 Report
 
 ### ECRF_GUIDE_A002
 - **Source Binary:** `validation-corpus/inbox\10. INCEPTION CRF Completion Guidelines v2.0_03Nov2021 (1).pdf`
@@ -8,7 +8,7 @@
 - **Status:** SAFE_TEXT_EXTRACTED
 
 ### ECRF_GUIDE_A003
-- **Source Binary:** `validation-corpus/inbox\MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx`
+- **Source Binary:** `validation-corpus/inbox\VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx`
 - **Method:** python-docx
 - **Pages Extracted:** N/A
 - **Tables Detected:** 75
@@ -16,14 +16,14 @@
 - **Warnings/Leaks:** Extraction Error: 'dict' object has no attribute 'text'
 
 ### PROTOCOL_A004_AMEND_002
-- **Source Binary:** `validation-corpus/inbox\2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf`
+- **Source Binary:** `validation-corpus/inbox\2.1 VALIDATION_PROTOCOL_001-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf`
 - **Method:** PyMuPDF (fitz)
 - **Pages Extracted:** 94
 - **Tables Detected:** 24
 - **Status:** SAFE_TEXT_EXTRACTED
 
 ### PROTOCOL_A004_AMEND_003
-- **Source Binary:** `validation-corpus/inbox\PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf`
+- **Source Binary:** `validation-corpus/inbox\VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf`
 - **Method:** PyMuPDF (fitz)
 - **Pages Extracted:** 129
 - **Tables Detected:** 32

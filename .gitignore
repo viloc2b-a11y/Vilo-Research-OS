@@ -60,6 +60,8 @@ next-env.d.ts
 /data/intake-review-workspaces/
 # controlled publish candidates (12E)
 /data/source-publish-candidates/
+# Sanitized protocol snapshot data (contains generated artifacts)
+/data/source-publish-snapshots/
 .phase12c-py-smoke/
 .phase12c-py-smoke-input/
 .tmp-phase12d-seed/
@@ -81,3 +83,5 @@ validation-corpus/non-reader-assets/
 .atlas/
 .markplane/
 outputs/
+dry_run_report.json
+eslint.json

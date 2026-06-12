@@ -1,4 +1,4 @@
-{
+﻿{
   "corpus_version": "1.0.0",
   "generated_for": "Document Reader Program — reader validation, fidelity measurement, regression testing, extraction benchmarking",
   "not_production": true,
@@ -9,12 +9,12 @@
   "protocols": {
     "PROTOCOL_A001": {
       "original_source_reference": [
-        "fixtures/protocol-intake/para-oa-012-protocol-excerpt.txt",
-        "fixtures/protocol-intake/para-oa-012-schedule.csv"
+        "fixtures/protocol-intake/VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+        "fixtures/protocol-intake/VALIDATION_PROTOCOL_001-schedule.csv"
       ],
       "mappings": {
-        "PARA-OA-012": "PROTOCOL_A001",
-        "PARA_OA_012": "PROTOCOL_A001",
+        "VALIDATION_PROTOCOL_001": "PROTOCOL_A001",
+        "VALIDATION_PROTOCOL_001": "PROTOCOL_A001",
         "PARA OA-012": "PROTOCOL_A001",
         "Example Pharma Inc.": "SPONSOR_A",
         "Example CRO Services": "CRO_A",
@@ -23,10 +23,10 @@
     },
     "PROTOCOL_A002": {
       "original_source_reference": [
-        "fixtures/protocol-intake/mv40618-protocol-excerpt.txt"
+        "fixtures/protocol-intake/VALIDATION_PROTOCOL_002-protocol-excerpt.txt"
       ],
       "mappings": {
-        "MV40618": "PROTOCOL_A002",
+        "VALIDATION_PROTOCOL_002": "PROTOCOL_A002",
         "Public Health Research Collaborative": "SPONSOR_B"
       }
     }

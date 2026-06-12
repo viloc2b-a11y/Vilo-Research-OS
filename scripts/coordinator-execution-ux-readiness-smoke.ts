@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+﻿import fs from 'node:fs'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { config as loadEnv } from 'dotenv'
@@ -16,7 +16,7 @@ import type { VisitRuntimeInstanceRow } from '@/lib/visit-runtime-execution/visi
 loadEnv({ path: '.env.local' })
 loadEnv()
 
-type ProtocolKey = 'PARA_OA_012' | 'MV40618'
+type ProtocolKey = 'VALIDATION_PROTOCOL_001' | 'VALIDATION_PROTOCOL_002'
 
 type ProtocolContext = {
   versionId: string
@@ -85,8 +85,8 @@ function assert(condition: boolean, message: string): asserts condition {
 
 function protocolKeyFromArg(): ProtocolKey {
   const raw = (process.argv[2] || '').trim().toUpperCase()
-  if (raw === 'PARA_OA_012' || raw === 'MV40618') return raw
-  throw new Error('Usage: npx tsx scripts/coordinator-execution-ux-readiness-smoke.ts PARA_OA_012|MV40618')
+  if (raw === 'VALIDATION_PROTOCOL_001' || raw === 'VALIDATION_PROTOCOL_002') return raw
+  throw new Error('Usage: npx tsx scripts/coordinator-execution-ux-readiness-smoke.ts VALIDATION_PROTOCOL_001|VALIDATION_PROTOCOL_002')
 }
 
 function writeReport(reportStem: string, payload: unknown) {

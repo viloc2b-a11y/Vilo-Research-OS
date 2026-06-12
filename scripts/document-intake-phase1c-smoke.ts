@@ -16,6 +16,7 @@ import {
   SIGNATURE_MEANING,
 } from '../lib/document-intake/obligation-types'
 import * as auditLedger from '../lib/document-intake/audit-ledger'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 import { validateObligationInput } from '../lib/document-intake/validate-obligation-input'
 
 const LIVE = process.argv.includes('--live')
@@ -48,6 +49,7 @@ function runUnitChecks() {
 }
 
 async function runLiveChecks() {
+  assertProductionSeedAllowed('document-intake-phase1c-smoke --live')
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {

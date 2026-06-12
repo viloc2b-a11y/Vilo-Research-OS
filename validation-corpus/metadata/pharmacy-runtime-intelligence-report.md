@@ -1,7 +1,7 @@
-# Pharmacy Runtime Intelligence Report
+﻿# Pharmacy Runtime Intelligence Report
 
 ## 1. Overview
-This report synthesizes the extraction of Unblinded Pharmacy Operations logic, primarily mined from the `PARA_OA_012 Unblinded Pharmacy Manual`. The goal was to eliminate the critical blind spot VIP had regarding back-office drug management and temperature logistics.
+This report synthesizes the extraction of Unblinded Pharmacy Operations logic, primarily mined from the `VALIDATION_PROTOCOL_001 Unblinded Pharmacy Manual`. The goal was to eliminate the critical blind spot VIP had regarding back-office drug management and temperature logistics.
 
 ## 2. Phase 1 — Intelligence Extraction
 
@@ -25,5 +25,5 @@ This report synthesizes the extraction of Unblinded Pharmacy Operations logic, p
 
 ## 3. Governance
 - No runtime mutation occurred.
-- Extracted rules are universally abstracted (e.g. not limited to PARA_OA_012 specific drug names).
+- Extracted rules are universally abstracted (e.g. not limited to VALIDATION_PROTOCOL_001 specific drug names).
 - Confidential text sanitized.

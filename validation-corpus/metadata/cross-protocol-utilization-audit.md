@@ -1,4 +1,4 @@
-# Cross-Protocol Utilization Audit Report
+﻿# Cross-Protocol Utilization Audit Report
 
 ## 1. Overview
 This audit evaluates the protocol utilization distribution across all validation gates within Vilo OS (Sprints 1 through 6). The objective is to determine if the Vilo Intelligence Platform (VIP) and the Clinical Intelligence Engine were adequately exposed to diverse clinical domains, or if the model overfit to a single study type (e.g., Osteoarthritis).
@@ -11,8 +11,8 @@ This audit evaluates the protocol utilization distribution across all validation
 | **PROTOCOL_A011** | YES | YES | NO | NO | NO | Antiviral/Influenza. Heavy use in early Sprints (Reader/Parser) for complex SoA grid flattening. |
 | **PROTOCOL_A014** | YES | YES | NO | NO | NO | Biospecimen/Collection. Used for Reader validation of nested footnotes and sample logic. |
 | **AMENDMENT_A101** | YES | YES | NO | NO | NO | Massive Antiviral Platform (Covid/Flu). Used strictly to stress-test the Parser_Extraction_Result limits. |
-| **PARA_OA_012** | NO | NO | NO | NO | NO | Production Smoke Test only. Reconciled successfully for identity preservation, but not parsed. |
-| **MV40618** | NO | NO | NO | NO | NO | Production Smoke Test validation target. |
+| **VALIDATION_PROTOCOL_001** | NO | NO | NO | NO | NO | Production Smoke Test only. Reconciled successfully for identity preservation, but not parsed. |
+| **VALIDATION_PROTOCOL_002** | NO | NO | NO | NO | NO | Production Smoke Test validation target. |
 
 ## 3. Structural vs. Intelligent Utilization
 

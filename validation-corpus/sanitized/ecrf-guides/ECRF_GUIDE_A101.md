@@ -1,4 +1,4 @@
-# ECRF_GUIDE_A101
+﻿# ECRF_GUIDE_A101
 
 > **Extraction Method:** python-docx
 > **Pages:** N/A
@@ -19,7 +19,7 @@
 
 eCRF Completion Guidelines
 
- A PHASE IIIB, MULTICENTER, RANDOMIZED, DOUBLE-BLIND, PLACEBO-CONTROLLED, CLINICAL EFFICACY STUDY OF BALOXAVIR MARBOXIL FOR THE REDUCTION OF DIRECT TRANSMISSION OF INFLUENZA FROM OTHERWISE HEALTHY PATIENTS TO HOUSEHOLD CONTACTS 
+ A PHASE IIIB, MULTICENTER, RANDOMIZED, DOUBLE-BLIND, PLACEBO-CONTROLLED, CLINICAL EFFICACY STUDY OF Investigational Product B FOR THE REDUCTION OF DIRECT TRANSMISSION OF INFLUENZA FROM OTHERWISE HEALTHY PATIENTS TO HOUSEHOLD CONTACTS 
 
 
 
@@ -98,8 +98,8 @@ B)	Interim analysis Investigator signature	55
 3.23 SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)	78
 3.24 SARS-CoV-2 test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits)	78
 3.25 Combination influenza and SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits)	79
-3.26 Blinded Baloxavir Marboxil Administration - 12-64 year olds (Screening)	80
-3.27 Blinded Baloxavir Marboxil Administration - 5-11 year olds (Screening)	82
+3.26 Blinded Investigational Product B Administration - 12-64 year olds (Screening)	80
+3.27 Blinded Investigational Product B Administration - 5-11 year olds (Screening)	82
 3.28  Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit)	83
 3.29 EQ-5D-5L to Measure Quality of Life (Screening, Day 3, Day 9 and Unscheduled visits)	85
 3.30 Investigator and Site Information (Screening)	86
@@ -332,10 +332,10 @@ Work Productivity and Activity Impairment Questionnaire plus Classroom Impairmen
 
 
 
-For age group 5 to 11 years, IP Subjects – “Blinded Baloxavir Marboxil Administration” form will be added.
+For age group 5 to 11 years, IP Subjects – “Blinded Investigational Product B Administration” form will be added.
 
 
-For age group 12 to 64 years IP Subjects - Study Drug Administration-Baloxavir Marboxil form will be added. 
+For age group 12 to 64 years IP Subjects - Study Drug Administration-Investigational Product B form will be added. 
 
 Screening
 Tr[INVESTIGATIONAL_PRODUCT_A]er forms at Screening for Index Patient and Household contact:
@@ -1238,25 +1238,25 @@ Kit/Accession Number: Please enter Kit/Accession Number as appropriate from labo
 
 
 
-3.26 Blinded Baloxavir Marboxil Administration - 12-64 year olds (Screening)
+3.26 Blinded Investigational Product B Administration - 12-64 year olds (Screening)
 
 This form is applicable for the Index patients age group 12-64 year olds.
 
 
 
 
-Study drug: Blinded baloxavir marboxil is default this form.
+Study drug: Blinded Investigational Product B is default this form.
 
-Was blinded baloxavir marboxil administered?: Select ‘Yes’ or ‘No’ as appropriate.
+Was blinded Investigational Product B administered?: Select ‘Yes’ or ‘No’ as appropriate.
 
 
 If no, reason not administered : Provide the reason if study drug not administered.
 
 Start date administered: Enter the complete date in dd MMM yyyy format.
 
-Time administered: Please enter the start time when blinded baloxavir marboxil taken by subject.
+Time administered: Please enter the start time when blinded Investigational Product B taken by subject.
 
-Time administered unknown: Select if start time of blinded baloxavir marboxil taken by subject is unknown
+Time administered unknown: Select if start time of blinded Investigational Product B taken by subject is unknown
 
 Frequency/ Route of administration: This is a single, oral dose study.
 
@@ -1268,11 +1268,11 @@ Frequency/ Route of administration: This is a single, oral dose study.
 
 Planned dose per administration unit: This field is defaulted as “MG” and is non-editable.
 
-Dose administered: Enter the exact dose of blinded baloxavir marboxil taken by the subject in mg.
+Dose administered: Enter the exact dose of blinded Investigational Product B taken by the subject in mg.
 
 Dose administered unit: This field is defaulted as “MG” and is non-editable.
 
-Kit identification of blinded baloxavir marboxil: There are two kit identification. If the subject is taking 80 mg dose, then there would be 2 strips. Please enter two kit identification fields to capture the kit id in case of 80 mg dose.
+Kit identification of blinded Investigational Product B: There are two kit identification. If the subject is taking 80 mg dose, then there would be 2 strips. Please enter two kit identification fields to capture the kit id in case of 80 mg dose.
 
 Dosing formulation: This field is defaulted as ‘Tablet’ based on age and is non-editable.
 
@@ -1281,7 +1281,7 @@ Planned timepoint: This field is defaulted as ‘Screening’ and is non-editabl
 
 
 
-3.27 Blinded Baloxavir Marboxil Administration - 5-11 year olds (Screening)
+3.27 Blinded Investigational Product B Administration - 5-11 year olds (Screening)
 
 This form is applicable for the Index patients age group 5-11 year olds.
 
@@ -1289,15 +1289,15 @@ This form is applicable for the Index patients age group 5-11 year olds.
 
 
 
-Study drug: Blinded baloxavir marboxil is default this form.
+Study drug: Blinded Investigational Product B is default this form.
 
-Was study drug administered?: Select ‘Yes’ or ‘No’ as appropriateFrequency/ Route of administration: This is a single, oral dose study.Kit identification of baloxavir marboxil: Please enter the kit number as appropriate.Planned volume of study drug: Please enter as appropriate the volume of suspension in ml.
+Was study drug administered?: Select ‘Yes’ or ‘No’ as appropriateFrequency/ Route of administration: This is a single, oral dose study.Kit identification of Investigational Product B: Please enter the kit number as appropriate.Planned volume of study drug: Please enter as appropriate the volume of suspension in ml.
 
         2 mg/kg oral suspension for patients who weigh <20 kg. Please enter the dose given from IXR40 mg oral suspension for patients who weigh ≥20 kg
 
 Planned volume unit: This field is defaulted as “ML” and is non-editable.
 
-Total volume administered: Enter the exact dose of blinded baloxavir marboxil taken by the subject in ml.
+Total volume administered: Enter the exact dose of blinded Investigational Product B taken by the subject in ml.
 
 Total volume administered unit: This field is defaulted as “ML” and is non-editable.
 
@@ -1306,9 +1306,9 @@ Dosing formulation: This field is defaulted as ‘ Oral Suspension’ based on w
 
 Date administered: Enter the complete date in dd MMM yyyy format.
 
-Time administered: Please enter the start time when blinded baloxavir marboxil taken by subject.
+Time administered: Please enter the start time when blinded Investigational Product B taken by subject.
 
-Time administered unknown: Select if start time of blinded baloxavir marboxil taken by subject is unknown.
+Time administered unknown: Select if start time of blinded Investigational Product B taken by subject is unknown.
                     Was the dose modified?: Please select the appropriate option from drop down list. When  
                      Planned volume  of study drug is not equal to Total volume administered, please slect Yes.
 Reason for dose modification: Please select the appropriate option from drop down list. Please ensure all advere events and medication errors are recorded on the Adverse event eCRF.
@@ -1342,7 +1342,7 @@ a. During the past seven days, how much did influenza/flu affect your productivi
 
 
 This form is applicable for Index patient aged ≥12 years.
-The treatment benefit of baloxavir marboxil in index patients will be evaluated using the EQ-5D-5L questionnaire (Appendix 3) on Days during the Day 0 (± 1), 3 (± 1), and 9 (± 1)
+The treatment benefit of Investigational Product B in index patients will be evaluated using the EQ-5D-5L questionnaire (Appendix 3) on Days during the Day 0 (± 1), 3 (± 1), and 9 (± 1)
 
 
 
@@ -1508,7 +1508,7 @@ As an example, an accidental overdose that resulted in a headache would require 
 If AE is an infection, specify pathogen: Select appropriate option from drop-down.
 If known, provide specific pathogen code from pathogen code list: Select appropriate option from drop-down.
 Onset date (dd MMM yyyy): Enter the complete start date in dd MMM yyyy format.
-Event occurred prior to first blinded baloxavir marboxil administration: Select yes or no or not applicable.
+Event occurred prior to first blinded Investigational Product B administration: Select yes or no or not applicable.
 Note: For HHC, Not applicable should be selected. 
 Outcome of AE: Is required the first time the AE is entered into the eCRF. If the event is ongoing at the time of initial data entry then select.
 The Outcome of AE should be updated once AE resolves or at the time of final assessment.
@@ -1519,7 +1519,7 @@ AE initial NCI CTCAE grade: Select the initial grade of the AE at onset.
 AE most extreme NCI CTCAE grade: Select the most extreme grade for the duration of the AE. 
 Field must be updated if grade increases (e.g. 2 to 3). If the AE does not increase in grade then the AE initial NCI CTCAE grade and AE most extreme NCI CTCAE grade would be the same.
 
-AE suspected to be caused by blinded baloxavir marboxil?: Select ‘yes’ or ‘No’ or ‘Not applicable’.
+AE suspected to be caused by blinded Investigational Product B?: Select ‘yes’ or ‘No’ or ‘Not applicable’.
  Note: For HHC, Not applicable should be selected. 
 Other suspected causes (select all that apply). For AESIs and SAEs please provide further details in the additional case details section. Select all applicable options.
 None: No other suspected causes of AE can be identified. (Only applicable if study drug is related)
@@ -1560,15 +1560,15 @@ FOR SPANISH SITES ONLY - Autonomous Community: Select from dropdown list.
 If AE became serious, indicate date AE became serious
 
 Note: Point C to M is notapplicable for HHC
-Dose of last blinded baloxavir marboxil administered prior to AE onset: Please enter the actual dose administered.
-Dose of last blinded baloxavir marboxil administered prior to SAE onset: Please enter the actual dose administered.
-Dose unit of last blinded baloxavir marboxil administered prior to AE/SAE onset: This is a non-enterable field and defaulted to ‘MG’
+Dose of last blinded Investigational Product B administered prior to AE onset: Please enter the actual dose administered.
+Dose of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual dose administered.
+Dose unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a non-enterable field and defaulted to ‘MG’
 Below three fields are applicable for Protocol version 3 and above and should be completed only for IP age group 5-11 year old.
-Total volume of last blinded baloxavir marboxil administered prior to AE onset: Please enter the actual volume administered.
-Total volume of last blinded baloxavir marboxil administered prior to SAE onset: Please enter the actual volume administered.
-Total volume unit of last blinded baloxavir marboxil administered prior to AE/SAE onset: This is a non-enterable field and defaulted to ‘ML’
-Date of last blinded baloxavir marboxil prior to AE onset: Enter complete date. 
-Date of last blinded baloxavir marboxil prior to SAE onset: Enter complete date. 
+Total volume of last blinded Investigational Product B administered prior to AE onset: Please enter the actual volume administered.
+Total volume of last blinded Investigational Product B administered prior to SAE onset: Please enter the actual volume administered.
+Total volume unit of last blinded Investigational Product B administered prior to AE/SAE onset: This is a non-enterable field and defaulted to ‘ML’
+Date of last blinded Investigational Product B prior to AE onset: Enter complete date. 
+Date of last blinded Investigational Product B prior to SAE onset: Enter complete date. 
 Route of drug administration for study drug: This is a non-enterable field and defaulted to ‘Oral’
 Frequency of study drug: This is a non-enterable field and defaulted to ‘Once’
 Kit identification of study drug: Enter kit no. of drug.
@@ -1649,8 +1649,8 @@ Version | Effective date | Updated Section(s) | Reason for Revision | Revised by
 2.1 | 14-Oct-2020 | 4.24	SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | New form | Asha
 2.1 | 14-Oct-2020 | 4.25	SARS-CoV-2 test result from local testing (Screening, Day 5, Day 9 and Unscheduled visits) | New form | Asha
 2.1 | 14-Oct-2020 | 4.26	Combination influenza and SARS-CoV-2 sample collection for local laboratory (Screening, Day 5, Day 9 and Unscheduled visits) | New form | Asha
-2.1 | 14-Oct-2020 | 4.27	Blinded Baloxavir Marboxil Administration - 12-64 year olds (Screening)       | Form Name updated and instruction updated | Asha
-2.1 | 14-Oct-2020 | 4.28	Blinded Baloxavir Marboxil Administration - 5-11 year olds (Screening)  | New form added | Asha
+2.1 | 14-Oct-2020 | 4.27	Blinded Investigational Product B Administration - 12-64 year olds (Screening)       | Form Name updated and instruction updated | Asha
+2.1 | 14-Oct-2020 | 4.28	Blinded Investigational Product B Administration - 5-11 year olds (Screening)  | New form added | Asha
 2.1 | 14-Oct-2020 | 4.29	Work Productivity and Activity Impairment Questionnaire plus Classroom Impairment Questions ( Day 9 Visit)  | Instuction added | Asha
 2.1 | 14-Oct-2020 | 4.30	EQ-5D-5L to Measure Quality of Life (Screening, Day 3, Day 9 and Unscheduled visits)  | Instuction added | Asha
 2.1 | 14-Oct-2020 | 4.38	Adverse Events  | New fields added | Asha

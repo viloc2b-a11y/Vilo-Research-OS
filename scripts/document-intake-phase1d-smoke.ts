@@ -16,6 +16,7 @@ import {
   expirationThresholdsDue,
 } from '../lib/document-intake/expiration-alert-types'
 import * as auditLedger from '../lib/document-intake/audit-ledger'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 const LIVE = process.argv.includes('--live')
 
@@ -62,6 +63,7 @@ function expirationIsoDaysFromNow(days: number): string {
 }
 
 async function runLiveChecks() {
+  assertProductionSeedAllowed('document-intake-phase1d-smoke --live')
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {

@@ -1,0 +1,223 @@
+﻿{
+  "manifest_version": "1.0.0",
+  "protocol_id": "VALIDATION_PROTOCOL_002",
+  "description": "Thin-but-functional VALIDATION_PROTOCOL_002 household transmission / remote-visit operational runtime. Not full protocol completeness.",
+  "study": {
+    "host_study_id": "6bae715a-8536-4000-8d24-22b6a3dbb8c9",
+    "organization_id": "f7cf7d2b-49cd-4bcd-9e15-2675966c3e1e",
+    "version_label": "VALIDATION_PROTOCOL_002-operational-thin-v1",
+    "display_name": "VALIDATION_PROTOCOL_002 Operational (Phase 2 Validation Host)",
+    "para_visit_role_scope": ["participant"]
+  },
+  "source_bindings_by_visit_code": {
+    "SCR": "8e85ef58-140d-43a5-9a4b-05fac362c377",
+    "D1": "2ee5a544-fba6-4edb-a5c1-61ba5e2eee00",
+    "FU": "fb9b101a-c718-4daf-85a3-11c91eb6d339",
+    "EOS": "f4c315c8-34a0-4de4-b383-a6ce97149bf6",
+    "ET": "4638a30a-faa3-46e3-bb3b-bc03d5f05021",
+    "LAB": "e0317385-5066-47af-b5dc-c0e4264f49d7"
+  },
+  "visit_definitions": [
+    {
+      "code": "MV_SCR",
+      "label": "Index screening",
+      "sort_order": 1010,
+      "target_day": 1,
+      "window_min_offset": -7,
+      "window_max_offset": 0,
+      "eligible_subject_roles": ["index_patient"],
+      "modality": "site",
+      "source_visit_code": "SCR"
+    },
+    {
+      "code": "MV_IDX_ENROLL",
+      "label": "Index enrollment / baseline",
+      "sort_order": 1020,
+      "target_day": 1,
+      "window_min_offset": -1,
+      "window_max_offset": 3,
+      "eligible_subject_roles": ["index_patient"],
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "MV_CNT_ENROLL",
+      "label": "Household contact enrollment",
+      "sort_order": 1030,
+      "target_day": 5,
+      "window_min_offset": -2,
+      "window_max_offset": 5,
+      "eligible_subject_roles": ["household_contact"],
+      "modality": "site",
+      "source_visit_code": "SCR"
+    },
+    {
+      "code": "MV_HOME_SWAB_IDX",
+      "label": "Index home nasal swab",
+      "sort_order": 1040,
+      "target_day": 7,
+      "window_min_offset": -2,
+      "window_max_offset": 2,
+      "eligible_subject_roles": ["index_patient"],
+      "modality": "home",
+      "source_visit_code": "LAB"
+    },
+    {
+      "code": "MV_HOME_SWAB_CNT",
+      "label": "Contact home nasal swab",
+      "sort_order": 1050,
+      "target_day": 7,
+      "window_min_offset": -2,
+      "window_max_offset": 2,
+      "eligible_subject_roles": ["household_contact"],
+      "modality": "home",
+      "source_visit_code": "LAB"
+    },
+    {
+      "code": "MV_PHONE_WK2",
+      "label": "Week 2 phone check-in",
+      "sort_order": 1060,
+      "target_day": 14,
+      "window_min_offset": -2,
+      "window_max_offset": 2,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "phone",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "MV_REMOTE_SYMPTOM",
+      "label": "Remote symptom follow-up",
+      "sort_order": 1070,
+      "target_day": 21,
+      "window_min_offset": -3,
+      "window_max_offset": 3,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "remote",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "MV_SITE_FU",
+      "label": "Site follow-up",
+      "sort_order": 1080,
+      "target_day": 28,
+      "window_min_offset": -5,
+      "window_max_offset": 5,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "site",
+      "source_visit_code": "D1"
+    },
+    {
+      "code": "MV_SICK_UNSCHED",
+      "label": "Unscheduled sick visit (coordinator-confirmed procedures)",
+      "sort_order": 1090,
+      "target_day": 99,
+      "window_min_offset": -14,
+      "window_max_offset": 14,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "off_site",
+      "source_visit_code": "FU"
+    },
+    {
+      "code": "MV_EOS",
+      "label": "End of study / discontinuation",
+      "sort_order": 1100,
+      "target_day": 56,
+      "window_min_offset": -7,
+      "window_max_offset": 7,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "site",
+      "source_visit_code": "EOS"
+    },
+    {
+      "code": "MV_ET",
+      "label": "Early termination",
+      "sort_order": 1110,
+      "target_day": 120,
+      "window_min_offset": -14,
+      "window_max_offset": 14,
+      "eligible_subject_roles": ["index_patient", "household_contact"],
+      "modality": "off_site",
+      "source_visit_code": "ET"
+    }
+  ],
+  "procedure_definitions": [
+    { "code": "PROC_MV_CONSENT", "label": "Informed consent", "source_visit_code": "SCR" },
+    { "code": "PROC_MV_ELIGIBILITY", "label": "Eligibility / exposure review", "source_visit_code": "SCR" },
+    { "code": "PROC_MV_HOUSEHOLD_LINK", "label": "Household linkage confirmation", "source_visit_code": "SCR" },
+    { "code": "PROC_MV_SYMPTOM_SCREEN", "label": "Symptom screening", "source_visit_code": "FU" },
+    { "code": "PROC_MV_HOME_SWAB", "label": "Home nasal swab collection", "source_visit_code": "LAB" },
+    { "code": "PROC_MV_PHONE_CHECK", "label": "Phone check-in", "source_visit_code": "FU" },
+    { "code": "PROC_MV_REMOTE_SYMPTOM", "label": "Remote symptom log", "source_visit_code": "FU" },
+    { "code": "PROC_MV_SITE_VITALS", "label": "Site vitals / exam", "source_visit_code": "D1" },
+    { "code": "PROC_MV_AE", "label": "Adverse event assessment", "source_visit_code": "D1" },
+    { "code": "PROC_MV_SICK_ASSESS", "label": "Unscheduled sick assessment", "source_visit_code": "FU" },
+    { "code": "PROC_MV_EXTRA_SWAB", "label": "Additional swab (symptom-driven)", "source_visit_code": "LAB" },
+    { "code": "PROC_MV_EOS_CLOSEOUT", "label": "EOS closeout", "source_visit_code": "EOS" }
+  ],
+  "visit_procedure_maps": [
+    { "visit_code": "MV_SCR", "procedure_code": "PROC_MV_CONSENT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_SCR", "procedure_code": "PROC_MV_ELIGIBILITY", "is_required": true, "sort_order": 2 },
+    { "visit_code": "MV_IDX_ENROLL", "procedure_code": "PROC_MV_HOUSEHOLD_LINK", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_IDX_ENROLL", "procedure_code": "PROC_MV_SITE_VITALS", "is_required": true, "sort_order": 2 },
+    { "visit_code": "MV_IDX_ENROLL", "procedure_code": "PROC_MV_AE", "is_required": true, "sort_order": 3 },
+    { "visit_code": "MV_CNT_ENROLL", "procedure_code": "PROC_MV_CONSENT", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_CNT_ENROLL", "procedure_code": "PROC_MV_HOUSEHOLD_LINK", "is_required": true, "sort_order": 2 },
+    { "visit_code": "MV_HOME_SWAB_IDX", "procedure_code": "PROC_MV_HOME_SWAB", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_HOME_SWAB_CNT", "procedure_code": "PROC_MV_HOME_SWAB", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_PHONE_WK2", "procedure_code": "PROC_MV_PHONE_CHECK", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_PHONE_WK2", "procedure_code": "PROC_MV_SYMPTOM_SCREEN", "is_required": true, "sort_order": 2 },
+    { "visit_code": "MV_REMOTE_SYMPTOM", "procedure_code": "PROC_MV_REMOTE_SYMPTOM", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_REMOTE_SYMPTOM", "procedure_code": "PROC_MV_AE", "is_required": true, "sort_order": 2 },
+    {
+      "visit_code": "MV_REMOTE_SYMPTOM",
+      "procedure_code": "PROC_MV_EXTRA_SWAB",
+      "is_required": false,
+      "is_conditional": true,
+      "condition_label": "Additional swab if new respiratory symptoms reported",
+      "sort_order": 10
+    },
+    { "visit_code": "MV_SITE_FU", "procedure_code": "PROC_MV_SITE_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_SITE_FU", "procedure_code": "PROC_MV_AE", "is_required": true, "sort_order": 2 },
+    {
+      "visit_code": "MV_SICK_UNSCHED",
+      "procedure_code": "PROC_MV_SICK_ASSESS",
+      "is_required": false,
+      "is_conditional": true,
+      "condition_label": "Unscheduled sick visit — coordinator confirms symptoms warrant assessment",
+      "sort_order": 1
+    },
+    {
+      "visit_code": "MV_SICK_UNSCHED",
+      "procedure_code": "PROC_MV_EXTRA_SWAB",
+      "is_required": false,
+      "is_conditional": true,
+      "condition_label": "Extra swab during unscheduled sick visit if indicated",
+      "sort_order": 2
+    },
+    { "visit_code": "MV_EOS", "procedure_code": "PROC_MV_SITE_VITALS", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_EOS", "procedure_code": "PROC_MV_EOS_CLOSEOUT", "is_required": true, "sort_order": 2 },
+    { "visit_code": "MV_EOS", "procedure_code": "PROC_MV_AE", "is_required": true, "sort_order": 3 },
+    { "visit_code": "MV_ET", "procedure_code": "PROC_MV_AE", "is_required": true, "sort_order": 1 },
+    { "visit_code": "MV_ET", "procedure_code": "PROC_MV_EOS_CLOSEOUT", "is_required": true, "sort_order": 2 }
+  ],
+  "workflow_checklist_templates": [
+    {
+      "key": "mv_household_contact_enroll",
+      "title": "Enroll household contact after index screening",
+      "description": "Create household_contact subject with shared household_id and anchor_subject_id pointing to index patient.",
+      "priority": "high",
+      "action_type": "follow_up"
+    },
+    {
+      "key": "mv_sick_instantiate",
+      "title": "Symptoms reported — review sick visit procedures",
+      "description": "On MV_SICK_UNSCHED or MV_REMOTE_SYMPTOM visit, use Procedures tab to confirm condition and instantiate sick assessment / extra swab.",
+      "priority": "high",
+      "action_type": "follow_up"
+    }
+  ],
+  "pilot_subject_identifiers": {
+    "index": "VALIDATION_PROTOCOL_002-IDX-PILOT-001",
+    "contact": "VALIDATION_PROTOCOL_002-CNT-PILOT-001"
+  }
+}

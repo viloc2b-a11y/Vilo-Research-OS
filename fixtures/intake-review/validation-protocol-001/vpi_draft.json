@@ -1,0 +1,80 @@
+﻿{
+  "conditional_workflow_inputs": {
+    "flagged": true
+  },
+  "evidence_refs": [
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: ACTH Stimulation Test (conditional)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: Adrenal insufficiency symptom review (conditional)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Conditional procedures",
+      "source_snippet": "Adrenal insufficiency symptom"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: AE Assessment (required)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: Clinical Chemistry (required)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: Hematology / CBC (required)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: HIT / Platelet Panel (conditional)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: Informed Consent (required)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: IP Administration (required)"
+    },
+    {
+      "file_name": "VALIDATION_PROTOCOL_001-protocol-excerpt.txt",
+      "page_or_sheet": "1",
+      "section_reference": "Study Procedures",
+      "source_snippet": "Procedure: Morning Cortisol (required)"
+    }
+  ],
+  "extraction_method": "deterministic_heuristic",
+  "recruitment_complexity_inputs": {},
+  "requires_human_review": true,
+  "reviewer_status": "pending",
+  "safety_complexity_inputs": {
+    "conditional_procedure_count": 1
+  },
+  "staff_burden_inputs": {
+    "visit_count": 12
+  },
+  "visit_burden_score_inputs": {
+    "visit_count": 12
+  }
+}

@@ -1,7 +1,7 @@
-# Batch 3 Lifecycle Closeout
+﻿# Batch 3 Lifecycle Closeout
 
 ### Successfully Archived Originals
-- `validation-corpus/inbox/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx` -> `validation-corpus/raw/processed-originals/MV40618_eCRF COMPLETION GUIDELINES_V 3.0.docx`
+- `validation-corpus/inbox/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx` -> `validation-corpus/raw/processed-originals/VALIDATION_PROTOCOL_002_eCRF COMPLETION GUIDELINES_V 3.0.docx`
 - `validation-corpus/inbox/mRNA-1647-P301-protocol_amendment_7-final.pdf` -> `validation-corpus/raw/processed-originals/mRNA-1647-P301-protocol_amendment_7-final.pdf`
 - `validation-corpus/inbox/Protocolo Piloto Ozono + Nad Capilar (v1.docx` -> `validation-corpus/raw/processed-originals/Protocolo Piloto Ozono + Nad Capilar (v1.docx`
 - `validation-corpus/inbox/UDX CRF 3 Blood Collection Ver 27JAN21.pdf` -> `validation-corpus/raw/processed-originals/UDX CRF 3 Blood Collection Ver 27JAN21.pdf`

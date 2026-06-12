@@ -1,4 +1,4 @@
-# Vilo OS Financial / Deviation / VPI Advance Report
+﻿# Vilo OS Financial / Deviation / VPI Advance Report
 
 Date: 2026-06-03
 
@@ -35,7 +35,7 @@ No new CTMS layer was added. No parallel source of truth was introduced. No exte
 ## What failed before patching
 
 - `phase12c-intake-smoke`
-  - MV branch expected `STUDY-INF-001` while the fixture text clearly states `Protocol Number: MV40618`.
+  - MV branch expected `STUDY-BETA-001` while the fixture text clearly states `Protocol Number: VALIDATION_PROTOCOL_002`.
   - This was a fixture identity mismatch, not an architecture problem.
 - `coordinator-ops:smoke`
   - The study workspace page did not include `StudyOperationsPanel`, even though the panel already existed.

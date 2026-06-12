@@ -1,4 +1,4 @@
-# Sanitization Plan - Batch 2
+﻿# Sanitization Plan - Batch 2
 
 ### Target Quotas
 - PROTOCOLS: 5 (Remaining needed: 0)
@@ -13,17 +13,17 @@
 - **V1 Status:** UNKNOWN
 
 #### ECRF_GUIDE_A003 (ECRF_GUIDE)
-- **Original Path:** `validation-corpus/inbox\MV40618_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx`
+- **Original Path:** `validation-corpus/inbox\VALIDATION_PROTOCOL_002_eCRF Completion Guidelines_Version 5.0_07-Apr-2021.docx`
 - **Risk Flags:** NONE
 - **V1 Status:** UNKNOWN
 
 #### PROTOCOL_A004_AMEND_002 (AMENDMENT)
-- **Original Path:** `validation-corpus/inbox\2.1 para-oa-012-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf`
+- **Original Path:** `validation-corpus/inbox\2.1 VALIDATION_PROTOCOL_001-protocol-amend-1-v2-20250409_signed_no cert_09Apr25.pdf`
 - **Risk Flags:** PROTOCOL_NUMBER
 - **V1 Status:** UNKNOWN
 
 #### PROTOCOL_A004_AMEND_003 (AMENDMENT)
-- **Original Path:** `validation-corpus/inbox\PARA_OA_012 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf`
+- **Original Path:** `validation-corpus/inbox\VALIDATION_PROTOCOL_001 US Protocol v4.0 (Amendment 3) with ICF v6.0 Notification and Documents\01. VALIDATION_PROTOCOL_001_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf`
 - **Risk Flags:** PROTOCOL_NUMBER
 - **V1 Status:** UNKNOWN
 

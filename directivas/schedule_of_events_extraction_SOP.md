@@ -1,4 +1,4 @@
-# Schedule of Events Extraction — SOP
+﻿# Schedule of Events Extraction — SOP
 
 ## Objetivo
 Extraer de manera determinista matrices de procedimientos (Schedule of Events) desde documentos PDF/Excel utilizando Docling (y openpyxl como soporte) para luego normalizar mediante LLM y presentar al coordinador para su revisión, sin mutar runtime ni auto-publicar.
@@ -21,7 +21,7 @@ Extraer de manera determinista matrices de procedimientos (Schedule of Events) d
 ### Inputs
 - Fuente(s): Archivo PDF (Protocolo o SoA) o Excel (.xlsx).
 - Formato esperado (schema/descripción): Archivos binarios subidos vía formulario multipart.
-- Ejemplo mínimo (no sensible): `PARA_OA_012_Protocol.pdf`
+- Ejemplo mínimo (no sensible): `VALIDATION_PROTOCOL_001_Protocol.pdf`
 - Validaciones previas: Verificar el MIME type y tamaño del archivo.
 
 ### Outputs
@@ -30,7 +30,7 @@ Extraer de manera determinista matrices de procedimientos (Schedule of Events) d
   - JSON Draft en `source_builder_drafts`.
 - Formato esperado: Estructura de `ProtocolIntakeDraft` expandida con matrix de extracción.
 - Criterios de aceptación:
-  - [ ] (CRITICAL) El PDF de prueba (PARA_OA_012) extrae Screening, Treatment, y Follow-up tables sin perder filas.
+  - [ ] (CRITICAL) El PDF de prueba (VALIDATION_PROTOCOL_001) extrae Screening, Treatment, y Follow-up tables sin perder filas.
   - [ ] (CRITICAL) Las celdas marcadas con 'X' o '(X)' se preservan y mapean a booleanos `required` o `conditional`.
   - [ ] (CRITICAL) La UI presenta una lista de verificación al coordinador.
   - [ ] (CRITICAL) Los resultados se guardan estrictamente como draft, separados en `raw_extraction_output`, `normalized_procedure_list`, `coordinator_selected_procedures`.

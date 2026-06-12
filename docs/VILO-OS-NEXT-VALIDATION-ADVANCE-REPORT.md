@@ -1,4 +1,4 @@
-# Vilo OS Next Validation Advance Report
+﻿# Vilo OS Next Validation Advance Report
 
 Date: 2026-06-03
 
@@ -19,7 +19,7 @@ Ran `runtime:e2e:live` against a stable pilot scope:
 
 ### Protocol fidelity validation
 
-Validated the strongest available intake fixture path with `PARA_OA_012` using the existing intake/review/publish-prep smokes.
+Validated the strongest available intake fixture path with `VALIDATION_PROTOCOL_001` using the existing intake/review/publish-prep smokes.
 
 ### Source generation proof
 
@@ -69,7 +69,7 @@ That failure no longer hard-stops the pilot run, but it still means the live env
 
 `npx tsx scripts/phase12c-intake-smoke.ts` passed the PARA branch and failed one secondary MV branch gate:
 
-- `MV protocol number` expected `STUDY-INF-001`
+- `MV protocol number` expected `STUDY-BETA-001`
 
 This is a fixture-identity issue in the secondary branch, not a runtime-spine regression in the PARA path.
 

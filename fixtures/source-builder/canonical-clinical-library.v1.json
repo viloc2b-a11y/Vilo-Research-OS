@@ -2683,7 +2683,7 @@
       "library_code": "MV_HOUSEHOLD_SYMPTOM_OVERLAY_V1",
       "library_kind": "overlay",
       "clinical_domain": "respiratory_samples",
-      "description": "MV40618 household symptom and swab overlay (namespaced fields).",
+      "description": "VALIDATION_PROTOCOL_002 household symptom and swab overlay (namespaced fields).",
       "fields": [
         {
           "field_key": "mv_cough",

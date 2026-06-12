@@ -1,7 +1,7 @@
-# Pharmacy VIP Patterns & Coverage Recalculation
+﻿# Pharmacy VIP Patterns & Coverage Recalculation
 
 ## 1. Overview
-The Vilo Intelligence Platform (VIP) underwent an intensive enrichment pass targeting Pharmacy Operations via the `PARA_OA_012 Unblinded Pharmacy Manual`. A total of **13 new candidate patterns** were securely extracted, sanitized, and stored.
+The Vilo Intelligence Platform (VIP) underwent an intensive enrichment pass targeting Pharmacy Operations via the `VALIDATION_PROTOCOL_001 Unblinded Pharmacy Manual`. A total of **13 new candidate patterns** were securely extracted, sanitized, and stored.
 
 ## 2. Newly Abstracted Patterns
 

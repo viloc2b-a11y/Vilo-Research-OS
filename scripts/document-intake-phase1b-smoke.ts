@@ -11,6 +11,7 @@ import { buildStoragePath } from '../lib/document-intake/build-storage-path'
 import { CERTIFIED_COPY_ATTESTATION_LOCKED_TEXT } from '../lib/document-intake/compliance-types'
 import { ingestComplianceDocument } from '../lib/document-intake/ingest-document'
 import * as auditLedger from '../lib/document-intake/audit-ledger'
+import { assertProductionSeedAllowed } from './lib/production-seed-guard.mjs'
 
 const LIVE = process.argv.includes('--live')
 
@@ -68,6 +69,7 @@ async function runUnitChecks() {
 }
 
 async function runLiveChecks() {
+  assertProductionSeedAllowed('document-intake-phase1b-smoke --live')
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {
