@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+﻿import fs from 'node:fs'
 import path from 'node:path'
 
 // Mock dependencies BEFORE importing reconciliation-actions
@@ -212,16 +212,16 @@ async function runTests() {
   // but wait, I can't mock the imported module easily without jest.
   // Let's rely on the integration tests for 9 and 10 to prove it works structurally.
   
-  // 9. Integration validation for PARA_OA_012
-  const fixturePathPara = path.join(__dirname, '../fixtures/para-oa-012/runtime-manifest.v1.json')
+  // 9. Integration validation for VALIDATION_PROTOCOL_001
+  const fixturePathPara = path.join(__dirname, '../fixtures/validation-protocol-001/runtime-manifest.v1.json')
   const paraManifest = JSON.parse(fs.readFileSync(fixturePathPara, 'utf8'))
-  assert(paraManifest.visit_definitions && paraManifest.visit_definitions.length > 0, 'Test 9: PARA_OA_012 structural equivalence check passed.')
+  assert(paraManifest.visit_definitions && paraManifest.visit_definitions.length > 0, 'Test 9: VALIDATION_PROTOCOL_001 structural equivalence check passed.')
 
-  // 10. Integration validation for MV40618
-  const fixturePathMv = path.join(__dirname, '../fixtures/mv40618/runtime-manifest.v1.json')
+  // 10. Integration validation for VALIDATION_PROTOCOL_002
+  const fixturePathMv = path.join(__dirname, '../fixtures/validation-protocol-002/runtime-manifest.v1.json')
   if (fs.existsSync(fixturePathMv)) {
     const mvManifest = JSON.parse(fs.readFileSync(fixturePathMv, 'utf8'))
-    assert(mvManifest.visit_definitions && mvManifest.visit_definitions.length > 0, 'Test 10: MV40618 structural check passed.')
+    assert(mvManifest.visit_definitions && mvManifest.visit_definitions.length > 0, 'Test 10: VALIDATION_PROTOCOL_002 structural check passed.')
   }
 
   console.log('Tests pass. Structural equivalence demonstrated for fixtures.')
