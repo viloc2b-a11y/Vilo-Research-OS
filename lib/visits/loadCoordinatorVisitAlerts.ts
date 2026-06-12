@@ -4,6 +4,7 @@ import { isApproachingVisit } from '@/lib/visits/loadSubjectVisitSchedule'
 import { refreshVisitOperationalFields } from '@/lib/visits/refreshVisitOperationalState'
 import type { CoordinatorVisitAlert } from '@/lib/visits/types'
 import { createServerClient } from '@/lib/supabase/server'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 function one<T>(value: T | T[] | null | undefined): T | null {
   if (Array.isArray(value)) return value[0] ?? null
@@ -35,6 +36,7 @@ export async function loadCoordinatorVisitAlerts(
       window_status,
       confirmation_status,
       sms_reminder_sent_at,
+      studies(name, slug, created_source),
       study_subjects(subject_identifier),
       visit_definitions(code, label)
     `,
@@ -50,7 +52,7 @@ export async function loadCoordinatorVisitAlerts(
 
   const alerts: CoordinatorVisitAlert[] = []
 
-  for (const visit of rows) {
+  for (const visit of filterDashboardTestDataRows(rows)) {
     const subject = one(visit.study_subjects) as { subject_identifier?: string } | null
     const def = one(visit.visit_definitions) as { code?: string; label?: string } | null
     const visitLabel = def?.label ?? def?.code ?? 'Visit'

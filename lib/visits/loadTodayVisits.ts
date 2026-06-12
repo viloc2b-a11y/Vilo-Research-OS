@@ -5,6 +5,7 @@
 import { subjectChartPath, visitDetailPath } from '@/lib/ops/paths'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { createServerClient } from '@/lib/supabase/server'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export interface TodayVisitRow {
   visitId: string
@@ -41,6 +42,7 @@ export async function loadTodayVisits(
       study_subject_id,
       scheduled_date,
       visit_status,
+      studies(name, slug, created_source),
       study_subjects(subject_identifier),
       visit_definitions(code, label)
     `,
@@ -54,7 +56,8 @@ export async function loadTodayVisits(
   if (error || !rows?.length) return []
 
   // Load pending procedure counts in one batch
-  const visitIds = rows.map((r) => r.id as string)
+  const visibleRows = filterDashboardTestDataRows(rows)
+  const visitIds = visibleRows.map((r) => r.id as string)
   const { data: pendingProcs } = visitIds.length > 0
     ? await supabase
         .from('procedure_executions')
@@ -69,7 +72,7 @@ export async function loadTodayVisits(
     pendingByVisit.set(vid, (pendingByVisit.get(vid) ?? 0) + 1)
   }
 
-  return rows.map((visit) => {
+  return visibleRows.map((visit) => {
     const subject = one(visit.study_subjects) as { subject_identifier?: string } | null
     const def = one(visit.visit_definitions) as { code?: string; label?: string } | null
     const studyId = visit.study_id as string

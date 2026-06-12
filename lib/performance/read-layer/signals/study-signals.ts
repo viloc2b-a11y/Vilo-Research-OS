@@ -6,11 +6,14 @@ import {
   RISK_VISIT_STATUSES,
 } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type StudyRow = {
   id: string
   name: string
   status: string
+  slug?: string | null
+  created_source?: string | null
 }
 
 export type StudyCountsRow = {
@@ -51,15 +54,16 @@ export async function loadStudiesList(
 ): Promise<RawSignal<StudyRow>> {
   const { data, error } = await client
     .from('studies')
-    .select('id, name, status')
+    .select('id, name, slug, status, created_source')
     .in('organization_id', organizationIds)
+    .neq('status', 'archived')
     .order('name', { ascending: true })
 
   if (error) {
     return { source: 'studies', rows: [], error: { source: 'studies', message: error.message } }
   }
 
-  return { source: 'studies', rows: (data ?? []) as StudyRow[], error: null }
+  return { source: 'studies', rows: filterDashboardTestDataRows((data ?? []) as StudyRow[]), error: null }
 }
 
 async function countSubjectsForStudy(

@@ -5,6 +5,7 @@ import {
   SNAPSHOT_QUERY_RISK_LIMIT,
 } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type OverdueWorkflowRow = Record<string, unknown>
 export type CoordinatorLoadWorkflowRow = Record<string, unknown>
@@ -31,7 +32,7 @@ export async function loadOverdueWorkflowActions(
       due_date,
       status,
       study_subjects(subject_identifier),
-      studies(name)
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -50,7 +51,7 @@ export async function loadOverdueWorkflowActions(
     }
   }
 
-  return { source: 'overdue_workflow', rows: (data ?? []) as OverdueWorkflowRow[], error: null }
+  return { source: 'overdue_workflow', rows: filterDashboardTestDataRows((data ?? []) as OverdueWorkflowRow[]), error: null }
 }
 
 export async function loadCoordinatorLoadWorkflowActions(
@@ -71,7 +72,11 @@ export async function loadCoordinatorLoadWorkflowActions(
       due_date,
       status,
       updated_at,
-      created_at
+      created_at,
+      title,
+      description,
+      study_subjects(subject_identifier),
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -91,7 +96,7 @@ export async function loadCoordinatorLoadWorkflowActions(
 
   return {
     source: 'coordinator_load_workflow',
-    rows: (data ?? []) as CoordinatorLoadWorkflowRow[],
+    rows: filterDashboardTestDataRows((data ?? []) as CoordinatorLoadWorkflowRow[]),
     error: null,
   }
 }
@@ -123,7 +128,7 @@ export async function loadSnapshotQueryRiskSignals(
       opened_at,
       updated_at,
       study_subjects(subject_identifier),
-      studies(name)
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -143,7 +148,7 @@ export async function loadSnapshotQueryRiskSignals(
 
   return {
     source: 'snapshot_query_risk',
-    rows: (data ?? []) as SnapshotQueryRiskRow[],
+    rows: filterDashboardTestDataRows((data ?? []) as SnapshotQueryRiskRow[]),
     error: null,
   }
 }
@@ -164,7 +169,9 @@ export async function loadCoordinatorLoadSnapshotQueries(
       priority,
       query_status,
       updated_at,
-      opened_at
+      opened_at,
+      study_subjects(subject_identifier),
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -181,7 +188,7 @@ export async function loadCoordinatorLoadSnapshotQueries(
     }
   }
 
-  const rows = (data ?? []).map((row) => ({
+  const rows = filterDashboardTestDataRows(data ?? []).map((row) => ({
     ...row,
     created_by: row.opened_by,
     created_at: row.opened_at,

@@ -6,6 +6,7 @@ import {
 import { canViewUnblindedData } from '@/lib/rbac/permissions'
 import { loadPerformancePageModel } from '@/app/(ops)/performance/_lib/load-performance-page'
 import { createServerClient } from '@/lib/supabase/server'
+import { filterDashboardTestDataRows, hasDashboardTestDataMarker } from '@/lib/dashboard-test-data'
 import { sourceCapturePath, sourceResponseSetPath, visitDetailPath } from '@/lib/ops/paths'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { loadCoordinatorVisitAlerts } from '@/lib/visits/loadCoordinatorVisitAlerts'
@@ -94,14 +95,14 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     loadCoordinatorVisitAlerts(organizationIds),
     supabase
       .from('source_response_sets')
-      .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, status, opened_at, submitted_at')
+      .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, status, opened_at, submitted_at, studies(name, slug, created_source), study_subjects(subject_identifier)')
       .in('organization_id', organizationIds)
       .in('status', ['draft', 'in_progress', 'pending_review'])
       .order('opened_at', { ascending: false })
       .limit(12),
     supabase
       .from('procedure_executions')
-      .select('id, organization_id, study_id, visit_id, execution_status, validation_status, is_signed, is_locked, procedure_definitions(label, code)')
+      .select('id, organization_id, study_id, visit_id, execution_status, validation_status, is_signed, is_locked, procedure_definitions(label, code), studies(name, slug, created_source), visits(study_subjects(subject_identifier), visit_definitions(label, code))')
       .in('organization_id', organizationIds)
       .eq('is_signed', false)
       .eq('is_locked', false)
@@ -110,13 +111,13 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .limit(12),
     supabase
       .from('source_response_sets')
-      .select('id, organization_id')
+      .select('id, organization_id, studies(name, slug, created_source), study_subjects(subject_identifier)')
       .in('organization_id', organizationIds)
       .order('opened_at', { ascending: false })
       .limit(200),
     supabase
       .from('subject_workflow_actions')
-      .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, source_response_set_id, action_type, status, priority, title, due_date')
+      .select('id, organization_id, study_id, study_subject_id, visit_id, procedure_execution_id, source_response_set_id, action_type, status, priority, title, due_date, description, studies(name, slug, created_source), study_subjects(subject_identifier)')
       .in('organization_id', organizationIds)
       .in('status', ['open', 'in_progress'])
       .order('due_date', { ascending: true, nullsFirst: false })
@@ -124,7 +125,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .limit(12),
     supabase
       .from('operational_events')
-      .select('id, organization_id, event_type, payload, occurred_at, visit_id, procedure_execution_id')
+      .select('id, organization_id, event_type, payload, occurred_at, visit_id, procedure_execution_id, studies(name, slug, created_source)')
       .in('organization_id', organizationIds)
       .order('occurred_at', { ascending: false })
       .limit(12),
@@ -154,7 +155,12 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       tone: 'critical' as const,
     }))
 
-  const incompleteSource = (sourceSets.data ?? []).map((set) => ({
+  const visibleSourceSets = filterDashboardTestDataRows(sourceSets.data ?? [])
+  const visiblePendingProcedures = filterDashboardTestDataRows(pendingProcedures.data ?? [])
+  const visibleBlockerSets = filterDashboardTestDataRows(blockerSets.data ?? [])
+  const visibleWorkflowActions = filterDashboardTestDataRows(workflowActions.data ?? [])
+
+  const incompleteSource = visibleSourceSets.map((set) => ({
     id: set.id as string,
     title: `Source set ${String(set.id).slice(0, 8)}`,
     detail: `Status: ${String(set.status ?? 'draft')}`,
@@ -165,7 +171,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     tone: 'warning' as const,
   }))
 
-  const pendingSignatures = (pendingProcedures.data ?? []).map((proc) => {
+  const pendingSignatures = visiblePendingProcedures.map((proc) => {
     const def = one(proc.procedure_definitions) as { label?: string | null; code?: string | null } | null
     return {
       id: proc.id as string,
@@ -177,7 +183,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     }
   })
 
-  const scopedResponseSetIds = (blockerSets.data ?? []).map((set) => set.id as string)
+  const scopedResponseSetIds = visibleBlockerSets.map((set) => set.id as string)
   const findings =
     scopedResponseSetIds.length > 0
       ? await supabase
@@ -193,7 +199,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   if (findings.error) unavailable.push(unavailableSection('Source Engine Blockers'))
 
   const scopedSetOrgById = new Map(
-    (blockerSets.data ?? []).map((set) => [set.id as string, set.organization_id as string]),
+    visibleBlockerSets.map((set) => [set.id as string, set.organization_id as string]),
   )
 
   const sourceEngineBlockers = (findings.data ?? []).map((finding) => ({
@@ -207,7 +213,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     tone: 'critical' as const,
   }))
 
-  const openWorkflowTasks = (workflowActions.data ?? []).map((action) => {
+  const openWorkflowTasks = visibleWorkflowActions.map((action) => {
     const setId = action.source_response_set_id as string | null
     const procId = action.procedure_execution_id as string | null
     const visitId = action.visit_id as string | null
@@ -243,7 +249,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   const recentEvents = filterRowsByOrganizationBlindingScope(
     (events.data ?? []) as EventRow[],
     memberships,
-  ).map((event) => ({
+  ).filter((event) => !hasDashboardTestDataMarker(event)).map((event) => ({
     id: event.id,
     eventType: event.event_type,
     occurredAt: event.occurred_at,

@@ -7,6 +7,7 @@ import {
   VISIT_STATUS_VALUES,
 } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type VisitStatusCountRow = { visit_status: string; count: number }
 export type SourceStatusCountRow = { source_status: string; count: number }
@@ -117,7 +118,7 @@ export async function loadRiskVisits(
       target_date,
       window_end,
       study_subjects(subject_identifier),
-      studies(name),
+      studies(name, slug, created_source),
       visit_definitions(label, code)
     `,
     )
@@ -131,7 +132,7 @@ export async function loadRiskVisits(
     return { source: 'risk_visits', rows: [], error: { source: 'risk_visits', message: error.message } }
   }
 
-  return { source: 'risk_visits', rows: (data ?? []) as RiskVisitRow[], error: null }
+  return { source: 'risk_visits', rows: filterDashboardTestDataRows((data ?? []) as RiskVisitRow[]), error: null }
 }
 
 export async function loadVisitSignals(

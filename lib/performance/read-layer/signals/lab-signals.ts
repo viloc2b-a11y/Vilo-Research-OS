@@ -11,6 +11,7 @@ import {
   type SourceLabResponseRow,
   type SourceLabSetRow,
 } from '@/lib/subject/lab-timeline/normalize-source-lab-observations'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type LabLongitudinalSignalRow = Record<string, unknown>
 
@@ -123,7 +124,7 @@ export async function loadLabLongitudinalSignals(
         visit_definitions(label, code)
       ),
       study_subjects(subject_identifier),
-      studies(name)
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -139,7 +140,7 @@ export async function loadLabLongitudinalSignals(
     }
   }
 
-  const setRows = (setResult.data ?? []) as SourceLabSetRow[]
+  const setRows = filterDashboardTestDataRows((setResult.data ?? []) as SourceLabSetRow[])
   if (setRows.length === 0) {
     return { source: 'longitudinal_lab_signals', rows: [], error: null }
   }

@@ -18,6 +18,7 @@ import {
 } from '@/lib/auth/session'
 import { canManageSourceBuilder, canManageSourceDocuments } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 function firstParam(value: string | string[] | undefined): string | null {
   if (Array.isArray(value)) return value[0] ?? null
@@ -183,12 +184,13 @@ export default async function DocumentCenterPage({ searchParams }: DocumentCente
   const supabase = await createServerClient()
   const { data: studies } = await supabase
     .from('studies')
-    .select('id, name')
+    .select('id, name, slug, status, created_source')
     .eq('organization_id', organizationId)
+    .neq('status', 'archived')
     .order('name', { ascending: true })
     .limit(STUDY_SELECTOR_LIMIT)
 
-  const studyList: StudyOption[] = (studies ?? []).map((study) => ({
+  const studyList: StudyOption[] = filterDashboardTestDataRows(studies ?? []).map((study) => ({
     id: String(study.id),
     name: String(study.name),
   }))

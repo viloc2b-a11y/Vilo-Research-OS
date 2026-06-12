@@ -1,6 +1,7 @@
 import type { PerformanceQueryScope, RawSignal } from '@/lib/performance/types'
 import { BLOCKED_PROCEDURES_RISK_LIMIT } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type BlockedProcedureRow = Record<string, unknown>
 
@@ -16,7 +17,7 @@ export async function loadBlockedProcedures(
       study_id,
       organization_id,
       visits(id, study_subject_id, study_subjects(subject_identifier)),
-      studies(name),
+      studies(name, slug, created_source),
       procedure_definitions(label, code)
     `,
     )
@@ -33,5 +34,5 @@ export async function loadBlockedProcedures(
     }
   }
 
-  return { source: 'blocked_detail', rows: (data ?? []) as BlockedProcedureRow[], error: null }
+  return { source: 'blocked_detail', rows: filterDashboardTestDataRows((data ?? []) as BlockedProcedureRow[]), error: null }
 }

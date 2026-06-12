@@ -1,6 +1,7 @@
 import type { PerformanceQueryScope, RawSignal } from '@/lib/performance/types'
 import { FINANCIAL_LEAKAGE_RISK_LIMIT } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type FinancialLeakageRiskRow = Record<string, unknown>
 
@@ -26,7 +27,7 @@ export async function loadFinancialLeakageRiskSignals(
       leakage,
       snapshot,
       study_subjects(subject_identifier),
-      studies(name)
+      studies(name, slug, created_source)
     `,
     )
     .in('organization_id', scope.organizationIds)
@@ -46,7 +47,7 @@ export async function loadFinancialLeakageRiskSignals(
 
   return {
     source: 'financial_leakage',
-    rows: (data ?? []) as FinancialLeakageRiskRow[],
+    rows: filterDashboardTestDataRows((data ?? []) as FinancialLeakageRiskRow[]),
     error: null,
   }
 }

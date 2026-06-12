@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { ComplianceAuditEventType } from './compliance-types'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type RecentComplianceDocumentRow = {
   id: string
@@ -22,15 +23,19 @@ export async function listRecentComplianceDocuments(
   const { data: documents, error } = await supabase
     .from('compliance_runtime_documents')
     .select(
-      'id, operational_display_name, original_filename, document_classification, created_by, created_at, certified_copy_attested, expiration_date',
+      'id, operational_display_name, original_filename, document_classification, created_by, created_at, certified_copy_attested, expiration_date, status, metadata, operational_notes',
     )
     .eq('organization_id', organizationId)
+    .neq('status', 'archived')
     .order('created_at', { ascending: false })
     .limit(limit)
 
   if (error || !documents?.length) return []
 
-  const documentIds = documents.map((row) => String(row.id))
+  const visibleDocuments = filterDashboardTestDataRows(documents)
+  const documentIds = visibleDocuments.map((row) => String(row.id))
+  if (documentIds.length === 0) return []
+
   const { data: auditRows } = await supabase
     .from('compliance_audit_ledger')
     .select('document_id, event_type, event_timestamp')
@@ -48,7 +53,7 @@ export async function listRecentComplianceDocuments(
     })
   }
 
-  return documents.map((row) => {
+  return visibleDocuments.map((row) => {
     const latest = latestByDocument.get(String(row.id))
     return {
       id: String(row.id),

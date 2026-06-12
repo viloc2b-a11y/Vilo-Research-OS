@@ -4,6 +4,7 @@ import {
   WINDOW_CLOSING_TODAY_LIMIT,
 } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 export type DataCaptureSignals = {
   windowClosingToday: RawSignal<Record<string, unknown>>
@@ -31,7 +32,7 @@ const VISIT_RISK_SELECT = `
   completed_at,
   source_status,
   study_subjects(subject_identifier),
-  studies(name),
+  studies(name, slug, created_source),
   visit_definitions(label, code)
 `
 
@@ -57,7 +58,7 @@ async function loadWindowClosingToday(
     }
   }
 
-  return { source: 'window_closing_today', rows: data ?? [], error: null }
+  return { source: 'window_closing_today', rows: filterDashboardTestDataRows(data ?? []), error: null }
 }
 
 async function loadUnsignedVisitsOver48h(
@@ -83,7 +84,7 @@ async function loadUnsignedVisitsOver48h(
     }
   }
 
-  return { source: 'unsigned_visits_48h', rows: data ?? [], error: null }
+  return { source: 'unsigned_visits_48h', rows: filterDashboardTestDataRows(data ?? []), error: null }
 }
 
 export async function loadDataCaptureSignals(

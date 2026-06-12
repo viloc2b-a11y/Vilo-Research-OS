@@ -18,6 +18,7 @@ import type {
 } from '@/lib/coordinator-operations/types'
 import { studyWorkspacePath, visitDetailPath } from '@/lib/ops/paths'
 import { createServerClient } from '@/lib/supabase/server'
+import { filterDashboardTestDataRows, hasDashboardTestDataMarker } from '@/lib/dashboard-test-data'
 import { detectInternalRisksWithInput } from '@/lib/site-defense'
 import { todayIsoDate } from '@/lib/visits/calculateVisitWindows'
 import { loadCoordinatorVisitAlerts } from '@/lib/visits/loadCoordinatorVisitAlerts'
@@ -96,7 +97,7 @@ export async function loadSiteOperationsSurface(
     await Promise.all([
       client
         .from('studies')
-        .select('id, name, status')
+        .select('id, name, slug, status, created_source')
         .in('organization_id', organizationIds)
         .neq('status', 'archived')
         .order('name', { ascending: true })
@@ -110,7 +111,7 @@ export async function loadSiteOperationsSurface(
           next_actions,
           work_queue,
           top_priority_score,
-          studies(name),
+          studies(name, slug, created_source),
           visits(
             visit_status,
             scheduled_date,
@@ -125,7 +126,7 @@ export async function loadSiteOperationsSurface(
         .limit(40),
       client
         .from('visit_readiness_projections')
-        .select('visit_id, readiness_status, missing_source_count, unsigned_procedure_count, safety_blocker_count')
+        .select('visit_id, readiness_status, missing_source_count, unsigned_procedure_count, safety_blocker_count, studies(name, slug, created_source), study_subjects(subject_identifier), visits(visit_definitions(label, code))')
         .in('organization_id', organizationIds)
         .in('readiness_status', ['blocked', 'attention']),
       loadCoordinatorVisitAlerts(organizationIds),
@@ -143,23 +144,25 @@ export async function loadSiteOperationsSurface(
         .in('execution_status', ['completed', 'verified']),
     ])
 
-  const activeStudies = (studiesResult.data ?? []).map((s) => ({
+  const visibleStudies = filterDashboardTestDataRows(studiesResult.data ?? [])
+  const activeStudies = visibleStudies.map((s) => ({
     id: s.id as string,
     name: s.name as string,
     status: s.status as string | null,
     href: studyWorkspacePath(s.id as string),
   }))
 
+  const visibleReadinessRows = filterDashboardTestDataRows(readinessResult.data ?? [])
   const blockedVisitCount =
-    readinessResult.data?.filter((r) => r.readiness_status === 'blocked').length ?? 0
+    visibleReadinessRows.filter((r) => r.readiness_status === 'blocked').length ?? 0
 
   const overdueVisitCount = alerts.filter((a) => {
     if (a.alertType !== 'missed' && a.alertType !== 'out_of_window') return false
     return a.scheduledDate ? a.scheduledDate < today : true
   }).length
 
-  const orchRows = (orchResult.data ?? []) as OrchRow[]
-  const projectionDataAvailable = orchRows.length > 0 || (readinessResult.data?.length ?? 0) > 0
+  const orchRows = filterDashboardTestDataRows((orchResult.data ?? []) as OrchRow[])
+  const projectionDataAvailable = orchRows.length > 0 || visibleReadinessRows.length > 0
 
   const topNextActions: OperationalNextActionItem[] = []
   for (const row of orchRows) {
@@ -212,7 +215,8 @@ export async function loadSiteOperationsSurface(
     }
   }
 
-  for (const readiness of readinessResult.data ?? []) {
+  for (const readiness of visibleReadinessRows) {
+    if (hasDashboardTestDataMarker(readiness)) continue
     const row = orchRows.find((orch) => orch.visit_id === readiness.visit_id)
     const runtimeId = readiness.visit_id as string
     const missingSourceCount = readiness.missing_source_count as number | undefined
