@@ -67,24 +67,74 @@ export function scoreProcedureMatch(
   }
 }
 
+export type DroppedProcedureCandidate = {
+  procedureId: string
+  procedureCode: string
+  procedureName: string
+  candidateName: string
+  confidence: number
+  reason: 'NO_ACTIVE_BLUEPRINT_VERSION'
+}
+
+/**
+ * Suggest procedure library matches for a candidate procedure name.
+ *
+ * Items with confidence > 0 but no active blueprint version are dropped from
+ * results and reported via console.warn (observability for the silent-drop
+ * filter). The caller receives only actionable matches.
+ */
 export function suggestProcedureMatches(
   candidateName: string,
   procedures: ProcedureLibraryRow[],
   limit = 5,
+  context?: { protocolVersionId?: string; studyId?: string },
 ): ProcedureMatchSuggestion[] {
-  return procedures
-    .map((procedure) => {
-      const scored = scoreProcedureMatch(candidateName, procedure)
-      return {
-        procedureId: procedure.id,
-        procedureCode: procedure.procedureCode,
-        procedureName: procedure.procedureName,
-        blueprintVersionId: procedure.activeVersionId,
-        confidence: scored.confidence,
-        matchingMethod: scored.matchingMethod,
-      }
-    })
-    .filter((item) => item.confidence > 0 && item.blueprintVersionId)
+  const scored = procedures.map((procedure) => {
+    const result = scoreProcedureMatch(candidateName, procedure)
+    return {
+      procedureId: procedure.id,
+      procedureCode: procedure.procedureCode,
+      procedureName: procedure.procedureName,
+      blueprintVersionId: procedure.activeVersionId,
+      confidence: result.confidence,
+      matchingMethod: result.matchingMethod,
+    }
+  })
+
+  const withConfidence = scored.filter((item) => item.confidence > 0)
+
+  const dropped: DroppedProcedureCandidate[] = withConfidence
+    .filter((item) => !item.blueprintVersionId)
+    .map((item) => ({
+      procedureId: item.procedureId,
+      procedureCode: item.procedureCode,
+      procedureName: item.procedureName,
+      candidateName,
+      confidence: item.confidence,
+      reason: 'NO_ACTIVE_BLUEPRINT_VERSION' as const,
+    }))
+
+  if (dropped.length > 0) {
+    console.warn(
+      '[suggest-procedure-matches] dropped %d candidate(s) with confidence > 0 but no active blueprint version.',
+      dropped.length,
+      {
+        totalDropped: dropped.length,
+        candidateName,
+        ...(context?.protocolVersionId ? { protocolVersionId: context.protocolVersionId } : {}),
+        ...(context?.studyId ? { studyId: context.studyId } : {}),
+        dropped: dropped.map((d) => ({
+          procedureCode: d.procedureCode,
+          procedureName: d.procedureName,
+          confidence: d.confidence,
+          reason: d.reason,
+        })),
+      },
+    )
+  }
+
+  return withConfidence
+    .filter((item) => item.blueprintVersionId)
     .sort(
       (a, b) =>
         b.confidence - a.confidence || a.procedureName.localeCompare(b.procedureName),
@@ -144,7 +194,10 @@ export async function runSuggestProcedureMatches(args: {
 
   for (const row of rows ?? []) {
     const current = mapProcedureReconciliationRow(row as Record<string, unknown>)
-    const suggestions = suggestProcedureMatches(current.procedureName, procedures, 5)
+    const matchContext = {
+      protocolVersionId: args.protocolVersionId,
+    }
+    const suggestions = suggestProcedureMatches(current.procedureName, procedures, 5, matchContext)
     const best = pickBestProcedureMatch(current.procedureName, procedures)
 
     const patch: Record<string, unknown> = {
