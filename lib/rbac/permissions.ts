@@ -349,6 +349,55 @@ export function canEditClinicalSource(
   )
 }
 
+export function canViewProtocolDeviationsForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+    || normalized === 'unblinded_cra'
+  )
+}
+
+export function canViewProtocolDeviations(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canViewProtocolDeviationsForRole(role),
+    organizationId,
+  )
+}
+
+export function canManageProtocolDeviationsForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+  )
+}
+
+export function canManageProtocolDeviations(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManageProtocolDeviationsForRole(role),
+    organizationId,
+  )
+}
+
 export function canManageSafetyEventsForRole(role: string): boolean {
   const normalized = normalizeOrganizationRole(role)
   if (!normalized) return false
@@ -669,6 +718,8 @@ export type SitePermissionSnapshot = {
   canManageCommunications: boolean
   canManageSafetyEvents: boolean
   canViewSafetyEvents: boolean
+  canManageProtocolDeviations: boolean
+  canViewProtocolDeviations: boolean
   canAccessSubjectVisitWorkspace: boolean
   canManageSubjectVisits: boolean
   canManageSourceDocuments: boolean
@@ -710,6 +761,8 @@ export function resolveSitePermissions(
     canManageCommunications: canManageCommunications(memberships, organizationId),
     canManageSafetyEvents: canManageSafetyEvents(memberships, organizationId),
     canViewSafetyEvents: canViewSafetyEvents(memberships, organizationId),
+    canManageProtocolDeviations: canManageProtocolDeviations(memberships, organizationId),
+    canViewProtocolDeviations: canViewProtocolDeviations(memberships, organizationId),
     canAccessSubjectVisitWorkspace: canAccessSubjectVisitWorkspace(memberships, organizationId),
     canManageSubjectVisits: canManageSubjectVisits(memberships, organizationId),
     canManageSourceDocuments: canManageSourceDocuments(memberships, organizationId),
