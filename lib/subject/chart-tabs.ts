@@ -4,6 +4,7 @@ export const subjectChartTabs = [
   { key: 'visits', label: 'Visits' },
   { key: 'consent', label: 'Consent' },
   { key: 'adverse-events', label: 'AE' },
+  { key: 'safety', label: 'Safety' },
   { key: 'medical-history', label: 'Medical History' },
   { key: 'conmeds', label: 'ConMeds' },
   { key: 'allergies', label: 'Allergies' },

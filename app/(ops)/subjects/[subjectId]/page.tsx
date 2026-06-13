@@ -49,13 +49,15 @@ import { loadSubjectConsentRuntime } from '@/lib/subject/consent'
 import { loadSubjectLongitudinalLabs } from '@/lib/subject/lab-timeline/load-subject-longitudinal-labs'
 import { buildSubjectLabTimeline } from '@/lib/longitudinal-labs/build-subject-lab-timeline'
 import { SubjectLabTimeline } from '@/components/longitudinal-labs/subject-lab-timeline'
+import { loadSafetyEvents } from '@/lib/safety-runtime/load-safety-events'
+import { SubjectSafetyTimeline } from '@/components/subject/safety/SubjectSafetyTimeline'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { loadSubjectSourceTemplate } from '@/lib/subject/source-template/read'
 import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/types'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
-import { canReviewSourceDocuments, canSignClinicalSource, canViewUnblindedData, canMutateOrganizationData, canManageSafetyEvents } from '@/lib/rbac/permissions'
+import { canReviewSourceDocuments, canSignClinicalSource, canViewUnblindedData, canMutateOrganizationData, canManageSafetyEvents, canViewSafetyEvents } from '@/lib/rbac/permissions'
 import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
@@ -95,6 +97,7 @@ const PLACEHOLDER_LABELS = new Map<string, string>(
           'protocol-deviations',
           'emergency-contacts',
           'deliverables',
+          'safety',
         ].includes(tab.key),
     )
     .map((tab) => [tab.key, tab.label]),
@@ -230,6 +233,7 @@ export default async function SubjectDetailPage({
   const canReviewLabs = canReviewSourceDocuments(memberships, organizationId)
   const canClassifyLabs = canSignClinicalSource(memberships, organizationId)
   const canManageSafetyLabs = canManageSafetyEvents(memberships, organizationId)
+  const canViewSafety = canViewSafetyEvents(memberships, organizationId)
 
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
@@ -324,6 +328,15 @@ export default async function SubjectDetailPage({
   const subjectLabData =
     activeTab === 'labs' && chartStudyId
       ? await buildSubjectLabTimeline(supabase, organizationId, subjectId)
+      : null
+
+  const safetyEvents =
+    activeTab === 'safety' && chartStudyId
+      ? await loadSafetyEvents(supabase, {
+          organizationId,
+          studyId: chartStudyId,
+          subjectId,
+        })
       : null
 
   const deliverablesResult = 
@@ -641,6 +654,20 @@ export default async function SubjectDetailPage({
           {activeTab === 'labs' && !chartStudyId ? (
             <p className="text-sm text-muted-foreground">
               Study context is required to load lab timelines.
+            </p>
+          ) : null}
+
+          {activeTab === 'safety' && safetyEvents ? (
+            <SubjectSafetyTimeline
+              events={safetyEvents}
+              canManageSafety={canManageSafetyLabs}
+              organizationId={organizationId}
+              studyId={chartStudyId ?? ''}
+            />
+          ) : null}
+          {activeTab === 'safety' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load safety events.
             </p>
           ) : null}
 
