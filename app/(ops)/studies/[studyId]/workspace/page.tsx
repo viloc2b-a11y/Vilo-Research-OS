@@ -20,6 +20,7 @@ import { loadStudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-su
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import { loadProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/load-protocol-runtime-study'
 import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
+import { loadCapaActions } from '@/lib/capa-runtime/load-capa-actions'
 import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -139,6 +140,16 @@ async function StudyWorkspaceContent({
     studyId,
   })
 
+  const capaActions = await loadCapaActions(supabase, {
+    organizationId: summary.study.organizationId,
+    studyId,
+  })
+
+  const capaByDeviationId: Record<string, typeof capaActions[0]> = {}
+  for (const ca of capaActions) {
+    capaByDeviationId[ca.deviationId] = ca
+  }
+
   const subjectMap: Record<string, string> = {}
   for (const s of subjects) {
     subjectMap[s.subjectId] = s.subjectIdentifier
@@ -169,6 +180,7 @@ async function StudyWorkspaceContent({
       continuityRows={readiness.continuityRows}
       deviations={deviations}
       subjectMap={subjectMap}
+      capaByDeviationId={capaByDeviationId}
     />
   )
 }

@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
+import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
 
 const DEVIATION_TYPE_LABELS: Record<string, string> = {
   missed_visit: 'Missed Visit',
@@ -67,6 +68,7 @@ type DeviationCenterProps = {
   organizationId: string
   studyId: string
   subjectMap: Record<string, string>
+  capaByDeviationId?: Record<string, CapaActionRow>
 }
 
 export function DeviationCenter({
@@ -74,6 +76,7 @@ export function DeviationCenter({
   organizationId,
   studyId,
   subjectMap,
+  capaByDeviationId = {},
 }: DeviationCenterProps) {
   const router = useRouter()
 
@@ -216,6 +219,403 @@ export function DeviationCenter({
     } finally {
       setCreating(false)
     }
+  }
+
+  // CAPA state
+  const [capaExpandedId, setCapaExpandedId] = useState<string | null>(null)
+  const [capaForm, setCapaForm] = useState({
+    correctiveAction: '',
+    preventiveAction: '',
+    rootCauseAnalysis: '',
+    ownerId: '',
+    dueDate: '',
+    effectivenessCheckRequired: false,
+    effectivenessCheckResult: '',
+    closureNotes: '',
+    capaStatus: '',
+  })
+  const [capaSaving, setCapaSaving] = useState(false)
+  const [capaCreating, setCapaCreating] = useState(false)
+
+  function toggleCapa(deviationId: string) {
+    setCapaExpandedId(capaExpandedId === deviationId ? null : deviationId)
+    setError(null)
+  }
+
+  function startCapaEdit(action: CapaActionRow) {
+    setCapaForm({
+      correctiveAction: action.correctiveAction,
+      preventiveAction: action.preventiveAction ?? '',
+      rootCauseAnalysis: action.rootCauseAnalysis ?? '',
+      ownerId: action.ownerId ?? '',
+      dueDate: action.dueDate ?? '',
+      effectivenessCheckRequired: action.effectivenessCheckRequired,
+      effectivenessCheckResult: action.effectivenessCheckResult ?? '',
+      closureNotes: action.closureNotes ?? '',
+      capaStatus: action.capaStatus,
+    })
+    setError(null)
+  }
+
+  function resetCapaForm() {
+    setCapaForm({
+      correctiveAction: '',
+      preventiveAction: '',
+      rootCauseAnalysis: '',
+      ownerId: '',
+      dueDate: '',
+      effectivenessCheckRequired: false,
+      effectivenessCheckResult: '',
+      closureNotes: '',
+      capaStatus: '',
+    })
+  }
+
+  async function submitCreateCapa(deviationId: string) {
+    setCapaCreating(true)
+    setError(null)
+
+    if (!capaForm.correctiveAction) {
+      setError('Corrective action is required')
+      setCapaCreating(false)
+      return
+    }
+
+    try {
+      const res = await fetch('/api/capa-actions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          study_id: studyId,
+          deviation_id: deviationId,
+          corrective_action: capaForm.correctiveAction,
+          preventive_action: capaForm.preventiveAction || null,
+          root_cause_analysis: capaForm.rootCauseAnalysis || null,
+          owner_id: capaForm.ownerId || null,
+          due_date: capaForm.dueDate || null,
+          effectiveness_check_required: capaForm.effectivenessCheckRequired,
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to create CAPA')
+
+      setCapaExpandedId(null)
+      resetCapaForm()
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create CAPA')
+    } finally {
+      setCapaCreating(false)
+    }
+  }
+
+  async function saveCapaEdit(actionId: string) {
+    setCapaSaving(true)
+    setError(null)
+
+    try {
+      const res = await fetch(`/api/capa-actions/${actionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          corrective_action: capaForm.correctiveAction,
+          preventive_action: capaForm.preventiveAction || null,
+          root_cause_analysis: capaForm.rootCauseAnalysis || null,
+          owner_id: capaForm.ownerId || null,
+          due_date: capaForm.dueDate || null,
+          effectiveness_check_required: capaForm.effectivenessCheckRequired,
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to update CAPA')
+
+      setCapaExpandedId(null)
+      resetCapaForm()
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update CAPA')
+    } finally {
+      setCapaSaving(false)
+    }
+  }
+
+  async function transitionCapaStatus(actionId: string, newStatus: string) {
+    setCapaSaving(true)
+    setError(null)
+
+    try {
+      const payload: Record<string, unknown> = {
+        organization_id: organizationId,
+        capa_status: newStatus,
+      }
+
+      if (newStatus === 'completed') {
+        payload.completion_date = new Date().toISOString()
+      }
+
+      if (newStatus === 'closed') {
+        payload.closed_by = null
+        payload.closure_notes = capaForm.closureNotes || null
+      }
+
+      if (newStatus === 'verified' && capaForm.effectivenessCheckResult) {
+        payload.effectiveness_check_result = capaForm.effectivenessCheckResult
+      }
+
+      const res = await fetch(`/api/capa-actions/${actionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to update CAPA status')
+
+      setCapaExpandedId(null)
+      resetCapaForm()
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update CAPA status')
+    } finally {
+      setCapaSaving(false)
+    }
+  }
+
+  const CAPA_STATUS_STYLES: Record<string, string> = {
+    open: 'bg-blue-50 text-blue-700 border-blue-200',
+    in_progress: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    under_review: 'bg-orange-50 text-orange-700 border-orange-200',
+    completed: 'bg-teal-50 text-teal-700 border-teal-200',
+    verified: 'bg-green-50 text-green-700 border-green-200',
+    closed: 'bg-slate-100 text-slate-600 border-slate-200',
+  }
+
+  function renderCapaSection(deviationId: string) {
+    const action = capaByDeviationId[deviationId]
+    const isExpanded = capaExpandedId === deviationId
+    const isCreating = isExpanded && !action
+    const canCreate = !action && !deviations.find((d) => d.id === deviationId)?.status.endsWith('closed')
+
+    if (!action && !isExpanded && !canCreate) return null
+
+    return (
+      <div className="pt-2 border-t mt-2">
+        {/* CAPA header */}
+        {action && !isExpanded ? (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">CAPA</span>
+              <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${CAPA_STATUS_STYLES[action.capaStatus] ?? ''}`}>
+                {action.capaStatus.replace('_', ' ')}
+              </span>
+              {action.ownerId ? (
+                <span className="text-[10px] text-slate-500">
+                  Owner: {action.ownerId.slice(0, 8)}
+                </span>
+              ) : null}
+              {action.dueDate ? (
+                <span className="text-[10px] text-slate-500">
+                  Due: {formatDate(action.dueDate)}
+                </span>
+              ) : null}
+              {action.effectivenessCheckRequired ? (
+                <span className="inline-flex items-center rounded-full border border-teal-200 bg-teal-50 px-2 py-0.5 text-[10px] font-medium text-teal-700">
+                  Eff. Check
+                </span>
+              ) : null}
+            </div>
+            <button
+              onClick={() => { toggleCapa(deviationId); startCapaEdit(action) }}
+              className="text-[10px] font-medium text-slate-600 hover:text-slate-900 underline"
+            >
+              Edit CAPA
+            </button>
+          </div>
+        ) : null}
+
+        {/* No CAPA — create button */}
+        {!action && canCreate && !isExpanded ? (
+          <button
+            onClick={() => toggleCapa(deviationId)}
+            className="text-[10px] font-medium text-slate-600 hover:text-slate-900 underline"
+          >
+            + Create CAPA
+          </button>
+        ) : null}
+
+        {/* Expanded CAPA form */}
+        {isExpanded ? (
+          <div className="space-y-3 mt-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">
+                {isCreating ? 'New CAPA Action' : 'Edit CAPA Action'}
+              </span>
+              {action ? (
+                <div className="flex items-center gap-1">
+                  {action.capaStatus === 'open' ? (
+                    <button
+                      onClick={() => transitionCapaStatus(action.id, 'in_progress')}
+                      disabled={capaSaving}
+                      className="h-5 rounded border border-yellow-300 bg-yellow-50 px-1.5 text-[9px] font-medium text-yellow-700 hover:bg-yellow-100 disabled:opacity-50"
+                    >
+                      Start
+                    </button>
+                  ) : null}
+                  {action.capaStatus === 'in_progress' || action.capaStatus === 'under_review' ? (
+                    <button
+                      onClick={() => transitionCapaStatus(action.id, 'completed')}
+                      disabled={capaSaving}
+                      className="h-5 rounded border border-teal-300 bg-teal-50 px-1.5 text-[9px] font-medium text-teal-700 hover:bg-teal-100 disabled:opacity-50"
+                    >
+                      Complete
+                    </button>
+                  ) : null}
+                  {action.capaStatus === 'completed' ? (
+                    <>
+                      <button
+                        onClick={() => transitionCapaStatus(action.id, 'verified')}
+                        disabled={capaSaving}
+                        className="h-5 rounded border border-green-300 bg-green-50 px-1.5 text-[9px] font-medium text-green-700 hover:bg-green-100 disabled:opacity-50"
+                      >
+                        Verify
+                      </button>
+                      <button
+                        onClick={() => transitionCapaStatus(action.id, 'closed')}
+                        disabled={capaSaving}
+                        className="h-5 rounded border border-slate-300 bg-slate-50 px-1.5 text-[9px] font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                      >
+                        Close
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="space-y-2">
+              <div className="space-y-1">
+                <label className="text-[10px] font-medium text-muted-foreground">Corrective Action *</label>
+                <textarea
+                  value={capaForm.correctiveAction}
+                  onChange={(e) => setCapaForm((f) => ({ ...f, correctiveAction: e.target.value }))}
+                  rows={1}
+                  className="min-w-0 w-full rounded-md border border-input bg-background px-2 py-1 text-[11px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-medium text-muted-foreground">Preventive Action</label>
+                  <textarea
+                    value={capaForm.preventiveAction}
+                    onChange={(e) => setCapaForm((f) => ({ ...f, preventiveAction: e.target.value }))}
+                    rows={1}
+                    className="min-w-0 w-full rounded-md border border-input bg-background px-2 py-1 text-[11px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-medium text-muted-foreground">Root Cause Analysis</label>
+                  <textarea
+                    value={capaForm.rootCauseAnalysis}
+                    onChange={(e) => setCapaForm((f) => ({ ...f, rootCauseAnalysis: e.target.value }))}
+                    rows={1}
+                    className="min-w-0 w-full rounded-md border border-input bg-background px-2 py-1 text-[11px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-medium text-muted-foreground">Owner</label>
+                  <input
+                    value={capaForm.ownerId}
+                    onChange={(e) => setCapaForm((f) => ({ ...f, ownerId: e.target.value }))}
+                    placeholder="User ID"
+                    className="h-7 w-full rounded-md border border-input bg-background px-2 text-[11px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-medium text-muted-foreground">Due Date</label>
+                  <input
+                    type="date"
+                    value={capaForm.dueDate ? capaForm.dueDate.slice(0, 10) : ''}
+                    onChange={(e) => setCapaForm((f) => ({ ...f, dueDate: e.target.value ? new Date(e.target.value).toISOString() : '' }))}
+                    className="h-7 w-full rounded-md border border-input bg-background px-2 text-[11px] focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1 flex items-end pb-1">
+                  <label className="flex items-center gap-1.5">
+                    <input
+                      type="checkbox"
+                      checked={capaForm.effectivenessCheckRequired}
+                      onChange={(e) => setCapaForm((f) => ({ ...f, effectivenessCheckRequired: e.target.checked }))}
+                      className="h-3 w-3 rounded border-gray-300"
+                    />
+                    <span className="text-[10px] font-medium text-muted-foreground">Eff. Check Required</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Edit-only fields */}
+              {action && isExpanded ? (
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-medium text-muted-foreground">Effectiveness Result</label>
+                    <select
+                      value={capaForm.effectivenessCheckResult}
+                      onChange={(e) => setCapaForm((f) => ({ ...f, effectivenessCheckResult: e.target.value }))}
+                      className="h-7 w-full rounded-md border border-input bg-background px-2 text-[11px]"
+                    >
+                      <option value="">—</option>
+                      <option value="pass">Pass</option>
+                      <option value="fail">Fail</option>
+                      <option value="not_applicable">N/A</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-medium text-muted-foreground">Closure Notes</label>
+                    <input
+                      value={capaForm.closureNotes}
+                      onChange={(e) => setCapaForm((f) => ({ ...f, closureNotes: e.target.value }))}
+                      className="h-7 w-full rounded-md border border-input bg-background px-2 text-[11px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+                    />
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => { setCapaExpandedId(null); resetCapaForm() }}
+                  disabled={capaSaving || capaCreating}
+                  className="h-6 rounded-md border border-input bg-background px-2 text-[10px] font-medium text-foreground hover:bg-accent disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                {isCreating ? (
+                  <button
+                    onClick={() => submitCreateCapa(deviationId)}
+                    disabled={capaCreating || !capaForm.correctiveAction}
+                    className="h-6 rounded-md bg-slate-900 px-2 text-[10px] font-medium text-white hover:bg-slate-800 disabled:opacity-50"
+                  >
+                    {capaCreating ? 'Creating...' : 'Create CAPA'}
+                  </button>
+                ) : action ? (
+                  <button
+                    onClick={() => saveCapaEdit(action.id)}
+                    disabled={capaSaving}
+                    className="h-6 rounded-md bg-slate-900 px-2 text-[10px] font-medium text-white hover:bg-slate-800 disabled:opacity-50"
+                  >
+                    {capaSaving ? 'Saving...' : 'Save CAPA'}
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    )
   }
 
   const subjectOptions = useMemo(() => {
@@ -461,8 +861,11 @@ export function DeviationCenter({
                         </button>
                       </div>
                     ) : null}
+
+                    {/* CAPA section */}
+                    {renderCapaSection(deviation.id)}
                   </div>
-                )}
+                )} {/* end view/edit mode */}
               </div>
             )
           })}

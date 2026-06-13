@@ -46,6 +46,7 @@ import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-fi
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import type { LoadedProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/protocol-intake-types'
 import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
+import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
 import { DeviationCenter } from '@/components/site-intelligence/DeviationCenter'
 
 type StudyWorkspaceShellProps = {
@@ -72,6 +73,7 @@ type StudyWorkspaceShellProps = {
   continuityRows: RuntimeReadinessContinuityRow[]
   deviations: ProtocolDeviationRow[]
   subjectMap: Record<string, string>
+  capaByDeviationId: Record<string, CapaActionRow>
 }
 
 export function StudyWorkspaceShell({
@@ -98,6 +100,7 @@ export function StudyWorkspaceShell({
   continuityRows,
   deviations,
   subjectMap,
+  capaByDeviationId,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -251,6 +254,7 @@ export function StudyWorkspaceShell({
             organizationId={summary.study.organizationId}
             studyId={summary.study.id}
             subjectMap={subjectMap}
+            capaByDeviationId={capaByDeviationId}
           />
         ) : null}
 
