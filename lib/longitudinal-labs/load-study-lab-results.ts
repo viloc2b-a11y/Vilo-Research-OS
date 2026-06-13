@@ -58,6 +58,10 @@ export type LabReportReviewSearchItem = {
   reviewedBy: string | null
   reviewedAt: string | null
   signatureRequestId: string | null
+  signatureRequestStatus: string | null
+  signatureSignedAt: string | null
+  signatureSignerName: string | null
+  signatureMeaning: string | null
   createdAt: string
 }
 
@@ -288,9 +292,68 @@ export async function loadStudyLabResults(
       signatureRequestId: r.signature_request_id
         ? String(r.signature_request_id)
         : null,
+      signatureRequestStatus: null,
+      signatureSignedAt: null,
+      signatureSignerName: null,
+      signatureMeaning: null,
       createdAt: String(r.created_at),
     }
   })
+
+  const sigReqIds = reviewItems
+    .map((r) => r.signatureRequestId)
+    .filter((id): id is string => id !== null)
+
+  if (sigReqIds.length > 0) {
+    const { data: sigReqs } = await supabase
+      .from('operational_signature_requests')
+      .select('id, status')
+      .in('id', sigReqIds)
+
+    const sigStatusMap = new Map<string, string>()
+    for (const sr of (sigReqs ?? []) as Record<string, unknown>[]) {
+      sigStatusMap.set(String(sr.id), String(sr.status))
+    }
+
+    const signedReqIds = (sigReqs ?? [])
+      .filter((r: Record<string, unknown>) => String(r.status) === 'signed')
+      .map((r: Record<string, unknown>) => String(r.id))
+
+    const sigEvidenceMap = new Map<string, {
+      signedAt: string
+      signerName: string | null
+      meaning: string
+    }>()
+
+    if (signedReqIds.length > 0) {
+      const { data: sigs } = await supabase
+        .from('operational_signatures')
+        .select('request_id, signed_at, signer_name_snapshot, signature_meaning')
+        .in('request_id', signedReqIds)
+
+      for (const s of (sigs ?? []) as Record<string, unknown>[]) {
+        sigEvidenceMap.set(String(s.request_id), {
+          signedAt: String(s.signed_at),
+          signerName: s.signer_name_snapshot ? String(s.signer_name_snapshot) : null,
+          meaning: String(s.signature_meaning),
+        })
+      }
+    }
+
+    for (const item of reviewItems) {
+      if (!item.signatureRequestId) continue
+      item.signatureRequestStatus = sigStatusMap.get(item.signatureRequestId) ?? null
+
+      if (item.signatureRequestStatus === 'signed') {
+        const ev = sigEvidenceMap.get(item.signatureRequestId)
+        if (ev) {
+          item.signatureSignedAt = ev.signedAt
+          item.signatureSignerName = ev.signerName
+          item.signatureMeaning = ev.meaning
+        }
+      }
+    }
+  }
 
   const { data: distinctStatuses } = await supabase
     .from('lab_report_reviews')

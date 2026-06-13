@@ -30,6 +30,20 @@ function formatChange(value: number | null, pct: number | null): string {
   return `${sign}${value}${pctStr}`
 }
 
+function formatSignatureMeaning(meaning: string): string {
+  const labels: Record<string, string> = {
+    completed_by: 'Completed By',
+    reviewed_by: 'Reviewed By',
+    approved_by: 'Approved By',
+    acknowledged_by: 'Acknowledged By',
+    pi_review: 'PI Review',
+    si_review: 'SI Review',
+    query_closure: 'Query Closure',
+    lock_approval: 'Lock Approval',
+  }
+  return labels[meaning] ?? meaning
+}
+
 function formatDate(d: string | null): string {
   if (!d) return '—'
   try {
@@ -172,18 +186,45 @@ function ReviewRow({ review, canReview, canClassify }: { review: LabReportReview
             </div>
           ) : null}
           {review.signatureRequestId ? (
-            <div>
-              <span className="text-muted-foreground">Signoff:</span>{' '}
-              {review.signatureRequestStatus === 'signed' ? (
-                <span className="font-medium text-green-600">Signed</span>
-              ) : review.signatureRequestStatus === 'pending' ? (
+            review.signatureRequestStatus === 'signed' ? (
+              <div className="col-span-2 space-y-1">
+                <div>
+                  <span className="text-muted-foreground">Signed:</span>{' '}
+                  <span className="font-medium text-green-600">
+                    {formatDate(review.signatureSignedAt ?? review.reviewedAt)}
+                  </span>
+                </div>
+                {review.signatureSignerName ? (
+                  <div>
+                    <span className="text-muted-foreground">Signed by:</span>{' '}
+                    <span className="font-medium">{review.signatureSignerName}</span>
+                    {review.signatureSignerRole ? (
+                      <span className="text-muted-foreground ml-1">
+                        ({review.signatureSignerRole})
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
+                {review.signatureMeaning ? (
+                  <div>
+                    <span className="text-muted-foreground">Meaning:</span>{' '}
+                    <span className="font-medium">{formatSignatureMeaning(review.signatureMeaning)}</span>
+                  </div>
+                ) : null}
+              </div>
+            ) : review.signatureRequestStatus === 'pending' ? (
+              <div>
+                <span className="text-muted-foreground">Signoff:</span>{' '}
                 <span className="font-medium text-amber-600">Signature requested</span>
-              ) : (
+              </div>
+            ) : (
+              <div>
+                <span className="text-muted-foreground">Signoff:</span>{' '}
                 <span className="text-muted-foreground">
                   {review.signatureRequestStatus ?? 'Signature requested'}
                 </span>
-              )}
-            </div>
+              </div>
+            )
           ) : null}
         </div>
 

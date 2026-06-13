@@ -73,6 +73,13 @@ export async function buildSubjectLabTimeline(
     .filter((id): id is string => id !== null)
 
   const sigStatusMap = new Map<string, string>()
+  const sigEvidenceMap = new Map<string, {
+    signedAt: string
+    signerId: string
+    signerName: string | null
+    signerRole: string | null
+    meaning: string
+  }>()
 
   if (sigReqIds.length > 0) {
     const { data: sigReqs } = await supabase
@@ -83,30 +90,60 @@ export async function buildSubjectLabTimeline(
     for (const row of (sigReqs ?? []) as Record<string, unknown>[]) {
       sigStatusMap.set(String(row.id), String(row.status))
     }
+
+    const signedReqIds = (sigReqs ?? [])
+      .filter((r: Record<string, unknown>) => String(r.status) === 'signed')
+      .map((r: Record<string, unknown>) => String(r.id))
+
+    if (signedReqIds.length > 0) {
+      const { data: sigs } = await supabase
+        .from('operational_signatures')
+        .select('request_id, signed_at, signer_user_id, signer_name_snapshot, signer_role_snapshot, signature_meaning')
+        .in('request_id', signedReqIds)
+
+      for (const s of (sigs ?? []) as Record<string, unknown>[]) {
+        sigEvidenceMap.set(String(s.request_id), {
+          signedAt: String(s.signed_at),
+          signerId: String(s.signer_user_id),
+          signerName: s.signer_name_snapshot ? String(s.signer_name_snapshot) : null,
+          signerRole: s.signer_role_snapshot ? String(s.signer_role_snapshot) : null,
+          meaning: String(s.signature_meaning),
+        })
+      }
+    }
   }
 
-  const reviewItems: LabReportReviewTimelineItem[] = reviews.map((r) => ({
-    kind: 'lab_report_review',
-    reviewId: r.id,
-    organizationId: r.organizationId,
-    studyId: r.studyId,
-    subjectId: r.subjectId,
-    visitId: r.visitId,
-    visitName: null,
-    complianceDocumentId: r.complianceDocumentId,
-    documentFileName: docMap.get(r.complianceDocumentId) ?? null,
-    reportType: r.reportType,
-    reviewStatus: r.reviewStatus,
-    piClassification: r.piClassification,
-    reviewNotes: r.reviewNotes,
-    reviewedBy: r.reviewedBy,
-    reviewedAt: r.reviewedAt,
-    signatureRequestId: r.signatureRequestId,
-    signatureRequestStatus: r.signatureRequestId
-      ? sigStatusMap.get(r.signatureRequestId) ?? null
-      : null,
-    createdAt: r.createdAt,
-  }))
+  const reviewItems: LabReportReviewTimelineItem[] = reviews.map((r) => {
+    const sigReqId = r.signatureRequestId
+    const sigStatus = sigReqId ? sigStatusMap.get(sigReqId) ?? null : null
+    const evidence = sigReqId && sigStatus === 'signed' ? sigEvidenceMap.get(sigReqId) ?? null : null
+
+    return {
+      kind: 'lab_report_review',
+      reviewId: r.id,
+      organizationId: r.organizationId,
+      studyId: r.studyId,
+      subjectId: r.subjectId,
+      visitId: r.visitId,
+      visitName: null,
+      complianceDocumentId: r.complianceDocumentId,
+      documentFileName: docMap.get(r.complianceDocumentId) ?? null,
+      reportType: r.reportType,
+      reviewStatus: r.reviewStatus,
+      piClassification: r.piClassification,
+      reviewNotes: r.reviewNotes,
+      reviewedBy: r.reviewedBy,
+      reviewedAt: r.reviewedAt,
+      signatureRequestId: sigReqId,
+      signatureRequestStatus: sigStatus,
+      signatureSignedAt: evidence?.signedAt ?? null,
+      signatureSignerId: evidence?.signerId ?? null,
+      signatureSignerName: evidence?.signerName ?? null,
+      signatureSignerRole: evidence?.signerRole ?? null,
+      signatureMeaning: evidence?.meaning ?? null,
+      createdAt: r.createdAt,
+    }
+  })
 
   return { structuredTests: tests, reviewItems }
 }

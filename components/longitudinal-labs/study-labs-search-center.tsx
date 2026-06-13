@@ -60,6 +60,20 @@ const SIGNAL_FILTER_OPTIONS = [
   { value: SIGNAL_KIND.RAPID_CHANGE, label: 'Rapid Change' },
 ] as const
 
+function formatSignatureMeaning(meaning: string): string {
+  const labels: Record<string, string> = {
+    completed_by: 'Completed By',
+    reviewed_by: 'Reviewed By',
+    approved_by: 'Approved By',
+    acknowledged_by: 'Acknowledged By',
+    pi_review: 'PI Review',
+    si_review: 'SI Review',
+    query_closure: 'Query Closure',
+    lock_approval: 'Lock Approval',
+  }
+  return labels[meaning] ?? meaning
+}
+
 const STATUS_LABELS: Record<string, string> = {
   pending_review: 'Pending Review',
   under_review: 'Under Review',
@@ -459,6 +473,7 @@ export function StudyLabsSearchCenter({
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Result</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Reference Range</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Status</th>
+                <th className="sticky top-0 bg-muted/50 px-3 py-2">Signoff</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Signals</th>
               </tr>
             </thead>
@@ -516,6 +531,44 @@ export function StudyLabsSearchCenter({
                         }`}>
                           {STATUS_LABELS[row.reviewStatus] ?? row.reviewStatus}
                         </span>
+                      </td>
+                      <td className="px-3 py-2.5">
+                        {row.signatureRequestId ? (
+                          row.signatureRequestStatus === 'signed' ? (
+                            <div className="space-y-0.5">
+                              <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-medium text-green-700 border border-green-200">
+                                Signed
+                              </span>
+                              {row.signatureSignedAt ? (
+                                <div className="text-[10px] text-muted-foreground">
+                                  {formatDate(row.signatureSignedAt)}
+                                </div>
+                              ) : null}
+                              {row.signatureSignerName ? (
+                                <div className="text-[10px] text-muted-foreground">
+                                  {row.signatureSignerName}
+                                </div>
+                              ) : null}
+                              {row.signatureMeaning ? (
+                                <div className="text-[10px] text-muted-foreground">
+                                  {formatSignatureMeaning(row.signatureMeaning)}
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : row.signatureRequestStatus === 'pending' ? (
+                            <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700 border border-amber-200">
+                              Pending
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-muted-foreground">
+                              {row.signatureRequestStatus}
+                            </span>
+                          )
+                        ) : (
+                          <span className="text-[10px] text-muted-foreground italic">
+                            Not requested
+                          </span>
+                        )}
                       </td>
                       <td className="px-3 py-2.5 text-[10px] text-muted-foreground">
                         —
@@ -575,6 +628,9 @@ export function StudyLabsSearchCenter({
                       {formatRange(structured.referenceLow, structured.referenceHigh)}
                     </td>
                     <td className="px-3 py-2.5 text-xs text-muted-foreground">
+                      —
+                    </td>
+                    <td className="px-3 py-2.5 text-[10px] text-muted-foreground">
                       —
                     </td>
                     <td className="px-3 py-2.5">

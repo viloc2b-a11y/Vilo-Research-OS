@@ -102,6 +102,11 @@ export type LabReportReviewTimelineItem = {
   reviewedAt: string | null
   signatureRequestId: string | null
   signatureRequestStatus: string | null
+  signatureSignedAt: string | null
+  signatureSignerId: string | null
+  signatureSignerName: string | null
+  signatureSignerRole: string | null
+  signatureMeaning: string | null
   createdAt: string
 }
 
