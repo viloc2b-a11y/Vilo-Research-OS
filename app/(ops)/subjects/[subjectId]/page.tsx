@@ -22,7 +22,6 @@ import {
   SubjectDocumentsSection,
   SubjectEmergencyContactsSection,
   SubjectProgressNotesSection,
-  SubjectProtocolDeviationsSection,
   SubjectSignaturesSection,
   SubjectStatusHistorySection,
 } from '@/components/subject/source-template/SubjectSourceTemplateSections'
@@ -51,13 +50,15 @@ import { buildSubjectLabTimeline } from '@/lib/longitudinal-labs/build-subject-l
 import { SubjectLabTimeline } from '@/components/longitudinal-labs/subject-lab-timeline'
 import { loadSafetyEvents } from '@/lib/safety-runtime/load-safety-events'
 import { SubjectSafetyTimeline } from '@/components/subject/safety/SubjectSafetyTimeline'
+import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
+import { SubjectProtocolDeviationsTimeline } from '@/components/subject/protocol-deviations/SubjectProtocolDeviationsTimeline'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { loadSubjectSourceTemplate } from '@/lib/subject/source-template/read'
 import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/types'
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
-import { canReviewSourceDocuments, canSignClinicalSource, canViewUnblindedData, canMutateOrganizationData, canManageSafetyEvents, canViewSafetyEvents } from '@/lib/rbac/permissions'
+import { canReviewSourceDocuments, canSignClinicalSource, canViewUnblindedData, canMutateOrganizationData, canManageSafetyEvents, canViewSafetyEvents, canManageProtocolDeviations, canViewProtocolDeviations } from '@/lib/rbac/permissions'
 import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
@@ -234,6 +235,8 @@ export default async function SubjectDetailPage({
   const canClassifyLabs = canSignClinicalSource(memberships, organizationId)
   const canManageSafetyLabs = canManageSafetyEvents(memberships, organizationId)
   const canViewSafety = canViewSafetyEvents(memberships, organizationId)
+  const canManageDeviations = canManageProtocolDeviations(memberships, organizationId)
+  const canViewDeviations = canViewProtocolDeviations(memberships, organizationId)
 
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
@@ -339,6 +342,15 @@ export default async function SubjectDetailPage({
         })
       : null
 
+  const protocolDeviations =
+    activeTab === 'protocol-deviations' && chartStudyId
+      ? await loadDeviations(supabase, {
+          organizationId,
+          studyId: chartStudyId,
+          subjectId,
+        })
+      : null
+
   const deliverablesResult = 
     activeTab === 'deliverables' && chartStudyId
       ? await loadSubjectDeliverables(supabase, subjectId, organizationId)
@@ -362,7 +374,6 @@ export default async function SubjectDetailPage({
     'progress-notes',
     'documents',
     'signatures',
-    'protocol-deviations',
     'emergency-contacts',
   ])
   const sourceTemplate: SubjectSourceTemplateModel | null = sourceTemplateTabs.has(activeTab)
@@ -675,8 +686,19 @@ export default async function SubjectDetailPage({
             <SubjectSignaturesSection studySubjectId={subjectId} model={sourceTemplate} />
           ) : null}
 
-          {activeTab === 'protocol-deviations' && sourceTemplate ? (
-            <SubjectProtocolDeviationsSection studySubjectId={subjectId} model={sourceTemplate} />
+          {activeTab === 'protocol-deviations' && protocolDeviations ? (
+            <SubjectProtocolDeviationsTimeline
+              deviations={protocolDeviations}
+              canManageDeviations={canManageDeviations}
+              organizationId={organizationId}
+              studyId={chartStudyId ?? ''}
+              subjectId={subjectId}
+            />
+          ) : null}
+          {activeTab === 'protocol-deviations' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load protocol deviations.
+            </p>
           ) : null}
 
           {activeTab === 'emergency-contacts' && sourceTemplate ? (
