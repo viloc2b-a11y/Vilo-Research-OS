@@ -5,6 +5,8 @@ import { createComplianceDocument } from './create-compliance-document'
 import type { DestinationDomain, DocumentClassification } from './compliance-types'
 import { computeDocumentHash } from './document-hash'
 import { COMPLIANCE_STORAGE_BUCKET, uploadDocumentBlob } from './upload-document-blob'
+import type { LabReviewRoutingResult } from '@/lib/longitudinal-labs/route-document-to-lab-review'
+import { routeDocumentToLabReview } from '@/lib/longitudinal-labs/route-document-to-lab-review'
 
 export type IngestComplianceDocumentInput = {
   supabase: SupabaseClient
@@ -28,7 +30,7 @@ export type IngestComplianceDocumentInput = {
 }
 
 export type IngestComplianceDocumentResult =
-  | { ok: true; documentId: string }
+  | { ok: true; documentId: string; labReviewRouting?: LabReviewRoutingResult }
   | { ok: false; message: string }
 
 export async function ingestComplianceDocument(
@@ -96,7 +98,24 @@ export async function ingestComplianceDocument(
       })
     }
 
-    return { ok: true, documentId }
+    let labReviewRouting: LabReviewRoutingResult | undefined
+    if (input.documentClassification === 'lab_result') {
+      try {
+        labReviewRouting = await routeDocumentToLabReview({
+          supabase: input.supabase,
+          organizationId: input.organizationId,
+          studyId: input.studyId,
+          subjectId: input.subjectId,
+          visitId: input.visitId,
+          complianceDocumentId: documentId,
+          documentClassification: input.documentClassification,
+        })
+      } catch (err) {
+        console.error('Failed to route document to lab review:', err)
+      }
+    }
+
+    return { ok: true, documentId, labReviewRouting }
   } catch (error) {
     await input.supabase.storage.from(COMPLIANCE_STORAGE_BUCKET).remove([storagePath])
     const message = error instanceof Error ? error.message : 'Failed to persist compliance document.'

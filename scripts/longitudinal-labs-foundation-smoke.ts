@@ -508,6 +508,10 @@ async function runImportChecks() {
       name: 'update-lab-report-review',
       fn: () => import('../lib/longitudinal-labs/update-lab-report-review'),
     },
+    {
+      name: 'route-document-to-lab-review',
+      fn: () => import('../lib/longitudinal-labs/route-document-to-lab-review'),
+    },
   ]
 
   let passCount = 0
