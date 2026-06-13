@@ -19,6 +19,8 @@ export function ReviewActions({
   initialNotes,
   signatureRequestId,
   signatureRequestStatus,
+  canReview,
+  canClassify,
 }: {
   reviewId: string
   organizationId: string
@@ -28,6 +30,8 @@ export function ReviewActions({
   initialNotes: string | null
   signatureRequestId: string | null
   signatureRequestStatus: string | null
+  canReview: boolean
+  canClassify: boolean
 }) {
   const router = useRouter()
   const [reviewStatus, setReviewStatus] = useState(initialStatus)
@@ -79,6 +83,21 @@ export function ReviewActions({
     signatureRequestStatus === 'pending'
   const isSigned = signatureRequestStatus === 'signed'
 
+  if (!canReview && !canClassify) {
+    return (
+      <div className="space-y-3 pt-3 border-t mt-3">
+        {initialNotes ? (
+          <div className="flex items-start gap-2">
+            <span className="text-[11px] font-medium text-muted-foreground w-14 pt-0.5">
+              Notes:
+            </span>
+            <span className="text-xs text-muted-foreground">{initialNotes}</span>
+          </div>
+        ) : null}
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-3 pt-3 border-t mt-3">
       {/* Status buttons */}
@@ -86,7 +105,7 @@ export function ReviewActions({
         <span className="text-[11px] font-medium text-muted-foreground w-14">
           Status:
         </span>
-        {reviewStatus === 'pending_review' ? (
+        {reviewStatus === 'pending_review' && canReview ? (
           <button
             onClick={() => setReviewStatus('under_review')}
             className="h-7 rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground hover:bg-accent"
@@ -96,18 +115,22 @@ export function ReviewActions({
         ) : null}
         {reviewStatus === 'under_review' ? (
           <>
-            <button
-              onClick={() => setReviewStatus('reviewed')}
-              className="h-7 rounded-md bg-green-600 px-2.5 text-[11px] font-medium text-white hover:bg-green-700"
-            >
-              Mark Reviewed
-            </button>
-            <button
-              onClick={() => setReviewStatus('rejected')}
-              className="h-7 rounded-md border border-red-300 bg-background px-2.5 text-[11px] font-medium text-red-700 hover:bg-red-50"
-            >
-              Reject
-            </button>
+            {canClassify ? (
+              <button
+                onClick={() => setReviewStatus('reviewed')}
+                className="h-7 rounded-md bg-green-600 px-2.5 text-[11px] font-medium text-white hover:bg-green-700"
+              >
+                Mark Reviewed
+              </button>
+            ) : null}
+            {canClassify ? (
+              <button
+                onClick={() => setReviewStatus('rejected')}
+                className="h-7 rounded-md border border-red-300 bg-background px-2.5 text-[11px] font-medium text-red-700 hover:bg-red-50"
+              >
+                Reject
+              </button>
+            ) : null}
           </>
         ) : null}
         {isTerminal ? (
@@ -118,38 +141,40 @@ export function ReviewActions({
         ) : null}
       </div>
 
-      {/* PI Classification */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[11px] font-medium text-muted-foreground w-14">
-          PI Class:
-        </span>
-        {PI_OPTIONS.map((opt) => {
-          const active = piClassification === opt.value
-          return (
+      {/* PI Classification — only for users who can classify */}
+      {canClassify ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-medium text-muted-foreground w-14">
+            PI Class:
+          </span>
+          {PI_OPTIONS.map((opt) => {
+            const active = piClassification === opt.value
+            return (
+              <button
+                key={opt.value}
+                onClick={() =>
+                  setPiClassification(active ? null : opt.value)
+                }
+                className={`h-7 rounded-md border px-2.5 text-[11px] font-medium transition-colors ${
+                  active
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card text-muted-foreground border-border hover:border-primary/50'
+                }`}
+              >
+                {opt.label}
+              </button>
+            )
+          })}
+          {piClassification ? (
             <button
-              key={opt.value}
-              onClick={() =>
-                setPiClassification(active ? null : opt.value)
-              }
-              className={`h-7 rounded-md border px-2.5 text-[11px] font-medium transition-colors ${
-                active
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-card text-muted-foreground border-border hover:border-primary/50'
-              }`}
+              onClick={() => setPiClassification(null)}
+              className="h-7 rounded-md border border-input bg-background px-2 text-[11px] text-muted-foreground hover:bg-accent"
             >
-              {opt.label}
+              Clear
             </button>
-          )
-        })}
-        {piClassification ? (
-          <button
-            onClick={() => setPiClassification(null)}
-            className="h-7 rounded-md border border-input bg-background px-2 text-[11px] text-muted-foreground hover:bg-accent"
-          >
-            Clear
-          </button>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
+      ) : null}
 
       {/* Review notes */}
       <div className="flex items-start gap-2">

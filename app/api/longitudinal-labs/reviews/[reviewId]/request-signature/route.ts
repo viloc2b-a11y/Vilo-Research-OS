@@ -5,6 +5,7 @@ import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { createOperationalSignatureRequest } from '@/lib/operational-signatures/create-signature-request'
 import { updateLabReportReview } from '@/lib/longitudinal-labs/update-lab-report-review'
 import { OperationalSignatureStateError } from '@/lib/operational-signatures/operational-signature-errors'
+import { canReviewSourceDocuments } from '@/lib/rbac/permissions'
 
 type RouteContext = { params: Promise<{ reviewId: string }> }
 
@@ -39,6 +40,13 @@ export async function POST(req: NextRequest, context: RouteContext) {
   const auth = await requireActiveOrganizationAccess(organizationId)
   if (!auth.ok) {
     return NextResponse.json({ error: auth.message }, { status: 401 })
+  }
+
+  if (!canReviewSourceDocuments(auth.memberships, organizationId)) {
+    return NextResponse.json(
+      { error: 'Not authorized to request signature.' },
+      { status: 403 },
+    )
   }
 
   const existingRequestId = review.signature_request_id

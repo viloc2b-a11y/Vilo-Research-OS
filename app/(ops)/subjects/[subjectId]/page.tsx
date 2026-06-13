@@ -55,7 +55,7 @@ import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/t
 import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { redactSubjectUnblindedFields } from '@/lib/rbac/blinding'
-import { canViewUnblindedData, canMutateOrganizationData } from '@/lib/rbac/permissions'
+import { canReviewSourceDocuments, canSignClinicalSource, canViewUnblindedData, canMutateOrganizationData } from '@/lib/rbac/permissions'
 import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRuntimeSummaryPanel'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
@@ -227,6 +227,8 @@ export default async function SubjectDetailPage({
 
   const canViewUnblinded = canViewUnblindedData(memberships, organizationId)
   const canMutate = canMutateOrganizationData(memberships, organizationId)
+  const canReviewLabs = canReviewSourceDocuments(memberships, organizationId)
+  const canClassifyLabs = canSignClinicalSource(memberships, organizationId)
 
   if (activeTab === 'visits' && chartStudyId) {
     redirect(subjectVisitsPath(chartStudyId, subjectId))
@@ -630,6 +632,8 @@ export default async function SubjectDetailPage({
             <SubjectLabTimeline
               tests={subjectLabData.structuredTests}
               reviews={subjectLabData.reviewItems}
+              canReview={canReviewLabs}
+              canClassify={canClassifyLabs}
             />
           ) : null}
           {activeTab === 'labs' && !chartStudyId ? (

@@ -7,6 +7,10 @@ import {
   type LabReportReviewStatus,
   type LabReportPiClassification,
 } from '@/lib/longitudinal-labs/lab-report-review-types'
+import {
+  canReviewSourceDocuments,
+  canSignClinicalSource,
+} from '@/lib/rbac/permissions'
 
 type RouteContext = { params: Promise<{ reviewId: string }> }
 
@@ -28,6 +32,12 @@ function isAllowedTransition(
   const allowed = VALID_TRANSITIONS[current]
   if (!allowed) return false
   return allowed.includes(next)
+}
+
+function isMedicalReviewAction(
+  reviewStatus: string,
+): boolean {
+  return reviewStatus === 'reviewed' || reviewStatus === 'rejected'
 }
 
 async function loadReview(
@@ -72,6 +82,39 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
   const auth = await requireActiveOrganizationAccess(organizationId)
   if (!auth.ok) {
     return NextResponse.json({ error: auth.message }, { status: 401 })
+  }
+
+  const canReview = canReviewSourceDocuments(auth.memberships, organizationId)
+  const canClassify = canSignClinicalSource(auth.memberships, organizationId)
+
+  if (body.pi_classification !== undefined && !canClassify) {
+    return NextResponse.json(
+      { error: 'Only PI/Sub-I may assign medical classification.' },
+      { status: 403 },
+    )
+  }
+
+  if (
+    body.review_status !== undefined &&
+    isMedicalReviewAction(body.review_status) &&
+    !canClassify
+  ) {
+    return NextResponse.json(
+      { error: 'Only PI/Sub-I may mark a review as reviewed or rejected.' },
+      { status: 403 },
+    )
+  }
+
+  if (
+    (body.review_status !== undefined && !isMedicalReviewAction(body.review_status)) ||
+    body.review_notes !== undefined
+  ) {
+    if (!canReview) {
+      return NextResponse.json(
+        { error: 'Not authorized to perform review actions.' },
+        { status: 403 },
+      )
+    }
   }
 
   const currentStatus = String(review.review_status)

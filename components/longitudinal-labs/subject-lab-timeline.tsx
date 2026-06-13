@@ -105,7 +105,7 @@ function LabTestRow({ entry }: { entry: SubjectLabTestEntry }) {
   )
 }
 
-function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
+function ReviewRow({ review, canReview, canClassify }: { review: LabReportReviewTimelineItem, canReview: boolean, canClassify: boolean }) {
   const statusLabels: Record<string, string> = {
     pending_review: 'Pending Review',
     under_review: 'Under Review',
@@ -201,6 +201,8 @@ function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
         initialNotes={review.reviewNotes}
         signatureRequestId={review.signatureRequestId}
         signatureRequestStatus={review.signatureRequestStatus}
+        canReview={canReview}
+        canClassify={canClassify}
       />
     </div>
   )
@@ -209,9 +211,13 @@ function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
 export function SubjectLabTimeline({
   tests,
   reviews,
+  canReview,
+  canClassify,
 }: {
   tests: SubjectLabTestEntry[]
   reviews: LabReportReviewTimelineItem[]
+  canReview: boolean
+  canClassify: boolean
 }) {
   const hasTests = tests.length > 0
   const hasReviews = reviews.length > 0
@@ -255,7 +261,7 @@ export function SubjectLabTimeline({
             Lab Report Reviews ({reviews.length})
           </h3>
           {reviews.map((review) => (
-            <ReviewRow key={review.reviewId} review={review} />
+            <ReviewRow key={review.reviewId} review={review} canReview={canReview} canClassify={canClassify} />
           ))}
         </div>
       ) : null}
