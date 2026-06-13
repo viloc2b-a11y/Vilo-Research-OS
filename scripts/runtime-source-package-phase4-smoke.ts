@@ -10,6 +10,7 @@ import { buildSourcePackageFromGraph } from '../lib/runtime-source-package/build
 import { computeSourcePackageHash } from '../lib/runtime-source-package/source-package-hash'
 import { createRuntimeSourcePackage } from '../lib/runtime-source-package/create-runtime-source-package'
 import { reviewRuntimeSourcePackage } from '../lib/runtime-source-package/review-runtime-source-package'
+import { approveRuntimeSourcePackage } from '../lib/runtime-source-package/approve-runtime-source-package'
 import type { StudyRuntimeGraphJson } from '../lib/study-runtime-composition/runtime-composition-types'
 
 const LIVE = process.argv.includes('--live')
@@ -177,6 +178,56 @@ async function runLiveChecks() {
   })
   assert(reviewed.packageStatus === 'reviewed', 'review status transition')
   console.log('✅ Review status transition')
+
+  const approved = await approveRuntimeSourcePackage({
+    supabase,
+    organizationId: orgId,
+    packageId: created.package.id,
+    approvedBy: actorId,
+  })
+  assert(approved.packageStatus === 'approved', 'approve status transition')
+  assert(approved.approvedBy === actorId, 'approved_by set')
+  assert(approved.approvedAt !== null, 'approved_at set')
+  console.log('✅ Approve status transition')
+
+  const { data: approvedVisitShells } = await supabase
+    .from('runtime_source_visit_shells')
+    .select('status')
+    .eq('source_package_id', created.package.id)
+  const allVisitApproved = (approvedVisitShells ?? []).every(s => s.status === 'approved')
+  assert(allVisitApproved, 'all visit shells approved')
+  console.log('✅ Visit shells approved')
+
+  const { data: approvedProcedureShells } = await supabase
+    .from('runtime_source_procedure_shells')
+    .select('status')
+    .eq('source_package_id', created.package.id)
+  const allProcedureApproved = (approvedProcedureShells ?? []).every(s => s.status === 'approved')
+  assert(allProcedureApproved, 'all procedure shells approved')
+  console.log('✅ Procedure shells approved')
+
+  const { data: downloadCheck, error: downloadError } = await supabase
+    .from('runtime_source_packages')
+    .select('id, package_name, package_version, package_status, package_hash')
+    .eq('id', created.package.id)
+    .single()
+  assert(!downloadError, 'package readable for download')
+  assert(downloadCheck.package_hash === created.package.packageHash, 'package_hash matches')
+  console.log('✅ Package data accessible for download/export')
+
+  const { data: downloadVisitShells } = await supabase
+    .from('runtime_source_visit_shells')
+    .select('id, visit_code, status')
+    .eq('source_package_id', created.package.id)
+  assert((downloadVisitShells ?? []).length === (visitShellCount ?? 0), 'visit shells exportable')
+  console.log('✅ Visit shells exportable')
+
+  const { data: downloadProcedureShells } = await supabase
+    .from('runtime_source_procedure_shells')
+    .select('id, procedure_code, status')
+    .eq('source_package_id', created.package.id)
+  assert((downloadProcedureShells ?? []).length === (procedureShellCount ?? 0), 'procedure shells exportable')
+  console.log('✅ Procedure shells exportable')
 
   const blueprintHashAfter = await loadAnyBlueprintHash(supabase)
   assert(blueprintHashBefore === blueprintHashAfter, 'Blueprint detached from package generation')

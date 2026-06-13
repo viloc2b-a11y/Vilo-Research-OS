@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import type { LoadedRuntimeSourcePackage } from '@/lib/runtime-source-package/source-package-types'
+import { ApproveSourcePackageButton } from './approve-source-package-button'
+import { DownloadSourcePackageButton } from './download-source-package-button'
 import { ReviewSourcePackageButton } from './review-source-package-button'
 import { SourceVisitShellCard } from './source-visit-shell-card'
 
@@ -10,6 +12,7 @@ type RuntimeSourcePackageReviewProps = {
   packageId: string
   refreshKey?: number
   onReviewed?: () => void
+  onApproved?: () => void
 }
 
 export function RuntimeSourcePackageReview({
@@ -17,6 +20,7 @@ export function RuntimeSourcePackageReview({
   packageId,
   refreshKey = 0,
   onReviewed,
+  onApproved,
 }: RuntimeSourcePackageReviewProps) {
   const [loaded, setLoaded] = useState<LoadedRuntimeSourcePackage | null>(null)
   const [loading, setLoading] = useState(true)
@@ -78,12 +82,24 @@ export function RuntimeSourcePackageReview({
               Package hash: {loaded.package.packageHash}
             </p>
           </div>
-          <ReviewSourcePackageButton
-            organizationId={organizationId}
-            packageId={packageId}
-            disabled={loaded.package.packageStatus !== 'draft'}
-            onReviewed={onReviewed}
-          />
+          <div className="flex items-center gap-2">
+            <ReviewSourcePackageButton
+              organizationId={organizationId}
+              packageId={packageId}
+              disabled={loaded.package.packageStatus !== 'draft'}
+              onReviewed={onReviewed}
+            />
+            <ApproveSourcePackageButton
+              organizationId={organizationId}
+              packageId={packageId}
+              disabled={loaded.package.packageStatus !== 'reviewed'}
+              onApproved={onApproved}
+            />
+            <DownloadSourcePackageButton
+              organizationId={organizationId}
+              packageId={packageId}
+            />
+          </div>
         </div>
       </div>
 

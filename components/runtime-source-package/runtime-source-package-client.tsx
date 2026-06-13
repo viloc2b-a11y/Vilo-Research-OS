@@ -118,6 +118,7 @@ export function RuntimeSourcePackageClient({
             packageId={selectedPackageId}
             refreshKey={refreshKey}
             onReviewed={() => setRefreshKey((value) => value + 1)}
+            onApproved={() => setRefreshKey((value) => value + 1)}
           />
         ) : (
           <div className="rounded-md border border-dashed border-slate-200 p-8 text-sm text-slate-500">

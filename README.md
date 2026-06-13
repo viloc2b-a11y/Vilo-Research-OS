@@ -172,6 +172,37 @@ npx supabase db reset --local
 npx tsx scripts/pharmacy-dispensing-runtime-smoke.ts
 ```
 
+### Runtime Source Generation Pipeline
+
+Source Generation Pipeline is **VALIDATED**.
+
+Complete flow: `Protocol/Reconciliation → Runtime Generation → Source Package Creation → Review → Approval → Publication → Download JSON`.
+
+Implemented scope:
+- Runtime source package creation from compiled composition snapshots (`draft`)
+- Visit shell and procedure shell generation with deterministic SHA-256 hashing
+- Review transition: `draft → reviewed`
+- Approval transition: `reviewed → approved` (with shell-reviewed validation gate)
+- Publication: `approved → published` (with versioned publications and supersede support)
+- Source package download/export as JSON
+- All transitions preserve `package_json`, `package_hash`, and `composition_snapshot_id` unchanged
+
+Status: `SOURCE_GENERATION_VALIDATED`
+
+Validation:
+
+```bash
+npx tsc --noEmit
+npm run lint
+npx tsx scripts/runtime-source-package-phase4-smoke.ts
+```
+
+Pre-existing E2E validation reports (`.runtime-validation/`):
+- `protocol-to-source-closure-VALIDATION_PROTOCOL_001`: `source_pass = true`, `remaining_blockers = []`
+- `protocol-to-source-closure-VALIDATION_PROTOCOL_002`: `source_pass = true`, `remaining_blockers = []`
+
+> **Note:** `protocol-to-source-closure-live.ts` requires staging Supabase env vars and was skipped in this environment. Pipeline was validated by unit smoke and pre-existing E2E reports.
+
 ## Architecture (planning docs)
 
 | Document | Topic |
@@ -216,6 +247,8 @@ npm run dev
 | `npx tsx scripts/pharmacy-runtime-phase1-smoke.ts` | Pharmacy Phase 1 DB-free foundation smoke |
 | `npx tsx scripts/pharmacy-runtime-phase1-actions-smoke.ts` | Pharmacy Phase 1 server action smoke |
 | `npx tsx scripts/pharmacy-dispensing-runtime-smoke.ts` | Pharmacy Dispensing Runtime Phase 2 smoke |
+| `npx tsx scripts/runtime-source-package-phase4-smoke.ts` | Source package generation, review, approval, and download smoke |
+| `npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts` | Source package publication smoke |
 
 ## Out of scope (MVP scaffold)
 
