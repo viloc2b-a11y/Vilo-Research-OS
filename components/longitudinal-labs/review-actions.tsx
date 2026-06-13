@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { SignaturePinDialog } from './signature-pin-dialog'
 
 const PI_OPTIONS = [
   { value: 'cs', label: 'CS' },
@@ -17,6 +18,7 @@ export function ReviewActions({
   initialClassification,
   initialNotes,
   signatureRequestId,
+  signatureRequestStatus,
 }: {
   reviewId: string
   organizationId: string
@@ -25,6 +27,7 @@ export function ReviewActions({
   initialClassification: string | null
   initialNotes: string | null
   signatureRequestId: string | null
+  signatureRequestStatus: string | null
 }) {
   const router = useRouter()
   const [reviewStatus, setReviewStatus] = useState(initialStatus)
@@ -33,8 +36,8 @@ export function ReviewActions({
   )
   const [reviewNotes, setReviewNotes] = useState(initialNotes ?? '')
   const [saving, setSaving] = useState(false)
-  const [requestingSignature, setRequestingSignature] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showPinDialog, setShowPinDialog] = useState(false)
 
   async function saveReview() {
     setSaving(true)
@@ -69,37 +72,12 @@ export function ReviewActions({
     }
   }
 
-  async function requestSignature() {
-    setRequestingSignature(true)
-    setError(null)
-
-    try {
-      const res = await fetch(
-        `/api/longitudinal-labs/reviews/${reviewId}/request-signature`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-        },
-      )
-
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error ?? 'Failed to request signature')
-      }
-
-      router.refresh()
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to request signature',
-      )
-    } finally {
-      setRequestingSignature(false)
-    }
-  }
-
   const isTerminal = reviewStatus === 'reviewed' || reviewStatus === 'rejected'
-  const canRequestSignature =
-    reviewStatus === 'reviewed' && !signatureRequestId
+  const canSign =
+    reviewStatus === 'reviewed' &&
+    signatureRequestId &&
+    signatureRequestStatus === 'pending'
+  const isSigned = signatureRequestStatus === 'signed'
 
   return (
     <div className="space-y-3 pt-3 border-t mt-3">
@@ -204,24 +182,45 @@ export function ReviewActions({
           {saving ? 'Saving...' : 'Save'}
         </button>
 
-        {canRequestSignature ? (
+        {canSign ? (
           <button
-            onClick={requestSignature}
-            disabled={requestingSignature}
-            className="h-7 rounded-md border border-blue-300 bg-blue-50 px-3 text-[11px] font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50"
+            onClick={() => setShowPinDialog(true)}
+            className="h-7 rounded-md border border-blue-300 bg-blue-50 px-3 text-[11px] font-medium text-blue-700 hover:bg-blue-100"
           >
-            {requestingSignature
-              ? 'Requesting...'
-              : 'Request PI/Sub-I Signature'}
+            Sign Lab Report Review
           </button>
         ) : null}
 
-        {signatureRequestId ? (
-          <span className="text-[11px] text-green-600 font-medium">
-            Signature requested
+        {isSigned ? (
+          <span className="inline-flex items-center gap-1 text-[11px] text-green-700 font-medium">
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Signed
+          </span>
+        ) : signatureRequestId && !canSign && !isSigned ? (
+          <span className="text-[11px] text-muted-foreground italic">
+            Signature request pending
           </span>
         ) : null}
       </div>
+
+      <SignaturePinDialog
+        open={showPinDialog}
+        onClose={() => setShowPinDialog(false)}
+        organizationId={organizationId}
+        signatureRequestId={signatureRequestId ?? ''}
+      />
     </div>
   )
 }

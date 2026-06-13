@@ -68,6 +68,23 @@ export async function buildSubjectLabTimeline(
     }
   }
 
+  const sigReqIds = reviews
+    .map((r) => r.signatureRequestId)
+    .filter((id): id is string => id !== null)
+
+  const sigStatusMap = new Map<string, string>()
+
+  if (sigReqIds.length > 0) {
+    const { data: sigReqs } = await supabase
+      .from('operational_signature_requests')
+      .select('id, status')
+      .in('id', sigReqIds)
+
+    for (const row of (sigReqs ?? []) as Record<string, unknown>[]) {
+      sigStatusMap.set(String(row.id), String(row.status))
+    }
+  }
+
   const reviewItems: LabReportReviewTimelineItem[] = reviews.map((r) => ({
     kind: 'lab_report_review',
     reviewId: r.id,
@@ -85,6 +102,9 @@ export async function buildSubjectLabTimeline(
     reviewedBy: r.reviewedBy,
     reviewedAt: r.reviewedAt,
     signatureRequestId: r.signatureRequestId,
+    signatureRequestStatus: r.signatureRequestId
+      ? sigStatusMap.get(r.signatureRequestId) ?? null
+      : null,
     createdAt: r.createdAt,
   }))
 

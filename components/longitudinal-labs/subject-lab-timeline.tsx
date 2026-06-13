@@ -174,7 +174,15 @@ function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
           {review.signatureRequestId ? (
             <div>
               <span className="text-muted-foreground">Signoff:</span>{' '}
-              <span className="font-medium text-green-600">Signature requested</span>
+              {review.signatureRequestStatus === 'signed' ? (
+                <span className="font-medium text-green-600">Signed</span>
+              ) : review.signatureRequestStatus === 'pending' ? (
+                <span className="font-medium text-amber-600">Signature requested</span>
+              ) : (
+                <span className="text-muted-foreground">
+                  {review.signatureRequestStatus ?? 'Signature requested'}
+                </span>
+              )}
             </div>
           ) : null}
         </div>
@@ -192,6 +200,7 @@ function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
         initialClassification={review.piClassification}
         initialNotes={review.reviewNotes}
         signatureRequestId={review.signatureRequestId}
+        signatureRequestStatus={review.signatureRequestStatus}
       />
     </div>
   )
