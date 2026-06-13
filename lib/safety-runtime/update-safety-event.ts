@@ -16,6 +16,10 @@ export async function updateSafetyEvent(
     updated_by: actorId,
   }
 
+  if (input.eventType !== undefined) {
+    payload.event_type = input.eventType
+  }
+
   if (input.eventStatus !== undefined) {
     payload.event_status = input.eventStatus
   }

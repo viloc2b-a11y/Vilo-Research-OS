@@ -3,11 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const EVENT_TYPE_OPTIONS = [
-  { value: 'ae', label: 'AE' },
-  { value: 'sae', label: 'SAE' },
-] as const
-
 const SEVERITY_OPTIONS = [
   { value: '', label: '—' },
   { value: 'mild', label: 'Mild' },
@@ -55,6 +50,7 @@ export function CreateSafetyEventDialog({
 }: CreateSafetyEventDialogProps) {
   const router = useRouter()
 
+  const [classified, setClassified] = useState(false)
   const [eventType, setEventType] = useState<'ae' | 'sae'>('ae')
   const [severity, setSeverity] = useState('')
   const [relatedness, setRelatedness] = useState('')
@@ -80,7 +76,7 @@ export function CreateSafetyEventDialog({
           study_id: studyId,
           subject_id: subjectId,
           visit_id: visitId ?? null,
-          event_type: eventType,
+          event_type: classified ? eventType : null,
           description,
           severity: severity || null,
           relatedness: relatedness || null,
@@ -112,6 +108,7 @@ export function CreateSafetyEventDialog({
   function handleClose() {
     setCreatedId(null)
     setError(null)
+    setClassified(false)
     setEventType('ae')
     setSeverity('')
     setRelatedness('')
@@ -148,7 +145,7 @@ export function CreateSafetyEventDialog({
               <h3 className="text-sm font-semibold">Safety Event Created</h3>
             </div>
             <p className="text-xs text-muted-foreground">
-              {eventType === 'ae' ? 'Adverse Event' : 'Serious Adverse Event'} has been created.
+              {classified ? (eventType === 'ae' ? 'Adverse Event' : 'Serious Adverse Event') : 'Safety Candidate'} has been created.
             </p>
             <div className="flex justify-end gap-2">
               <button
@@ -164,25 +161,40 @@ export function CreateSafetyEventDialog({
           <form onSubmit={handleSubmit} className="space-y-4">
             <h3 className="text-sm font-semibold">Create Safety Event</h3>
 
-            <div className="space-y-1">
-              <label className="text-xs font-medium text-muted-foreground">Event Type</label>
-              <div className="flex gap-2">
-                {EVENT_TYPE_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setEventType(opt.value)}
-                    className={`h-7 flex-1 rounded-md border text-xs font-medium transition-colors ${
-                      eventType === opt.value
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'bg-card text-muted-foreground border-border hover:border-primary/50'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+            <div className="flex items-center gap-2 rounded-md border border-purple-200 bg-purple-50 px-3 py-2">
+              <input
+                type="checkbox"
+                id="classify_now"
+                checked={classified}
+                onChange={(e) => setClassified(e.target.checked)}
+                className="h-3.5 w-3.5 rounded border-gray-300"
+              />
+              <label htmlFor="classify_now" className="text-xs font-medium text-purple-700">
+                Classify as AE or SAE now
+              </label>
             </div>
+
+            {classified ? (
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-muted-foreground">Event Type</label>
+                <div className="flex gap-2">
+                  {(['ae', 'sae'] as const).map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setEventType(opt)}
+                      className={`h-7 flex-1 rounded-md border text-xs font-medium transition-colors ${
+                        eventType === opt
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-card text-muted-foreground border-border hover:border-primary/50'
+                      }`}
+                    >
+                      {opt === 'ae' ? 'AE' : 'SAE'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div className="space-y-1">
               <label className="text-xs font-medium text-muted-foreground">Severity</label>
@@ -255,7 +267,7 @@ export function CreateSafetyEventDialog({
                 disabled={creating}
                 className="h-7 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
-                {creating ? 'Creating...' : `Create ${eventType === 'ae' ? 'AE' : 'SAE'}`}
+                {creating ? 'Creating...' : classified ? `Create ${eventType === 'ae' ? 'AE' : 'SAE'}` : 'Create Candidate'}
               </button>
             </div>
           </form>

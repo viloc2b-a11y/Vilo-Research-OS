@@ -10,6 +10,7 @@ const EVENT_TYPE_LABELS: Record<string, string> = {
 }
 
 const STATUS_STYLES: Record<string, string> = {
+  candidate: 'bg-purple-50 text-purple-700 border-purple-200',
   open: 'bg-blue-50 text-blue-700 border-blue-200',
   under_review: 'bg-yellow-50 text-yellow-700 border-yellow-200',
   closed: 'bg-green-50 text-green-700 border-green-200',
@@ -65,6 +66,7 @@ export function SubjectSafetyTimeline({
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [closingId, setClosingId] = useState<string | null>(null)
+  const [classifyingId, setClassifyingId] = useState<string | null>(null)
 
   function startEdit(event: SafetyEventRow) {
     setEditingId(event.id)
@@ -111,6 +113,31 @@ export function SubjectSafetyTimeline({
     }
   }
 
+  async function classifyEvent(eventId: string, eventType: 'ae' | 'sae') {
+    setClassifyingId(eventId)
+    setError(null)
+
+    try {
+      const res = await fetch(`/api/safety-events/${eventId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          event_type: eventType,
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to classify safety event')
+
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to classify safety event')
+    } finally {
+      setClassifyingId(null)
+    }
+  }
+
   async function closeEvent(eventId: string) {
     setClosingId(eventId)
     setError(null)
@@ -141,7 +168,7 @@ export function SubjectSafetyTimeline({
       <div className="rounded-lg border bg-card p-8 text-center">
         <p className="text-sm font-medium text-muted-foreground">No safety events</p>
         <p className="text-xs text-muted-foreground mt-1">
-          No adverse events or safety signals recorded for this subject.
+          No safety events or candidates recorded for this subject.
         </p>
       </div>
     )
@@ -158,27 +185,38 @@ export function SubjectSafetyTimeline({
       {events.map((event) => {
         const isEditing = editingId === event.id
         const isClosed = event.eventStatus === 'closed'
+        const isCandidate = event.eventStatus === 'candidate'
         const isLabSignal = event.sourceType === 'lab_signal'
 
         return (
           <div
             key={event.id}
-            className="rounded-lg border bg-card p-4 space-y-3"
+            className={`rounded-lg border p-4 space-y-3 ${
+              isCandidate ? 'bg-purple-50/30 border-purple-200' : 'bg-card'
+            }`}
           >
             {/* Header row */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${
-                  event.eventType === 'sae' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                }`}>
-                  {EVENT_TYPE_LABELS[event.eventType] ?? event.eventType}
-                </span>
+                {event.eventType ? (
+                  <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${
+                    event.eventType === 'sae' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                  }`}>
+                    {EVENT_TYPE_LABELS[event.eventType]}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center rounded-full border border-purple-300 bg-purple-100 px-2 py-0.5 text-[10px] font-semibold text-purple-800 uppercase">
+                    Candidate
+                  </span>
+                )}
                 <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${STATUS_STYLES[event.eventStatus] ?? ''}`}>
                   {event.eventStatus.replace('_', ' ')}
                 </span>
-                <span className={`text-xs font-medium ${SEVERITY_STYLES[event.severity ?? ''] ?? 'text-muted-foreground'}`}>
-                  {event.severity ? event.severity.charAt(0).toUpperCase() + event.severity.slice(1) : '—'}
-                </span>
+                {event.severity ? (
+                  <span className={`text-xs font-medium ${SEVERITY_STYLES[event.severity] ?? 'text-muted-foreground'}`}>
+                    {event.severity.charAt(0).toUpperCase() + event.severity.slice(1)}
+                  </span>
+                ) : null}
               </div>
               <div className="flex items-center gap-1">
                 {isLabSignal ? (
@@ -300,18 +338,37 @@ export function SubjectSafetyTimeline({
                 {/* Actions */}
                 {canManageSafety && !isClosed ? (
                   <div className="flex items-center gap-2 pt-1 border-t">
-                    <button
-                      onClick={() => startEdit(event)}
-                      className="h-6 rounded-md border border-input bg-background px-2 text-[10px] font-medium text-foreground hover:bg-accent"
-                    >
-                      Edit
-                    </button>
+                    {isCandidate ? (
+                      <>
+                        <button
+                          onClick={() => classifyEvent(event.id, 'ae')}
+                          disabled={classifyingId === event.id}
+                          className="h-6 rounded-md border border-amber-300 bg-amber-50 px-2 text-[10px] font-medium text-amber-700 hover:bg-amber-100 disabled:opacity-50"
+                        >
+                          {classifyingId === event.id ? '...' : 'Classify as AE'}
+                        </button>
+                        <button
+                          onClick={() => classifyEvent(event.id, 'sae')}
+                          disabled={classifyingId === event.id}
+                          className="h-6 rounded-md border border-red-300 bg-red-50 px-2 text-[10px] font-medium text-red-700 hover:bg-red-100 disabled:opacity-50"
+                        >
+                          {classifyingId === event.id ? '...' : 'Classify as SAE'}
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => startEdit(event)}
+                        className="h-6 rounded-md border border-input bg-background px-2 text-[10px] font-medium text-foreground hover:bg-accent"
+                      >
+                        Edit
+                      </button>
+                    )}
                     <button
                       onClick={() => closeEvent(event.id)}
                       disabled={closingId === event.id}
                       className="h-6 rounded-md border border-green-300 bg-green-50 px-2 text-[10px] font-medium text-green-700 hover:bg-green-100 disabled:opacity-50"
                     >
-                      {closingId === event.id ? 'Closing...' : 'Close'}
+                      {isCandidate ? 'Dismiss' : closingId === event.id ? 'Closing...' : 'Close'}
                     </button>
                   </div>
                 ) : null}

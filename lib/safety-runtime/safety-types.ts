@@ -6,6 +6,7 @@ export const SAFETY_EVENT_TYPE = {
 export type SafetyEventType = (typeof SAFETY_EVENT_TYPE)[keyof typeof SAFETY_EVENT_TYPE]
 
 export const SAFETY_EVENT_STATUS = {
+  CANDIDATE: 'candidate',
   OPEN: 'open',
   UNDER_REVIEW: 'under_review',
   CLOSED: 'closed',
@@ -46,7 +47,7 @@ export type SafetyEventRow = {
   studyId: string
   subjectId: string
   visitId: string | null
-  eventType: SafetyEventType
+  eventType: SafetyEventType | null
   eventStatus: SafetyEventStatus
   sourceType: SourceType
   description: string
@@ -67,7 +68,7 @@ export type CreateSafetyEventInput = {
   studyId: string
   subjectId: string
   visitId?: string | null
-  eventType: SafetyEventType
+  eventType?: SafetyEventType | null
   sourceType?: SourceType
   description: string
   severity?: Severity | null
@@ -78,6 +79,7 @@ export type CreateSafetyEventInput = {
 }
 
 export type UpdateSafetyEventInput = {
+  eventType?: SafetyEventType | null
   eventStatus?: SafetyEventStatus
   description?: string
   severity?: Severity | null
@@ -94,7 +96,7 @@ export function mapSafetyEventRow(row: Record<string, unknown>): SafetyEventRow 
     studyId: String(row.study_id),
     subjectId: String(row.subject_id),
     visitId: row.visit_id != null ? String(row.visit_id) : null,
-    eventType: row.event_type as SafetyEventType,
+    eventType: row.event_type != null ? (row.event_type as SafetyEventType) : null,
     eventStatus: row.event_status as SafetyEventStatus,
     sourceType: row.source_type as SourceType,
     description: String(row.description),

@@ -12,13 +12,14 @@ export async function createSafetyEvent(
   input: CreateSafetyEventInput,
 ): Promise<SafetyEventRow> {
   const now = new Date().toISOString()
+  const isClassified = input.eventType != null
   const row = {
     organization_id: input.organizationId,
     study_id: input.studyId,
     subject_id: input.subjectId,
     visit_id: input.visitId ?? null,
-    event_type: input.eventType,
-    event_status: 'open',
+    event_type: input.eventType ?? null,
+    event_status: isClassified ? 'open' : 'candidate',
     source_type: input.sourceType ?? SOURCE_TYPE.MANUAL,
     description: input.description,
     severity: input.severity ?? null,

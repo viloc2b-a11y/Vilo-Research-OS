@@ -51,12 +51,30 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
   }
 
   const updateInput: Record<string, unknown> = {}
+  const currentEvent = event as Record<string, unknown>
+
+  if (body.event_type !== undefined) {
+    const et = body.event_type as string | null
+    if (et !== null && !['ae', 'sae'].includes(et)) {
+      return NextResponse.json(
+        { error: 'event_type must be "ae", "sae", or null' },
+        { status: 400 },
+      )
+    }
+    updateInput.eventType = et
+
+    const wasNull = currentEvent.event_type == null
+    if (wasNull && et != null) {
+      updateInput.eventStatus = 'open'
+      updateInput.closedAt = null
+    }
+  }
 
   if (body.event_status !== undefined) {
     const status = String(body.event_status)
-    if (!['open', 'under_review', 'closed'].includes(status)) {
+    if (!['candidate', 'open', 'under_review', 'closed'].includes(status)) {
       return NextResponse.json(
-        { error: 'event_status must be one of: open, under_review, closed' },
+        { error: 'event_status must be one of: candidate, open, under_review, closed' },
         { status: 400 },
       )
     }
@@ -64,6 +82,10 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
 
     if (status === 'closed') {
       updateInput.closedAt = new Date().toISOString()
+    }
+
+    if (status === 'candidate') {
+      updateInput.eventType = null
     }
   }
 

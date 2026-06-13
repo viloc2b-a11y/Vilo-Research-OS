@@ -16,18 +16,18 @@ export async function POST(request: NextRequest) {
   const organizationId = body.organization_id as string | undefined
   const studyId = body.study_id as string | undefined
   const subjectId = body.subject_id as string | undefined
-  const eventType = body.event_type as string | undefined
+  const eventType = body.event_type as string | null | undefined
 
-  if (!organizationId || !studyId || !subjectId || !eventType) {
+  if (!organizationId || !studyId || !subjectId) {
     return NextResponse.json(
-      { error: 'organization_id, study_id, subject_id, and event_type are required' },
+      { error: 'organization_id, study_id, and subject_id are required' },
       { status: 400 },
     )
   }
 
-  if (eventType !== 'ae' && eventType !== 'sae') {
+  if (eventType != null && eventType !== 'ae' && eventType !== 'sae') {
     return NextResponse.json(
-      { error: 'event_type must be "ae" or "sae"' },
+      { error: 'event_type must be "ae", "sae", or null for unclassified candidate' },
       { status: 400 },
     )
   }
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       studyId,
       subjectId,
       visitId: (body.visit_id as string) ?? null,
-      eventType: eventType as 'ae' | 'sae',
+      eventType: eventType != null ? (eventType as 'ae' | 'sae') : null,
       sourceType: 'lab_signal',
       description: body.description as string,
       severity: (body.severity as Severity) ?? null,
