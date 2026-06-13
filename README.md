@@ -40,6 +40,7 @@ See `docs/PHASE1B-RUNBOOK.md` and `docs/GITHUB-SUPABASE-SYNC.md`.
 - Pharmacy Runtime Phase 1 foundation is built with DB persistence, access gates, and transaction-hardened receipt/correction commits
 - Pharmacy Dispensing Runtime Phase 2 foundation is built with blueprint-derived subject assignment, visit-linked dispensing, administration events inside Visit Runtime, and Study Subject Command Center review actions
 - Longitudinal Labs is **OPERATIONAL**: Document Center `lab_result` uploads route to `lab_report_reviews` → Subject Labs / Study Labs visibility → PI/Sub-I classification & RBAC → operational signature request & PIN execution → signed artifact evidence → unified Needs Review Queue in Study Workspace
+- Safety Runtime is **OPERATIONAL FOUNDATION**: Lab Review / Lab Signal → Safety Candidate → Human Medical Assessment → AE / SAE / Dismiss → Subject Safety Timeline. Full pipeline: `safety_events` table with RLS → `lib/safety-runtime/` services (create/load/update) → `POST /api/safety-events` + `PATCH /api/safety-events/[eventId]` → `CreateSafetyEventDialog` (candidate-first creation from labs context) → `SubjectSafetyTimeline` (Safety tab in Subject Chart with inline classify/edit/dismiss actions). Candidate workflow ensures no auto-AE/SAE from lab signals; human medical assessment is required before classification.
 
 ### Document Center Navigation Phase 1
 
