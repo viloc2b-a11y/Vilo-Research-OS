@@ -42,6 +42,30 @@ export function ReviewActions({
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showPinDialog, setShowPinDialog] = useState(false)
+  const [requestingSignature, setRequestingSignature] = useState(false)
+
+  async function requestSignature() {
+    setRequestingSignature(true)
+    setError(null)
+
+    try {
+      const res = await fetch(
+        `/api/longitudinal-labs/reviews/${reviewId}/request-signature`,
+        { method: 'POST' },
+      )
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Failed to request signature')
+      }
+
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to request signature')
+    } finally {
+      setRequestingSignature(false)
+    }
+  }
 
   async function saveReview() {
     setSaving(true)
@@ -196,7 +220,6 @@ export function ReviewActions({
           {error}
         </div>
       ) : null}
-
       {/* Save + Signature buttons */}
       <div className="flex flex-wrap items-center gap-2">
         <button
@@ -206,6 +229,16 @@ export function ReviewActions({
         >
           {saving ? 'Saving...' : 'Save'}
         </button>
+
+        {reviewStatus === 'reviewed' && !signatureRequestId && canReview ? (
+          <button
+            onClick={requestSignature}
+            disabled={requestingSignature}
+            className="h-7 rounded-md border border-blue-300 bg-blue-50 px-3 text-[11px] font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50"
+          >
+            {requestingSignature ? 'Requesting...' : 'Request Signature'}
+          </button>
+        ) : null}
 
         {canSign ? (
           <button
