@@ -349,6 +349,55 @@ export function canEditClinicalSource(
   )
 }
 
+export function canManageSafetyEventsForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+  )
+}
+
+export function canManageSafetyEvents(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canManageSafetyEventsForRole(role),
+    organizationId,
+  )
+}
+
+export function canViewSafetyEventsForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner'
+    || normalized === 'admin'
+    || normalized === 'site_staff'
+    || normalized === 'research_coordinator'
+    || normalized === 'data_coordinator'
+    || normalized === 'pi_sub_i'
+    || normalized === 'unblinded_cra'
+  )
+}
+
+export function canViewSafetyEvents(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canViewSafetyEventsForRole(role),
+    organizationId,
+  )
+}
+
 export function canSignClinicalSourceForRole(role: string): boolean {
   const normalized = normalizeOrganizationRole(role)
   if (!normalized) return false
@@ -618,6 +667,8 @@ export type SitePermissionSnapshot = {
   canManageBusinessDevelopmentCRM: boolean
   canAccessCommunications: boolean
   canManageCommunications: boolean
+  canManageSafetyEvents: boolean
+  canViewSafetyEvents: boolean
   canAccessSubjectVisitWorkspace: boolean
   canManageSubjectVisits: boolean
   canManageSourceDocuments: boolean
@@ -657,6 +708,8 @@ export function resolveSitePermissions(
     canManageBusinessDevelopmentCRM: canManageBusinessDevelopmentCRM(memberships, organizationId),
     canAccessCommunications: canAccessCommunications(memberships, organizationId),
     canManageCommunications: canManageCommunications(memberships, organizationId),
+    canManageSafetyEvents: canManageSafetyEvents(memberships, organizationId),
+    canViewSafetyEvents: canViewSafetyEvents(memberships, organizationId),
     canAccessSubjectVisitWorkspace: canAccessSubjectVisitWorkspace(memberships, organizationId),
     canManageSubjectVisits: canManageSubjectVisits(memberships, organizationId),
     canManageSourceDocuments: canManageSourceDocuments(memberships, organizationId),
