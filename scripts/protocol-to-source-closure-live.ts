@@ -14,6 +14,8 @@ import {
   updateProcedureCandidateStatus,
   approveReconciliationSession,
 } from '../lib/protocol-intake-reconciliation/reconciliation-actions'
+import { listProcedures } from '../lib/procedure-library/list-procedures'
+import { pickBestProcedureMatch } from '../lib/protocol-reconciliation/suggest-procedure-matches'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
@@ -233,6 +235,15 @@ async function main() {
     organizationId,
   })
 
+  const libraryProcedures = await listProcedures(supabase, {
+    organizationId,
+    libraryScope: 'all',
+    status: 'active',
+    limit: 500,
+  })
+
+  const mappingStats = { library_matched: 0, generic_fallback: 0, total: initProcedures?.length ?? 0 }
+
   const visitApprovals = []
   for (const visit of initVisits ?? []) {
     const approved = await updateVisitCandidateStatus({
@@ -257,17 +268,27 @@ async function main() {
         ? (visitApprovals.find((v) => String(v.visitCandidateId ?? '') === String(sourceCandidate.visit_candidate_id))?.id ?? visitIdFallback)
         : visitIdFallback)
 
+    const best = pickBestProcedureMatch(String(proc.procedure_name), libraryProcedures)
+    const matchedProcedureId = best?.procedureId ?? procedureId
+    const matchedBlueprintId = best?.blueprintVersionId ?? blueprintVersionId
+    const matchingMethod = best?.matchingMethod ?? 'manual'
+    if (best?.blueprintVersionId) mappingStats.library_matched += 1
+    else mappingStats.generic_fallback += 1
+
     const { error: mapErr } = await supabase
       .from('protocol_procedure_reconciliations')
       .update({
-        matched_procedure_library_id: procedureId,
-        matched_blueprint_version_id: blueprintVersionId,
-        matching_method: 'manual',
-        reconciliation_source: 'manual',
+        matched_procedure_library_id: matchedProcedureId,
+        matched_blueprint_version_id: matchedBlueprintId,
+        matching_method: matchingMethod,
+        reconciliation_source: best ? 'auto' : 'manual',
         visit_reconciliation_id: mappedVisitId,
         metadata: {
           ...sourceMeta,
           closure_mapping_category: classifyProcedureCategory(String(proc.procedure_name)),
+          closure_library_match: best
+            ? { procedureCode: best.procedureCode, confidence: best.confidence }
+            : null,
         },
       })
       .eq('id', String(proc.id))
@@ -370,6 +391,7 @@ async function main() {
       runtime_procedures: runtimeVisitProcedures?.length ?? 0,
       source_procedure_shells: sourceProcedureShells?.length ?? 0,
     },
+    mapping_stats: mappingStats,
     passes: {
       extraction_persisted: (sectionRows ?? []).length > 0 && Boolean((visitRows ?? []).length) && Boolean((procedureRows ?? []).length),
       reconciliation_pass: (initVisits?.length ?? 0) > 0 && (initProcedures?.length ?? 0) > 0 && approvalResult.status === 'approved',
@@ -383,6 +405,38 @@ async function main() {
     },
     remaining_blockers: [] as string[],
   }
+
+  const procRatio = report.fidelity.reconciled_procedures > 0
+    ? report.fidelity.runtime_procedures / report.fidelity.reconciled_procedures
+    : 0
+  const visitParity = report.fidelity.reconciled_visits === report.fidelity.runtime_visits
+    && report.fidelity.runtime_visits === report.fidelity.source_visit_shells
+  const truthVisitsPass = visitParity
+  const truthProceduresPass = procRatio >= 1
+    && report.fidelity.runtime_procedures === report.fidelity.source_procedure_shells
+  const truthPass = truthVisitsPass && truthProceduresPass
+  const truthBlockers: string[] = []
+  if (!truthVisitsPass) {
+    truthBlockers.push('Visit stage parity failed across reconciliation/runtime/source')
+  }
+  if (procRatio < 1) {
+    truthBlockers.push(
+      `Procedure reconciled→runtime ${(procRatio * 100).toFixed(1)}% (${report.fidelity.runtime_procedures}/${report.fidelity.reconciled_procedures}) — closure only requires > 0`,
+    )
+  }
+  if (report.passes.runtime_pass && !truthPass) {
+    truthBlockers.push('Closure runtime_pass true but truth parity fails')
+  }
+  Object.assign(report, {
+    truth: {
+      truth_pass: truthPass,
+      truth_visits_pass: truthVisitsPass,
+      truth_procedures_pass: truthProceduresPass,
+      procedure_reconciled_to_runtime: procRatio,
+      visit_parity: visitParity,
+    },
+    remaining_blockers: truthBlockers,
+  })
 
   const reportPaths = writeReport(target.reportStem, report)
   console.log(
