@@ -5,6 +5,7 @@ import { rejectVisitReconciliation } from '@/lib/protocol-reconciliation/reject-
 import { approveProcedureReconciliation } from '@/lib/protocol-reconciliation/approve-procedure-reconciliation'
 import { rejectProcedureReconciliation } from '@/lib/protocol-reconciliation/reject-procedure-reconciliation'
 import { generateStudyRuntimeFromReconciliation } from '@/lib/protocol-runtime-generation/generate-study-runtime-from-reconciliation'
+import { createRuntimeSourcePackage } from '@/lib/runtime-source-package/create-runtime-source-package'
 import { appendReconciliationEvent } from '@/lib/protocol-reconciliation/append-reconciliation-event'
 import { RECONCILIATION_EVENT_TYPE } from '@/lib/protocol-reconciliation/protocol-reconciliation-types'
 
@@ -123,10 +124,28 @@ export async function approveReconciliationSession(args: {
     studyId: args.studyId,
     actorId: args.actorId
   })
+
+  // Auto-create source package from the generated composition snapshot
+  const sourcePackageResult = await createRuntimeSourcePackage({
+    supabase: args.supabase,
+    generatedBy: args.actorId,
+    input: {
+      organization_id: args.organizationId,
+      study_id: args.studyId,
+      composition_snapshot_id: runtimeResult.runtimeSnapshotId,
+      package_name: `Protocol ${args.protocolVersionId} Source Package`
+    }
+  })
   
   return {
     status: 'approved',
     runtimeSnapshotId: runtimeResult.runtimeSnapshotId,
-    summary: runtimeResult.summary
+    summary: runtimeResult.summary,
+    sourcePackage: {
+      id: sourcePackageResult.package.id,
+      version: sourcePackageResult.package.packageVersion,
+      visitShellCount: sourcePackageResult.visitShellCount,
+      procedureShellCount: sourcePackageResult.procedureShellCount
+    }
   }
 }

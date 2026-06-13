@@ -258,24 +258,13 @@ async function runE2E() {
       const snapshotId = snapshots?.[0]?.id || 'unknown'
       console.log(`10. Source package composition snapshot id: ${snapshotId}`)
 
-      // Create Source Package Draft
-      console.log(`11. Creating Source Package Draft...`)
-      const { createRuntimeSourcePackage } = await import('../lib/runtime-source-package/create-runtime-source-package')
-      const sourcePackageResult = await createRuntimeSourcePackage({
-        supabase,
-        generatedBy: actorId,
-        input: {
-          organization_id: orgId,
-          study_id: studyId,
-          composition_snapshot_id: snapshotId,
-          package_name: `${test.id} Source Package v1.0`
-        }
-      })
-      console.log(`    Source Package ID: ${sourcePackageResult.package.id}`)
+      // Source package created as part of approveReconciliationSession
+      const sourcePackage = approveResult.sourcePackage!
+      console.log(`11. Source Package created — ID: ${sourcePackage.id} (v${sourcePackage.version})`)
       
-      const { data: generatedForms } = await supabase.from('runtime_source_visit_shells').select('visit_name').eq('source_package_id', sourcePackageResult.package.id).limit(3)
+      const { data: generatedForms } = await supabase.from('runtime_source_visit_shells').select('visit_name').eq('source_package_id', sourcePackage.id).limit(3)
       const formNames = (generatedForms ?? []).map(f => f.visit_name)
-      console.log(`    Generated ${sourcePackageResult.visitShellCount} source visit forms and ${sourcePackageResult.procedureShellCount} procedure forms.`)
+      console.log(`    Generated ${sourcePackage.visitShellCount} source visit forms and ${sourcePackage.procedureShellCount} procedure forms.`)
       console.log(`    First 3 form names: ${formNames.join(', ')}`)
 
       // 12. Confirm no candidates were mutated
@@ -292,11 +281,11 @@ async function runE2E() {
         procedure_candidate_count: procedureCandidates.length,
         reconciliation_counts: { visits: initVisits!.length, procedures: initProcs!.length },
         generated_runtime_snapshot_id: approveResult.runtimeSnapshotId,
-        composition_snapshot_id: snapshotId,
-        source_package_id: sourcePackageResult.package.id,
-        number_of_generated_source_forms: sourcePackageResult.visitShellCount + sourcePackageResult.procedureShellCount,
+        composition_snapshot_id: approveResult.runtimeSnapshotId,
+        source_package_id: sourcePackage.id,
+        number_of_generated_source_forms: sourcePackage.visitShellCount + sourcePackage.procedureShellCount,
         first_3_source_form_names: formNames,
-        ui_route_to_open_package: `/vilo/studies/${studyId}/source-builder/${sourcePackageResult.package.id}`,
+        ui_route_to_open_package: `/vilo/studies/${studyId}/source-builder/${sourcePackage.id}`,
         failed_step: null
       })
     } catch (err: any) {

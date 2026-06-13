@@ -14,7 +14,6 @@ import {
   updateProcedureCandidateStatus,
   approveReconciliationSession,
 } from '../lib/protocol-intake-reconciliation/reconciliation-actions'
-import { createRuntimeSourcePackage } from '../lib/runtime-source-package/create-runtime-source-package'
 
 loadEnv({ path: '.env.local' })
 loadEnv()
@@ -315,32 +314,16 @@ async function main() {
     .from('study_procedure_blueprints')
     .select('id')
     .eq('study_id', studyId)
-  const { data: compositionSnapshots } = await supabase
-    .from('study_runtime_composition_snapshots')
-    .select('id')
-    .eq('id', runtimeSnapshotId)
-    .limit(1)
-  const compositionSnapshotId = compositionSnapshots?.[0]?.id ?? runtimeSnapshotId
-
-  const sourcePackage = await createRuntimeSourcePackage({
-    supabase,
-    generatedBy: actorId,
-    input: {
-      organization_id: organizationId,
-      study_id: studyId,
-      composition_snapshot_id: compositionSnapshotId,
-      package_name: `${protocolKey} Source Package v1.0`,
-    },
-  })
+  const sourcePackage = approvalResult.sourcePackage!
 
   const { data: sourceVisitShells } = await supabase
     .from('runtime_source_visit_shells')
     .select('id')
-    .eq('source_package_id', sourcePackage.package.id)
+    .eq('source_package_id', sourcePackage.id)
   const { data: sourceProcedureShells } = await supabase
     .from('runtime_source_procedure_shells')
     .select('id')
-    .eq('source_package_id', sourcePackage.package.id)
+    .eq('source_package_id', sourcePackage.id)
 
   const report = {
     protocol: protocolKey,
@@ -372,8 +355,8 @@ async function main() {
       study_blueprints_generated: studyBlueprints?.length ?? 0,
     },
     source: {
-      source_package_id: sourcePackage.package.id,
-      source_package_version: sourcePackage.package.packageVersion,
+      source_package_id: sourcePackage.id,
+      source_package_version: sourcePackage.version,
       source_visit_shells: sourceVisitShells?.length ?? 0,
       source_procedure_shells: sourceProcedureShells?.length ?? 0,
     },
@@ -396,7 +379,7 @@ async function main() {
     ids: {
       generation_run_id: generationRun?.id ?? null,
       runtime_snapshot_id: runtimeSnapshotId,
-      source_package_id: sourcePackage.package.id,
+      source_package_id: sourcePackage.id,
     },
     remaining_blockers: [] as string[],
   }
