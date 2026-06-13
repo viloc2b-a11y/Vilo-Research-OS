@@ -19,6 +19,7 @@ import { loadStudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-fin
 import { loadStudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import { loadProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/load-protocol-runtime-study'
+import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
 import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -133,6 +134,16 @@ async function StudyWorkspaceContent({
     organizationId: summary.study.organizationId,
   })
 
+  const deviations = await loadDeviations(supabase, {
+    organizationId: summary.study.organizationId,
+    studyId,
+  })
+
+  const subjectMap: Record<string, string> = {}
+  for (const s of subjects) {
+    subjectMap[s.subjectId] = s.subjectIdentifier
+  }
+
   return (
     <StudyWorkspaceShell
       summary={summary}
@@ -156,6 +167,8 @@ async function StudyWorkspaceContent({
       protocolRuntimeStudy={protocolRuntimeStudy}
       studyOperationsSurface={studyOperationsSurface}
       continuityRows={readiness.continuityRows}
+      deviations={deviations}
+      subjectMap={subjectMap}
     />
   )
 }

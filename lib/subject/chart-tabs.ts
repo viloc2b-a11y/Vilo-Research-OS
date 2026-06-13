@@ -13,7 +13,6 @@ export const subjectChartTabs = [
   { key: 'labs', label: 'Labs' },
   { key: 'documents', label: 'eDocs & Misc' },
   { key: 'signatures', label: 'Signatures' },
-  { key: 'protocol-deviations', label: 'Protocol Deviations' },
   { key: 'emergency-contacts', label: 'Emergency Contacts' },
   { key: 'deliverables', label: 'Deliverables' },
   { key: 'audit', label: 'Audit Trail' },

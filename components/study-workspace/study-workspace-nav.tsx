@@ -19,6 +19,7 @@ export const STUDY_WORKSPACE_NAV_ITEMS: StudyWorkspaceNavItem[] = [
   { id: 'training', label: 'Training' },
   { id: 'delegation', label: 'Delegation Log' },
   { id: 'documents', label: 'Study Documents' },
+  { id: 'site-intelligence', label: 'Site Intelligence' },
   { id: 'monitoring', label: 'Monitoring View' },
   { id: 'activity', label: 'Activity Feed' },
 ]

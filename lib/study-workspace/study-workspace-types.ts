@@ -37,5 +37,6 @@ export type StudyWorkspaceSectionId =
   | 'training'
   | 'delegation'
   | 'documents'
+  | 'site-intelligence'
   | 'monitoring'
   | 'activity'

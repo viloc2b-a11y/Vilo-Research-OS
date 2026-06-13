@@ -45,6 +45,8 @@ import type { StudyCloseoutSummary } from '@/lib/study-workspace/load-study-clos
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import type { LoadedProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/protocol-intake-types'
+import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
+import { DeviationCenter } from '@/components/site-intelligence/DeviationCenter'
 
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
@@ -68,6 +70,8 @@ type StudyWorkspaceShellProps = {
   protocolRuntimeStudy: LoadedProtocolRuntimeStudy | null
   studyOperationsSurface: StudyOperationsSurface
   continuityRows: RuntimeReadinessContinuityRow[]
+  deviations: ProtocolDeviationRow[]
+  subjectMap: Record<string, string>
 }
 
 export function StudyWorkspaceShell({
@@ -92,6 +96,8 @@ export function StudyWorkspaceShell({
   protocolRuntimeStudy,
   studyOperationsSurface,
   continuityRows,
+  deviations,
+  subjectMap,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -236,6 +242,15 @@ export function StudyWorkspaceShell({
             links={links}
             documents={studyDocuments}
             searchQuery={docsSearchQuery}
+          />
+        ) : null}
+
+        {activeSection === 'site-intelligence' ? (
+          <DeviationCenter
+            deviations={deviations}
+            organizationId={summary.study.organizationId}
+            studyId={summary.study.id}
+            subjectMap={subjectMap}
           />
         ) : null}
 
