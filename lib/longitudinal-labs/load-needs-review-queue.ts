@@ -27,6 +27,11 @@ export type NeedsReviewQueueItem = {
   createdAt: string
   reviewUrl: string
   subjectUrl: string
+  /** For safety event source linkage */
+  sourceReferenceId: string | null
+  piClassification: string | null
+  labTestCode: string | null
+  labTestName: string | null
 }
 
 export type NeedsReviewFilters = {
@@ -153,6 +158,10 @@ async function loadSignalItems(
       createdAt: formatDate(results.find((r) => r.id === signal.resultId)?.collectionDate ?? results.find((r) => r.id === signal.resultId)?.createdAt ?? new Date().toISOString()),
       reviewUrl: subjectChartTabPath(studyId, signal.subjectId, 'labs'),
       subjectUrl: subjectChartPath(studyId, signal.subjectId),
+      sourceReferenceId: signal.resultId,
+      piClassification: null,
+      labTestCode: signal.labTestCode ?? null,
+      labTestName: signal.labTestName ?? null,
     })
   }
 
@@ -213,6 +222,10 @@ async function loadReviewItems(
       createdAt: formatDate(String(row.created_at)),
       reviewUrl: subjectChartTabPath(studyId, subjectId, 'labs'),
       subjectUrl: subjectChartPath(studyId, subjectId),
+      sourceReferenceId: reviewId,
+      piClassification,
+      labTestCode: null,
+      labTestName: null,
     })
   }
 
@@ -249,6 +262,8 @@ async function loadSignatureItems(
 
     const docName = doc?.file_display_name ?? 'Lab Report'
 
+    const sigPiClassification = row.pi_classification ? String(row.pi_classification) : null
+
     items.push({
       queueItemId: `sigreq-${reviewId}`,
       organizationId,
@@ -264,6 +279,10 @@ async function loadSignatureItems(
       createdAt: formatDate(String(row.created_at)),
       reviewUrl: subjectChartTabPath(studyId, subjectId, 'labs'),
       subjectUrl: subjectChartPath(studyId, subjectId),
+      sourceReferenceId: reviewId,
+      piClassification: sigPiClassification,
+      labTestCode: null,
+      labTestName: null,
     })
   }
 

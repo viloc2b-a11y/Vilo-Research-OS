@@ -27,7 +27,7 @@ import {
   requireActiveOrganizationAccess,
 } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
-import { canMutateOrganizationData } from '@/lib/rbac/permissions'
+import { canManageSafetyEvents, canMutateOrganizationData } from '@/lib/rbac/permissions'
 import { publishSourcePackageFromArtifacts } from '@/lib/source-publish/actions'
 import { ProtocolSetupPanel } from '@/components/studies/ProtocolSetupPanel'
 import { StudyVisitSourceContinuityPanel } from '@/components/coordinator-operations/StudyVisitSourceContinuityPanel'
@@ -1456,6 +1456,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
 
   const memberships = await getOrganizationMemberships(user.id)
   const canAccessOrganization = hasActiveOrganizationMembership(memberships, organizationId)
+  const canManageSafety = canManageSafetyEvents(memberships, organizationId)
   if (!canAccessOrganization) notFound()
 
   const [
@@ -1812,7 +1813,7 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
 
         {activeTab === 'needs-review' && (
           <div className="p-6 h-[calc(100vh-140px)] flex flex-col">
-            <NeedsReviewQueue studyId={studyId} />
+            <NeedsReviewQueue studyId={studyId} canManageSafety={canManageSafety} />
           </div>
         )}
 

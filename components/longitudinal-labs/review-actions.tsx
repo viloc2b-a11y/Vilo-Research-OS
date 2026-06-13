@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SignaturePinDialog } from './signature-pin-dialog'
+import { CreateSafetyEventDialog } from './create-safety-event-dialog'
 
 const PI_OPTIONS = [
   { value: 'cs', label: 'CS' },
@@ -14,24 +15,34 @@ export function ReviewActions({
   reviewId,
   organizationId,
   studyId,
+  subjectId,
   initialStatus,
   initialClassification,
   initialNotes,
   signatureRequestId,
   signatureRequestStatus,
+  complianceDocumentId,
+  labTestCode,
+  labTestName,
   canReview,
   canClassify,
+  canManageSafety,
 }: {
   reviewId: string
   organizationId: string
   studyId: string
+  subjectId: string
   initialStatus: string
   initialClassification: string | null
   initialNotes: string | null
   signatureRequestId: string | null
   signatureRequestStatus: string | null
+  complianceDocumentId?: string | null
+  labTestCode?: string | null
+  labTestName?: string | null
   canReview: boolean
   canClassify: boolean
+  canManageSafety?: boolean
 }) {
   const router = useRouter()
   const [reviewStatus, setReviewStatus] = useState(initialStatus)
@@ -42,6 +53,7 @@ export function ReviewActions({
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showPinDialog, setShowPinDialog] = useState(false)
+  const [showSafetyDialog, setShowSafetyDialog] = useState(false)
   const [requestingSignature, setRequestingSignature] = useState(false)
 
   async function requestSignature() {
@@ -101,6 +113,9 @@ export function ReviewActions({
   }
 
   const isTerminal = reviewStatus === 'reviewed' || reviewStatus === 'rejected'
+  const canCreateSafetyEvent =
+    canManageSafety &&
+    (piClassification === 'cs' || piClassification === 'follow_up_required')
   const canSign =
     reviewStatus === 'reviewed' &&
     signatureRequestId &&
@@ -271,7 +286,33 @@ export function ReviewActions({
             Signature request pending
           </span>
         ) : null}
+
+        {canCreateSafetyEvent ? (
+          <button
+            onClick={() => setShowSafetyDialog(true)}
+            className="h-7 rounded-md border border-red-300 bg-red-50 px-3 text-[11px] font-medium text-red-700 hover:bg-red-100"
+          >
+            Create Safety Event
+          </button>
+        ) : null}
       </div>
+
+      <CreateSafetyEventDialog
+        open={showSafetyDialog}
+        onClose={() => setShowSafetyDialog(false)}
+        organizationId={organizationId}
+        studyId={studyId}
+        subjectId={subjectId}
+        visitId={null}
+        prefilledDescription={labTestName
+          ? `Lab finding: ${labTestName}${labTestCode ? ` (${labTestCode})` : ''} — ${piClassification === 'cs' ? 'Clinically Significant' : 'Follow-up required'}`
+          : `Safety event from lab review — ${piClassification === 'cs' ? 'Clinically Significant' : 'Follow-up required'}`}
+        labTestCode={labTestCode ?? null}
+        labTestName={labTestName ?? null}
+        piClassification={piClassification}
+        sourceReferenceId={reviewId}
+        sourceDocumentId={complianceDocumentId ?? null}
+      />
 
       <SignaturePinDialog
         open={showPinDialog}

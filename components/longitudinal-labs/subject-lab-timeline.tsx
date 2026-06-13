@@ -119,7 +119,7 @@ function LabTestRow({ entry }: { entry: SubjectLabTestEntry }) {
   )
 }
 
-function ReviewRow({ review, canReview, canClassify }: { review: LabReportReviewTimelineItem, canReview: boolean, canClassify: boolean }) {
+function ReviewRow({ review, canReview, canClassify, canManageSafety }: { review: LabReportReviewTimelineItem, canReview: boolean, canClassify: boolean, canManageSafety?: boolean }) {
   const statusLabels: Record<string, string> = {
     pending_review: 'Pending Review',
     under_review: 'Under Review',
@@ -237,13 +237,16 @@ function ReviewRow({ review, canReview, canClassify }: { review: LabReportReview
         reviewId={review.reviewId}
         organizationId={review.organizationId}
         studyId={review.studyId}
+        subjectId={review.subjectId}
         initialStatus={review.reviewStatus}
         initialClassification={review.piClassification}
         initialNotes={review.reviewNotes}
         signatureRequestId={review.signatureRequestId}
         signatureRequestStatus={review.signatureRequestStatus}
+        complianceDocumentId={review.complianceDocumentId}
         canReview={canReview}
         canClassify={canClassify}
+        canManageSafety={canManageSafety}
       />
     </div>
   )
@@ -254,11 +257,13 @@ export function SubjectLabTimeline({
   reviews,
   canReview,
   canClassify,
+  canManageSafety,
 }: {
   tests: SubjectLabTestEntry[]
   reviews: LabReportReviewTimelineItem[]
   canReview: boolean
   canClassify: boolean
+  canManageSafety?: boolean
 }) {
   const hasTests = tests.length > 0
   const hasReviews = reviews.length > 0
@@ -302,7 +307,7 @@ export function SubjectLabTimeline({
             Lab Report Reviews ({reviews.length})
           </h3>
           {reviews.map((review) => (
-            <ReviewRow key={review.reviewId} review={review} canReview={canReview} canClassify={canClassify} />
+            <ReviewRow key={review.reviewId} review={review} canReview={canReview} canClassify={canClassify} canManageSafety={canManageSafety} />
           ))}
         </div>
       ) : null}

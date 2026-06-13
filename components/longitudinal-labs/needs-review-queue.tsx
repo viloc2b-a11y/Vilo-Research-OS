@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import type { NeedsReviewQueueItem, NeedsReviewQueueResponse } from '@/lib/longitudinal-labs/load-needs-review-queue'
+import { CreateSafetyEventDialog } from './create-safety-event-dialog'
 
 type NeedsReviewQueueProps = {
   studyId: string
+  canManageSafety?: boolean
 }
 
 function formatDate(d: string | null): string {
@@ -64,12 +66,23 @@ const EMPTY_FILTERS: Filters = {
   subjectId: '',
 }
 
-export function NeedsReviewQueue({ studyId }: NeedsReviewQueueProps) {
+function canCreateSafetyEventFromItem(item: NeedsReviewQueueItem): boolean {
+  if (item.sourceType === 'signal') {
+    return item.status === 'clinically_significant' || item.status === 'rapid_change'
+  }
+  if (item.sourceType === 'review' || item.sourceType === 'signature') {
+    return item.piClassification === 'cs' || item.piClassification === 'follow_up_required'
+  }
+  return false
+}
+
+export function NeedsReviewQueue({ studyId, canManageSafety }: NeedsReviewQueueProps) {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS)
   const [data, setData] = useState<NeedsReviewQueueResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hasLoaded, setHasLoaded] = useState(false)
+  const [safetyDialogItem, setSafetyDialogItem] = useState<NeedsReviewQueueItem | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const fetchQueue = useCallback(
@@ -315,6 +328,14 @@ export function NeedsReviewQueue({ studyId }: NeedsReviewQueueProps) {
                       >
                         Review
                       </Link>
+                      {canManageSafety && canCreateSafetyEventFromItem(item) ? (
+                        <button
+                          onClick={() => setSafetyDialogItem(item)}
+                          className="h-6 rounded-md border border-red-300 bg-red-50 px-2 text-[10px] font-medium text-red-700 hover:bg-red-100 inline-flex items-center"
+                        >
+                          Safety
+                        </button>
+                      ) : null}
                     </div>
                   </td>
                 </tr>
@@ -329,6 +350,24 @@ export function NeedsReviewQueue({ studyId }: NeedsReviewQueueProps) {
         <div className="text-xs text-muted-foreground">
           {data.items.length} item{data.items.length !== 1 ? 's' : ''} need review
         </div>
+      ) : null}
+
+      {safetyDialogItem ? (
+        <CreateSafetyEventDialog
+          open={true}
+          onClose={() => setSafetyDialogItem(null)}
+          organizationId={safetyDialogItem.organizationId}
+          studyId={safetyDialogItem.studyId}
+          subjectId={safetyDialogItem.subjectId}
+          visitId={safetyDialogItem.visitId}
+          prefilledDescription={safetyDialogItem.labTestName
+            ? `Lab finding: ${safetyDialogItem.labTestName}${safetyDialogItem.labTestCode ? ` (${safetyDialogItem.labTestCode})` : ''} — ${safetyDialogItem.status === 'clinically_significant' ? 'Clinically Significant' : safetyDialogItem.status === 'rapid_change' ? 'Rapid Change' : safetyDialogItem.piClassification === 'cs' ? 'Clinically Significant' : 'Follow-up required'}`
+            : `Safety event from lab review — ${safetyDialogItem.piClassification === 'cs' ? 'Clinically Significant' : 'Follow-up required'}`}
+          labTestCode={safetyDialogItem.labTestCode}
+          labTestName={safetyDialogItem.labTestName}
+          piClassification={safetyDialogItem.piClassification}
+          sourceReferenceId={safetyDialogItem.sourceReferenceId}
+        />
       ) : null}
     </div>
   )
