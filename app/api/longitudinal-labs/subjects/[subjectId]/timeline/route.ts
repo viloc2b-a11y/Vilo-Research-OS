@@ -27,12 +27,13 @@ export async function GET(request: NextRequest, { params }: GetTimelineParams) {
     }
 
     const supabase = await createServerClient()
-    const tests = await buildSubjectLabTimeline(supabase, organizationId, subjectId)
+    const data = await buildSubjectLabTimeline(supabase, organizationId, subjectId)
 
     return NextResponse.json({
       subjectId,
       studyId: studyId ?? null,
-      tests,
+      tests: data.structuredTests,
+      reviews: data.reviewItems,
       generatedAt: new Date().toISOString(),
     })
   } catch (error) {

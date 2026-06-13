@@ -3,6 +3,8 @@ import {
   mapLabReportReviewRow,
   type LabReportReviewRow,
   type LabReportReviewStatus,
+  type LabReportType,
+  type LabReportPiClassification,
 } from './lab-report-review-types'
 
 export type LoadLabReportReviewFilters = {
@@ -12,6 +14,8 @@ export type LoadLabReportReviewFilters = {
   studyId?: string
   organizationId?: string
   reviewStatus?: LabReportReviewStatus
+  piClassification?: LabReportPiClassification
+  reportType?: LabReportType
   includeDocument?: boolean
 }
 
@@ -64,6 +68,14 @@ export async function loadLabReportReviews(
 
   if (filters.reviewStatus) {
     query = query.eq('review_status', filters.reviewStatus)
+  }
+
+  if (filters.piClassification) {
+    query = query.eq('pi_classification', filters.piClassification)
+  }
+
+  if (filters.reportType) {
+    query = query.eq('report_type', filters.reportType)
   }
 
   const { data, error } = await query

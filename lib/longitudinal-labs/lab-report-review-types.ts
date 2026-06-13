@@ -84,6 +84,25 @@ export type UpdateLabReportReviewInput = {
   metadata?: Record<string, unknown>
 }
 
+export type LabReportReviewTimelineItem = {
+  kind: 'lab_report_review'
+  reviewId: string
+  organizationId: string
+  studyId: string
+  subjectId: string
+  visitId: string | null
+  visitName: string | null
+  complianceDocumentId: string
+  documentFileName: string | null
+  reportType: LabReportType
+  reviewStatus: LabReportReviewStatus
+  piClassification: LabReportPiClassification | null
+  reviewedBy: string | null
+  reviewedAt: string | null
+  signatureRequestId: string | null
+  createdAt: string
+}
+
 export function mapLabReportReviewRow(row: Record<string, unknown>): LabReportReviewRow {
   return {
     id: String(row.id),

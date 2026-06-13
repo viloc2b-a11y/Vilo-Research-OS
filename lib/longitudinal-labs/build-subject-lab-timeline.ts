@@ -3,13 +3,20 @@ import { loadSubjectTimelines } from './load-subject-timelines'
 import { loadLabResults } from './load-lab-results'
 import { computeBaseline } from './compute-baseline'
 import { computeSignals } from './compute-signals'
+import { loadLabReportReviews } from './load-lab-report-review'
 import type { SubjectLabTestEntry } from './longitudinal-lab-types'
+import type { LabReportReviewTimelineItem } from './lab-report-review-types'
+
+export type SubjectLabsData = {
+  structuredTests: SubjectLabTestEntry[]
+  reviewItems: LabReportReviewTimelineItem[]
+}
 
 export async function buildSubjectLabTimeline(
   supabase: SupabaseClient,
   organizationId: string,
   subjectId: string,
-): Promise<SubjectLabTestEntry[]> {
+): Promise<SubjectLabsData> {
   const timelineRows = await loadSubjectTimelines(
     supabase,
     organizationId,
@@ -42,5 +49,43 @@ export async function buildSubjectLabTimeline(
     })
   }
 
-  return tests
+  const reviews = await loadLabReportReviews(supabase, {
+    subjectId,
+    organizationId,
+  })
+
+  const docIds = [...new Set(reviews.map((r) => r.complianceDocumentId))]
+  const docMap = new Map<string, string | null>()
+
+  if (docIds.length > 0) {
+    const { data: docs } = await supabase
+      .from('compliance_runtime_documents')
+      .select('id, file_display_name')
+      .in('id', docIds)
+
+    for (const d of (docs ?? []) as Record<string, unknown>[]) {
+      docMap.set(String(d.id), (d.file_display_name as string) ?? null)
+    }
+  }
+
+  const reviewItems: LabReportReviewTimelineItem[] = reviews.map((r) => ({
+    kind: 'lab_report_review',
+    reviewId: r.id,
+    organizationId: r.organizationId,
+    studyId: r.studyId,
+    subjectId: r.subjectId,
+    visitId: r.visitId,
+    visitName: null,
+    complianceDocumentId: r.complianceDocumentId,
+    documentFileName: docMap.get(r.complianceDocumentId) ?? null,
+    reportType: r.reportType,
+    reviewStatus: r.reviewStatus,
+    piClassification: r.piClassification,
+    reviewedBy: r.reviewedBy,
+    reviewedAt: r.reviewedAt,
+    signatureRequestId: r.signatureRequestId,
+    createdAt: r.createdAt,
+  }))
+
+  return { structuredTests: tests, reviewItems }
 }

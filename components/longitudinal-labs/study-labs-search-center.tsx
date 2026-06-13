@@ -7,7 +7,11 @@ import {
   SIGNAL_KIND,
   type LabSignal,
 } from '@/lib/longitudinal-labs/longitudinal-lab-types'
-import type { LabResultWithSignals } from '@/lib/longitudinal-labs/load-study-lab-results'
+import type {
+  LabResultWithSignals,
+  LabReportReviewSearchItem,
+  StudyLabSearchItem,
+} from '@/lib/longitudinal-labs/load-study-lab-results'
 import { LabSignalBadge } from './lab-signal-badge'
 
 type SubjectOption = {
@@ -18,6 +22,9 @@ type SubjectOption = {
 type FilterOptions = {
   labTests: string[]
   labCategories: string[]
+  reviewStatuses: string[]
+  piClassifications: string[]
+  reportTypes: string[]
 }
 
 type StudyLabsSearchCenterProps = {
@@ -53,6 +60,19 @@ const SIGNAL_FILTER_OPTIONS = [
   { value: SIGNAL_KIND.RAPID_CHANGE, label: 'Rapid Change' },
 ] as const
 
+const STATUS_LABELS: Record<string, string> = {
+  pending_review: 'Pending Review',
+  under_review: 'Under Review',
+  reviewed: 'Reviewed',
+  rejected: 'Rejected',
+}
+
+const PI_LABELS: Record<string, string> = {
+  cs: 'CS',
+  ncs: 'NCS',
+  follow_up_required: 'Follow-Up Required',
+}
+
 type Filters = {
   search: string
   subjectId: string
@@ -61,6 +81,9 @@ type Filters = {
   dateFrom: string
   dateTo: string
   signalKinds: string[]
+  reviewStatus: string
+  piClassification: string
+  reportType: string
 }
 
 const EMPTY_FILTERS: Filters = {
@@ -71,6 +94,21 @@ const EMPTY_FILTERS: Filters = {
   dateFrom: '',
   dateTo: '',
   signalKinds: [],
+  reviewStatus: '',
+  piClassification: '',
+  reportType: '',
+}
+
+function isReviewItem(
+  item: StudyLabSearchItem,
+): item is LabReportReviewSearchItem {
+  return 'resultType' in item && item.resultType === 'lab_report_review'
+}
+
+function isStructuredItem(
+  item: StudyLabSearchItem,
+): item is LabResultWithSignals {
+  return 'resultType' in item && item.resultType === 'structured_result'
 }
 
 export function StudyLabsSearchCenter({
@@ -78,11 +116,14 @@ export function StudyLabsSearchCenter({
   subjects,
 }: StudyLabsSearchCenterProps) {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS)
-  const [results, setResults] = useState<LabResultWithSignals[]>([])
+  const [results, setResults] = useState<StudyLabSearchItem[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     labTests: [],
     labCategories: [],
+    reviewStatuses: [],
+    piClassifications: [],
+    reportTypes: [],
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -109,6 +150,9 @@ export function StudyLabsSearchCenter({
         for (const sk of currentFilters.signalKinds) {
           params.append('signalKind', sk)
         }
+        if (currentFilters.reviewStatus) params.set('reviewStatus', currentFilters.reviewStatus)
+        if (currentFilters.piClassification) params.set('piClassification', currentFilters.piClassification)
+        if (currentFilters.reportType) params.set('reportType', currentFilters.reportType)
 
         const res = await fetch(
           `/api/study-workspace/${studyId}/labs?${params.toString()}`,
@@ -123,7 +167,13 @@ export function StudyLabsSearchCenter({
         const data = await res.json()
         setResults(data.results ?? [])
         setTotalCount(data.totalCount ?? 0)
-        setFilterOptions(data.filterOptions ?? { labTests: [], labCategories: [] })
+        setFilterOptions(data.filterOptions ?? {
+          labTests: [],
+          labCategories: [],
+          reviewStatuses: [],
+          piClassifications: [],
+          reportTypes: [],
+        })
         setHasLoaded(true)
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return
@@ -168,6 +218,9 @@ export function StudyLabsSearchCenter({
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter') applyFilters()
   }
+
+  const structuredCount = results.filter(isStructuredItem).length
+  const reviewCount = results.filter(isReviewItem).length
 
   return (
     <div className="flex flex-col h-full gap-4">
@@ -307,6 +360,71 @@ export function StudyLabsSearchCenter({
         })}
       </div>
 
+      {/* Review filters */}
+      {filterOptions.reviewStatuses.length > 0 ||
+      filterOptions.piClassifications.length > 0 ||
+      filterOptions.reportTypes.length > 0 ? (
+        <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-muted/30 p-3">
+          {filterOptions.reviewStatuses.length > 0 ? (
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">
+                Review Status
+              </label>
+              <select
+                value={filters.reviewStatus}
+                onChange={(e) => updateFilter('reviewStatus', e.target.value)}
+                className="h-7 w-40 rounded-md border border-input bg-background px-2 text-[11px]"
+              >
+                <option value="">All statuses</option>
+                {filterOptions.reviewStatuses.map((s) => (
+                  <option key={s} value={s}>
+                    {STATUS_LABELS[s] ?? s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+          {filterOptions.piClassifications.length > 0 ? (
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">
+                PI Classification
+              </label>
+              <select
+                value={filters.piClassification}
+                onChange={(e) => updateFilter('piClassification', e.target.value)}
+                className="h-7 w-36 rounded-md border border-input bg-background px-2 text-[11px]"
+              >
+                <option value="">All</option>
+                {filterOptions.piClassifications.map((c) => (
+                  <option key={c} value={c}>
+                    {PI_LABELS[c] ?? c}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+          {filterOptions.reportTypes.length > 0 ? (
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-muted-foreground">
+                Report Type
+              </label>
+              <select
+                value={filters.reportType}
+                onChange={(e) => updateFilter('reportType', e.target.value)}
+                className="h-7 w-32 rounded-md border border-input bg-background px-2 text-[11px]"
+              >
+                <option value="">All</option>
+                {filterOptions.reportTypes.map((t) => (
+                  <option key={t} value={t}>
+                    {t === 'scanned' ? 'Scanned PDF' : 'Extractable'}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
       {/* Error */}
       {error ? (
         <div className="rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-800">
@@ -333,78 +451,151 @@ export function StudyLabsSearchCenter({
           <table className="w-full">
             <thead>
               <tr className="border-b bg-muted/50 text-left text-xs font-medium text-muted-foreground">
+                <th className="sticky top-0 bg-muted/50 px-3 py-2">Type</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Subject</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Visit</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Collection Date</th>
-                <th className="sticky top-0 bg-muted/50 px-3 py-2">Test</th>
+                <th className="sticky top-0 bg-muted/50 px-3 py-2">Test / Document</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Result</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Reference Range</th>
+                <th className="sticky top-0 bg-muted/50 px-3 py-2">Status</th>
                 <th className="sticky top-0 bg-muted/50 px-3 py-2">Signals</th>
               </tr>
             </thead>
             <tbody>
-              {results.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b last:border-b-0 hover:bg-muted/30 transition-colors"
-                >
-                  <td className="px-3 py-2.5">
-                    <Link
-                      href={subjectChartTabPath(
-                        studyId,
-                        row.subjectId,
-                        'labs',
-                      )}
-                      className="text-xs font-medium text-primary hover:underline"
+              {results.map((row) => {
+                if (isReviewItem(row)) {
+                  return (
+                    <tr
+                      key={`review-${row.id}`}
+                      className="border-b last:border-b-0 hover:bg-muted/30 transition-colors"
                     >
-                      {row.subjectNumber ?? '—'}
-                    </Link>
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-foreground max-w-[160px] truncate">
-                    {row.visitName ?? '—'}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-foreground whitespace-nowrap">
-                    {formatDate(row.collectionDate)}
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <div className="text-xs font-medium text-foreground">
-                      {row.labTestName}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {row.labTestCode}
-                    </div>
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-foreground whitespace-nowrap">
-                    <span className="font-medium">
-                      {row.resultValue != null ? row.resultValue : '—'}
-                    </span>
-                    {row.resultUnit ? (
-                      <span className="text-muted-foreground ml-0.5">
-                        {row.resultUnit}
-                      </span>
-                    ) : null}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-muted-foreground whitespace-nowrap">
-                    {formatRange(row.referenceLow, row.referenceHigh)}
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <div className="flex flex-wrap gap-1">
-                      {row.signals.length > 0 ? (
-                        row.signals.map((s: LabSignal, idx: number) => (
-                          <LabSignalBadge
-                            key={`${s.kind}-${idx}`}
-                            signal={s}
-                          />
-                        ))
-                      ) : (
-                        <span className="text-[10px] text-muted-foreground">
-                          —
+                      <td className="px-3 py-2.5">
+                        <span className="inline-flex items-center rounded-full border bg-blue-50 px-2 py-0.5 text-[10px] font-medium text-blue-700 border-blue-200 whitespace-nowrap">
+                          Review
                         </span>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <Link
+                          href={subjectChartTabPath(
+                            studyId,
+                            row.subjectId,
+                            'labs',
+                          )}
+                          className="text-xs font-medium text-primary hover:underline"
+                        >
+                          {row.subjectNumber ?? '—'}
+                        </Link>
+                      </td>
+                      <td className="px-3 py-2.5 text-xs text-foreground max-w-[160px] truncate">
+                        {row.visitName ?? '—'}
+                      </td>
+                      <td className="px-3 py-2.5 text-xs text-foreground whitespace-nowrap">
+                        {formatDate(row.createdAt)}
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <div className="text-xs text-foreground max-w-[200px] truncate">
+                          {row.documentFileName ?? '—'}
+                        </div>
+                      </td>
+                      <td className="px-3 py-2.5 text-xs text-muted-foreground">
+                        <span className="text-[10px] italic">Manual review</span>
+                      </td>
+                      <td className="px-3 py-2.5 text-xs text-muted-foreground">
+                        —
+                      </td>
+                      <td className="px-3 py-2.5">
+                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium border ${
+                          row.reviewStatus === 'reviewed'
+                            ? 'bg-green-50 text-green-700 border-green-200'
+                            : row.reviewStatus === 'rejected'
+                            ? 'bg-red-50 text-red-700 border-red-200'
+                            : row.reviewStatus === 'under_review'
+                            ? 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                            : 'bg-gray-50 text-gray-700 border-gray-200'
+                        }`}>
+                          {STATUS_LABELS[row.reviewStatus] ?? row.reviewStatus}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2.5 text-[10px] text-muted-foreground">
+                        —
+                      </td>
+                    </tr>
+                  )
+                }
+
+                const structured = row as LabResultWithSignals
+                return (
+                  <tr
+                    key={structured.id}
+                    className="border-b last:border-b-0 hover:bg-muted/30 transition-colors"
+                  >
+                    <td className="px-3 py-2.5">
+                      <span className="inline-flex items-center rounded-full border bg-green-50 px-2 py-0.5 text-[10px] font-medium text-green-700 border-green-200 whitespace-nowrap">
+                        Result
+                      </span>
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <Link
+                        href={subjectChartTabPath(
+                          studyId,
+                          structured.subjectId,
+                          'labs',
+                        )}
+                        className="text-xs font-medium text-primary hover:underline"
+                      >
+                        {structured.subjectNumber ?? '—'}
+                      </Link>
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-foreground max-w-[160px] truncate">
+                      {structured.visitName ?? '—'}
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-foreground whitespace-nowrap">
+                      {formatDate(structured.collectionDate)}
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <div className="text-xs font-medium text-foreground">
+                        {structured.labTestName}
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">
+                        {structured.labTestCode}
+                      </div>
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-foreground whitespace-nowrap">
+                      <span className="font-medium">
+                        {structured.resultValue != null ? structured.resultValue : '—'}
+                      </span>
+                      {structured.resultUnit ? (
+                        <span className="text-muted-foreground ml-0.5">
+                          {structured.resultUnit}
+                        </span>
+                      ) : null}
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-muted-foreground whitespace-nowrap">
+                      {formatRange(structured.referenceLow, structured.referenceHigh)}
+                    </td>
+                    <td className="px-3 py-2.5 text-xs text-muted-foreground">
+                      —
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <div className="flex flex-wrap gap-1">
+                        {structured.signals.length > 0 ? (
+                          structured.signals.map((s: LabSignal, idx: number) => (
+                            <LabSignalBadge
+                              key={`${s.kind}-${idx}`}
+                              signal={s}
+                            />
+                          ))
+                        ) : (
+                          <span className="text-[10px] text-muted-foreground">
+                            —
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         )}
@@ -417,6 +608,9 @@ export function StudyLabsSearchCenter({
             {results.length}
             {results.length !== totalCount ? ` of ${totalCount}` : ''} result
             {results.length !== 1 ? 's' : ''}
+            {structuredCount > 0 || reviewCount > 0
+              ? ` (${structuredCount} structured, ${reviewCount} reviews)`
+              : ''}
           </span>
           {totalCount > results.length ? (
             <span>Refine your filters to narrow results.</span>

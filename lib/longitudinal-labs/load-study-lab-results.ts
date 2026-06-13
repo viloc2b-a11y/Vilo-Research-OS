@@ -15,11 +15,15 @@ export type StudyLabFilterParams = {
   dateFrom?: string
   dateTo?: string
   signalKinds?: string[]
+  reviewStatus?: string
+  piClassification?: string
+  reportType?: string
   limit?: number
   offset?: number
 }
 
 export type LabResultWithSignals = {
+  resultType: 'structured_result'
   id: string
   subjectId: string
   subjectNumber: string | null
@@ -40,12 +44,34 @@ export type LabResultWithSignals = {
   signals: LabSignal[]
 }
 
+export type LabReportReviewSearchItem = {
+  resultType: 'lab_report_review'
+  id: string
+  subjectId: string
+  subjectNumber: string | null
+  visitId: string | null
+  visitName: string | null
+  documentFileName: string | null
+  reviewStatus: string
+  piClassification: string | null
+  reportType: string
+  reviewedBy: string | null
+  reviewedAt: string | null
+  signatureRequestId: string | null
+  createdAt: string
+}
+
+export type StudyLabSearchItem = LabResultWithSignals | LabReportReviewSearchItem
+
 export type StudyLabResponse = {
-  results: LabResultWithSignals[]
+  results: StudyLabSearchItem[]
   totalCount: number
   filterOptions: {
     labTests: string[]
     labCategories: string[]
+    reviewStatuses: string[]
+    piClassifications: string[]
+    reportTypes: string[]
   }
 }
 
@@ -114,7 +140,7 @@ export async function loadStudyLabResults(
   const results = raw.map(mapLongitudinalLabResultRow)
   const signalsById = computeSignalsForResults(results)
 
-  const enriched: LabResultWithSignals[] = raw.map((row, idx) => {
+  const structuredResults: LabResultWithSignals[] = raw.map((row, idx) => {
     const result = results[idx]
     const subject = row.study_subjects as
       | { subject_identifier: string }
@@ -126,6 +152,7 @@ export async function loadStudyLabResults(
       | undefined
 
     return {
+      resultType: 'structured_result',
       id: result.id,
       subjectId: result.subjectId,
       subjectNumber: subject?.subject_identifier ?? null,
@@ -147,11 +174,11 @@ export async function loadStudyLabResults(
     }
   })
 
-  let finalResults = enriched
+  let finalResults = structuredResults
 
   if (filters.signalKinds && filters.signalKinds.length > 0) {
     const kindSet = new Set(filters.signalKinds)
-    finalResults = enriched.filter((r) =>
+    finalResults = structuredResults.filter((r) =>
       r.signals.some((s) => kindSet.has(s.kind)),
     )
   }
@@ -184,12 +211,141 @@ export async function loadStudyLabResults(
     ),
   ].sort()
 
+  let reviewQuery = supabase
+    .from('lab_report_reviews')
+    .select(
+      `
+      *,
+      study_subjects!inner(subject_identifier),
+      compliance_runtime_documents!inner(file_display_name),
+      visit_runtime_instances(visit_name)
+    `,
+    )
+    .eq('study_id', studyId)
+    .eq('organization_id', organizationId)
+
+  if (filters.subjectId) {
+    reviewQuery = reviewQuery.eq('subject_id', filters.subjectId)
+  }
+
+  if (filters.visitId) {
+    reviewQuery = reviewQuery.eq('visit_id', filters.visitId)
+  }
+
+  if (filters.reviewStatus) {
+    reviewQuery = reviewQuery.eq('review_status', filters.reviewStatus)
+  }
+
+  if (filters.piClassification) {
+    reviewQuery = reviewQuery.eq('pi_classification', filters.piClassification)
+  }
+
+  if (filters.reportType) {
+    reviewQuery = reviewQuery.eq('report_type', filters.reportType)
+  }
+
+  const { data: reviewData, error: reviewError } = await reviewQuery
+    .order('created_at', { ascending: false, nullsFirst: false })
+
+  if (reviewError) {
+    throw new Error(
+      `Failed to load lab report reviews: ${reviewError.message}`,
+    )
+  }
+
+  const reviewItems: LabReportReviewSearchItem[] = (
+    reviewData ?? []
+  ).map((row) => {
+    const r = row as Record<string, unknown>
+    const subject = r.study_subjects as
+      | { subject_identifier: string }
+      | null
+      | undefined
+    const doc = r.compliance_runtime_documents as
+      | { file_display_name: string | null }
+      | null
+      | undefined
+    const visit = r.visit_runtime_instances as
+      | { visit_name: string }
+      | null
+      | undefined
+
+    return {
+      resultType: 'lab_report_review',
+      id: String(r.id),
+      subjectId: String(r.subject_id),
+      subjectNumber: subject?.subject_identifier ?? null,
+      visitId: r.visit_id ? String(r.visit_id) : null,
+      visitName: visit?.visit_name ?? null,
+      documentFileName: doc?.file_display_name ?? null,
+      reviewStatus: String(r.review_status),
+      piClassification: r.pi_classification
+        ? String(r.pi_classification)
+        : null,
+      reportType: String(r.report_type),
+      reviewedBy: r.reviewed_by ? String(r.reviewed_by) : null,
+      reviewedAt: r.reviewed_at ? String(r.reviewed_at) : null,
+      signatureRequestId: r.signature_request_id
+        ? String(r.signature_request_id)
+        : null,
+      createdAt: String(r.created_at),
+    }
+  })
+
+  const { data: distinctStatuses } = await supabase
+    .from('lab_report_reviews')
+    .select('review_status')
+    .eq('study_id', studyId)
+    .eq('organization_id', organizationId)
+
+  const reviewStatuses = [
+    ...new Set(
+      (distinctStatuses ?? []).map(
+        (r: Record<string, unknown>) => r.review_status as string,
+      ),
+    ),
+  ].sort()
+
+  const { data: distinctPiClasses } = await supabase
+    .from('lab_report_reviews')
+    .select('pi_classification')
+    .eq('study_id', studyId)
+    .eq('organization_id', organizationId)
+
+  const piClassifications = [
+    ...new Set(
+      (distinctPiClasses ?? [])
+        .map((r: Record<string, unknown>) => r.pi_classification as string)
+        .filter(Boolean),
+    ),
+  ].sort()
+
+  const { data: distinctReportTypes } = await supabase
+    .from('lab_report_reviews')
+    .select('report_type')
+    .eq('study_id', studyId)
+    .eq('organization_id', organizationId)
+
+  const reportTypes = [
+    ...new Set(
+      (distinctReportTypes ?? []).map(
+        (r: Record<string, unknown>) => r.report_type as string,
+      ),
+    ),
+  ].sort()
+
   return {
-    results: finalResults,
-    totalCount: count ?? finalResults.length,
+    results: [
+      ...finalResults,
+      ...reviewItems,
+    ],
+    totalCount: (count ?? finalResults.length) + reviewItems.length,
     filterOptions: {
       labTests,
       labCategories,
+      reviewStatuses,
+      piClassifications,
+      reportTypes,
     },
   }
 }

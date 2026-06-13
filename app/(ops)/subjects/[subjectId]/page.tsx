@@ -318,7 +318,7 @@ export default async function SubjectDetailPage({
         })
       : null
 
-  const subjectLabTimelineTests =
+  const subjectLabData =
     activeTab === 'labs' && chartStudyId
       ? await buildSubjectLabTimeline(supabase, organizationId, subjectId)
       : null
@@ -626,8 +626,11 @@ export default async function SubjectDetailPage({
             <SubjectDocumentsSection studySubjectId={subjectId} model={sourceTemplate} />
           ) : null}
 
-          {activeTab === 'labs' && subjectLabTimelineTests ? (
-            <SubjectLabTimeline tests={subjectLabTimelineTests} />
+          {activeTab === 'labs' && subjectLabData ? (
+            <SubjectLabTimeline
+              tests={subjectLabData.structuredTests}
+              reviews={subjectLabData.reviewItems}
+            />
           ) : null}
           {activeTab === 'labs' && !chartStudyId ? (
             <p className="text-sm text-muted-foreground">
