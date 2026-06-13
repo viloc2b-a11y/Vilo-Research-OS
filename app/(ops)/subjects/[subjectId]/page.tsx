@@ -47,6 +47,8 @@ import { loadSubjectOperationalIntelligence } from '@/lib/subject/operations'
 import { loadSubjectAdverseEventsTimeline } from '@/lib/subject/adverse-events'
 import { loadSubjectConsentRuntime } from '@/lib/subject/consent'
 import { loadSubjectLongitudinalLabs } from '@/lib/subject/lab-timeline/load-subject-longitudinal-labs'
+import { buildSubjectLabTimeline } from '@/lib/longitudinal-labs/build-subject-lab-timeline'
+import { SubjectLabTimeline } from '@/components/longitudinal-labs/subject-lab-timeline'
 import { loadSubjectWorkflowActions } from '@/lib/subject/workflow/data'
 import { loadSubjectSourceTemplate } from '@/lib/subject/source-template/read'
 import type { SubjectSourceTemplateModel } from '@/lib/subject/source-template/types'
@@ -87,6 +89,7 @@ const PLACEHOLDER_LABELS = new Map<string, string>(
           'adverse-events',
           'subject-status',
           'progress-notes',
+          'labs',
           'documents',
           'signatures',
           'protocol-deviations',
@@ -313,6 +316,11 @@ export default async function SubjectDetailPage({
           organizationId,
           studyId: chartStudyId,
         })
+      : null
+
+  const subjectLabTimelineTests =
+    activeTab === 'labs' && chartStudyId
+      ? await buildSubjectLabTimeline(supabase, organizationId, subjectId)
       : null
 
   const deliverablesResult = 
@@ -616,6 +624,15 @@ export default async function SubjectDetailPage({
 
           {activeTab === 'documents' && sourceTemplate ? (
             <SubjectDocumentsSection studySubjectId={subjectId} model={sourceTemplate} />
+          ) : null}
+
+          {activeTab === 'labs' && subjectLabTimelineTests ? (
+            <SubjectLabTimeline tests={subjectLabTimelineTests} />
+          ) : null}
+          {activeTab === 'labs' && !chartStudyId ? (
+            <p className="text-sm text-muted-foreground">
+              Study context is required to load lab timelines.
+            </p>
           ) : null}
 
           {activeTab === 'signatures' && sourceTemplate ? (
