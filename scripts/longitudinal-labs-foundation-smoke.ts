@@ -377,6 +377,97 @@ function runEmptyEdgeCases() {
   console.log('✅ Null result value → no out_of_range signal')
 }
 
+function runLabReportReviewTypeChecks() {
+  console.log('')
+  console.log('--- Lab Report Review type mapping checks ---')
+
+  const {
+    mapLabReportReviewRow,
+    LAB_REPORT_REVIEW_STATUS,
+    LAB_REPORT_TYPE,
+    LAB_REPORT_REVIEW_SCOPE,
+    LAB_REPORT_PI_CLASSIFICATION,
+  } = require('../lib/longitudinal-labs/lab-report-review-types')
+
+  const full = mapLabReportReviewRow({
+    id: 'review-001',
+    organization_id: 'org-1',
+    study_id: 'study-1',
+    subject_id: 'subj-1',
+    visit_id: 'visit-1',
+    compliance_document_id: 'doc-001',
+    longitudinal_result_id: 'result-001',
+    report_type: 'extractable',
+    review_scope: 'report',
+    lab_test_code: 'ALT',
+    lab_test_name: 'ALT',
+    review_status: 'under_review',
+    reviewed_by: 'user-001',
+    reviewed_at: '2026-06-12T12:00:00.000Z',
+    review_notes: 'Awaiting PI review.',
+    pi_classification: 'cs',
+    pi_classified_by: 'user-002',
+    pi_classified_at: '2026-06-12T14:00:00.000Z',
+    signature_request_id: 'sig-req-001',
+    metadata: { source: 'smoke-test' },
+    created_at: '2026-06-12T10:00:00.000Z',
+    updated_at: '2026-06-12T14:00:00.000Z',
+  })
+
+  assert.equal(full.id, 'review-001')
+  assert.equal(full.organizationId, 'org-1')
+  assert.equal(full.studyId, 'study-1')
+  assert.equal(full.subjectId, 'subj-1')
+  assert.equal(full.visitId, 'visit-1')
+  assert.equal(full.complianceDocumentId, 'doc-001')
+  assert.equal(full.longitudinalResultId, 'result-001')
+  assert.equal(full.reportType, 'extractable')
+  assert.equal(full.reviewScope, 'report')
+  assert.equal(full.labTestCode, 'ALT')
+  assert.equal(full.reviewStatus, 'under_review')
+  assert.equal(full.reviewedBy, 'user-001')
+  assert.equal(full.reviewNotes, 'Awaiting PI review.')
+  assert.equal(full.piClassification, 'cs')
+  assert.equal(full.signatureRequestId, 'sig-req-001')
+  console.log('✅ Lab Report Review — full row maps correctly')
+
+  const minimal = mapLabReportReviewRow({
+    id: 'review-002',
+    organization_id: 'org-1',
+    study_id: 'study-1',
+    subject_id: 'subj-1',
+    compliance_document_id: 'doc-002',
+    report_type: 'scanned',
+    review_scope: 'report',
+    review_status: 'pending_review',
+    created_at: '2026-06-12T10:00:00.000Z',
+    updated_at: '2026-06-12T10:00:00.000Z',
+  })
+
+  assert.equal(minimal.visitId, null)
+  assert.equal(minimal.longitudinalResultId, null)
+  assert.equal(minimal.reviewedBy, null)
+  assert.equal(minimal.reviewNotes, null)
+  assert.equal(minimal.piClassification, null)
+  assert.equal(minimal.signatureRequestId, null)
+  assert.equal(minimal.labTestCode, null)
+  assert.equal(minimal.reportType, 'scanned')
+  assert.equal(minimal.reviewStatus, 'pending_review')
+  console.log('✅ Lab Report Review — nullable fields handle null')
+
+  // Constant assertions
+  assert.equal(LAB_REPORT_REVIEW_STATUS.PENDING_REVIEW, 'pending_review')
+  assert.equal(LAB_REPORT_REVIEW_STATUS.REVIEWED, 'reviewed')
+  assert.equal(LAB_REPORT_TYPE.EXTRACTABLE, 'extractable')
+  assert.equal(LAB_REPORT_TYPE.SCANNED, 'scanned')
+  assert.equal(LAB_REPORT_REVIEW_SCOPE.REPORT, 'report')
+  assert.equal(LAB_REPORT_REVIEW_SCOPE.TEST, 'test')
+  assert.equal(LAB_REPORT_PI_CLASSIFICATION.CS, 'cs')
+  assert.equal(LAB_REPORT_PI_CLASSIFICATION.NCS, 'ncs')
+  assert.equal(LAB_REPORT_PI_CLASSIFICATION.FOLLOW_UP_REQUIRED, 'follow_up_required')
+  console.log('✅ Lab Report Review — constants match expected values')
+}
+
 async function runImportChecks() {
   console.log('')
   console.log('--- API route / component import checks ---')
@@ -401,6 +492,22 @@ async function runImportChecks() {
       name: 'load-study-lab-results',
       fn: () => import('../lib/longitudinal-labs/load-study-lab-results'),
     },
+    {
+      name: 'lab-report-review-types',
+      fn: () => import('../lib/longitudinal-labs/lab-report-review-types'),
+    },
+    {
+      name: 'create-lab-report-review',
+      fn: () => import('../lib/longitudinal-labs/create-lab-report-review'),
+    },
+    {
+      name: 'load-lab-report-review',
+      fn: () => import('../lib/longitudinal-labs/load-lab-report-review'),
+    },
+    {
+      name: 'update-lab-report-review',
+      fn: () => import('../lib/longitudinal-labs/update-lab-report-review'),
+    },
   ]
 
   let passCount = 0
@@ -420,6 +527,7 @@ async function main() {
   runBaselineEngineChecks()
   runSignalFrameworkChecks()
   runEmptyEdgeCases()
+  runLabReportReviewTypeChecks()
   runImportChecks()
 
   console.log('')
@@ -439,6 +547,9 @@ async function main() {
   console.log('  ✅ Empty/edge cases')
   console.log('  ✅ Null safety')
   console.log('  ✅ API route / component imports')
+  console.log('  ✅ Lab Report Review — type mapping (full + nullable)')
+  console.log('  ✅ Lab Report Review — constants')
+  console.log('  ✅ Lab Report Review — service imports')
 }
 
 main().catch((err) => {

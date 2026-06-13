@@ -176,6 +176,27 @@ const artifactLoaders: Record<string, ArtifactLoader> = {
       payload: data as Record<string, unknown>,
     }
   },
+  lab_report: async (supabase, request) => {
+    const { data, error } = await supabase
+      .from('lab_report_reviews')
+      .select(
+        'id, organization_id, study_id, subject_id, visit_id, compliance_document_id, longitudinal_result_id, report_type, review_scope, lab_test_code, lab_test_name, review_status, pi_classification, signature_request_id, created_at, updated_at',
+      )
+      .eq('id', request.artifactId)
+      .eq('organization_id', request.organizationId)
+      .eq('study_id', request.studyId)
+      .maybeSingle()
+
+    if (error || !data) {
+      throw new OperationalSignatureStateError('Lab report review artifact was not found.')
+    }
+
+    return {
+      artifactType: request.artifactType,
+      artifactId: request.artifactId,
+      payload: data as Record<string, unknown>,
+    }
+  },
   [OPERATIONAL_SIGNATURE_TEST_FIXTURE_ARTIFACT_TYPE]: async (_supabase, request) => {
     const fixture = request.metadata.operational_signature_test_fixture
     if (!fixture || typeof fixture !== 'object' || Array.isArray(fixture)) {
