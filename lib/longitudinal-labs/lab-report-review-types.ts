@@ -97,6 +97,7 @@ export type LabReportReviewTimelineItem = {
   reportType: LabReportType
   reviewStatus: LabReportReviewStatus
   piClassification: LabReportPiClassification | null
+  reviewNotes: string | null
   reviewedBy: string | null
   reviewedAt: string | null
   signatureRequestId: string | null

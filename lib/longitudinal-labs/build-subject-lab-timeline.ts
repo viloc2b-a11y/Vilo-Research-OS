@@ -81,6 +81,7 @@ export async function buildSubjectLabTimeline(
     reportType: r.reportType,
     reviewStatus: r.reviewStatus,
     piClassification: r.piClassification,
+    reviewNotes: r.reviewNotes,
     reviewedBy: r.reviewedBy,
     reviewedAt: r.reviewedAt,
     signatureRequestId: r.signatureRequestId,

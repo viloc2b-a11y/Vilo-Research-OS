@@ -9,6 +9,7 @@ import type {
 } from '@/lib/longitudinal-labs/longitudinal-lab-types'
 import type { LabReportReviewTimelineItem } from '@/lib/longitudinal-labs/lab-report-review-types'
 import { LabSignalBadge } from './lab-signal-badge'
+import { ReviewActions } from './review-actions'
 
 function formatValue(value: number | null, unit: string | null): string {
   if (value == null) return '—'
@@ -182,6 +183,16 @@ function ReviewRow({ review }: { review: LabReportReviewTimelineItem }) {
           <span>Report uploaded {formatDate(review.createdAt)}</span>
         </div>
       </div>
+
+      <ReviewActions
+        reviewId={review.reviewId}
+        organizationId={review.organizationId}
+        studyId={review.studyId}
+        initialStatus={review.reviewStatus}
+        initialClassification={review.piClassification}
+        initialNotes={review.reviewNotes}
+        signatureRequestId={review.signatureRequestId}
+      />
     </div>
   )
 }
