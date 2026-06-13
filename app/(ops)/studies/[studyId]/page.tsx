@@ -14,6 +14,7 @@ import {
   Shield,
   Layers,
   FlaskConical,
+  ClipboardList,
   ChevronRight,
   AlertTriangle,
   Clock,
@@ -43,6 +44,7 @@ import { loadStudySubjectCommandCenter } from '@/lib/studies/load-study-subject-
 import { StudySubjectCommandCenter } from '@/components/coordinator-operations/StudySubjectCommandCenter'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { StudyLabsSearchCenter } from '@/components/longitudinal-labs/study-labs-search-center'
+import { NeedsReviewQueue } from '@/components/longitudinal-labs/needs-review-queue'
 
 type StudyWorkspaceProps = {
   params: Promise<{ studyId: string }>
@@ -59,12 +61,13 @@ type StudyWorkspaceProps = {
 }
 
 const TABS = [
-  { id: 'overview',    label: 'Overview',    icon: Layers },
-  { id: 'subjects',    label: 'Subjects',    icon: Users },
-  { id: 'visits',      label: 'Visits',      icon: CalendarDays },
-  { id: 'regulatory',  label: 'Regulatory',  icon: Shield },
-  { id: 'labs',        label: 'Labs',        icon: FlaskConical },
-  { id: 'documents',   label: 'Documents',   icon: FileText },
+  { id: 'overview',    label: 'Overview',     icon: Layers },
+  { id: 'subjects',    label: 'Subjects',     icon: Users },
+  { id: 'visits',      label: 'Visits',       icon: CalendarDays },
+  { id: 'regulatory',  label: 'Regulatory',   icon: Shield },
+  { id: 'labs',        label: 'Labs',         icon: FlaskConical },
+  { id: 'needs-review', label: 'Needs Review', icon: ClipboardList },
+  { id: 'documents',   label: 'Documents',    icon: FileText },
 ] as const
 
 type TabId = typeof TABS[number]['id']
@@ -1804,6 +1807,12 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
                 label: s.subject_identifier as string,
               }))}
             />
+          </div>
+        )}
+
+        {activeTab === 'needs-review' && (
+          <div className="p-6 h-[calc(100vh-140px)] flex flex-col">
+            <NeedsReviewQueue studyId={studyId} />
           </div>
         )}
 
