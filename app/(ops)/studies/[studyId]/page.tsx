@@ -13,6 +13,7 @@ import {
   FileText,
   Shield,
   Layers,
+  FlaskConical,
   ChevronRight,
   AlertTriangle,
   Clock,
@@ -41,6 +42,7 @@ import type { StudyVisitRow } from '@/lib/visits/loadStudyVisits'
 import { loadStudySubjectCommandCenter } from '@/lib/studies/load-study-subject-command-center'
 import { StudySubjectCommandCenter } from '@/components/coordinator-operations/StudySubjectCommandCenter'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { StudyLabsSearchCenter } from '@/components/longitudinal-labs/study-labs-search-center'
 
 type StudyWorkspaceProps = {
   params: Promise<{ studyId: string }>
@@ -61,6 +63,7 @@ const TABS = [
   { id: 'subjects',    label: 'Subjects',    icon: Users },
   { id: 'visits',      label: 'Visits',      icon: CalendarDays },
   { id: 'regulatory',  label: 'Regulatory',  icon: Shield },
+  { id: 'labs',        label: 'Labs',        icon: FlaskConical },
   { id: 'documents',   label: 'Documents',   icon: FileText },
 ] as const
 
@@ -1790,6 +1793,18 @@ export default async function StudyWorkspacePage({ params, searchParams }: Study
               'Record protocol execution issues through visit workflow tasks and source findings when they affect source capture.',
             ]}
           />
+        )}
+
+        {activeTab === 'labs' && (
+          <div className="p-6 h-[calc(100vh-140px)] flex flex-col">
+            <StudyLabsSearchCenter
+              studyId={studyId}
+              subjects={subjects.map((s) => ({
+                id: s.id as string,
+                label: s.subject_identifier as string,
+              }))}
+            />
+          </div>
         )}
 
         {activeTab === 'documents' && (

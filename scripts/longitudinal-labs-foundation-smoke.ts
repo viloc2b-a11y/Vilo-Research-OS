@@ -397,6 +397,10 @@ async function runImportChecks() {
       name: 'build-subject-lab-timeline',
       fn: () => import('../lib/longitudinal-labs/build-subject-lab-timeline'),
     },
+    {
+      name: 'load-study-lab-results',
+      fn: () => import('../lib/longitudinal-labs/load-study-lab-results'),
+    },
   ]
 
   let passCount = 0
