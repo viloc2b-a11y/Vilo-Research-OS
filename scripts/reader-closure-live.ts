@@ -21,7 +21,7 @@ const TARGETS: Record<ProtocolKey, { file: string; reportStem: string; studyPref
       'validation-corpus',
       'raw',
       'processed-originals',
-      '01. PARA_OA_012_Protocol v4.0_Amendment 3_24Feb2026_redline.pdf',
+      'validation-protocol-001.pdf',
     ),
     reportStem: 'reader-closure-validation-protocol-001',
     studyPrefix: 'VALIDATION_READER_001',

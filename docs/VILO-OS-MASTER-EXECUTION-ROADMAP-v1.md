@@ -128,8 +128,8 @@ Protocol → Reconciliation → Runtime Generation → Source Package → Visit 
 
 | | Tarea |
 |---|---|
-| B1 | Validación E2E completa **PARA_OA_012** — hasta visit instance ejecutada y source validado |
-| B2 | Validación E2E completa **MV40618** — misma cadena completa |
+| B1 | Validación E2E completa **VALIDATION_PROTOCOL_001** — hasta visit instance ejecutada y source validado |
+| B2 | Validación E2E completa **VALIDATION_PROTOCOL_002** — misma cadena completa |
 | B3 | Runtime validation artifacts commiteados como evidencia oficial |
 
 > Sin Sprint B demostrado, Vilo OS no puede llamarse Site Operating System.
