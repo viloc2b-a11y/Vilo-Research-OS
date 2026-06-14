@@ -1,5 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type {
+  DelegationComplianceAlert,
+  DocumentReadiness,
+  DocumentReadinessItem,
+  DocumentReadinessStatus,
   IRBApprovalRow,
   InvestigatorCredentialRow,
   RegulatoryRisk,
@@ -129,6 +133,152 @@ async function computeConsentRisk(args: {
 }
 
 // ---------------------------------------------------------------------------
+// E6 — Document readiness checklist
+// ---------------------------------------------------------------------------
+
+const CREDENTIAL_CATEGORY_MAP: Record<
+  InvestigatorCredentialRow['credentialType'],
+  DocumentReadinessItem['category']
+> = {
+  cv: 'cv',
+  medical_license: 'medical_license',
+  gcp_certificate: 'gcp_certificate',
+  iata_certificate: 'gcp_certificate',
+  protocol_training: 'protocol_training',
+  financial_disclosure_1572: 'form_1572',
+  fdf: 'form_1572',
+  other: 'gcp_certificate',
+}
+
+function credentialToReadinessStatus(
+  cred: InvestigatorCredentialRow,
+  now: Date,
+): DocumentReadinessStatus {
+  const resolved = resolveCredentialStatus(cred, now)
+  if (resolved === 'expired') return 'expired'
+  if (resolved === 'expiring_soon') return 'expiring_soon'
+  return 'present'
+}
+
+function computeDocumentReadiness(
+  approvals: IRBApprovalRow[],
+  credentials: InvestigatorCredentialRow[],
+  now: Date,
+): DocumentReadiness {
+  const items: DocumentReadinessItem[] = []
+
+  // IRB approval
+  const activeApproval = approvals.find((a) => a.status === 'active')
+  if (!activeApproval) {
+    items.push({ category: 'irb_approval', label: 'IRB Approval', status: 'missing', detail: 'No active IRB approval on file.' })
+  } else {
+    const days = activeApproval.expirationDate ? daysUntil(activeApproval.expirationDate, now) : null
+    const status: DocumentReadinessStatus =
+      days === null ? 'present'
+      : days < 0 ? 'expired'
+      : days <= 60 ? 'expiring_soon'
+      : 'present'
+    items.push({
+      category: 'irb_approval',
+      label: 'IRB Approval',
+      status,
+      detail: days !== null ? `Expires in ${days}d (${activeApproval.expirationDate})` : null,
+    })
+  }
+
+  // Key credential categories to check
+  const categories: DocumentReadinessItem['category'][] = [
+    'gcp_certificate',
+    'cv',
+    'medical_license',
+    'protocol_training',
+    'form_1572',
+  ]
+
+  for (const category of categories) {
+    const matching = credentials.filter(
+      (c) => CREDENTIAL_CATEGORY_MAP[c.credentialType] === category,
+    )
+    if (matching.length === 0) {
+      items.push({ category, label: category.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()), status: 'missing', detail: 'Not on file.' })
+    } else {
+      const worstStatus = matching.reduce<DocumentReadinessStatus>((acc, cred) => {
+        const s = credentialToReadinessStatus(cred, now)
+        if (s === 'expired') return 'expired'
+        if (s === 'expiring_soon' && acc !== 'expired') return 'expiring_soon'
+        return acc === 'missing' ? 'present' : acc
+      }, 'present')
+      items.push({
+        category,
+        label: category.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+        status: worstStatus,
+        detail: null,
+      })
+    }
+  }
+
+  const hasCritical = items.some((i) => i.status === 'missing' || i.status === 'expired')
+  const hasGap = items.some((i) => i.status === 'expiring_soon')
+  const overallStatus = hasCritical ? 'critical_gaps' : hasGap ? 'gaps' : 'ready'
+
+  return { items, overallStatus }
+}
+
+// ---------------------------------------------------------------------------
+// E4 — Delegation compliance: flag active delegations with expired credentials
+// ---------------------------------------------------------------------------
+
+async function computeDelegationCompliance(args: {
+  supabase: SupabaseClient
+  organizationId: string
+  studyId: string
+  credentials: InvestigatorCredentialRow[]
+  now: Date
+}): Promise<DelegationComplianceAlert[]> {
+  const { supabase, organizationId, studyId, credentials, now } = args
+  const today = now.toISOString().slice(0, 10)
+
+  const { data, error } = await supabase
+    .from('study_delegation_log')
+    .select('id, staff_user_id, delegation_status, delegation_stop_date')
+    .eq('organization_id', organizationId)
+    .eq('study_id', studyId)
+    .eq('delegation_status', 'Active')
+    .or(`is_ongoing.eq.true,delegation_stop_date.gt.${today}`)
+    .limit(50)
+
+  if (error || !data?.length) return []
+
+  const activeStaffIds = new Set(data.map((d: Record<string, unknown>) => d.staff_user_id as string))
+  const delegationById = new Map(
+    data.map((d: Record<string, unknown>) => [d.staff_user_id as string, d]),
+  )
+
+  const alerts: DelegationComplianceAlert[] = []
+
+  for (const cred of credentials) {
+    if (!activeStaffIds.has(cred.userId)) continue
+    const status = resolveCredentialStatus(cred, now)
+    if (status !== 'expired' && status !== 'expiring_soon') continue
+
+    const delegation = delegationById.get(cred.userId)
+    if (!delegation) continue
+
+    alerts.push({
+      staffUserId: cred.userId,
+      delegationLogId: delegation.id as string,
+      credentialType: cred.credentialType,
+      credentialStatus: status,
+      detail: cred.expirationDate
+        ? `${cred.credentialType} ${status === 'expired' ? 'expired' : 'expiring'} ${cred.expirationDate}`
+        : `${cred.credentialType} status: ${status}`,
+    })
+  }
+
+  return alerts
+}
+
+// ---------------------------------------------------------------------------
 // Overall risk
 // ---------------------------------------------------------------------------
 
@@ -162,7 +312,25 @@ export async function computeRegulatorySnapshot(args: {
     computeCredentialRisk(credentials, now)
   const { subjectConsentRisk, subjectsNeedingReconsent } = consentRisk
 
-  const overallRisk = computeOverallRisk([irbStatus, staffCredentialRisk, subjectConsentRisk])
+  const [documentReadiness, delegationAlerts] = await Promise.all([
+    Promise.resolve(computeDocumentReadiness(approvals, credentials, now)),
+    computeDelegationCompliance({ supabase, organizationId, studyId, credentials, now }),
+  ])
+
+  const delegationRisk: RegulatoryRisk = delegationAlerts.some(
+    (a) => a.credentialStatus === 'expired',
+  )
+    ? 'critical'
+    : delegationAlerts.length > 0
+      ? 'warning'
+      : 'ok'
+
+  const overallRisk = computeOverallRisk([
+    irbStatus,
+    staffCredentialRisk,
+    subjectConsentRisk,
+    delegationRisk,
+  ])
 
   return {
     studyId,
@@ -174,6 +342,8 @@ export async function computeRegulatorySnapshot(args: {
     expiredCredentials,
     subjectConsentRisk,
     subjectsNeedingReconsent,
+    documentReadiness,
+    delegationAlerts,
     overallRisk,
   }
 }

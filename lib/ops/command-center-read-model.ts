@@ -40,6 +40,7 @@ export type CommandCenterModel = {
   openWorkflowTasks: CommandCenterListItem[]
   recentEvents: CommandCenterEventItem[]
   highRisk: CommandCenterListItem[]
+  regulatoryAlerts: CommandCenterListItem[]
   unavailable: string[]
 }
 
@@ -74,12 +75,16 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       openWorkflowTasks: [],
       recentEvents: [],
       highRisk: [],
+      regulatoryAlerts: [],
       unavailable: ['Workspace access is unavailable because this user is not assigned to an organization.'],
     }
   }
 
   const supabase = await createServerClient()
   const today = todayIsoDate()
+
+  const irbAlertCutoff = new Date(Date.now() + 60 * 86_400_000).toISOString().slice(0, 10)
+  const credAlertCutoff = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
 
   const [
     todayVisits,
@@ -90,6 +95,8 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     workflowActions,
     events,
     performanceResult,
+    irbAlerts,
+    credentialAlerts,
   ] = await Promise.all([
     loadTodayVisits(organizationIds),
     loadCoordinatorVisitAlerts(organizationIds),
@@ -133,6 +140,24 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       unavailable.push(unavailableSection('VPI high-risk queue'))
       return null
     }),
+    supabase
+      .from('irb_approvals')
+      .select('id, study_id, approval_type, approval_number, expiration_date, status, studies(name, slug)')
+      .in('organization_id', organizationIds)
+      .eq('status', 'active')
+      .not('expiration_date', 'is', null)
+      .lte('expiration_date', irbAlertCutoff)
+      .order('expiration_date', { ascending: true })
+      .limit(6),
+    supabase
+      .from('investigator_credentials')
+      .select('id, user_id, credential_type, expiration_date, status, study_id, studies(name, slug)')
+      .in('organization_id', organizationIds)
+      .neq('status', 'waived')
+      .not('expiration_date', 'is', null)
+      .lte('expiration_date', credAlertCutoff)
+      .order('expiration_date', { ascending: true })
+      .limit(6),
   ])
 
   if (sourceSets.error) unavailable.push(unavailableSection('Incomplete source'))
@@ -273,9 +298,41 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
           : 'warning' as const,
     })) ?? []
 
+  const regulatoryAlerts: CommandCenterListItem[] = [
+    ...(irbAlerts.data ?? []).map((irb) => {
+      const daysLeft = Math.floor(
+        (new Date(irb.expiration_date as string).getTime() - Date.now()) / 86_400_000,
+      )
+      const study = one(irb.studies) as { name?: string | null; slug?: string | null } | null
+      return {
+        id: irb.id as string,
+        title: `IRB Approval ${daysLeft < 0 ? 'expired' : `expiring in ${daysLeft}d`}`,
+        detail: `${study?.name ?? 'Study'} · ${String(irb.approval_type ?? 'approval')} · ${String(irb.expiration_date)}`,
+        href: `/regulatory-intelligence?tab=irb`,
+        status: daysLeft < 0 ? 'expired' : 'expiring',
+        tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
+      }
+    }),
+    ...(credentialAlerts.data ?? []).map((cred) => {
+      const daysLeft = Math.floor(
+        (new Date(cred.expiration_date as string).getTime() - Date.now()) / 86_400_000,
+      )
+      const study = one(cred.studies) as { name?: string | null } | null
+      return {
+        id: cred.id as string,
+        title: `${String(cred.credential_type ?? 'Credential').replace(/_/g, ' ')} ${daysLeft < 0 ? 'expired' : `expiring in ${daysLeft}d`}`,
+        detail: `${study?.name ?? 'Study'} · ${String(cred.expiration_date)}`,
+        href: `/regulatory-intelligence?tab=credentials`,
+        status: daysLeft < 0 ? 'expired' : 'expiring',
+        tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
+      }
+    }),
+  ]
+
   return {
     generatedAt: new Date().toISOString(),
     organizationIds,
+    regulatoryAlerts,
     todayVisits,
     outOfWindowVisits,
     incompleteSource,

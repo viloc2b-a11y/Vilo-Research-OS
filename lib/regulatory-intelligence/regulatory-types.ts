@@ -39,15 +39,45 @@ export type InvestigatorCredentialRow = {
 
 export type RegulatoryRisk = 'critical' | 'warning' | 'ok'
 
+export type DocumentReadinessStatus = 'present' | 'expiring_soon' | 'expired' | 'missing'
+
+export type DocumentReadinessItem = {
+  category:
+    | 'irb_approval'
+    | 'gcp_certificate'
+    | 'medical_license'
+    | 'cv'
+    | 'form_1572'
+    | 'protocol_training'
+  label: string
+  status: DocumentReadinessStatus
+  detail: string | null
+}
+
+export type DocumentReadiness = {
+  items: DocumentReadinessItem[]
+  overallStatus: 'ready' | 'gaps' | 'critical_gaps'
+}
+
+export type DelegationComplianceAlert = {
+  staffUserId: string
+  delegationLogId: string
+  credentialType: string
+  credentialStatus: string
+  detail: string
+}
+
 export type StudyRegulatorySnapshot = {
   studyId: string
   irbStatus: RegulatoryRisk
   activeIRBApprovals: IRBApprovalRow[]
-  expiringIRBApprovals: IRBApprovalRow[]  // expiring within 60 days
+  expiringIRBApprovals: IRBApprovalRow[]
   staffCredentialRisk: RegulatoryRisk
   expiringCredentials: InvestigatorCredentialRow[]
   expiredCredentials: InvestigatorCredentialRow[]
   subjectConsentRisk: RegulatoryRisk
   subjectsNeedingReconsent: number
+  documentReadiness: DocumentReadiness
+  delegationAlerts: DelegationComplianceAlert[]
   overallRisk: RegulatoryRisk
 }

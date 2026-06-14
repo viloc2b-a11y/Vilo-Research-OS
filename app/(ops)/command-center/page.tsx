@@ -8,6 +8,7 @@ import {
   FileText,
   PenTool,
   RotateCw,
+  ShieldAlert,
   Workflow,
 } from 'lucide-react'
 import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
@@ -228,6 +229,16 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
       actionHref: '/performance',
       actionLabel: 'Open VPI',
       items: model.highRisk,
+    },
+    {
+      id: 'regulatory-alerts',
+      title: 'Regulatory Alerts',
+      icon: ShieldAlert,
+      tone: (model.regulatoryAlerts.some((a) => a.tone === 'critical') ? 'critical' : 'warning') as CommandCenterListItem['tone'],
+      empty: 'No expiring or expired IRB approvals or credentials.',
+      actionHref: '/regulatory-intelligence',
+      actionLabel: 'Open Regulatory',
+      items: model.regulatoryAlerts,
     },
   ]
   const processSections = [
