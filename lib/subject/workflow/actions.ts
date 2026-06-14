@@ -56,6 +56,11 @@ export async function createSubjectWorkflowAction(
   const assignedRole = clean(formData.get('assigned_role'))
   const actionType = (clean(formData.get('action_type')) ?? 'action') as SubjectWorkflowActionType
   const priority = (clean(formData.get('priority')) ?? 'normal') as SubjectWorkflowPriority
+  const slaDaysRaw = parseInt(clean(formData.get('sla_days')) ?? '', 10)
+  const slaDays = Number.isFinite(slaDaysRaw) && slaDaysRaw > 0 ? slaDaysRaw : null
+  const slaDeadline = slaDays
+    ? new Date(Date.now() + slaDays * 86_400_000).toISOString().slice(0, 10)
+    : null
 
   if (!studyId || !subjectId || !title) {
     return { ok: false, message: 'Study, subject, and title are required.' }
@@ -81,6 +86,8 @@ export async function createSubjectWorkflowAction(
       description,
       assigned_role: assignedRole,
       due_date: dueDate,
+      sla_days: slaDays,
+      sla_deadline: slaDeadline,
       created_by: access.user.id,
     })
     .select('id')

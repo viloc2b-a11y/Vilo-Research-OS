@@ -84,6 +84,7 @@ function classifyWorkflowAction(
   now: string,
 ): WorkflowEscalationGroup {
   const overdue = isOverdue(action.dueDate, now)
+  if (action.escalationLevel > 0) return 'critical_overdue'
   if (overdue || action.priority === 'urgent') return 'critical_overdue'
   if (action.priority === 'high') return 'critical_overdue'
   if (isDueSoon(action.dueDate, now)) return 'due_soon'
