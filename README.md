@@ -252,11 +252,6 @@ npm run dev
 | `npx tsx scripts/runtime-source-package-phase4-smoke.ts` | Source package generation, review, approval, and download smoke |
 | `npx tsx scripts/runtime-source-publication-phaseP4A-smoke.ts` | Source package publication smoke |
 
-## Out of scope (MVP scaffold)
-
-- Visit workspace, studies, subjects, finance, reports, AI
-- Payments, analytics, Mailchimp, SEO, i18n
-
 ## License
 
 Private — Vilo Research Group.
