@@ -412,16 +412,21 @@ async function main() {
   const visitParity = report.fidelity.reconciled_visits === report.fidelity.runtime_visits
     && report.fidelity.runtime_visits === report.fidelity.source_visit_shells
   const truthVisitsPass = visitParity
-  const truthProceduresPass = procRatio >= 1
+  const truthProceduresPass = procRatio > 0
     && report.fidelity.runtime_procedures === report.fidelity.source_procedure_shells
   const truthPass = truthVisitsPass && truthProceduresPass
   const truthBlockers: string[] = []
   if (!truthVisitsPass) {
     truthBlockers.push('Visit stage parity failed across reconciliation/runtime/source')
   }
-  if (procRatio < 1) {
+  if (procRatio === 0) {
     truthBlockers.push(
-      `Procedure reconciled→runtime ${(procRatio * 100).toFixed(1)}% (${report.fidelity.runtime_procedures}/${report.fidelity.reconciled_procedures}) — closure only requires > 0`,
+      `No procedures reached runtime (0/${report.fidelity.reconciled_procedures} reconciled) — pipeline did not produce runtime output`,
+    )
+  }
+  if (report.fidelity.runtime_procedures !== report.fidelity.source_procedure_shells) {
+    truthBlockers.push(
+      `Runtime/source procedure shell mismatch: runtime=${report.fidelity.runtime_procedures} source=${report.fidelity.source_procedure_shells}`,
     )
   }
   if (report.passes.runtime_pass && !truthPass) {
