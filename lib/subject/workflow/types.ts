@@ -4,6 +4,10 @@ export type SubjectWorkflowActionType =
   | 'signature_request'
   | 'follow_up'
   | 'correction'
+  | 'capa_item'
+  | 'amendment_reconsent'
+  | 'deviation_followup'
+  | 'safety_followup'
 
 export type SubjectWorkflowStatus = 'open' | 'in_progress' | 'resolved' | 'cancelled'
 export type SubjectWorkflowPriority = 'low' | 'normal' | 'high' | 'urgent'
@@ -12,7 +16,7 @@ export type SubjectWorkflowAction = {
   id: string
   organizationId: string
   studyId: string
-  subjectId: string
+  subjectId: string | null
   visitId: string | null
   procedureExecutionId: string | null
   sourceResponseSetId: string | null
@@ -30,6 +34,17 @@ export type SubjectWorkflowAction = {
   resolvedAt: string | null
   resolutionNote: string | null
   deepLink: string
+  // D1 — object links
+  capaId: string | null
+  amendmentImpactId: string | null
+  deviationId: string | null
+  safetyEventId: string | null
+  // D2 — SLA and escalation
+  slaDays: number | null
+  slaDeadline: string | null
+  escalationLevel: number
+  escalatedAt: string | null
+  escalatedTo: string | null
 }
 
 export type SubjectWorkflowSummary = {

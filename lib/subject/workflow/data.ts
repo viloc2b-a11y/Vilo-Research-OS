@@ -19,6 +19,7 @@ function deepLink(row: WorkflowRow) {
   const actionId = row.id as string
   const orgId = row.organization_id as string
   const orgQs = `organization_id=${orgId}`
+  const subjectId = row.study_subject_id as string | null
 
   if (procId) {
     const hash = section
@@ -28,7 +29,8 @@ function deepLink(row: WorkflowRow) {
   }
   if (setId) return `/source/response-set/${setId}?${orgQs}#workflow-${actionId}`
   if (visitId) return `/visits/${visitId}?${orgQs}#workflow-${actionId}`
-  return `/studies/${row.study_id as string}/subjects/${row.study_subject_id as string}?tab=workflow#workflow-${actionId}`
+  if (subjectId) return `/studies/${row.study_id as string}/subjects/${subjectId}?tab=workflow#workflow-${actionId}`
+  return `/studies/${row.study_id as string}?tab=workflow#workflow-${actionId}`
 }
 
 export function filterWorkflowActionsForContext(
@@ -68,7 +70,7 @@ function mapAction(row: WorkflowRow): SubjectWorkflowAction {
     id: row.id as string,
     organizationId: row.organization_id as string,
     studyId: row.study_id as string,
-    subjectId: row.study_subject_id as string,
+    subjectId: (row.study_subject_id as string | null) ?? null,
     visitId: (row.visit_id as string | null) ?? null,
     procedureExecutionId: (row.procedure_execution_id as string | null) ?? null,
     sourceResponseSetId: (row.source_response_set_id as string | null) ?? null,
@@ -86,6 +88,15 @@ function mapAction(row: WorkflowRow): SubjectWorkflowAction {
     resolvedAt: (row.resolved_at as string | null) ?? null,
     resolutionNote: (row.resolution_note as string | null) ?? null,
     deepLink: deepLink(row),
+    capaId: (row.capa_id as string | null) ?? null,
+    amendmentImpactId: (row.amendment_impact_id as string | null) ?? null,
+    deviationId: (row.deviation_id as string | null) ?? null,
+    safetyEventId: (row.safety_event_id as string | null) ?? null,
+    slaDays: (row.sla_days as number | null) ?? null,
+    slaDeadline: (row.sla_deadline as string | null) ?? null,
+    escalationLevel: (row.escalation_level as number) ?? 0,
+    escalatedAt: (row.escalated_at as string | null) ?? null,
+    escalatedTo: (row.escalated_to as string | null) ?? null,
   }
 }
 
