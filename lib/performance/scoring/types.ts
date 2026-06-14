@@ -51,6 +51,7 @@ export type SubjectSignalKind =
   | 'sae_sponsor_pending'
   | 'consent_overdue'
   | 'consent_pending'
+  | 'capa_overdue'
 
 export type SubjectSignalInput = {
   organizationId: string

@@ -84,6 +84,7 @@ const SUBJECT_SIGNAL_ACTION: Record<SubjectSignalKind, RecommendedActionCode> = 
   sae_sponsor_pending: 'review_sae_compliance',
   consent_overdue: 'contact_subject_today',
   consent_pending: 'contact_subject_today',
+  capa_overdue: 'triage_assignment',
 }
 
 const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
@@ -120,6 +121,7 @@ const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
   sae_sponsor_pending: 91,
   consent_overdue: 87,
   consent_pending: 64,
+  capa_overdue: 90,
 }
 
 export function recommendedActionForSubjectSignal(

@@ -53,6 +53,7 @@ const KNOWN_SIGNAL_KINDS: readonly SubjectSignalKind[] = [
   'sae_sponsor_pending',
   'consent_overdue',
   'consent_pending',
+  'capa_overdue',
 ]
 
 function isSubjectSignalKind(value: string): value is SubjectSignalKind {
@@ -129,6 +130,7 @@ const SIGNAL_TO_REASON: Record<SubjectSignalKind, SubjectRiskReasonKind> = {
   sae_sponsor_pending: 'sae_sponsor_pending',
   consent_overdue: 'consent_overdue',
   consent_pending: 'consent_pending',
+  capa_overdue: 'capa_overdue',
 }
 
 const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
@@ -165,6 +167,7 @@ const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
   sae_sponsor_pending: 'SAE sponsor notification pending',
   consent_overdue: 'Reconsent overdue',
   consent_pending: 'Reconsent required',
+  capa_overdue: 'CAPA action overdue',
 }
 
 const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
@@ -201,6 +204,7 @@ const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
   sae_sponsor_pending: 'PI',
   consent_overdue: 'Site Coordinator',
   consent_pending: 'Site Coordinator',
+  capa_overdue: 'Site Coordinator',
 }
 
 const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
@@ -237,6 +241,7 @@ const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
   sae_sponsor_pending: 92,
   consent_overdue: 88,
   consent_pending: 65,
+  capa_overdue: 91,
 }
 
 function operationalStateToLegacySeverity(
@@ -475,6 +480,8 @@ function legacyReasonToSignalKind(reason: SubjectRiskReasonKind): SubjectSignalK
       return 'consent_overdue'
     case 'consent_pending':
       return 'consent_pending'
+    case 'capa_overdue':
+      return 'capa_overdue'
     default:
       return 'window_warning'
   }

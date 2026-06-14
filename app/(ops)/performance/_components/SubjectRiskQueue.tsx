@@ -61,6 +61,7 @@ const reasonTone: Record<SubjectRiskQueueItem['reasonKind'], string> = {
   sae_sponsor_pending: 'bg-orange-100 text-orange-900 dark:bg-orange-950 dark:text-orange-200',
   consent_overdue: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
   consent_pending: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  capa_overdue: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
 }
 
 export function SubjectRiskQueue({

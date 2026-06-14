@@ -29,6 +29,9 @@ import type { SubjectConsentVersionRow, SubjectReconsentRequirementRow } from '@
 import { computeSubjectFinancialRuntime } from '@/lib/financial-runtime/compute-subject'
 import type { SubjectFinancialRuntime } from '@/lib/financial-runtime/types'
 import { SubjectFinancialPanel } from '@/components/subject/SubjectFinancialPanel'
+import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
+import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
+import { SubjectDeviationsPanel } from '@/components/subject/SubjectDeviationsPanel'
 
 type SubjectWorkspacePageProps = {
   params: Promise<{ subjectId: string }>
@@ -85,7 +88,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
   const { subjectId } = await params
   const model = await loadSubjectWorkspaceModel(subjectId)
   const supabase = await createServerClient()
-  const [subjectRuntimeUi, subjectOps, safetyEvents, reconsentReqs, subjectCapas, subjectConsents, subjectFinancial] = await Promise.all([
+  const [subjectRuntimeUi, subjectOps, safetyEvents, reconsentReqs, subjectCapas, subjectConsents, subjectFinancial, subjectDeviations] = await Promise.all([
     loadSubjectRuntimeUiModel(supabase, subjectId, model.subject.organizationId),
     loadSubjectOperationsSurface(subjectId),
     loadSafetyEvents(supabase, {
@@ -112,6 +115,10 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       studyId: model.subject.studyId,
       studySubjectId: model.subject.id,
     }).catch(() => null as SubjectFinancialRuntime | null),
+    loadDeviations(supabase, {
+      organizationId: model.subject.organizationId,
+      subjectId: model.subject.id,
+    }).catch(() => [] as ProtocolDeviationRow[]),
   ])
 
   // Map typed consent rows for SubjectRegulatoryPanel (expects SubjectReconsentReq shape)
@@ -224,6 +231,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
           subjectId={model.subject.id}
         />
         <SubjectFinancialPanel financial={subjectFinancial} />
+        <SubjectDeviationsPanel deviations={subjectDeviations} />
       </div>
     </div>
     </CoordinatorPageScroll>

@@ -65,17 +65,30 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
 
   if (body.status !== undefined) {
     const status = String(body.status)
-    if (!['open', 'under_review', 'closed'].includes(status)) {
+    const validStatuses = ['candidate', 'pi_review', 'confirmed', 'capa_linked', 'resolved', 'open', 'under_review', 'closed']
+    if (!validStatuses.includes(status)) {
       return NextResponse.json(
-        { error: 'status must be one of: open, under_review, closed' },
+        { error: `status must be one of: ${validStatuses.join(', ')}` },
         { status: 400 },
       )
     }
     updateInput.status = status
 
-    if (status === 'closed') {
-      updateInput.closedAt = new Date().toISOString()
+    const now = new Date().toISOString()
+    if (status === 'closed' || status === 'resolved') {
+      updateInput.closedAt = now
     }
+    if (status === 'confirmed' || status === 'capa_linked' || status === 'resolved') {
+      updateInput.adjudicatedBy = auth.user.id
+      updateInput.adjudicatedAt = now
+    }
+    if (status === 'pi_review' || status === 'open' || status === 'under_review') {
+      updateInput.reopenedAt = body.reopen ? now : undefined
+    }
+  }
+
+  if (body.superseded_by !== undefined) {
+    updateInput.supersededBy = body.superseded_by != null ? String(body.superseded_by) : null
   }
 
   if (body.severity !== undefined) {

@@ -140,6 +140,7 @@ export function buildFallbackSubjectSignals(input: {
   labSignals?: Record<string, unknown>[]
   safetySignals?: Record<string, unknown>[]
   consentSignals?: Record<string, unknown>[]
+  capaSignals?: Record<string, unknown>[]
 }): SubjectSignalInput[] {
   const signals: SubjectSignalInput[] = []
   const today = new Date().toISOString().slice(0, 10)
@@ -489,6 +490,24 @@ export function buildFallbackSubjectSignals(input: {
       signalCreatedAt: (row.signal_created_at as string) ?? today,
       signalAgeHours: Number(row.signal_age_hours ?? 0),
       detailText: (row.detail_text as string | null) ?? 'Reconsent required.',
+    })
+  }
+
+  for (const row of input.capaSignals ?? []) {
+    const subjectId = row.study_subject_id as string | null
+    if (!subjectId) continue
+    signals.push({
+      organizationId: (row.organization_id as string) ?? '',
+      studyId: row.study_id as string,
+      subjectId,
+      subjectIdentifier: subjectIdentifier(row),
+      studyName: studyName(row),
+      signalKind: 'capa_overdue',
+      signalSource: (row.signal_source as string) ?? 'capa_actions',
+      signalEntityId: (row.signal_entity_id as string) ?? null,
+      signalCreatedAt: (row.signal_created_at as string) ?? today,
+      signalAgeHours: Number(row.signal_age_hours ?? 0),
+      detailText: (row.detail_text as string | null) ?? 'CAPA action overdue.',
     })
   }
 

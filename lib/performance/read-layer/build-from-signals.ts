@@ -29,6 +29,7 @@ import { loadFinancialLeakageRiskSignals } from '@/lib/performance/read-layer/si
 import { loadLabLongitudinalSignals } from '@/lib/performance/read-layer/signals/lab-signals'
 import { loadSafetyClockSignals } from '@/lib/performance/read-layer/signals/safety-signals'
 import { loadConsentReconsentSignals } from '@/lib/performance/read-layer/signals/consent-signals'
+import { loadCapaOverdueSignals } from '@/lib/performance/read-layer/signals/capa-signals'
 import type {
   PerformanceLoadStatus,
   PerformanceReadModel,
@@ -329,6 +330,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     labLongitudinalSignals,
     safetyClockSignals,
     consentReconsentSignals,
+    capaSignals,
   ] = await Promise.all([
     loadVisitSignals(client, queryScope),
     loadStudySignals(client, organizationIds, queryScope, studyIds),
@@ -345,6 +347,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     loadLabLongitudinalSignals(client, queryScope),
     loadSafetyClockSignals(client, queryScope),
     loadConsentReconsentSignals(client, queryScope),
+    loadCapaOverdueSignals(client, queryScope),
   ])
 
   errors.push(...visitSignals.snapshotErrors)
@@ -395,6 +398,9 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
   if (consentReconsentSignals.consentSignals.error) {
     errors.push(consentReconsentSignals.consentSignals.error)
   }
+  if (capaSignals.capaSignals.error) {
+    errors.push(capaSignals.capaSignals.error)
+  }
 
   const metricsByStudyId = new Map(
     studySignals.studyCounts.rows.map((row) => [row.studyId, { ...row }]),
@@ -428,6 +434,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     labSignals: labLongitudinalSignals.rows,
     safetySignals: safetyClockSignals.safetyClocks.rows,
     consentSignals: consentReconsentSignals.consentSignals.rows,
+    capaSignals: capaSignals.capaSignals.rows,
   })
   const riskQueue = buildScoredRiskQueueFromSignals(scoredSubjectSignals)
   const coordinatorLoad = buildFallbackCoordinatorLoad([

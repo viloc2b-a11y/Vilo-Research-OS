@@ -56,6 +56,22 @@ export async function updateDeviation(
     payload.closed_at = input.closedAt
   }
 
+  if (input.supersededBy !== undefined) {
+    payload.superseded_by = input.supersededBy
+  }
+
+  if (input.reopenedAt !== undefined) {
+    payload.reopened_at = input.reopenedAt
+  }
+
+  if (input.adjudicatedBy !== undefined) {
+    payload.adjudicated_by = input.adjudicatedBy
+  }
+
+  if (input.adjudicatedAt !== undefined) {
+    payload.adjudicated_at = input.adjudicatedAt
+  }
+
   if (input.metadata !== undefined) {
     payload.metadata = input.metadata
   }

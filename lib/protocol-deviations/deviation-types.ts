@@ -12,6 +12,11 @@ export const DEVIATION_TYPE = {
 export type DeviationType = (typeof DEVIATION_TYPE)[keyof typeof DEVIATION_TYPE]
 
 export const DEVIATION_STATUS = {
+  CANDIDATE: 'candidate',
+  PI_REVIEW: 'pi_review',
+  CONFIRMED: 'confirmed',
+  CAPA_LINKED: 'capa_linked',
+  RESOLVED: 'resolved',
   OPEN: 'open',
   UNDER_REVIEW: 'under_review',
   CLOSED: 'closed',
@@ -44,6 +49,10 @@ export type ProtocolDeviationRow = {
   requiresIrbNotification: boolean
   openedAt: string
   closedAt: string | null
+  supersededBy: string | null
+  reopenedAt: string | null
+  adjudicatedBy: string | null
+  adjudicatedAt: string | null
   createdBy: string
   updatedBy: string
   metadata: Record<string, unknown>
@@ -79,6 +88,10 @@ export type UpdateDeviationInput = {
   requiresSponsorNotification?: boolean
   requiresIrbNotification?: boolean
   closedAt?: string | null
+  supersededBy?: string | null
+  reopenedAt?: string | null
+  adjudicatedBy?: string | null
+  adjudicatedAt?: string | null
   metadata?: Record<string, unknown>
 }
 
@@ -100,6 +113,10 @@ export function mapProtocolDeviationRow(row: Record<string, unknown>): ProtocolD
     requiresIrbNotification: Boolean(row.requires_irb_notification),
     openedAt: String(row.opened_at),
     closedAt: row.closed_at != null ? String(row.closed_at) : null,
+    supersededBy: row.superseded_by != null ? String(row.superseded_by) : null,
+    reopenedAt: row.reopened_at != null ? String(row.reopened_at) : null,
+    adjudicatedBy: row.adjudicated_by != null ? String(row.adjudicated_by) : null,
+    adjudicatedAt: row.adjudicated_at != null ? String(row.adjudicated_at) : null,
     createdBy: String(row.created_by),
     updatedBy: String(row.updated_by),
     metadata: row.metadata as Record<string, unknown>,
