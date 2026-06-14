@@ -7,6 +7,7 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { computeAmendmentDiff } from '@/lib/financial-runtime/compute/amendment-diff'
 import type { AmendmentDiff } from '@/lib/financial-runtime/types'
 import { AmendmentActionPanel } from '@/components/amendments/amendment-action-panel'
+import { AmendmentStatusPanel, type AmendmentStatusRecord } from '@/components/amendments/amendment-status-panel'
 
 type SubjectImpact = {
   id: string
@@ -308,6 +309,15 @@ export default async function AmendmentsPage({ params }: AmendmentsPageProps) {
 
   const amendments = await computeAmendmentDiff({ supabase, studyId })
 
+  const { data: amendmentStatuses } = await supabase
+    .from('study_amendment_statuses')
+    .select('protocol_version_id, status, submitted_at, irb_review_at, approved_at, activated_at')
+    .eq('study_id', studyId)
+
+  const statusByVersion = Object.fromEntries(
+    (amendmentStatuses ?? []).map((s) => [s.protocol_version_id, s as AmendmentStatusRecord]),
+  )
+
   const { data: subjectImpacts } = await supabase
     .from('amendment_subject_impacts')
     .select('id, protocol_version_id, subject_id, requires_reconsent, reconsent_completed_at, requires_training_review, training_review_completed_at, impact_reason')
@@ -366,6 +376,12 @@ export default async function AmendmentsPage({ params }: AmendmentsPageProps) {
                   diff={diff}
                   studyId={studyId}
                   impacts={subjectImpacts?.filter((i) => i.protocol_version_id === diff.versionId) ?? []}
+                />
+                <AmendmentStatusPanel
+                  studyId={studyId}
+                  protocolVersionId={diff.versionId}
+                  organizationId={organizationId}
+                  statusRecord={statusByVersion[diff.versionId] ?? null}
                 />
                 <AmendmentActionPanel
                   studyId={studyId}

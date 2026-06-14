@@ -208,6 +208,8 @@ export function AmendmentActionPanel({
             {activationResult.subjectImpactsCreated} subject impact{activationResult.subjectImpactsCreated !== 1 ? 's' : ''} created
             {activationResult.subjectImpactsSkipped > 0 && `, ${activationResult.subjectImpactsSkipped} already on record`}
             {activationResult.trainingAssignmentsCreated > 0 && `, ${activationResult.trainingAssignmentsCreated} training assignment${activationResult.trainingAssignmentsCreated !== 1 ? 's' : ''} created`}
+            {activationResult.reconsentRequirementsCreated > 0 && `, ${activationResult.reconsentRequirementsCreated} reconsent requirement${activationResult.reconsentRequirementsCreated !== 1 ? 's' : ''} generated`}
+            {activationResult.workflowActionsCreated > 0 && `, ${activationResult.workflowActionsCreated} coordinator action${activationResult.workflowActionsCreated !== 1 ? 's' : ''} queued`}
           </span>
         </div>
       )}

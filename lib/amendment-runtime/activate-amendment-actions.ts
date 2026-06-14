@@ -5,6 +5,8 @@ export type ActivationResult = {
   subjectImpactsSkipped: number
   trainingRecordId: string | null
   trainingAssignmentsCreated: number
+  reconsentRequirementsCreated: number
+  workflowActionsCreated: number
 }
 
 export async function activateAmendmentActions(args: {
@@ -41,9 +43,10 @@ export async function activateAmendmentActions(args: {
 
   const subjectList = subjects ?? []
 
-  // Step 2: Upsert subject impacts — ignoreDuplicates lets us count created vs. skipped
+  // Step 2: Upsert subject impacts — returns id + subject_id for downstream steps
   let subjectImpactsCreated = 0
   let subjectImpactsSkipped = 0
+  let newImpacts: Array<{ id: string; subject_id: string }> = []
 
   if (subjectList.length > 0) {
     const records = subjectList.map((s) => ({
@@ -59,17 +62,91 @@ export async function activateAmendmentActions(args: {
     const { data: upserted, error: upsertError } = await supabase
       .from('amendment_subject_impacts')
       .upsert(records, { onConflict: 'protocol_version_id,subject_id', ignoreDuplicates: true })
-      .select('id')
+      .select('id, subject_id')
 
     if (upsertError) {
       throw new Error(`Failed to upsert subject impacts: ${upsertError.message}`)
     }
 
-    subjectImpactsCreated = upserted?.length ?? 0
+    newImpacts = (upserted ?? []) as Array<{ id: string; subject_id: string }>
+    subjectImpactsCreated = newImpacts.length
     subjectImpactsSkipped = subjectList.length - subjectImpactsCreated
   }
 
-  // Step 3: Training record + assignments (only when training review is required)
+  // Step 3: G3 — Reconsent requirements for newly impacted subjects
+  let reconsentRequirementsCreated = 0
+
+  if (requiresReconsent && newImpacts.length > 0) {
+    const { data: consentVersion } = await supabase
+      .from('consent_document_versions')
+      .select('id')
+      .eq('study_id', studyId)
+      .in('status', ['active', 'irb_approved'])
+      .order('version_number', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (consentVersion) {
+      const dueDate = new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+      const reconsentRecords = newImpacts.map((impact) => ({
+        organization_id: organizationId,
+        study_id: studyId,
+        study_subject_id: impact.subject_id,
+        consent_document_version_id: consentVersion.id,
+        reconsent_status: 'pending',
+        reason: impactReason ?? 'Protocol amendment requires updated consent',
+        reconsent_due_date: dueDate,
+      }))
+
+      const { data: reconsentData, error: reconsentError } = await supabase
+        .from('subject_consent_reconsent_requirements')
+        .upsert(reconsentRecords, {
+          onConflict: 'study_subject_id,consent_document_version_id',
+          ignoreDuplicates: true,
+        })
+        .select('id')
+
+      if (reconsentError) {
+        throw new Error(`Failed to create reconsent requirements: ${reconsentError.message}`)
+      }
+
+      reconsentRequirementsCreated = reconsentData?.length ?? 0
+    }
+  }
+
+  // Step 4: G5 — Workflow backbone actions for newly created reconsent impacts
+  let workflowActionsCreated = 0
+
+  if (requiresReconsent && newImpacts.length > 0) {
+    const dueDate = new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+    const workflowRecords = newImpacts.map((impact) => ({
+      organization_id: organizationId,
+      study_id: studyId,
+      study_subject_id: impact.subject_id,
+      action_type: 'amendment_reconsent',
+      title: 'Reconsent required — protocol amendment',
+      description: impactReason ?? 'Protocol amendment requires updated consent before next visit.',
+      priority: 'high',
+      assigned_role: 'crc',
+      due_date: dueDate,
+      sla_days: 21,
+      amendment_impact_id: impact.id,
+      created_by: actorId,
+    }))
+
+    const { data: workflowData, error: workflowError } = await supabase
+      .from('subject_workflow_actions')
+      .insert(workflowRecords)
+      .select('id')
+
+    if (workflowError) {
+      throw new Error(`Failed to create workflow actions: ${workflowError.message}`)
+    }
+
+    workflowActionsCreated = workflowData?.length ?? 0
+  }
+
+  // Step 5: Training record + assignments (G2 — only when training review is required)
   let trainingRecordId: string | null = null
   let trainingAssignmentsCreated = 0
 
@@ -94,7 +171,6 @@ export async function activateAmendmentActions(args: {
 
     trainingRecordId = training.id as string
 
-    // Load active staff
     const { data: staff, error: staffError } = await supabase
       .from('study_delegation_log')
       .select('staff_user_id')
@@ -128,10 +204,33 @@ export async function activateAmendmentActions(args: {
     }
   }
 
+  // Step 6: G6 — Record activated status in amendment lifecycle table
+  const now = new Date().toISOString()
+  const { error: statusError } = await supabase
+    .from('study_amendment_statuses')
+    .upsert(
+      {
+        organization_id: organizationId,
+        study_id: studyId,
+        protocol_version_id: protocolVersionId,
+        status: 'activated',
+        activated_at: now,
+        activated_by: actorId,
+        updated_at: now,
+      },
+      { onConflict: 'protocol_version_id' },
+    )
+
+  if (statusError) {
+    throw new Error(`Failed to record amendment activation status: ${statusError.message}`)
+  }
+
   return {
     subjectImpactsCreated,
     subjectImpactsSkipped,
     trainingRecordId,
     trainingAssignmentsCreated,
+    reconsentRequirementsCreated,
+    workflowActionsCreated,
   }
 }
