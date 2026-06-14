@@ -38,6 +38,8 @@ export type SubjectRiskReasonKind =
   | 'sae_reporting_overdue'
   | 'sae_reporting_due_soon'
   | 'sae_sponsor_pending'
+  | 'consent_overdue'
+  | 'consent_pending'
 
 export const SUBJECT_RISK_REASON_LABELS: Record<SubjectRiskReasonKind, string> = {
   missed_visit: 'Missed visit',
@@ -68,6 +70,8 @@ export const SUBJECT_RISK_REASON_LABELS: Record<SubjectRiskReasonKind, string> =
   sae_reporting_overdue: 'SAE reporting overdue',
   sae_reporting_due_soon: 'SAE reporting due soon',
   sae_sponsor_pending: 'SAE sponsor notification pending',
+  consent_overdue: 'Reconsent overdue',
+  consent_pending: 'Reconsent required',
 }
 
 export type StudyPerformanceCard = {

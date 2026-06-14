@@ -49,6 +49,8 @@ export type SubjectSignalKind =
   | 'sae_reporting_overdue'
   | 'sae_reporting_due_soon'
   | 'sae_sponsor_pending'
+  | 'consent_overdue'
+  | 'consent_pending'
 
 export type SubjectSignalInput = {
   organizationId: string

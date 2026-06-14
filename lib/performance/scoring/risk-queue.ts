@@ -51,6 +51,8 @@ const KNOWN_SIGNAL_KINDS: readonly SubjectSignalKind[] = [
   'sae_reporting_overdue',
   'sae_reporting_due_soon',
   'sae_sponsor_pending',
+  'consent_overdue',
+  'consent_pending',
 ]
 
 function isSubjectSignalKind(value: string): value is SubjectSignalKind {
@@ -125,6 +127,8 @@ const SIGNAL_TO_REASON: Record<SubjectSignalKind, SubjectRiskReasonKind> = {
   sae_reporting_overdue: 'sae_reporting_overdue',
   sae_reporting_due_soon: 'sae_reporting_due_soon',
   sae_sponsor_pending: 'sae_sponsor_pending',
+  consent_overdue: 'consent_overdue',
+  consent_pending: 'consent_pending',
 }
 
 const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
@@ -159,6 +163,8 @@ const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
   sae_reporting_overdue: 'SAE reporting deadline overdue',
   sae_reporting_due_soon: 'SAE reporting deadline approaching',
   sae_sponsor_pending: 'SAE sponsor notification pending',
+  consent_overdue: 'Reconsent overdue',
+  consent_pending: 'Reconsent required',
 }
 
 const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
@@ -193,6 +199,8 @@ const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
   sae_reporting_overdue: 'PI',
   sae_reporting_due_soon: 'PI',
   sae_sponsor_pending: 'PI',
+  consent_overdue: 'Site Coordinator',
+  consent_pending: 'Site Coordinator',
 }
 
 const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
@@ -227,6 +235,8 @@ const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
   sae_reporting_overdue: 98,
   sae_reporting_due_soon: 90,
   sae_sponsor_pending: 92,
+  consent_overdue: 88,
+  consent_pending: 65,
 }
 
 function operationalStateToLegacySeverity(
@@ -293,6 +303,13 @@ function contextLinks(
       contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=documents`,
       contextLabel: 'Open lab context',
       linkedObjectLabel: 'Lab result',
+    }
+  }
+  if (signalSource.startsWith('subject_consent_reconsent_requirements:')) {
+    return {
+      contextHref: `${performanceSubjectHref(studyId, subjectId)}?tab=consent`,
+      contextLabel: 'Open consent',
+      linkedObjectLabel: 'Reconsent requirement',
     }
   }
   return {
@@ -454,6 +471,10 @@ function legacyReasonToSignalKind(reason: SubjectRiskReasonKind): SubjectSignalK
       return 'reverted_payment'
     case 'written_off_payment':
       return 'written_off_payment'
+    case 'consent_overdue':
+      return 'consent_overdue'
+    case 'consent_pending':
+      return 'consent_pending'
     default:
       return 'window_warning'
   }
