@@ -8,6 +8,7 @@ import { canManageSourceBuilder } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { listCompositionSnapshots } from '@/lib/runtime-source-package/load-composition-snapshot'
 import { RuntimeSourcePackageClient } from '@/components/runtime-source-package/runtime-source-package-client'
+import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
 
 function firstParam(value: string | string[] | undefined): string | null {
   if (Array.isArray(value)) return value[0] ?? null
@@ -50,11 +51,12 @@ export default async function RuntimeSourcePackagesPage({
   const supabase = await createServerClient()
   const { data: studies } = await supabase
     .from('studies')
-    .select('id, name')
+    .select('id, name, status, created_source')
     .eq('organization_id', organizationId)
+    .neq('status', 'archived')
     .order('name', { ascending: true })
 
-  const studyList = (studies ?? []).map((study) => ({ id: String(study.id), name: String(study.name) }))
+  const studyList = filterDashboardTestDataRows(studies ?? []).map((study) => ({ id: String(study.id), name: String(study.name) }))
   const snapshotsByStudy: Record<string, { id: string; graphHash: string; createdAt: string }[]> = {}
 
   for (const study of studyList) {

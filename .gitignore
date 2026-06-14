@@ -2,6 +2,7 @@
 
 # IDE / contextual state
 .context/
+.claude/
 
 # dependencies
 /node_modules

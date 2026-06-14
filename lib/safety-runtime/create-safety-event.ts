@@ -5,6 +5,8 @@ import {
   type CreateSafetyEventInput,
   type SafetyEventRow,
 } from './safety-types'
+import { generateSafetyTasks } from './generate-safety-tasks'
+import { persistSafetyTasks } from './persist-safety-tasks'
 
 export async function createSafetyEvent(
   supabase: SupabaseClient,
@@ -45,5 +47,18 @@ export async function createSafetyEvent(
     )
   }
 
-  return mapSafetyEventRow(data as Record<string, unknown>)
+  const event = mapSafetyEventRow(data as Record<string, unknown>)
+
+  // Auto-generate compliance tasks based on event type and severity.
+  const tasks = generateSafetyTasks({
+    eventId: event.id,
+    organizationId: event.organizationId,
+    eventType: event.eventType,
+    severity: event.severity,
+    eventDate: new Date(event.openedAt),
+  })
+
+  await persistSafetyTasks({ supabase, tasks })
+
+  return event
 }

@@ -11,7 +11,10 @@ import {
 import { RUNTIME_PROJECTION_VERSION } from '@/lib/projections/constants'
 import {
   countIncompleteSourceForSubject,
-  countOpenAdverseEvents,
+  countOpenSafetyEvents,
+  countSafetyCandidates,
+  countOpenDeviationsForSubject,
+  countOpenCapaForSubject,
   isTerminalVisitStatus,
 } from '@/lib/projections/compute/shared'
 import type { SubjectLongitudinalState, SubjectRuntimeProjection } from '@/lib/projections/types'
@@ -53,7 +56,8 @@ export async function computeSubjectRuntimeProjection(
   const studyId = subject.study_id as string
   const enrollmentStatus = subject.enrollment_status as string
 
-  const [intelligenceResult, incompleteSourceCount, unresolvedSafetyCount] =
+  const [intelligenceResult, incompleteSourceCount, unresolvedSafetyCount,
+    safetyCandidateCount, openDeviationCount, openCapaCount] =
     await Promise.all([
       loadSubjectOperationalIntelligence({
         subjectId: studySubjectId,
@@ -61,7 +65,10 @@ export async function computeSubjectRuntimeProjection(
         organizationId,
       }),
       countIncompleteSourceForSubject(supabase, studySubjectId, organizationId),
-      countOpenAdverseEvents(supabase, studySubjectId, organizationId),
+      countOpenSafetyEvents(supabase, studySubjectId, organizationId),
+      countSafetyCandidates(supabase, studySubjectId, organizationId),
+      countOpenDeviationsForSubject(supabase, studySubjectId, organizationId),
+      countOpenCapaForSubject(supabase, studySubjectId, organizationId),
     ])
 
   const blockers = []
@@ -157,6 +164,43 @@ export async function computeSubjectRuntimeProjection(
         label: 'Source backlog',
         detail: `${incompleteSourceCount} incomplete source package(s).`,
         href: visitsHref,
+      }),
+    )
+  }
+
+  if (safetyCandidateCount > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'safety-candidates',
+        category: 'safety',
+        severity: 'warning',
+        label: 'Safety candidates',
+        detail: `${safetyCandidateCount} safety candidate(s) awaiting assessment.`,
+        href: aeHref,
+      }),
+    )
+  }
+
+  if (openDeviationCount > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'open-deviations',
+        category: 'deviation',
+        severity: 'warning',
+        label: 'Open deviations',
+        detail: `${openDeviationCount} open deviation(s) for this subject.`,
+      }),
+    )
+  }
+
+  if (openCapaCount > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'open-capa',
+        category: 'capa',
+        severity: 'warning',
+        label: 'Open CAPA',
+        detail: `${openCapaCount} open CAPA action(s) for this subject's deviations.`,
       }),
     )
   }

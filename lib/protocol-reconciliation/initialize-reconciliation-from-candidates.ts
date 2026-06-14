@@ -3,6 +3,7 @@ import { appendReconciliationEvent } from './append-reconciliation-event'
 import {
   mapProcedureReconciliationRow,
   mapVisitReconciliationRow,
+  PROCEDURE_RECONCILIATION_STATUS,
   RECONCILIATION_EVENT_TYPE,
   RECONCILIATION_SOURCE,
   VISIT_RECONCILIATION_STATUS,
@@ -154,6 +155,7 @@ export async function initializeReconciliationFromCandidates(args: {
         visit_reconciliation_id: visitReconciliationId,
         procedure_name: String(row.procedure_name),
         procedure_category: row.procedure_category ? String(row.procedure_category) : null,
+        reconciliation_status: PROCEDURE_RECONCILIATION_STATUS.NEEDS_REVIEW,
         reconciliation_source: RECONCILIATION_SOURCE.CANDIDATE,
         procedure_order: index + 1,
         created_by: args.createdBy,

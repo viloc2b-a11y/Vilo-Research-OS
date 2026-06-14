@@ -45,6 +45,8 @@ export const RECONCILIATION_EVENT_TYPE = {
   PROCEDURE_REJECTED: 'procedure_reconciliation_rejected',
   MANUAL_MAPPING_CREATED: 'manual_mapping_created',
   PROCEDURE_MAPPING_MODIFIED: 'procedure_mapping_modified',
+  PROCEDURE_BULK_APPROVED: 'procedure_reconciliation_bulk_approved',
+  PROCEDURE_BULK_REJECTED: 'procedure_reconciliation_bulk_rejected',
 } as const
 
 export type ReconciliationEventType =

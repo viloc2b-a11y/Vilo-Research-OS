@@ -12,6 +12,7 @@ import {
   type StudyDataReadinessCategory,
   type StudyDataReadinessResult,
 } from '@/lib/site-intelligence/study-data-readiness-adapter'
+import { computeStudyFinancialSummary } from '@/lib/financial-runtime/compute-study'
 
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -119,8 +120,29 @@ export async function generateDeliverableAction(params: {
     } else if (params.systemCode === 'cra_monitoring_workbook') {
       const result = await generateCRAMonitoringWorkbook(supabase, runId)
       return result
+    } else if (params.systemCode === 'source_evidence_workbook') {
+      return { success: false, error: 'Source Evidence Workbook is not yet available.' }
+    } else if (params.systemCode === 'financial_reconciliation_workbook') {
+      const studyId = (params.filters as { studyId: string }).studyId
+      const { data: study } = await supabase
+        .from('studies')
+        .select('organization_id')
+        .eq('id', studyId)
+        .maybeSingle()
+      if (!study) {
+        return { success: false, error: 'Study not found.' }
+      }
+      const organizationId = String(study.organization_id)
+      const summary = await computeStudyFinancialSummary({ supabase, organizationId, studyId })
+      return {
+        success: true as const,
+        data: {
+          summary,
+          generatedAt: new Date().toISOString(),
+        },
+      }
     } else {
-      throw new Error(`Generation for ${params.systemCode} is not implemented yet.`)
+      return { success: false, error: `Generation for ${params.systemCode} is not implemented yet.` }
     }
   } catch (error: unknown) {
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }

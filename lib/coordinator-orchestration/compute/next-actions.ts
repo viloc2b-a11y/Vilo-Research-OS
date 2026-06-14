@@ -1,6 +1,7 @@
 import type { VisitOrchestrationContext } from '@/lib/coordinator-orchestration/context/build-visit-context'
 import type { CoordinatorNextAction } from '@/lib/coordinator-orchestration/types'
 import type { RuntimeProjectionBlocker } from '@/lib/projections/types'
+import { visitDetailPath, sourceCapturePath, subjectChartTabPath } from '@/lib/ops/paths'
 
 function basePriority(blocker: RuntimeProjectionBlocker): number {
   if (blocker.severity === 'blocker') return 85
@@ -159,7 +160,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Complete pending procedures',
       detail: `${ctx.readiness.pendingProcedureCount} procedure(s) awaiting execution.`,
       domain: 'visit',
-      href: null,
+      href: visitDetailPath(ctx.visitId),
       requiresEscalation: false,
       requiresPiReview: false,
     })
@@ -173,7 +174,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Submit missing source',
       detail: `${ctx.readiness.missingSourceCount} source capture(s) not submitted — blocks signoff.`,
       domain: 'source',
-      href: null,
+      href: visitDetailPath(ctx.visitId, 'source'),
       requiresEscalation: false,
       requiresPiReview: false,
     })
@@ -190,7 +191,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: cbcFinding ? 'Unresolved CBC — PI review' : 'Resolve source findings',
       detail: `${ctx.readiness.unresolvedFindingCount} unresolved finding(s).`,
       domain: 'source',
-      href: null,
+      href: visitDetailPath(ctx.visitId, 'source'),
       requiresEscalation: cbcFinding,
       requiresPiReview: cbcFinding,
     })
@@ -204,7 +205,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Overdue workflow action',
       detail: `${ctx.overdueWorkflowCount} workflow item(s) past due — coordinator follow-up.`,
       domain: 'workflow',
-      href: null,
+      href: subjectChartTabPath(ctx.studyId, ctx.studySubjectId, 'workflow'),
       requiresEscalation: false,
       requiresPiReview: false,
     })
@@ -220,7 +221,9 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
         detail: leak.detail,
         domain: 'financial',
         procedureExecutionId: leak.procedureExecutionId,
-        href: null,
+        href: leak.procedureExecutionId
+          ? sourceCapturePath(leak.procedureExecutionId, ctx.organizationId)
+          : visitDetailPath(ctx.visitId),
         requiresEscalation: leak.severity === 'critical',
         requiresPiReview: false,
       })
@@ -234,7 +237,9 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
         detail: leak.detail,
         domain: 'financial',
         procedureExecutionId: leak.procedureExecutionId,
-        href: null,
+        href: leak.procedureExecutionId
+          ? sourceCapturePath(leak.procedureExecutionId, ctx.organizationId)
+          : visitDetailPath(ctx.visitId, 'source'),
         requiresEscalation: false,
         requiresPiReview: false,
         dependencyOf: 'action:source:missing',
@@ -250,7 +255,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Repeated reschedule — operational escalation',
       detail: `Visit rescheduled ${ctx.rescheduleCount} time(s); coordinator escalation recommended.`,
       domain: 'visit',
-      href: null,
+      href: visitDetailPath(ctx.visitId),
       requiresEscalation: true,
       requiresPiReview: false,
     })
@@ -264,7 +269,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Review replay chronology',
       detail: ctx.replaySummary,
       domain: 'replay',
-      href: null,
+      href: visitDetailPath(ctx.visitId, 'timeline'),
       requiresEscalation: false,
       requiresPiReview: false,
     })
@@ -282,7 +287,7 @@ export function deriveCoordinatorNextActions(ctx: VisitOrchestrationContext): Co
       label: 'Blocked signoff — complete signatures',
       detail: `${ctx.readiness.unsignedProcedureCount} unsigned procedure(s) block coordinator signoff.`,
       domain: 'visit',
-      href: null,
+      href: visitDetailPath(ctx.visitId),
       requiresEscalation: false,
       requiresPiReview: false,
     })

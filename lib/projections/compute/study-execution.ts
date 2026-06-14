@@ -67,17 +67,49 @@ export async function computeStudyExecutionProjection(
     .eq('organization_id', organizationId)
     .eq('visit_status', 'missed')
 
-  const subjectIds = subjectRows.map((s) => s.id as string)
-  let unresolvedSafetyCount = 0
-  if (subjectIds.length > 0) {
-    const { count } = await supabase
-      .from('subject_adverse_events')
-      .select('ae_id', { count: 'exact', head: true })
-      .eq('organization_id', organizationId)
-      .in('study_subject_id', subjectIds)
-      .in('lifecycle_status', ['open', 'follow_up'])
-    unresolvedSafetyCount = count ?? 0
-  }
+  const [unresolvedSafetyCount, safetyCandidateCount, openDeviationCount,
+    criticalDeviationCount, sponsorNotifiableDeviationCount, irbNotifiableDeviationCount,
+    openCapaCount, overdueCapaCount, pendingEffectivenessCapaCount] = await Promise.all([
+    supabase.from('safety_events').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .in('event_status', ['open', 'under_review'])
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('safety_events').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .eq('event_status', 'candidate')
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('protocol_deviations').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .in('status', ['open', 'under_review'])
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('protocol_deviations').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .eq('severity', 'critical').neq('status', 'closed')
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('protocol_deviations').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .eq('requires_sponsor_notification', true).neq('status', 'closed')
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('protocol_deviations').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .eq('requires_irb_notification', true).neq('status', 'closed')
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('capa_actions').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .in('capa_status', ['open', 'in_progress', 'under_review'])
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('capa_actions').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .not('capa_status', 'eq', 'closed')
+      .lt('due_date', new Date().toISOString())
+      .then(r => r.count ?? 0, () => 0),
+    supabase.from('capa_actions').select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId).eq('organization_id', organizationId)
+      .eq('effectiveness_check_required', true)
+      .eq('effectiveness_check_result', 'pending')
+      .not('capa_status', 'eq', 'closed')
+      .then(r => r.count ?? 0, () => 0),
+  ])
 
   let criticalSubjectCount = 0
   let attentionSubjectCount = 0
@@ -99,9 +131,10 @@ export async function computeStudyExecutionProjection(
     else if (subjectProjection.operationalHealth === 'attention') attentionSubjectCount += 1
   }
 
+  const deviationCapaBurden = (openDeviationCount ?? 0) * 2 + (openCapaCount ?? 0) * 3 + (overdueCapaCount ?? 0) * 5
   const sourceCompletionBurdenScore = burdenScore(incompleteSourceCount ?? 0, 2)
   const protocolExecutionBurdenScore = burdenScore(
-    (openWorkflowCount ?? 0) + (missedVisitCount ?? 0) + (unresolvedSafetyCount ?? 0),
+    (openWorkflowCount ?? 0) + (missedVisitCount ?? 0) + (unresolvedSafetyCount ?? 0) + deviationCapaBurden,
     3,
   )
 
@@ -110,6 +143,12 @@ export async function computeStudyExecutionProjection(
     attentionSubjectCount,
     openQueryCount: openQueryCount ?? 0,
     missedVisitCount: missedVisitCount ?? 0,
+    openDeviationCount,
+    criticalDeviationCount,
+    openCapaCount,
+    overdueCapaCount,
+    leakageScore: 0,
+    criticalLeakageCount: 0,
   })
 
   const blockers = []
@@ -142,7 +181,95 @@ export async function computeStudyExecutionProjection(
         category: 'safety',
         severity: 'blocker',
         label: 'Unresolved safety',
-        detail: `${unresolvedSafetyCount} open adverse event(s) study-wide.`,
+        detail: `${unresolvedSafetyCount} open safety event(s) study-wide.`,
+      }),
+    )
+  }
+  if ((safetyCandidateCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-safety-candidates',
+        category: 'safety',
+        severity: 'warning',
+        label: 'Safety candidates',
+        detail: `${safetyCandidateCount} safety candidate(s) awaiting assessment.`,
+      }),
+    )
+  }
+  if ((openDeviationCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-open-deviations',
+        category: 'deviation',
+        severity: 'warning',
+        label: 'Open deviations',
+        detail: `${openDeviationCount} open deviation(s) across the study.`,
+      }),
+    )
+  }
+  if ((criticalDeviationCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-critical-deviations',
+        category: 'deviation',
+        severity: 'blocker',
+        label: 'Critical deviations',
+        detail: `${criticalDeviationCount} critical deviation(s) not yet closed.`,
+      }),
+    )
+  }
+  if ((sponsorNotifiableDeviationCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-sponsor-notifiable',
+        category: 'deviation',
+        severity: 'blocker',
+        label: 'Sponsor notification required',
+        detail: `${sponsorNotifiableDeviationCount} deviation(s) requiring sponsor notification.`,
+      }),
+    )
+  }
+  if ((irbNotifiableDeviationCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-irb-notifiable',
+        category: 'deviation',
+        severity: 'blocker',
+        label: 'IRB notification required',
+        detail: `${irbNotifiableDeviationCount} deviation(s) requiring IRB notification.`,
+      }),
+    )
+  }
+  if ((openCapaCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-open-capa',
+        category: 'capa',
+        severity: 'warning',
+        label: 'Open CAPA',
+        detail: `${openCapaCount} open CAPA action(s).`,
+      }),
+    )
+  }
+  if ((overdueCapaCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-overdue-capa',
+        category: 'capa',
+        severity: 'blocker',
+        label: 'Overdue CAPA',
+        detail: `${overdueCapaCount} CAPA action(s) past due date.`,
+      }),
+    )
+  }
+  if ((pendingEffectivenessCapaCount ?? 0) > 0) {
+    blockers.push(
+      projectionBlocker({
+        id: 'study-pending-effectiveness',
+        category: 'capa',
+        severity: 'warning',
+        label: 'Pending effectiveness verification',
+        detail: `${pendingEffectivenessCapaCount} CAPA action(s) awaiting effectiveness check.`,
       }),
     )
   }

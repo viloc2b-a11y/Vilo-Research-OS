@@ -4,6 +4,8 @@ import { createServerClient } from '@/lib/supabase/server'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { canManageProtocolDeviations } from '@/lib/rbac/permissions'
 import { updateCapaAction } from '@/lib/capa-runtime/update-capa-action'
+import { loadCapaAction } from '@/lib/capa-runtime/load-capa-actions'
+import { appendCapaAuditEvent } from '@/lib/capa-runtime/append-capa-audit-event'
 import type { CapaStatus, EffectivenessResult } from '@/lib/capa-runtime/capa-types'
 
 type RouteContext = { params: Promise<{ actionId: string }> }
@@ -126,7 +128,14 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
     return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
   }
 
+  const note = body.note != null ? String(body.note) : null
+
   try {
+    // Load current status before update so we can record the transition.
+    const currentAction = updateInput.capaStatus !== undefined
+      ? await loadCapaAction(supabase, actionId, organizationId)
+      : null
+
     const updated = await updateCapaAction(
       supabase,
       actionId,
@@ -134,6 +143,23 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
       auth.user.id,
       updateInput,
     )
+
+    // Append audit event when the status changed.
+    if (
+      currentAction !== null &&
+      updateInput.capaStatus !== undefined &&
+      updateInput.capaStatus !== currentAction.capaStatus
+    ) {
+      await appendCapaAuditEvent(supabase, {
+        organizationId,
+        capaId: actionId,
+        fromStatus: currentAction.capaStatus,
+        toStatus: updated.capaStatus,
+        changedBy: auth.user.id,
+        note,
+      })
+    }
+
     return NextResponse.json({ ok: true, action: updated })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to update CAPA action'

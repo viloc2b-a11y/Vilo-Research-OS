@@ -3,6 +3,44 @@ import { createServerClient } from '@/lib/supabase/server'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { canManageProtocolDeviations } from '@/lib/rbac/permissions'
 import { createCapaAction } from '@/lib/capa-runtime/create-capa-action'
+import { loadCapaActions } from '@/lib/capa-runtime/load-capa-actions'
+import type { CapaStatus } from '@/lib/capa-runtime/capa-types'
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const organizationId = searchParams.get('organization_id')
+  const studyId = searchParams.get('study_id') ?? undefined
+  const capaStatus = searchParams.get('capa_status') ?? undefined
+  const deviationId = searchParams.get('deviation_id') ?? undefined
+
+  if (!organizationId) {
+    return NextResponse.json(
+      { error: 'organization_id is required' },
+      { status: 400 },
+    )
+  }
+
+  const auth = await requireActiveOrganizationAccess(organizationId)
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.message }, { status: 401 })
+  }
+
+  const supabase = await createServerClient()
+
+  try {
+    const actions = await loadCapaActions(supabase, {
+      organizationId,
+      studyId,
+      capaStatus: capaStatus as CapaStatus | undefined,
+      deviationId,
+    })
+
+    return NextResponse.json({ actions })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Internal server error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
+}
 
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>

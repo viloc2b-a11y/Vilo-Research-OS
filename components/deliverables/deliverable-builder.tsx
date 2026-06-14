@@ -149,7 +149,7 @@ export function DeliverableBuilder() {
               <option value="">Select Type</option>
               <option value="printable_source_packet">Printable Source Packet PDF</option>
               <option value="cra_monitoring_workbook">CRA Monitoring Workbook</option>
-              <option value="source_evidence_workbook">Source Evidence Workbook</option>
+              <option value="source_evidence_workbook" disabled>Source Evidence Workbook (Coming soon)</option>
               <option value="consent_evidence_package">Consent Evidence Package</option>
               <option value="signature_evidence_package">Signature Evidence Package</option>
               <option value="financial_reconciliation_workbook">Financial Reconciliation Workbook</option>

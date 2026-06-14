@@ -154,6 +154,80 @@ export async function countOpenAdverseEvents(
   return count ?? 0
 }
 
+// === Safety Events (new table) ===
+
+export async function countOpenSafetyEvents(
+  supabase: SupabaseClient,
+  subjectId: string,
+  organizationId: string,
+): Promise<number> {
+  const { count, error } = await supabase
+    .from('safety_events')
+    .select('id', { count: 'exact', head: true })
+    .eq('subject_id', subjectId)
+    .eq('organization_id', organizationId)
+    .in('event_status', ['open', 'under_review'])
+  if (error) return 0
+  return count ?? 0
+}
+
+export async function countSafetyCandidates(
+  supabase: SupabaseClient,
+  subjectId: string,
+  organizationId: string,
+): Promise<number> {
+  const { count, error } = await supabase
+    .from('safety_events')
+    .select('id', { count: 'exact', head: true })
+    .eq('subject_id', subjectId)
+    .eq('organization_id', organizationId)
+    .eq('event_status', 'candidate')
+  if (error) return 0
+  return count ?? 0
+}
+
+// === Protocol Deviations ===
+
+export async function countOpenDeviationsForSubject(
+  supabase: SupabaseClient,
+  subjectId: string,
+  organizationId: string,
+): Promise<number> {
+  const { count, error } = await supabase
+    .from('protocol_deviations')
+    .select('id', { count: 'exact', head: true })
+    .eq('subject_id', subjectId)
+    .eq('organization_id', organizationId)
+    .in('status', ['open', 'under_review'])
+  if (error) return 0
+  return count ?? 0
+}
+
+// === CAPA Actions ===
+
+export async function countOpenCapaForSubject(
+  supabase: SupabaseClient,
+  subjectId: string,
+  organizationId: string,
+): Promise<number> {
+  const { data: deviations, error: devError } = await supabase
+    .from('protocol_deviations')
+    .select('id')
+    .eq('subject_id', subjectId)
+    .eq('organization_id', organizationId)
+  if (devError) return 0
+  const deviationIds = ((deviations ?? []) as { id: string }[]).map(d => d.id)
+  if (deviationIds.length === 0) return 0
+  const { count, error } = await supabase
+    .from('capa_actions')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', organizationId)
+    .in('deviation_id', deviationIds)
+    .not('capa_status', 'eq', 'closed')
+  if (error) return 0
+  return count ?? 0
+}
+
 export async function countOpenAdverseEventsForVisit(
   supabase: SupabaseClient,
   visitId: string,

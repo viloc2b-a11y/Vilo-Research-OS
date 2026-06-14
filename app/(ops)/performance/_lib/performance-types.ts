@@ -82,6 +82,7 @@ export type StudyPerformanceCard = {
   activeBudgetReferenceCount?: number
   activeContractReferenceCount?: number
   financialLeakageCount?: number
+  leakageScore?: number
   budgetNegotiationReadiness?: 'ready' | 'review_needed' | 'blocked'
   budgetNegotiationReason?: string
   budgetNegotiationNextStep?: string

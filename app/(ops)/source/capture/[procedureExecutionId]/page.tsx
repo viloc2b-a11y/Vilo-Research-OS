@@ -9,6 +9,9 @@ import { VisitRuntimeShell } from '@/components/subjects/visits/VisitRuntimeShel
 import { VisitWorkflowPanel } from '@/components/subjects/workflow/VisitWorkflowPanel'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { loadCaptureShell } from '@/lib/source/capture/load-capture-shell'
+import { computeSourceIntelligence } from '@/lib/source/intelligence/compute-source-intelligence'
+import { SourceIntelligenceBanner } from '@/components/source/source-intelligence-banner'
+import { createServerClient } from '@/lib/supabase/server'
 import { loadVisitRuntimeToolbar } from '@/lib/subject/visit-runtime/data'
 import { loadContextWorkflowActions } from '@/lib/subject/workflow/data'
 import { loadSubjectVisitSchedule } from '@/lib/visits/loadSubjectVisitSchedule'
@@ -61,6 +64,14 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
 
   const model = loaded.model
   const { context } = model
+
+  const supabaseForIntelligence = await createServerClient()
+  const intelligenceReport = await computeSourceIntelligence({
+    supabase: supabaseForIntelligence,
+    organizationId: context.organizationId,
+    visitId: context.visitId,
+  }).catch(() => null)
+
   const toolbar = await loadVisitRuntimeToolbar(model)
   const schedule = await loadSubjectVisitSchedule({
     studySubjectId: context.studySubjectId,
@@ -134,6 +145,10 @@ export default async function SourceCapturePage({ params, searchParams }: PagePr
           </Link>
         </p>
       </div>
+
+      {intelligenceReport ? (
+        <SourceIntelligenceBanner report={intelligenceReport} />
+      ) : null}
 
       {model.manifest ? <ManifestSummaryPanel model={model.manifest} /> : null}
 

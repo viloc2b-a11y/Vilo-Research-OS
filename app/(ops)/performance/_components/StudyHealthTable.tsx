@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
 import {
   Card,
   CardContent,
@@ -63,7 +64,8 @@ export function StudyHealthTable({
                   <th className="pb-2 pr-4 font-medium">Study</th>
                   <th className="pb-2 pr-4 font-medium">State</th>
                   <th className="pb-2 pr-4 font-medium">Critical issues</th>
-                  <th className="pb-2 font-medium">Needs attention today</th>
+                  <th className="pb-2 pr-4 font-medium">Needs attention today</th>
+                  <th className="pb-2 pr-4 font-medium">Leakage</th>
                   <th className="pb-2 pl-2 font-medium" aria-label="Expand" />
                 </tr>
               </thead>
@@ -96,7 +98,25 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
           <OperationalStateBadge state={state} />
         </td>
         <td className="py-3 pr-4 text-muted-foreground">{formatCriticalIssues(card)}</td>
-        <td className="py-3 text-muted-foreground">{formatNeedsAttentionToday(card)}</td>
+        <td className="py-3 pr-4 text-muted-foreground">{formatNeedsAttentionToday(card)}</td>
+        <td className="py-3 pr-4">
+          {(card.leakageScore ?? 0) > 0 ? (
+            <span
+              className={cn(
+                'inline-block rounded px-1.5 py-0.5 text-xs font-semibold tabular-nums',
+                (card.leakageScore ?? 0) >= 70
+                  ? 'bg-destructive/10 text-destructive'
+                  : (card.leakageScore ?? 0) >= 40
+                    ? 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400'
+                    : 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-400',
+              )}
+            >
+              {card.leakageScore}
+            </span>
+          ) : (
+            <span className="text-muted-foreground">—</span>
+          )}
+        </td>
         <td className="py-3 pl-2">
           <button
             type="button"
@@ -110,7 +130,7 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
       </tr>
       {open ? (
         <tr className="border-b bg-muted/30">
-          <td colSpan={5} className="px-4 py-3">
+          <td colSpan={6} className="px-4 py-3">
             <dl className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-3">
               <Detail label="Subjects" value={String(card.subjectCount)} />
               <Detail
@@ -153,6 +173,14 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
               <Detail
                 label="Financial leakage"
                 value={String(card.financialLeakageCount ?? 0)}
+              />
+              <Detail
+                label="Leakage score"
+                value={
+                  (card.leakageScore ?? 0) > 0
+                    ? String(card.leakageScore)
+                    : '—'
+                }
               />
               <Detail
                 label="Budget negotiation"

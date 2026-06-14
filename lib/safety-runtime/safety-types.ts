@@ -41,6 +41,40 @@ export const RELATEDNESS = {
 
 export type Relatedness = (typeof RELATEDNESS)[keyof typeof RELATEDNESS]
 
+export const SAE_OUTCOME = {
+  RECOVERED: 'recovered',
+  RECOVERING: 'recovering',
+  NOT_RECOVERED: 'not_recovered',
+  FATAL: 'fatal',
+  UNKNOWN: 'unknown',
+  NOT_APPLICABLE: 'not_applicable',
+} as const
+
+export type SaeOutcome = (typeof SAE_OUTCOME)[keyof typeof SAE_OUTCOME]
+
+export type SafetyEventTaskType =
+  | '15_day_report'
+  | 'followup_required'
+  | 'sponsor_notification'
+  | 'irb_notification'
+  | 'resolution_documentation'
+  | 'closeout'
+
+export type SafetyEventTaskStatus = 'open' | 'completed' | 'overdue' | 'waived'
+
+export type SafetyEventTask = {
+  id: string
+  organizationId: string
+  safetyEventId: string
+  taskType: SafetyEventTaskType
+  dueDate: string
+  status: SafetyEventTaskStatus
+  completedAt: string | null
+  completedBy: string | null
+  notes: string | null
+  createdAt: string
+}
+
 export type SafetyEventRow = {
   id: string
   organizationId: string
@@ -56,6 +90,16 @@ export type SafetyEventRow = {
   requiresFollowUp: boolean
   openedAt: string
   closedAt: string | null
+  // Lifecycle fields (added in migration 0192)
+  reportingDeadlineDate: string | null
+  sponsorNotifiedAt: string | null
+  sponsorNotificationRequired: boolean
+  followUpDueDate: string | null
+  followUpCompletedAt: string | null
+  outcome: SaeOutcome | null
+  resolutionDescription: string | null
+  regulatoryReportingRequired: boolean
+  expeditedReportSubmittedAt: string | null
   createdBy: string
   updatedBy: string
   metadata: Record<string, unknown>
@@ -89,6 +133,21 @@ export type UpdateSafetyEventInput = {
   metadata?: Record<string, unknown>
 }
 
+export function mapSafetyEventTaskRow(row: Record<string, unknown>): SafetyEventTask {
+  return {
+    id: String(row.id),
+    organizationId: String(row.organization_id),
+    safetyEventId: String(row.safety_event_id),
+    taskType: row.task_type as SafetyEventTaskType,
+    dueDate: String(row.due_date),
+    status: row.status as SafetyEventTaskStatus,
+    completedAt: row.completed_at != null ? String(row.completed_at) : null,
+    completedBy: row.completed_by != null ? String(row.completed_by) : null,
+    notes: row.notes != null ? String(row.notes) : null,
+    createdAt: String(row.created_at),
+  }
+}
+
 export function mapSafetyEventRow(row: Record<string, unknown>): SafetyEventRow {
   return {
     id: String(row.id),
@@ -105,6 +164,15 @@ export function mapSafetyEventRow(row: Record<string, unknown>): SafetyEventRow 
     requiresFollowUp: Boolean(row.requires_follow_up),
     openedAt: String(row.opened_at),
     closedAt: row.closed_at != null ? String(row.closed_at) : null,
+    reportingDeadlineDate: row.reporting_deadline_date != null ? String(row.reporting_deadline_date) : null,
+    sponsorNotifiedAt: row.sponsor_notified_at != null ? String(row.sponsor_notified_at) : null,
+    sponsorNotificationRequired: Boolean(row.sponsor_notification_required ?? false),
+    followUpDueDate: row.follow_up_due_date != null ? String(row.follow_up_due_date) : null,
+    followUpCompletedAt: row.follow_up_completed_at != null ? String(row.follow_up_completed_at) : null,
+    outcome: row.outcome != null ? (row.outcome as SaeOutcome) : null,
+    resolutionDescription: row.resolution_description != null ? String(row.resolution_description) : null,
+    regulatoryReportingRequired: Boolean(row.regulatory_reporting_required ?? false),
+    expeditedReportSubmittedAt: row.expedited_report_submitted_at != null ? String(row.expedited_report_submitted_at) : null,
     createdBy: String(row.created_by),
     updatedBy: String(row.updated_by),
     metadata: row.metadata as Record<string, unknown>,

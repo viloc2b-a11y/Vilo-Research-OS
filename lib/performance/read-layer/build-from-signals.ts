@@ -107,31 +107,7 @@ function fallbackStudyHealth(studyId: string, metrics: {
 
 function buildStudyCards(
   studies: { id: string; name: string; status: string }[],
-  metricsByStudyId: Map<
-    string,
-    {
-      subjectCount: number
-      enrolledCount?: number
-      screeningCount?: number
-      randomizedCount?: number
-      screenFailedCount?: number
-      attributedSubjectCount?: number
-      unattributedSubjectCount?: number
-      activeVisitCount: number
-      missedVisitCount: number
-      openQueryCount: number
-      blockedProcedureCount: number
-      unsignedOver48hCount?: number
-      visitsClosingWindowToday?: number
-      enrollmentTarget?: number | null
-      enrollmentEndDate?: string | null
-      budgetEvidenceDocumentCount?: number
-      contractEvidenceDocumentCount?: number
-      activeBudgetReferenceCount?: number
-      activeContractReferenceCount?: number
-      financialLeakageCount?: number
-    }
-  >,
+  metricsByStudyId: Map<string, StudyMetrics>,
 ): StudyPerformanceCard[] {
   return studies.map((study) => {
     const metrics = metricsByStudyId.get(study.id)
@@ -169,6 +145,7 @@ function buildStudyCards(
       activeBudgetReferenceCount: metrics?.activeBudgetReferenceCount ?? 0,
       activeContractReferenceCount: metrics?.activeContractReferenceCount ?? 0,
       financialLeakageCount: metrics?.financialLeakageCount ?? 0,
+      leakageScore: metrics?.leakageScore ?? 0,
       budgetNegotiationReadiness,
       budgetNegotiationReason,
       budgetNegotiationNextStep,
@@ -199,32 +176,32 @@ function buildStudyCards(
   })
 }
 
+type StudyMetrics = {
+  subjectCount: number
+  enrolledCount?: number
+  screeningCount?: number
+  randomizedCount?: number
+  screenFailedCount?: number
+  attributedSubjectCount?: number
+  unattributedSubjectCount?: number
+  activeVisitCount: number
+  missedVisitCount: number
+  openQueryCount: number
+  blockedProcedureCount: number
+  unsignedOver48hCount?: number
+  visitsClosingWindowToday?: number
+  enrollmentTarget?: number | null
+  enrollmentEndDate?: string | null
+  budgetEvidenceDocumentCount?: number
+  contractEvidenceDocumentCount?: number
+  activeBudgetReferenceCount?: number
+  activeContractReferenceCount?: number
+  financialLeakageCount?: number
+  leakageScore?: number
+}
+
 function incrementStudyMetric(
-  metricsByStudyId: Map<
-    string,
-    {
-      subjectCount: number
-      enrolledCount?: number
-      screeningCount?: number
-      randomizedCount?: number
-      screenFailedCount?: number
-      attributedSubjectCount?: number
-      unattributedSubjectCount?: number
-      activeVisitCount: number
-      missedVisitCount: number
-      openQueryCount: number
-      blockedProcedureCount: number
-      unsignedOver48hCount?: number
-      visitsClosingWindowToday?: number
-      enrollmentTarget?: number | null
-      enrollmentEndDate?: string | null
-      budgetEvidenceDocumentCount?: number
-      contractEvidenceDocumentCount?: number
-      activeBudgetReferenceCount?: number
-      activeContractReferenceCount?: number
-      financialLeakageCount?: number
-    }
-  >,
+  metricsByStudyId: Map<string, StudyMetrics>,
   studyId: string,
   field: 'unsignedOver48hCount' | 'visitsClosingWindowToday' | 'financialLeakageCount',
 ) {
@@ -236,6 +213,22 @@ function incrementStudyMetric(
     blockedProcedureCount: 0,
   }
   current[field] = (current[field] ?? 0) + 1
+  metricsByStudyId.set(studyId, current)
+}
+
+function updateStudyLeakageScore(
+  metricsByStudyId: Map<string, StudyMetrics>,
+  studyId: string,
+  score: number,
+) {
+  const current = metricsByStudyId.get(studyId) ?? {
+    subjectCount: 0,
+    activeVisitCount: 0,
+    missedVisitCount: 0,
+    openQueryCount: 0,
+    blockedProcedureCount: 0,
+  }
+  current.leakageScore = Math.max(current.leakageScore ?? 0, score)
   metricsByStudyId.set(studyId, current)
 }
 
@@ -403,6 +396,10 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
   }
   for (const row of financialLeakageSignals.rows) {
     incrementStudyMetric(metricsByStudyId, row.study_id as string, 'financialLeakageCount')
+    const score = Number(row.leakage_score ?? 0)
+    if (score > 0) {
+      updateStudyLeakageScore(metricsByStudyId, row.study_id as string, score)
+    }
   }
 
   const studyCards = buildStudyCards(scopedStudies, metricsByStudyId)

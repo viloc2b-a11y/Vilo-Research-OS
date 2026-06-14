@@ -276,3 +276,135 @@ export async function recordInvoicePayment(input: {
     idempotent: false,
   }
 }
+
+// ============================================================================
+// Dispute
+// ============================================================================
+
+export async function disputeInvoicePayment(input: {
+  supabase: SupabaseClient
+  organizationId: string
+  paymentId: string
+  reason: string
+}): Promise<{ paymentId: string; previousStatus: FinancialPaymentStatus }> {
+  const { data: payment, error: loadError } = await input.supabase
+    .from('financial_payments')
+    .select('id, payment_status, organization_id, metadata')
+    .eq('id', input.paymentId)
+    .eq('organization_id', input.organizationId)
+    .maybeSingle()
+
+  if (loadError) {
+    throw new Error(`Failed to load payment: ${loadError.message}`)
+  }
+  if (!payment) {
+    throw new Error(`Payment not found: ${input.paymentId}`)
+  }
+
+  const previousStatus = payment.payment_status as FinancialPaymentStatus
+  const existingMetadata = (payment.metadata as Record<string, unknown>) ?? {}
+
+  const { error: updateError } = await input.supabase
+    .from('financial_payments')
+    .update({
+      payment_status: 'disputed',
+      metadata: {
+        ...existingMetadata,
+        dispute_reason: input.reason,
+        disputed_at: new Date().toISOString(),
+        previous_status: previousStatus,
+      },
+    })
+    .eq('id', input.paymentId)
+    .eq('organization_id', input.organizationId)
+
+  if (updateError) {
+    throw new Error(`Failed to dispute payment: ${updateError.message}`)
+  }
+
+  return { paymentId: input.paymentId, previousStatus }
+}
+
+// ============================================================================
+// Reverse
+// ============================================================================
+
+export async function reverseInvoicePayment(input: {
+  supabase: SupabaseClient
+  organizationId: string
+  paymentId: string
+  reversalReason: string
+}): Promise<{ paymentId: string; invoiceId: string; restoredBalanceDue: number }> {
+  // Load the payment record
+  const { data: payment, error: loadPaymentError } = await input.supabase
+    .from('financial_payments')
+    .select('id, payment_status, organization_id, invoice_id, amount_applied, metadata')
+    .eq('id', input.paymentId)
+    .eq('organization_id', input.organizationId)
+    .maybeSingle()
+
+  if (loadPaymentError) {
+    throw new Error(`Failed to load payment: ${loadPaymentError.message}`)
+  }
+  if (!payment) {
+    throw new Error(`Payment not found: ${input.paymentId}`)
+  }
+
+  const invoiceId = String(payment.invoice_id)
+  const amountApplied = roundMoney(Number(payment.amount_applied ?? 0))
+  const existingMetadata = (payment.metadata as Record<string, unknown>) ?? {}
+
+  // Mark payment as reversed
+  const { error: reverseError } = await input.supabase
+    .from('financial_payments')
+    .update({
+      payment_status: 'reversed',
+      metadata: {
+        ...existingMetadata,
+        reversal_reason: input.reversalReason,
+        reversed_at: new Date().toISOString(),
+      },
+    })
+    .eq('id', input.paymentId)
+    .eq('organization_id', input.organizationId)
+
+  if (reverseError) {
+    throw new Error(`Failed to mark payment as reversed: ${reverseError.message}`)
+  }
+
+  // Restore invoice amount_paid and balance_due
+  const invoice = await loadInvoiceState({ supabase: input.supabase, invoiceId })
+  if (!invoice) {
+    throw new Error(`Invoice not found during reversal: ${invoiceId}`)
+  }
+
+  const restoredAmountPaid = roundMoney(Math.max(0, Number(invoice.amount_paid) - amountApplied))
+  const restoredBalanceDue = roundMoney(Math.max(0, Number(invoice.total_amount) - restoredAmountPaid))
+  const restoredPaymentStatus = nextPaymentStatus(Number(invoice.total_amount), restoredAmountPaid)
+
+  const { error: invoiceRestoreError } = await input.supabase
+    .from('financial_invoices')
+    .update({
+      amount_paid: restoredAmountPaid,
+      balance_due: restoredBalanceDue,
+      payment_status: restoredPaymentStatus,
+      paid_at: null,
+    })
+    .eq('id', invoiceId)
+
+  if (invoiceRestoreError) {
+    throw new Error(`Failed to restore invoice state after reversal: ${invoiceRestoreError.message}`)
+  }
+
+  // Void the allocations for this payment
+  const { error: allocationVoidError } = await input.supabase
+    .from('financial_payment_allocations')
+    .update({ allocation_status: 'reversed' })
+    .eq('payment_id', input.paymentId)
+
+  if (allocationVoidError) {
+    throw new Error(`Failed to void payment allocations: ${allocationVoidError.message}`)
+  }
+
+  return { paymentId: input.paymentId, invoiceId, restoredBalanceDue }
+}

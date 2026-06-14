@@ -142,6 +142,38 @@ export type AmendmentOperationalImpact = {
   operationalImpactScore: number
 }
 
+export type AmendmentVisitChange = {
+  visitCode: string
+  visitName: string
+}
+
+export type AmendmentVisitModification = {
+  visitCode: string
+  changes: string[]
+}
+
+export type AmendmentProcedureChange = {
+  procedureCode: string
+  procedureName: string
+  visitCode: string
+}
+
+export type AmendmentDiff = {
+  versionId: string
+  previousVersionId: string
+  graphRevision: number | null
+  previousGraphRevision: number | null
+  publishedAt: string | null
+  amendmentType: string | null
+  operationalImpactScore: number
+  addedVisits: AmendmentVisitChange[]
+  removedVisits: AmendmentVisitChange[]
+  modifiedVisits: AmendmentVisitModification[]
+  addedProcedures: AmendmentProcedureChange[]
+  removedProcedures: AmendmentProcedureChange[]
+  requiresTrainingReview: boolean
+}
+
 export type FinancialIntegritySafeguard = {
   id: string
   severity: 'warning' | 'error'

@@ -6,6 +6,7 @@ import { hasActiveOrganizationMembership } from '@/lib/auth/membership-access'
 import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { canAccessPatientCRM, canManagePatientCRM } from '@/lib/rbac/permissions'
 import { syncContactPersonFromPatientLead } from '@/lib/contact-runtime/contact-runtime-actions'
+import { linkLeadToSubject } from '@/lib/crm/link-lead-to-subject'
 import {
   formOptionalDateTime,
   formOptionalNumber,
@@ -688,4 +689,37 @@ export async function addPatientStudyMatchAction(formData: FormData): Promise<vo
   }
   await afterPatientMutation(organizationId, [`/crm/patients?lead=${encodeURIComponent(patientLeadId)}`])
   redirect(`/crm/patients?lead=${encodeURIComponent(patientLeadId)}&result=match-added`)
+}
+
+export async function linkLeadToSubjectAction(formData: FormData): Promise<void> {
+  'use server'
+
+  const organizationId = formText(formData, 'organizationId')
+  const patientLeadId = formText(formData, 'patientLeadId')
+  const studySubjectId = formText(formData, 'studySubjectId')
+  if (!organizationId || !patientLeadId || !studySubjectId) {
+    redirect('/crm/patients?result=missing')
+  }
+
+  const { user } = await requirePatientCrmAccess(organizationId)
+  if (!canManagePatientCRM(
+    await getOrganizationMemberships(user.id),
+    organizationId,
+  )) {
+    redirect('/crm/patients?result=forbidden')
+  }
+
+  const supabase = await createServerClient()
+  const result = await linkLeadToSubject({
+    supabase,
+    organizationId,
+    leadId: patientLeadId,
+    studySubjectId,
+    actorId: user.id,
+  })
+  if (!result.ok) {
+    redirect(`/crm/patients?lead=${encodeURIComponent(patientLeadId)}&result=error&reason=${encodeURIComponent(result.error)}`)
+  }
+  await afterPatientMutation(organizationId, [`/crm/patients?lead=${encodeURIComponent(patientLeadId)}`])
+  redirect(`/crm/patients?lead=${encodeURIComponent(patientLeadId)}&result=subject-linked`)
 }

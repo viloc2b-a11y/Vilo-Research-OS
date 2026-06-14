@@ -1,4 +1,4 @@
-﻿# protocol-to-source-closure-VALIDATION_PROTOCOL_001
+# protocol-to-source-closure-validation-protocol-001
 
 ```json
 {
@@ -57,6 +57,18 @@
     "runtime_snapshot_id": "b433a534-000c-49c1-a923-387a0bae6733",
     "source_package_id": "43b8b336-9700-48a9-b2ce-1adc85ac9090"
   },
-  "remaining_blockers": []
+  "remaining_blockers": [
+    "Procedure reconciled→runtime 2.7% (7/259) — extraction row count; runtime dedupes by visit+blueprint",
+    "Manifest runtime coverage 23.3% (7/30 bindings)",
+    "Closure passes.* true but truth parity fails — report overstates pipeline fidelity"
+  ],
+  "truth": {
+    "truth_pass": false,
+    "truth_visits_pass": true,
+    "truth_procedures_pass": false,
+    "procedure_reconciled_to_runtime": 0.02702702702702703,
+    "manifest_runtime_coverage": 0.23333333333333334,
+    "visit_parity": true
+  }
 }
 ```

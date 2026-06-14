@@ -92,6 +92,40 @@ export function ProtocolReconciliationClient(props: {
     refresh()
   }
 
+  async function runBulkApproveMatched() {
+    if (!selectedVersionId) return
+    setActionMessage(null)
+    const res = await fetch(
+      `/api/protocol-reconciliation/bulk-approve-matched/${encodeURIComponent(selectedVersionId)}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ organization_id: props.organizationId }),
+      },
+    )
+    const data = (await res.json()) as { error?: string; approvedCount?: number }
+    if (!res.ok) throw new Error(data.error || 'Bulk approve failed')
+    setActionMessage(`Approved ${data.approvedCount ?? 0} matched procedures.`)
+    refresh()
+  }
+
+  async function runBulkRejectUnmatched() {
+    if (!selectedVersionId) return
+    setActionMessage(null)
+    const res = await fetch(
+      `/api/protocol-reconciliation/bulk-reject-unmatched/${encodeURIComponent(selectedVersionId)}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ organization_id: props.organizationId }),
+      },
+    )
+    const data = (await res.json()) as { error?: string; rejectedCount?: number }
+    if (!res.ok) throw new Error(data.error || 'Bulk reject failed')
+    setActionMessage(`Rejected ${data.rejectedCount ?? 0} unmatched procedures.`)
+    refresh()
+  }
+
   return (
     <div className="space-y-6">
       <ReconciliationVersionSelector
@@ -117,6 +151,20 @@ export function ProtocolReconciliationClient(props: {
             className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
           >
             Suggest procedure matches
+          </button>
+          <button
+            type="button"
+            onClick={() => void runBulkApproveMatched().catch((err) => setError(err instanceof Error ? err.message : 'Bulk approve failed'))}
+            className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+          >
+            Approve matched
+          </button>
+          <button
+            type="button"
+            onClick={() => void runBulkRejectUnmatched().catch((err) => setError(err instanceof Error ? err.message : 'Bulk reject failed'))}
+            className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+          >
+            Reject unmatched
           </button>
         </div>
       ) : null}

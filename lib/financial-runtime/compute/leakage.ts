@@ -22,6 +22,20 @@ export function detectRevenueLeakage(input: {
     const isExecuted = proc.executionStatus === 'completed'
     const billable = proc.billableFlag || proc.billableDefault
 
+    // Emit not_graph_compliant when the visit is blocked by the protocol graph
+    // and the procedure was executed — earned units are non-compliant until graph clears.
+    if (isExecuted && graphBlocked) {
+      items.push({
+        id: `leak:graph_compliant:${proc.id}`,
+        kind: 'not_graph_compliant',
+        severity: 'warning',
+        label: 'Not graph compliant',
+        detail: `${proc.label} executed while visit is blocked by protocol graph — earned units may not be graph-compliant.`,
+        procedureExecutionId: proc.id,
+        estimatedBillableUnits: billable ? 1 : 0,
+      })
+    }
+
     if (isExecuted && !proc.isSigned) {
       items.push({
         id: `leak:unsigned:${proc.id}`,
@@ -36,7 +50,9 @@ export function detectRevenueLeakage(input: {
 
     if (isExecuted && billable) {
       const submitted = ctx.sourceSubmittedByProcedure.get(proc.id)
-      const hasBinding = true
+      // Billable procedures require source capture; use billable as the binding signal
+      // because VisitFinancialContext strips source_definition_version_id from DB rows.
+      const hasBinding = billable
       if (hasBinding && !submitted) {
         items.push({
           id: `leak:source:${proc.id}`,

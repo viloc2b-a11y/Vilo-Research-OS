@@ -20,6 +20,7 @@ import {
   Scale,
   ChevronLeft,
   ChevronRight,
+  ShieldAlert,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -94,6 +95,7 @@ const navSections: NavSection[] = [
   { id: 'negotiation', label: 'Negotiation', href: '/negotiation', icon: Scale, financial: true },
   { id: 'deliverables', label: 'Deliverables', href: '/deliverables', icon: ClipboardList, coordinatorWorkspace: true },
   { id: 'scientific-events', label: 'Scientific Events', href: '/scientific-events', icon: Calendar, crm: true },
+  { id: 'compliance', label: 'Compliance', href: '/compliance-intelligence', icon: ShieldAlert, coordinatorWorkspace: true },
   { id: 'governance', label: 'Governance', href: '/governance', icon: Shield, soon: true, availability: 'Governance is not wired into the live ops shell yet.' },
   { id: 'vpi',        label: 'VPI',         href: '/performance', icon: Activity, vpi: true },
     ],

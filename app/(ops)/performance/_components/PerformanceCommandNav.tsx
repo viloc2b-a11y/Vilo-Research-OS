@@ -8,6 +8,7 @@ const commandSubNav = [
   { href: '/performance/today', label: 'Today', exact: false },
   { href: '/performance/risks', label: 'Risks', exact: false },
   { href: '/performance', label: 'Portfolio', exact: true },
+  { href: '/performance/coordinators', label: 'Coordinators', exact: false },
 ] as const
 
 export function PerformanceCommandNav() {

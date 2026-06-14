@@ -150,6 +150,12 @@ export function StudyWorkspaceShell({
             Study Copilot
           </Link>
           <Link
+            href={`/studies/${summary.study.id}/amendments`}
+            className="text-sm font-medium text-slate-600 hover:text-slate-900 hover:underline"
+          >
+            Amendments
+          </Link>
+          <Link
             href={links.studyDetail}
             className="text-sm font-medium text-slate-600 hover:text-slate-900 hover:underline"
           >

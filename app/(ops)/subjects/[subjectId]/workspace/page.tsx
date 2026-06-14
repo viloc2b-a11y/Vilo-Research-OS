@@ -16,6 +16,19 @@ import { loadSubjectOperationsSurface } from '@/lib/coordinator-operations'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
 import { subjectChartPath, subjectVisitsPath } from '@/lib/ops/paths'
+import { loadSafetyEvents } from '@/lib/safety-runtime/load-safety-events'
+import { SubjectSafetyPanel } from '@/components/subject/SubjectSafetyPanel'
+import { SubjectRegulatoryPanel } from '@/components/subject/SubjectRegulatoryPanel'
+import type { SubjectReconsentReq } from '@/components/subject/SubjectRegulatoryPanel'
+import { loadCapaActions } from '@/lib/capa-runtime/load-capa-actions'
+import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
+import { SubjectCapaPanel } from '@/components/subject/SubjectCapaPanel'
+import { SubjectConsentPanel } from '@/components/subject/SubjectConsentPanel'
+import { loadSubjectConsents, loadSubjectReconsentRequirements } from '@/lib/consent-runtime/load-subject-consents'
+import type { SubjectConsentVersionRow, SubjectReconsentRequirementRow } from '@/lib/consent-runtime/consent-types'
+import { computeSubjectFinancialRuntime } from '@/lib/financial-runtime/compute-subject'
+import type { SubjectFinancialRuntime } from '@/lib/financial-runtime/types'
+import { SubjectFinancialPanel } from '@/components/subject/SubjectFinancialPanel'
 
 type SubjectWorkspacePageProps = {
   params: Promise<{ subjectId: string }>
@@ -72,10 +85,43 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
   const { subjectId } = await params
   const model = await loadSubjectWorkspaceModel(subjectId)
   const supabase = await createServerClient()
-  const [subjectRuntimeUi, subjectOps] = await Promise.all([
+  const [subjectRuntimeUi, subjectOps, safetyEvents, reconsentReqs, subjectCapas, subjectConsents, subjectFinancial] = await Promise.all([
     loadSubjectRuntimeUiModel(supabase, subjectId, model.subject.organizationId),
     loadSubjectOperationsSurface(subjectId),
+    loadSafetyEvents(supabase, {
+      organizationId: model.subject.organizationId,
+      subjectId,
+    }).catch(() => []),
+    loadSubjectReconsentRequirements({
+      supabase,
+      organizationId: model.subject.organizationId,
+      studySubjectId: subjectId,
+    }).catch(() => [] as SubjectReconsentRequirementRow[]),
+    loadCapaActions(supabase, {
+      organizationId: model.subject.organizationId,
+      studyId: model.subject.studyId,
+    }).catch(() => [] as CapaActionRow[]),
+    loadSubjectConsents({
+      supabase,
+      organizationId: model.subject.organizationId,
+      studySubjectId: model.subject.id,
+    }).catch(() => [] as SubjectConsentVersionRow[]),
+    computeSubjectFinancialRuntime({
+      supabase,
+      organizationId: model.subject.organizationId,
+      studyId: model.subject.studyId,
+      studySubjectId: model.subject.id,
+    }).catch(() => null as SubjectFinancialRuntime | null),
   ])
+
+  // Map typed consent rows for SubjectRegulatoryPanel (expects SubjectReconsentReq shape)
+  const reconsentRequirements: SubjectReconsentReq[] = reconsentReqs.map((r) => ({
+    id: r.id,
+    reconsentRequired: r.reconsentRequired,
+    reconsentStatus: r.reconsentStatus,
+    reconsentDueDate: r.reconsentDueDate,
+    amendmentId: null,
+  }))
   const stats: Array<{ label: string; value: number; Icon: LucideIcon }> = [
     { label: 'Visits', value: model.visits.length, Icon: Calendar },
     { label: 'Procedures', value: model.procedures.length, Icon: Activity },
@@ -156,6 +202,28 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
         <ListCard title="Clinical Links" icon={UserRound} items={model.clinicalLinks} empty="No clinical links available." actionHref={`${subjectChartPath(model.subject.studyId, model.subject.id)}?tab=clinical-profile`} actionLabel="Open profile" />
         <ListCard title="Open Tasks / Blockers" icon={Workflow} items={model.openTasksBlockers} empty="No open tasks or blockers." actionHref={`${subjectChartPath(model.subject.studyId, model.subject.id)}?tab=workflow`} actionLabel="Open workflow" />
         <ListCard title="Signatures Pending" icon={PenTool} items={model.signaturesPending} empty="No pending signatures." actionHref={subjectVisitsPath(model.subject.studyId, model.subject.id)} actionLabel="Open visits" />
+        <SubjectSafetyPanel
+          events={safetyEvents}
+          studyId={model.subject.studyId}
+          subjectId={model.subject.id}
+        />
+        <SubjectRegulatoryPanel
+          studyId={model.subject.studyId}
+          subjectId={model.subject.id}
+          reconsentRequirements={reconsentRequirements}
+        />
+        <SubjectCapaPanel
+          capas={subjectCapas}
+          studyId={model.subject.studyId}
+          subjectId={model.subject.id}
+        />
+        <SubjectConsentPanel
+          consents={subjectConsents}
+          reconsentRequirements={reconsentReqs}
+          studyId={model.subject.studyId}
+          subjectId={model.subject.id}
+        />
+        <SubjectFinancialPanel financial={subjectFinancial} />
       </div>
     </div>
     </CoordinatorPageScroll>
