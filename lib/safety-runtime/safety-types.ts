@@ -131,6 +131,15 @@ export type UpdateSafetyEventInput = {
   requiresFollowUp?: boolean
   closedAt?: string | null
   metadata?: Record<string, unknown>
+  outcome?: SaeOutcome | null
+  resolutionDescription?: string | null
+  sponsorNotifiedAt?: string | null
+  sponsorNotificationRequired?: boolean
+  followUpDueDate?: string | null
+  followUpCompletedAt?: string | null
+  regulatoryReportingRequired?: boolean
+  expeditedReportSubmittedAt?: string | null
+  reportingDeadlineDate?: string | null
 }
 
 export function mapSafetyEventTaskRow(row: Record<string, unknown>): SafetyEventTask {

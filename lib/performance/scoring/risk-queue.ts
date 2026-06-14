@@ -48,6 +48,9 @@ const KNOWN_SIGNAL_KINDS: readonly SubjectSignalKind[] = [
   'lab_missing_repeat',
   'lab_follow_up_overdue',
   'lab_safety_review',
+  'sae_reporting_overdue',
+  'sae_reporting_due_soon',
+  'sae_sponsor_pending',
 ]
 
 function isSubjectSignalKind(value: string): value is SubjectSignalKind {
@@ -119,6 +122,9 @@ const SIGNAL_TO_REASON: Record<SubjectSignalKind, SubjectRiskReasonKind> = {
   lab_missing_repeat: 'lab_missing_repeat',
   lab_follow_up_overdue: 'lab_follow_up_overdue',
   lab_safety_review: 'lab_safety_review',
+  sae_reporting_overdue: 'sae_reporting_overdue',
+  sae_reporting_due_soon: 'sae_reporting_due_soon',
+  sae_sponsor_pending: 'sae_sponsor_pending',
 }
 
 const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
@@ -150,6 +156,9 @@ const SIGNAL_TITLES: Record<SubjectSignalKind, string> = {
   lab_missing_repeat: 'Missing repeat lab',
   lab_follow_up_overdue: 'Lab follow-up overdue',
   lab_safety_review: 'Lab safety review recommended',
+  sae_reporting_overdue: 'SAE reporting deadline overdue',
+  sae_reporting_due_soon: 'SAE reporting deadline approaching',
+  sae_sponsor_pending: 'SAE sponsor notification pending',
 }
 
 const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
@@ -181,6 +190,9 @@ const SIGNAL_OWNER_ROLES: Record<SubjectSignalKind, string> = {
   lab_missing_repeat: 'Site Coordinator',
   lab_follow_up_overdue: 'PI',
   lab_safety_review: 'PI',
+  sae_reporting_overdue: 'PI',
+  sae_reporting_due_soon: 'PI',
+  sae_sponsor_pending: 'PI',
 }
 
 const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
@@ -212,6 +224,9 @@ const SIGNAL_PRIORITIES: Record<SubjectSignalKind, number> = {
   lab_missing_repeat: 68,
   lab_follow_up_overdue: 92,
   lab_safety_review: 86,
+  sae_reporting_overdue: 98,
+  sae_reporting_due_soon: 90,
+  sae_sponsor_pending: 92,
 }
 
 function operationalStateToLegacySeverity(

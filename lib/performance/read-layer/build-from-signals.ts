@@ -27,6 +27,7 @@ import { loadEventSignals } from '@/lib/performance/read-layer/signals/event-sig
 import { loadOpenGovernanceSignals } from '@/lib/performance/read-layer/signals/governance-signals'
 import { loadFinancialLeakageRiskSignals } from '@/lib/performance/read-layer/signals/financial-signals'
 import { loadLabLongitudinalSignals } from '@/lib/performance/read-layer/signals/lab-signals'
+import { loadSafetyClockSignals } from '@/lib/performance/read-layer/signals/safety-signals'
 import type {
   PerformanceLoadStatus,
   PerformanceReadModel,
@@ -325,6 +326,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     coordinatorLoadSnapshotQueries,
     financialLeakageSignals,
     labLongitudinalSignals,
+    safetyClockSignals,
   ] = await Promise.all([
     loadVisitSignals(client, queryScope),
     loadStudySignals(client, organizationIds, queryScope, studyIds),
@@ -339,6 +341,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     loadCoordinatorLoadSnapshotQueries(client, queryScope),
     loadFinancialLeakageRiskSignals(client, queryScope),
     loadLabLongitudinalSignals(client, queryScope),
+    loadSafetyClockSignals(client, queryScope),
   ])
 
   errors.push(...visitSignals.snapshotErrors)
@@ -383,6 +386,9 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
   if (labLongitudinalSignals.error) {
     errors.push(labLongitudinalSignals.error)
   }
+  if (safetyClockSignals.safetyClocks.error) {
+    errors.push(safetyClockSignals.safetyClocks.error)
+  }
 
   const metricsByStudyId = new Map(
     studySignals.studyCounts.rows.map((row) => [row.studyId, { ...row }]),
@@ -414,6 +420,7 @@ export async function buildFromSignals(scope: PerformanceScope): Promise<Perform
     snapshotQueries: snapshotQueryRisk.rows,
     financialLeakage: financialLeakageSignals.rows,
     labSignals: labLongitudinalSignals.rows,
+    safetySignals: safetyClockSignals.safetyClocks.rows,
   })
   const riskQueue = buildScoredRiskQueueFromSignals(scoredSubjectSignals)
   const coordinatorLoad = buildFallbackCoordinatorLoad([

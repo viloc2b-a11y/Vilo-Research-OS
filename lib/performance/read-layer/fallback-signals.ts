@@ -138,6 +138,7 @@ export function buildFallbackSubjectSignals(input: {
   snapshotQueries?: Record<string, unknown>[]
   financialLeakage?: Record<string, unknown>[]
   labSignals?: Record<string, unknown>[]
+  safetySignals?: Record<string, unknown>[]
 }): SubjectSignalInput[] {
   const signals: SubjectSignalInput[] = []
   const today = new Date().toISOString().slice(0, 10)
@@ -449,6 +450,25 @@ export function buildFallbackSubjectSignals(input: {
         (row.detail_text as string | null) ??
         (row.reason as string | null) ??
         'Longitudinal lab runtime signal requires review.',
+    })
+  }
+
+  for (const row of input.safetySignals ?? []) {
+    const subjectId = row.study_subject_id as string | null
+    const signalKind = row.signal_kind as SubjectSignalKind | null
+    if (!subjectId || !signalKind) continue
+    signals.push({
+      organizationId: (row.organization_id as string) ?? '',
+      studyId: row.study_id as string,
+      subjectId,
+      subjectIdentifier: subjectIdentifier(row),
+      studyName: studyName(row),
+      signalKind,
+      signalSource: (row.signal_source as string) ?? 'safety_events',
+      signalEntityId: (row.signal_entity_id as string) ?? null,
+      signalCreatedAt: (row.signal_created_at as string) ?? today,
+      signalAgeHours: Number(row.signal_age_hours ?? 0),
+      detailText: (row.detail_text as string | null) ?? 'SAE requires attention.',
     })
   }
 

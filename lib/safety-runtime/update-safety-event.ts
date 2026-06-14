@@ -48,6 +48,16 @@ export async function updateSafetyEvent(
     payload.metadata = input.metadata
   }
 
+  if (input.outcome !== undefined) payload.outcome = input.outcome
+  if (input.resolutionDescription !== undefined) payload.resolution_description = input.resolutionDescription
+  if (input.sponsorNotifiedAt !== undefined) payload.sponsor_notified_at = input.sponsorNotifiedAt
+  if (input.sponsorNotificationRequired !== undefined) payload.sponsor_notification_required = input.sponsorNotificationRequired
+  if (input.followUpDueDate !== undefined) payload.follow_up_due_date = input.followUpDueDate
+  if (input.followUpCompletedAt !== undefined) payload.follow_up_completed_at = input.followUpCompletedAt
+  if (input.regulatoryReportingRequired !== undefined) payload.regulatory_reporting_required = input.regulatoryReportingRequired
+  if (input.expeditedReportSubmittedAt !== undefined) payload.expedited_report_submitted_at = input.expeditedReportSubmittedAt
+  if (input.reportingDeadlineDate !== undefined) payload.reporting_deadline_date = input.reportingDeadlineDate
+
   const { data, error } = await supabase
     .from('safety_events')
     .update(payload)

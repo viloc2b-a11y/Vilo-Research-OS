@@ -46,6 +46,9 @@ export type SubjectSignalKind =
   | 'lab_missing_repeat'
   | 'lab_follow_up_overdue'
   | 'lab_safety_review'
+  | 'sae_reporting_overdue'
+  | 'sae_reporting_due_soon'
+  | 'sae_sponsor_pending'
 
 export type SubjectSignalInput = {
   organizationId: string

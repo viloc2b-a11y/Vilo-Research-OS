@@ -18,6 +18,7 @@ export const RECOMMENDED_ACTION_CODES = [
   'reconcile_stipend',
   'review_lab_signal',
   'verify_lab_follow_up',
+  'review_sae_compliance',
 ] as const
 
 export type RecommendedActionCode = (typeof RECOMMENDED_ACTION_CODES)[number]
@@ -38,6 +39,7 @@ const ACTION_LABELS: Record<RecommendedActionCode, string> = {
   reconcile_stipend: 'Reconcile stipend',
   review_lab_signal: 'Review lab signal',
   verify_lab_follow_up: 'Verify lab follow-up',
+  review_sae_compliance: 'Review SAE compliance',
 }
 
 export function recommendedActionLabel(code: RecommendedActionCode): string {
@@ -77,6 +79,9 @@ const SUBJECT_SIGNAL_ACTION: Record<SubjectSignalKind, RecommendedActionCode> = 
   lab_missing_repeat: 'verify_lab_follow_up',
   lab_follow_up_overdue: 'verify_lab_follow_up',
   lab_safety_review: 'review_lab_signal',
+  sae_reporting_overdue: 'review_sae_compliance',
+  sae_reporting_due_soon: 'review_sae_compliance',
+  sae_sponsor_pending: 'review_sae_compliance',
 }
 
 const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
@@ -108,6 +113,9 @@ const SIGNAL_PRIORITY: Record<SubjectSignalKind, number> = {
   lab_missing_repeat: 68,
   lab_follow_up_overdue: 92,
   lab_safety_review: 86,
+  sae_reporting_overdue: 97,
+  sae_reporting_due_soon: 89,
+  sae_sponsor_pending: 91,
 }
 
 export function recommendedActionForSubjectSignal(

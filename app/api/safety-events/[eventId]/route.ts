@@ -4,8 +4,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { requireActiveOrganizationAccess } from '@/lib/auth/membership-access'
 import { canManageSafetyEvents } from '@/lib/rbac/permissions'
 import { updateSafetyEvent } from '@/lib/safety-runtime/update-safety-event'
-import type { Severity } from '@/lib/safety-runtime/safety-types'
-import type { Relatedness } from '@/lib/safety-runtime/safety-types'
+import type { Severity, Relatedness, SaeOutcome } from '@/lib/safety-runtime/safety-types'
 
 type RouteContext = { params: Promise<{ eventId: string }> }
 
@@ -117,6 +116,40 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
 
   if (body.requires_follow_up !== undefined) {
     updateInput.requiresFollowUp = Boolean(body.requires_follow_up)
+  }
+
+  const SAE_OUTCOMES = ['recovered', 'recovering', 'not_recovered', 'fatal', 'unknown', 'not_applicable']
+
+  if (body.outcome !== undefined) {
+    const out = body.outcome as string | null
+    if (out !== null && !SAE_OUTCOMES.includes(out)) {
+      return NextResponse.json({ error: `outcome must be one of: ${SAE_OUTCOMES.join(', ')}` }, { status: 400 })
+    }
+    updateInput.outcome = out as SaeOutcome | null
+  }
+  if (body.resolution_description !== undefined) {
+    updateInput.resolutionDescription = body.resolution_description != null ? String(body.resolution_description) : null
+  }
+  if (body.sponsor_notified_at !== undefined) {
+    updateInput.sponsorNotifiedAt = body.sponsor_notified_at != null ? String(body.sponsor_notified_at) : null
+  }
+  if (body.sponsor_notification_required !== undefined) {
+    updateInput.sponsorNotificationRequired = Boolean(body.sponsor_notification_required)
+  }
+  if (body.follow_up_due_date !== undefined) {
+    updateInput.followUpDueDate = body.follow_up_due_date != null ? String(body.follow_up_due_date) : null
+  }
+  if (body.follow_up_completed_at !== undefined) {
+    updateInput.followUpCompletedAt = body.follow_up_completed_at != null ? String(body.follow_up_completed_at) : null
+  }
+  if (body.regulatory_reporting_required !== undefined) {
+    updateInput.regulatoryReportingRequired = Boolean(body.regulatory_reporting_required)
+  }
+  if (body.expedited_report_submitted_at !== undefined) {
+    updateInput.expeditedReportSubmittedAt = body.expedited_report_submitted_at != null ? String(body.expedited_report_submitted_at) : null
+  }
+  if (body.reporting_deadline_date !== undefined) {
+    updateInput.reportingDeadlineDate = body.reporting_deadline_date != null ? String(body.reporting_deadline_date) : null
   }
 
   if (Object.keys(updateInput).length === 0) {

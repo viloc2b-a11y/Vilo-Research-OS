@@ -56,6 +56,9 @@ const reasonTone: Record<SubjectRiskQueueItem['reasonKind'], string> = {
   lab_missing_repeat: 'bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200',
   lab_follow_up_overdue: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
   lab_safety_review: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  sae_reporting_overdue: 'bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200',
+  sae_reporting_due_soon: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  sae_sponsor_pending: 'bg-orange-100 text-orange-900 dark:bg-orange-950 dark:text-orange-200',
 }
 
 export function SubjectRiskQueue({

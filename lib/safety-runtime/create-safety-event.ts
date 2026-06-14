@@ -8,6 +8,13 @@ import {
 import { generateSafetyTasks } from './generate-safety-tasks'
 import { persistSafetyTasks } from './persist-safety-tasks'
 
+function computeReportingDeadline(openedAt: string, severity: string | null | undefined): string {
+  const base = new Date(openedAt)
+  const days = severity === 'severe' ? 1 : 15 // 24h = 1 calendar day
+  base.setUTCDate(base.getUTCDate() + days)
+  return base.toISOString().slice(0, 10)
+}
+
 export async function createSafetyEvent(
   supabase: SupabaseClient,
   actorId: string,
@@ -15,7 +22,8 @@ export async function createSafetyEvent(
 ): Promise<SafetyEventRow> {
   const now = new Date().toISOString()
   const isClassified = input.eventType != null
-  const row = {
+  const openedAt = input.openedAt ?? now
+  const row: Record<string, unknown> = {
     organization_id: input.organizationId,
     study_id: input.studyId,
     subject_id: input.subjectId,
@@ -27,12 +35,16 @@ export async function createSafetyEvent(
     severity: input.severity ?? null,
     relatedness: input.relatedness ?? null,
     requires_follow_up: input.requiresFollowUp ?? false,
-    opened_at: input.openedAt ?? now,
+    opened_at: openedAt,
     created_by: actorId,
     updated_by: actorId,
     metadata: input.metadata ?? {},
     created_at: now,
     updated_at: now,
+  }
+
+  if (isClassified && input.eventType === 'sae') {
+    row.reporting_deadline_date = computeReportingDeadline(openedAt, input.severity)
   }
 
   const { data, error } = await supabase

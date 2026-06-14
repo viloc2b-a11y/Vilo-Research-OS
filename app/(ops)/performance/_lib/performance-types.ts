@@ -35,6 +35,9 @@ export type SubjectRiskReasonKind =
   | 'lab_missing_repeat'
   | 'lab_follow_up_overdue'
   | 'lab_safety_review'
+  | 'sae_reporting_overdue'
+  | 'sae_reporting_due_soon'
+  | 'sae_sponsor_pending'
 
 export const SUBJECT_RISK_REASON_LABELS: Record<SubjectRiskReasonKind, string> = {
   missed_visit: 'Missed visit',
@@ -62,6 +65,9 @@ export const SUBJECT_RISK_REASON_LABELS: Record<SubjectRiskReasonKind, string> =
   lab_missing_repeat: 'Missing repeat lab',
   lab_follow_up_overdue: 'Lab follow-up overdue',
   lab_safety_review: 'Lab safety review',
+  sae_reporting_overdue: 'SAE reporting overdue',
+  sae_reporting_due_soon: 'SAE reporting due soon',
+  sae_sponsor_pending: 'SAE sponsor notification pending',
 }
 
 export type StudyPerformanceCard = {
