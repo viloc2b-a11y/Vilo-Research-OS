@@ -7,22 +7,32 @@ export async function loadOpenQueriesForVisit(input: {
   studySubjectId: string
   visitId: string
 }): Promise<GovernanceSignal[]> {
-  const { data, error } = await input.supabase
-    .from('subject_workflow_actions')
-    .select(
-      'id, title, description, status, visit_id, procedure_execution_id, source_response_set_id, created_at, study_id, organization_id',
-    )
-    .eq('study_subject_id', input.studySubjectId)
-    .eq('organization_id', input.organizationId)
-    .eq('action_type', 'query')
-    .in('status', ['open', 'in_progress'])
-    .or(`visit_id.is.null,visit_id.eq.${input.visitId}`)
+  const [{ data: wfData, error: wfError }, { data: snapshotData, error: snapshotError }] =
+    await Promise.all([
+      input.supabase
+        .from('subject_workflow_actions')
+        .select(
+          'id, title, description, status, visit_id, procedure_execution_id, source_response_set_id, created_at, study_id, organization_id',
+        )
+        .eq('study_subject_id', input.studySubjectId)
+        .eq('organization_id', input.organizationId)
+        .eq('action_type', 'query')
+        .in('status', ['open', 'in_progress'])
+        .or(`visit_id.is.null,visit_id.eq.${input.visitId}`),
+      input.supabase
+        .from('visit_snapshot_queries')
+        .select('id, study_id, organization_id, query_text, query_scope, priority, opened_at')
+        .eq('subject_id', input.studySubjectId)
+        .eq('organization_id', input.organizationId)
+        .in('query_status', ['open', 'answered']),
+    ])
 
-  if (error) throw new Error(error.message)
+  if (wfError) throw new Error(wfError.message)
+  if (snapshotError) throw new Error(snapshotError.message)
 
   const detectedAt = new Date().toISOString()
 
-  return (data ?? []).map((row) => ({
+  const wfSignals: GovernanceSignal[] = (wfData ?? []).map((row) => ({
     signalKey: `query:${row.id as string}`,
     signalType: 'open_query_unresolved' as const,
     severity: 'warning' as const,
@@ -43,6 +53,28 @@ export async function loadOpenQueriesForVisit(input: {
       workflow_action_id: row.id,
     },
   }))
+
+  const snapshotSignals: GovernanceSignal[] = (snapshotData ?? []).map((row) => ({
+    signalKey: `snapshot_query:${row.id as string}`,
+    signalType: 'open_query_unresolved' as const,
+    severity: 'warning' as const,
+    status: 'open' as const,
+    label: 'Open field query',
+    detail: (row.query_text as string) || 'Unresolved field query.',
+    organizationId: row.organization_id as string,
+    studyId: row.study_id as string,
+    studySubjectId: input.studySubjectId,
+    visitId: input.visitId,
+    workflowActionId: null,
+    detectedAt,
+    derivation: {
+      source: 'visit_snapshot_queries',
+      query_scope: row.query_scope,
+      snapshot_query_id: row.id,
+    },
+  }))
+
+  return [...wfSignals, ...snapshotSignals]
 }
 
 export function findingsSignalsFromProjection(input: {

@@ -48,7 +48,8 @@ export async function loadStudyWorkflowSummary(
     dueTodayActionCount,
     highPriorityActionCount,
     unassignedActionCount,
-    queryActionCount,
+    wfQueryActionCount,
+    snapshotQueryActionCount,
   ] = await Promise.all([
     safeExactCount('Open workflow actions', unavailable, async () =>
       supabase
@@ -104,7 +105,17 @@ export async function loadStudyWorkflowSummary(
         .in('status', ['open', 'in_progress'])
         .eq('action_type', 'query'),
     ),
+    safeExactCount('Snapshot query actions', unavailable, async () =>
+      supabase
+        .from('visit_snapshot_queries')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', organizationId)
+        .eq('study_id', studyId)
+        .in('query_status', ['open', 'answered']),
+    ),
   ])
+
+  const queryActionCount = (wfQueryActionCount ?? 0) + (snapshotQueryActionCount ?? 0)
 
   return {
     openActionCount,

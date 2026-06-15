@@ -52,13 +52,22 @@ export async function computeStudyExecutionProjection(
     .eq('organization_id', organizationId)
     .in('status', ['open', 'in_progress'])
 
-  const { count: openQueryCount } = await supabase
-    .from('subject_workflow_actions')
-    .select('id', { count: 'exact', head: true })
-    .eq('study_id', studyId)
-    .eq('organization_id', organizationId)
-    .eq('action_type', 'query')
-    .in('status', ['open', 'in_progress'])
+  const [{ count: wfQueryCount }, { count: snapshotQueryCount }] = await Promise.all([
+    supabase
+      .from('subject_workflow_actions')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .eq('action_type', 'query')
+      .in('status', ['open', 'in_progress']),
+    supabase
+      .from('visit_snapshot_queries')
+      .select('id', { count: 'exact', head: true })
+      .eq('study_id', studyId)
+      .eq('organization_id', organizationId)
+      .in('query_status', ['open', 'answered']),
+  ])
+  const openQueryCount = (wfQueryCount ?? 0) + (snapshotQueryCount ?? 0)
 
   const { count: missedVisitCount } = await supabase
     .from('visits')
