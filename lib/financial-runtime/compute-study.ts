@@ -1,4 +1,6 @@
 import { computeSubjectFinancialRuntime } from '@/lib/financial-runtime/compute-subject'
+import { loadPendingSoaBillables, summarizeSoaBillables } from '@/lib/financial-runtime/integration/cliniq-bridge'
+import type { SoaBillableSummary } from '@/lib/financial-runtime/integration/cliniq-bridge'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 // ============================================================================
@@ -26,6 +28,7 @@ export type StudyFinancialSummary = {
   earnRate: number
   leakageItemCount: number
   perSubject: SubjectFinancialRow[]
+  soaBillables: SoaBillableSummary
 }
 
 // ============================================================================
@@ -151,6 +154,9 @@ export async function computeStudyFinancialSummary(args: {
 
   const earnRate = totalExpectedCents > 0 ? totalEarnedCents / totalExpectedCents : 0
 
+  const soaBillableRows = await loadPendingSoaBillables(supabase, studyId)
+  const soaBillables = summarizeSoaBillables(soaBillableRows)
+
   return {
     studyId,
     totalExpectedCents,
@@ -162,5 +168,6 @@ export async function computeStudyFinancialSummary(args: {
     earnRate,
     leakageItemCount: totalLeakageItems,
     perSubject,
+    soaBillables,
   }
 }

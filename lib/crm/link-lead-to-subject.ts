@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { recordLeadStageTransition } from '@/lib/crm/lead-stage-history'
 
 export type LinkLeadToSubjectArgs = {
   supabase: SupabaseClient
@@ -22,7 +23,7 @@ export type LinkLeadToSubjectResult =
 export async function linkLeadToSubject(
   args: LinkLeadToSubjectArgs,
 ): Promise<LinkLeadToSubjectResult> {
-  const { supabase, organizationId, leadId, studySubjectId, actorId: _actorId } = args
+  const { supabase, organizationId, leadId, studySubjectId, actorId } = args
 
   // Verify the subject exists and belongs to the organization
   const { data: subject, error: subjectError } = await supabase
@@ -39,6 +40,16 @@ export async function linkLeadToSubject(
     return { ok: false, error: 'Study subject not found or access denied.' }
   }
 
+  // Fetch lead's current stage before updating (for stage history)
+  const { data: lead } = await supabase
+    .from('patient_leads')
+    .select('stage')
+    .eq('id', leadId)
+    .eq('organization_id', organizationId)
+    .maybeSingle()
+
+  const previousStage = lead?.stage ? String(lead.stage) : null
+
   // Update the lead: set linked_subject_id and advance stage to randomized
   const { error: updateError } = await supabase
     .from('patient_leads')
@@ -52,6 +63,25 @@ export async function linkLeadToSubject(
   if (updateError) {
     return { ok: false, error: updateError.message }
   }
+
+  // I2: write reverse attribution on study_subjects
+  await supabase
+    .from('study_subjects')
+    .update({ patient_lead_id: leadId })
+    .eq('id', studySubjectId)
+    .eq('organization_id', organizationId)
+
+  // I3: record stage transition in CRM v1 history
+  await recordLeadStageTransition({
+    supabase,
+    organizationId,
+    leadId,
+    fromStage: previousStage,
+    toStage: 'randomized',
+    actorId: actorId ?? null,
+    reason: 'Linked to study subject — enrollment confirmed.',
+    metadata: { studySubjectId, studyId: String(subject.study_id) },
+  })
 
   return { ok: true }
 }

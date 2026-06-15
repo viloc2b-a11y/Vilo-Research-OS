@@ -53,6 +53,7 @@ export type RevenueLeakageKind =
   | 'unscheduled_burden'
   | 'repeat_procedure'
   | 'not_graph_compliant'
+  | 'soa_billable_pending'
 
 export type PaymentLifecycleStatus =
   | 'expected'

@@ -869,6 +869,61 @@ export async function refreshCommunicationMailboxAction(formData: FormData): Pro
   }
 }
 
+export async function archiveCommunicationMailboxAction(formData: FormData): Promise<void> {
+  'use server'
+
+  const organizationId = formText(formData, 'organizationId')
+  const mailboxId = formText(formData, 'mailboxId')
+  if (!organizationId || !mailboxId) redirect('/communications/settings?result=missing')
+
+  await requireCommunicationsManage(organizationId)
+  const supabase = await createServerClient()
+
+  const { error } = await supabase
+    .from('communications_mailboxes')
+    .update({
+      archived_at: new Date().toISOString(),
+      sync_enabled: false,
+      sync_status: 'blocked',
+    })
+    .eq('organization_id', organizationId)
+    .eq('id', mailboxId)
+
+  if (error) {
+    redirect(`/communications/settings?result=error&reason=${encodeURIComponent(error.message)}`)
+  }
+
+  await afterCommunicationMutation(['/communications/settings'])
+  redirect('/communications/settings?result=archived')
+}
+
+export async function reactivateCommunicationMailboxAction(formData: FormData): Promise<void> {
+  'use server'
+
+  const organizationId = formText(formData, 'organizationId')
+  const mailboxId = formText(formData, 'mailboxId')
+  if (!organizationId || !mailboxId) redirect('/communications/settings?result=missing')
+
+  await requireCommunicationsManage(organizationId)
+  const supabase = await createServerClient()
+
+  const { error } = await supabase
+    .from('communications_mailboxes')
+    .update({
+      archived_at: null,
+      sync_status: 'pending',
+    })
+    .eq('organization_id', organizationId)
+    .eq('id', mailboxId)
+
+  if (error) {
+    redirect(`/communications/settings?result=error&reason=${encodeURIComponent(error.message)}`)
+  }
+
+  await afterCommunicationMutation(['/communications/settings'])
+  redirect('/communications/settings?result=reactivated')
+}
+
 export async function sendCommunicationDraftAction(formData: FormData): Promise<void> {
   'use server'
   const organizationId = formText(formData, 'organizationId')
