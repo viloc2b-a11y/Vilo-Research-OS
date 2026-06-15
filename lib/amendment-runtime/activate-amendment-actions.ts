@@ -202,6 +202,28 @@ export async function activateAmendmentActions(args: {
 
       trainingAssignmentsCreated = assignments?.length ?? 0
     }
+
+    // Step 5b: Study-level workflow action so the coordinator sees the training task
+    const trainingDueDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+    const { error: trainingWorkflowError } = await supabase
+      .from('subject_workflow_actions')
+      .insert({
+        organization_id: organizationId,
+        study_id: studyId,
+        study_subject_id: null,
+        action_type: 'amendment_training_review',
+        title: 'Training review required — protocol amendment',
+        description: impactReason ?? 'Protocol amendment requires staff training review before enrollment continues.',
+        priority: 'high',
+        assigned_role: 'crc',
+        due_date: trainingDueDate,
+        sla_days: 14,
+        created_by: actorId,
+      })
+
+    if (trainingWorkflowError) {
+      throw new Error(`Failed to create training review workflow action: ${trainingWorkflowError.message}`)
+    }
   }
 
   // Step 6: G6 — Record activated status in amendment lifecycle table

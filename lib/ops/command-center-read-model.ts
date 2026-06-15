@@ -85,6 +85,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
 
   const irbAlertCutoff = new Date(Date.now() + 60 * 86_400_000).toISOString().slice(0, 10)
   const credAlertCutoff = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
+  const trainingAlertCutoff = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
 
   const [
     todayVisits,
@@ -97,6 +98,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     performanceResult,
     irbAlerts,
     credentialAlerts,
+    trainingAlerts,
   ] = await Promise.all([
     loadTodayVisits(organizationIds),
     loadCoordinatorVisitAlerts(organizationIds),
@@ -156,6 +158,14 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .neq('status', 'waived')
       .not('expiration_date', 'is', null)
       .lte('expiration_date', credAlertCutoff)
+      .order('expiration_date', { ascending: true })
+      .limit(6),
+    supabase
+      .from('study_protocol_trainings')
+      .select('id, study_id, training_title, training_type, expiration_date, studies(name, slug)')
+      .in('organization_id', organizationIds)
+      .not('expiration_date', 'is', null)
+      .lte('expiration_date', trainingAlertCutoff)
       .order('expiration_date', { ascending: true })
       .limit(6),
   ])
@@ -323,6 +333,21 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
         title: `${String(cred.credential_type ?? 'Credential').replace(/_/g, ' ')} ${daysLeft < 0 ? 'expired' : `expiring in ${daysLeft}d`}`,
         detail: `${study?.name ?? 'Study'} · ${String(cred.expiration_date)}`,
         href: `/regulatory-intelligence?tab=credentials`,
+        status: daysLeft < 0 ? 'expired' : 'expiring',
+        tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
+      }
+    }),
+    ...(trainingAlerts.data ?? []).map((training) => {
+      const daysLeft = Math.floor(
+        (new Date(training.expiration_date as string).getTime() - Date.now()) / 86_400_000,
+      )
+      const study = one(training.studies) as { name?: string | null; slug?: string | null } | null
+      const studyId = training.study_id as string
+      return {
+        id: training.id as string,
+        title: `Training ${daysLeft < 0 ? 'expired' : `expiring in ${daysLeft}d`}`,
+        detail: `${study?.name ?? 'Study'} · ${String(training.training_title ?? 'Protocol training')} · ${String(training.expiration_date)}`,
+        href: `/studies/${studyId}/amendments`,
         status: daysLeft < 0 ? 'expired' : 'expiring',
         tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
       }
