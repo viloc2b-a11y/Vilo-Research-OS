@@ -1,4 +1,5 @@
 import { safeLogger } from '@/lib/sanitization/safe-logger'
+import { circuitAllows, circuitSuccess, circuitFailure, circuitState } from './circuit-breaker'
 import { readVipContext as readProtocolVipContext, resolveVipContext } from './context'
 import type {
   CaptureVipFeedbackArgs,
@@ -185,6 +186,8 @@ function normalizeVipArtifact(
   }
 }
 
+const VIP_CIRCUIT_KEY = 'vip-adapter'
+
 async function fetchWithRetry(args: {
   url: string
   init: RequestInit
@@ -193,6 +196,16 @@ async function fetchWithRetry(args: {
   organizationId: string
   studyId: string
 }) {
+  if (!circuitAllows(VIP_CIRCUIT_KEY)) {
+    const state = circuitState(VIP_CIRCUIT_KEY)
+    safeLogger.warn('[vip-adapter] circuit breaker blocking request', {
+      traceId: args.traceId,
+      operation: args.operation,
+      circuitState: state,
+    })
+    throw new Error(`VIP circuit breaker is ${state} — request blocked`)
+  }
+
   let lastError: unknown
 
   for (let attempt = 1; attempt <= VIP_MAX_ATTEMPTS; attempt += 1) {
@@ -222,6 +235,7 @@ async function fetchWithRetry(args: {
         throw error
       }
 
+      circuitSuccess(VIP_CIRCUIT_KEY)
       safeLogger.info('[vip-adapter] VIP HTTP request completed', {
         traceId: args.traceId,
         operation: args.operation,
@@ -232,6 +246,7 @@ async function fetchWithRetry(args: {
       return response
     } catch (error) {
       lastError = error
+      circuitFailure(VIP_CIRCUIT_KEY)
       safeLogger.error('[vip-adapter] VIP HTTP request failed', {
         traceId: args.traceId,
         operation: args.operation,
@@ -239,6 +254,7 @@ async function fetchWithRetry(args: {
         studyId: args.studyId,
         attempt,
         willRetry: attempt < VIP_MAX_ATTEMPTS,
+        circuitState: circuitState(VIP_CIRCUIT_KEY),
         error: serializeError(error),
       })
     }
