@@ -611,6 +611,7 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
   }
 
   if (currentLead && currentLead.stage !== newStage) {
+    const stageChangeReason = formOptionalText(formData, 'stageChangeReason')
     await recordLeadStageTransition({
       supabase,
       organizationId,
@@ -618,7 +619,7 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
       fromStage: currentLead.stage as string,
       toStage: newStage,
       actorId: user.id,
-      reason: 'Manual stage update',
+      reason: stageChangeReason || 'Manual stage update',
     })
   }
 

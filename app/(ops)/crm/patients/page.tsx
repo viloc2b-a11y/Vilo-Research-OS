@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Search, Plus, BadgeCheck, HeartPulse, StickyNote, CalendarClock } from 'lucide-react'
+import { Search, Plus, BadgeCheck, HeartPulse, StickyNote, CalendarClock, GitBranch } from 'lucide-react'
 import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } from '@/lib/auth/session'
 import { canAccessPatientCRM } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
@@ -14,6 +14,7 @@ import {
   loadPatientLeadDetail,
   updatePatientLeadAction,
 } from '@/lib/crm/patient-crm'
+import { loadLeadStageHistory, type LeadStageHistoryRow } from '@/lib/crm/lead-stage-history'
 import { oneParam } from '@/lib/crm/forms'
 
 function leadTone(stage: string) {
@@ -69,9 +70,14 @@ export default async function PatientCRMPage({
   const overview = await loadPatientCRMOverview(organizationId, supabase)
   const list = await loadPatientLeadList(organizationId, { q, stage, supabaseClient: supabase })
   const selectedLeadIdResolved = selectedLeadId || list.rows[0]?.id || null
-  const detail = selectedLeadIdResolved
-    ? await loadPatientLeadDetail(organizationId, selectedLeadIdResolved, supabase)
-    : null
+  const [detail, stageHistory] = await Promise.all([
+    selectedLeadIdResolved
+      ? loadPatientLeadDetail(organizationId, selectedLeadIdResolved, supabase)
+      : Promise.resolve(null),
+    selectedLeadIdResolved
+      ? loadLeadStageHistory(supabase, organizationId, selectedLeadIdResolved)
+      : Promise.resolve([] as LeadStageHistoryRow[]),
+  ])
 
   return (
     <div className="space-y-6 p-6">
@@ -291,6 +297,10 @@ export default async function PatientCRMPage({
                       </select>
                     </label>
                   </div>
+                  <label className="space-y-1 text-xs font-medium text-slate-600">
+                    Reason for stage change (optional)
+                    <input name="stageChangeReason" className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm" placeholder="Describe why the stage changed" />
+                  </label>
                   <div className="grid gap-3 md:grid-cols-2">
                     <label className="space-y-1 text-xs font-medium text-slate-600">
                       Recruitment source
@@ -424,6 +434,31 @@ export default async function PatientCRMPage({
                   </div>
                 </section>
               </div>
+
+              <section className="rounded-md border border-slate-200 p-3">
+                <div className="flex items-center gap-2">
+                  <GitBranch className="h-4 w-4 text-teal-700" />
+                  <h3 className="text-sm font-semibold text-slate-900">Stage history</h3>
+                </div>
+                <div className="mt-3 space-y-2 text-sm">
+                  {stageHistory.length === 0 ? (
+                    <p className="text-slate-500">No stage transitions recorded.</p>
+                  ) : (
+                    stageHistory.map((entry) => (
+                      <div key={entry.id} className="rounded-md border border-slate-200 bg-slate-50 p-2">
+                        <div className="font-medium text-slate-900">
+                          {entry.fromStage ? `${entry.fromStage} → ${entry.toStage}` : `Initial: ${entry.toStage}`}
+                        </div>
+                        <div className="text-xs text-slate-600">
+                          {new Date(entry.createdAt).toLocaleString()}
+                          {entry.actorId ? ` · ${entry.actorId.slice(0, 8)}…` : ' · System'}
+                        </div>
+                        {entry.reason ? <div className="mt-1 text-xs text-slate-500">{entry.reason}</div> : null}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </section>
 
               <div className="grid gap-4 lg:grid-cols-2">
                 <form action={addPatientFollowupAction} className="rounded-md border border-slate-200 p-3 space-y-3">

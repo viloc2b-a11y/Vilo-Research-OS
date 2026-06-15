@@ -9,6 +9,7 @@ import {
   syncContactOrganizationFromBDCompany,
   syncContactPersonFromBDContact,
 } from '@/lib/contact-runtime/contact-runtime-actions'
+import { recordOpportunityStatusTransition } from '@/lib/crm/bd-opportunity-status-history'
 import {
   formOptionalDateTime,
   formOptionalNumber,
@@ -117,10 +118,11 @@ async function requireBDAccess(organizationId: string) {
 }
 
 async function requireBDManage(organizationId: string) {
-  const { memberships } = await requireBDAccess(organizationId)
+  const { user, memberships } = await requireBDAccess(organizationId)
   if (!canManageBusinessDevelopmentCRM(memberships, organizationId)) {
     redirect('/crm/business-development?result=forbidden')
   }
+  return { user }
 }
 
 export async function loadBDOverview(
@@ -469,24 +471,37 @@ export async function createBDOpportunityAction(formData: FormData): Promise<voi
   const title = formText(formData, 'title')
   if (!organizationId || !companyId || !title) redirect('/crm/business-development?result=missing')
 
-  await requireBDManage(organizationId)
+  const { user } = await requireBDManage(organizationId)
   const supabase = await createServerClient()
-  const { error } = await supabase.from('bd_opportunities').insert({
+  const initialStage = formText(formData, 'stage') || 'lead'
+  const { data: createdOpportunity, error } = await supabase.from('bd_opportunities').insert({
     organization_id: organizationId,
     company_id: companyId,
     study_id: formOptionalText(formData, 'studyId'),
     title,
-    stage: formText(formData, 'stage') || 'lead',
+    stage: initialStage,
     expected_value: formOptionalNumber(formData, 'expectedValue'),
     currency: formText(formData, 'currency') || 'USD',
     budget_status: formOptionalText(formData, 'budgetStatus'),
     cta_status: formOptionalText(formData, 'ctaStatus'),
     next_follow_up_at: formOptionalDateTime(formData, 'nextFollowUpAt'),
     notes: formOptionalText(formData, 'notes'),
-  })
+  }).select('id').single()
   if (error) {
     redirect(`/crm/business-development?company=${encodeURIComponent(companyId)}&result=error&reason=${encodeURIComponent(error.message)}`)
   }
+
+  if (createdOpportunity?.id) {
+    await recordOpportunityStatusTransition({
+      supabase,
+      organizationId,
+      bdOpportunityId: String(createdOpportunity.id),
+      fromStatus: null,
+      toStatus: initialStage,
+      actorId: user.id,
+    })
+  }
+
   await afterBDMutation(organizationId, [`/crm/business-development?company=${encodeURIComponent(companyId)}`])
   redirect(`/crm/business-development?company=${encodeURIComponent(companyId)}&result=opportunity-added`)
 }

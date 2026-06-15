@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Search, Plus, BriefcaseBusiness, PhoneCall, MessageSquare, Users } from 'lucide-react'
+import { Search, Plus, BriefcaseBusiness, PhoneCall, MessageSquare, Users, GitBranch } from 'lucide-react'
 import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } from '@/lib/auth/session'
 import { canAccessBusinessDevelopmentCRM } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
@@ -15,6 +15,7 @@ import {
   loadBDOverview,
   updateBDCompanyAction,
 } from '@/lib/crm/business-development-crm'
+import { loadOpportunityStatusHistory, type BdOpportunityStatusHistoryRow } from '@/lib/crm/bd-opportunity-status-history'
 import { oneParam } from '@/lib/crm/forms'
 
 const COMPANY_TYPES = [
@@ -82,6 +83,18 @@ export default async function BusinessDevelopmentCRMPage({
   const detail = selectedCompanyIdResolved
     ? await loadBDCompanyDetail(organizationId, selectedCompanyIdResolved, supabase)
     : null
+
+  const opportunityHistoryMap = new Map<string, BdOpportunityStatusHistoryRow[]>()
+  if (detail?.opportunities.length) {
+    const histories = await Promise.all(
+      detail.opportunities.map((opp) =>
+        loadOpportunityStatusHistory(supabase, organizationId, opp.id),
+      ),
+    )
+    detail.opportunities.forEach((opp, i) => {
+      opportunityHistoryMap.set(opp.id, histories[i])
+    })
+  }
 
   return (
     <div className="space-y-6 p-6">
@@ -315,15 +328,32 @@ export default async function BusinessDevelopmentCRMPage({
                     <h3 className="text-sm font-semibold text-slate-900">Opportunities</h3>
                   </div>
                   <div className="mt-3 space-y-2 text-sm">
-                    {detail.opportunities.map((opportunity) => (
-                      <div key={opportunity.id} className="rounded-md border border-slate-200 bg-slate-50 p-2">
-                        <div className="font-medium text-slate-900">{opportunity.title}</div>
-                        <div className="text-xs text-slate-600">{opportunity.stage} · {opportunity.currency} {opportunity.expectedValue ?? 0}</div>
-                        {opportunity.budgetStatus || opportunity.ctaStatus ? (
-                          <div className="text-xs text-slate-600">{opportunity.budgetStatus ?? 'budget'} · {opportunity.ctaStatus ?? 'cta'}</div>
-                        ) : null}
-                      </div>
-                    ))}
+                    {detail.opportunities.map((opportunity) => {
+                      const history = opportunityHistoryMap.get(opportunity.id) ?? []
+                      return (
+                        <div key={opportunity.id} className="rounded-md border border-slate-200 bg-slate-50 p-2">
+                          <div className="font-medium text-slate-900">{opportunity.title}</div>
+                          <div className="text-xs text-slate-600">{opportunity.stage} · {opportunity.currency} {opportunity.expectedValue ?? 0}</div>
+                          {opportunity.budgetStatus || opportunity.ctaStatus ? (
+                            <div className="text-xs text-slate-600">{opportunity.budgetStatus ?? 'budget'} · {opportunity.ctaStatus ?? 'cta'}</div>
+                          ) : null}
+                          {history.length > 0 ? (
+                            <div className="mt-2 space-y-1 border-t border-slate-200 pt-2">
+                              <div className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                                <GitBranch className="h-3 w-3" />
+                                Status history
+                              </div>
+                              {history.slice(0, 3).map((entry) => (
+                                <div key={entry.id} className="text-xs text-slate-600">
+                                  {entry.fromStatus ? `${entry.fromStatus} → ${entry.toStatus}` : `Initial: ${entry.toStatus}`}
+                                  <span className="ml-1 text-slate-400">· {new Date(entry.createdAt).toLocaleDateString()}</span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      )
+                    })}
                     {detail.opportunities.length === 0 ? <p className="text-slate-500">No opportunities yet.</p> : null}
                   </div>
                 </section>
