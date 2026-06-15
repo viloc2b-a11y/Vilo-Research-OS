@@ -32,6 +32,9 @@ import { SubjectFinancialPanel } from '@/components/subject/SubjectFinancialPane
 import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
 import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
 import { SubjectDeviationsPanel } from '@/components/subject/SubjectDeviationsPanel'
+import { loadSubjectAmendmentImpacts } from '@/lib/subject/amendment-impacts/load-subject-amendment-impacts'
+import type { SubjectAmendmentImpactRow } from '@/lib/subject/amendment-impacts/load-subject-amendment-impacts'
+import { SubjectAmendmentImpactPanel } from '@/components/subject/SubjectAmendmentImpactPanel'
 
 type SubjectWorkspacePageProps = {
   params: Promise<{ subjectId: string }>
@@ -88,7 +91,7 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
   const { subjectId } = await params
   const model = await loadSubjectWorkspaceModel(subjectId)
   const supabase = await createServerClient()
-  const [subjectRuntimeUi, subjectOps, safetyEvents, reconsentReqs, subjectCapas, subjectConsents, subjectFinancial, subjectDeviations] = await Promise.all([
+  const [subjectRuntimeUi, subjectOps, safetyEvents, reconsentReqs, subjectCapas, subjectConsents, subjectFinancial, subjectDeviations, subjectAmendmentImpacts] = await Promise.all([
     loadSubjectRuntimeUiModel(supabase, subjectId, model.subject.organizationId),
     loadSubjectOperationsSurface(subjectId),
     loadSafetyEvents(supabase, {
@@ -119,6 +122,9 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       organizationId: model.subject.organizationId,
       subjectId: model.subject.id,
     }).catch(() => [] as ProtocolDeviationRow[]),
+    loadSubjectAmendmentImpacts(supabase, {
+      subjectId: model.subject.id,
+    }).catch(() => [] as SubjectAmendmentImpactRow[]),
   ])
 
   // Map typed consent rows for SubjectRegulatoryPanel (expects SubjectReconsentReq shape)
@@ -232,6 +238,10 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
         />
         <SubjectFinancialPanel financial={subjectFinancial} />
         <SubjectDeviationsPanel deviations={subjectDeviations} />
+        <SubjectAmendmentImpactPanel
+          impacts={subjectAmendmentImpacts}
+          studyId={model.subject.studyId}
+        />
       </div>
     </div>
     </CoordinatorPageScroll>
