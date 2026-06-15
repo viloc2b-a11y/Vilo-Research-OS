@@ -146,7 +146,7 @@ export async function loadCoordinatorCommandCenter(args: {
     async () =>
       applyScope(
         supabase
-          .from('operational_review_queries')
+          .from('visit_snapshot_queries')
           .select('id, study_id, query_scope, priority, query_status, opened_at, created_at')
           .in('query_status', ['open', 'answered'])
           .order('opened_at', { ascending: false })

@@ -23,8 +23,16 @@ export async function computeCoordinatorBurden(input: {
 
   const { data: workflows, count: workflowCount } = await wfQuery
 
+  const { count: snapshotQueryCount } = await input.supabase
+    .from('visit_snapshot_queries')
+    .select('id', { count: 'exact', head: true })
+    .eq('subject_id', input.studySubjectId)
+    .eq('organization_id', input.organizationId)
+    .in('query_status', ['open', 'answered'])
+
   const openQueryCount =
-    (workflows ?? []).filter((w) => w.action_type === 'query').length
+    (workflows ?? []).filter((w) => w.action_type === 'query').length +
+    (snapshotQueryCount ?? 0)
 
   const overdueWorkflowCount = (workflows ?? []).filter((w) => {
     const due = w.due_date as string | null

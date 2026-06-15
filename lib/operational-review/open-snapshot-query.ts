@@ -4,6 +4,7 @@ import { appendQueryEvent } from './append-query-event'
 import {
   mapVisitSnapshotQueryRow,
   QUERY_EVENT_TYPE,
+  QUERY_SCOPE,
   QUERY_STATUS,
   REVIEW_STATUS,
   type OpenSnapshotQueryInput,
@@ -27,6 +28,22 @@ export async function openSnapshotQuery(args: OpenSnapshotQueryArgs): Promise<Vi
     args.input.subject_id,
     args.input.snapshot_id,
   )
+
+  if (args.input.query_scope === QUERY_SCOPE.FIELD && args.input.field_id) {
+    const { data: dupe } = await args.supabase
+      .from('visit_snapshot_queries')
+      .select('*')
+      .eq('organization_id', args.input.organization_id)
+      .eq('snapshot_id', args.input.snapshot_id)
+      .eq('field_id', args.input.field_id)
+      .eq('query_text', queryText)
+      .eq('query_status', QUERY_STATUS.OPEN)
+      .maybeSingle()
+
+    if (dupe) {
+      return mapVisitSnapshotQueryRow(dupe as Record<string, unknown>)
+    }
+  }
 
   const now = new Date().toISOString()
 
