@@ -83,6 +83,7 @@ export type VisitSnapshotQueryRow = {
   studyId: string
   subjectId: string
   snapshotId: string
+  visitId: string | null
   reviewId: string | null
   queryScope: QueryScope
   procedureInstanceId: string | null
@@ -94,6 +95,8 @@ export type VisitSnapshotQueryRow = {
   priority: QueryPriority
   assignedRole: string | null
   assignedUserId: string | null
+  slaDays: number | null
+  slaDeadline: string | null
   openedBy: string
   openedAt: string
   resolvedBy: string | null
@@ -133,6 +136,7 @@ export type OpenSnapshotQueryInput = {
   study_id: string
   subject_id: string
   snapshot_id: string
+  visit_id?: string | null
   review_id?: string | null
   query_scope: QueryScope
   procedure_instance_id?: string | null
@@ -143,6 +147,7 @@ export type OpenSnapshotQueryInput = {
   priority?: QueryPriority
   assigned_role?: string | null
   assigned_user_id?: string | null
+  sla_days?: number | null
 }
 
 export type LoadedSnapshotReviewWorkspace = {
@@ -190,6 +195,7 @@ export function mapVisitSnapshotQueryRow(row: Record<string, unknown>): VisitSna
     studyId: String(row.study_id),
     subjectId: String(row.subject_id),
     snapshotId: String(row.snapshot_id),
+    visitId: row.visit_id ? String(row.visit_id) : null,
     reviewId: row.review_id ? String(row.review_id) : null,
     queryScope: row.query_scope as QueryScope,
     procedureInstanceId: row.procedure_instance_id ? String(row.procedure_instance_id) : null,
@@ -201,6 +207,8 @@ export function mapVisitSnapshotQueryRow(row: Record<string, unknown>): VisitSna
     priority: row.priority as QueryPriority,
     assignedRole: row.assigned_role ? String(row.assigned_role) : null,
     assignedUserId: row.assigned_user_id ? String(row.assigned_user_id) : null,
+    slaDays: row.sla_days != null ? Number(row.sla_days) : null,
+    slaDeadline: row.sla_deadline ? String(row.sla_deadline) : null,
     openedBy: String(row.opened_by),
     openedAt: String(row.opened_at),
     resolvedBy: row.resolved_by ? String(row.resolved_by) : null,

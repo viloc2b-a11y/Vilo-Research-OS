@@ -100,13 +100,17 @@ function mapAction(row: WorkflowRow): SubjectWorkflowAction {
   }
 }
 
-export function summarizeWorkflow(actions: SubjectWorkflowAction[]): SubjectWorkflowSummary {
+export function summarizeWorkflow(
+  actions: SubjectWorkflowAction[],
+  supplements?: { craSnapshotQueryCount?: number },
+): SubjectWorkflowSummary {
   const now = today()
+  const wfCraQueryCount = actions.filter((a) => a.actionType === 'query' && a.assignedRole === 'cra' && a.status !== 'resolved' && a.status !== 'cancelled').length
   return {
     openActions: actions.filter((a) => a.status === 'open' || a.status === 'in_progress').length,
     overdue: actions.filter((a) => a.dueDate && a.dueDate < now && a.status !== 'resolved' && a.status !== 'cancelled').length,
     pendingPiSignatures: actions.filter((a) => a.actionType === 'signature_request' && a.assignedRole === 'pi' && a.status !== 'resolved' && a.status !== 'cancelled').length,
-    pendingCraQueries: actions.filter((a) => a.actionType === 'query' && a.assignedRole === 'cra' && a.status !== 'resolved' && a.status !== 'cancelled').length,
+    pendingCraQueries: wfCraQueryCount + (supplements?.craSnapshotQueryCount ?? 0),
     followUps: actions.filter((a) => a.actionType === 'follow_up' && a.status !== 'resolved' && a.status !== 'cancelled').length,
     recentlyResolved: actions.filter((a) => a.status === 'resolved').slice(0, 10).length,
   }
@@ -185,14 +189,22 @@ export async function loadWorkflowCountsByVisit(visitIds: string[], organization
   if (visitIds.length === 0) return empty
 
   const supabase = await createServerClient()
-  const { data } = await supabase
-    .from('subject_workflow_actions')
-    .select('visit_id, action_type, status, assigned_role, due_date')
-    .eq('organization_id', organizationId)
-    .in('visit_id', visitIds)
+  const [{ data: wfRows }, { data: snapshotRows }] = await Promise.all([
+    supabase
+      .from('subject_workflow_actions')
+      .select('visit_id, action_type, status, assigned_role, due_date')
+      .eq('organization_id', organizationId)
+      .in('visit_id', visitIds),
+    supabase
+      .from('visit_snapshot_queries')
+      .select('visit_id, query_status')
+      .eq('organization_id', organizationId)
+      .in('visit_id', visitIds)
+      .in('query_status', ['open', 'answered']),
+  ])
 
   const now = today()
-  for (const row of data ?? []) {
+  for (const row of wfRows ?? []) {
     const visitId = row.visit_id as string | null
     if (!visitId) continue
     const counts = empty.get(visitId) ?? {
@@ -208,5 +220,19 @@ export async function loadWorkflowCountsByVisit(visitIds: string[], organization
     if (open && row.due_date && (row.due_date as string) < now) counts.overdueActions += 1
     empty.set(visitId, counts)
   }
+
+  for (const row of snapshotRows ?? []) {
+    const visitId = row.visit_id as string | null
+    if (!visitId) continue
+    const counts = empty.get(visitId) ?? {
+      openQueries: 0,
+      pendingSignatures: 0,
+      overdueActions: 0,
+      openActions: 0,
+    }
+    counts.openQueries += 1
+    empty.set(visitId, counts)
+  }
+
   return empty
 }

@@ -47,6 +47,10 @@ export async function openSnapshotQuery(args: OpenSnapshotQueryArgs): Promise<Vi
 
   const now = new Date().toISOString()
 
+  const slaDeadline = args.input.sla_days
+    ? new Date(Date.now() + args.input.sla_days * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+    : null
+
   const { data, error } = await args.supabase
     .from('visit_snapshot_queries')
     .insert({
@@ -54,6 +58,7 @@ export async function openSnapshotQuery(args: OpenSnapshotQueryArgs): Promise<Vi
       study_id: args.input.study_id,
       subject_id: args.input.subject_id,
       snapshot_id: args.input.snapshot_id,
+      visit_id: args.input.visit_id ?? null,
       review_id: args.input.review_id ?? null,
       query_scope: args.input.query_scope,
       procedure_instance_id: args.input.procedure_instance_id ?? null,
@@ -65,6 +70,8 @@ export async function openSnapshotQuery(args: OpenSnapshotQueryArgs): Promise<Vi
       priority: args.input.priority ?? 'normal',
       assigned_role: args.input.assigned_role ?? 'crc',
       assigned_user_id: args.input.assigned_user_id ?? null,
+      sla_days: args.input.sla_days ?? null,
+      sla_deadline: slaDeadline,
       opened_by: args.openedBy,
       opened_at: now,
       metadata: {},
