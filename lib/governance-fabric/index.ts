@@ -11,3 +11,7 @@ export {
 } from '@/lib/governance-fabric/capa-placeholder'
 export { INSPECTION_REPLAY_READINESS } from '@/lib/governance-fabric/inspection-replay'
 export { enrichVisitReadinessWithGovernanceFabric } from '@/lib/governance-fabric/integration/projection-bridge'
+export {
+  promoteGovernanceSignalToCapaCandidate,
+  type PromoteGovernanceSignalResult,
+} from '@/lib/governance-fabric/promote-to-capa'

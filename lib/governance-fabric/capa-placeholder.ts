@@ -2,6 +2,12 @@ import type { CapaPlaceholder, GovernanceSignal } from '@/lib/governance-fabric/
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 /**
+ * @deprecated Retired — governance_capa_placeholders is not wired into the CAPA runtime.
+ * Use promoteGovernanceSignalToCapaCandidate() from './promote-to-capa' instead.
+ * governance_capa_placeholders table remains in the DB for historical rows but receives no new writes.
+ */
+
+/**
  * CAPA placeholder architecture only — no workflow, routing, or closure in Phase 4.
  * Future CAPA module will promote placeholders to tracked corrective actions.
  */
