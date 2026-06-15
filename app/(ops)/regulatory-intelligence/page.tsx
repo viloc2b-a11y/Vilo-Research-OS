@@ -72,6 +72,12 @@ function PortfolioTable({ rows }: { rows: StudyWithSnapshot[] }) {
               Subject Consent
             </th>
             <th className="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Training
+            </th>
+            <th className="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Binder
+            </th>
+            <th className="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Overall Risk
             </th>
             <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
@@ -91,7 +97,7 @@ function PortfolioTable({ rows }: { rows: StudyWithSnapshot[] }) {
               return (
                 <tr key={id} className="bg-card">
                   <td className="px-4 py-2.5 font-medium text-foreground">{name}</td>
-                  <td colSpan={7} className="px-4 py-2.5 text-xs text-red-600">
+                  <td colSpan={9} className="px-4 py-2.5 text-xs text-red-600">
                     {error ?? 'Failed to load snapshot'}
                   </td>
                 </tr>
@@ -109,6 +115,12 @@ function PortfolioTable({ rows }: { rows: StudyWithSnapshot[] }) {
                 </td>
                 <td className="px-4 py-2.5 text-center">
                   <RiskBadge risk={snapshot.subjectConsentRisk} />
+                </td>
+                <td className="px-4 py-2.5 text-center">
+                  <RiskBadge risk={snapshot.trainingRisk} />
+                </td>
+                <td className="px-4 py-2.5 text-center">
+                  <RiskBadge risk={snapshot.binderRisk} />
                 </td>
                 <td className="px-4 py-2.5 text-center">
                   <RiskBadge risk={snapshot.overallRisk} />

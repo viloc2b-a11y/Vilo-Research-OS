@@ -79,5 +79,11 @@ export type StudyRegulatorySnapshot = {
   subjectsNeedingReconsent: number
   documentReadiness: DocumentReadiness
   delegationAlerts: DelegationComplianceAlert[]
+  trainingRisk: RegulatoryRisk
+  incompleteTrainingCount: number
+  overdueTrainingCount: number
+  binderRisk: RegulatoryRisk
+  lastBinderReviewStatus: string | null
+  lastBinderReviewedAt: string | null
   overallRisk: RegulatoryRisk
 }

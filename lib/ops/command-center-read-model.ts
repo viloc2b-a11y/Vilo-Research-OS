@@ -86,6 +86,15 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
   const irbAlertCutoff = new Date(Date.now() + 60 * 86_400_000).toISOString().slice(0, 10)
   const credAlertCutoff = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
   const trainingAlertCutoff = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10)
+  const binderReviewCutoff = new Date(Date.now() - 7 * 86_400_000).toISOString()
+
+  const INCOMPLETE_TRAINING_STATUSES = [
+    'Assigned',
+    'Pending Trainee Signature',
+    'Pending Trainer Signature',
+    'Pending PI Acknowledgment',
+    'Reopened',
+  ]
 
   const [
     todayVisits,
@@ -99,6 +108,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     irbAlerts,
     credentialAlerts,
     trainingAlerts,
+    binderAlerts,
   ] = await Promise.all([
     loadTodayVisits(organizationIds),
     loadCoordinatorVisitAlerts(organizationIds),
@@ -161,12 +171,21 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       .order('expiration_date', { ascending: true })
       .limit(6),
     supabase
-      .from('study_protocol_trainings')
-      .select('id, study_id, training_title, training_type, expiration_date, studies(name, slug)')
+      .from('study_training_assignments')
+      .select('id, study_id, due_date, training_status, trainee_name, study_training_items(training_topic, training_type), studies(name, slug)')
       .in('organization_id', organizationIds)
-      .not('expiration_date', 'is', null)
-      .lte('expiration_date', trainingAlertCutoff)
-      .order('expiration_date', { ascending: true })
+      .in('training_status', INCOMPLETE_TRAINING_STATUSES)
+      .not('due_date', 'is', null)
+      .lte('due_date', trainingAlertCutoff)
+      .order('due_date', { ascending: true })
+      .limit(6),
+    supabase
+      .from('study_data_readiness_reviews')
+      .select('id, study_id, status, mode, created_at, studies(name, slug)')
+      .in('organization_id', organizationIds)
+      .in('status', ['blocked', 'ready_with_warnings'])
+      .gte('created_at', binderReviewCutoff)
+      .order('created_at', { ascending: false })
       .limit(6),
   ])
 
@@ -337,19 +356,35 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
         tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
       }
     }),
-    ...(trainingAlerts.data ?? []).map((training) => {
-      const daysLeft = Math.floor(
-        (new Date(training.expiration_date as string).getTime() - Date.now()) / 86_400_000,
-      )
-      const study = one(training.studies) as { name?: string | null; slug?: string | null } | null
-      const studyId = training.study_id as string
+    ...(trainingAlerts.data ?? []).map((assignment) => {
+      const dueDate = assignment.due_date as string | null
+      const daysLeft = dueDate
+        ? Math.floor((new Date(dueDate).getTime() - Date.now()) / 86_400_000)
+        : null
+      const study = one(assignment.studies) as { name?: string | null; slug?: string | null } | null
+      const studyId = assignment.study_id as string
+      const item = one(assignment.study_training_items) as { training_topic?: string | null } | null
+      const topic = item?.training_topic ?? 'Training'
+      const overdue = daysLeft !== null && daysLeft < 0
       return {
-        id: training.id as string,
-        title: `Training ${daysLeft < 0 ? 'expired' : `expiring in ${daysLeft}d`}`,
-        detail: `${study?.name ?? 'Study'} · ${String(training.training_title ?? 'Protocol training')} · ${String(training.expiration_date)}`,
-        href: `/studies/${studyId}/amendments`,
-        status: daysLeft < 0 ? 'expired' : 'expiring',
-        tone: daysLeft < 0 ? 'critical' as const : 'warning' as const,
+        id: assignment.id as string,
+        title: overdue ? `Training overdue: ${topic}` : `Training due in ${daysLeft}d: ${topic}`,
+        detail: `${study?.name ?? 'Study'} · ${String(assignment.trainee_name ?? 'Staff')} · due ${dueDate ?? '—'}`,
+        href: `/regulatory-intelligence/training`,
+        status: overdue ? 'overdue' : 'due_soon',
+        tone: overdue ? 'critical' as const : 'warning' as const,
+      }
+    }),
+    ...(binderAlerts.data ?? []).map((review) => {
+      const study = one(review.studies) as { name?: string | null } | null
+      const isBlocked = review.status === 'blocked'
+      return {
+        id: review.id as string,
+        title: `Binder readiness: ${isBlocked ? 'blocked' : 'warnings'}`,
+        detail: `${study?.name ?? 'Study'} · ${String(review.mode ?? 'internal_review').replace(/_/g, ' ')} · ${new Date(review.created_at as string).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
+        href: `/studies/${review.study_id as string}/workspace`,
+        status: review.status as string,
+        tone: isBlocked ? 'critical' as const : 'warning' as const,
       }
     }),
   ]

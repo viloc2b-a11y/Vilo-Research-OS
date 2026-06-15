@@ -225,6 +225,95 @@ function computeDocumentReadiness(
 }
 
 // ---------------------------------------------------------------------------
+// E5 — Training risk
+// Reads from study_training_assignments (migration 0147 — new runtime).
+// ---------------------------------------------------------------------------
+
+const INCOMPLETE_TRAINING_STATUSES = [
+  'Assigned',
+  'Pending Trainee Signature',
+  'Pending Trainer Signature',
+  'Pending PI Acknowledgment',
+  'Reopened',
+]
+
+async function computeTrainingRisk(args: {
+  supabase: SupabaseClient
+  organizationId: string
+  studyId: string
+  now: Date
+}): Promise<{ trainingRisk: RegulatoryRisk; incompleteTrainingCount: number; overdueTrainingCount: number }> {
+  const { supabase, organizationId, studyId, now } = args
+  const today = now.toISOString().slice(0, 10)
+
+  const [{ count: incompleteCount, error: incErr }, { count: overdueCount, error: ovErr }] =
+    await Promise.all([
+      supabase
+        .from('study_training_assignments')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', organizationId)
+        .eq('study_id', studyId)
+        .in('training_status', INCOMPLETE_TRAINING_STATUSES),
+      supabase
+        .from('study_training_assignments')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', organizationId)
+        .eq('study_id', studyId)
+        .in('training_status', INCOMPLETE_TRAINING_STATUSES)
+        .not('due_date', 'is', null)
+        .lt('due_date', today),
+    ])
+
+  if (incErr || ovErr) {
+    return { trainingRisk: 'ok', incompleteTrainingCount: 0, overdueTrainingCount: 0 }
+  }
+
+  const incompleteTrainingCount = incompleteCount ?? 0
+  const overdueTrainingCount = overdueCount ?? 0
+
+  let trainingRisk: RegulatoryRisk = 'ok'
+  if (overdueTrainingCount > 0) trainingRisk = 'critical'
+  else if (incompleteTrainingCount > 0) trainingRisk = 'warning'
+
+  return { trainingRisk, incompleteTrainingCount, overdueTrainingCount }
+}
+
+// ---------------------------------------------------------------------------
+// E6 — Binder readiness risk
+// Reads latest record from study_data_readiness_reviews (migration 0173).
+// ---------------------------------------------------------------------------
+
+async function computeBinderRisk(args: {
+  supabase: SupabaseClient
+  organizationId: string
+  studyId: string
+}): Promise<{ binderRisk: RegulatoryRisk; lastBinderReviewStatus: string | null; lastBinderReviewedAt: string | null }> {
+  const { supabase, organizationId, studyId } = args
+
+  const { data, error } = await supabase
+    .from('study_data_readiness_reviews')
+    .select('status, created_at')
+    .eq('organization_id', organizationId)
+    .eq('study_id', studyId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !data) {
+    return { binderRisk: 'ok', lastBinderReviewStatus: null, lastBinderReviewedAt: null }
+  }
+
+  const lastBinderReviewStatus = String(data.status)
+  const lastBinderReviewedAt = String(data.created_at)
+
+  let binderRisk: RegulatoryRisk = 'ok'
+  if (lastBinderReviewStatus === 'blocked') binderRisk = 'critical'
+  else if (lastBinderReviewStatus === 'ready_with_warnings') binderRisk = 'warning'
+
+  return { binderRisk, lastBinderReviewStatus, lastBinderReviewedAt }
+}
+
+// ---------------------------------------------------------------------------
 // E4 — Delegation compliance: flag active delegations with expired credentials
 // ---------------------------------------------------------------------------
 
@@ -312,10 +401,15 @@ export async function computeRegulatorySnapshot(args: {
     computeCredentialRisk(credentials, now)
   const { subjectConsentRisk, subjectsNeedingReconsent } = consentRisk
 
-  const [documentReadiness, delegationAlerts] = await Promise.all([
+  const [documentReadiness, delegationAlerts, trainingResult, binderResult] = await Promise.all([
     Promise.resolve(computeDocumentReadiness(approvals, credentials, now)),
     computeDelegationCompliance({ supabase, organizationId, studyId, credentials, now }),
+    computeTrainingRisk({ supabase, organizationId, studyId, now }),
+    computeBinderRisk({ supabase, organizationId, studyId }),
   ])
+
+  const { trainingRisk, incompleteTrainingCount, overdueTrainingCount } = trainingResult
+  const { binderRisk, lastBinderReviewStatus, lastBinderReviewedAt } = binderResult
 
   const delegationRisk: RegulatoryRisk = delegationAlerts.some(
     (a) => a.credentialStatus === 'expired',
@@ -330,6 +424,8 @@ export async function computeRegulatorySnapshot(args: {
     staffCredentialRisk,
     subjectConsentRisk,
     delegationRisk,
+    trainingRisk,
+    binderRisk,
   ])
 
   return {
@@ -344,6 +440,12 @@ export async function computeRegulatorySnapshot(args: {
     subjectsNeedingReconsent,
     documentReadiness,
     delegationAlerts,
+    trainingRisk,
+    incompleteTrainingCount,
+    overdueTrainingCount,
+    binderRisk,
+    lastBinderReviewStatus,
+    lastBinderReviewedAt,
     overallRisk,
   }
 }

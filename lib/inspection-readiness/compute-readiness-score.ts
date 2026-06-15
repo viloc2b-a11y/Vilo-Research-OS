@@ -380,6 +380,108 @@ async function computeSignatureCompleteness(
 }
 
 // ---------------------------------------------------------------------------
+// Dimension 7 — Training Compliance
+// Uses study_training_assignments (migration 0147 — new training runtime).
+// ---------------------------------------------------------------------------
+
+const INCOMPLETE_TRAINING_STATUSES = [
+  'Assigned',
+  'Pending Trainee Signature',
+  'Pending Trainer Signature',
+  'Pending PI Acknowledgment',
+  'Reopened',
+]
+
+async function computeTrainingCompliance(
+  supabase: SupabaseClient,
+  organizationId: string,
+  studyId: string,
+): Promise<ReadinessDimension> {
+  const name = 'Training Compliance'
+  const today = new Date().toISOString().slice(0, 10)
+
+  const [{ count: incompleteCount, error: incErr }, { count: overdueCount, error: ovErr }] =
+    await Promise.all([
+      supabase
+        .from('study_training_assignments')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', organizationId)
+        .eq('study_id', studyId)
+        .in('training_status', INCOMPLETE_TRAINING_STATUSES),
+      supabase
+        .from('study_training_assignments')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', organizationId)
+        .eq('study_id', studyId)
+        .in('training_status', INCOMPLETE_TRAINING_STATUSES)
+        .not('due_date', 'is', null)
+        .lt('due_date', today),
+    ])
+
+  if (incErr || ovErr) {
+    return { name, score: 100, status: 'pass', detail: 'Training compliance data unavailable.' }
+  }
+
+  const incomplete = incompleteCount ?? 0
+  const overdue = overdueCount ?? 0
+
+  if (incomplete === 0) {
+    return { name, score: 100, status: 'pass', detail: 'All training assignments complete.' }
+  }
+
+  const score = clamp(100 - overdue * 15 - Math.max(0, incomplete - overdue) * 5)
+  const status = overdue > 0 ? 'fail' : incomplete > 3 ? 'warning' : 'pass'
+  const parts: string[] = []
+  if (overdue > 0) parts.push(`${overdue} overdue`)
+  if (incomplete > overdue) parts.push(`${incomplete - overdue} pending`)
+
+  return { name, score, status, detail: parts.join(', ') + ' training assignment' + (incomplete === 1 ? '' : 's') + '.' }
+}
+
+// ---------------------------------------------------------------------------
+// Dimension 8 — Binder Readiness
+// Uses latest study_data_readiness_reviews record (migration 0173).
+// ---------------------------------------------------------------------------
+
+async function computeBinderReadiness(
+  supabase: SupabaseClient,
+  organizationId: string,
+  studyId: string,
+): Promise<ReadinessDimension> {
+  const name = 'Binder Readiness'
+
+  const { data, error } = await supabase
+    .from('study_data_readiness_reviews')
+    .select('status, created_at')
+    .eq('organization_id', organizationId)
+    .eq('study_id', studyId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error) {
+    return { name, score: 100, status: 'pass', detail: 'Binder readiness data unavailable.' }
+  }
+
+  if (!data) {
+    return { name, score: 100, status: 'pass', detail: 'No binder readiness review on file.' }
+  }
+
+  const reviewStatus = String(data.status)
+  const reviewedAt = new Date(String(data.created_at)).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  })
+
+  if (reviewStatus === 'blocked') {
+    return { name, score: 0, status: 'fail', detail: `Binder blocked as of ${reviewedAt}.` }
+  }
+  if (reviewStatus === 'ready_with_warnings') {
+    return { name, score: 70, status: 'warning', detail: `Ready with warnings as of ${reviewedAt}.` }
+  }
+  return { name, score: 100, status: 'pass', detail: `Ready as of ${reviewedAt}.` }
+}
+
+// ---------------------------------------------------------------------------
 // Main entry point
 // ---------------------------------------------------------------------------
 
@@ -397,6 +499,8 @@ export async function computeInspectionReadinessScore(args: {
     capaStatus,
     safetyEvents,
     signatureCompleteness,
+    trainingCompliance,
+    binderReadiness,
   ] = await Promise.all([
     computeSourceCompleteness(supabase, organizationId, studyId),
     computeOpenFindings(supabase, organizationId, studyId),
@@ -404,6 +508,8 @@ export async function computeInspectionReadinessScore(args: {
     computeCapaStatus(supabase, organizationId, studyId),
     computeSafetyEvents(supabase, organizationId, studyId),
     computeSignatureCompleteness(supabase, organizationId, studyId),
+    computeTrainingCompliance(supabase, organizationId, studyId),
+    computeBinderReadiness(supabase, organizationId, studyId),
   ])
 
   const dimensions: ReadinessDimension[] = [
@@ -413,6 +519,8 @@ export async function computeInspectionReadinessScore(args: {
     capaStatus,
     safetyEvents,
     signatureCompleteness,
+    trainingCompliance,
+    binderReadiness,
   ]
 
   const overallScore = Math.round(

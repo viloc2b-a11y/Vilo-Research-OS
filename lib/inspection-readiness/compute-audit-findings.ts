@@ -524,6 +524,135 @@ async function findingsConsent(
 }
 
 // ---------------------------------------------------------------------------
+// Training findings
+// ---------------------------------------------------------------------------
+
+const INCOMPLETE_TRAINING_STATUSES = [
+  'Assigned',
+  'Pending Trainee Signature',
+  'Pending Trainer Signature',
+  'Pending PI Acknowledgment',
+  'Reopened',
+]
+
+async function findingsTraining(
+  supabase: SupabaseClient,
+  organizationId: string,
+  studyId: string,
+): Promise<AuditFinding[]> {
+  const findings: AuditFinding[] = []
+  const today = new Date().toISOString().slice(0, 10)
+
+  try {
+    const { data: overdueRows, error: overdueError } = await supabase
+      .from('study_training_assignments')
+      .select('id, trainee_name, due_date, study_training_items(training_topic)')
+      .eq('organization_id', organizationId)
+      .eq('study_id', studyId)
+      .in('training_status', INCOMPLETE_TRAINING_STATUSES)
+      .not('due_date', 'is', null)
+      .lt('due_date', today)
+      .limit(5)
+
+    if (!overdueError && overdueRows && overdueRows.length > 0) {
+      overdueRows.forEach((row, i) => {
+        const item = Array.isArray(row.study_training_items)
+          ? row.study_training_items[0]
+          : row.study_training_items
+        const topic = item && typeof item === 'object'
+          ? String((item as Record<string, unknown>).training_topic ?? 'Training')
+          : 'Training'
+        findings.push({
+          id: `training-overdue-${i}`,
+          severity: 'critical',
+          category: 'Training',
+          title: `Overdue training: ${truncate(topic, 50)}`,
+          detail: `${String(row.trainee_name ?? 'Staff')} — due ${String(row.due_date)}.`,
+          href: `/studies/${studyId}/workspace`,
+        })
+      })
+    }
+
+    const { count: pendingCount, error: pendingError } = await supabase
+      .from('study_training_assignments')
+      .select('id', { count: 'exact', head: true })
+      .eq('organization_id', organizationId)
+      .eq('study_id', studyId)
+      .in('training_status', INCOMPLETE_TRAINING_STATUSES)
+      .or(`due_date.is.null,due_date.gte.${today}`)
+
+    if (!pendingError && pendingCount && pendingCount > 0) {
+      findings.push({
+        id: 'training-pending',
+        severity: 'warning',
+        category: 'Training',
+        title: `${pendingCount} training assignment${pendingCount === 1 ? '' : 's'} not yet completed`,
+        detail: 'Incomplete training assignments pending trainee or PI signature.',
+        href: `/regulatory-intelligence/training`,
+      })
+    }
+  } catch {
+    // skip category on unexpected error
+  }
+
+  return findings
+}
+
+// ---------------------------------------------------------------------------
+// Binder readiness findings
+// ---------------------------------------------------------------------------
+
+async function findingsBinderReadiness(
+  supabase: SupabaseClient,
+  organizationId: string,
+  studyId: string,
+): Promise<AuditFinding[]> {
+  const findings: AuditFinding[] = []
+
+  try {
+    const { data, error } = await supabase
+      .from('study_data_readiness_reviews')
+      .select('status, mode, created_at')
+      .eq('organization_id', organizationId)
+      .eq('study_id', studyId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (error || !data) return findings
+
+    const reviewStatus = String(data.status)
+    const reviewedAt = new Date(String(data.created_at)).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric',
+    })
+
+    if (reviewStatus === 'blocked') {
+      findings.push({
+        id: 'binder-blocked',
+        severity: 'critical',
+        category: 'Binder',
+        title: 'Binder readiness review: blocked',
+        detail: `Last review on ${reviewedAt} returned status: blocked.`,
+        href: `/studies/${studyId}/workspace`,
+      })
+    } else if (reviewStatus === 'ready_with_warnings') {
+      findings.push({
+        id: 'binder-warnings',
+        severity: 'warning',
+        category: 'Binder',
+        title: 'Binder readiness review: warnings present',
+        detail: `Last review on ${reviewedAt} returned status: ready with warnings.`,
+        href: `/studies/${studyId}/workspace`,
+      })
+    }
+  } catch {
+    // skip category on unexpected error
+  }
+
+  return findings
+}
+
+// ---------------------------------------------------------------------------
 // Main entry point
 // ---------------------------------------------------------------------------
 
@@ -543,6 +672,8 @@ export async function computeAuditFindings(args: {
     irbFindings,
     credentialFindings,
     consentFindings,
+    trainingFindings,
+    binderReadinessFindings,
   ] = await Promise.all([
     findingsProtocolDeviations(supabase, organizationId, studyId),
     findingsCapa(supabase, organizationId, studyId),
@@ -552,6 +683,8 @@ export async function computeAuditFindings(args: {
     findingsIrb(supabase, organizationId, studyId),
     findingsCredentials(supabase, organizationId),
     findingsConsent(supabase, organizationId, studyId),
+    findingsTraining(supabase, organizationId, studyId),
+    findingsBinderReadiness(supabase, organizationId, studyId),
   ])
 
   const allFindings = sortFindings([
@@ -563,6 +696,8 @@ export async function computeAuditFindings(args: {
     ...irbFindings,
     ...credentialFindings,
     ...consentFindings,
+    ...trainingFindings,
+    ...binderReadinessFindings,
   ])
 
   const criticalCount = allFindings.filter((f) => f.severity === 'critical').length
