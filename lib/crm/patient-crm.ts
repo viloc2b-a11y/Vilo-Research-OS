@@ -7,6 +7,7 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { canAccessPatientCRM, canManagePatientCRM } from '@/lib/rbac/permissions'
 import { syncContactPersonFromPatientLead } from '@/lib/contact-runtime/contact-runtime-actions'
 import { linkLeadToSubject } from '@/lib/crm/link-lead-to-subject'
+import { recordLeadStageTransition } from '@/lib/crm/lead-stage-history'
 import {
   formOptionalDateTime,
   formOptionalNumber,
@@ -571,8 +572,21 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
     redirect('/crm/patients?result=missing')
   }
 
-  await requirePatientCrmManage(organizationId)
+  const { user, memberships } = await requirePatientCrmAccess(organizationId)
+  if (!canManagePatientCRM(memberships, organizationId)) {
+    redirect('/crm/patients?result=forbidden')
+  }
+
   const supabase = await createServerClient()
+  const newStage = formText(formData, 'stage') || 'lead'
+
+  const { data: currentLead } = await supabase
+    .from('patient_leads')
+    .select('stage')
+    .eq('id', leadId)
+    .eq('organization_id', organizationId)
+    .single()
+
   const { error } = await supabase
     .from('patient_leads')
     .update({
@@ -581,7 +595,7 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
       email: formOptionalText(formData, 'email'),
       preferred_contact_method: formText(formData, 'preferredContactMethod') || 'phone',
       recruitment_source: formOptionalText(formData, 'recruitmentSource'),
-      stage: formText(formData, 'stage') || 'lead',
+      stage: newStage,
       contact_permission: formText(formData, 'contactPermission') || 'unknown',
       consent_to_contact: formText(formData, 'contactPermission') === 'granted',
       condition_summary: formOptionalText(formData, 'conditionSummary'),
@@ -596,6 +610,18 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
     redirect(`/crm/patients?lead=${encodeURIComponent(leadId)}&result=error&reason=${encodeURIComponent(error.message)}`)
   }
 
+  if (currentLead && currentLead.stage !== newStage) {
+    await recordLeadStageTransition({
+      supabase,
+      organizationId,
+      leadId,
+      fromStage: currentLead.stage as string,
+      toStage: newStage,
+      actorId: user.id,
+      reason: 'Manual stage update',
+    })
+  }
+
   await syncContactPersonFromPatientLead({
     organizationId,
     patientLeadId: leadId,
@@ -603,7 +629,7 @@ export async function updatePatientLeadAction(formData: FormData): Promise<void>
     email: formOptionalText(formData, 'email'),
     phone: formOptionalText(formData, 'phone'),
     notes: formOptionalText(formData, 'notes'),
-    stage: formText(formData, 'stage') || 'lead',
+    stage: newStage,
   })
 
   await afterPatientMutation(organizationId, [`/crm/patients?lead=${encodeURIComponent(leadId)}`])
