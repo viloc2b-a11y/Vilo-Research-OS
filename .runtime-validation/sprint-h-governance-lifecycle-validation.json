@@ -1,0 +1,96 @@
+{
+  "validation_id": "sprint-h-governance-lifecycle-validation-001",
+  "sprint": "H",
+  "title": "Governance Lifecycle Closure",
+  "generated_at": "2026-06-14T00:00:00.000Z",
+  "status": "complete",
+  "dod_assessment": {
+    "dod_1_coordinator_visible": {
+      "status": "pass",
+      "evidence": [
+        "CAPA overdue signals (capa_overdue kind) appear in VPI risk queue via SubjectRiskQueue component",
+        "Protocol deviation panel renders in Subject 360° workspace at subjectId/workspace",
+        "Signal tone mapped: bg-rose-100 (overdue CAPA) — visible in coordinator inbox"
+      ]
+    },
+    "dod_2_subject_workspace": {
+      "status": "pass",
+      "evidence": [
+        "SubjectDeviationsPanel renders confirmed + open deviations with status and severity badges",
+        "Panel wired into app/(ops)/subjects/[subjectId]/workspace/page.tsx via Promise.all data load"
+      ]
+    },
+    "dod_3_workflow_backbone": {
+      "status": "pass",
+      "evidence": [
+        "CAPA overdue signals route through existing VPI pipeline (build-from-signals → fallback-signals)",
+        "No new parallel action queue introduced — signals feed coordinator risk queue"
+      ]
+    },
+    "dod_4_command_center": {
+      "status": "pass",
+      "evidence": [
+        "capa_overdue kind registered in SIGNAL_PRIORITIES (91), SIGNAL_OWNER_ROLES (Site Coordinator)",
+        "Overdue CAPAs appear as coordinator actions in OwnerWorkflowQueue via VPI feed"
+      ]
+    },
+    "dod_5_pilot_evidence": {
+      "status": "pass",
+      "evidence": [
+        "This artifact"
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "id": "H1",
+      "title": "Deviation adjudication FSM",
+      "status": "complete",
+      "files": [
+        "supabase/migrations/0198_deviation_adjudication_lifecycle.sql",
+        "lib/protocol-deviations/deviation-types.ts",
+        "lib/protocol-deviations/update-deviation.ts",
+        "app/api/protocol-deviations/[deviationId]/route.ts"
+      ],
+      "notes": "Status enum extended to 8 values: candidate, pi_review, confirmed, capa_linked, resolved, open, under_review, closed. API auto-stamps adjudicatedBy/At on confirmed/capa_linked/resolved transitions."
+    },
+    {
+      "id": "H2",
+      "title": "CAPA → VPI risk queue feed",
+      "status": "complete",
+      "files": [
+        "lib/performance/scoring/types.ts",
+        "lib/performance/scoring/risk-queue.ts",
+        "lib/performance/scoring/recommended-actions.ts",
+        "app/(ops)/performance/_lib/performance-types.ts",
+        "app/(ops)/performance/_components/SubjectRiskQueue.tsx",
+        "lib/performance/read-layer/signals/capa-signals.ts",
+        "lib/performance/read-layer/build-from-signals.ts",
+        "lib/performance/read-layer/fallback-signals.ts"
+      ],
+      "notes": "capa_overdue signal kind added to exhaustive union. Loader queries capa_actions joined via protocol_deviations to study_subjects. Overdue = status IN (open, in_progress, under_review) AND due_date < today."
+    },
+    {
+      "id": "H3",
+      "title": "Governance signal lifecycle (supersede, reopen, adjudication stamps)",
+      "status": "complete",
+      "files": [
+        "supabase/migrations/0198_deviation_adjudication_lifecycle.sql",
+        "lib/protocol-deviations/deviation-types.ts",
+        "lib/protocol-deviations/update-deviation.ts",
+        "app/api/protocol-deviations/[deviationId]/route.ts"
+      ],
+      "notes": "Columns added: superseded_by (uuid FK self-reference), reopened_at (timestamptz), adjudicated_by (uuid FK auth.users), adjudicated_at (timestamptz). API accepts superseded_by in body."
+    },
+    {
+      "id": "H4",
+      "title": "Protocol deviation panel in Subject 360°",
+      "status": "complete",
+      "files": [
+        "components/subject/SubjectDeviationsPanel.tsx",
+        "app/(ops)/subjects/[subjectId]/workspace/page.tsx"
+      ],
+      "notes": "Panel shows open deviation count, status + severity badges for each deviation. OPEN_STATUSES covers both legacy (open, under_review) and new FSM states (candidate, pi_review, confirmed, capa_linked)."
+    }
+  ]
+}

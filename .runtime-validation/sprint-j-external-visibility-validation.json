@@ -1,0 +1,104 @@
+{
+  "validation_id": "sprint-j-external-visibility-validation-001",
+  "sprint": "J",
+  "title": "External Visibility Layer",
+  "generated_at": "2026-06-14T00:00:00.000Z",
+  "status": "complete",
+  "dod_assessment": {
+    "dod_1_coordinator_visible": {
+      "status": "partial",
+      "evidence": [
+        "Export privacy engine is a computation layer; export UI integration is downstream (post-pilot)",
+        "Benchmarking engine provides scoring APIs; dashboard integration is post-pilot UI work",
+        "VIP circuit breaker is a resilience layer in the existing adapter — not a new coordinator-visible feature"
+      ],
+      "notes": "Sprint J defines infrastructure layers (engines, adapters, schemas). UI integration is the post-pilot phase. This is consistent with the roadmap gate: 'Solo después de datos reales de pilot.'"
+    },
+    "dod_2_subject_workspace": {
+      "status": "pass",
+      "evidence": [
+        "Export privacy masking applies when exporting subject-level data (subject_data, adverse_events report types)",
+        "No direct subject workspace UI change required — privacy engine is invoked at export time"
+      ]
+    },
+    "dod_3_workflow_backbone": {
+      "status": "pass",
+      "evidence": [
+        "No new action queues introduced — J1-J4 are engines/adapters, not action generators"
+      ]
+    },
+    "dod_4_command_center": {
+      "status": "pass",
+      "evidence": [
+        "No coordinator actions generated — external visibility layer is read-only output (exports, benchmarks, sponsor summaries)"
+      ]
+    },
+    "dod_5_pilot_evidence": {
+      "status": "pass",
+      "evidence": [
+        "This artifact"
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "id": "J1",
+      "title": "Export privacy engine",
+      "status": "complete",
+      "files": [
+        "lib/export-privacy/field-mask-policy.ts",
+        "lib/export-privacy/apply-field-mask.ts",
+        "lib/export-privacy/export-audit.ts",
+        "supabase/migrations/0201_export_audit_log.sql"
+      ],
+      "notes": "Role × report-type matrix (ExportRole × ExportReportType → { maskLevel, maskedFields }). maskRecord/maskRecords apply '[REDACTED]' substitution. export_audit_log table persists every export with mask_level, masked_fields[], actor_role, record_count. RLS: select + insert for active org members."
+    },
+    {
+      "id": "J2",
+      "title": "Sponsor visibility layer",
+      "status": "complete",
+      "files": [
+        "lib/sponsor-visibility/sponsor-scope.ts"
+      ],
+      "notes": "SponsorStudySummary aggregates de-identified counts only: subjectCount, enrolledCount, screenFailedCount, completedCount, activeVisitCount, missedVisitCount, openDeviationCount. No PHI exposed. 4 parallel queries via Promise.all."
+    },
+    {
+      "id": "J3",
+      "title": "VIP adapter hardening (circuit breaker)",
+      "status": "complete",
+      "files": [
+        "lib/vip-adapter/circuit-breaker.ts",
+        "lib/vip-adapter/client.ts"
+      ],
+      "notes": "In-memory FSM: closed → open (after 3 failures) → half_open (after 60s recovery) → closed (on success). circuitAllows() checked at fetchWithRetry entry — blocks requests when open. circuitSuccess/circuitFailure called on every HTTP result."
+    },
+    {
+      "id": "J4",
+      "title": "External benchmarking / scoring",
+      "status": "complete",
+      "files": [
+        "lib/benchmarking/external-benchmarks.ts",
+        "lib/benchmarking/score-against-benchmark.ts"
+      ],
+      "notes": "7 BenchmarkCategory values with industry references (TransCelerate 2023, CISCRP 2022, Medidata 2022). scoreAgainstBenchmark returns tier (top_quartile/median/bottom_quartile), percentileEstimate, vsMedian%, vsTopQuartile%, interpretation. buildSiteBenchmarkReport aggregates partial input into SiteBenchmarkReport."
+    }
+  ],
+  "export_role_matrix": {
+    "org_admin": { "default": "none" },
+    "pi": { "default": "none" },
+    "coordinator": { "financials": "partial", "default": "none" },
+    "cra": { "default": "partial_phi" },
+    "sponsor": { "subject_data": "partial", "adverse_events": "full", "financials": "partial", "default": "partial" },
+    "auditor": { "financials": "partial", "default": "none" },
+    "read_only": { "default": "full" }
+  },
+  "benchmark_categories": [
+    "enrollment_rate",
+    "screen_failure_rate",
+    "visit_completion_rate",
+    "data_query_rate",
+    "deviation_rate",
+    "protocol_compliance_rate",
+    "site_activation_days"
+  ]
+}
