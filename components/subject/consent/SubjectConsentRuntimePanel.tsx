@@ -79,6 +79,7 @@ export function SubjectConsentRuntimePanel({
   const [documentVersionId, setDocumentVersionId] = useState('')
   const [documentName, setDocumentName] = useState('')
   const [documentPath, setDocumentPath] = useState('')
+  const [documentKind, setDocumentKind] = useState<'icf' | 'hipaa' | 'certified_copy' | 'other'>('icf')
   const [permissionType, setPermissionType] = useState<OptionalPermissionType>('future_use_samples')
   const [permissionStatus, setPermissionStatus] = useState<OptionalPermissionStatus>('granted')
   const [permissionReason, setPermissionReason] = useState('')
@@ -225,7 +226,7 @@ export function SubjectConsentRuntimePanel({
       () =>
         uploadLinkConsentDocumentAction(model.subjectId, {
           consentVersionId: documentVersionId || undefined,
-          documentKind: consentType === 'hipaa_authorization' ? 'hipaa' : 'icf',
+          documentKind: documentKind,
           fileName: documentName,
           filePath: documentPath,
         }),
@@ -363,6 +364,12 @@ export function SubjectConsentRuntimePanel({
             </CardHeader>
             <CardContent className="space-y-3">
               <VersionSelect versions={model.versions} value={documentVersionId} onChange={setDocumentVersionId} />
+              <select className="w-full rounded-md border px-3 py-2 text-sm" value={documentKind} onChange={(event) => setDocumentKind(event.target.value as typeof documentKind)}>
+                <option value="icf">ICF (Informed Consent Form)</option>
+                <option value="hipaa">HIPAA Authorization</option>
+                <option value="certified_copy">Certified Copy (paper + digital scan)</option>
+                <option value="other">Other</option>
+              </select>
               <Input placeholder="Document file name" value={documentName} onChange={(event) => setDocumentName(event.target.value)} />
               <Input placeholder="File path or external link/reference" value={documentPath} onChange={(event) => setDocumentPath(event.target.value)} />
               <Button onClick={linkDocument} disabled={isPending || !documentName.trim()}>

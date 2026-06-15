@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle, AlertTriangle, Clock, FileCheck } from 'lucide-react'
 import type { SubjectConsentVersionRow, SubjectReconsentRequirementRow } from '@/lib/consent-runtime/consent-types'
+import { subjectChartPath } from '@/lib/ops/paths'
 
 type Props = {
   consents: SubjectConsentVersionRow[]
@@ -25,7 +26,7 @@ const RECONSENT_STATUS_CLASSES: Record<string, string> = {
   waived: 'bg-slate-50 text-slate-500 border-slate-200',
 }
 
-export function SubjectConsentPanel({ consents, reconsentRequirements, studyId, subjectId: _subjectId }: Props) {
+export function SubjectConsentPanel({ consents, reconsentRequirements, studyId, subjectId }: Props) {
   const activeConsent = consents.find((c) => c.status === 'active')
   const pendingReconsent = reconsentRequirements.filter(
     (r) => r.reconsentStatus === 'pending' || r.reconsentStatus === 'overdue',
@@ -67,7 +68,7 @@ export function SubjectConsentPanel({ consents, reconsentRequirements, studyId, 
           )}
           {studyId && (
             <Link
-              href={`/studies/${studyId}/consent`}
+              href={`${subjectChartPath(studyId, subjectId)}?tab=consent`}
               className="ml-auto text-xs font-medium text-primary hover:underline"
             >
               Manage
