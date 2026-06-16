@@ -9,6 +9,8 @@ type SidebarProps = {
   canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
+  canViewNegotiation?: boolean
+  canViewPortfolioFinance?: boolean
 }
 
 export function Sidebar({
@@ -20,6 +22,8 @@ export function Sidebar({
   canAccessCommunications,
   canAccessSourceWorkflow,
   canViewVpi,
+  canViewNegotiation,
+  canViewPortfolioFinance,
 }: SidebarProps) {
   return (
     <SidebarNav
@@ -31,6 +35,8 @@ export function Sidebar({
       canAccessCommunications={canAccessCommunications}
       canAccessSourceWorkflow={canAccessSourceWorkflow}
       canViewVpi={canViewVpi}
+      canViewNegotiation={canViewNegotiation}
+      canViewPortfolioFinance={canViewPortfolioFinance}
     />
   )
 }

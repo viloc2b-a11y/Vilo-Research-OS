@@ -12,6 +12,8 @@ type OpsShellProps = {
   canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
+  canViewNegotiation?: boolean
+  canViewPortfolioFinance?: boolean
 }
 
 export function OpsShell({
@@ -25,6 +27,8 @@ export function OpsShell({
   canAccessCommunications = false,
   canAccessSourceWorkflow = false,
   canViewVpi = false,
+  canViewNegotiation = false,
+  canViewPortfolioFinance = false,
 }: OpsShellProps) {
   return (
     <div className="vilo-ops-shell flex h-screen overflow-hidden bg-accent">
@@ -37,6 +41,8 @@ export function OpsShell({
         canAccessCommunications={canAccessCommunications}
         canAccessSourceWorkflow={canAccessSourceWorkflow}
         canViewVpi={canViewVpi}
+        canViewNegotiation={canViewNegotiation}
+        canViewPortfolioFinance={canViewPortfolioFinance}
       />
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Topbar userEmail={userEmail} />

@@ -17,6 +17,9 @@ export const CANONICAL_ORGANIZATION_ROLES = [
   'read_only',
   'unblinded_coordinator',
   'unblinded_cra',
+  'business_office',
+  'finance',
+  'site_director',
 ] as const
 
 export const LEGACY_ORGANIZATION_ROLE = 'member' as const

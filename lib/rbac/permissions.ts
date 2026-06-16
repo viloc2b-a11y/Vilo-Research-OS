@@ -598,13 +598,75 @@ export function canMonitorUnblindedData(
 }
 
 // ---------------------------------------------------------------------------
+// PI / Sub-I role checks
+// ---------------------------------------------------------------------------
+
+export function isPiRoleForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  return normalized === 'pi_sub_i'
+}
+
+export function isUserPiRole(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(memberships, (role) => isPiRoleForRole(role), organizationId)
+}
+
+export function isCoordinatorRoleForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  return (
+    normalized === 'research_coordinator' ||
+    normalized === 'data_coordinator' ||
+    normalized === 'site_staff' ||
+    normalized === 'unblinded_coordinator'
+  )
+}
+
+export function isUserCoordinatorRole(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => isCoordinatorRoleForRole(role),
+    organizationId,
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Financial Intelligence page access (broad — all roles get a role-appropriate view)
+// ---------------------------------------------------------------------------
+
+export function canAccessFinancialIntelligencePageForRole(role: string): boolean {
+  return normalizeOrganizationRole(role) !== null
+}
+
+export function canAccessFinancialIntelligencePage(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canAccessFinancialIntelligencePageForRole(role),
+    organizationId,
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Financial access
 // ---------------------------------------------------------------------------
 
 export function canViewFinancialDataForRole(role: string): boolean {
   const normalized = normalizeOrganizationRole(role)
   if (!normalized) return false
-  return normalized === 'owner' || normalized === 'admin'
+  return (
+    normalized === 'owner' ||
+    normalized === 'admin' ||
+    normalized === 'finance' ||
+    normalized === 'business_office' ||
+    normalized === 'site_director'
+  )
 }
 
 export function canViewFinancialData(
@@ -614,6 +676,74 @@ export function canViewFinancialData(
   return anyMembershipMatches(
     memberships,
     (role) => canViewFinancialDataForRole(role),
+    organizationId,
+  )
+}
+
+export function canViewNegotiationForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner' ||
+    normalized === 'admin' ||
+    normalized === 'finance' ||
+    normalized === 'site_director' ||
+    normalized === 'business_office'
+  )
+}
+
+export function canViewNegotiation(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canViewNegotiationForRole(role),
+    organizationId,
+  )
+}
+
+export function canViewPortfolioFinanceForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner' ||
+    normalized === 'admin' ||
+    normalized === 'finance' ||
+    normalized === 'site_director'
+  )
+}
+
+export function canViewPortfolioFinance(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canViewPortfolioFinanceForRole(role),
+    organizationId,
+  )
+}
+
+export function canViewInvoicesForRole(role: string): boolean {
+  const normalized = normalizeOrganizationRole(role)
+  if (!normalized) return false
+  return (
+    normalized === 'owner' ||
+    normalized === 'admin' ||
+    normalized === 'finance' ||
+    normalized === 'business_office' ||
+    normalized === 'site_director'
+  )
+}
+
+export function canViewInvoices(
+  memberships: OrganizationMembership[],
+  organizationId?: string,
+): boolean {
+  return anyMembershipMatches(
+    memberships,
+    (role) => canViewInvoicesForRole(role),
     organizationId,
   )
 }
@@ -730,6 +860,9 @@ export type SitePermissionSnapshot = {
   canSignClinicalSource: boolean
   canViewReports: boolean
   canViewFinancial: boolean
+  canViewNegotiation: boolean
+  canViewPortfolioFinance: boolean
+  canViewInvoices: boolean
   canViewVpi: boolean
   canViewUnblinded: boolean
   canManageUnblinded: boolean
@@ -773,6 +906,9 @@ export function resolveSitePermissions(
     canSignClinicalSource: canSignClinicalSource(memberships, organizationId),
     canViewReports: canViewReports(memberships),
     canViewFinancial: canViewFinancialData(memberships, organizationId),
+    canViewNegotiation: canViewNegotiation(memberships, organizationId),
+    canViewPortfolioFinance: canViewPortfolioFinance(memberships, organizationId),
+    canViewInvoices: canViewInvoices(memberships, organizationId),
     canViewVpi: canViewVpi(memberships, organizationId),
     canViewUnblinded: canViewUnblindedData(memberships, organizationId),
     canManageUnblinded: canManageUnblindedData(memberships, organizationId),

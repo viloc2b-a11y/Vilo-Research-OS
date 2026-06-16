@@ -15,6 +15,8 @@ import {
   canPrepareSourceDrafts,
   canReviewSourceDocuments,
   canViewFinancialData,
+  canViewNegotiation,
+  canViewPortfolioFinance,
   canViewVpi,
 } from '@/lib/rbac/permissions'
 
@@ -44,6 +46,8 @@ export default async function OpsLayout({
   const canAccessSourceWorkflow =
     canPrepareSourceDrafts(memberships) || canReviewSourceDocuments(memberships)
   const canViewVpiNav = canViewVpi(memberships)
+  const canViewNegotiationNav = canViewNegotiation(memberships)
+  const canViewPortfolioFinanceNav = canViewPortfolioFinance(memberships)
 
   return (
     <OpsShell
@@ -56,6 +60,8 @@ export default async function OpsLayout({
       canAccessCommunications={canAccessComms}
       canAccessSourceWorkflow={canAccessSourceWorkflow}
       canViewVpi={canViewVpiNav}
+      canViewNegotiation={canViewNegotiationNav}
+      canViewPortfolioFinance={canViewPortfolioFinanceNav}
     >
       {children}
     </OpsShell>

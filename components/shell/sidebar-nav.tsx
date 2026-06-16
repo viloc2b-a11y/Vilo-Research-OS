@@ -21,6 +21,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldAlert,
+  TrendingUp,
+  PieChart,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -43,6 +45,10 @@ type NavItem = {
   sourceWorkflow?: boolean
   /** Financial workspaces. */
   financial?: boolean
+  /** Negotiation workspace. */
+  negotiation?: boolean
+  /** Portfolio Finance workspace. */
+  portfolioFinance?: boolean
   /** VPI command center — hidden from data_coordinator and read-only personas. */
   vpi?: boolean
 }
@@ -92,7 +98,9 @@ const navSections: NavSection[] = [
     label: 'Oversight',
     items: [
   { id: 'signatures', label: 'Signatures', href: '/operational-signatures', icon: ClipboardList, coordinatorWorkspace: true },
-  { id: 'negotiation', label: 'Negotiation', href: '/negotiation', icon: Scale, financial: true },
+  { id: 'negotiation', label: 'Negotiation', href: '/negotiation', icon: Scale, negotiation: true },
+  { id: 'financial-intelligence', label: 'Financial Intelligence', href: '/financial-intelligence', icon: TrendingUp },
+  { id: 'portfolio-finance', label: 'Portfolio Finance', href: '/portfolio-finance', icon: PieChart, portfolioFinance: true },
   { id: 'deliverables', label: 'Deliverables', href: '/deliverables', icon: ClipboardList, coordinatorWorkspace: true },
   { id: 'scientific-events', label: 'Scientific Events', href: '/scientific-events', icon: Calendar, crm: true },
   { id: 'compliance', label: 'Compliance', href: '/compliance-intelligence', icon: ShieldAlert, coordinatorWorkspace: true },
@@ -137,6 +145,8 @@ type SidebarNavProps = {
   canAccessCommunications?: boolean
   canAccessSourceWorkflow?: boolean
   canViewVpi?: boolean
+  canViewNegotiation?: boolean
+  canViewPortfolioFinance?: boolean
 }
 
 export function SidebarNav({
@@ -148,6 +158,8 @@ export function SidebarNav({
   canAccessCommunications = false,
   canAccessSourceWorkflow = false,
   canViewVpi = false,
+  canViewNegotiation = false,
+  canViewPortfolioFinance = false,
 }: SidebarNavProps) {
   const [collapsed, setCollapsed] = useState(false)
   const pathname = usePathname()
@@ -162,12 +174,15 @@ export function SidebarNav({
 
   function canShowItem(item: NavItem) {
     if (item.id === 'financial') return canViewFinancial
+    if (item.soon) return true
     if (item.allMembers) return true
     if (item.coordinatorWorkspace && !canAccessCoordinatorWorkspace) return false
     if (item.crm && !canAccessCRM) return false
     if (item.communications && !canAccessCommunications) return false
     if (item.sourceWorkflow && !canAccessSourceWorkflow) return false
     if (item.financial && !canViewFinancial) return false
+    if (item.negotiation && !canViewNegotiation) return false
+    if (item.portfolioFinance && !canViewPortfolioFinance) return false
     if (item.vpi && !canViewVpi) return false
     return true
   }

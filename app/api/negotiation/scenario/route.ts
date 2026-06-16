@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { createServerClient } from '@/lib/supabase/server';
 import {
   getNegotiationResponse,
   isNegotiationScenarioId,
@@ -12,6 +13,10 @@ const ScenarioRequestSchema = z.object({
 }).strict();
 
 export async function POST(req: Request) {
+  const supabase = await createServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
     const body = await req.json().catch(() => null);
     const parsed = ScenarioRequestSchema.safeParse(body);

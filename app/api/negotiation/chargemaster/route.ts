@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { createServerClient } from '@/lib/supabase/server';
 import { calculateChargemaster } from '@/lib/cliniq-core/analysis/negotiation-engine';
+import { linkChargemasterAsEvidence } from '@/lib/study-workspace/link-chargemaster-evidence';
 
 const numericField = z.number().finite();
 
@@ -80,6 +82,8 @@ const ChargemasterRequestSchema = z.object({
   study: StudySchema,
   tpi_hrs: numericField,
   tpi_avg_amount: numericField,
+  study_id: z.string().uuid().optional(),
+  organization_id: z.string().uuid().optional(),
 }).strict();
 
 function badRequest() {
@@ -90,6 +94,10 @@ function badRequest() {
 }
 
 export async function POST(req: Request) {
+  const supabase = await createServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
   try {
     const body = await req.json().catch(() => null);
     const parsed = ChargemasterRequestSchema.safeParse(body);
@@ -111,6 +119,26 @@ export async function POST(req: Request) {
 
     if (chargemaster.certainty === 'REQUIRES_CLINIQ') {
       return badRequest();
+    }
+
+    if (parsed.data.study_id && parsed.data.organization_id) {
+      linkChargemasterAsEvidence({
+        supabase,
+        organizationId: parsed.data.organization_id,
+        studyId: parsed.data.study_id,
+        actorUserId: user.id,
+        chargemasterSummary: {
+          visitRevenue: chargemaster.study.visit_revenue ?? 0,
+          totalMinimumBudget: chargemaster.study.total_minimum_budget ?? 0,
+          askPrice: chargemaster.study.ask_price ?? 0,
+          batnaFloor: chargemaster.study.batna_floor ?? 0,
+          certaintyLevel: chargemaster.certainty,
+        },
+        studyParameters: {
+          totalVisits: parsed.data.study.total_visits,
+          totalPatients: parsed.data.study.total_patients,
+        },
+      }).catch(() => undefined)
     }
 
     return NextResponse.json(chargemaster);

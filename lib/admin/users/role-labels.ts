@@ -13,6 +13,9 @@ export const ORGANIZATION_ROLE_LABELS: Record<OrganizationRole, string> = {
   read_only: 'Read Only',
   unblinded_coordinator: 'Unblinded Coordinator',
   unblinded_cra: 'Unblinded CRA',
+  business_office: 'Business Office',
+  finance: 'Finance',
+  site_director: 'Site Director',
 }
 
 export const UNBLINDED_ORGANIZATION_ROLES: OrganizationRole[] = [

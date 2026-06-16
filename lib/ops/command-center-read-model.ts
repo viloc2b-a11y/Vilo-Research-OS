@@ -41,6 +41,7 @@ export type CommandCenterModel = {
   recentEvents: CommandCenterEventItem[]
   highRisk: CommandCenterListItem[]
   regulatoryAlerts: CommandCenterListItem[]
+  financialCoaching: CommandCenterListItem[]
   unavailable: string[]
 }
 
@@ -76,6 +77,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       recentEvents: [],
       highRisk: [],
       regulatoryAlerts: [],
+      financialCoaching: [],
       unavailable: ['Workspace access is unavailable because this user is not assigned to an organization.'],
     }
   }
@@ -389,6 +391,45 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     }),
   ]
 
+  const signatureCoaching: CommandCenterListItem[] = visiblePendingProcedures.map((proc) => {
+    const def = one(proc.procedure_definitions) as { label?: string | null; code?: string | null } | null
+    const visit = one((proc as Record<string, unknown>).visits as unknown) as {
+      study_subjects?: unknown
+      visit_definitions?: unknown
+    } | null
+    const subject = one(visit?.study_subjects) as { subject_identifier?: string | null } | null
+    const visitDef = one(visit?.visit_definitions) as { label?: string | null; code?: string | null } | null
+    const procedureLabel = def?.label ?? def?.code ?? 'Procedure'
+    const visitLabel = visitDef?.label ?? visitDef?.code ?? 'Visit'
+    const subjectId = subject?.subject_identifier ?? 'Subject'
+    return {
+      id: proc.id as string,
+      title: 'Sign procedure to unlock earned revenue',
+      detail: `${subjectId} — ${procedureLabel} at ${visitLabel}`,
+      href: sourceCapturePath(proc.id as string, proc.organization_id as string),
+      tone: 'warning' as const,
+    }
+  })
+
+  const sourceCoaching: CommandCenterListItem[] = visibleSourceSets
+    .filter((set) => set.status === 'draft' || set.status === 'in_progress')
+    .map((set) => {
+      const study = one(set.studies) as { name?: string | null } | null
+      const subject = one(set.study_subjects) as { subject_identifier?: string | null } | null
+      return {
+        id: set.id as string,
+        title: 'Complete source to advance invoice readiness',
+        detail: `${subject?.subject_identifier ?? 'Subject'} — ${study?.name ?? 'Study'}`,
+        href: sourceResponseSetPath(set.id as string, { organization_id: set.organization_id as string }),
+        tone: 'neutral' as const,
+      }
+    })
+
+  const financialCoaching: CommandCenterListItem[] = [
+    ...signatureCoaching,
+    ...sourceCoaching,
+  ].slice(0, 8)
+
   return {
     generatedAt: new Date().toISOString(),
     organizationIds,
@@ -401,6 +442,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     openWorkflowTasks,
     recentEvents,
     highRisk,
+    financialCoaching,
     unavailable,
   }
 }

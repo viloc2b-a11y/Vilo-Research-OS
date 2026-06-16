@@ -15,7 +15,7 @@ import { SubjectRuntimeSummaryPanel } from '@/components/runtime-ui/SubjectRunti
 import { loadSubjectOperationsSurface } from '@/lib/coordinator-operations'
 import { loadSubjectRuntimeUiModel } from '@/lib/runtime-ui/load'
 import { createServerClient } from '@/lib/supabase/server'
-import { subjectChartPath, subjectVisitsPath } from '@/lib/ops/paths'
+import { subjectChartPath, subjectVisitsPath, visitDetailPath } from '@/lib/ops/paths'
 import { loadSafetyEvents } from '@/lib/safety-runtime/load-safety-events'
 import { SubjectSafetyPanel } from '@/components/subject/SubjectSafetyPanel'
 import { SubjectRegulatoryPanel } from '@/components/subject/SubjectRegulatoryPanel'
@@ -35,6 +35,10 @@ import { SubjectDeviationsPanel } from '@/components/subject/SubjectDeviationsPa
 import { loadSubjectAmendmentImpacts } from '@/lib/subject/amendment-impacts/load-subject-amendment-impacts'
 import type { SubjectAmendmentImpactRow } from '@/lib/subject/amendment-impacts/load-subject-amendment-impacts'
 import { SubjectAmendmentImpactPanel } from '@/components/subject/SubjectAmendmentImpactPanel'
+import { getSessionUser, getOrganizationMemberships } from '@/lib/auth/session'
+import { activeMemberships } from '@/lib/auth/membership-access'
+import { isUserPiRole } from '@/lib/rbac/permissions'
+import { SubjectPiRevenueAwareness } from '@/components/subject/SubjectPiRevenueAwareness'
 
 type SubjectWorkspacePageProps = {
   params: Promise<{ subjectId: string }>
@@ -126,6 +130,40 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
       subjectId: model.subject.id,
     }).catch(() => [] as SubjectAmendmentImpactRow[]),
   ])
+
+  const sessionUser = await getSessionUser()
+  const memberships = sessionUser
+    ? activeMemberships(await getOrganizationMemberships(sessionUser.id))
+    : []
+  const isPi = isUserPiRole(memberships, model.subject.organizationId)
+
+  let unsignedProcs: Array<Record<string, unknown>> = []
+  if (isPi) {
+    const { data: piProcs } = await supabase
+      .from('procedure_executions')
+      .select('id, procedure_definitions(label, code), visits(id, visit_definitions(label, code))')
+      .eq('study_subject_id', subjectId)
+      .eq('is_signed', false)
+      .in('execution_status', ['completed', 'verified'])
+    unsignedProcs = (piProcs ?? []) as Array<Record<string, unknown>>
+  }
+
+  function one<T>(value: T | T[] | null | undefined): T | null {
+    if (Array.isArray(value)) return value[0] ?? null
+    return value ?? null
+  }
+
+  const piUnsignedItems = unsignedProcs.map((pe) => {
+    const procDef = one(pe.procedure_definitions)
+    const visit = one(pe.visits)
+    const visitDef = visit ? one((visit as { visit_definitions?: unknown }).visit_definitions) : null
+    return {
+      id: pe.id as string,
+      procedureLabel: (procDef as { label?: string } | null)?.label ?? (procDef as { code?: string } | null)?.code ?? 'Procedure',
+      visitLabel: (visitDef as { label?: string } | null)?.label ?? 'Visit',
+      signHref: visit ? visitDetailPath((visit as { id: string }).id) : '#',
+    }
+  })
 
   // Map typed consent rows for SubjectRegulatoryPanel (expects SubjectReconsentReq shape)
   const reconsentRequirements: SubjectReconsentReq[] = reconsentReqs.map((r) => ({
@@ -236,6 +274,12 @@ export default async function SubjectWorkspacePage({ params }: SubjectWorkspaceP
           studyId={model.subject.studyId}
           subjectId={model.subject.id}
         />
+        {isPi && (
+          <SubjectPiRevenueAwareness
+            unsignedItems={piUnsignedItems}
+            hasAmendmentBudgetImpact={subjectAmendmentImpacts.length > 0}
+          />
+        )}
         <SubjectFinancialPanel financial={subjectFinancial} />
         <SubjectDeviationsPanel deviations={subjectDeviations} />
         <SubjectAmendmentImpactPanel

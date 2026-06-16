@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { FinancialInvoiceableLineItem } from '@/lib/financial-runtime/invoiceable'
+import { logAuditEvent } from '@/lib/audit/log'
 
 export type FinancialInvoiceRecord = {
   id: string
@@ -107,6 +108,7 @@ export async function createInvoiceDraftForVisit(input: {
   organizationId: string
   studyId: string
   visitId: string
+  actorUserId?: string
 }): Promise<FinancialInvoiceDraftResult> {
   const { data: existingInvoice, error: existingError } = await input.supabase
     .from('financial_invoices')
@@ -219,6 +221,16 @@ export async function createInvoiceDraftForVisit(input: {
     throw new Error(`Failed to mark invoiceable items as draft: ${sourceError.message}`)
   }
 
+  if (input.actorUserId) {
+    logAuditEvent({
+      organizationId: input.organizationId,
+      actorUserId: input.actorUserId,
+      action: 'financial:invoice_draft_created',
+      target: `invoice:${invoice.id}`,
+      metadata: { visitId: input.visitId, studyId: input.studyId, lineItemCount: lineItems.length, totalAmount },
+    }).catch(() => undefined)
+  }
+
   return {
     invoiceId: invoice.id,
     invoiceNumber: invoice.invoice_number,
@@ -231,6 +243,8 @@ export async function createInvoiceDraftForVisit(input: {
 export async function sendInvoiceDraftForVisit(input: {
   supabase: SupabaseClient
   visitId: string
+  organizationId?: string
+  actorUserId?: string
 }): Promise<FinancialInvoiceDraftResult> {
   const { data: invoiceRow, error: invoiceError } = await input.supabase
     .from('financial_invoices')
@@ -313,6 +327,16 @@ export async function sendInvoiceDraftForVisit(input: {
     if (sourceError) {
       throw new Error(`Failed to mark invoiceable items sent: ${sourceError.message}`)
     }
+  }
+
+  if (input.actorUserId && input.organizationId) {
+    logAuditEvent({
+      organizationId: input.organizationId,
+      actorUserId: input.actorUserId,
+      action: 'financial:invoice_sent',
+      target: `invoice:${invoiceRow.id}`,
+      metadata: { visitId: input.visitId, totalAmount, lineItemCount: lineItems?.length ?? 0 },
+    }).catch(() => undefined)
   }
 
   return {

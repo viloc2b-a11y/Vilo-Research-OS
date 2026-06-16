@@ -5,6 +5,7 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
+  DollarSign,
   FileText,
   PenTool,
   RotateCw,
@@ -360,6 +361,16 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
           {processSections.map((section) => (
             <Section key={section.id} {...section} />
           ))}
+          <Section
+            id="revenue-health"
+            title="Revenue Health"
+            icon={DollarSign}
+            tone="neutral"
+            items={model.financialCoaching}
+            empty="No revenue coaching signals."
+            actionHref="/studies"
+            actionLabel="Open studies"
+          />
           <Card id="recent-events" className="scroll-mt-4 border-t-4 border-t-border">
             <CardHeader className="px-3 pb-1 pt-3">
               <CardTitle className="flex items-center gap-2 text-sm font-semibold">

@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { logAuditEvent } from '@/lib/audit/log'
 
 export type FinancialPaymentStatus = 'posted' | 'reversed' | 'disputed'
 export type FinancialInvoicePaymentStatus = 'unpaid' | 'partially_paid' | 'paid' | 'overpaid' | 'disputed'
@@ -116,6 +117,7 @@ export async function recordInvoicePayment(input: {
   paymentReference?: string
   paymentMethod?: string
   notes?: string | null
+  actorUserId?: string
 }): Promise<RecordPaymentResult> {
   const invoice = await loadInvoiceState({ supabase: input.supabase, invoiceId: input.invoiceId })
   if (!invoice) {
@@ -264,6 +266,16 @@ export async function recordInvoicePayment(input: {
     }
   }
 
+  if (input.actorUserId) {
+    logAuditEvent({
+      organizationId: invoice.organization_id,
+      actorUserId: input.actorUserId,
+      action: 'financial:payment_recorded',
+      target: `payment:${String(paymentRow.id)}`,
+      metadata: { invoiceId: invoice.id, amountReceived, amountApplied, amountUnapplied, paymentStatus },
+    }).catch(() => undefined)
+  }
+
   return {
     paymentId: String(paymentRow.id),
     paymentReference: String(paymentRow.payment_reference),
@@ -286,6 +298,7 @@ export async function disputeInvoicePayment(input: {
   organizationId: string
   paymentId: string
   reason: string
+  actorUserId?: string
 }): Promise<{ paymentId: string; previousStatus: FinancialPaymentStatus }> {
   const { data: payment, error: loadError } = await input.supabase
     .from('financial_payments')
@@ -322,6 +335,16 @@ export async function disputeInvoicePayment(input: {
     throw new Error(`Failed to dispute payment: ${updateError.message}`)
   }
 
+  if (input.actorUserId) {
+    logAuditEvent({
+      organizationId: input.organizationId,
+      actorUserId: input.actorUserId,
+      action: 'financial:payment_disputed',
+      target: `payment:${input.paymentId}`,
+      metadata: { reason: input.reason, previousStatus },
+    }).catch(() => undefined)
+  }
+
   return { paymentId: input.paymentId, previousStatus }
 }
 
@@ -334,6 +357,7 @@ export async function reverseInvoicePayment(input: {
   organizationId: string
   paymentId: string
   reversalReason: string
+  actorUserId?: string
 }): Promise<{ paymentId: string; invoiceId: string; restoredBalanceDue: number }> {
   // Load the payment record
   const { data: payment, error: loadPaymentError } = await input.supabase
@@ -404,6 +428,16 @@ export async function reverseInvoicePayment(input: {
 
   if (allocationVoidError) {
     throw new Error(`Failed to void payment allocations: ${allocationVoidError.message}`)
+  }
+
+  if (input.actorUserId) {
+    logAuditEvent({
+      organizationId: input.organizationId,
+      actorUserId: input.actorUserId,
+      action: 'financial:payment_reversed',
+      target: `payment:${input.paymentId}`,
+      metadata: { invoiceId, reversalReason: input.reversalReason, restoredBalanceDue },
+    }).catch(() => undefined)
   }
 
   return { paymentId: input.paymentId, invoiceId, restoredBalanceDue }
