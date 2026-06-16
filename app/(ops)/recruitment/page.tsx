@@ -15,7 +15,15 @@ import {
 } from '@/app/(ops)/recruitment/_lib/recruitment-view-model'
 import { resolveEffectiveRolesForMembership } from '@/lib/rbac/effective-roles'
 
-export default async function RecruitmentPage() {
+export default async function RecruitmentPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ result?: string | string[]; reason?: string | string[] }>
+}) {
+  const params = (await searchParams) ?? {}
+  const result = Array.isArray(params.result) ? params.result[0] : params.result
+  const reason = Array.isArray(params.reason) ? params.reason[0] : params.reason
+
   const user = await getSessionUser()
   if (!user) redirect('/login')
 
@@ -62,6 +70,12 @@ export default async function RecruitmentPage() {
   ])
   const model = toRecruitmentViewModel({ todaysWork, queue, studyPressure }, memberships, organizationId)
 
-  return <RecruitmentCommandCenterShell model={model} />
+  return (
+    <RecruitmentCommandCenterShell
+      model={model}
+      organizationId={organizationId}
+      result={result}
+      reason={reason}
+    />
+  )
 }
-

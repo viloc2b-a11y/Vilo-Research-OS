@@ -9,7 +9,15 @@ const REASON_LABELS: Record<RecruitmentWorkItem['reasons'][number], string> = {
   stalled: 'Stalled',
 }
 
-export function TodaysWorkPanel({ items }: { items: RecruitmentWorkItem[] }) {
+export function TodaysWorkPanel({
+  items,
+  organizationId,
+  canInteract,
+}: {
+  items: RecruitmentWorkItem[]
+  organizationId: string
+  canInteract: boolean
+}) {
   return (
     <section className="rounded-md border border-slate-200 bg-white p-5">
       <div className="flex items-start justify-between gap-4">
@@ -42,7 +50,7 @@ export function TodaysWorkPanel({ items }: { items: RecruitmentWorkItem[] }) {
                 </span>
               ))}
             </div>
-            <LeadCard lead={item.lead} compact />
+            <LeadCard lead={item.lead} organizationId={organizationId} compact canInteract={canInteract} />
           </div>
         ))}
         {items.length === 0 ? (
