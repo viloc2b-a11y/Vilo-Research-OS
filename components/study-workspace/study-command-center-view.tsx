@@ -7,7 +7,13 @@ import type { StudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-
 import type { StudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
+import type { EnrollmentVelocityResult } from '@/lib/crm/enrollment-velocity'
+import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
+import type { RecruitmentFunnelSummary, SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
 import { BudgetNegotiationLedgerPanel } from './budget-negotiation-ledger-panel'
+import { EnrollmentVelocityIndicator } from '@/components/recruitment-intelligence/EnrollmentVelocityIndicator'
+import { RecruitmentForecastCard } from '@/components/recruitment-intelligence/RecruitmentForecastCard'
+import { FunnelSnapshotCard } from '@/components/recruitment-intelligence/FunnelSnapshotCard'
 
 type StudyCommandCenterViewProps = {
   studyName: string
@@ -17,6 +23,10 @@ type StudyCommandCenterViewProps = {
   metrics: StudyCommandCenterMetrics
   budgetEvidenceSummary: StudyBudgetEvidenceSummary
   patientAcquisitionSummary: StudyPatientAcquisitionSummary
+  enrollmentVelocity: EnrollmentVelocityResult
+  recruitmentForecast: RecruitmentForecast
+  recruitmentFunnel: RecruitmentFunnelSummary
+  sourceEffectiveness: SourceEffectivenessReport
   governanceSummary: StudyGovernanceSummary
   financialRuntimeSummary: StudyFinancialRuntimeSummary
   workflowSummary: StudyWorkflowSummary
@@ -30,6 +40,10 @@ export function StudyCommandCenterView({
   metrics,
   budgetEvidenceSummary,
   patientAcquisitionSummary,
+  enrollmentVelocity,
+  recruitmentForecast,
+  recruitmentFunnel,
+  sourceEffectiveness,
   governanceSummary,
   financialRuntimeSummary,
   workflowSummary,
@@ -223,6 +237,12 @@ export function StudyCommandCenterView({
           <GovernanceCard links={links} summary={governanceSummary} />
           <FinancialRuntimeCard links={links} summary={financialRuntimeSummary} />
           <PatientAcquisitionCard links={links} summary={patientAcquisitionSummary} />
+          <RecruitmentIntelligenceCard
+            enrollmentVelocity={enrollmentVelocity}
+            recruitmentForecast={recruitmentForecast}
+            recruitmentFunnel={recruitmentFunnel}
+            sourceEffectiveness={sourceEffectiveness}
+          />
           <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} />
         </div>
       </section>
@@ -749,6 +769,57 @@ function BudgetEvidenceCard({
           Some evidence counts are unavailable. Open Document Intelligence for details.
         </p>
       ) : null}
+    </div>
+  )
+}
+
+function RecruitmentIntelligenceCard({
+  enrollmentVelocity,
+  recruitmentForecast,
+  recruitmentFunnel,
+  sourceEffectiveness,
+}: {
+  enrollmentVelocity: EnrollmentVelocityResult
+  recruitmentForecast: RecruitmentForecast
+  recruitmentFunnel: RecruitmentFunnelSummary
+  sourceEffectiveness: SourceEffectivenessReport
+}) {
+  // Source concentration warning: any source with >80% of total leads
+  const totalLeads = sourceEffectiveness.sources.reduce((sum, s) => sum + s.total_leads, 0)
+  const concentratedSource =
+    totalLeads > 0
+      ? sourceEffectiveness.sources.find((s) => s.total_leads / totalLeads > 0.8)
+      : null
+
+  return (
+    <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h3 className="font-semibold text-slate-900">Recruitment Intelligence</h3>
+          <p className="mt-1 text-sm text-slate-500">
+            Velocity, forecast, and funnel signals from the CRM pipeline.
+          </p>
+        </div>
+      </div>
+
+      {concentratedSource ? (
+        <div className="mt-4 rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <AlertTriangle className="mb-1 inline-block h-4 w-4 text-amber-600" />{' '}
+          <strong>Source concentration risk:</strong>{' '}
+          {((concentratedSource.total_leads / totalLeads) * 100).toFixed(0)}% of leads from{' '}
+          <span className="font-medium">{concentratedSource.source_channel}</span>
+        </div>
+      ) : null}
+
+      <div className="mt-4 space-y-4">
+        <EnrollmentVelocityIndicator
+          currentVelocity={enrollmentVelocity.current_velocity}
+          velocityTrend={enrollmentVelocity.velocity_trend}
+          compact={false}
+        />
+        <RecruitmentForecastCard {...recruitmentForecast} />
+        <FunnelSnapshotCard {...recruitmentFunnel} />
+      </div>
     </div>
   )
 }

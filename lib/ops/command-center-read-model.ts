@@ -43,6 +43,10 @@ export type CommandCenterModel = {
   regulatoryAlerts: CommandCenterListItem[]
   financialCoaching: CommandCenterListItem[]
   unavailable: string[]
+  /** Count of studies with forecastRisk === 'critical' or 'impossible'. */
+  enrollmentRiskStudyCount: number
+  /** Total qualified pipeline leads across all studies. */
+  totalQualifiedPipelineDepth: number
 }
 
 function one<T>(value: T | T[] | null | undefined): T | null {
@@ -79,6 +83,8 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
       regulatoryAlerts: [],
       financialCoaching: [],
       unavailable: ['Workspace access is unavailable because this user is not assigned to an organization.'],
+      enrollmentRiskStudyCount: 0,
+      totalQualifiedPipelineDepth: 0,
     }
   }
 
@@ -430,6 +436,16 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     ...sourceCoaching,
   ].slice(0, 8)
 
+  // Recruitment intelligence: derive from study cards (already loaded via performanceResult)
+  const studyCards = performanceResult?.model.studyCards ?? []
+  const enrollmentRiskStudyCount = studyCards.filter(
+    (c) => c.forecastRisk === 'critical' || c.forecastRisk === 'impossible',
+  ).length
+  const totalQualifiedPipelineDepth = studyCards.reduce(
+    (sum, c) => sum + (c.qualifiedPipelineDepth ?? 0),
+    0,
+  )
+
   return {
     generatedAt: new Date().toISOString(),
     organizationIds,
@@ -444,5 +460,7 @@ export async function loadCommandCenterModel(): Promise<CommandCenterModel> {
     highRisk,
     financialCoaching,
     unavailable,
+    enrollmentRiskStudyCount,
+    totalQualifiedPipelineDepth,
   }
 }

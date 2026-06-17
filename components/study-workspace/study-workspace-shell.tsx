@@ -41,6 +41,9 @@ import type { StudyCommandCenterMetrics } from '@/lib/study-workspace/load-study
 import type { StudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
 import type { StudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-patient-acquisition-summary'
 import type { StudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
+import type { EnrollmentVelocityResult } from '@/lib/crm/enrollment-velocity'
+import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
+import type { RecruitmentFunnelSummary, SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
 import type { StudyCloseoutSummary } from '@/lib/study-workspace/load-study-closeout-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
@@ -64,6 +67,10 @@ type StudyWorkspaceShellProps = {
   commandCenterMetrics: StudyCommandCenterMetrics
   budgetEvidenceSummary: StudyBudgetEvidenceSummary
   patientAcquisitionSummary: StudyPatientAcquisitionSummary
+  enrollmentVelocity: EnrollmentVelocityResult
+  recruitmentForecast: RecruitmentForecast
+  recruitmentFunnel: RecruitmentFunnelSummary
+  sourceEffectiveness: SourceEffectivenessReport
   governanceSummary: StudyGovernanceSummary
   closeoutSummary: StudyCloseoutSummary
   financialRuntimeSummary: StudyFinancialRuntimeSummary
@@ -91,6 +98,10 @@ export function StudyWorkspaceShell({
   commandCenterMetrics,
   budgetEvidenceSummary,
   patientAcquisitionSummary,
+  enrollmentVelocity,
+  recruitmentForecast,
+  recruitmentFunnel,
+  sourceEffectiveness,
   governanceSummary,
   closeoutSummary,
   financialRuntimeSummary,
@@ -178,6 +189,10 @@ export function StudyWorkspaceShell({
               metrics={commandCenterMetrics}
               budgetEvidenceSummary={budgetEvidenceSummary}
               patientAcquisitionSummary={patientAcquisitionSummary}
+              enrollmentVelocity={enrollmentVelocity}
+              recruitmentForecast={recruitmentForecast}
+              recruitmentFunnel={recruitmentFunnel}
+              sourceEffectiveness={sourceEffectiveness}
               governanceSummary={governanceSummary}
               financialRuntimeSummary={financialRuntimeSummary}
               workflowSummary={workflowSummary}

@@ -157,6 +157,12 @@ function buildStudyCards(
       openQueryCount: metrics?.openQueryCount ?? 0,
       blockedProcedureCount: metrics?.blockedProcedureCount ?? 0,
       href: `/studies/${study.id}`,
+      enrollmentVelocity: metrics?.enrollmentVelocity,
+      velocityTrend: metrics?.velocityTrend,
+      forecastedCompletionDate: metrics?.forecastedCompletionDate,
+      forecastRisk: metrics?.forecastRisk,
+      qualifiedPipelineDepth: metrics?.qualifiedPipelineDepth,
+      leadsRequired: metrics?.leadsRequired,
     }
     return enrichStudyCardFromHealth(
       base,
@@ -201,6 +207,13 @@ type StudyMetrics = {
   activeContractReferenceCount?: number
   financialLeakageCount?: number
   leakageScore?: number
+  // Recruitment intelligence fields (PR2)
+  enrollmentVelocity?: number
+  velocityTrend?: 'accelerating' | 'stable' | 'decelerating' | 'stalled'
+  forecastedCompletionDate?: string | null
+  forecastRisk?: 'on_track' | 'at_risk' | 'critical' | 'impossible' | null
+  qualifiedPipelineDepth?: number
+  leadsRequired?: number
 }
 
 function incrementStudyMetric(

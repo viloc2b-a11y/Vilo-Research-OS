@@ -7,6 +7,8 @@ import {
 } from '@/lib/performance/read-layer/query/query-limits'
 import type { SupabaseServerClient } from '@/lib/performance/read-layer/query/supabase-client'
 import { filterDashboardTestDataRows } from '@/lib/dashboard-test-data'
+import { loadEnrollmentVelocity } from '@/lib/crm/enrollment-velocity'
+import { loadRecruitmentForecastForStudy } from '@/lib/crm/recruitment-forecast'
 
 export type StudyRow = {
   id: string
@@ -35,6 +37,13 @@ export type StudyCountsRow = {
   contractEvidenceDocumentCount: number
   activeBudgetReferenceCount: number
   activeContractReferenceCount: number
+  // Recruitment intelligence fields (added in PR2)
+  enrollmentVelocity: number
+  velocityTrend: 'accelerating' | 'stable' | 'decelerating' | 'stalled'
+  forecastedCompletionDate: string | null
+  forecastRisk: 'on_track' | 'at_risk' | 'critical' | 'impossible' | null
+  qualifiedPipelineDepth: number
+  leadsRequired: number
 }
 
 type EnrollmentConfigRow = {
@@ -219,6 +228,12 @@ export async function loadStudyCardCounts(
         contractEvidenceDocumentCount: 0,
         activeBudgetReferenceCount: 0,
         activeContractReferenceCount: 0,
+        enrollmentVelocity: 0,
+        velocityTrend: 'stalled' as const,
+        forecastedCompletionDate: null,
+        forecastRisk: null,
+        qualifiedPipelineDepth: 0,
+        leadsRequired: 0,
       })),
       errors: [
         {
@@ -228,6 +243,47 @@ export async function loadStudyCardCounts(
       ],
       skipped: true,
     }
+  }
+
+  // Batch qualified pipeline depth query: fetch all qualified patient_leads for these studies
+  // via patient_study_matches to avoid N+1
+  const qualifiedDepthByStudy = new Map<string, number>()
+  try {
+    const orgId = scope.organizationIds[0]
+    if (orgId && studyIds.length > 0) {
+      const { data: matchRows } = await client
+        .from('patient_study_matches')
+        .select('study_id, patient_lead_id')
+        .in('study_id', studyIds)
+
+      if (matchRows && matchRows.length > 0) {
+        const allLeadIds = (matchRows as { study_id: string; patient_lead_id: string }[]).map(
+          (r) => r.patient_lead_id,
+        )
+        const { data: qualifiedLeads } = await client
+          .from('patient_leads')
+          .select('id')
+          .eq('organization_id', orgId)
+          .eq('stage', 'qualified')
+          .is('archived_at', null)
+          .in('id', allLeadIds)
+
+        const qualifiedLeadIds = new Set(
+          ((qualifiedLeads as { id: string }[] | null) ?? []).map((r) => r.id),
+        )
+
+        for (const match of matchRows as { study_id: string; patient_lead_id: string }[]) {
+          if (qualifiedLeadIds.has(match.patient_lead_id)) {
+            qualifiedDepthByStudy.set(
+              match.study_id,
+              (qualifiedDepthByStudy.get(match.study_id) ?? 0) + 1,
+            )
+          }
+        }
+      }
+    }
+  } catch {
+    errors.push({ source: 'qualified_pipeline_depth', message: 'Failed to load qualified leads batch' })
   }
 
   const { data: configs, error: configError } = await client
@@ -243,6 +299,8 @@ export async function loadStudyCardCounts(
   const configByStudyId = new Map(
     ((configs ?? []) as EnrollmentConfigRow[]).map((config) => [config.study_id, config]),
   )
+
+  const orgId = scope.organizationIds[0] ?? ''
 
   const rows = await Promise.all(
     studyIds.map(async (studyId) => {
@@ -262,6 +320,8 @@ export async function loadStudyCardCounts(
         contractEvidence,
         activeBudgetReference,
         activeContractReference,
+        velocityResult,
+        forecastResult,
       ] = await Promise.all([
         countSubjectsForStudy(client, scope, studyId),
         countSubjectsForStudy(client, scope, studyId, ['enrolled']),
@@ -292,6 +352,12 @@ export async function loadStudyCardCounts(
         countDocumentDomainForStudy(client, scope, studyId, 'contract_analysis'),
         countActiveDocumentReferenceForStudy(client, scope, studyId, 'budget_analysis'),
         countActiveDocumentReferenceForStudy(client, scope, studyId, 'contract_analysis'),
+        orgId
+          ? loadEnrollmentVelocity(client as Parameters<typeof loadEnrollmentVelocity>[0], orgId, studyId).catch(() => null)
+          : Promise.resolve(null),
+        orgId
+          ? loadRecruitmentForecastForStudy(client as Parameters<typeof loadRecruitmentForecastForStudy>[0], orgId, studyId).catch(() => null)
+          : Promise.resolve(null),
       ])
 
       for (const [source, result] of [
@@ -317,6 +383,7 @@ export async function loadStudyCardCounts(
       }
 
       const config = configByStudyId.get(studyId)
+      const qualifiedPipelineDepth = qualifiedDepthByStudy.get(studyId) ?? 0
 
       return {
         studyId,
@@ -337,6 +404,12 @@ export async function loadStudyCardCounts(
         contractEvidenceDocumentCount: contractEvidence.count,
         activeBudgetReferenceCount: activeBudgetReference.count,
         activeContractReferenceCount: activeContractReference.count,
+        enrollmentVelocity: velocityResult?.current_velocity ?? 0,
+        velocityTrend: velocityResult?.velocity_trend ?? ('stalled' as const),
+        forecastedCompletionDate: forecastResult?.projected_enrollment_date ?? null,
+        forecastRisk: forecastResult?.risk_classification ?? null,
+        qualifiedPipelineDepth,
+        leadsRequired: forecastResult?.leads_required ?? 0,
       }
     }),
   )

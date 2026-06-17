@@ -84,6 +84,18 @@ export type StudyHealthInput = {
   activeContractReferenceCount?: number
   financialLeakageCount?: number
   staleStudyFlag: boolean
+  // Recruitment intelligence signals (PR2)
+  recruitmentFunnelStall?: boolean      // no lead stage movement in 14+ days
+  qualifiedPipelineDepth?: number       // count of qualified patient_leads for this study
+  subjectsRemaining?: number            // enrollmentTarget - randomizedCount
+  sourceConcentrationRisk?: boolean     // single source > 80% of total leads
+}
+
+/** A discrete risk signal produced by the study scoring layer. */
+export type StudyRiskSignal = {
+  type: 'recruitment_funnel_stall' | 'pipeline_depth_risk' | 'source_concentration_risk'
+  severity: 'risk' | 'critical' | 'watch'
+  message: string
 }
 
 export type ScoredSubject = {

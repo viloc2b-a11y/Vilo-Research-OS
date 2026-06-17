@@ -10,6 +10,8 @@ import {
   PenTool,
   RotateCw,
   ShieldAlert,
+  TrendingUp,
+  Users,
   Workflow,
 } from 'lucide-react'
 import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageScroll'
@@ -38,8 +40,9 @@ function toneClass(tone: CommandCenterListItem['tone']) {
 }
 
 function summaryToneClass(metric: string, value: number) {
-  const problemMetric = metric !== 'today-visits'
-  const criticalMetric = metric === 'blockers' || (metric === 'out-of-window' && value > 5)
+  // 'today-visits' and 'qualified-pipeline' are not problem metrics
+  const problemMetric = metric !== 'today-visits' && metric !== 'qualified-pipeline'
+  const criticalMetric = metric === 'blockers' || (metric === 'out-of-window' && value > 5) || (metric === 'enrollment-risk' && value > 0)
 
   if (problemMetric && value === 0) {
     return 'border-primary/40 bg-accent/30 text-foreground hover:bg-accent/40'
@@ -172,6 +175,8 @@ export default async function CoordinatorCommandCenterPage({ searchParams }: Coo
     { id: 'incomplete-source', label: 'Incomplete source', value: model.incompleteSource.length, icon: FileText, href: '#incomplete-source' },
     { id: 'pending-signatures', label: 'Pending signatures', value: model.pendingSignatures.length, icon: PenTool, href: '#pending-signatures' },
     { id: 'subjects-action', label: 'Subjects needing action', value: siteOps.subjectsNeedingActionCount, icon: Workflow, href: '#top-next-actions' },
+    { id: 'enrollment-risk', label: 'Studies at enrollment risk', value: model.enrollmentRiskStudyCount, icon: TrendingUp, href: '/performance' },
+    { id: 'qualified-pipeline', label: 'Qualified leads in pipeline', value: model.totalQualifiedPipelineDepth, icon: Users, href: '/performance' },
   ]
   const alertSections = [
     {

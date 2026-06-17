@@ -22,6 +22,8 @@ import {
 } from '@/lib/performance/portfolio'
 import type { OperationalState } from '@/lib/performance/scoring/types'
 import { recommendedActionLabel } from '@/lib/performance/scoring/recommended-actions'
+import { ForecastRiskBadge } from '@/components/recruitment-intelligence/ForecastRiskBadge'
+import { EnrollmentVelocityIndicator } from '@/components/recruitment-intelligence/EnrollmentVelocityIndicator'
 
 type StudyHealthTableProps = {
   cards: StudyPerformanceCard[]
@@ -63,6 +65,7 @@ export function StudyHealthTable({
                 <tr className="border-b text-left text-xs text-muted-foreground">
                   <th className="pb-2 pr-4 font-medium">Study</th>
                   <th className="pb-2 pr-4 font-medium">State</th>
+                  <th className="pb-2 pr-4 font-medium">Forecast</th>
                   <th className="pb-2 pr-4 font-medium">Critical issues</th>
                   <th className="pb-2 pr-4 font-medium">Needs attention today</th>
                   <th className="pb-2 pr-4 font-medium">Leakage</th>
@@ -97,6 +100,9 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
         <td className="py-3 pr-4">
           <OperationalStateBadge state={state} />
         </td>
+        <td className="py-3 pr-4">
+          <ForecastRiskBadge risk={card.forecastRisk ?? null} />
+        </td>
         <td className="py-3 pr-4 text-muted-foreground">{formatCriticalIssues(card)}</td>
         <td className="py-3 pr-4 text-muted-foreground">{formatNeedsAttentionToday(card)}</td>
         <td className="py-3 pr-4">
@@ -130,7 +136,7 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
       </tr>
       {open ? (
         <tr className="border-b bg-muted/30">
-          <td colSpan={6} className="px-4 py-3">
+          <td colSpan={7} className="px-4 py-3">
             <dl className="grid gap-2 text-xs sm:grid-cols-2 lg:grid-cols-3">
               <Detail label="Subjects" value={String(card.subjectCount)} />
               <Detail
@@ -211,6 +217,15 @@ function StudyHealthRow({ card }: { card: StudyPerformanceCard }) {
                 />
               ) : null}
             </dl>
+            {card.enrollmentVelocity !== undefined && card.velocityTrend !== undefined ? (
+              <div className="mt-3">
+                <EnrollmentVelocityIndicator
+                  currentVelocity={card.enrollmentVelocity}
+                  velocityTrend={card.velocityTrend}
+                  compact
+                />
+              </div>
+            ) : null}
           </td>
         </tr>
       ) : null}

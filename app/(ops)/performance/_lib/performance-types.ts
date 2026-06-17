@@ -110,6 +110,13 @@ export type StudyPerformanceCard = {
   staleStudyFlag?: boolean
   operationalState?: OperationalState
   recommendedAction?: RecommendedActionCode | null
+  // Recruitment intelligence fields (PR2)
+  enrollmentVelocity?: number
+  velocityTrend?: 'accelerating' | 'stable' | 'decelerating' | 'stalled'
+  forecastedCompletionDate?: string | null
+  forecastRisk?: 'on_track' | 'at_risk' | 'critical' | 'impossible' | null
+  qualifiedPipelineDepth?: number
+  leadsRequired?: number
 }
 
 export type PortfolioStateSummary = {
