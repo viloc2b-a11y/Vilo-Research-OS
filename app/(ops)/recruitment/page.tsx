@@ -14,6 +14,10 @@ import {
   toRecruitmentViewModel,
 } from '@/app/(ops)/recruitment/_lib/recruitment-view-model'
 import { resolveEffectiveRolesForMembership } from '@/lib/rbac/effective-roles'
+import { loadRecruitmentFunnelSummary, loadSourceEffectiveness } from '@/lib/crm/recruitment-intelligence'
+import { loadCoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
+import { loadRecruitmentForecastForStudy } from '@/lib/crm/recruitment-forecast'
+import { computeSiteBenchmarkValues } from '@/lib/benchmarking/site-benchmark-compute'
 
 export default async function RecruitmentPage({
   searchParams,
@@ -61,14 +65,68 @@ export default async function RecruitmentPage({
     'read_only'
 
   const supabase = await createServerClient()
-  const [todaysWork, queue, studyPressure] = await Promise.all([
+
+  const isOwnerOrDirector =
+    roleExperience === 'owner' || roleExperience === 'site_director'
+
+  // Base loads — always run for coordinator + owner + site_director
+  const [todaysWork, queue, studyPressure, funnelSummary, coordinatorStats] = await Promise.all([
     loadTodaysRecruitmentWork(supabase, organizationId, user.id),
     loadRecruitmentQueue(supabase, organizationId, user.id, effectiveRole, {
       scope: roleExperience === 'owner' ? 'all' : 'default',
     }),
     loadStudyPressureCards(supabase, organizationId),
+    loadRecruitmentFunnelSummary(supabase, organizationId),
+    loadCoordinatorRecruitmentStats(supabase, organizationId, user.id),
   ])
+
   const model = toRecruitmentViewModel({ todaysWork, queue, studyPressure }, memberships, organizationId)
+
+  // Owner/site_director-only loads
+  let sourceEffectiveness = undefined
+  let benchmarkReport = null
+  let studyForecasts: { studyId: string; studyName?: string; forecast: import('@/lib/crm/recruitment-forecast').RecruitmentForecast }[] = []
+
+  if (isOwnerOrDirector) {
+    const [sourceReport, benchmark] = await Promise.all([
+      loadSourceEffectiveness(supabase, organizationId),
+      computeSiteBenchmarkValues(supabase, organizationId),
+    ])
+    sourceEffectiveness = sourceReport
+    benchmarkReport = benchmark
+
+    // Load forecasts for active studies (distinct studies with leads, up to 10)
+    const { data: matchData } = await supabase
+      .from('patient_study_matches')
+      .select('study_id')
+      .limit(100)
+
+    const matches = (matchData as { study_id: string }[] | null) ?? []
+    const uniqueStudyIds = [...new Set(matches.map((m) => m.study_id))].slice(0, 10)
+
+    if (uniqueStudyIds.length > 0) {
+      // Fetch study names
+      const { data: studyData } = await supabase
+        .from('studies')
+        .select('id, name')
+        .in('id', uniqueStudyIds)
+
+      const studyNames = new Map(
+        ((studyData as { id: string; name: string }[] | null) ?? []).map((s) => [s.id, s.name]),
+      )
+
+      const forecasts = await Promise.all(
+        uniqueStudyIds.map((studyId) =>
+          loadRecruitmentForecastForStudy(supabase, organizationId, studyId).then((forecast) => ({
+            studyId,
+            studyName: studyNames.get(studyId),
+            forecast,
+          })),
+        ),
+      )
+      studyForecasts = forecasts
+    }
+  }
 
   return (
     <RecruitmentCommandCenterShell
@@ -76,6 +134,11 @@ export default async function RecruitmentPage({
       organizationId={organizationId}
       result={result}
       reason={reason}
+      funnelSummary={funnelSummary}
+      coordinatorStats={coordinatorStats}
+      sourceEffectiveness={sourceEffectiveness}
+      studyForecasts={studyForecasts}
+      benchmarkReport={benchmarkReport}
     />
   )
 }

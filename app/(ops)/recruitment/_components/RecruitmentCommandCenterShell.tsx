@@ -3,17 +3,42 @@ import { TodaysWorkPanel } from '@/app/(ops)/recruitment/_components/TodaysWorkP
 import { RecruitmentQueue } from '@/app/(ops)/recruitment/_components/RecruitmentQueue'
 import { StudyPressureCards } from '@/app/(ops)/recruitment/_components/StudyPressureCards'
 import type { RecruitmentViewModel } from '@/app/(ops)/recruitment/_lib/recruitment-view-model'
+import type { RecruitmentFunnelSummary } from '@/lib/crm/recruitment-intelligence'
+import type { SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
+import type { CoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
+import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
+import type { SiteBenchmarkReport } from '@/lib/benchmarking/score-against-benchmark'
+import { RecruitmentFunnelPanel } from '@/components/recruitment-intelligence/RecruitmentFunnelPanel'
+import { CoordinatorProductivityCard } from '@/components/recruitment-intelligence/CoordinatorProductivityCard'
+import { PortfolioRecruitmentSummary } from '@/components/recruitment-intelligence/PortfolioRecruitmentSummary'
+import { SourceEffectivenessCard } from '@/components/recruitment-intelligence/SourceEffectivenessCard'
+
+type StudyForecastEntry = {
+  studyId: string
+  studyName?: string
+  forecast: RecruitmentForecast
+}
 
 export function RecruitmentCommandCenterShell({
   model,
   organizationId,
   result,
   reason,
+  funnelSummary,
+  coordinatorStats,
+  sourceEffectiveness,
+  studyForecasts,
+  benchmarkReport,
 }: {
   model: RecruitmentViewModel
   organizationId: string
   result?: string
   reason?: string
+  funnelSummary?: RecruitmentFunnelSummary
+  coordinatorStats?: CoordinatorRecruitmentStats
+  sourceEffectiveness?: SourceEffectivenessReport
+  studyForecasts?: StudyForecastEntry[]
+  benchmarkReport?: SiteBenchmarkReport | null
 }) {
   const queueVisible = model.roleExperience === 'coordinator' || model.roleExperience === 'owner'
   const canInteract = queueVisible
@@ -58,6 +83,31 @@ export function RecruitmentCommandCenterShell({
           </p>
         </section>
       )}
+
+      {/* Intelligence panels — added below existing sections */}
+
+      {funnelSummary ? (
+        <RecruitmentFunnelPanel funnel={funnelSummary} />
+      ) : null}
+
+      {model.roleExperience === 'coordinator' && coordinatorStats ? (
+        <CoordinatorProductivityCard stats={coordinatorStats} />
+      ) : null}
+
+      {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') &&
+      studyForecasts &&
+      funnelSummary ? (
+        <PortfolioRecruitmentSummary
+          forecasts={studyForecasts}
+          funnelSummary={funnelSummary}
+          benchmarkReport={benchmarkReport ?? null}
+        />
+      ) : null}
+
+      {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') &&
+      sourceEffectiveness ? (
+        <SourceEffectivenessCard report={sourceEffectiveness} />
+      ) : null}
     </div>
   )
 }
