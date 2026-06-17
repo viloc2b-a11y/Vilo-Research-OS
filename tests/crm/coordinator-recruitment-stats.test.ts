@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest'
-import { loadCoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
+import { loadCoordinatorRecruitmentStats, loadAllCoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
 
 // ---------------------------------------------------------------------------
 // Supabase mock helper
@@ -143,5 +143,163 @@ describe('loadCoordinatorRecruitmentStats', () => {
     const result = await loadCoordinatorRecruitmentStats(supabase, ORG_ID, ACTOR_ID, 90)
 
     expect(result.period_days).toBe(90)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// loadAllCoordinatorRecruitmentStats — mock helper
+// ---------------------------------------------------------------------------
+
+/**
+ * The multi-coordinator function makes exactly 2 Supabase queries:
+ *   1. patient_leads (to count assigned leads per actor)
+ *   2. patient_lead_stage_history (to count period stats per actor)
+ *
+ * Both are chained builders that resolve via `.then()`. We provide one mock
+ * where query results[0] = patient_leads rows, results[1] = history rows.
+ */
+function makeAllStatsMock(
+  leadsRows: Array<{ assigned_user_id: string }>,
+  historyRows: Array<{ actor_id: string; to_stage: string }>,
+) {
+  const results = [
+    { data: leadsRows, error: null },
+    { data: historyRows, error: null },
+  ]
+  let callIndex = 0
+
+  const chain: Record<string, ReturnType<typeof vi.fn>> = {
+    from: vi.fn(),
+    select: vi.fn(),
+    eq: vi.fn(),
+    is: vi.fn(),
+    gte: vi.fn(),
+    not: vi.fn(),
+  }
+
+  for (const key of ['from', 'select', 'eq', 'is', 'gte', 'not']) {
+    chain[key].mockReturnValue(chain)
+  }
+
+  ;(chain as unknown as { then: ReturnType<typeof vi.fn> }).then = vi.fn().mockImplementation(
+    (resolve: (v: unknown) => unknown) => {
+      const result = results[callIndex] ?? { data: [], error: null }
+      callIndex++
+      resolve(result)
+      return Promise.resolve(result)
+    },
+  )
+
+  return chain as unknown as Parameters<typeof loadAllCoordinatorRecruitmentStats>[0]
+}
+
+const ORG_ALL = 'org-all'
+
+// ---------------------------------------------------------------------------
+// Tests for loadAllCoordinatorRecruitmentStats
+// ---------------------------------------------------------------------------
+
+describe('loadAllCoordinatorRecruitmentStats', () => {
+  test('returns one entry per coordinator with assigned leads', async () => {
+    const supabase = makeAllStatsMock(
+      [
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-b' },
+        { assigned_user_id: 'actor-a' },
+      ],
+      [],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results).toHaveLength(2)
+    const actorIds = results.map((r) => r.actor_id).sort()
+    expect(actorIds).toEqual(['actor-a', 'actor-b'])
+  })
+
+  test('two actors have separate leads_assigned counts', async () => {
+    const supabase = makeAllStatsMock(
+      [
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-b' },
+      ],
+      [],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    const a = results.find((r) => r.actor_id === 'actor-a')
+    const b = results.find((r) => r.actor_id === 'actor-b')
+    expect(a?.leads_assigned).toBe(2)
+    expect(b?.leads_assigned).toBe(1)
+  })
+
+  test('actor with assigned leads but no stage history in period gets leads_advanced_in_period = 0', async () => {
+    const supabase = makeAllStatsMock(
+      [{ assigned_user_id: 'actor-a' }],
+      [], // no stage history
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results[0].leads_advanced_in_period).toBe(0)
+    expect(results[0].pre_screens_completed).toBe(0)
+    expect(results[0].qualified_in_period).toBe(0)
+  })
+
+  test('returns empty array when no leads have assigned_user_id set', async () => {
+    // The function queries with .not('assigned_user_id', 'is', null) so we
+    // simulate an empty response from the DB.
+    const supabase = makeAllStatsMock([], [])
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results).toHaveLength(0)
+  })
+
+  test('conversion_rate is correctly computed: qualified_in_period / leads_assigned', async () => {
+    const supabase = makeAllStatsMock(
+      [
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-a' },
+        { assigned_user_id: 'actor-a' },
+      ], // 4 leads assigned
+      [
+        { actor_id: 'actor-a', to_stage: 'qualified' },
+        { actor_id: 'actor-a', to_stage: 'qualified' },
+      ], // 2 qualified in period
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results[0].leads_assigned).toBe(4)
+    expect(results[0].qualified_in_period).toBe(2)
+    expect(results[0].conversion_rate).toBeCloseTo(2 / 4)
+  })
+
+  test('pre_screens and qualified are counted correctly from history', async () => {
+    const supabase = makeAllStatsMock(
+      [{ assigned_user_id: 'actor-a' }],
+      [
+        { actor_id: 'actor-a', to_stage: 'pre_screen' },
+        { actor_id: 'actor-a', to_stage: 'pre_screen' },
+        { actor_id: 'actor-a', to_stage: 'qualified' },
+        { actor_id: 'actor-a', to_stage: 'contacted' }, // another stage — counts toward advanced
+      ],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results[0].pre_screens_completed).toBe(2)
+    expect(results[0].qualified_in_period).toBe(1)
+    expect(results[0].leads_advanced_in_period).toBe(4)
+  })
+
+  test('period_days is reflected in each result entry', async () => {
+    const supabase = makeAllStatsMock(
+      [{ assigned_user_id: 'actor-a' }],
+      [],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL, 90)
+    expect(results[0].period_days).toBe(90)
+  })
+
+  test('contact_attempts_in_period is 0 (not yet queried from DB)', async () => {
+    const supabase = makeAllStatsMock(
+      [{ assigned_user_id: 'actor-a' }],
+      [],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    expect(results[0].contact_attempts_in_period).toBe(0)
   })
 })

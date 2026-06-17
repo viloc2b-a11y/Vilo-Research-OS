@@ -90,3 +90,92 @@ export async function loadCoordinatorRecruitmentStats(
     period_days: periodDays,
   }
 }
+
+// ---------------------------------------------------------------------------
+// loadAllCoordinatorRecruitmentStats
+// ---------------------------------------------------------------------------
+
+/**
+ * Returns one CoordinatorRecruitmentStats per coordinator who has at least one
+ * non-archived patient lead assigned in the given organization.
+ */
+export async function loadAllCoordinatorRecruitmentStats(
+  supabase: SupabaseClient,
+  organizationId: string,
+  periodDays = 30,
+): Promise<CoordinatorRecruitmentStats[]> {
+  const periodStart = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000).toISOString()
+
+  // Step 1: leads_assigned — all non-archived leads grouped by assigned_user_id.
+  // Supabase JS does not support GROUP BY natively; we fetch the relevant columns
+  // and aggregate in memory.
+  const { data: leadsData } = await supabase
+    .from('patient_leads')
+    .select('assigned_user_id')
+    .eq('organization_id', organizationId)
+    .is('archived_at', null)
+    .not('assigned_user_id', 'is', null)
+
+  const leadsRows = (leadsData as Array<{ assigned_user_id: string }> | null) ?? []
+
+  // Tally leads_assigned per actor.
+  const leadsAssignedMap = new Map<string, number>()
+  for (const row of leadsRows) {
+    if (row.assigned_user_id) {
+      leadsAssignedMap.set(row.assigned_user_id, (leadsAssignedMap.get(row.assigned_user_id) ?? 0) + 1)
+    }
+  }
+
+  const actorIds = [...leadsAssignedMap.keys()]
+  if (actorIds.length === 0) return []
+
+  // Step 2: stage history stats in period — fetch all rows for this org in period
+  // and aggregate in memory to avoid N+1 queries.
+  const { data: historyData } = await supabase
+    .from('patient_lead_stage_history')
+    .select('actor_id, to_stage')
+    .eq('organization_id', organizationId)
+    .gte('created_at', periodStart)
+
+  const historyRows =
+    (historyData as Array<{ actor_id: string; to_stage: string }> | null) ?? []
+
+  // Aggregate per actor.
+  const advancedMap = new Map<string, number>()
+  const preScreenMap = new Map<string, number>()
+  const qualifiedMap = new Map<string, number>()
+
+  for (const row of historyRows) {
+    if (!row.actor_id) continue
+    advancedMap.set(row.actor_id, (advancedMap.get(row.actor_id) ?? 0) + 1)
+    if (row.to_stage === 'pre_screen') {
+      preScreenMap.set(row.actor_id, (preScreenMap.get(row.actor_id) ?? 0) + 1)
+    }
+    if (row.to_stage === 'qualified') {
+      qualifiedMap.set(row.actor_id, (qualifiedMap.get(row.actor_id) ?? 0) + 1)
+    }
+  }
+
+  // contact_attempts_in_period: not yet queryable via a loader (same as single-actor fn).
+  // TODO: query patient_lead_contact_log when exposed as a loader.
+
+  // Step 3: Merge and return one entry per actor with assigned leads.
+  return actorIds.map((actorId) => {
+    const leads_assigned = leadsAssignedMap.get(actorId) ?? 0
+    const leads_advanced_in_period = advancedMap.get(actorId) ?? 0
+    const pre_screens_completed = preScreenMap.get(actorId) ?? 0
+    const qualified_in_period = qualifiedMap.get(actorId) ?? 0
+    const conversion_rate = leads_assigned > 0 ? qualified_in_period / leads_assigned : 0
+
+    return {
+      actor_id: actorId,
+      leads_assigned,
+      leads_advanced_in_period,
+      contact_attempts_in_period: 0,
+      pre_screens_completed,
+      qualified_in_period,
+      conversion_rate,
+      period_days: periodDays,
+    }
+  })
+}

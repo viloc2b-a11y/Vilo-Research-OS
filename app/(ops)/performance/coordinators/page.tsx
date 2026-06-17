@@ -3,6 +3,7 @@ import { getOrganizationMemberships, getSessionUser } from '@/lib/auth/session'
 import { activeMemberships } from '@/lib/auth/membership-access'
 import { computeCoordinatorWorkload } from '@/lib/performance/portfolio/compute-coordinator-workload'
 import type { CoordinatorWorkload } from '@/lib/performance/portfolio/compute-coordinator-workload'
+import { loadAllCoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
 import { CoordinatorWorkloadTable } from '@/app/(ops)/performance/coordinators/_components/CoordinatorWorkloadTable'
 
 type CoordinatorWithProfile = CoordinatorWorkload & {
@@ -51,17 +52,24 @@ async function loadCoordinatorWorkloads(): Promise<{
     if (p.display_name) displayByUserId.set(p.id as string, p.display_name as string)
   }
 
-  const workloads = await Promise.all(
-    coordinatorUserIds.map((coordinatorId) =>
-      computeCoordinatorWorkload({ supabase, organizationId, coordinatorId }),
+  const [workloads, recruitmentStats] = await Promise.all([
+    Promise.all(
+      coordinatorUserIds.map((coordinatorId) =>
+        computeCoordinatorWorkload({ supabase, organizationId, coordinatorId }),
+      ),
     ),
-  )
+    loadAllCoordinatorRecruitmentStats(supabase, organizationId),
+  ])
+
+  // Index recruitment stats by actor_id for O(1) lookup.
+  const recruitmentByActorId = new Map(recruitmentStats.map((s) => [s.actor_id, s]))
 
   const rows: CoordinatorWithProfile[] = workloads
     .map((w) => ({
       ...w,
       displayName: displayByUserId.get(w.coordinatorId) ?? null,
       email: null,
+      recruitment: recruitmentByActorId.get(w.coordinatorId),
     }))
     .sort((a, b) => b.workloadScore - a.workloadScore)
 

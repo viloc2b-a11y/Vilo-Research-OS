@@ -1,9 +1,11 @@
 import type { CoordinatorWorkload, CoordinatorWorkloadTier } from '@/lib/performance/portfolio/compute-coordinator-workload'
+import type { CoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
 import { cn } from '@/lib/utils'
 
 type CoordinatorRow = CoordinatorWorkload & {
   displayName: string | null
   email: string | null
+  recruitment?: CoordinatorRecruitmentStats
 }
 
 type CoordinatorWorkloadTableProps = {
@@ -53,8 +55,25 @@ export function CoordinatorWorkloadTable({ rows }: CoordinatorWorkloadTableProps
 
   return (
     <div className="overflow-x-auto rounded-lg border bg-card">
-      <table className="w-full min-w-[640px] text-sm">
+      <table className="w-full min-w-[960px] text-sm">
         <thead>
+          {/* Section group headers */}
+          <tr className="border-b text-xs text-muted-foreground">
+            <th className="px-4 py-2" />
+            <th
+              colSpan={7}
+              className="px-4 py-2 text-center font-semibold text-foreground border-r"
+            >
+              Clinical Workload
+            </th>
+            <th
+              colSpan={5}
+              className="px-4 py-2 text-center font-semibold text-foreground"
+            >
+              Recruitment (30d)
+            </th>
+          </tr>
+          {/* Column headers */}
           <tr className="border-b text-left text-xs text-muted-foreground">
             <th className="px-4 py-3 font-medium">Coordinator</th>
             <th className="px-4 py-3 font-medium text-right">Subjects</th>
@@ -63,7 +82,13 @@ export function CoordinatorWorkloadTable({ rows }: CoordinatorWorkloadTableProps
             <th className="px-4 py-3 font-medium text-right">Findings</th>
             <th className="px-4 py-3 font-medium text-right">Queries</th>
             <th className="px-4 py-3 font-medium text-right">Workload Score</th>
-            <th className="px-4 py-3 font-medium">Tier</th>
+            <th className="px-4 py-3 font-medium border-r">Tier</th>
+            {/* Recruitment columns */}
+            <th className="px-4 py-3 font-medium text-right">Assigned Leads</th>
+            <th className="px-4 py-3 font-medium text-right">Leads Advanced</th>
+            <th className="px-4 py-3 font-medium text-right">Contact Attempts</th>
+            <th className="px-4 py-3 font-medium text-right">Qualified</th>
+            <th className="px-4 py-3 font-medium text-right">Conversion %</th>
           </tr>
         </thead>
         <tbody>
@@ -97,8 +122,26 @@ export function CoordinatorWorkloadTable({ rows }: CoordinatorWorkloadTableProps
                   {row.workloadScore}
                 </span>
               </td>
-              <td className="px-4 py-3 text-muted-foreground">
+              <td className="px-4 py-3 text-muted-foreground border-r">
                 {tierLabel(row.tier)}
+              </td>
+              {/* Recruitment columns */}
+              <td className="px-4 py-3 text-right text-muted-foreground">
+                {row.recruitment?.leads_assigned ?? '—'}
+              </td>
+              <td className="px-4 py-3 text-right text-muted-foreground">
+                {row.recruitment?.leads_advanced_in_period ?? '—'}
+              </td>
+              <td className="px-4 py-3 text-right text-muted-foreground">
+                {row.recruitment?.contact_attempts_in_period ?? '—'}
+              </td>
+              <td className="px-4 py-3 text-right text-muted-foreground">
+                {row.recruitment?.qualified_in_period ?? '—'}
+              </td>
+              <td className="px-4 py-3 text-right text-muted-foreground">
+                {row.recruitment != null && row.recruitment.leads_assigned > 0
+                  ? `${(row.recruitment.conversion_rate * 100).toFixed(1)}%`
+                  : '—'}
               </td>
             </tr>
           ))}

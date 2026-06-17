@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { CoordinatorRecruitmentStats } from '@/lib/crm/coordinator-recruitment-stats'
 
 export type CoordinatorWorkloadTier = 'overloaded' | 'busy' | 'normal' | 'light'
 
@@ -11,6 +12,8 @@ export type CoordinatorWorkload = {
   openQueriesCount: number
   workloadScore: number
   tier: CoordinatorWorkloadTier
+  /** Recruitment stats for this coordinator. Populated by the page after merging. */
+  recruitment?: CoordinatorRecruitmentStats
 }
 
 function computeWorkloadScore(input: {
