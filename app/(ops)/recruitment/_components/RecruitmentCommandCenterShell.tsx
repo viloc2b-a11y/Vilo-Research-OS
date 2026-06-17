@@ -12,11 +12,23 @@ import { RecruitmentFunnelPanel } from '@/components/recruitment-intelligence/Re
 import { CoordinatorProductivityCard } from '@/components/recruitment-intelligence/CoordinatorProductivityCard'
 import { PortfolioRecruitmentSummary } from '@/components/recruitment-intelligence/PortfolioRecruitmentSummary'
 import { SourceEffectivenessCard } from '@/components/recruitment-intelligence/SourceEffectivenessCard'
+import { PIStudyEnrollmentPanel } from '@/components/recruitment-intelligence/PIStudyEnrollmentPanel'
 
 type StudyForecastEntry = {
   studyId: string
   studyName?: string
   forecast: RecruitmentForecast
+}
+
+type PIStudyEntry = {
+  studyId: string
+  studyName: string
+  randomizedCount: number
+  enrollmentTarget: number
+  qualifiedCount: number
+  scheduledCount: number
+  forecastRisk?: 'on_track' | 'at_risk' | 'critical' | 'impossible' | null
+  workspaceHref: string
 }
 
 export function RecruitmentCommandCenterShell({
@@ -29,6 +41,7 @@ export function RecruitmentCommandCenterShell({
   sourceEffectiveness,
   studyForecasts,
   benchmarkReport,
+  piStudies,
 }: {
   model: RecruitmentViewModel
   organizationId: string
@@ -39,8 +52,12 @@ export function RecruitmentCommandCenterShell({
   sourceEffectiveness?: SourceEffectivenessReport
   studyForecasts?: StudyForecastEntry[]
   benchmarkReport?: SiteBenchmarkReport | null
+  piStudies?: PIStudyEntry[]
 }) {
-  const queueVisible = model.roleExperience === 'coordinator' || model.roleExperience === 'owner'
+  const queueVisible =
+    model.roleExperience === 'coordinator' ||
+    model.roleExperience === 'owner' ||
+    model.roleExperience === 'site_director'
   const canInteract = queueVisible
 
   return (
@@ -75,6 +92,8 @@ export function RecruitmentCommandCenterShell({
 
       {queueVisible ? (
         <RecruitmentQueue items={model.queue} organizationId={organizationId} canInteract={canInteract} />
+      ) : model.roleExperience === 'pi' ? (
+        <PIStudyEnrollmentPanel studies={piStudies ?? []} />
       ) : (
         <section className="rounded-md border border-slate-200 bg-white p-5">
           <h2 className="text-sm font-semibold text-slate-900">Recruitment queue</h2>
@@ -102,6 +121,14 @@ export function RecruitmentCommandCenterShell({
           funnelSummary={funnelSummary}
           benchmarkReport={benchmarkReport ?? null}
         />
+      ) : null}
+
+      {model.roleExperience === 'site_director' ? (
+        <div className="mt-2">
+          <a href="/performance/coordinators" className="text-sm text-teal-700 underline hover:text-teal-900">
+            View coordinator workload →
+          </a>
+        </div>
       ) : null}
 
       {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') &&

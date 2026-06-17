@@ -128,6 +128,47 @@ export default async function RecruitmentPage({
     }
   }
 
+  // PI-only: load forecasts keyed to the studies already in studyPressure
+  let piStudies: {
+    studyId: string
+    studyName: string
+    randomizedCount: number
+    enrollmentTarget: number
+    qualifiedCount: number
+    scheduledCount: number
+    forecastRisk: 'on_track' | 'at_risk' | 'critical' | 'impossible' | null
+    workspaceHref: string
+  }[] = []
+
+  if (roleExperience === 'pi' && model.studyPressure.length > 0) {
+    const piStudyIds = model.studyPressure.map((card) => card.study_id)
+
+    const piForecasts = await Promise.all(
+      piStudyIds.map((studyId) =>
+        loadRecruitmentForecastForStudy(supabase, organizationId, studyId).then((forecast) => ({
+          studyId,
+          forecast,
+        })),
+      ),
+    )
+
+    const piForecastMap = new Map(piForecasts.map((f) => [f.studyId, f.forecast]))
+
+    piStudies = model.studyPressure.map((card) => {
+      const forecast = piForecastMap.get(card.study_id)
+      return {
+        studyId: card.study_id,
+        studyName: card.study_name,
+        randomizedCount: card.randomized_count,
+        enrollmentTarget: card.target_leads ?? 0,
+        qualifiedCount: card.qualified_count ?? 0,
+        scheduledCount: card.scheduled_count ?? 0,
+        forecastRisk: forecast?.risk_classification ?? null,
+        workspaceHref: `/studies/${card.study_id}/workspace`,
+      }
+    })
+  }
+
   return (
     <RecruitmentCommandCenterShell
       model={model}
@@ -139,6 +180,7 @@ export default async function RecruitmentPage({
       sourceEffectiveness={sourceEffectiveness}
       studyForecasts={studyForecasts}
       benchmarkReport={benchmarkReport}
+      piStudies={piStudies}
     />
   )
 }
