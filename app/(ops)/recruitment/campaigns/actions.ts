@@ -54,6 +54,7 @@ export async function createCampaign(formData: FormData): Promise<never> {
   const target_enrollments = optionalInt(formData, 'target_enrollments')
   const start_date = optionalString(formData, 'start_date')
   const end_date = optionalString(formData, 'end_date')
+  const partner_id = optionalString(formData, 'partner_id') ?? null
 
   const supabase = await createServerClient()
 
@@ -70,6 +71,7 @@ export async function createCampaign(formData: FormData): Promise<never> {
       target_enrollments: target_enrollments ?? null,
       start_date: start_date ?? null,
       end_date: end_date ?? null,
+      partner_id,
     })
     .select('id')
     .single()
@@ -133,6 +135,12 @@ export async function updateCampaign(formData: FormData): Promise<never> {
   // budget_amount presence check — allow explicit null to clear the field
   const budgetRaw = formData.get('budget_amount')
   if (budgetRaw !== null) patch.budget_amount = budget_amount
+
+  // partner_id — empty string clears the association
+  const partnerIdRaw = formData.get('partner_id')
+  if (partnerIdRaw !== null) {
+    patch.partner_id = (partnerIdRaw as string).trim() || null
+  }
 
   const { error } = await supabase
     .from('recruitment_campaigns')

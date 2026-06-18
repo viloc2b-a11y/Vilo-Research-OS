@@ -48,6 +48,7 @@ export type CampaignListItem = {
 
 export type CampaignDetail = CampaignListItem & {
   description: string | null
+  partner_id: string | null
   linked_studies: {
     study_id: string
     study_name: string
@@ -209,7 +210,7 @@ export async function loadCampaignDetail(
   // Query 1: fetch campaign — verify org ownership
   const { data: campaign, error: campaignError } = await supabase
     .from('recruitment_campaigns')
-    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at, description, organization_id, budget_amount')
+    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at, description, organization_id, budget_amount, partner_id')
     .eq('id', campaignId)
     .single() as { data: Record<string, unknown> | null; error: unknown }
 
@@ -307,6 +308,7 @@ export async function loadCampaignDetail(
     end_date: (campaign.end_date as string | null) ?? null,
     created_at: campaign.created_at as string,
     description: (campaign.description as string | null) ?? null,
+    partner_id: (campaign.partner_id as string | null) ?? null,
     linked_study_count: linked_studies.length,
     leads_generated,
     qualified_leads,

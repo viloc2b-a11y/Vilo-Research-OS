@@ -132,9 +132,12 @@ export function RecruitmentCommandCenterShell({
       ) : null}
 
       {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') ? (
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col gap-1">
           <a href="/recruitment/campaigns" className="text-sm text-teal-700 underline hover:text-teal-900">
             Manage campaigns →
+          </a>
+          <a href="/recruitment/partners" className="text-sm text-teal-700 underline hover:text-teal-900">
+            Manage partners →
           </a>
         </div>
       ) : null}
