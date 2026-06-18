@@ -165,20 +165,23 @@ async function resolveCampaign(
 
 /**
  * Resolve a referral relationship by ref_code.
- *
- * APPLY-TIME FINDING: Migration 0166 inspected — contact_referral_relationships has NO
- * referral code column (no referral_code, code, partner_code, or source_code column).
- * Per ADR-7, this is a graceful degrade: always return null.
- * Logged as Phase 5 design gap: referral code lookup deferred.
+ * Migration 0219 added referral_code TEXT UNIQUE to contact_referral_relationships.
+ * Matches active relationships only; returns the relationship UUID or null.
  */
 async function resolveReferral(
-  _supabase: SupabaseClient,
-  _orgId: string,
-  _refCode?: string,
+  supabase: SupabaseClient,
+  refCode: string | undefined,
 ): Promise<string | null> {
-  // Phase 5 gap: contact_referral_relationships has no referral code column.
-  // Graceful degrade per ADR-7 — attribution detail is lost, never the lead.
-  return null
+  if (!refCode) return null
+
+  const { data } = await supabase
+    .from('contact_referral_relationships')
+    .select('id')
+    .eq('referral_code', refCode)
+    .eq('active', true)
+    .single()
+
+  return (data as { id: string } | null)?.id ?? null
 }
 
 /**
@@ -203,6 +206,8 @@ async function insertLead(
     campaign_id: string | null
     contact_attempts: number
     stage: string
+    utm_source?: string
+    utm_medium?: string
   },
 ): Promise<string> {
   const { data: inserted, error } = await supabase
@@ -247,8 +252,8 @@ export async function intakeLead(
     // 4. Resolve campaign (null on no match — never errors)
     const campaignId = await resolveCampaign(supabase, payload.organization_id, payload.utm_campaign)
 
-    // 5. Resolve referral (always null — Phase 5 gap, no code column exists)
-    const referralId = await resolveReferral(supabase, payload.organization_id, payload.ref_code)
+    // 5. Resolve referral by referral_code (added in migration 0219)
+    const referralId = await resolveReferral(supabase, payload.ref_code)
 
     // 6. Derive source channel from attribution signals
     const sourceChannel = deriveSourceChannel({
@@ -293,6 +298,8 @@ export async function intakeLead(
       campaign_id: campaignId,
       contact_attempts: 0,
       stage: 'lead',
+      utm_source: payload.utm_source,
+      utm_medium: payload.utm_medium,
     })
 
     return { ok: true, lead_id: leadId, tier: scoreResult.tier, duplicate: false }

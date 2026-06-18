@@ -89,12 +89,14 @@ function makeSupabaseMock(config: {
   orgExists?: boolean
   existingLead?: { id: string; prescreen_score: number | null } | null
   campaignId?: string | null
+  referralId?: string | null
   insertedId?: string
 }) {
   const {
     orgExists = true,
     existingLead = null,
     campaignId = null,
+    referralId = null,
     insertedId = 'new-lead-uuid',
   } = config
 
@@ -140,9 +142,12 @@ function makeSupabaseMock(config: {
       : { data: null, error: { code: 'PGRST116', message: 'Not found' } }
   )
 
-  // referral: no referral code column exists → resolveReferral always returns null
-  // So we don't need a meaningful referral chain, but we do need to handle the call gracefully
-  const referralChain = buildChain({ data: null, error: { code: 'PGRST116', message: 'Not found' } })
+  // referral_code lookup added in migration 0219 — resolveReferral now actually queries
+  const referralChain = buildChain(
+    referralId
+      ? { data: { id: referralId }, error: null }
+      : { data: null, error: { code: 'PGRST116', message: 'Not found' } }
+  )
 
   selectMock.mockImplementation(function (this: { _table: string }) {
     return this._table === 'organizations'
@@ -263,5 +268,61 @@ describe('intakeLead', () => {
     expect(_insertMock).toHaveBeenCalledOnce()
     const insertArgs = _insertMock.mock.calls[0][0] as Record<string, unknown>
     expect(insertArgs).toMatchObject({ prescreen_score: 0 })
+  })
+
+  test('ref_code matches active referral relationship → inserts with referral_relationship_id set', async () => {
+    const { from, _insertMock } = makeSupabaseMock({ referralId: 'referral-uuid-xyz' })
+    const payload: IntakeLeadPayload = { ...BASE_PAYLOAD, ref_code: 'PARTNERCODE1' }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await intakeLead({ from } as any, payload)
+
+    expect(result.ok).toBe(true)
+    const insertArgs = _insertMock.mock.calls[0][0] as Record<string, unknown>
+    expect(insertArgs).toMatchObject({
+      referral_relationship_id: 'referral-uuid-xyz',
+      recruitment_source_channel: 'referral_partner',
+    })
+  })
+
+  test('ref_code undefined → resolveReferral returns null without querying DB', async () => {
+    const { from, _insertMock } = makeSupabaseMock({})
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await intakeLead({ from } as any, BASE_PAYLOAD)
+
+    expect(result.ok).toBe(true)
+    const insertArgs = _insertMock.mock.calls[0][0] as Record<string, unknown>
+    expect(insertArgs).toMatchObject({ referral_relationship_id: null })
+  })
+
+  test('ref_code provided but no matching active referral → referral_relationship_id is null, channel is shared', async () => {
+    const { from, _insertMock } = makeSupabaseMock({ referralId: null })
+    const payload: IntakeLeadPayload = { ...BASE_PAYLOAD, ref_code: 'UNKNOWN_CODE' }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await intakeLead({ from } as any, payload)
+
+    expect(result.ok).toBe(true)
+    const insertArgs = _insertMock.mock.calls[0][0] as Record<string, unknown>
+    expect(insertArgs).toMatchObject({
+      referral_relationship_id: null,
+      recruitment_source_channel: 'shared',
+    })
+  })
+
+  test('utm_source and utm_medium are stored on the created lead record', async () => {
+    const { from, _insertMock } = makeSupabaseMock({ insertedId: 'utm-lead-uuid' })
+    const payload: IntakeLeadPayload = {
+      ...BASE_PAYLOAD,
+      utm_source: 'facebook',
+      utm_medium: 'cpc',
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await intakeLead({ from } as any, payload)
+
+    expect(result.ok).toBe(true)
+    const insertArgs = _insertMock.mock.calls[0][0] as Record<string, unknown>
+    expect(insertArgs).toMatchObject({
+      utm_source: 'facebook',
+      utm_medium: 'cpc',
+    })
   })
 })

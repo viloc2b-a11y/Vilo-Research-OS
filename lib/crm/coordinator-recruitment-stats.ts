@@ -51,9 +51,16 @@ export async function loadCoordinatorRecruitmentStats(
 
   const leads_advanced_in_period = ((advancedData as unknown[] | null) ?? []).length
 
-  // contact_attempts_in_period: patient_lead_contact_log is used in recruitment-actions.ts
-  // TODO: query patient_lead_contact_log when exposed as a loader (currently only written to via actions)
-  const contact_attempts_in_period = 0
+  // contact_attempts_in_period: count contact log entries by this actor in the period.
+  // patient_lead_contact_log has organization_id directly (migration 0217).
+  const { data: contactLogData } = await supabase
+    .from('patient_lead_contact_log')
+    .select('id')
+    .eq('organization_id', organizationId)
+    .eq('actor_user_id', actorId)
+    .gte('attempted_at', periodStart)
+
+  const contact_attempts_in_period = ((contactLogData as unknown[] | null) ?? []).length
 
   // pre_screens_completed: stage history transitions TO 'pre_screen' by this actor in period
   const { data: preScreenData } = await supabase
@@ -156,8 +163,26 @@ export async function loadAllCoordinatorRecruitmentStats(
     }
   }
 
-  // contact_attempts_in_period: not yet queryable via a loader (same as single-actor fn).
-  // TODO: query patient_lead_contact_log when exposed as a loader.
+  // Step 2b: contact_attempts_in_period — fetch contact log entries for this org in the period.
+  // patient_lead_contact_log.organization_id is available directly (migration 0217).
+  const { data: contactLogData } = await supabase
+    .from('patient_lead_contact_log')
+    .select('actor_user_id')
+    .eq('organization_id', organizationId)
+    .gte('attempted_at', periodStart)
+
+  const contactLogRows =
+    (contactLogData as Array<{ actor_user_id: string }> | null) ?? []
+
+  const contactAttemptsMap = new Map<string, number>()
+  for (const row of contactLogRows) {
+    if (row.actor_user_id) {
+      contactAttemptsMap.set(
+        row.actor_user_id,
+        (contactAttemptsMap.get(row.actor_user_id) ?? 0) + 1,
+      )
+    }
+  }
 
   // Step 3: Merge and return one entry per actor with assigned leads.
   return actorIds.map((actorId) => {
@@ -166,12 +191,13 @@ export async function loadAllCoordinatorRecruitmentStats(
     const pre_screens_completed = preScreenMap.get(actorId) ?? 0
     const qualified_in_period = qualifiedMap.get(actorId) ?? 0
     const conversion_rate = leads_assigned > 0 ? qualified_in_period / leads_assigned : 0
+    const contact_attempts_in_period = contactAttemptsMap.get(actorId) ?? 0
 
     return {
       actor_id: actorId,
       leads_assigned,
       leads_advanced_in_period,
-      contact_attempts_in_period: 0,
+      contact_attempts_in_period,
       pre_screens_completed,
       qualified_in_period,
       conversion_rate,

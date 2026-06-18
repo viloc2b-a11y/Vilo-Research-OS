@@ -43,15 +43,19 @@ const ACTOR_ID = 'actor-1'
 // Tests
 // ---------------------------------------------------------------------------
 
+// Query order for loadCoordinatorRecruitmentStats (5 queries total):
+//   1. patient_leads             → leads_assigned
+//   2. patient_lead_stage_history → leads_advanced_in_period
+//   3. patient_lead_contact_log  → contact_attempts_in_period
+//   4. patient_lead_stage_history to_stage=pre_screen → pre_screens_completed
+//   5. patient_lead_stage_history to_stage=qualified  → qualified_in_period
+
 describe('loadCoordinatorRecruitmentStats', () => {
   test('leads_assigned counts only leads assigned to this actor', async () => {
-    // Query 1: patient_leads (3 assigned leads)
-    // Query 2: patient_lead_stage_history (leads_advanced)
-    // Query 3: patient_lead_stage_history to_stage=pre_screen
-    // Query 4: patient_lead_stage_history to_stage=qualified
     const supabase = makeMultiResultMock([
       { data: [{ id: '1' }, { id: '2' }, { id: '3' }], error: null }, // leads_assigned
       { data: [], error: null }, // leads_advanced_in_period
+      { data: [], error: null }, // contact_attempts_in_period
       { data: [], error: null }, // pre_screens_completed
       { data: [], error: null }, // qualified_in_period
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
@@ -66,8 +70,9 @@ describe('loadCoordinatorRecruitmentStats', () => {
   test('conversion_rate is 0 when leads_assigned is 0 (no division by zero)', async () => {
     const supabase = makeMultiResultMock([
       { data: [], error: null }, // leads_assigned = 0
-      { data: [], error: null },
-      { data: [], error: null },
+      { data: [], error: null }, // leads_advanced_in_period
+      { data: [], error: null }, // contact_attempts_in_period
+      { data: [], error: null }, // pre_screens
       { data: [{ id: 'h1' }], error: null }, // qualified_in_period = 1
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
 
@@ -82,6 +87,7 @@ describe('loadCoordinatorRecruitmentStats', () => {
     const supabase = makeMultiResultMock([
       { data: [{ id: 'l1' }, { id: 'l2' }], error: null }, // 2 leads assigned
       { data: [{ id: 'h1' }, { id: 'h2' }], error: null }, // 2 advanced
+      { data: [], error: null }, // 0 contact attempts
       { data: [], error: null }, // 0 pre_screens
       { data: [{ id: 'q1' }], error: null }, // 1 qualified
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
@@ -96,6 +102,7 @@ describe('loadCoordinatorRecruitmentStats', () => {
     const supabase = makeMultiResultMock([
       { data: [{ id: 'l1' }], error: null }, // leads_assigned
       { data: [{ id: 'h1' }, { id: 'h2' }, { id: 'h3' }], error: null }, // leads_advanced = 3
+      { data: [], error: null }, // 0 contact attempts
       { data: [{ id: 'p1' }, { id: 'p2' }], error: null }, // pre_screens = 2
       { data: [], error: null }, // qualified = 0
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
@@ -110,8 +117,9 @@ describe('loadCoordinatorRecruitmentStats', () => {
     const supabase = makeMultiResultMock([
       { data: [], error: null }, // leads_assigned = 0
       { data: Array.from({ length: 5 }, (_, i) => ({ id: `h${i}` })), error: null }, // 5 transitions
-      { data: [], error: null },
-      { data: [], error: null },
+      { data: [], error: null }, // contact attempts
+      { data: [], error: null }, // pre_screens
+      { data: [], error: null }, // qualified
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
 
     const result = await loadCoordinatorRecruitmentStats(supabase, ORG_ID, ACTOR_ID)
@@ -119,12 +127,27 @@ describe('loadCoordinatorRecruitmentStats', () => {
     expect(result.leads_advanced_in_period).toBe(5)
   })
 
-  test('contact_attempts_in_period is 0 (TODO: not yet queried from DB)', async () => {
+  test('contact_attempts_in_period returns real count from patient_lead_contact_log', async () => {
     const supabase = makeMultiResultMock([
-      { data: [], error: null },
-      { data: [], error: null },
-      { data: [], error: null },
-      { data: [], error: null },
+      { data: [], error: null }, // leads_assigned
+      { data: [], error: null }, // leads_advanced
+      { data: [{ id: 'c1' }, { id: 'c2' }, { id: 'c3' }], error: null }, // 3 contact attempts
+      { data: [], error: null }, // pre_screens
+      { data: [], error: null }, // qualified
+    ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
+
+    const result = await loadCoordinatorRecruitmentStats(supabase, ORG_ID, ACTOR_ID)
+
+    expect(result.contact_attempts_in_period).toBe(3)
+  })
+
+  test('contact_attempts_in_period is 0 when no contact log entries in period', async () => {
+    const supabase = makeMultiResultMock([
+      { data: [], error: null }, // leads_assigned
+      { data: [], error: null }, // leads_advanced
+      { data: [], error: null }, // no contact log entries
+      { data: [], error: null }, // pre_screens
+      { data: [], error: null }, // qualified
     ]) as unknown as Parameters<typeof loadCoordinatorRecruitmentStats>[0]
 
     const result = await loadCoordinatorRecruitmentStats(supabase, ORG_ID, ACTOR_ID)
@@ -134,6 +157,7 @@ describe('loadCoordinatorRecruitmentStats', () => {
 
   test('custom periodDays is reflected in result', async () => {
     const supabase = makeMultiResultMock([
+      { data: [], error: null },
       { data: [], error: null },
       { data: [], error: null },
       { data: [], error: null },
@@ -151,20 +175,22 @@ describe('loadCoordinatorRecruitmentStats', () => {
 // ---------------------------------------------------------------------------
 
 /**
- * The multi-coordinator function makes exactly 2 Supabase queries:
- *   1. patient_leads (to count assigned leads per actor)
- *   2. patient_lead_stage_history (to count period stats per actor)
+ * The multi-coordinator function makes exactly 3 Supabase queries:
+ *   1. patient_leads             (assigned leads per actor)
+ *   2. patient_lead_stage_history (period stats per actor)
+ *   3. patient_lead_contact_log  (contact attempts per actor in period)
  *
- * Both are chained builders that resolve via `.then()`. We provide one mock
- * where query results[0] = patient_leads rows, results[1] = history rows.
+ * Provide contactLogRows to override the default empty contact log.
  */
 function makeAllStatsMock(
   leadsRows: Array<{ assigned_user_id: string }>,
   historyRows: Array<{ actor_id: string; to_stage: string }>,
+  contactLogRows: Array<{ actor_user_id: string }> = [],
 ) {
   const results = [
     { data: leadsRows, error: null },
     { data: historyRows, error: null },
+    { data: contactLogRows, error: null },
   ]
   let callIndex = 0
 
@@ -294,10 +320,28 @@ describe('loadAllCoordinatorRecruitmentStats', () => {
     expect(results[0].period_days).toBe(90)
   })
 
-  test('contact_attempts_in_period is 0 (not yet queried from DB)', async () => {
+  test('contact_attempts_in_period returns real count per actor from contact log', async () => {
+    const supabase = makeAllStatsMock(
+      [{ assigned_user_id: 'actor-a' }, { assigned_user_id: 'actor-b' }],
+      [],
+      [
+        { actor_user_id: 'actor-a' },
+        { actor_user_id: 'actor-a' },
+        { actor_user_id: 'actor-b' },
+      ],
+    )
+    const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
+    const a = results.find((r) => r.actor_id === 'actor-a')
+    const b = results.find((r) => r.actor_id === 'actor-b')
+    expect(a?.contact_attempts_in_period).toBe(2)
+    expect(b?.contact_attempts_in_period).toBe(1)
+  })
+
+  test('contact_attempts_in_period is 0 when no contact log entries exist in period', async () => {
     const supabase = makeAllStatsMock(
       [{ assigned_user_id: 'actor-a' }],
       [],
+      [], // empty contact log
     )
     const results = await loadAllCoordinatorRecruitmentStats(supabase, ORG_ALL)
     expect(results[0].contact_attempts_in_period).toBe(0)
