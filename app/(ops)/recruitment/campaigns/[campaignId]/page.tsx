@@ -95,7 +95,7 @@ export default async function CampaignDetailPage({
       </header>
 
       {/* Performance summary */}
-      <CampaignPerformanceSummary detail={detail} />
+      <CampaignPerformanceSummary detail={detail} canViewBudget={canManage} />
 
       {/* Study assignments */}
       <CampaignStudyAssignments

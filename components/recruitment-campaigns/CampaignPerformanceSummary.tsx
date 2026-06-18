@@ -2,11 +2,12 @@ import type { CampaignDetail } from '@/lib/crm/campaign-management'
 
 type CampaignPerformanceSummaryProps = {
   detail: CampaignDetail
+  canViewBudget: boolean
 }
 
 type MetricCardProps = {
   label: string
-  value: number
+  value: string | number
 }
 
 function MetricCard({ label, value }: MetricCardProps) {
@@ -18,7 +19,22 @@ function MetricCard({ label, value }: MetricCardProps) {
   )
 }
 
-export function CampaignPerformanceSummary({ detail }: CampaignPerformanceSummaryProps) {
+function formatCurrency(value: number | null): string {
+  if (value === null) return '—'
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  })
+}
+
+function formatRate(value: number | null): string {
+  if (value === null) return '—'
+  return `${(value * 100).toFixed(1)}%`
+}
+
+export function CampaignPerformanceSummary({ detail, canViewBudget }: CampaignPerformanceSummaryProps) {
   return (
     <section>
       <h2 className="mb-3 text-sm font-semibold text-slate-900">Performance</h2>
@@ -27,6 +43,23 @@ export function CampaignPerformanceSummary({ detail }: CampaignPerformanceSummar
         <MetricCard label="Qualified" value={detail.qualified_leads} />
         <MetricCard label="Screened" value={detail.screened_count} />
         <MetricCard label="Randomized" value={detail.randomized_subjects} />
+      </div>
+
+      {/* Cost intelligence row — budget-sensitive */}
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <MetricCard
+          label="Conversion Rate (Lead → Randomized)"
+          value={formatRate(detail.lead_to_randomized_rate)}
+        />
+        {canViewBudget && (
+          <>
+            <MetricCard label="CPL (Cost Per Lead)" value={formatCurrency(detail.cost_per_lead)} />
+            <MetricCard
+              label="Cost Per Randomized"
+              value={formatCurrency(detail.cost_per_randomized_subject)}
+            />
+          </>
+        )}
       </div>
     </section>
   )

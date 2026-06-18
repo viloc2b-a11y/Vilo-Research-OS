@@ -79,7 +79,7 @@ export default async function CampaignListPage({
         })}
       </nav>
 
-      <CampaignListTable campaigns={campaigns} canManage={canManage} />
+      <CampaignListTable campaigns={campaigns} canManage={canManage} canViewBudget={canManage} />
     </div>
   )
 }

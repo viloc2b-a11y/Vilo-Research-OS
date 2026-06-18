@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest'
-import { loadCampaignList, loadCampaignDetail } from '@/lib/crm/campaign-management'
+import { loadCampaignList, loadCampaignDetail, computeCostMetrics } from '@/lib/crm/campaign-management'
 
 // ---------------------------------------------------------------------------
 // Supabase mock helpers
@@ -395,5 +395,81 @@ describe('Campaign metric mapping', () => {
 
     expect(result!.randomized_subjects).toBe(2)
     expect(result!.screened_count).toBe(1)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// computeCostMetrics
+// ---------------------------------------------------------------------------
+
+describe('computeCostMetrics', () => {
+  test('computes all metrics correctly with budget and leads', () => {
+    const result = computeCostMetrics(5000, 100, 20, 5)
+
+    expect(result.budget_amount).toBe(5000)
+    expect(result.cost_per_lead).toBe(50)
+    expect(result.cost_per_qualified_lead).toBe(250)
+    expect(result.cost_per_randomized_subject).toBe(1000)
+    expect(result.lead_to_qualified_rate).toBeCloseTo(0.2)
+    expect(result.lead_to_randomized_rate).toBeCloseTo(0.05)
+  })
+
+  test('returns null cost metrics when budget_amount is null', () => {
+    const result = computeCostMetrics(null, 100, 20, 5)
+
+    expect(result.budget_amount).toBeNull()
+    expect(result.cost_per_lead).toBeNull()
+    expect(result.cost_per_qualified_lead).toBeNull()
+    expect(result.cost_per_randomized_subject).toBeNull()
+    // rates are still computed when leads > 0
+    expect(result.lead_to_qualified_rate).toBeCloseTo(0.2)
+    expect(result.lead_to_randomized_rate).toBeCloseTo(0.05)
+  })
+
+  test('returns null cost metrics when budget_amount is 0', () => {
+    const result = computeCostMetrics(0, 100, 20, 5)
+
+    expect(result.budget_amount).toBe(0)
+    expect(result.cost_per_lead).toBeNull()
+    expect(result.cost_per_qualified_lead).toBeNull()
+    expect(result.cost_per_randomized_subject).toBeNull()
+  })
+
+  test('returns null rates and cost metrics when total_leads is 0', () => {
+    const result = computeCostMetrics(1000, 0, 0, 0)
+
+    expect(result.cost_per_lead).toBeNull()
+    expect(result.cost_per_qualified_lead).toBeNull()
+    expect(result.cost_per_randomized_subject).toBeNull()
+    expect(result.lead_to_qualified_rate).toBeNull()
+    expect(result.lead_to_randomized_rate).toBeNull()
+  })
+
+  test('returns CPL but null CPQL and CPR when qualified and randomized are 0', () => {
+    const result = computeCostMetrics(1000, 10, 0, 0)
+
+    expect(result.cost_per_lead).toBe(100)
+    expect(result.cost_per_qualified_lead).toBeNull()
+    expect(result.cost_per_randomized_subject).toBeNull()
+  })
+
+  test('returns CPL and CPQL but null CPR when randomized is 0', () => {
+    const result = computeCostMetrics(500, 10, 5, 0)
+
+    expect(result.cost_per_lead).toBe(50)
+    expect(result.cost_per_qualified_lead).toBe(100)
+    expect(result.cost_per_randomized_subject).toBeNull()
+  })
+
+  test('lead_to_qualified_rate is computed as a fraction (0.20 for 20/100)', () => {
+    const result = computeCostMetrics(null, 100, 20, 5)
+
+    expect(result.lead_to_qualified_rate).toBeCloseTo(0.20)
+  })
+
+  test('lead_to_randomized_rate is computed as a fraction (0.05 for 5/100)', () => {
+    const result = computeCostMetrics(null, 100, 20, 5)
+
+    expect(result.lead_to_randomized_rate).toBeCloseTo(0.05)
   })
 })

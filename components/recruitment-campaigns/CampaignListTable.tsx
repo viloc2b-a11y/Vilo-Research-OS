@@ -6,9 +6,20 @@ import { CampaignTypeBadge } from '@/components/recruitment-campaigns/CampaignTy
 type CampaignListTableProps = {
   campaigns: CampaignListItem[]
   canManage: boolean
+  canViewBudget: boolean
 }
 
-export function CampaignListTable({ campaigns, canManage }: CampaignListTableProps) {
+function formatCurrency(value: number | null, decimals = 2): string {
+  if (value === null) return '—'
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  })
+}
+
+export function CampaignListTable({ campaigns, canManage, canViewBudget }: CampaignListTableProps) {
   return (
     <div className="rounded-md border border-slate-200 bg-white">
       {/* Header row */}
@@ -54,6 +65,35 @@ export function CampaignListTable({ campaigns, canManage }: CampaignListTablePro
                 <th className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">
                   Randomized
                 </th>
+                {canViewBudget && (
+                  <th
+                    className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide"
+                    aria-label="Budget"
+                  >
+                    Budget
+                  </th>
+                )}
+                <th
+                  className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide"
+                  aria-label="Cost Per Lead"
+                  title="Cost Per Lead"
+                >
+                  CPL
+                </th>
+                <th
+                  className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide"
+                  aria-label="Cost Per Qualified Lead"
+                  title="Cost Per Qualified Lead"
+                >
+                  CPQL
+                </th>
+                <th
+                  className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide"
+                  aria-label="Cost Per Randomized Subject"
+                  title="Cost Per Randomized Subject"
+                >
+                  CPR
+                </th>
                 <th className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wide">
                   Created
                 </th>
@@ -87,6 +127,20 @@ export function CampaignListTable({ campaigns, canManage }: CampaignListTablePro
                   </td>
                   <td className="px-4 py-3 text-right tabular-nums text-slate-700">
                     {campaign.randomized_subjects}
+                  </td>
+                  {canViewBudget && (
+                    <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+                      {formatCurrency(campaign.budget_amount, 0)}
+                    </td>
+                  )}
+                  <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+                    {formatCurrency(campaign.cost_per_lead)}
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+                    {formatCurrency(campaign.cost_per_qualified_lead)}
+                  </td>
+                  <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+                    {formatCurrency(campaign.cost_per_randomized_subject)}
                   </td>
                   <td className="px-4 py-3 text-right text-xs text-slate-500">
                     {new Date(campaign.created_at).toLocaleDateString()}

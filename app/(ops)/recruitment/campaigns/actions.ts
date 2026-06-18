@@ -21,6 +21,13 @@ function optionalInt(formData: FormData, key: string): number | null {
   return Number.isNaN(parsed) ? null : parsed
 }
 
+function optionalDecimal(formData: FormData, key: string): number | null {
+  const value = requiredString(formData, key)
+  if (!value) return null
+  const parsed = Number.parseFloat(value)
+  return Number.isNaN(parsed) ? null : parsed
+}
+
 // ---------------------------------------------------------------------------
 // createCampaign
 // ---------------------------------------------------------------------------
@@ -113,6 +120,7 @@ export async function updateCampaign(formData: FormData): Promise<never> {
   const description = optionalString(formData, 'description')
   const target_leads = optionalInt(formData, 'target_leads')
   const target_enrollments = optionalInt(formData, 'target_enrollments')
+  const budget_amount = optionalDecimal(formData, 'budget_amount')
 
   // Build partial update — only the listed fields
   const patch: Record<string, unknown> = {}
@@ -122,6 +130,9 @@ export async function updateCampaign(formData: FormData): Promise<never> {
   if (descRaw !== null) patch.description = description ?? null
   if (target_leads !== null) patch.target_leads = target_leads
   if (target_enrollments !== null) patch.target_enrollments = target_enrollments
+  // budget_amount presence check — allow explicit null to clear the field
+  const budgetRaw = formData.get('budget_amount')
+  if (budgetRaw !== null) patch.budget_amount = budget_amount
 
   const { error } = await supabase
     .from('recruitment_campaigns')

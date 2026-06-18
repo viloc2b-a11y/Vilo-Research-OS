@@ -113,23 +113,41 @@ export function CampaignForm({ mode, campaign, organizationId }: CampaignFormPro
 
       {/* Edit-only fields */}
       {mode === 'edit' && (
-        <div>
-          <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-1">
-            Status
-          </label>
-          <select
-            id="status"
-            name="status"
-            defaultValue={campaign?.status}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
-          >
-            {CAMPAIGN_STATUS_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <>
+          <div>
+            <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-1">
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              defaultValue={campaign?.status}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+            >
+              {CAMPAIGN_STATUS_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="budget_amount" className="block text-sm font-medium text-slate-700 mb-1">
+              Budget
+            </label>
+            <input
+              id="budget_amount"
+              type="number"
+              name="budget_amount"
+              step="0.01"
+              min="0"
+              defaultValue={campaign?.budget_amount ?? ''}
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+              placeholder="e.g. 5000.00"
+            />
+          </div>
+        </>
       )}
 
       {/* Shared fields */}

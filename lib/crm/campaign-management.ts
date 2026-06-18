@@ -13,6 +13,15 @@ export type CampaignType =
 
 export type CampaignStatus = 'draft' | 'active' | 'paused' | 'closed'
 
+export type CampaignCostMetrics = {
+  budget_amount: number | null
+  cost_per_lead: number | null
+  cost_per_qualified_lead: number | null
+  cost_per_randomized_subject: number | null
+  lead_to_qualified_rate: number | null
+  lead_to_randomized_rate: number | null
+}
+
 export type CampaignListItem = {
   id: string
   name: string
@@ -28,6 +37,13 @@ export type CampaignListItem = {
   leads_generated: number
   qualified_leads: number
   randomized_subjects: number
+  // Cost metrics (flat — inherited by CampaignDetail)
+  budget_amount: number | null
+  cost_per_lead: number | null
+  cost_per_qualified_lead: number | null
+  cost_per_randomized_subject: number | null
+  lead_to_qualified_rate: number | null
+  lead_to_randomized_rate: number | null
 }
 
 export type CampaignDetail = CampaignListItem & {
@@ -41,6 +57,40 @@ export type CampaignDetail = CampaignListItem & {
   top_sources: { utm_source: string | null; count: number }[]
   top_mediums: { utm_medium: string | null; count: number }[]
   screened_count: number
+}
+
+// ---------------------------------------------------------------------------
+// Cost metrics helper
+// ---------------------------------------------------------------------------
+
+export function computeCostMetrics(
+  budget_amount: number | null,
+  total_leads: number,
+  qualified_leads: number,
+  randomized_subjects: number,
+): CampaignCostMetrics {
+  const lead_to_qualified_rate = total_leads > 0 ? qualified_leads / total_leads : null
+  const lead_to_randomized_rate = total_leads > 0 ? randomized_subjects / total_leads : null
+
+  if (!budget_amount) {
+    return {
+      budget_amount,
+      cost_per_lead: null,
+      cost_per_qualified_lead: null,
+      cost_per_randomized_subject: null,
+      lead_to_qualified_rate,
+      lead_to_randomized_rate,
+    }
+  }
+
+  return {
+    budget_amount,
+    cost_per_lead: total_leads > 0 ? budget_amount / total_leads : null,
+    cost_per_qualified_lead: qualified_leads > 0 ? budget_amount / qualified_leads : null,
+    cost_per_randomized_subject: randomized_subjects > 0 ? budget_amount / randomized_subjects : null,
+    lead_to_qualified_rate,
+    lead_to_randomized_rate,
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -68,7 +118,7 @@ export async function loadCampaignList(
   // Query 1: fetch campaigns
   let campaignQuery = supabase
     .from('recruitment_campaigns')
-    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at')
+    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at, budget_amount')
     .eq('organization_id', organizationId)
     .order('created_at', { ascending: false })
 
@@ -121,6 +171,12 @@ export async function loadCampaignList(
   // Merge
   return campaigns.map((c) => {
     const agg = leadAgg.get(c.id as string) ?? { total: 0, qualified: 0, randomized: 0 }
+    const costMetrics = computeCostMetrics(
+      (c.budget_amount as number | null) ?? null,
+      agg.total,
+      agg.qualified,
+      agg.randomized,
+    )
     return {
       id: c.id as string,
       name: c.name as string,
@@ -136,6 +192,7 @@ export async function loadCampaignList(
       leads_generated: agg.total,
       qualified_leads: agg.qualified,
       randomized_subjects: agg.randomized,
+      ...costMetrics,
     }
   })
 }
@@ -152,7 +209,7 @@ export async function loadCampaignDetail(
   // Query 1: fetch campaign — verify org ownership
   const { data: campaign, error: campaignError } = await supabase
     .from('recruitment_campaigns')
-    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at, description, organization_id')
+    .select('id, name, status, campaign_type, utm_campaign, target_leads, target_enrollments, start_date, end_date, created_at, description, organization_id, budget_amount')
     .eq('id', campaignId)
     .single() as { data: Record<string, unknown> | null; error: unknown }
 
@@ -231,6 +288,13 @@ export async function loadCampaignDetail(
     }
   })
 
+  const costMetrics = computeCostMetrics(
+    (campaign.budget_amount as number | null) ?? null,
+    leads_generated,
+    qualified_leads,
+    randomized_subjects,
+  )
+
   return {
     id: campaign.id as string,
     name: campaign.name as string,
@@ -251,5 +315,6 @@ export async function loadCampaignDetail(
     linked_studies,
     top_sources,
     top_mediums,
+    ...costMetrics,
   }
 }
