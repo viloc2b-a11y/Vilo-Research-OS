@@ -7,11 +7,13 @@ import type {
   StudyBudgetNegotiationEventType,
   StudyBudgetNegotiationLedgerEntry,
 } from '@/lib/study-workspace/load-budget-evidence-summary'
+import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import { computeRevenueProtection } from '@/lib/financial-runtime/revenue-protection'
 
 type BudgetNegotiationLedgerPanelProps = {
   studyId: string
   summary: StudyBudgetEvidenceSummary
+  financialRuntime?: StudyFinancialRuntimeSummary | null
 }
 
 type BudgetLineItemDraft = {
@@ -62,7 +64,7 @@ function partitionLedger(ledger: StudyBudgetNegotiationLedgerEntry[]) {
   return { evidence, financialTruth }
 }
 
-export function BudgetNegotiationLedgerPanel({ studyId, summary }: BudgetNegotiationLedgerPanelProps) {
+export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntime }: BudgetNegotiationLedgerPanelProps) {
   const router = useRouter()
   const [eventType, setEventType] = useState<StudyBudgetNegotiationEventType>('sponsor_offer_received')
   const [title, setTitle] = useState('Sponsor offer')
@@ -378,7 +380,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary }: BudgetNegotia
       </div>
 
       {/* ── Section 4: Revenue Protection Pipeline ── */}
-      <RevenueProtectionPanel summary={summary} />
+      <RevenueProtectionPanel summary={summary} financialRuntime={financialRuntime ?? null} />
 
       {/* ── Section 5: Negotiation Action (form) ── */}
       <div className="rounded border border-slate-100 bg-white p-3">
@@ -796,8 +798,17 @@ function PipelineStage({ label, value, isCount = false }: PipelineStageProps) {
   )
 }
 
-function RevenueProtectionPanel({ summary }: { summary: StudyBudgetEvidenceSummary }) {
-  const protection = useMemo(() => computeRevenueProtection(summary, null), [summary])
+function RevenueProtectionPanel({
+  summary,
+  financialRuntime,
+}: {
+  summary: StudyBudgetEvidenceSummary
+  financialRuntime: StudyFinancialRuntimeSummary | null
+}) {
+  const protection = useMemo(
+    () => computeRevenueProtection(summary, financialRuntime),
+    [summary, financialRuntime],
+  )
 
   const hasAnyData =
     protection.expected_revenue !== null ||

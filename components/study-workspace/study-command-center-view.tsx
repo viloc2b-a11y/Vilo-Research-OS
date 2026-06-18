@@ -243,7 +243,7 @@ export function StudyCommandCenterView({
             recruitmentFunnel={recruitmentFunnel}
             sourceEffectiveness={sourceEffectiveness}
           />
-          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} />
+          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} financialRuntime={financialRuntimeSummary} />
         </div>
       </section>
 
@@ -567,10 +567,12 @@ function BudgetEvidenceCard({
   studyId,
   links,
   summary,
+  financialRuntime,
 }: {
   studyId: string
   links: StudyWorkspaceRuntimeLinks
   summary: StudyBudgetEvidenceSummary
+  financialRuntime: StudyFinancialRuntimeSummary
 }) {
   const hasBudgetEvidence =
     (summary.budgetDocumentCount ?? 0) > 0 || (summary.contractDocumentCount ?? 0) > 0
@@ -762,7 +764,7 @@ function BudgetEvidenceCard({
         </ol>
       </div>
 
-      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} />
+      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} financialRuntime={financialRuntime} />
 
       {summary.unavailable.length > 0 ? (
         <p className="mt-3 text-xs text-amber-700">
