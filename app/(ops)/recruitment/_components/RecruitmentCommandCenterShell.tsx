@@ -131,6 +131,14 @@ export function RecruitmentCommandCenterShell({
         </div>
       ) : null}
 
+      {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') ? (
+        <div className="mt-2">
+          <a href="/recruitment/campaigns" className="text-sm text-teal-700 underline hover:text-teal-900">
+            Manage campaigns →
+          </a>
+        </div>
+      ) : null}
+
       {(model.roleExperience === 'owner' || model.roleExperience === 'site_director') &&
       sourceEffectiveness ? (
         <SourceEffectivenessCard report={sourceEffectiveness} />
