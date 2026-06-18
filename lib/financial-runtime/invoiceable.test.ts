@@ -1,6 +1,33 @@
 import { describe, expect, it } from 'vitest'
-import { buildInvoiceableLineItems } from './invoiceable'
+import { buildInvoiceableLineItems, resolveProcedurePricing } from './invoiceable'
 import type { VisitFinancialRuntime } from '@/lib/financial-runtime/types'
+
+function createSupabasePricingStub(events: Array<Record<string, unknown>>) {
+  const query = {
+    select: () => query,
+    eq: () => query,
+    in: (_column: string, values: string[]) => {
+      query.selectedEventTypes = values
+      return query
+    },
+    order: () => query,
+    limit: () =>
+      Promise.resolve({
+        data: events.filter((event) =>
+          query.selectedEventTypes.includes(String(event.event_type)),
+        ),
+        error: null,
+      }),
+    selectedEventTypes: [] as string[],
+  }
+
+  return {
+    from: (table: string) => {
+      expect(table).toBe('study_budget_negotiation_events')
+      return query
+    },
+  }
+}
 
 describe('invoiceable runtime', () => {
   it('materializes earned procedure components into invoiceable line items', () => {
@@ -86,5 +113,120 @@ describe('invoiceable runtime', () => {
       source_computed_at: '2026-06-04T12:00:00.000Z',
       earned_at: '2026-06-04T12:00:00.000Z',
     })
+  })
+
+  it('does not price invoiceables from sponsor offer evidence alone', async () => {
+    const pricing = await resolveProcedurePricing({
+      supabase: createSupabasePricingStub([
+        {
+          id: 'sponsor-offer-1',
+          event_type: 'sponsor_offer_received',
+          event_payload: {
+            line_items: [{ label: 'Procedure A', category: 'procedure', amount: 600 }],
+          },
+        },
+      ]) as never,
+      studyId: 'study-1',
+      earnedBillableCount: 2,
+    })
+
+    expect(pricing).toEqual({ pricingEventId: null, unitCost: null })
+  })
+
+  it('does not price invoiceables from counteroffer evidence alone', async () => {
+    const pricing = await resolveProcedurePricing({
+      supabase: createSupabasePricingStub([
+        {
+          id: 'counteroffer-1',
+          event_type: 'counteroffer_sent',
+          event_payload: {
+            line_items: [{ label: 'Procedure A', category: 'procedure', amount: 600 }],
+          },
+        },
+      ]) as never,
+      studyId: 'study-1',
+      earnedBillableCount: 2,
+    })
+
+    expect(pricing).toEqual({ pricingEventId: null, unitCost: null })
+  })
+
+  it('prices invoiceables from accepted terms', async () => {
+    const pricing = await resolveProcedurePricing({
+      supabase: createSupabasePricingStub([
+        {
+          id: 'accepted-term-1',
+          event_type: 'term_accepted',
+          event_payload: {
+            line_items: [{ label: 'Procedure A', category: 'procedure', amount: 600 }],
+          },
+        },
+      ]) as never,
+      studyId: 'study-1',
+      earnedBillableCount: 2,
+    })
+
+    expect(pricing).toEqual({ pricingEventId: 'accepted-term-1', unitCost: 300 })
+  })
+
+  it('requires explicit pricing approval before adjusted terms can price invoiceables', async () => {
+    const pricing = await resolveProcedurePricing({
+      supabase: createSupabasePricingStub([
+        {
+          id: 'draft-adjustment-1',
+          event_type: 'term_adjusted',
+          event_payload: {
+            line_items: [{ label: 'Procedure A', category: 'procedure', amount: 900 }],
+          },
+        },
+        {
+          id: 'effective-adjustment-1',
+          event_type: 'term_adjusted',
+          event_payload: {
+            approved_for_pricing: true,
+            line_items: [{ label: 'Procedure A', category: 'procedure', amount: 600 }],
+          },
+        },
+      ]) as never,
+      studyId: 'study-1',
+      earnedBillableCount: 2,
+    })
+
+    expect(pricing).toEqual({ pricingEventId: 'effective-adjustment-1', unitCost: 300 })
+  })
+
+  it('prices the lifecycle from accepted terms after sponsor offer and counteroffer evidence', async () => {
+    const pricing = await resolveProcedurePricing({
+      supabase: createSupabasePricingStub([
+        {
+          id: 'sponsor-offer-1',
+          event_type: 'sponsor_offer_received',
+          event_payload: {
+            evidence_only: true,
+            line_items: [{ label: 'Sponsor proposed procedure', category: 'procedure', amount: 200 }],
+          },
+        },
+        {
+          id: 'counteroffer-1',
+          event_type: 'counteroffer_sent',
+          event_payload: {
+            evidence_only: true,
+            line_items: [{ label: 'Countered procedure', category: 'procedure', amount: 500 }],
+          },
+        },
+        {
+          id: 'accepted-term-1',
+          event_type: 'term_accepted',
+          event_payload: {
+            accepted_financial_term: true,
+            line_items: [{ label: 'Accepted procedure', category: 'procedure', amount: 600 }],
+          },
+        },
+      ]) as never,
+      studyId: 'study-1',
+      earnedBillableCount: 2,
+    })
+
+    expect(pricing).toEqual({ pricingEventId: 'accepted-term-1', unitCost: 300 })
   })
 })

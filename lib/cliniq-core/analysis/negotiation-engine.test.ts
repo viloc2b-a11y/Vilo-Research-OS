@@ -98,7 +98,9 @@ describe('Negotiation Engine', () => {
     
     const response = getNegotiationResponse('startup', cm);
     expect(response.warning).not.toBeNull();
-    expect(response.script).toContain('—');
+    expect(response.risk_priority).toBe('blocked');
+    expect(response.negotiation_position).toContain('Do not finalize');
+    expect(response.script).toContain('CTA');
   });
 
   it('6. getNegotiationResponse(lowball, confirmed_chargemaster)', () => {
@@ -144,6 +146,90 @@ describe('Negotiation Engine', () => {
 
     const response = getNegotiationResponse('startup', cm);
     expect(response.script).not.toContain('$null');
-    expect(response.script).toContain('—');
+    expect(response.script).not.toContain('Standard response');
+    expect(response.cro_tactic).not.toBe('Tactic');
+    expect(response.site_response).not.toBe('Response');
+    expect(response.fallback).not.toBe('Fallback');
+  });
+
+  it('12. getNegotiationResponse flags sponsor offers below internal cost', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+    const sponsorOffer = (cm.study.total_minimum_budget ?? 0) - 500;
+
+    const response = getNegotiationResponse('lowball', cm, {
+      sponsorOfferAmount: sponsorOffer,
+      evidenceReferences: ['Budget workbook row 12'],
+    });
+
+    expect(response.risk_priority).toBe('high');
+    expect(response.amounts.sponsor_offer).toBe(sponsorOffer);
+    expect(response.amounts.gap_to_minimum).toBe(500);
+    expect(response.evidence_references).toEqual(['Budget workbook row 12']);
+    expect(response.site_response).toContain('below our documented cost basis');
+  });
+
+  it('13. getNegotiationResponse requests a complete sponsor offer when offer amount is missing', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+
+    const response = getNegotiationResponse('lowball', cm);
+
+    expect(response.risk_priority).toBe('medium');
+    expect(response.negotiation_position).toContain('Request a complete sponsor offer');
+    expect(response.site_response).toContain('Please provide the complete proposed budget');
+  });
+
+  it('14. getNegotiationResponse blocks acceptance when critical items are unfunded', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+
+    const response = getNegotiationResponse('template', cm, {
+      unfundedCriticalItems: ['screen-fail labs', 'pass-through imaging'],
+    });
+
+    expect(response.risk_priority).toBe('high');
+    expect(response.negotiation_position).toContain('critical required work remains unfunded');
+    expect(response.site_response).toContain('screen-fail labs');
+    expect(response.site_response).toContain('pass-through imaging');
+  });
+
+  it('15. getNegotiationResponse anchors to accepted terms when present', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+
+    const response = getNegotiationResponse('fmv', cm, {
+      acceptedTerm: {
+        summary: 'Accepted procedure payment schedule v2',
+        amount: 1200,
+        evidenceReferences: ['Signed CTA section 4.2'],
+      },
+    });
+
+    expect(response.risk_priority).toBe('low');
+    expect(response.amounts.accepted_term_amount).toBe(1200);
+    expect(response.negotiation_position).toContain('accepted term');
+    expect(response.script).toContain('Signed CTA section 4.2');
+  });
+
+  it('16. getNegotiationResponse provides amendment-related adjustment guidance', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+
+    const response = getNegotiationResponse('amendment', cm);
+
+    expect(response.risk_priority).toBe('high');
+    expect(response.amounts.amendment_fee).toBe(cm.events.amendment_fee);
+    expect(response.negotiation_position).toContain('billable adjustment');
+    expect(response.site_response).toContain('protocol amendment');
+  });
+
+  it('17. getNegotiationResponse marks neutral offers as acceptable with contract checks', () => {
+    const cm = calculateChargemaster(validRates, validStartup, validVisit, validOps, validCloseout, validStudy, 0, 0);
+    const sponsorOffer = cm.study.total_minimum_budget ?? 0;
+
+    const response = getNegotiationResponse('fmv', cm, {
+      sponsorOfferAmount: sponsorOffer,
+    });
+
+    expect(response.risk_priority).toBe('low');
+    expect(response.amounts.margin_above_minimum).toBe(0);
+    expect(response.negotiation_position).toContain('financially acceptable');
+    expect(response.fallback).toContain('final CTA');
   });
 });

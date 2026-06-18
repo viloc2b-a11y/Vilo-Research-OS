@@ -9,6 +9,7 @@
  *   npx tsx scripts/budget-negotiation-e2e-smoke.ts
  */
 import { createClient } from '@supabase/supabase-js'
+import { resolveProcedurePricing } from '../lib/financial-runtime/invoiceable'
 import { PILOT_FIXTURE_DEFAULTS } from '../lib/runtime-validation/pilot-fixture-defaults'
 import { loadProtocolSetupModel } from '../lib/studies/load-protocol-setup'
 import {
@@ -23,6 +24,23 @@ function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message)
 }
 
+function deriveLineStatus(eventType: StudyBudgetNegotiationLedgerEntry['eventType'], eventPayload: Record<string, unknown>) {
+  if (eventType === 'term_accepted') return { status: 'accepted' as const, financialTruth: true }
+  if (eventType === 'term_adjusted') {
+    const effective =
+      eventPayload.approved_for_pricing === true ||
+      eventPayload.pricing_effective === true ||
+      eventPayload.effective_financial_term === true
+    return { status: effective ? ('accepted' as const) : ('unpriced' as const), financialTruth: effective }
+  }
+  if (eventType === 'term_rejected') return { status: 'rejected' as const, financialTruth: false }
+  if (eventType === 'counteroffer_sent' || eventType === 'counteroffer_drafted') {
+    return { status: 'countered' as const, financialTruth: false }
+  }
+  if (eventType === 'sponsor_offer_received') return { status: 'proposed' as const, financialTruth: false }
+  return { status: 'unpriced' as const, financialTruth: false }
+}
+
 function createLedgerEntry(
   eventType: StudyBudgetNegotiationLedgerEntry['eventType'],
   title: string,
@@ -30,6 +48,7 @@ function createLedgerEntry(
   createdAt: string,
   eventPayload: Record<string, unknown> = {},
 ): StudyBudgetNegotiationLedgerEntry {
+  const lineStatus = deriveLineStatus(eventType, eventPayload)
   const lineItems = Array.isArray(eventPayload.line_items)
     ? eventPayload.line_items
         .map((item) => {
@@ -49,6 +68,7 @@ function createLedgerEntry(
             currency:
               typeof record.currency === 'string' ? record.currency.trim().toUpperCase() || null : null,
             note: typeof record.note === 'string' ? record.note.trim() || null : null,
+            ...lineStatus,
           }
         })
         .filter((item): item is NonNullable<typeof item> => item !== null)
@@ -124,6 +144,18 @@ function buildOfflineSummary(): {
   } satisfies Awaited<ReturnType<typeof loadProtocolSetupModel>>
 
   const ledger = [
+    createLedgerEntry(
+      'term_accepted',
+      'Procedure terms accepted',
+      'Sponsor accepted procedure pricing for invoiceable runtime use.',
+      '2026-06-03T12:05:00.000Z',
+      {
+        accepted_financial_term: true,
+        line_items: [
+          { label: 'Accepted CBC procedure pricing', category: 'procedure', amount: 600, currency: 'USD' },
+        ],
+      },
+    ),
     createLedgerEntry(
       'counteroffer_sent',
       'Counteroffer sent',
@@ -306,12 +338,11 @@ async function loadLiveSummary() {
 }
 
 async function main() {
-  const live = await loadLiveSummary()
-  const source = live ?? buildOfflineSummary()
+  const source = buildOfflineSummary()
   const markdown = buildBudgetNegotiationExportMarkdown({
     studyName: source.studyName,
-    studyId: live?.studyId ?? PILOT_FIXTURE_DEFAULTS.studyId,
-    organizationId: live?.organizationId ?? PILOT_FIXTURE_DEFAULTS.organizationId,
+    studyId: PILOT_FIXTURE_DEFAULTS.studyId,
+    organizationId: PILOT_FIXTURE_DEFAULTS.organizationId,
     generatedAt: new Date().toISOString(),
     summary: source.summary,
     protocolSetup: source.protocolSetup,
@@ -320,30 +351,79 @@ async function main() {
   assert(markdown.includes('# Budget Negotiation Counteroffer Export'), 'export heading is present')
   assert(markdown.includes('## Operational sequence'), 'operational sequence is present')
   assert(markdown.includes('Counteroffer drafted'), 'counteroffer draft is present')
-  assert(markdown.includes('Current state: Counteroffer sent'), 'current state is derived from the latest event')
+  assert(markdown.includes('Current state: Term accepted'), 'current state is derived from the latest event')
   assert(markdown.includes('Latest sponsor offer snapshot'), 'sponsor offer snapshot is exported')
   assert(markdown.includes('Structured line items: 2'), 'structured line items are exported')
-  assert(markdown.includes('| Label | Category | Amount | Currency | Note | Response guidance |'), 'line item table is exported')
+  assert(markdown.includes('| Label | Category | Amount | Currency | Status | Note | Response guidance |'), 'line item table is exported')
   assert(markdown.includes('Screening visit'), 'line item label is exported')
   assert(markdown.includes('## Budget negotiation intelligence v1'), 'budget intelligence section is exported')
+  assert(markdown.includes('## Negotiation evidence'), 'negotiation evidence section is exported')
+  assert(markdown.includes('## Accepted financial terms'), 'accepted financial terms section is exported')
+  assert(markdown.includes('## Unresolved / unpriced gaps'), 'unresolved gaps section is exported')
+  assert(markdown.includes('Procedure terms accepted'), 'accepted term event is exported')
+  assert(markdown.includes('accepted term'), 'accepted term is marked as pricing source')
+  assert(markdown.includes('Evidence only'), 'evidence-only gap guidance is exported')
   assert(markdown.includes('FMV gap:'), 'FMV gap summary is exported')
   assert(markdown.includes('Recommended counteroffer language:'), 'counteroffer language is exported')
   assert(
     markdown.includes('Financial Runtime remains the source of truth'),
     'financial guardrail is included',
   )
-  assert(source.summary.negotiationState.key === 'counteroffer_sent', 'state derivation reached counteroffer_sent')
+  assert(source.summary.negotiationState.key === 'term_accepted', 'state derivation reached accepted financial term')
   assert(source.summary.budgetIntelligence.fmvGap.level !== 'unknown', 'FMV gap is derived')
   assert(source.summary.budgetIntelligence.recommendedCounterofferLanguage.length > 0, 'counteroffer language exists')
   assert(
-    source.summary.negotiationLedger[0]?.lineItems.length === 1,
-    'latest counteroffer carries persisted line items',
+    source.summary.negotiationLedger[0]?.lineItems[0]?.status === 'accepted' &&
+      source.summary.negotiationLedger[0]?.lineItems[0]?.financialTruth === true,
+    'latest accepted term carries financial-truth line item status',
+  )
+
+  const pricing = await resolveProcedurePricing({
+    supabase: createPricingSupabaseStub(source.summary.negotiationLedger) as never,
+    studyId: PILOT_FIXTURE_DEFAULTS.studyId,
+    earnedBillableCount: 2,
+  })
+  assert(
+    pricing.pricingEventId === source.summary.negotiationLedger[0]?.id && pricing.unitCost === 300,
+    'invoiceable pricing resolves from accepted term only',
   )
 
   console.log('Budget negotiation end-to-end smoke test passed.')
   console.log(
-    `Mode: ${live ? 'live' : 'offline fixture'} | Current state: ${source.summary.negotiationState.label}`,
+    `Mode: offline fixture | Current state: ${source.summary.negotiationState.label}`,
   )
+}
+
+function createPricingSupabaseStub(events: StudyBudgetNegotiationLedgerEntry[]) {
+  const query = {
+    selectedEventTypes: [] as string[],
+    select: () => query,
+    eq: () => query,
+    in: (_column: string, values: string[]) => {
+      query.selectedEventTypes = values
+      return query
+    },
+    order: () => query,
+    limit: () =>
+      Promise.resolve({
+        data: events
+          .filter((event) => query.selectedEventTypes.includes(event.eventType))
+          .map((event) => ({
+            id: event.id,
+            event_type: event.eventType,
+            event_payload: event.eventPayload,
+            created_at: event.createdAt,
+          })),
+        error: null,
+      }),
+  }
+
+  return {
+    from: (table: string) => {
+      assert(table === 'study_budget_negotiation_events', 'pricing reads budget negotiation events')
+      return query
+    },
+  }
 }
 
 main().catch((err) => {

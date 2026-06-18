@@ -46,6 +46,8 @@ export type StudyBudgetNegotiationLineItem = {
   amount: number | null
   currency: string | null
   note: string | null
+  status: 'proposed' | 'countered' | 'accepted' | 'rejected' | 'unpriced'
+  financialTruth: boolean
 }
 
 export type StudyBudgetCounterofferItem = {
@@ -641,9 +643,45 @@ function buildNegotiationLinkedObjects(row: {
   ].filter((item): item is { kind: 'study' | 'subject' | 'visit' | 'procedure' | 'source_document' | 'source_chunk' | 'protocol_version'; id: string } => item !== null)
 }
 
-function parseNegotiationLineItems(eventPayload: Record<string, unknown> | null | undefined) {
+function isPricingEffectivePayload(eventPayload: Record<string, unknown> | null | undefined) {
+  return (
+    eventPayload?.approved_for_pricing === true ||
+    eventPayload?.pricing_effective === true ||
+    eventPayload?.effective_financial_term === true
+  )
+}
+
+function deriveNegotiationLineItemStatus(
+  eventType: StudyBudgetNegotiationEventType,
+  eventPayload: Record<string, unknown> | null | undefined,
+): Pick<StudyBudgetNegotiationLineItem, 'status' | 'financialTruth'> {
+  if (eventType === 'term_accepted') {
+    return { status: 'accepted', financialTruth: true }
+  }
+  if (eventType === 'term_adjusted') {
+    return isPricingEffectivePayload(eventPayload)
+      ? { status: 'accepted', financialTruth: true }
+      : { status: 'unpriced', financialTruth: false }
+  }
+  if (eventType === 'term_rejected') {
+    return { status: 'rejected', financialTruth: false }
+  }
+  if (eventType === 'counteroffer_sent' || eventType === 'counteroffer_drafted') {
+    return { status: 'countered', financialTruth: false }
+  }
+  if (eventType === 'sponsor_offer_received') {
+    return { status: 'proposed', financialTruth: false }
+  }
+  return { status: 'unpriced', financialTruth: false }
+}
+
+function parseNegotiationLineItems(
+  eventType: StudyBudgetNegotiationEventType,
+  eventPayload: Record<string, unknown> | null | undefined,
+) {
   const rawLineItems = eventPayload?.line_items
   if (!Array.isArray(rawLineItems)) return []
+  const status = deriveNegotiationLineItemStatus(eventType, eventPayload)
   return rawLineItems
     .map((item): StudyBudgetNegotiationLineItem | null => {
       if (!item || typeof item !== 'object' || Array.isArray(item)) return null
@@ -661,6 +699,7 @@ function parseNegotiationLineItems(eventPayload: Record<string, unknown> | null 
               : null,
         currency: typeof record.currency === 'string' ? record.currency.trim().toUpperCase() || null : null,
         note: typeof record.note === 'string' ? record.note.trim() || null : null,
+        ...status,
       }
     })
     .filter((item): item is StudyBudgetNegotiationLineItem => item !== null)
@@ -755,7 +794,10 @@ export async function loadRecentBudgetNegotiationLedger(input: {
         source_chunk_id: row.source_chunk_id ? String(row.source_chunk_id) : null,
         protocol_version_id: row.protocol_version_id ? String(row.protocol_version_id) : null,
       }),
-      lineItems: parseNegotiationLineItems(row.event_payload),
+      lineItems: parseNegotiationLineItems(
+        String(row.event_type) as StudyBudgetNegotiationEventType,
+        row.event_payload,
+      ),
       eventPayload: row.event_payload ?? {},
     }))
   } catch (err) {
@@ -888,7 +930,7 @@ export async function appendStudyBudgetNegotiationEvent(input: {
       source_chunk_id: row.source_chunk_id ? String(row.source_chunk_id) : null,
       protocol_version_id: row.protocol_version_id ? String(row.protocol_version_id) : null,
     }),
-    lineItems: parseNegotiationLineItems(payload),
+    lineItems: parseNegotiationLineItems(input.eventType, payload),
     eventPayload: payload,
     stateHash,
   }
@@ -1377,6 +1419,59 @@ export function buildBudgetNegotiationExportMarkdown(input: {
     add(`  - ${line}`)
   }
 
+  const evidenceEvents = input.summary.negotiationLedger.filter((event) =>
+    ['sponsor_offer_received', 'counteroffer_drafted', 'counteroffer_sent', 'sponsor_reply_received', 'evidence_linked'].includes(event.eventType),
+  )
+  const acceptedFinancialTermEvents = input.summary.negotiationLedger.filter((event) =>
+    event.lineItems.some((item) => item.financialTruth),
+  )
+  const unresolvedLineItems = input.summary.negotiationLedger.flatMap((event) =>
+    event.lineItems
+      .filter((item) => !item.financialTruth && item.status !== 'rejected')
+      .map((item) => ({ event, item })),
+  )
+
+  addSection('Negotiation evidence')
+  if (evidenceEvents.length > 0) {
+    for (const event of evidenceEvents) {
+      add(`- ${event.eventType} · round ${event.negotiationRound} · ${event.title}`)
+      add(`  - Summary: ${event.summary}`)
+      if (event.lineItems.length > 0) {
+        add(`  - Evidence line items: ${event.lineItems.length}`)
+      }
+    }
+  } else {
+    add('- No negotiation evidence events recorded yet.')
+  }
+
+  addSection('Accepted financial terms')
+  if (acceptedFinancialTermEvents.length > 0) {
+    add('| Event | Label | Category | Amount | Currency | Status | Pricing source |')
+    add('| --- | --- | --- | --- | --- | --- | --- |')
+    for (const event of acceptedFinancialTermEvents) {
+      for (const lineItem of event.lineItems.filter((item) => item.financialTruth)) {
+        add(
+          `| ${escapeMarkdownCell(event.title)} | ${escapeMarkdownCell(lineItem.label)} | ${escapeMarkdownCell(lineItem.category)} | ${escapeMarkdownCell(formatNegotiationValue(lineItem.amount))} | ${escapeMarkdownCell(lineItem.currency ?? '—')} | ${escapeMarkdownCell(lineItem.status)} | ${event.eventType === 'term_adjusted' ? 'approved/effective adjustment' : 'accepted term'} |`,
+        )
+      }
+    }
+  } else {
+    add('- No accepted/effective financial terms recorded yet.')
+  }
+
+  addSection('Unresolved / unpriced gaps')
+  if (unresolvedLineItems.length > 0) {
+    add('| Event | Label | Category | Amount | Currency | Status | Required action |')
+    add('| --- | --- | --- | --- | --- | --- | --- |')
+    for (const { event, item } of unresolvedLineItems) {
+      add(
+        `| ${escapeMarkdownCell(event.title)} | ${escapeMarkdownCell(item.label)} | ${escapeMarkdownCell(item.category)} | ${escapeMarkdownCell(formatNegotiationValue(item.amount))} | ${escapeMarkdownCell(item.currency ?? '—')} | ${escapeMarkdownCell(item.status)} | ${escapeMarkdownCell(describeUnpricedLineItemAction(event.eventType, item))} |`,
+      )
+    }
+  } else {
+    add('- No unresolved/unpriced line-item gaps in the current ledger window.')
+  }
+
   const sponsorOffer = input.summary.negotiationLedger.find(
     (event) => event.eventType === 'sponsor_offer_received',
   )
@@ -1390,11 +1485,11 @@ export function buildBudgetNegotiationExportMarkdown(input: {
     if (sponsorLineItems.length > 0) {
       add(`- Structured line items: ${sponsorLineItems.length}`)
       add('')
-      add('| Label | Category | Amount | Currency | Note | Response guidance |')
-      add('| --- | --- | --- | --- | --- | --- |')
+      add('| Label | Category | Amount | Currency | Status | Note | Response guidance |')
+      add('| --- | --- | --- | --- | --- | --- | --- |')
       for (const lineItem of sponsorLineItems) {
         add(
-          `| ${escapeMarkdownCell(lineItem.label)} | ${escapeMarkdownCell(lineItem.category)} | ${escapeMarkdownCell(formatNegotiationValue(lineItem.amount))} | ${escapeMarkdownCell(lineItem.currency ?? '—')} | ${escapeMarkdownCell(lineItem.note ?? '—')} | ${escapeMarkdownCell(describeLineItemGuidance(lineItem, input.summary.soaComparison))} |`,
+          `| ${escapeMarkdownCell(lineItem.label)} | ${escapeMarkdownCell(lineItem.category)} | ${escapeMarkdownCell(formatNegotiationValue(lineItem.amount))} | ${escapeMarkdownCell(lineItem.currency ?? '—')} | ${escapeMarkdownCell(lineItem.status)} | ${escapeMarkdownCell(lineItem.note ?? '—')} | ${escapeMarkdownCell(describeLineItemGuidance(lineItem, input.summary.soaComparison))} |`,
         )
       }
     }
@@ -1414,6 +1509,11 @@ export function buildBudgetNegotiationExportMarkdown(input: {
       const eventLineItems = event.lineItems ?? []
       if (eventLineItems.length > 0) {
         add(`  - Line items: ${eventLineItems.length}`)
+        for (const lineItem of eventLineItems) {
+          add(
+            `    - [${lineItem.status}] ${lineItem.label} · ${lineItem.category} · ${formatNegotiationValue(lineItem.amount)} ${lineItem.currency ?? ''}`.trim(),
+          )
+        }
       }
       if (event.recommendedNextStep) add(`  - Next step: ${event.recommendedNextStep}`)
     }
@@ -1475,4 +1575,23 @@ function describeLineItemGuidance(
     return 'Validate against payment terms and invoice due language.'
   }
   return 'Review against protocol evidence and indexed Budget / CTA terms.'
+}
+
+function describeUnpricedLineItemAction(
+  eventType: StudyBudgetNegotiationEventType,
+  lineItem: StudyBudgetNegotiationLineItem,
+) {
+  if (eventType === 'sponsor_offer_received') {
+    return 'Evidence only: counter, reject, or accept before Financial Runtime can price it.'
+  }
+  if (eventType === 'counteroffer_sent' || eventType === 'counteroffer_drafted') {
+    return 'Evidence only: wait for sponsor acceptance or record an accepted term.'
+  }
+  if (eventType === 'term_adjusted') {
+    return 'Adjustment is not pricing truth until approved_for_pricing, pricing_effective, or effective_financial_term is true.'
+  }
+  if (lineItem.status === 'unpriced') {
+    return 'Record an accepted/effective financial term before invoiceable pricing.'
+  }
+  return 'Resolve this line before treating it as invoiceable pricing.'
 }

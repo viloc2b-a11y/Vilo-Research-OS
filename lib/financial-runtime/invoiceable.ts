@@ -37,6 +37,12 @@ type NegotiationLineItem = {
   amount?: number | string | null
 }
 
+type BudgetNegotiationPricingEventType =
+  | 'sponsor_offer_received'
+  | 'counteroffer_sent'
+  | 'term_accepted'
+  | 'term_adjusted'
+
 function roundMoney(value: number): number {
   return Math.round(value * 100) / 100
 }
@@ -63,7 +69,21 @@ function parseNegotiationLineItems(eventPayload: Record<string, unknown> | null 
     .filter((item): item is NegotiationLineItem => item !== null)
 }
 
-async function resolveProcedurePricing(input: {
+function isEffectivePricingEvent(input: {
+  eventType: BudgetNegotiationPricingEventType | string
+  eventPayload: Record<string, unknown>
+}) {
+  if (input.eventType === 'term_accepted') return true
+  if (input.eventType !== 'term_adjusted') return false
+
+  return (
+    input.eventPayload.approved_for_pricing === true ||
+    input.eventPayload.pricing_effective === true ||
+    input.eventPayload.effective_financial_term === true
+  )
+}
+
+export async function resolveProcedurePricing(input: {
   supabase: SupabaseClient
   studyId: string
   earnedBillableCount: number
@@ -72,7 +92,7 @@ async function resolveProcedurePricing(input: {
     .from('study_budget_negotiation_events')
     .select('id, event_type, event_payload, created_at')
     .eq('study_id', input.studyId)
-    .in('event_type', ['sponsor_offer_received', 'counteroffer_sent', 'term_accepted', 'term_adjusted'])
+    .in('event_type', ['term_accepted', 'term_adjusted'])
     .order('created_at', { ascending: false })
     .limit(20)
 
@@ -82,7 +102,17 @@ async function resolveProcedurePricing(input: {
 
   for (const row of data ?? []) {
     const pricingEventId = String(row.id)
-    const lineItems = parseNegotiationLineItems((row.event_payload ?? {}) as Record<string, unknown>)
+    const eventPayload = (row.event_payload ?? {}) as Record<string, unknown>
+    if (
+      !isEffectivePricingEvent({
+        eventType: String(row.event_type),
+        eventPayload,
+      })
+    ) {
+      continue
+    }
+
+    const lineItems = parseNegotiationLineItems(eventPayload)
     const procedureTotal = lineItems
       .filter((item) => item.category === 'procedure')
       .reduce((sum, item) => sum + (typeof item.amount === 'number' ? item.amount : 0), 0)

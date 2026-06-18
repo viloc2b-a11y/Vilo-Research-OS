@@ -133,12 +133,27 @@ export interface SiteChargemaster {
 export interface NegotiationScenarioResponse {
   id: string
   certainty: FinancialCertaintyLevel
+  negotiation_position: string
+  rationale: string
   cro_tactic: string
   site_response: string
   script: string
   fallback: string
+  risk_priority: 'blocked' | 'high' | 'medium' | 'low'
+  evidence_references: string[]
   warning: string | null
   amounts: Record<string, number | null>
+}
+
+export interface NegotiationScenarioContext {
+  sponsorOfferAmount?: number | null
+  acceptedTerm?: {
+    summary: string
+    amount?: number | null
+    evidenceReferences?: string[]
+  } | null
+  unfundedCriticalItems?: string[]
+  evidenceReferences?: string[]
 }
 
 export const NEGOTIATION_SCENARIOS = [
@@ -311,49 +326,179 @@ function _buildEmptyChargemaster(certainty: FinancialCertaintyLevel): SiteCharge
 
 export function getNegotiationResponse(
   scenario_id: string,
-  chargemaster: SiteChargemaster
+  chargemaster: SiteChargemaster,
+  context: NegotiationScenarioContext = {}
 ): NegotiationScenarioResponse {
   const amounts: Record<string, number | null> = {};
-  let scriptTemplate = `Standard response for ${scenario_id}`;
+  const evidenceReferences = [
+    ...(context.evidenceReferences ?? []),
+    ...(context.acceptedTerm?.evidenceReferences ?? []),
+  ].filter((value, index, values) => value.trim() && values.indexOf(value) === index)
+  const sponsorOfferAmount =
+    typeof context.sponsorOfferAmount === 'number' && Number.isFinite(context.sponsorOfferAmount)
+      ? context.sponsorOfferAmount
+      : null
+  const internalMinimum = chargemaster.study.total_minimum_budget
+  const acceptedTermAmount =
+    typeof context.acceptedTerm?.amount === 'number' && Number.isFinite(context.acceptedTerm.amount)
+      ? context.acceptedTerm.amount
+      : null
+  const unfundedCriticalItems = context.unfundedCriticalItems?.filter((item) => item.trim()) ?? []
 
-  if (scenario_id === 'startup') {
+  let negotiationPosition = 'Use the site cost basis to request documented, line-item terms.'
+  let rationale = 'The advisor uses the chargemaster values and provided negotiation context to keep the counteroffer tied to operational cost.'
+  let sponsorFacingResponse =
+    'Please update the budget so the final terms align with the documented site cost basis and identify each billable item separately.'
+  let fallbackPosition =
+    'Escalate internally before accepting any term that is not supported by the cost basis or written contract evidence.'
+  let riskPriority: NegotiationScenarioResponse['risk_priority'] = 'medium'
+  let warning: string | null = null
+
+  if (chargemaster.certainty === "REQUIRES_CTA") {
+    negotiationPosition = 'Do not finalize sponsor-facing financial terms until the CTA is available or signed.'
+    rationale = 'The chargemaster is blocked because CTA availability is required before amounts can be treated as confirmed.'
+    sponsorFacingResponse =
+      'We can continue operational review, but final budget acceptance is pending CTA review and confirmation of invoiceable terms.'
+    fallbackPosition =
+      'Keep the negotiation open and request the CTA or written budget terms before committing to amounts.'
+    riskPriority = 'blocked'
+    warning = 'Financial amounts unavailable — CTA data required before sharing this script with a CRO'
+  } else if (chargemaster.certainty === "REQUIRES_CLINIQ") {
+    negotiationPosition = 'Do not send financial amounts until required rate inputs are complete.'
+    rationale = 'The chargemaster cannot calculate confirmed site costs without the required internal rate inputs.'
+    sponsorFacingResponse =
+      'We are validating internal cost inputs and will provide a documented budget response once the cost basis is complete.'
+    fallbackPosition = 'Collect missing internal rate inputs before sending a counteroffer.'
+    riskPriority = 'blocked'
+    warning = 'Financial amounts unavailable — ClinIQ/site rate inputs required before sharing this script with a CRO'
+  } else if (context.acceptedTerm) {
+    amounts.accepted_term_amount = acceptedTermAmount
+    negotiationPosition = 'Use the accepted term as the current pricing anchor.'
+    rationale = `An accepted term exists: ${context.acceptedTerm.summary}. New negotiation language should preserve or explicitly amend that accepted basis.`
+    sponsorFacingResponse =
+      `Our current position is based on the accepted term: ${context.acceptedTerm.summary}. Any change should be documented as an amendment or approved adjustment before it affects invoiceable pricing.`
+    fallbackPosition = 'If the sponsor disputes the accepted term, pause invoice impact and route the change through amendment review.'
+    riskPriority = 'low'
+  } else if (unfundedCriticalItems.length > 0) {
+    amounts.total_budget = internalMinimum
+    negotiationPosition = 'Do not accept the offer while critical required work remains unfunded.'
+    rationale = `The sponsor offer does not explicitly fund: ${unfundedCriticalItems.join(', ')}. Required operational work must stay visible in the budget.`
+    sponsorFacingResponse =
+      `The current budget does not separately fund ${unfundedCriticalItems.join(', ')}. Please add these as explicit billable items or provide written confirmation that they are covered elsewhere.`
+    fallbackPosition = 'Escalate to finance/operations and hold acceptance until each critical item has written coverage.'
+    riskPriority = 'high'
+  } else if (sponsorOfferAmount === null && scenario_id === 'lowball') {
+    amounts.total_budget = internalMinimum
+    amounts.ask_price = chargemaster.study.ask_price
+    negotiationPosition = 'Request a complete sponsor offer before calculating concession room.'
+    rationale = 'No sponsor offer amount was provided, so the advisor cannot compare the offer against the site minimum.'
+    sponsorFacingResponse =
+      `Please provide the complete proposed budget, including visit, procedure, startup, screen-fail, pass-through, and payment terms. Our internal minimum is ${formatAmount(internalMinimum)} and our opening ask is ${formatAmount(chargemaster.study.ask_price)}.`
+    fallbackPosition = 'Do not negotiate concessions until the complete offer is received and mapped to the SOA.'
+    riskPriority = 'medium'
+  } else if (
+    sponsorOfferAmount !== null &&
+    internalMinimum !== null &&
+    sponsorOfferAmount < internalMinimum
+  ) {
+    amounts.sponsor_offer = sponsorOfferAmount
+    amounts.total_budget = internalMinimum
+    amounts.gap_to_minimum = roundToTwo(internalMinimum - sponsorOfferAmount)
+    amounts.ask_price = chargemaster.study.ask_price
+    negotiationPosition = 'Counter the sponsor offer because it is below the internal minimum cost basis.'
+    rationale = `The sponsor offer is ${formatAmount(sponsorOfferAmount)}, which is ${formatAmount(amounts.gap_to_minimum)} below the site minimum of ${formatAmount(internalMinimum)}.`
+    sponsorFacingResponse =
+      `The current offer of ${formatAmount(sponsorOfferAmount)} is below our documented cost basis. We can continue if the budget is revised to at least ${formatAmount(internalMinimum)}, with an opening position of ${formatAmount(chargemaster.study.ask_price)} to cover operational risk.`
+    fallbackPosition =
+      `If the sponsor cannot reach the site minimum, hold at the walk-away floor of ${formatAmount(chargemaster.study.batna_floor)} and escalate before acceptance.`
+    riskPriority = 'high'
+  } else if (
+    sponsorOfferAmount !== null &&
+    internalMinimum !== null &&
+    sponsorOfferAmount >= internalMinimum
+  ) {
+    amounts.sponsor_offer = sponsorOfferAmount
+    amounts.total_budget = internalMinimum
+    amounts.margin_above_minimum = roundToTwo(sponsorOfferAmount - internalMinimum)
+    negotiationPosition = 'The offer is financially acceptable if contract terms preserve invoiceability and payment timing.'
+    rationale = `The sponsor offer is ${formatAmount(sponsorOfferAmount)}, which meets or exceeds the internal minimum of ${formatAmount(internalMinimum)}.`
+    sponsorFacingResponse =
+      'The proposed amount is within an acceptable range pending confirmation of invoiceable procedures, pass-through handling, screen-fail terms, and payment timing.'
+    fallbackPosition = 'Accept only after the final CTA/budget language matches the approved financial terms.'
+    riskPriority = 'low'
+  } else if (scenario_id === 'startup') {
     amounts.startup_total = chargemaster.startup.total;
-    scriptTemplate = `Our non-refundable startup fee is ${formatAmount(chargemaster.startup.total)}.`;
+    negotiationPosition = 'Keep startup fees non-refundable and payable at signature.'
+    rationale = `Startup work creates site cost before enrollment; the calculated startup total is ${formatAmount(chargemaster.startup.total)}.`
+    sponsorFacingResponse = `Our non-refundable startup fee is ${formatAmount(chargemaster.startup.total)}, payable at contract signature because these activities occur before enrollment revenue exists.`
+    fallbackPosition = 'If the sponsor resists, separate minimum startup activation from enrollment-dependent visit revenue.'
+    riskPriority = 'medium'
   } else if (scenario_id === 'cluster') {
     amounts.visit_cost = chargemaster.events.visit_cost;
-    scriptTemplate = `Our per-visit cost is ${formatAmount(chargemaster.events.visit_cost)}.`;
+    negotiationPosition = 'Reject flat visit bundling when it hides procedure-level work.'
+    rationale = `The calculated per-visit cost is ${formatAmount(chargemaster.events.visit_cost)} before separately negotiated procedure and pass-through terms.`
+    sponsorFacingResponse = `A flat visit rate does not show the execution burden. The visit component is ${formatAmount(chargemaster.events.visit_cost)}, and procedure-level items should remain separately invoiceable.`
+    fallbackPosition = 'Accept a flat structure only if the written budget states which procedures and pass-throughs remain separately billable.'
+    riskPriority = 'medium'
   } else if (scenario_id === 'amendment') {
     amounts.amendment_fee = chargemaster.events.amendment_fee;
-    scriptTemplate = `Our protocol amendment fee is ${formatAmount(chargemaster.events.amendment_fee)}.`;
+    negotiationPosition = 'Treat amendment work as a billable adjustment, not free study administration.'
+    rationale = `The amendment model calculates ${formatAmount(chargemaster.events.amendment_fee)} for PI/CRC review and operational update time.`
+    sponsorFacingResponse = `The protocol amendment requires additional PI/CRC review and operational updates. Please add an amendment fee of ${formatAmount(chargemaster.events.amendment_fee)} or provide written confirmation of equivalent coverage.`
+    fallbackPosition = 'If the sponsor refuses a fee, require written scope limits and escalate before absorbing amendment labor.'
+    riskPriority = 'high'
   } else if (scenario_id === 'cra_change') {
     amounts.cra_change_fee = chargemaster.events.cra_change_fee;
-    scriptTemplate = `Change of monitor fee is ${formatAmount(chargemaster.events.cra_change_fee)}.`;
-  } else if (scenario_id === 'lowball') {
-    amounts.total_budget = chargemaster.study.total_minimum_budget;
-    amounts.ask_price = chargemaster.study.ask_price;
-    scriptTemplate = `Our total minimum budget is ${formatAmount(chargemaster.study.total_minimum_budget)}, but our ask is ${formatAmount(chargemaster.study.ask_price)}.`;
+    negotiationPosition = 'Bill monitor transition work after the first CRA change.'
+    rationale = `The calculated change-of-monitor fee is ${formatAmount(chargemaster.events.cra_change_fee)} for coordinator transition time.`
+    sponsorFacingResponse = `Additional monitor transitions create site reorientation work. Please include a change-of-monitor fee of ${formatAmount(chargemaster.events.cra_change_fee)} from the second change onward.`
+    fallbackPosition = 'Document the transition burden and escalate repeated CRA churn as a budget amendment.'
+    riskPriority = 'medium'
   } else if (scenario_id === 'fmv') {
     amounts.ask_price = chargemaster.study.ask_price;
-    scriptTemplate = `Our fair market value ask is ${formatAmount(chargemaster.study.ask_price)}.`;
+    negotiationPosition = 'Anchor FMV discussion to documented site cost and consistent institutional policy.'
+    rationale = `The opening ask is ${formatAmount(chargemaster.study.ask_price)}, derived from the site cost basis plus risk margin.`
+    sponsorFacingResponse = `Our ask of ${formatAmount(chargemaster.study.ask_price)} reflects documented site cost, overhead, and consistent institutional policy. Please identify the specific line item you believe exceeds FMV so we can compare it to the underlying work.`
+    fallbackPosition = `Do not go below the documented floor of ${formatAmount(chargemaster.study.batna_floor)} without finance approval.`
+    riskPriority = 'medium'
   } else if (scenario_id === 'holdback') {
     amounts.batna_floor = chargemaster.study.batna_floor;
-    scriptTemplate = `We cannot accept below our floor of ${formatAmount(chargemaster.study.batna_floor)}.`;
+    negotiationPosition = 'Limit or remove holdback that pushes realized revenue below the walk-away floor.'
+    rationale = `The walk-away floor is ${formatAmount(chargemaster.study.batna_floor)}; holdback terms can create cash-flow and earned-revenue leakage.`
+    sponsorFacingResponse = `We cannot accept holdback language that reduces realized payment below our documented floor of ${formatAmount(chargemaster.study.batna_floor)}. Please remove the holdback or cap it with clear release timing.`
+    fallbackPosition = 'If holdback remains, require milestone-based release dates and finance approval.'
+    riskPriority = 'high'
+  } else {
+    negotiationPosition = 'Keep the response tied to documented operational cost and written terms.'
+    rationale = 'No specialized scenario rule changed the financial position, so the safest response is to preserve line-item clarity and contract evidence.'
+    sponsorFacingResponse =
+      'Please keep visit, procedure, startup, pass-through, screen-fail, and payment terms explicit in the budget so both parties can reconcile work performed to payment owed.'
+    fallbackPosition = 'Escalate if the sponsor requests bundled, undocumented, or non-invoiceable terms.'
+    riskPriority = 'medium'
   }
 
-  let warning: string | null = null;
-  const script = scriptTemplate;
-
-  if (chargemaster.certainty === "REQUIRES_CTA" || chargemaster.certainty === "REQUIRES_CLINIQ") {
-    warning = "Financial amounts unavailable — CTA or ClinIQ data required before sharing this script with a CRO";
-  }
+  const script = [
+    `Position: ${negotiationPosition}`,
+    `Rationale: ${rationale}`,
+    `Sponsor-facing response: ${sponsorFacingResponse}`,
+    `Fallback: ${fallbackPosition}`,
+    `Priority: ${riskPriority}`,
+    evidenceReferences.length > 0
+      ? `Evidence: ${evidenceReferences.join('; ')}`
+      : 'Evidence: No source reference provided.',
+  ].join('\n');
 
   return {
     id: scenario_id,
     certainty: chargemaster.certainty,
-    cro_tactic: "Tactic",
-    site_response: "Response",
+    negotiation_position: negotiationPosition,
+    rationale,
+    cro_tactic: negotiationPosition,
+    site_response: sponsorFacingResponse,
     script,
-    fallback: "Fallback",
+    fallback: fallbackPosition,
+    risk_priority: riskPriority,
+    evidence_references: evidenceReferences,
     warning,
     amounts
   };

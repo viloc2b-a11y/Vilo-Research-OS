@@ -7,6 +7,7 @@ import type {
   StudyBudgetNegotiationEventType,
   StudyBudgetNegotiationLedgerEntry,
 } from '@/lib/study-workspace/load-budget-evidence-summary'
+import { computeRevenueProtection } from '@/lib/financial-runtime/revenue-protection'
 
 type BudgetNegotiationLedgerPanelProps = {
   studyId: string
@@ -376,32 +377,8 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary }: BudgetNegotia
         </div>
       </div>
 
-      {/* ── Section 4: Revenue Protection (Not Available at negotiation stage) ── */}
-      <div className="rounded border border-slate-200 bg-white p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Revenue Protection Pipeline
-          </p>
-          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600">
-            Not Available
-          </span>
-        </div>
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
-          {(['Expected', 'Executed', 'Earned', 'Invoiced', 'Paid'] as const).map((stage) => (
-            <span
-              key={stage}
-              className="rounded border border-slate-200 bg-slate-50 px-2.5 py-1 font-medium text-slate-400"
-            >
-              {stage}
-            </span>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-slate-500">
-          The Expected → Executed → Earned → Invoiced → Paid pipeline requires executed visit
-          data and accepted financial terms. Visit the Financial Runtime after terms are accepted
-          and visits are completed.
-        </p>
-      </div>
+      {/* ── Section 4: Revenue Protection Pipeline ── */}
+      <RevenueProtectionPanel summary={summary} />
 
       {/* ── Section 5: Negotiation Action (form) ── */}
       <div className="rounded border border-slate-100 bg-white p-3">
@@ -779,6 +756,142 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary }: BudgetNegotia
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+// --- Revenue Protection Panel ---
+
+function formatCurrency(value: number): string {
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
+
+type PipelineStageProps = {
+  label: string
+  value: string | number | null
+  isCount?: boolean
+}
+
+function PipelineStage({ label, value, isCount = false }: PipelineStageProps) {
+  const displayValue =
+    value === null
+      ? 'Not Yet Available'
+      : isCount
+        ? String(value)
+        : formatCurrency(value as number)
+
+  const isEmpty = value === null
+
+  return (
+    <div className="flex flex-col items-center gap-1 min-w-[96px]">
+      <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+        {label}
+      </span>
+      <span
+        className={`text-sm font-bold ${isEmpty ? 'text-slate-300' : 'text-slate-800'}`}
+      >
+        {displayValue}
+      </span>
+    </div>
+  )
+}
+
+function RevenueProtectionPanel({ summary }: { summary: StudyBudgetEvidenceSummary }) {
+  const protection = useMemo(() => computeRevenueProtection(summary, null), [summary])
+
+  const hasAnyData =
+    protection.expected_revenue !== null ||
+    protection.executed_work_count !== null ||
+    protection.earned_revenue !== null
+
+  const leakageItems: Array<{ label: string; value: number; tone: 'rose' | 'amber' }> = []
+  if (protection.leakage.expected_vs_earned !== null && protection.leakage.expected_vs_earned > 0) {
+    leakageItems.push({
+      label: 'Expected vs Earned — revenue at risk',
+      value: protection.leakage.expected_vs_earned,
+      tone: 'rose',
+    })
+  }
+  if (protection.leakage.earned_vs_invoiced !== null && protection.leakage.earned_vs_invoiced > 0) {
+    leakageItems.push({
+      label: 'Earned vs Invoiced — uninvoiced work',
+      value: protection.leakage.earned_vs_invoiced,
+      tone: 'amber',
+    })
+  }
+  if (protection.leakage.invoiced_vs_paid !== null && protection.leakage.invoiced_vs_paid > 0) {
+    leakageItems.push({
+      label: 'Invoiced vs Paid — outstanding receivables',
+      value: protection.leakage.invoiced_vs_paid,
+      tone: 'amber',
+    })
+  }
+
+  return (
+    <div className="rounded border border-slate-200 bg-white p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          Revenue Protection Pipeline
+        </p>
+        <span
+          className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+            hasAnyData
+              ? 'bg-teal-50 text-teal-800'
+              : 'bg-slate-100 text-slate-500'
+          }`}
+        >
+          {hasAnyData ? 'Partial data' : 'Not Yet Available'}
+        </span>
+      </div>
+
+      {/* Pipeline stages */}
+      <div className="mt-4 flex flex-wrap items-start justify-start gap-0">
+        <PipelineStage label="Expected" value={protection.expected_revenue} />
+        <span className="mt-4 px-1 text-slate-300 text-sm select-none">›</span>
+        <PipelineStage label="Executed" value={protection.executed_work_count} isCount />
+        <span className="mt-4 px-1 text-slate-300 text-sm select-none">›</span>
+        <PipelineStage label="Earned" value={protection.earned_revenue} />
+        <span className="mt-4 px-1 text-slate-300 text-sm select-none">›</span>
+        <PipelineStage label="Invoiced" value={protection.invoiced_amount} />
+        <span className="mt-4 px-1 text-slate-300 text-sm select-none">›</span>
+        <PipelineStage label="Paid" value={protection.paid_amount} />
+      </div>
+
+      {/* Leakage indicators */}
+      {leakageItems.length > 0 ? (
+        <div className="mt-4 space-y-2">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+            Revenue at Risk
+          </p>
+          {leakageItems.map((item) => (
+            <div
+              key={item.label}
+              className={`flex items-center justify-between rounded border px-3 py-2 text-xs font-medium ${
+                item.tone === 'rose'
+                  ? 'border-rose-200 bg-rose-50 text-rose-900'
+                  : 'border-amber-200 bg-amber-50 text-amber-900'
+              }`}
+            >
+              <span>{item.label}</span>
+              <span className="ml-3 shrink-0 font-bold">{formatCurrency(item.value)}</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {/* Contextual explanation */}
+      {!hasAnyData ? (
+        <p className="mt-3 text-xs text-slate-500">
+          The Expected → Executed → Earned → Invoiced → Paid pipeline requires accepted financial
+          terms and executed visit data from the Financial Runtime. Accept negotiation terms and
+          complete visits to populate this view.
+        </p>
+      ) : (protection.invoiced_amount === null || protection.paid_amount === null) ? (
+        <p className="mt-3 text-xs text-slate-400">
+          Invoiced and Paid stages require a study-level invoice aggregation feed. Individual
+          visit invoices exist in the Financial Runtime but are not yet rolled up here.
+        </p>
+      ) : null}
     </div>
   )
 }

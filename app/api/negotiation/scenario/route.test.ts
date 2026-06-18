@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { POST } from './route'
 import {
   calculateChargemaster,
@@ -9,6 +9,16 @@ import {
   type StudyParameters,
   type VisitModel,
 } from '@/lib/cliniq-core/analysis/negotiation-engine'
+
+vi.mock('@/lib/supabase/server', () => ({
+  createServerClient: vi.fn(async () => ({
+    auth: {
+      getUser: vi.fn(async () => ({
+        data: { user: { id: 'user-1' } },
+      })),
+    },
+  })),
+}))
 
 const validRates: SiteRates = {
   pi_hourly_salary: 100,
@@ -111,6 +121,9 @@ describe('negotiation scenario route', () => {
       body: JSON.stringify({
         scenario_id: 'startup',
         chargemaster,
+        scenario_context: {
+          evidenceReferences: ['Budget workbook row 8'],
+        },
       }),
     }))
 
@@ -118,6 +131,10 @@ describe('negotiation scenario route', () => {
     await expect(response.json()).resolves.toMatchObject({
       id: 'startup',
       certainty: 'CONFIRMED',
+      negotiation_position: expect.stringContaining('startup fees'),
+      rationale: expect.stringContaining('Startup work'),
+      risk_priority: 'medium',
+      evidence_references: ['Budget workbook row 8'],
     })
   })
 })

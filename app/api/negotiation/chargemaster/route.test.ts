@@ -1,5 +1,15 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { POST } from './route'
+
+vi.mock('@/lib/supabase/server', () => ({
+  createServerClient: vi.fn(async () => ({
+    auth: {
+      getUser: vi.fn(async () => ({
+        data: { user: { id: 'user-1' } },
+      })),
+    },
+  })),
+}))
 
 const validPayload = {
   rates: {
