@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { computeRevenueProtection } from './revenue-protection'
 import type { StudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import type { StudyInvoiceSummary } from './study-invoice-summary'
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -210,6 +211,74 @@ describe('computeRevenueProtection', () => {
     expect(result.earned_revenue).toBeNull() // earnedProcedureCount is null
     expect(result.executed_work_count).toBe(8)
     expect(result.leakage.expected_vs_earned).toBeNull()
+  })
+
+  // ── Invoice Summary Tests (Sprint 6B.2) ──────────────────────────────────
+
+  it('populates invoiced_amount and paid_amount when invoice summary is provided', () => {
+    const summary = buildAcceptedTermSummary(300)
+    const execution = buildExecutionData({ expectedProcedureCount: 20, earnedProcedureCount: 15 })
+    const invoiceSummary: StudyInvoiceSummary = {
+      invoicedAmount: 8000,
+      paidAmount: 6000,
+      invoiceCount: 5,
+      paymentCount: 3,
+      latestInvoiceDate: '2026-06-01T00:00:00.000Z',
+      latestPaymentDate: '2026-06-10T00:00:00.000Z',
+    }
+    const result = computeRevenueProtection(summary, execution, invoiceSummary)
+
+    expect(result.invoiced_amount).toBe(8000)
+    expect(result.paid_amount).toBe(6000)
+    expect(result.leakage.invoiced_vs_paid).toBe(2000) // 8000 − 6000
+  })
+
+  it('returns null for invoiced_vs_paid when paid_amount is null', () => {
+    const summary = buildAcceptedTermSummary(300)
+    const execution = buildExecutionData({ expectedProcedureCount: 20, earnedProcedureCount: 15 })
+    const invoiceSummary: StudyInvoiceSummary = {
+      invoicedAmount: 8000,
+      paidAmount: null,
+      invoiceCount: 5,
+      paymentCount: 0,
+      latestInvoiceDate: '2026-06-01T00:00:00.000Z',
+      latestPaymentDate: null,
+    }
+    const result = computeRevenueProtection(summary, execution, invoiceSummary)
+
+    expect(result.invoiced_amount).toBe(8000)
+    expect(result.paid_amount).toBeNull()
+    expect(result.leakage.invoiced_vs_paid).toBeNull()
+  })
+
+  it('preserves null invoiced_amount and paid_amount when invoice summary is null (pre-6B.2 behavior)', () => {
+    const summary = buildAcceptedTermSummary(500)
+    const execution = buildExecutionData()
+    const result = computeRevenueProtection(summary, execution, null)
+
+    expect(result.invoiced_amount).toBeNull()
+    expect(result.paid_amount).toBeNull()
+    expect(result.leakage.earned_vs_invoiced).toBeNull()
+    expect(result.leakage.invoiced_vs_paid).toBeNull()
+  })
+
+  it('computes earned_vs_invoiced leakage when earned revenue exceeds invoiced amount', () => {
+    // $300 × 20 earned = $6,000 earned; invoiced only $4,500 → $1,500 uninvoiced
+    const summary = buildAcceptedTermSummary(300)
+    const execution = buildExecutionData({ expectedProcedureCount: 20, earnedProcedureCount: 20 })
+    const invoiceSummary: StudyInvoiceSummary = {
+      invoicedAmount: 4500,
+      paidAmount: 4500,
+      invoiceCount: 3,
+      paymentCount: 3,
+      latestInvoiceDate: '2026-06-01T00:00:00.000Z',
+      latestPaymentDate: '2026-06-10T00:00:00.000Z',
+    }
+    const result = computeRevenueProtection(summary, execution, invoiceSummary)
+
+    expect(result.earned_revenue).toBe(6000) // $300 × 20
+    expect(result.invoiced_amount).toBe(4500)
+    expect(result.leakage.earned_vs_invoiced).toBe(1500) // 6000 − 4500
   })
 
   it('uses only procedure line items with financialTruth=true for unit cost derivation', () => {

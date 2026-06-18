@@ -48,6 +48,7 @@ import type { StudyCloseoutSummary } from '@/lib/study-workspace/load-study-clos
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import type { LoadedProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/protocol-intake-types'
+import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
 import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
 import { DeviationCenter } from '@/components/site-intelligence/DeviationCenter'
@@ -74,6 +75,7 @@ type StudyWorkspaceShellProps = {
   governanceSummary: StudyGovernanceSummary
   closeoutSummary: StudyCloseoutSummary
   financialRuntimeSummary: StudyFinancialRuntimeSummary
+  invoiceSummary: StudyInvoiceSummary | null
   workflowSummary: StudyWorkflowSummary
   protocolRuntimeStudy: LoadedProtocolRuntimeStudy | null
   studyOperationsSurface: StudyOperationsSurface
@@ -105,6 +107,7 @@ export function StudyWorkspaceShell({
   governanceSummary,
   closeoutSummary,
   financialRuntimeSummary,
+  invoiceSummary,
   workflowSummary,
   protocolRuntimeStudy,
   studyOperationsSurface,
@@ -195,6 +198,7 @@ export function StudyWorkspaceShell({
               sourceEffectiveness={sourceEffectiveness}
               governanceSummary={governanceSummary}
               financialRuntimeSummary={financialRuntimeSummary}
+              invoiceSummary={invoiceSummary}
               workflowSummary={workflowSummary}
             />
             <StudyVisitSourceContinuityPanel rows={continuityRows} embedded />

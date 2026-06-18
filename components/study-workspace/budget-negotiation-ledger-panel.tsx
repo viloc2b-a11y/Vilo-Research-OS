@@ -8,12 +8,14 @@ import type {
   StudyBudgetNegotiationLedgerEntry,
 } from '@/lib/study-workspace/load-budget-evidence-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 import { computeRevenueProtection } from '@/lib/financial-runtime/revenue-protection'
 
 type BudgetNegotiationLedgerPanelProps = {
   studyId: string
   summary: StudyBudgetEvidenceSummary
   financialRuntime?: StudyFinancialRuntimeSummary | null
+  invoiceSummary?: StudyInvoiceSummary | null
 }
 
 type BudgetLineItemDraft = {
@@ -64,7 +66,7 @@ function partitionLedger(ledger: StudyBudgetNegotiationLedgerEntry[]) {
   return { evidence, financialTruth }
 }
 
-export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntime }: BudgetNegotiationLedgerPanelProps) {
+export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntime, invoiceSummary }: BudgetNegotiationLedgerPanelProps) {
   const router = useRouter()
   const [eventType, setEventType] = useState<StudyBudgetNegotiationEventType>('sponsor_offer_received')
   const [title, setTitle] = useState('Sponsor offer')
@@ -380,7 +382,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
       </div>
 
       {/* ── Section 4: Revenue Protection Pipeline ── */}
-      <RevenueProtectionPanel summary={summary} financialRuntime={financialRuntime ?? null} />
+      <RevenueProtectionPanel summary={summary} financialRuntime={financialRuntime ?? null} invoiceSummary={invoiceSummary ?? null} />
 
       {/* ── Section 5: Negotiation Action (form) ── */}
       <div className="rounded border border-slate-100 bg-white p-3">
@@ -801,13 +803,15 @@ function PipelineStage({ label, value, isCount = false }: PipelineStageProps) {
 function RevenueProtectionPanel({
   summary,
   financialRuntime,
+  invoiceSummary,
 }: {
   summary: StudyBudgetEvidenceSummary
   financialRuntime: StudyFinancialRuntimeSummary | null
+  invoiceSummary: StudyInvoiceSummary | null
 }) {
   const protection = useMemo(
-    () => computeRevenueProtection(summary, financialRuntime),
-    [summary, financialRuntime],
+    () => computeRevenueProtection(summary, financialRuntime, invoiceSummary),
+    [summary, financialRuntime, invoiceSummary],
   )
 
   const hasAnyData =
@@ -897,10 +901,10 @@ function RevenueProtectionPanel({
           terms and executed visit data from the Financial Runtime. Accept negotiation terms and
           complete visits to populate this view.
         </p>
-      ) : (protection.invoiced_amount === null || protection.paid_amount === null) ? (
+      ) : invoiceSummary === null && (protection.invoiced_amount === null || protection.paid_amount === null) ? (
         <p className="mt-3 text-xs text-slate-400">
-          Invoiced and Paid stages require a study-level invoice aggregation feed. Individual
-          visit invoices exist in the Financial Runtime but are not yet rolled up here.
+          Invoiced and Paid stages are available once invoices have been generated and payments
+          recorded for this study.
         </p>
       ) : null}
     </div>

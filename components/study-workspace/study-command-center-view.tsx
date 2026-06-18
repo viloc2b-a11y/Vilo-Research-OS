@@ -7,6 +7,7 @@ import type { StudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-
 import type { StudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
+import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 import type { EnrollmentVelocityResult } from '@/lib/crm/enrollment-velocity'
 import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
 import type { RecruitmentFunnelSummary, SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
@@ -29,6 +30,7 @@ type StudyCommandCenterViewProps = {
   sourceEffectiveness: SourceEffectivenessReport
   governanceSummary: StudyGovernanceSummary
   financialRuntimeSummary: StudyFinancialRuntimeSummary
+  invoiceSummary?: StudyInvoiceSummary | null
   workflowSummary: StudyWorkflowSummary
 }
 
@@ -46,6 +48,7 @@ export function StudyCommandCenterView({
   sourceEffectiveness,
   governanceSummary,
   financialRuntimeSummary,
+  invoiceSummary,
   workflowSummary,
 }: StudyCommandCenterViewProps) {
   return (
@@ -243,7 +246,7 @@ export function StudyCommandCenterView({
             recruitmentFunnel={recruitmentFunnel}
             sourceEffectiveness={sourceEffectiveness}
           />
-          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} financialRuntime={financialRuntimeSummary} />
+          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} financialRuntime={financialRuntimeSummary} invoiceSummary={invoiceSummary} />
         </div>
       </section>
 
@@ -568,11 +571,13 @@ function BudgetEvidenceCard({
   links,
   summary,
   financialRuntime,
+  invoiceSummary,
 }: {
   studyId: string
   links: StudyWorkspaceRuntimeLinks
   summary: StudyBudgetEvidenceSummary
   financialRuntime: StudyFinancialRuntimeSummary
+  invoiceSummary?: StudyInvoiceSummary | null
 }) {
   const hasBudgetEvidence =
     (summary.budgetDocumentCount ?? 0) > 0 || (summary.contractDocumentCount ?? 0) > 0
@@ -764,7 +769,7 @@ function BudgetEvidenceCard({
         </ol>
       </div>
 
-      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} financialRuntime={financialRuntime} />
+      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} financialRuntime={financialRuntime} invoiceSummary={invoiceSummary} />
 
       {summary.unavailable.length > 0 ? (
         <p className="mt-3 text-xs text-amber-700">

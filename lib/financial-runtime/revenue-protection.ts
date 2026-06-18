@@ -10,6 +10,7 @@
 
 import type { StudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -100,12 +101,16 @@ function deriveAcceptedUnitCostFromLedger(
  * @param summary  - The study budget evidence summary (from negotiation ledger).
  * @param executionData - Optional execution data from `loadStudyFinancialRuntimeSummary`.
  *                        If null/undefined, executed_work_count and earned_revenue are null.
+ * @param invoiceSummary - Optional study-level invoice/payment aggregation from
+ *                         `loadStudyInvoiceSummary`. If null/undefined, invoiced_amount
+ *                         and paid_amount remain null (pre-6B.2 behavior preserved).
  *
  * @returns RevenueProtectionSummary with null for any stage lacking real data.
  */
 export function computeRevenueProtection(
   summary: StudyBudgetEvidenceSummary,
   executionData?: StudyFinancialRuntimeSummary | StudyExecutionData | null,
+  invoiceSummary?: StudyInvoiceSummary | null,
 ): RevenueProtectionSummary {
   // ── Step 1: Derive accepted unit cost from negotiation ledger ──────────────
   const acceptedUnitCost = deriveAcceptedUnitCostFromLedger(summary)
@@ -139,12 +144,10 @@ export function computeRevenueProtection(
       : null
 
   // ── Step 6: Invoiced / Paid ───────────────────────────────────────────────
-  // These require a study-level invoice/payment aggregation which is not yet
-  // available through the summary pipeline. The tables exist (financial_invoices,
-  // financial_payments) but are per-visit and not rolled up into the summary.
-  // Values remain null until a study-level aggregator is wired.
-  const invoiced_amount: number | null = null
-  const paid_amount: number | null = null
+  // Populated from the study-level invoice/payment aggregation provided by
+  // `loadStudyInvoiceSummary`. Falls back to null when no aggregation is wired.
+  const invoiced_amount: number | null = invoiceSummary?.invoicedAmount ?? null
+  const paid_amount: number | null = invoiceSummary?.paidAmount ?? null
 
   // ── Step 7: Compute leakage ───────────────────────────────────────────────
   const expected_vs_earned: number | null =

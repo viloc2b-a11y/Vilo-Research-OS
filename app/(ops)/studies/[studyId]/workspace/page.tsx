@@ -22,6 +22,8 @@ import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
 import type { RecruitmentFunnelSummary, SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
 import { loadStudyCloseoutSummary } from '@/lib/study-workspace/load-study-closeout-summary'
 import { loadStudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
+import { loadStudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
+import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 import { loadStudyWorkflowSummary } from '@/lib/study-workspace/load-workflow-summary'
 import { loadStudyVisits } from '@/lib/visits/loadStudyVisits'
 import { loadProtocolRuntimeStudy } from '@/lib/protocol-intake-runtime/load-protocol-runtime-study'
@@ -130,6 +132,7 @@ async function StudyWorkspaceContent({
     studyId,
     summary.study.organizationId,
   )
+  const invoiceSummary = await loadStudyInvoiceSummary(supabase, studyId)
   const workflowSummary = await loadStudyWorkflowSummary(
     studyId,
     summary.study.organizationId,
@@ -195,6 +198,7 @@ async function StudyWorkspaceContent({
       governanceSummary={governanceSummary}
       closeoutSummary={closeoutSummary}
       financialRuntimeSummary={financialRuntimeSummary}
+      invoiceSummary={invoiceSummary}
       workflowSummary={workflowSummary}
       protocolRuntimeStudy={protocolRuntimeStudy}
       studyOperationsSurface={studyOperationsSurface}
