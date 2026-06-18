@@ -46,6 +46,15 @@ export default async function CampaignDetailPage({
   const supabase = await createServerClient()
   const detail = await loadCampaignDetail(supabase, organizationId, campaignId)
 
+  const { data: studyData } = await supabase
+    .from('studies')
+    .select('id, name')
+    .eq('organization_id', organizationId)
+    .order('name', { ascending: true })
+    .limit(100)
+
+  const availableStudies = (studyData as { id: string; name: string }[] | null) ?? []
+
   if (!detail) {
     return (
       <div className="space-y-3 p-6">
@@ -102,6 +111,7 @@ export default async function CampaignDetailPage({
         detail={detail}
         canManage={canManage}
         organizationId={organizationId}
+        availableStudies={availableStudies}
       />
 
       {/* Attribution snapshot */}

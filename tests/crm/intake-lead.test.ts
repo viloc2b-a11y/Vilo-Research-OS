@@ -100,10 +100,14 @@ function makeSupabaseMock(config: {
     insertedId = 'new-lead-uuid',
   } = config
 
-  const insertMock = vi.fn().mockResolvedValue({
-    data: [{ id: insertedId }],
+  // In Supabase v2, .insert(...).select().single() is used.
+  // The chain returns an object with .select() → .single() → resolves with the row.
+  const singleAfterInsert = vi.fn().mockResolvedValue({
+    data: { id: insertedId },
     error: null,
   })
+  const selectAfterInsert = vi.fn().mockReturnValue({ single: singleAfterInsert })
+  const insertMock = vi.fn().mockReturnValue({ select: selectAfterInsert })
 
   const selectMock = vi.fn()
 

@@ -5,6 +5,7 @@ type CampaignFormProps = {
   mode: 'create' | 'edit'
   campaign?: CampaignDetail
   organizationId: string
+  partners?: { id: string; name: string }[]
 }
 
 const CAMPAIGN_TYPE_OPTIONS: { value: CampaignType; label: string }[] = [
@@ -22,7 +23,7 @@ const CAMPAIGN_STATUS_OPTIONS: { value: CampaignStatus; label: string }[] = [
   { value: 'closed', label: 'Closed' },
 ]
 
-export function CampaignForm({ mode, campaign, organizationId }: CampaignFormProps) {
+export function CampaignForm({ mode, campaign, organizationId, partners }: CampaignFormProps) {
   const action = mode === 'create' ? createCampaign : updateCampaign
 
   return (
@@ -198,20 +199,22 @@ export function CampaignForm({ mode, campaign, organizationId }: CampaignFormPro
 
       {/* Optional partner linkage */}
       <div>
-        <label htmlFor="partner_id" className="block text-sm font-medium text-slate-700 mb-1">
-          Partner ID (optional)
+        <label htmlFor="partner_id" className="block text-xs font-semibold text-slate-700 mb-1">
+          Partner (optional)
         </label>
-        <input
+        <select
           id="partner_id"
           name="partner_id"
-          type="text"
           defaultValue={campaign?.partner_id ?? ''}
-          placeholder="Partner UUID — leave blank if none"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
-        />
-        <p className="text-xs text-slate-500 mt-1">
-          Link this campaign to a recruitment partner. Leave blank if unaffiliated.
-        </p>
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+        >
+          <option value="">No partner / Unassigned</option>
+          {partners?.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex justify-end gap-3 pt-2">

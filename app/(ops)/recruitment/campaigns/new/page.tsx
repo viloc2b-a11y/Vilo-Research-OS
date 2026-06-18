@@ -2,7 +2,9 @@ import { redirect } from 'next/navigation'
 import { getOrganizationMemberships, getPrimaryOrganizationId, getSessionUser } from '@/lib/auth/session'
 import { activeMemberships } from '@/lib/auth/membership-access'
 import { canAccessPatientCRM } from '@/lib/rbac/permissions'
+import { createServerClient } from '@/lib/supabase/server'
 import { resolveRecruitmentRoleExperience } from '@/app/(ops)/recruitment/_lib/recruitment-view-model'
+import { loadPartnerList } from '@/lib/crm/partner-management'
 import { CampaignForm } from '@/components/recruitment-campaigns/CampaignForm'
 
 export default async function NewCampaignPage() {
@@ -30,6 +32,10 @@ export default async function NewCampaignPage() {
     redirect('/recruitment/campaigns')
   }
 
+  const supabase = await createServerClient()
+  const partnerList = await loadPartnerList(supabase, organizationId)
+  const partners = partnerList.map((p) => ({ id: p.id, name: p.name }))
+
   return (
     <div className="space-y-6 p-6 max-w-2xl">
       <header>
@@ -39,7 +45,7 @@ export default async function NewCampaignPage() {
           Create a new recruitment campaign to track patient lead acquisition.
         </p>
       </header>
-      <CampaignForm mode="create" organizationId={organizationId} />
+      <CampaignForm mode="create" organizationId={organizationId} partners={partners} />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { canAccessPatientCRM } from '@/lib/rbac/permissions'
 import { createServerClient } from '@/lib/supabase/server'
 import { resolveRecruitmentRoleExperience } from '@/app/(ops)/recruitment/_lib/recruitment-view-model'
 import { loadCampaignDetail } from '@/lib/crm/campaign-management'
+import { loadPartnerList } from '@/lib/crm/partner-management'
 import { CampaignForm } from '@/components/recruitment-campaigns/CampaignForm'
 
 export default async function EditCampaignPage({
@@ -39,11 +40,16 @@ export default async function EditCampaignPage({
   }
 
   const supabase = await createServerClient()
-  const detail = await loadCampaignDetail(supabase, organizationId, campaignId)
+  const [detail, partnerList] = await Promise.all([
+    loadCampaignDetail(supabase, organizationId, campaignId),
+    loadPartnerList(supabase, organizationId),
+  ])
 
   if (!detail) {
     redirect('/recruitment/campaigns')
   }
+
+  const partners = partnerList.map((p) => ({ id: p.id, name: p.name }))
 
   return (
     <div className="space-y-6 p-6 max-w-2xl">
@@ -52,7 +58,7 @@ export default async function EditCampaignPage({
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">Edit Campaign</h1>
         <p className="mt-2 text-sm text-slate-500">{detail.name}</p>
       </header>
-      <CampaignForm mode="edit" campaign={detail} organizationId={organizationId} />
+      <CampaignForm mode="edit" campaign={detail} organizationId={organizationId} partners={partners} />
     </div>
   )
 }

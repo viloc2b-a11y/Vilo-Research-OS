@@ -213,13 +213,14 @@ async function insertLead(
   const { data: inserted, error } = await supabase
     .from('patient_leads')
     .insert(data)
+    .select()
+    .single()
 
   if (error) throw new Error(`Insert failed: ${error.message}`)
 
-  // Supabase insert with select returns data[] on success
-  const rows = inserted as Array<{ id: string }> | null
-  if (!rows || rows.length === 0) throw new Error('Insert returned no rows')
-  return rows[0].id
+  const row = inserted as { id: string } | null
+  if (!row) throw new Error('Insert returned no rows')
+  return row.id
 }
 
 // ---------------------------------------------------------------------------

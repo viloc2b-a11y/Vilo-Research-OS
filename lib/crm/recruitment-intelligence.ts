@@ -190,6 +190,11 @@ export async function loadSourceEffectiveness(
 
   const rows = data as { stage: string; recruitment_source_channel: string | null; campaign_id: string | null }[]
 
+  // Stages that count as "qualified" for source effectiveness (mirrors partner-management.ts)
+  const SOURCE_QUALIFIED_STAGES = new Set([
+    'qualified', 'scheduled', 'consented', 'screened', 'randomized',
+  ])
+
   // Group by source
   type SourceAgg = {
     total_leads: number
@@ -225,7 +230,7 @@ export async function loadSourceEffectiveness(
     agg.total_leads++
 
     const stage = row.stage ?? ''
-    if (stage === 'qualified') agg.qualified++
+    if (SOURCE_QUALIFIED_STAGES.has(stage)) agg.qualified++
     if (stage === 'screened') agg.screened++
     if (stage === 'randomized') agg.randomized++
     // disqualified: treat 'closed' as disqualified

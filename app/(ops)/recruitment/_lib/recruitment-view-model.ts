@@ -117,7 +117,7 @@ export function toRecruitmentViewModel(
   now = new Date(),
 ): RecruitmentViewModel {
   const roleExperience = resolveRecruitmentRoleExperience(memberships, organizationId)
-  const canSeeOperationalQueue = roleExperience === 'coordinator' || roleExperience === 'owner'
+  const canSeeOperationalQueue = roleExperience === 'coordinator' || roleExperience === 'owner' || roleExperience === 'site_director'
 
   const todaysWork = data.todaysWork.map((lead) => ({
     lead,

@@ -96,10 +96,22 @@ export default async function RecruitmentPage({
     benchmarkReport = benchmark
 
     // Load forecasts for active studies (distinct studies with leads, up to 10)
-    const { data: matchData } = await supabase
-      .from('patient_study_matches')
-      .select('study_id')
-      .limit(100)
+    // Scope patient_study_matches to this org by first fetching org study IDs
+    const { data: orgStudyData } = await supabase
+      .from('studies')
+      .select('id')
+      .eq('organization_id', organizationId)
+      .limit(200)
+
+    const orgStudyIds = ((orgStudyData as { id: string }[] | null) ?? []).map((s) => s.id)
+
+    const matchData = orgStudyIds.length > 0
+      ? (await supabase
+          .from('patient_study_matches')
+          .select('study_id')
+          .in('study_id', orgStudyIds)
+          .limit(100)).data
+      : null
 
     const matches = (matchData as { study_id: string }[] | null) ?? []
     const uniqueStudyIds = [...new Set(matches.map((m) => m.study_id))].slice(0, 10)

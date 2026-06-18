@@ -5,11 +5,13 @@ type CampaignStudyAssignmentsProps = {
   detail: CampaignDetail
   canManage: boolean
   organizationId: string
+  availableStudies?: { id: string; name: string }[]
 }
 
 export function CampaignStudyAssignments({
   detail,
   canManage,
+  availableStudies,
 }: CampaignStudyAssignmentsProps) {
   return (
     <section>
@@ -52,13 +54,17 @@ export function CampaignStudyAssignments({
           </h3>
           <form action={linkStudyToCampaign} className="flex items-center gap-2">
             <input type="hidden" name="campaignId" value={detail.id} />
-            <input
-              type="text"
+            <select
               name="studyId"
-              placeholder="Study ID"
-              required
-              className="flex-1 rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
-            />
+              className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+            >
+              <option value="">Select a study…</option>
+              {availableStudies?.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
             <button
               type="submit"
               className="rounded-md bg-teal-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-800 transition-colors"
