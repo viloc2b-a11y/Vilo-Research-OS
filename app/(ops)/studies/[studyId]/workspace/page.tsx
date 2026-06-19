@@ -12,6 +12,7 @@ import { loadStudyCommandCenterMetrics } from '@/lib/study-workspace/load-study-
 import { loadStudyRegulatoryDocuments } from '@/lib/study-workspace/load-regulatory-documents'
 import { loadStudyOperationalDocuments } from '@/lib/study-workspace/load-study-documents'
 import { loadStudyBudgetEvidenceSummary } from '@/lib/study-workspace/load-budget-evidence-summary'
+import { loadActivityCodeCatalog } from '@/lib/cliniq-core/activity-code-library'
 import { loadStudyPatientAcquisitionSummary } from '@/lib/study-workspace/load-patient-acquisition-summary'
 import { loadStudyGovernanceSummary } from '@/lib/study-workspace/load-governance-summary'
 import { loadEnrollmentVelocity } from '@/lib/crm/enrollment-velocity'
@@ -100,26 +101,34 @@ async function StudyWorkspaceContent({
     studyId,
     summary.study.organizationId,
   )
-  const budgetEvidenceSummary = await loadStudyBudgetEvidenceSummary(
-    studyId,
-    summary.study.organizationId,
-    protocolSetup,
-  )
-  const patientAcquisitionSummary = await loadStudyPatientAcquisitionSummary(
-    studyId,
-    summary.study.organizationId,
-  )
+  // Surfaced via budgetEvidenceSummary.unavailable so a catalog-load failure is
+  // observable to operators instead of silently degrading FMV enrichment.
+  const activityCodeUnavailable: string[] = []
   const [
+    activityCodeCatalog,
+    patientAcquisitionSummary,
     enrollmentVelocity,
     recruitmentForecast,
     recruitmentFunnel,
     sourceEffectiveness,
   ] = await Promise.all([
+    loadActivityCodeCatalog(supabase, summary.study.organizationId, activityCodeUnavailable),
+    loadStudyPatientAcquisitionSummary(studyId, summary.study.organizationId),
     loadEnrollmentVelocity(supabase, summary.study.organizationId, studyId),
     loadRecruitmentForecastForStudy(supabase, summary.study.organizationId, studyId),
     loadRecruitmentFunnelSummary(supabase, summary.study.organizationId, { studyId }),
     loadSourceEffectiveness(supabase, summary.study.organizationId, { studyId }),
   ])
+  const budgetEvidenceSummary = await loadStudyBudgetEvidenceSummary(
+    studyId,
+    summary.study.organizationId,
+    protocolSetup,
+    supabase,
+    activityCodeCatalog,
+  )
+  if (activityCodeUnavailable.length > 0) {
+    budgetEvidenceSummary.unavailable.push(...activityCodeUnavailable)
+  }
   const governanceSummary = await loadStudyGovernanceSummary(
     studyId,
     summary.study.organizationId,
@@ -138,6 +147,14 @@ async function StudyWorkspaceContent({
     summary.study.organizationId,
   )
   const studyOperationsSurface = await loadStudyOperationsSurface(studyId)
+  // Access control: protocol_runtime_studies is org-scoped; row visibility is
+  // enforced by Supabase RLS per active organization membership, with the
+  // organization_id filter below as defense-in-depth. Read-only, no
+  // subject-identifiable data.
+  // Error handling: a failed lookup degrades gracefully — protocolRuntimeStudyId
+  // stays null and the optional protocol-runtime panel is omitted (there is no
+  // runtime study to show), so the error is intentionally non-fatal and not
+  // surfaced as an unavailable evidence signal.
   const { data: protocolRuntimeStudyRows } = await supabase
     .from('protocol_runtime_studies')
     .select('id')
@@ -206,6 +223,7 @@ async function StudyWorkspaceContent({
       deviations={deviations}
       subjectMap={subjectMap}
       capaByDeviationId={capaByDeviationId}
+      activityCodeCatalog={activityCodeCatalog}
     />
   )
 }

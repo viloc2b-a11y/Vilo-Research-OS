@@ -10,17 +10,20 @@ import type {
 import type { StudyFinancialRuntimeSummary } from '@/lib/study-workspace/load-financial-runtime-summary'
 import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-summary'
 import { computeRevenueProtection } from '@/lib/financial-runtime/revenue-protection'
+import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
 
 type BudgetNegotiationLedgerPanelProps = {
   studyId: string
   summary: StudyBudgetEvidenceSummary
   financialRuntime?: StudyFinancialRuntimeSummary | null
   invoiceSummary?: StudyInvoiceSummary | null
+  activityCodeCatalog?: ActivityCodeEntry[]
 }
 
 type BudgetLineItemDraft = {
   label: string
   category: 'visit' | 'procedure' | 'pass_through' | 'screen_fail' | 'invoice_term' | 'other'
+  activity_code: string
   amount: string
   currency: string
   note: string
@@ -66,7 +69,7 @@ function partitionLedger(ledger: StudyBudgetNegotiationLedgerEntry[]) {
   return { evidence, financialTruth }
 }
 
-export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntime, invoiceSummary }: BudgetNegotiationLedgerPanelProps) {
+export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntime, invoiceSummary, activityCodeCatalog = [] }: BudgetNegotiationLedgerPanelProps) {
   const router = useRouter()
   const [eventType, setEventType] = useState<StudyBudgetNegotiationEventType>('sponsor_offer_received')
   const [title, setTitle] = useState('Sponsor offer')
@@ -85,7 +88,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
   const [invoiceDueTerms, setInvoiceDueTerms] = useState('')
   const [pricingEffective, setPricingEffective] = useState(false)
   const [lineItems, setLineItems] = useState<BudgetLineItemDraft[]>([
-    { label: '', category: 'visit', amount: '', currency: 'USD', note: '' },
+    { label: '', category: 'visit', activity_code: '', amount: '', currency: 'USD', note: '' },
   ])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -97,6 +100,19 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
     () => partitionLedger(latestLedger),
     [latestLedger],
   )
+
+  const catalogByCode = useMemo(
+    () => new Map(activityCodeCatalog.map((e) => [e.code, e])),
+    [activityCodeCatalog],
+  )
+  const catalogByCategory = useMemo(() => {
+    const map = new Map<string, ActivityCodeEntry[]>()
+    for (const entry of activityCodeCatalog) {
+      if (!map.has(entry.category)) map.set(entry.category, [])
+      map.get(entry.category)!.push(entry)
+    }
+    return map
+  }, [activityCodeCatalog])
 
   async function submitEvent(payload: {
     event_type: StudyBudgetNegotiationEventType
@@ -192,7 +208,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
   function addLineItem() {
     setLineItems((current) => [
       ...current,
-      { label: '', category: 'procedure', amount: '', currency: 'USD', note: '' },
+      { label: '', category: 'procedure', activity_code: '', amount: '', currency: 'USD', note: '' },
     ])
   }
 
@@ -262,10 +278,19 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
           />
         </div>
         {coverageSummary.unpricedCount > 0 ? (
-          <p className="mt-3 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900">
-            {coverageSummary.unpricedCount} unpriced line item(s) cannot drive invoiceable pricing.
-            Record accepted or effective financial terms to resolve.
-          </p>
+          <div className="mt-3 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900">
+            <p>
+              {coverageSummary.unpricedCount} unpriced line item(s) cannot drive invoiceable pricing.
+              Record accepted or effective financial terms to resolve.
+            </p>
+            {summary.budgetIntelligence.unpricedItems && summary.budgetIntelligence.unpricedItems.length > 0 ? (
+              <ul className="mt-2 space-y-0.5 font-normal">
+                {summary.budgetIntelligence.unpricedItems.map((item, i) => (
+                  <li key={i} className="text-amber-800">{item}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         ) : null}
         {coverageSummary.acceptedCount === 0 && summary.negotiationLedger.length > 0 ? (
           <p className="mt-3 rounded border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-medium text-rose-900">
@@ -293,6 +318,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
             label="FMV Gap"
             summary={summary.budgetIntelligence.fmvGap.summary}
             level={summary.budgetIntelligence.fmvGap.level}
+            details={summary.budgetIntelligence.fmvGap.perActivityDetails}
           />
           <AdvisorSignal
             label="Operational Burden"
@@ -309,6 +335,14 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
             summary={summary.budgetIntelligence.screenFailureProtectionGap.summary}
             level={summary.budgetIntelligence.screenFailureProtectionGap.level}
           />
+          {summary.budgetIntelligence.passThroughRisk?.level != null &&
+          summary.budgetIntelligence.passThroughRisk?.summary ? (
+            <AdvisorSignal
+              label="Pass-through Risk"
+              summary={summary.budgetIntelligence.passThroughRisk.summary}
+              level={summary.budgetIntelligence.passThroughRisk.level}
+            />
+          ) : null}
         </div>
         {summary.budgetIntelligence.recommendedCounterofferLanguage.length > 0 ? (
           <div className="mt-3 rounded border border-slate-100 bg-slate-50 p-3">
@@ -343,7 +377,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
           {evidenceLedger.length > 0 ? (
             <div className="mt-3 space-y-2">
               {evidenceLedger.map((event) => (
-                <LedgerEventCard key={event.id} event={event} />
+                <LedgerEventCard key={event.id} event={event} catalogByCode={catalogByCode} />
               ))}
             </div>
           ) : (
@@ -369,7 +403,7 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
           {financialTruthLedger.length > 0 ? (
             <div className="mt-3 space-y-2">
               {financialTruthLedger.map((event) => (
-                <LedgerEventCard key={event.id} event={event} highlightTruth />
+                <LedgerEventCard key={event.id} event={event} highlightTruth catalogByCode={catalogByCode} />
               ))}
             </div>
           ) : (
@@ -387,9 +421,9 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
       {/* ── Section 5: Negotiation Action (form) ── */}
       <div className="rounded border border-slate-100 bg-white p-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Negotiation action</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Negotiation update</p>
           <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
-            Study-scoped append-only event
+            Permanent ledger entry
           </span>
         </div>
 
@@ -521,6 +555,32 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
                           </select>
                         </label>
                       </div>
+                      {activityCodeCatalog.length > 0 && (
+                        <label className="mt-3 block text-xs">
+                          <span className="mb-1 block font-medium text-slate-600">
+                            Activity Type{' '}
+                            <span className="font-normal text-slate-400">(optional)</span>
+                          </span>
+                          <select
+                            value={item.activity_code}
+                            onChange={(e) => updateLineItem(index, { activity_code: e.target.value })}
+                            className="w-full rounded border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                          >
+                            <option value="">— None —</option>
+                            {(['clinical', 'operational', 'regulatory', 'financial', 'conditional'] as const).map((cat) => {
+                              const entries = catalogByCategory.get(cat)
+                              if (!entries?.length) return null
+                              return (
+                                <optgroup key={cat} label={cat.charAt(0).toUpperCase() + cat.slice(1)}>
+                                  {entries.map((e) => (
+                                    <option key={e.id} value={e.code}>{e.name}</option>
+                                  ))}
+                                </optgroup>
+                              )
+                            })}
+                          </select>
+                        </label>
+                      )}
                       <div className="mt-3 grid gap-3 sm:grid-cols-3">
                         <label className="block text-xs">
                           <span className="mb-1 block font-medium text-slate-600">Amount</span>
@@ -741,6 +801,14 @@ export function BudgetNegotiationLedgerPanel({ studyId, summary, financialRuntim
                           >
                             <span className="text-slate-700">
                               {lineItem.label} · {lineItem.category}
+                              {lineItem.activity_code && catalogByCode.get(lineItem.activity_code) ? (
+                                <span className="mt-0.5 block text-xs text-slate-400">
+                                  {catalogByCode.get(lineItem.activity_code)!.name}
+                                  {' · '}
+                                  {catalogByCode.get(lineItem.activity_code)!.category.charAt(0).toUpperCase() +
+                                    catalogByCode.get(lineItem.activity_code)!.category.slice(1)}
+                                </span>
+                              ) : null}
                             </span>
                             <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${lineStatusClassName(lineItem.status)}`}>
                               {lineItem.status}
@@ -942,10 +1010,12 @@ function AdvisorSignal({
   label,
   summary,
   level,
+  details,
 }: {
   label: string
   summary: string
   level: 'low' | 'moderate' | 'high' | 'unknown'
+  details?: string[]
 }) {
   const levelClass = {
     high: 'border-rose-200 bg-rose-50',
@@ -970,6 +1040,13 @@ function AdvisorSignal({
         </span>
       </div>
       <p className="mt-1 text-[11px] text-slate-600 leading-snug">{summary}</p>
+      {details && details.length > 0 ? (
+        <ul className="mt-2 space-y-0.5">
+          {details.map((detail, i) => (
+            <li key={i} className="text-xs text-slate-600">{detail}</li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   )
 }
@@ -977,9 +1054,11 @@ function AdvisorSignal({
 function LedgerEventCard({
   event,
   highlightTruth = false,
+  catalogByCode,
 }: {
   event: StudyBudgetNegotiationLedgerEntry
   highlightTruth?: boolean
+  catalogByCode?: Map<string, ActivityCodeEntry>
 }) {
   const hasTruthItems = event.lineItems.some((item) => item.financialTruth)
   const containerClass = highlightTruth && hasTruthItems
@@ -1002,24 +1081,37 @@ function LedgerEventCard({
       </p>
       {event.lineItems.length > 0 ? (
         <div className="mt-2 space-y-1">
-          {event.lineItems.map((lineItem, index) => (
-            <div
-              key={`${event.id}-${index}-${lineItem.label}`}
-              className={`flex flex-wrap items-center justify-between gap-2 rounded px-2 py-1 ${
-                lineItem.status === 'unpriced'
-                  ? 'bg-orange-50 ring-1 ring-orange-200'
-                  : 'bg-slate-50'
-              }`}
-            >
-              <span className="text-slate-700">
-                {lineItem.label} · {lineItem.category}
-                {lineItem.amount !== null ? ` · $${lineItem.amount}` : ''}
-              </span>
-              <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${lineStatusClassName(lineItem.status)}`}>
-                {lineItem.status}
-              </span>
-            </div>
-          ))}
+          {event.lineItems.map((lineItem, index) => {
+            const catalogEntry =
+              lineItem.activity_code && catalogByCode
+                ? catalogByCode.get(lineItem.activity_code)
+                : undefined
+            return (
+              <div
+                key={`${event.id}-${index}-${lineItem.label}`}
+                className={`flex flex-wrap items-center justify-between gap-2 rounded px-2 py-1 ${
+                  lineItem.status === 'unpriced'
+                    ? 'bg-orange-50 ring-1 ring-orange-200'
+                    : 'bg-slate-50'
+                }`}
+              >
+                <span className="text-slate-700">
+                  {lineItem.label} · {lineItem.category}
+                  {lineItem.amount !== null ? ` · $${lineItem.amount}` : ''}
+                  {catalogEntry ? (
+                    <span className="mt-0.5 block text-xs text-slate-400">
+                      {catalogEntry.name}
+                      {' · '}
+                      {catalogEntry.category.charAt(0).toUpperCase() + catalogEntry.category.slice(1)}
+                    </span>
+                  ) : null}
+                </span>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${lineStatusClassName(lineItem.status)}`}>
+                  {lineItem.status}
+                </span>
+              </div>
+            )
+          })}
         </div>
       ) : null}
     </div>
@@ -1103,6 +1195,7 @@ function buildSponsorOfferPayload(input: {
     .map((item) => ({
       label: item.label.trim(),
       category: item.category,
+      activity_code: item.activity_code.trim() || undefined,
       amount: item.amount.trim() ? Number(item.amount) : null,
       currency: item.currency.trim().toUpperCase() || 'USD',
       note: item.note.trim() || null,

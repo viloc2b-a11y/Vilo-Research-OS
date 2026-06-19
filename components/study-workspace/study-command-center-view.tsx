@@ -11,7 +11,9 @@ import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-
 import type { EnrollmentVelocityResult } from '@/lib/crm/enrollment-velocity'
 import type { RecruitmentForecast } from '@/lib/crm/recruitment-forecast'
 import type { RecruitmentFunnelSummary, SourceEffectivenessReport } from '@/lib/crm/recruitment-intelligence'
+import { computeRevenueProtection } from '@/lib/financial-runtime/revenue-protection'
 import { BudgetNegotiationLedgerPanel } from './budget-negotiation-ledger-panel'
+import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
 import { EnrollmentVelocityIndicator } from '@/components/recruitment-intelligence/EnrollmentVelocityIndicator'
 import { RecruitmentForecastCard } from '@/components/recruitment-intelligence/RecruitmentForecastCard'
 import { FunnelSnapshotCard } from '@/components/recruitment-intelligence/FunnelSnapshotCard'
@@ -32,6 +34,7 @@ type StudyCommandCenterViewProps = {
   financialRuntimeSummary: StudyFinancialRuntimeSummary
   invoiceSummary?: StudyInvoiceSummary | null
   workflowSummary: StudyWorkflowSummary
+  activityCodeCatalog?: ActivityCodeEntry[]
 }
 
 export function StudyCommandCenterView({
@@ -50,6 +53,7 @@ export function StudyCommandCenterView({
   financialRuntimeSummary,
   invoiceSummary,
   workflowSummary,
+  activityCodeCatalog,
 }: StudyCommandCenterViewProps) {
   return (
     <div className="space-y-6">
@@ -246,7 +250,7 @@ export function StudyCommandCenterView({
             recruitmentFunnel={recruitmentFunnel}
             sourceEffectiveness={sourceEffectiveness}
           />
-          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} financialRuntime={financialRuntimeSummary} invoiceSummary={invoiceSummary} />
+          <BudgetEvidenceCard studyId={studyId} links={links} summary={budgetEvidenceSummary} financialRuntime={financialRuntimeSummary} invoiceSummary={invoiceSummary} activityCodeCatalog={activityCodeCatalog} />
         </div>
       </section>
 
@@ -366,7 +370,7 @@ function FinancialRuntimeCard({
         <div>
           <h3 className="font-semibold text-slate-900">Financial Runtime</h3>
           <p className="mt-1 text-sm text-slate-500">
-            Runtime-derived expected, executed, earned, and leakage visibility. Not accounting or AR.
+            Procedure execution feeds the Expected → Earned → Invoiced → Paid pipeline and revenue leakage detection below.
           </p>
         </div>
         <Link
@@ -566,19 +570,34 @@ function PatientAcquisitionCard({
   )
 }
 
+function formatRevenueChip(value: number | null): string {
+  if (value === null) return 'Not Yet Available'
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
+
 function BudgetEvidenceCard({
   studyId,
   links,
   summary,
   financialRuntime,
   invoiceSummary,
+  activityCodeCatalog,
 }: {
   studyId: string
   links: StudyWorkspaceRuntimeLinks
   summary: StudyBudgetEvidenceSummary
   financialRuntime: StudyFinancialRuntimeSummary
   invoiceSummary?: StudyInvoiceSummary | null
+  activityCodeCatalog?: ActivityCodeEntry[]
 }) {
+  const revenueProtection = computeRevenueProtection(summary, financialRuntime, invoiceSummary ?? null)
+  const expectedRevenue = revenueProtection.expected_revenue
+  const earnedRevenue = revenueProtection.earned_revenue
+  const revenueAtRisk =
+    expectedRevenue !== null && earnedRevenue !== null
+      ? expectedRevenue - earnedRevenue
+      : null
+
   const hasBudgetEvidence =
     (summary.budgetDocumentCount ?? 0) > 0 || (summary.contractDocumentCount ?? 0) > 0
   const hasActiveReference =
@@ -595,9 +614,9 @@ function BudgetEvidenceCard({
     <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h3 className="font-semibold text-slate-900">Budget / CTA Evidence</h3>
+          <h3 className="font-semibold text-slate-900">Revenue Intelligence</h3>
           <p className="mt-1 text-sm text-slate-500">
-            Evidence available for budget review before negotiation or financial interpretation.
+            Coverage, accepted financial terms, and the revenue protection pipeline for this study.
           </p>
         </div>
         <Link
@@ -606,6 +625,20 @@ function BudgetEvidenceCard({
         >
           Open review
         </Link>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+          Expected: {formatRevenueChip(expectedRevenue)}
+        </span>
+        <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${earnedRevenue !== null ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'}`}>
+          Earned: {formatRevenueChip(earnedRevenue)}
+        </span>
+        {revenueAtRisk !== null ? (
+          <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-800">
+            Revenue at Risk: {formatRevenueChip(revenueAtRisk)}
+          </span>
+        ) : null}
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -769,7 +802,7 @@ function BudgetEvidenceCard({
         </ol>
       </div>
 
-      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} financialRuntime={financialRuntime} invoiceSummary={invoiceSummary} />
+      <BudgetNegotiationLedgerPanel studyId={studyId} summary={summary} financialRuntime={financialRuntime} invoiceSummary={invoiceSummary} activityCodeCatalog={activityCodeCatalog} />
 
       {summary.unavailable.length > 0 ? (
         <p className="mt-3 text-xs text-amber-700">

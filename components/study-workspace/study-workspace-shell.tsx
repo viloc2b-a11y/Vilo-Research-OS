@@ -52,6 +52,7 @@ import type { StudyInvoiceSummary } from '@/lib/financial-runtime/study-invoice-
 import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-types'
 import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
 import { DeviationCenter } from '@/components/site-intelligence/DeviationCenter'
+import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
 
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
@@ -83,6 +84,7 @@ type StudyWorkspaceShellProps = {
   deviations: ProtocolDeviationRow[]
   subjectMap: Record<string, string>
   capaByDeviationId: Record<string, CapaActionRow>
+  activityCodeCatalog?: ActivityCodeEntry[]
 }
 
 export function StudyWorkspaceShell({
@@ -115,6 +117,7 @@ export function StudyWorkspaceShell({
   deviations,
   subjectMap,
   capaByDeviationId,
+  activityCodeCatalog,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -200,6 +203,7 @@ export function StudyWorkspaceShell({
               financialRuntimeSummary={financialRuntimeSummary}
               invoiceSummary={invoiceSummary}
               workflowSummary={workflowSummary}
+              activityCodeCatalog={activityCodeCatalog}
             />
             <StudyVisitSourceContinuityPanel rows={continuityRows} embedded />
           </div>
