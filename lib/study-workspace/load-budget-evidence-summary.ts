@@ -1,7 +1,9 @@
 import { createHash } from 'crypto'
+import { z } from 'zod'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createServerClient } from '@/lib/supabase/server'
 import type { ProtocolSetupModel } from '@/lib/studies/load-protocol-setup'
+import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
 
 type BudgetEvidenceDomain = 'budget_analysis' | 'contract_analysis'
 
@@ -48,6 +50,7 @@ export type StudyBudgetNegotiationLineItem = {
   note: string | null
   status: 'proposed' | 'countered' | 'accepted' | 'rejected' | 'unpriced'
   financialTruth: boolean
+  activity_code?: string
 }
 
 export type StudyBudgetCounterofferItem = {
@@ -108,6 +111,7 @@ export type StudyBudgetNegotiationIntelligence = {
     benchmarkUsd: number | null
     sponsorOfferUsd: number | null
     gapUsd: number | null
+    perActivityDetails?: string[]
   }
   operationalBurdenGap: StudyBudgetNegotiationSignal & {
     missingRequiredProcedureLineItems: number | null
@@ -117,6 +121,7 @@ export type StudyBudgetNegotiationIntelligence = {
   passThroughRisk: StudyBudgetNegotiationSignal
   screenFailureProtectionGap: StudyBudgetNegotiationSignal
   recommendedCounterofferLanguage: string[]
+  unpricedItems?: string[]
   projectedRevenueImpact: {
     benchmarkUsd: number | null
     sponsorOfferUsd: number | null
@@ -340,6 +345,12 @@ const FMV_REFERENCE_TOTALS = {
   ivd: 3782.7,
 } as const
 
+// FMV gap severity cutoffs (percent below the FMV-high reference band).
+// A sponsor offer whose largest per-activity gap exceeds HIGH is flagged `high`;
+// at or above MODERATE it is `moderate`; otherwise `low`.
+const FMV_GAP_HIGH_PCT = 20
+const FMV_GAP_MODERATE_PCT = 10
+
 function buildBudgetNegotiationSequence(currentKey: StudyBudgetNegotiationStateKey) {
   const currentIndex = BUDGET_NEGOTIATION_SEQUENCE.findIndex((step) => step.key === currentKey)
   return BUDGET_NEGOTIATION_SEQUENCE.map((step, index) => ({
@@ -450,6 +461,10 @@ export function deriveBudgetNegotiationState(input: {
   }
 }
 
+function capitalizeFirst(s: string): string {
+  return s.length ? s[0].toUpperCase() + s.slice(1) : s
+}
+
 export function deriveBudgetNegotiationIntelligence(input: {
   summary: Pick<
     StudyBudgetEvidenceSummary,
@@ -464,6 +479,7 @@ export function deriveBudgetNegotiationIntelligence(input: {
     | 'invoiceableProcedureHintCount'
     | 'soaComparison'
   >
+  activityCodeCatalog?: ActivityCodeEntry[]
 }) : StudyBudgetNegotiationIntelligence {
   const latestSponsorOffer = [...input.summary.negotiationLedger].find(
     (event) => event.eventType === 'sponsor_offer_received',
@@ -563,9 +579,63 @@ export function deriveBudgetNegotiationIntelligence(input: {
         ? `Projected negotiation upside is approximately $${projectedDeltaUsd.toFixed(2)} against the current sponsor offer.`
         : `Projected concession pressure is approximately $${Math.abs(projectedDeltaUsd).toFixed(2)} below the current sponsor offer.`
 
+  // ── Activity-code enrichment (no effect when catalog is absent or empty) ──────
+  const catalog = input.activityCodeCatalog ?? []
+  const byCode = new Map<string, ActivityCodeEntry>(catalog.map((e) => [e.code, e]))
+
+  // FMV Gap enrichment — per-activity detail lines from most recent sponsor offer
+  const perActivityDetails: string[] = []
+  const activityGapPercents: number[] = []
+
+  for (const item of sponsorOfferLineItems) {
+    if (!item.activity_code) continue
+    const entry = byCode.get(item.activity_code)
+    if (!entry || entry.fmv_low === null || entry.fmv_high === null || item.amount === null) continue
+
+    let detailSuffix = ''
+    if (item.amount < entry.fmv_low) {
+      const gapVsFmvHighPct = Math.round(
+        ((entry.fmv_high - item.amount) / entry.fmv_high) * 100,
+      )
+      activityGapPercents.push(gapVsFmvHighPct)
+      detailSuffix = ` Gap: ${gapVsFmvHighPct}%.`
+    }
+    perActivityDetails.push(
+      `${entry.name} (${capitalizeFirst(entry.category)}) — $${item.amount}/${entry.typical_unit} offered, expected $${entry.fmv_low}–${entry.fmv_high}/${entry.typical_unit}.${detailSuffix}`,
+    )
+  }
+
+  let enrichedFmvLevel = fmvGapLevel
+  if (perActivityDetails.length > 0) {
+    const maxGap = Math.max(...activityGapPercents)
+    if (maxGap > FMV_GAP_HIGH_PCT) {
+      enrichedFmvLevel = 'high'
+    } else if (activityGapPercents.some((g) => g >= FMV_GAP_MODERATE_PCT)) {
+      enrichedFmvLevel = 'moderate'
+    } else {
+      enrichedFmvLevel = 'low'
+    }
+  }
+
+  // Unpriced enrichment — named list from unpriced line items across the ledger
+  const allLineItems = input.summary.negotiationLedger.flatMap((e) => e.lineItems)
+  const unpricedLineItems = allLineItems.filter((li) => li.status === 'unpriced')
+  let unpricedItems: string[] | undefined
+  if (unpricedLineItems.length > 0) {
+    const names = unpricedLineItems.map((li) => {
+      const entry = li.activity_code ? byCode.get(li.activity_code) : undefined
+      return entry
+        ? `${entry.name} (${capitalizeFirst(entry.category)})`
+        : li.label || 'Unlabeled item'
+    })
+    // Dedup: the same unpriced item can recur across negotiation rounds in the
+    // ledger; surface each distinct item once so the count is not inflated.
+    unpricedItems = Array.from(new Set(names))
+  }
+
   return {
     fmvGap: {
-      level: fmvGapLevel,
+      level: enrichedFmvLevel,
       summary: fmvSummary,
       details: [
         `Benchmark family: ${benchmark.family}`,
@@ -576,6 +646,7 @@ export function deriveBudgetNegotiationIntelligence(input: {
       benchmarkUsd,
       sponsorOfferUsd: sponsorOfferLineItems.length > 0 ? sponsorOfferUsd : null,
       gapUsd: projectedDeltaUsd,
+      ...(perActivityDetails.length > 0 ? { perActivityDetails } : {}),
     },
     operationalBurdenGap: {
       level: operationalBurdenGapLevel,
@@ -614,6 +685,7 @@ export function deriveBudgetNegotiationIntelligence(input: {
       ],
     },
     recommendedCounterofferLanguage,
+    unpricedItems,
     projectedRevenueImpact: {
       benchmarkUsd,
       sponsorOfferUsd: sponsorOfferLineItems.length > 0 ? sponsorOfferUsd : null,
@@ -675,7 +747,46 @@ function deriveNegotiationLineItemStatus(
   return { status: 'unpriced', financialTruth: false }
 }
 
-function parseNegotiationLineItems(
+// Zod schema for an untrusted `line_items` entry from a Supabase event_payload.
+// Transforms reproduce the original field coercion exactly; an item with a
+// missing/blank label fails validation and is dropped.
+// Each field is `.optional()` because in Zod v4 a `z.unknown()` property is
+// required; the transforms already map a missing/non-string value to the same
+// default the original manual checks produced. Unknown keys are stripped (the
+// default object behavior).
+const negotiationLineItemPayloadSchema = z.object({
+  label: z
+    .unknown()
+    .optional()
+    .transform((v) => (typeof v === 'string' ? v.trim() : ''))
+    .refine((s) => s.length > 0),
+  category: z
+    .unknown()
+    .optional()
+    .transform((v) => (typeof v === 'string' ? v.trim() : 'other')),
+  amount: z
+    .unknown()
+    .optional()
+    .transform((v) => {
+      if (typeof v === 'number' && Number.isFinite(v)) return v
+      if (typeof v === 'string' && Number.isFinite(Number(v))) return Number(v)
+      return null
+    }),
+  currency: z
+    .unknown()
+    .optional()
+    .transform((v) => (typeof v === 'string' ? v.trim().toUpperCase() || null : null)),
+  note: z
+    .unknown()
+    .optional()
+    .transform((v) => (typeof v === 'string' ? v.trim() || null : null)),
+  activity_code: z
+    .unknown()
+    .optional()
+    .transform((v) => (typeof v === 'string' && v.trim() ? v.trim() : undefined)),
+})
+
+export function parseNegotiationLineItems(
   eventType: StudyBudgetNegotiationEventType,
   eventPayload: Record<string, unknown> | null | undefined,
 ) {
@@ -684,48 +795,43 @@ function parseNegotiationLineItems(
   const status = deriveNegotiationLineItemStatus(eventType, eventPayload)
   return rawLineItems
     .map((item): StudyBudgetNegotiationLineItem | null => {
-      if (!item || typeof item !== 'object' || Array.isArray(item)) return null
-      const record = item as Record<string, unknown>
-      const label = typeof record.label === 'string' ? record.label.trim() : ''
-      if (!label) return null
-      return {
-        label,
-        category: typeof record.category === 'string' ? record.category.trim() : 'other',
-        amount:
-          typeof record.amount === 'number' && Number.isFinite(record.amount)
-            ? record.amount
-            : typeof record.amount === 'string' && Number.isFinite(Number(record.amount))
-              ? Number(record.amount)
-              : null,
-        currency: typeof record.currency === 'string' ? record.currency.trim().toUpperCase() || null : null,
-        note: typeof record.note === 'string' ? record.note.trim() || null : null,
-        ...status,
-      }
+      const parsed = negotiationLineItemPayloadSchema.safeParse(item)
+      if (!parsed.success) return null
+      return { ...parsed.data, ...status }
     })
     .filter((item): item is StudyBudgetNegotiationLineItem => item !== null)
 }
 
-type StudyBudgetNegotiationLedgerRow = {
-  id: string
-  study_id: string
-  study_subject_id: string | null
-  visit_id: string | null
-  procedure_id: string | null
-  source_document_id: string | null
-  source_chunk_id: string | null
-  protocol_version_id: string | null
-  event_type: string
-  title: string
-  summary: string
-  reason: string | null
-  recommended_next_step: string | null
-  owner_role: string
-  negotiation_round: number | string | null
-  actor_user_id: string | null
-  created_at: string
-  event_payload: Record<string, unknown> | null
-}
+// Zod schema validating an untrusted `study_budget_negotiation_events` row from
+// Supabase at the trust boundary, replacing `as unknown as` casts. Non-null DB
+// columns are coerced to string; nullable columns degrade to null on a bad
+// shape. The inferred output type is the row contract for the mapping below.
+const negotiationLedgerRowSchema = z.object({
+  id: z.coerce.string(),
+  study_id: z.coerce.string(),
+  study_subject_id: z.string().nullable().catch(null),
+  visit_id: z.string().nullable().catch(null),
+  procedure_id: z.string().nullable().catch(null),
+  source_document_id: z.string().nullable().catch(null),
+  source_chunk_id: z.string().nullable().catch(null),
+  protocol_version_id: z.string().nullable().catch(null),
+  event_type: z.coerce.string(),
+  title: z.coerce.string(),
+  summary: z.coerce.string(),
+  reason: z.string().nullable().catch(null),
+  recommended_next_step: z.string().nullable().catch(null),
+  owner_role: z.coerce.string(),
+  negotiation_round: z.union([z.number(), z.string()]).nullable().catch(null),
+  actor_user_id: z.string().nullable().catch(null),
+  created_at: z.coerce.string(),
+  event_payload: z.record(z.string(), z.unknown()).nullable().catch(null),
+})
 
+// Access control: reads `study_budget_negotiation_events` (rows carry
+// study_subject_id / actor_user_id). Row visibility is enforced by Supabase RLS
+// scoped to the caller's active organization membership; the explicit
+// organization_id + study_id filters below are defense-in-depth, not the
+// primary gate.
 export async function loadRecentBudgetNegotiationLedger(input: {
   supabase: SupabaseClient
   organizationId: string
@@ -768,7 +874,7 @@ export async function loadRecentBudgetNegotiationLedger(input: {
       return []
     }
 
-    return ((data ?? []) as unknown as StudyBudgetNegotiationLedgerRow[]).map((row) => ({
+    return z.array(negotiationLedgerRowSchema).parse(data ?? []).map((row) => ({
       id: String(row.id),
       eventType: String(row.event_type) as StudyBudgetNegotiationEventType,
       title: String(row.title),
@@ -808,6 +914,10 @@ export async function loadRecentBudgetNegotiationLedger(input: {
   }
 }
 
+// Access control: writes `study_budget_negotiation_events` (may include
+// study_subject_id / actor_user_id). Insert is gated by Supabase RLS scoped to
+// the caller's active organization membership; organization_id/study_id are set
+// on the row so RLS can enforce tenant isolation.
 export async function appendStudyBudgetNegotiationEvent(input: {
   supabase: SupabaseClient
   organizationId: string
@@ -902,7 +1012,7 @@ export async function appendStudyBudgetNegotiationEvent(input: {
     throw new Error(`Failed to append budget negotiation event: ${error?.message ?? 'Unknown error'}`)
   }
 
-  const row = data as unknown as StudyBudgetNegotiationLedgerRow
+  const row = negotiationLedgerRowSchema.parse(data)
 
   return {
     id: String(row.id),
@@ -1033,11 +1143,16 @@ async function countTermHints(input: {
   )
 }
 
+// Access control: aggregates budget/CTA evidence (document_intelligence_*,
+// study_budget_negotiation_events) scoped by organization_id + study_id. Row
+// visibility is enforced by Supabase RLS on each underlying table per active
+// organization membership; the data is financial, not subject-identifiable.
 export async function loadStudyBudgetEvidenceSummary(
   studyId: string,
   organizationId: string,
   protocolSetup?: ProtocolSetupModel | null,
   supabaseClient?: SupabaseClient,
+  activityCodeCatalog?: ActivityCodeEntry[],
 ): Promise<StudyBudgetEvidenceSummary> {
   const supabase = supabaseClient ?? (await createServerClient())
   const unavailable: string[] = []
@@ -1318,6 +1433,7 @@ export async function loadStudyBudgetEvidenceSummary(
       invoiceableProcedureHintCount,
       soaComparison,
     },
+    activityCodeCatalog,
   })
 
   return {
