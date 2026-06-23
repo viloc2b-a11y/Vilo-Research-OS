@@ -2,7 +2,7 @@ import { CoordinatorPageScroll } from '@/components/runtime-ui/CoordinatorPageSc
 import { createServerClient } from '@/lib/supabase/server'
 import { getSessionUser, getPrimaryOrganizationId } from '@/lib/auth/session'
 import { loadRegulatoryPersonnel } from '@/lib/regulatory-center/regulatory-personnel'
-import { loadRegulatoryDocuments } from '@/lib/regulatory-center/regulatory-master-documents'
+import { loadRegulatoryDocuments, loadDocumentCenterRecords } from '@/lib/regulatory-center/regulatory-master-documents'
 import { loadOrgStudies, loadStudyLinks } from '@/lib/regulatory-center/study-regulatory-links'
 import { loadStudyRegulatoryDocuments } from '@/lib/regulatory-center/study-regulatory-documents'
 import { RegulatoryCenterTabs } from '@/components/regulatory-center/regulatory-center-tabs'
@@ -21,6 +21,7 @@ export default async function RegulatoryCenterPage() {
   }
 
   let documents: Awaited<ReturnType<typeof loadRegulatoryDocuments>> = []
+  let documentCenterRecords: Awaited<ReturnType<typeof loadDocumentCenterRecords>> = []
   let studies: Awaited<ReturnType<typeof loadOrgStudies>> = []
   let links: Awaited<ReturnType<typeof loadStudyLinks>> = []
   let studyRegDocs: Record<string, Awaited<ReturnType<typeof loadStudyRegulatoryDocuments>>> = {}
@@ -28,6 +29,7 @@ export default async function RegulatoryCenterPage() {
   if (orgId) {
     const supabase = await createServerClient()
     documents = await loadRegulatoryDocuments(supabase, orgId, { personnel })
+    documentCenterRecords = await loadDocumentCenterRecords(supabase, orgId)
     studies = await loadOrgStudies(supabase, orgId)
     const linkedStudies = studies.slice(0, 20)
     const allLinks = await Promise.all(
@@ -45,6 +47,7 @@ export default async function RegulatoryCenterPage() {
       <RegulatoryCenterTabs
         personnel={personnel}
         documents={documents}
+        documentCenterRecords={documentCenterRecords}
         studies={studies}
         links={links}
         studyRegDocs={studyRegDocs}

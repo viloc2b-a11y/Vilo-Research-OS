@@ -11,6 +11,7 @@ function makeDoc(over: Partial<RegulatoryDocumentWithOwner> = {}): RegulatoryDoc
     document_type: 'CV',
     document_title: 'Test Document',
     document_reference: null,
+    document_center_id: null,
     version: null,
     effective_date: null,
     expiration_date: null,

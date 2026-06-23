@@ -13,6 +13,7 @@ export type CreateDocumentInput = {
   documentType: string
   documentTitle: string
   documentReference?: string | null
+  documentCenterId?: string | null
   version?: string | null
   effectiveDate?: string | null
   expirationDate?: string | null
@@ -24,6 +25,7 @@ export type UpdateDocumentInput = {
   documentType?: string
   documentTitle?: string
   documentReference?: string | null
+  documentCenterId?: string | null
   version?: string | null
   effectiveDate?: string | null
   expirationDate?: string | null
@@ -62,6 +64,7 @@ export async function createRegulatoryDocument(
         document_type: input.documentType,
         document_title: input.documentTitle,
         document_reference: input.documentReference ?? null,
+        document_center_id: input.documentCenterId ?? null,
         version: input.version ?? null,
         effective_date: input.effectiveDate ?? null,
         expiration_date: input.expirationDate ?? null,
@@ -95,6 +98,7 @@ export async function updateRegulatoryDocument(
     if (input.documentType !== undefined) updates.document_type = input.documentType
     if (input.documentTitle !== undefined) updates.document_title = input.documentTitle
     if (input.documentReference !== undefined) updates.document_reference = input.documentReference
+    if (input.documentCenterId !== undefined) updates.document_center_id = input.documentCenterId
     if (input.version !== undefined) updates.version = input.version
     if (input.effectiveDate !== undefined) updates.effective_date = input.effectiveDate
     if (input.expirationDate !== undefined) updates.expiration_date = input.expirationDate

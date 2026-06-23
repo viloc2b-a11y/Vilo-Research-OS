@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Shield, Users, FileText, AlertTriangle, Link2, PackageCheck, ChevronRight } from 'lucide-react'
 import type { RegulatoryPersonnelEntry } from '@/lib/regulatory-center/regulatory-personnel'
-import type { RegulatoryDocumentWithOwner } from '@/lib/regulatory-center/regulatory-master-documents'
+import type { RegulatoryDocumentWithOwner, DocumentCenterRecord } from '@/lib/regulatory-center/regulatory-master-documents'
 import type { StudyLinkWithDetails, StudyInfo } from '@/lib/regulatory-center/study-regulatory-links'
 import type { StudyRegulatoryDocumentEntry } from '@/lib/regulatory-center/study-regulatory-documents'
 import { buildExpirationSummary } from '@/lib/regulatory-center/regulatory-expiration'
@@ -18,6 +18,7 @@ import { StudyRegulatoryPacketSection } from './study-regulatory-packet-section'
 type RegulatoryCenterTabsProps = {
   personnel: RegulatoryPersonnelEntry[]
   documents: RegulatoryDocumentWithOwner[]
+  documentCenterRecords: DocumentCenterRecord[]
   studies: StudyInfo[]
   links: StudyLinkWithDetails[]
   studyRegDocs: Record<string, StudyRegulatoryDocumentEntry[]>
@@ -242,7 +243,7 @@ export function RegulatoryCenterTabs(props: RegulatoryCenterTabsProps) {
           <PersonnelSection personnel={props.personnel} organizationId={props.organizationId} />
         )}
         {activeTab === 'documents' && (
-          <MasterDocumentsSection documents={props.documents} personnel={props.personnel} organizationId={props.organizationId} />
+          <MasterDocumentsSection documents={props.documents} personnel={props.personnel} organizationId={props.organizationId} documentCenterRecords={props.documentCenterRecords} />
         )}
         {activeTab === 'expirations' && (
           <ExpirationsSection documents={props.documents} />

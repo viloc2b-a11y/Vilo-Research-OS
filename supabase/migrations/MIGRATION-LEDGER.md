@@ -1,8 +1,8 @@
 # Supabase Migration Ledger
 
 **Last updated:** 2026-06-22  
-**Total migrations:** 225  
-**Next safe prefix:** 0234
+**Total migrations:** 226  
+**Next safe prefix:** 0235
 
 ---
 
@@ -22,7 +22,7 @@ Three numeric prefix collisions exist in the migration history. These were appli
 
 ## Convention for New Migrations
 
-- Use the next safe prefix in sequence: currently **0234**
+- Use the next safe prefix in sequence: currently **0235**
 - Never reuse an existing prefix — always increment
 - Use the format: `{prefix}_{short_snake_case_description}.sql`
 - After each migration session, update "Next safe prefix" in this ledger
@@ -66,4 +66,5 @@ Migrations that create or extend tables should be consistent with the following 
 | 0231 | Regulatory master documents |
 | 0232 | Study regulatory links |
 | 0233 | Study-specific regulatory documents |
-| 0234+ | Future |
+| 0234 | Regulatory — Document Center integration |
+| 0235+ | Future |

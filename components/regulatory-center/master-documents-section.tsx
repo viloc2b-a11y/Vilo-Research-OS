@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import type { RegulatoryDocumentWithOwner } from '@/lib/regulatory-center/regulatory-master-documents'
+import type { RegulatoryDocumentWithOwner, DocumentCenterRecord } from '@/lib/regulatory-center/regulatory-master-documents'
 import type { RegulatoryPersonnelEntry } from '@/lib/regulatory-center/regulatory-personnel'
 import { DOCUMENT_TYPES, OWNER_TYPES, DOCUMENT_STATUSES } from '@/lib/regulatory-center/regulatory-master-documents'
 import {
@@ -18,6 +18,7 @@ type MasterDocumentsSectionProps = {
   documents: RegulatoryDocumentWithOwner[]
   personnel: RegulatoryPersonnelEntry[]
   organizationId: string
+  documentCenterRecords: DocumentCenterRecord[]
 }
 
 // ── Status badge ─────────────────────────────────────────────────────────────
@@ -66,11 +67,13 @@ function DocumentTypeBadge({ type }: { type: string }) {
 function DocumentForm({
   initial,
   personnel,
+  documentCenterRecords = [],
   onClose,
   onSaved,
 }: {
   initial?: RegulatoryDocumentWithOwner
   personnel: RegulatoryPersonnelEntry[]
+  documentCenterRecords?: DocumentCenterRecord[]
   onClose: () => void
   onSaved: () => void
 }) {
@@ -78,7 +81,8 @@ function DocumentForm({
   const [title, setTitle] = useState(initial?.document_title ?? '')
   const [ownerType, setOwnerType] = useState(initial?.owner_type ?? 'person')
   const [ownerPersonnelId, setOwnerPersonnelId] = useState(initial?.owner_personnel_id ?? '')
-  const [reference, setReference] = useState(initial?.document_reference ?? '')
+  const [selectedDcId, setSelectedDcId] = useState(initial?.document_center_id ?? '')
+  const [dcSearch, setDcSearch] = useState('')
   const [version, setVersion] = useState(initial?.version ?? '')
   const [effectiveDate, setEffectiveDate] = useState(initial?.effective_date ?? '')
   const [expirationDate, setExpirationDate] = useState(initial?.expiration_date ?? '')
@@ -101,7 +105,7 @@ function DocumentForm({
             id: initial.id,
             documentType: docType,
             documentTitle: title.trim(),
-            documentReference: reference.trim() || null,
+            documentCenterId: selectedDcId || null,
             version: version.trim() || null,
             effectiveDate: effectiveDate || null,
             expirationDate: expirationDate || null,
@@ -114,7 +118,7 @@ function DocumentForm({
             ownerPersonnelId: ownerPersonnelId || null,
             documentType: docType,
             documentTitle: title.trim(),
-            documentReference: reference.trim() || null,
+            documentCenterId: selectedDcId || null,
             version: version.trim() || null,
             effectiveDate: effectiveDate || null,
             expirationDate: expirationDate || null,
@@ -128,7 +132,7 @@ function DocumentForm({
         setError(result.error ?? 'Failed to save')
       }
     },
-    [initial, docType, title, ownerType, ownerPersonnelId, reference, version, effectiveDate, expirationDate, notes, onSaved],
+    [initial, docType, title, ownerType, ownerPersonnelId, selectedDcId, version, effectiveDate, expirationDate, notes, onSaved],
   )
 
   const personnelFiltered = personnel.filter((p) => p.status === 'active')
@@ -190,13 +194,47 @@ function DocumentForm({
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-600">Reference / File URL</label>
+          <label className="block text-xs font-medium text-slate-600">
+            Document Center Document
+            <span className="ml-1 font-normal text-slate-400">(file stored in Document Center)</span>
+          </label>
+          <select
+            value={selectedDcId}
+            onChange={(e) => setSelectedDcId(e.target.value)}
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+          >
+            <option value="">— Select from Document Center —</option>
+            {documentCenterRecords.filter((d) => {
+              if (dcSearch) {
+                const q = dcSearch.toLowerCase()
+                return d.operational_display_name.toLowerCase().includes(q) ||
+                  d.original_filename.toLowerCase().includes(q) ||
+                  d.document_classification.toLowerCase().includes(q)
+              }
+              return true
+            }).map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.operational_display_name} ({d.document_classification}) — {new Date(d.created_at).toLocaleDateString()}
+              </option>
+            ))}
+          </select>
+          {selectedDcId && (() => {
+            const selected = documentCenterRecords.find((d) => d.id === selectedDcId)
+            if (!selected) return null
+            return (
+              <div className="mt-1 rounded bg-teal-50 border border-teal-200 p-2 text-[11px] text-teal-700">
+                Selected: <span className="font-medium">{selected.operational_display_name}</span>
+                <span className="ml-2">· {selected.document_classification}</span>
+                <span className="ml-2">· {selected.original_filename}</span>
+              </div>
+            )
+          })()}
           <input
             type="text"
-            value={reference}
-            onChange={(e) => setReference(e.target.value)}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
-            placeholder="s3://... or document ID"
+            value={dcSearch}
+            onChange={(e) => setDcSearch(e.target.value)}
+            placeholder="Filter documents..."
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-1.5 text-xs focus:border-teal-500 focus:outline-none"
           />
         </div>
         <div>
@@ -289,7 +327,10 @@ function DocumentCard({
               {doc.owner_name ?? doc.owner_type}
             </p>
             {doc.version && <p><span className="font-medium text-slate-400">Version:</span> {doc.version}</p>}
-            {doc.document_reference && (
+            {doc.dc_document_name && (
+              <p className="truncate"><span className="font-medium text-slate-400">DC Doc:</span> {doc.dc_document_name}</p>
+            )}
+            {doc.document_reference && !doc.dc_document_name && (
               <p className="truncate"><span className="font-medium text-slate-400">Ref:</span> {doc.document_reference}</p>
             )}
             <div className="flex gap-3">
@@ -369,6 +410,7 @@ export function MasterDocumentsSection({
   documents,
   personnel,
   organizationId: _orgId,
+  documentCenterRecords = [],
 }: MasterDocumentsSectionProps) {
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<RegulatoryDocumentWithOwner | null>(null)
@@ -423,12 +465,12 @@ export function MasterDocumentsSection({
       {/* Form */}
       {showForm && !editing && (
         <div className="mt-4">
-          <DocumentForm personnel={personnel} onClose={() => setShowForm(false)} onSaved={refresh} />
+          <DocumentForm personnel={personnel} documentCenterRecords={documentCenterRecords} onClose={() => setShowForm(false)} onSaved={refresh} />
         </div>
       )}
       {editing && (
         <div className="mt-4">
-          <DocumentForm initial={editing} personnel={personnel} onClose={() => setEditing(null)} onSaved={refresh} />
+          <DocumentForm initial={editing} personnel={personnel} documentCenterRecords={documentCenterRecords} onClose={() => setEditing(null)} onSaved={refresh} />
         </div>
       )}
 
