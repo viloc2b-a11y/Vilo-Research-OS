@@ -1,5 +1,5 @@
 /**
- * Staging pilot defaults (phase2-validation-study / PHASE9A-PILOT-001).
+ * Staging pilot defaults (fixture-study-001 / FIXTURE-SUBJ-001).
  * Override via PHASE11_* env in CI or .env.local.
  */
 export const PILOT_FIXTURE_DEFAULTS = {
@@ -8,8 +8,8 @@ export const PILOT_FIXTURE_DEFAULTS = {
   studySubjectId: '4384b789-4e16-4512-b3f3-50642b3b9735',
   visitId: '6690da63-4bf1-4681-815a-3e39b7b014bc',
   coordinatorActorUserId: 'd7e43ee5-5c08-489b-b293-8ef288e7fdb7',
-  studySlug: 'phase2-validation-study',
-  subjectIdentifier: 'PHASE9A-PILOT-001',
+  studySlug: 'fixture-study-001',
+  subjectIdentifier: 'FIXTURE-SUBJ-001',
   canonicalSourceDefinitionVersionId: '2ee5a544-fba6-4edb-a5c1-61ba5e2eee00',
   screeningProcedureDefinitionId: '17059af6-37fa-48a5-9bef-e82b7e2606b1',
   /** Materialized Screening CBC procedure execution (when present on fixture visit) */

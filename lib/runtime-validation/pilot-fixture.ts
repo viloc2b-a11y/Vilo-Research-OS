@@ -31,7 +31,7 @@ export function pilotFixtureEnvHints(): PilotFixtureResolveHint {
     missingEnv,
     usedDefaults,
     hint: usedDefaults
-      ? 'Using PILOT_FIXTURE_DEFAULTS (phase2-validation-study). Set PHASE11_* in .env.local or CI for explicit scope.'
+      ? 'Using PILOT_FIXTURE_DEFAULTS (fixture-study-001). Set PHASE11_* in .env.local or CI for explicit scope.'
       : missingEnv.length > 0
         ? `Partial PHASE11_* env — missing: ${missingEnv.join(', ')}`
         : 'PHASE11_* env fully specified.',
