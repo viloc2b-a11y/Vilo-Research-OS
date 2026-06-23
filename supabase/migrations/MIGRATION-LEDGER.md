@@ -1,8 +1,8 @@
 # Supabase Migration Ledger
 
-**Last updated:** 2026-06-14  
-**Total migrations:** 185  
-**Next safe prefix:** 0195
+**Last updated:** 2026-06-22  
+**Total migrations:** 225  
+**Next safe prefix:** 0234
 
 ---
 
@@ -22,7 +22,7 @@ Three numeric prefix collisions exist in the migration history. These were appli
 
 ## Convention for New Migrations
 
-- Use the next safe prefix in sequence: currently **0195**
+- Use the next safe prefix in sequence: currently **0234**
 - Never reuse an existing prefix — always increment
 - Use the format: `{prefix}_{short_snake_case_description}.sql`
 - After each migration session, update "Next safe prefix" in this ledger
@@ -55,4 +55,15 @@ Migrations that create or extend tables should be consistent with the following 
 | 0150–0169 | Pharmacy, document intelligence, governance |
 | 0170–0184 | CAPA, amendment runtime, regulatory binder, consent templates |
 | 0185–0194 | Inspection readiness, financial intelligence, compliance |
-| 0195+ | Future |
+| 0195–0222 | Activity code library, system library |
+| 0223–0224 | System library expansion |
+| 0225 | Study systems registry |
+| 0226 | Study system usage events |
+| 0227 | Study system access readiness |
+| 0228 | Activity → system map |
+| 0229 | Activity → system recommendations |
+| 0230 | Regulatory personnel registry |
+| 0231 | Regulatory master documents |
+| 0232 | Study regulatory links |
+| 0233 | Study-specific regulatory documents |
+| 0234+ | Future |

@@ -15,6 +15,8 @@ import {
   Plus,
 } from 'lucide-react'
 import { createServerClient } from '@/lib/supabase/server'
+import { determineStudyStartReadiness } from '@/lib/study-workspace/ready-to-start-decision'
+import type { ReadyToStartDecision } from '@/lib/study-workspace/ready-to-start-decision'
 
 // ============================================================================
 // Types
@@ -25,6 +27,7 @@ interface StudyRow {
   name: string
   slug: string | null
   status: string | null
+  readyToStart?: ReadyToStartDecision
   // STUB fields — add to DB schema when sponsor/phase columns exist
   // protocol_id, phase, pi_name, sponsor, enrolled_count, enrollment_target
 }
@@ -55,6 +58,22 @@ function StudyStatusBadge({ status }: { status: string | null }) {
 // Study Card
 // ============================================================================
 
+function ReadyToStartBadge({ decision }: { decision?: ReadyToStartDecision }) {
+  if (!decision) return null
+  const cfg = {
+    READY_TO_START: { bg: 'bg-green-100', text: 'text-green-700', label: 'Ready' },
+    ALMOST_READY: { bg: 'bg-amber-100', text: 'text-amber-700', label: 'Almost Ready' },
+    NOT_READY: { bg: 'bg-red-100', text: 'text-red-700', label: 'Not Ready' },
+  }
+  const c = cfg[decision.status]
+  return (
+    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${c.bg} ${c.text}`} title={`${decision.blockers.length} blocker(s)`}>
+      {c.label}
+      {decision.blockers.length > 0 && <span className="ml-1">· {decision.blockers.length}</span>}
+    </span>
+  )
+}
+
 function StudyCard({ study }: { study: StudyRow }) {
   // Generate a deterministic study color from name (until DB has color field)
   const COLORS = ['#3B82F6', '#8B5CF6', '#14B8A6', '#F59E0B', '#EC4899', 'var(--primary)']
@@ -72,6 +91,7 @@ function StudyCard({ study }: { study: StudyRow }) {
               <span className="mono-id">{study.slug}</span>
             )}
             <StudyStatusBadge status={study.status} />
+            <ReadyToStartBadge decision={study.readyToStart} />
           </div>
           <h3 className="font-semibold text-foreground text-sm leading-snug">{study.name}</h3>
           {/* STUB: Phase · Therapeutic Area · Sponsor */}
@@ -116,8 +136,22 @@ export default async function StudiesPortfolioPage() {
     ? await studiesQuery.in('organization_id', organizationIds)
     : await studiesQuery.limit(0)
 
+  // Load Ready To Start decisions for each study (batch-limited)
+  const studiesWithRTS: StudyRow[] = []
+  if (studies) {
+    const batch = studies.slice(0, 20)
+    const decisions = await Promise.all(
+      batch.map((s) => determineStudyStartReadiness(s.id)),
+    )
+    for (let i = 0; i < studies.length; i++) {
+      const decision = i < decisions.length ? decisions[i] : undefined
+      studiesWithRTS.push({ ...studies[i], readyToStart: decision })
+    }
+  }
+
   const activeCount   = studies?.filter(s => s.status === 'active' || s.status === 'enrolling').length ?? 0
-  const atRiskCount   = 0 // STUB: until operational_status column exists
+  const notReadyCount = studiesWithRTS.filter(s => s.readyToStart?.status === 'NOT_READY').length
+  const atRiskCount   = studiesWithRTS.filter(s => s.readyToStart?.status === 'ALMOST_READY').length + notReadyCount
   const totalStudies  = studies?.length ?? 0
 
   return (
@@ -171,13 +205,13 @@ export default async function StudiesPortfolioPage() {
             <p className="text-2xl font-bold text-muted-foreground">—</p>
             {/* STUB: count from study_subjects */}
           </div>
-          <div className={`p-4 rounded-xl border ${atRiskCount > 0 ? 'bg-red-50 border-red-200' : 'bg-card border-border'}`}>
+          <div className={`p-4 rounded-xl border ${notReadyCount > 0 ? 'bg-red-50 border-red-200' : 'bg-card border-border'}`}>
             <div className="flex items-center gap-2 mb-2">
-              <AlertCircle className={`w-4 h-4 ${atRiskCount > 0 ? 'text-red-500' : 'text-muted-foreground'}`} />
-              <span className="text-xs text-muted-foreground">At Risk</span>
+              <AlertCircle className={`w-4 h-4 ${notReadyCount > 0 ? 'text-red-500' : 'text-muted-foreground'}`} />
+              <span className="text-xs text-muted-foreground">Not Ready To Start</span>
             </div>
-            <p className={`text-2xl font-bold ${atRiskCount > 0 ? 'text-red-600' : 'text-muted-foreground'}`}>
-              {atRiskCount > 0 ? atRiskCount : '—'}
+            <p className={`text-2xl font-bold ${notReadyCount > 0 ? 'text-red-600' : 'text-muted-foreground'}`}>
+              {notReadyCount > 0 ? notReadyCount : '—'}
             </p>
           </div>
         </div>
@@ -202,9 +236,9 @@ export default async function StudiesPortfolioPage() {
             </p>
           </div>
         )}
-        {studies && studies.length > 0 && (
+        {studiesWithRTS && studiesWithRTS.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            {studies.map((study) => (
+            {studiesWithRTS.map((study) => (
               <StudyCard key={study.id} study={study} />
             ))}
           </div>

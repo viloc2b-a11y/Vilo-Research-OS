@@ -17,6 +17,18 @@ import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
 import { EnrollmentVelocityIndicator } from '@/components/recruitment-intelligence/EnrollmentVelocityIndicator'
 import { RecruitmentForecastCard } from '@/components/recruitment-intelligence/RecruitmentForecastCard'
 import { FunnelSnapshotCard } from '@/components/recruitment-intelligence/FunnelSnapshotCard'
+import type { SystemWithUsage } from '@/lib/study-workspace/study-system-usage'
+import { recordSystemLaunch } from '@/lib/study-workspace/study-systems-actions'
+import type { AccessReadinessSummary } from '@/lib/study-workspace/study-system-access'
+import { TechStackSummaryCard } from './study-technology-stack-view'
+import type { TechnologyStack } from '@/lib/study-workspace/load-study-technology-stack'
+import { StartupReadinessCard } from './study-startup-workspace-view'
+import type { StartupReadinessResult } from '@/lib/study-workspace/study-startup-readiness'
+import { ReadyToStartSummaryCard } from './ready-to-start-view'
+import type { ReadyToStartDecision } from '@/lib/study-workspace/ready-to-start-decision'
+import type { RegulatorySignal } from '@/lib/regulatory-center/regulatory-signals'
+import { StudyReadinessCard } from './study-readiness-card'
+import type { StudyReadiness } from '@/lib/study-readiness/study-readiness'
 
 type StudyCommandCenterViewProps = {
   studyName: string
@@ -35,6 +47,15 @@ type StudyCommandCenterViewProps = {
   invoiceSummary?: StudyInvoiceSummary | null
   workflowSummary: StudyWorkflowSummary
   activityCodeCatalog?: ActivityCodeEntry[]
+  quickLaunchPinned?: SystemWithUsage[]
+  quickLaunchMostUsed?: SystemWithUsage[]
+  accessBlockers?: Array<{ systemName: string; role: string; status: string; notes: string | null }>
+  accessScore?: number
+  techStack?: TechnologyStack
+  startupReadiness?: StartupReadinessResult
+  readyToStart?: ReadyToStartDecision
+  regulatorySignals?: RegulatorySignal[]
+  studyReadiness?: StudyReadiness
 }
 
 export function StudyCommandCenterView({
@@ -54,9 +75,117 @@ export function StudyCommandCenterView({
   invoiceSummary,
   workflowSummary,
   activityCodeCatalog,
+  quickLaunchPinned,
+  quickLaunchMostUsed,
+  accessBlockers,
+  accessScore,
+  techStack,
+  startupReadiness,
+  readyToStart,
+  regulatorySignals,
+  studyReadiness,
 }: StudyCommandCenterViewProps) {
   return (
     <div className="space-y-6">
+      {/* Study Access Blockers */}
+      {accessBlockers && accessBlockers.length > 0 && (
+        <div className="rounded-md border border-red-200 bg-red-50 p-5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-red-800">Study Access Blockers</h3>
+              <p className="mt-1 text-xs text-red-600">
+                {accessBlockers.length} access issue{accessBlockers.length !== 1 ? 's' : ''} — resolve before enrollment
+              </p>
+            </div>
+            <span className="text-2xl font-bold text-red-600">{accessScore ?? 100}%</span>
+          </div>
+          <ul className="mt-3 space-y-1.5">
+            {accessBlockers.map((b, i) => (
+              <li key={i} className="flex items-center gap-2 text-xs text-red-700">
+                <span className="text-red-500">✗</span>
+                <span className="font-medium">{b.systemName}</span>
+                <span className="text-red-400">({b.role})</span>
+                {b.notes && <span className="text-red-400">— {b.notes}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Technology Stack Summary */}
+      {techStack && (
+        <TechStackSummaryCard metrics={techStack.metrics} risks={techStack.risks} />
+      )}
+
+      {/* Startup Readiness */}
+      {startupReadiness && (
+        <StartupReadinessCard readiness={startupReadiness} />
+      )}
+
+      {/* Ready To Start Decision */}
+      {readyToStart && (
+        <ReadyToStartSummaryCard decision={readyToStart} />
+      )}
+
+      {/* Study Readiness — composed 8-domain readyness */}
+      {studyReadiness && (
+        <StudyReadinessCard readiness={studyReadiness} />
+      )}
+
+      {/* Regulatory Signals */}
+      {regulatorySignals && regulatorySignals.length > 0 && (
+        <div className="rounded-md border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-slate-800">Regulatory</h3>
+            <div className="flex gap-2 text-[10px]">
+              {regulatorySignals.filter((s) => s.severity === 'critical').length > 0 && (
+                <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 font-medium text-red-700">
+                  {regulatorySignals.filter((s) => s.severity === 'critical').length} critical
+                </span>
+              )}
+              {regulatorySignals.filter((s) => s.severity === 'warning').length > 0 && (
+                <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 font-medium text-amber-700">
+                  {regulatorySignals.filter((s) => s.severity === 'warning').length} warnings
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="mt-3 space-y-1.5">
+            {regulatorySignals.slice(0, 5).map((signal) => (
+              <div
+                key={signal.id}
+                className={`flex items-start gap-2 rounded-md border p-2 text-xs ${
+                  signal.severity === 'critical'
+                    ? 'border-red-100 bg-red-50 text-red-700'
+                    : signal.severity === 'warning'
+                      ? 'border-amber-100 bg-amber-50 text-amber-700'
+                      : 'border-blue-100 bg-blue-50 text-blue-700'
+                }`}
+              >
+                <span className="mt-0.5 font-bold">
+                  {signal.severity === 'critical' ? '✗' : signal.severity === 'warning' ? '!' : 'i'}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium">{signal.title}</p>
+                  <p className="mt-0.5 opacity-75">{signal.description}</p>
+                  <a
+                    href={signal.href}
+                    className="mt-0.5 inline-block font-medium underline opacity-75 hover:opacity-100"
+                  >
+                    {signal.actionLabel} →
+                  </a>
+                </div>
+              </div>
+            ))}
+            {regulatorySignals.length > 5 && (
+              <p className="text-xs text-slate-400">
+                +{regulatorySignals.length - 5} more regulatory signal(s)
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
         <h2 className="text-sm font-semibold text-slate-800">Study Command Center</h2>
@@ -889,6 +1018,42 @@ function DerivedSignal({ label, value }: { label: string; value: string }) {
     <div className="rounded bg-slate-50 px-3 py-2 text-xs">
       <p className="font-medium text-slate-700">{label}</p>
       <p className="mt-1 text-slate-600">{value}</p>
+    </div>
+  )
+}
+
+function QuickLaunchCard({ system }: { system: SystemWithUsage }) {
+  return (
+    <div className="flex items-center justify-between rounded-md border border-slate-100 bg-slate-50 p-3">
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-slate-800">
+          {system.system_name}
+        </p>
+        <p className="truncate text-xs text-slate-400">
+          {system.vendor_name}
+          {system.vendor_name && system.system_category && <span> · </span>}
+          {system.system_category}
+        </p>
+        {system.last_used && (
+          <p className="text-[10px] text-slate-400">
+            Last used: {new Date(system.last_used).toLocaleDateString()}
+          </p>
+        )}
+      </div>
+      {system.launch_url && (
+        <a
+          href={system.launch_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => recordSystemLaunch(system.study_system_id, system.study_id)}
+          className="ml-2 shrink-0 inline-flex items-center gap-1 rounded-md bg-slate-900 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-slate-800"
+        >
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+          Launch
+        </a>
+      )}
     </div>
   )
 }

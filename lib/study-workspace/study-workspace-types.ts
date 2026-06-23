@@ -40,3 +40,6 @@ export type StudyWorkspaceSectionId =
   | 'site-intelligence'
   | 'monitoring'
   | 'activity'
+  | 'systems'
+  | 'technology-stack'
+  | 'startup'

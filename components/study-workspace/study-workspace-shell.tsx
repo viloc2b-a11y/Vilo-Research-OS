@@ -53,6 +53,20 @@ import type { ProtocolDeviationRow } from '@/lib/protocol-deviations/deviation-t
 import type { CapaActionRow } from '@/lib/capa-runtime/capa-types'
 import { DeviationCenter } from '@/components/site-intelligence/DeviationCenter'
 import type { ActivityCodeEntry } from '@/lib/cliniq-core/activity-code-library'
+import type { SystemLibraryEntry } from '@/lib/study-workspace/system-library'
+import type { StudySystemsWithUsage, StudyAccessData } from '@/lib/study-workspace/load-study-systems-with-usage'
+import type { TechnologyStack } from '@/lib/study-workspace/load-study-technology-stack'
+import type { ActivitySystemMapWithSystem } from '@/lib/study-workspace/activity-system-map'
+import type { SystemRecommendationWithDetails } from '@/lib/study-workspace/system-recommendations'
+import { StudySystemsPanel } from './study-systems-panel'
+import { StudyAccessReadinessPanel } from './study-access-readiness-panel'
+import { StudyTechnologyStackView, TechStackSummaryCard } from './study-technology-stack-view'
+import { StudyStartupWorkspaceView, StartupReadinessCard } from './study-startup-workspace-view'
+import type { StartupReadinessResult } from '@/lib/study-workspace/study-startup-readiness'
+import { ReadyToStartCard, ReadyToStartSummaryCard } from './ready-to-start-view'
+import type { ReadyToStartDecision } from '@/lib/study-workspace/ready-to-start-decision'
+import type { RegulatorySignal } from '@/lib/regulatory-center/regulatory-signals'
+import type { StudyReadiness } from '@/lib/study-readiness/study-readiness'
 
 type StudyWorkspaceShellProps = {
   summary: StudyWorkspaceSummary
@@ -85,6 +99,16 @@ type StudyWorkspaceShellProps = {
   subjectMap: Record<string, string>
   capaByDeviationId: Record<string, CapaActionRow>
   activityCodeCatalog?: ActivityCodeEntry[]
+  studySystemsUsage: StudySystemsWithUsage
+  systemLibrary: SystemLibraryEntry[]
+  accessData: StudyAccessData
+  activitySystemMappings: ActivitySystemMapWithSystem[]
+  allRecommendations: SystemRecommendationWithDetails[]
+  techStack: TechnologyStack
+  startupReadiness: StartupReadinessResult
+  readyToStart: ReadyToStartDecision
+  regulatorySignals: { signals: RegulatorySignal[]; critical: number; warning: number; total: number }
+  studyReadiness: StudyReadiness
 }
 
 export function StudyWorkspaceShell({
@@ -118,6 +142,16 @@ export function StudyWorkspaceShell({
   subjectMap,
   capaByDeviationId,
   activityCodeCatalog,
+  studySystemsUsage,
+  systemLibrary,
+  accessData,
+  activitySystemMappings,
+  allRecommendations,
+  techStack,
+  startupReadiness,
+  readyToStart,
+  regulatorySignals,
+  studyReadiness,
 }: StudyWorkspaceShellProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -186,6 +220,9 @@ export function StudyWorkspaceShell({
       <div className="min-h-[320px] rounded-md border border-slate-200 bg-white p-5">
         {activeSection === 'overview' ? (
           <div className="space-y-6">
+            {/* Ready To Start — top-level decision */}
+            <ReadyToStartCard decision={readyToStart} />
+
             <StudyOperationsPanel surface={studyOperationsSurface} />
             <StudyCommandCenterView
               studyId={summary.study.id}
@@ -204,6 +241,15 @@ export function StudyWorkspaceShell({
               invoiceSummary={invoiceSummary}
               workflowSummary={workflowSummary}
               activityCodeCatalog={activityCodeCatalog}
+              quickLaunchPinned={studySystemsUsage.pinnedSystems}
+              quickLaunchMostUsed={studySystemsUsage.mostUsed}
+              accessBlockers={accessData.readinessSummary.blockers}
+              accessScore={accessData.readinessSummary.score}
+              techStack={techStack}
+              startupReadiness={startupReadiness}
+              readyToStart={readyToStart}
+              regulatorySignals={regulatorySignals.signals}
+              studyReadiness={studyReadiness}
             />
             <StudyVisitSourceContinuityPanel rows={continuityRows} embedded />
           </div>
@@ -292,6 +338,30 @@ export function StudyWorkspaceShell({
         ) : null}
 
         {activeSection === 'activity' ? <StudyActivityFeed studyId={summary.study.id} /> : null}
+
+        {activeSection === 'startup' ? (
+          <div className="space-y-6">
+            <ReadyToStartCard decision={readyToStart} />
+            <StudyStartupWorkspaceView readiness={startupReadiness} />
+          </div>
+        ) : null}
+
+        {activeSection === 'technology-stack' ? (
+          <StudyTechnologyStackView techStack={techStack} />
+        ) : null}
+
+        {activeSection === 'systems' ? (
+          <StudySystemsPanel
+            studyId={summary.study.id}
+            allSystems={studySystemsUsage.allSystems}
+            recentlyUsed={studySystemsUsage.recentlyUsed}
+            pinnedSystems={studySystemsUsage.pinnedSystems}
+            library={systemLibrary}
+            accessData={accessData}
+            activitySystemMappings={activitySystemMappings}
+            allRecommendations={allRecommendations}
+          />
+        ) : null}
       </div>
     </div>
   )

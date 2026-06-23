@@ -114,7 +114,7 @@ const navSections: NavSection[] = [
     items: [
   { id: 'tasks',      label: 'Tasks',       href: '/tasks',      icon: CheckSquare, soon: true, availability: 'Planned for the next operational workflow release.' },
   { id: 'recruitment',label: 'Recruitment', href: '/recruitment',icon: Users, soon: true, availability: 'Planned after coordinator cockpit stabilization.' },
-  { id: 'regulatory', label: 'Regulatory',  href: '/regulatory', icon: Shield, soon: true, availability: 'Regulatory workspace is planned for an upcoming release.' },
+  { id: 'regulatory', label: 'Regulatory',  href: '/regulatory-center', icon: Shield },
   { id: 'financial',  label: 'Financial',   href: '/financial',  icon: DollarSign, soon: true, availability: 'ClinIQ financial workspace is planned for a later internal release.' },
   { id: 'academy',    label: 'Academy',     href: '/academy',    icon: GraduationCap, soon: true, availability: 'Training content is not enabled in this internal deployment.' },
   { id: 'reports',    label: 'Reports',     href: '/reports',    icon: BarChart3, soon: true, availability: 'Reports will follow the operational read-model hardening phase.' },

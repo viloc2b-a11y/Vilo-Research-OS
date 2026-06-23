@@ -32,6 +32,15 @@ import { loadDeviations } from '@/lib/protocol-deviations/load-deviations'
 import { loadCapaActions } from '@/lib/capa-runtime/load-capa-actions'
 import { canExecuteStudyRuntime } from '@/lib/studies/runtime-readiness'
 import { createServerClient } from '@/lib/supabase/server'
+import { loadStudySystemsWithUsage, loadStudyAccessData } from '@/lib/study-workspace/load-study-systems-with-usage'
+import { loadSystemLibrary } from '@/lib/study-workspace/system-library'
+import { loadActivitySystemMap } from '@/lib/study-workspace/activity-system-map'
+import { getActivitiesWithRecommendations, getRecommendationsForActivity } from '@/lib/study-workspace/system-recommendations'
+import { loadStudyTechnologyStack } from '@/lib/study-workspace/load-study-technology-stack'
+import { checkStudyStartupReadiness } from '@/lib/study-workspace/study-startup-readiness'
+import { loadStudyRegulatorySignals } from '@/lib/regulatory-center/load-regulatory-signals'
+import { loadStudyReadiness } from '@/lib/study-readiness/load-study-readiness'
+import { determineStudyStartReadiness } from '@/lib/study-workspace/ready-to-start-decision'
 
 type StudyWorkspacePageProps = {
   params: Promise<{ studyId: string }>
@@ -192,6 +201,33 @@ async function StudyWorkspaceContent({
     subjectMap[s.subjectId] = s.subjectIdentifier
   }
 
+  const [studySystemsUsage, systemLibrary] = await Promise.all([
+    loadStudySystemsWithUsage(studyId),
+    loadSystemLibrary(supabase, {}),
+  ])
+
+  const [studyAccessData, activitySystemMappings] = await Promise.all([
+    loadStudyAccessData(studyId),
+    loadActivitySystemMap(supabase),
+  ])
+
+  // Load all recommendations for the matrix view
+  const activityCodesWithRecs = await getActivitiesWithRecommendations(supabase)
+  const allRecs = (
+    await Promise.all(
+      activityCodesWithRecs.map((code) => getRecommendationsForActivity(supabase, code)),
+    )
+  ).flat()
+
+  const [techStack, startupReadiness, readyToStart] = await Promise.all([
+    loadStudyTechnologyStack(studyId),
+    checkStudyStartupReadiness(studyId),
+    determineStudyStartReadiness(studyId),
+  ])
+
+  const regulatorySignals = await loadStudyRegulatorySignals(studyId)
+  const studyReadiness = await loadStudyReadiness(studyId)
+
   return (
     <StudyWorkspaceShell
       summary={summary}
@@ -224,6 +260,16 @@ async function StudyWorkspaceContent({
       subjectMap={subjectMap}
       capaByDeviationId={capaByDeviationId}
       activityCodeCatalog={activityCodeCatalog}
+      studySystemsUsage={studySystemsUsage}
+      systemLibrary={systemLibrary}
+      accessData={studyAccessData}
+      activitySystemMappings={activitySystemMappings}
+      allRecommendations={allRecs}
+      techStack={techStack}
+      startupReadiness={startupReadiness}
+      readyToStart={readyToStart}
+      regulatorySignals={regulatorySignals}
+      studyReadiness={studyReadiness}
     />
   )
 }

@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "--package=@upstash/context7-mcp@2.2.5",
+        "--",
+        "context7-mcp"
+      ]
+    },
+    "engram": {
+      "command": "C:\\Users\\jmend\\AppData\\Local\\engram\\bin\\engram.exe",
+      "args": [
+        "mcp",
+        "--tools=agent"
+      ]
+    },
+    "supabase": {
+      "url": "https://mcp.supabase.com/mcp?project_ref=loosasqjjzhvetkcfaps",
+      "headers": {}
+    },
+    "supabaseViloScreeningSentinel": {
+      "url": "https://mcp.supabase.com/mcp?project_ref=loosasqjjzhvetkcfaps",
+      "headers": {}
+    }
+  }
+}

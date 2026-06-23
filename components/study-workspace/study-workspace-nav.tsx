@@ -22,6 +22,9 @@ export const STUDY_WORKSPACE_NAV_ITEMS: StudyWorkspaceNavItem[] = [
   { id: 'site-intelligence', label: 'Site Intelligence' },
   { id: 'monitoring', label: 'Monitoring View' },
   { id: 'activity', label: 'Activity Feed' },
+  { id: 'systems', label: 'Systems' },
+  { id: 'technology-stack', label: 'Tech Stack' },
+  { id: 'startup', label: 'Startup' },
 ]
 
 type StudyWorkspaceNavProps = {
